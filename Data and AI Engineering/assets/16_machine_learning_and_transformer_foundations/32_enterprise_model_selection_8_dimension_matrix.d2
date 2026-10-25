@@ -1,0 +1,17 @@
+classes: {
+  blue_dim: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  green_dim: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  amber_dim: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  purple_dim: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+matrix: "The 8-Dimension Model Selection Matrix" {
+  d1: "1. Reasoning Quality (MMLU, HumanEval)" { class: blue_dim }
+  d2: "2. Latency & Throughput (TTFT <= 500ms)" { class: blue_dim }
+  d3: "3. Cost Envelope ($/1M tokens)" { class: green_dim }
+  d4: "4. Context Window & Retrieval Needle" { class: green_dim }
+  d5: "5. Licensing & Privacy (Open vs Closed)" { class: amber_dim }
+  d6: "6. Structured Outputs & Tool Calling" { class: amber_dim }
+  d7: "7. Hardware Sizing & Self-Hosting" { class: purple_dim }
+  d8: "8. Multimodal (Vision & Audio)" { class: purple_dim }
+}

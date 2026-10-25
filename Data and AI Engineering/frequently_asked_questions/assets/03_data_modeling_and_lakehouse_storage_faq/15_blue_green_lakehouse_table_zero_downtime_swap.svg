@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" width="100%" height="100%">
+  <defs>
+    <style>
+      .actor-title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .phase-title { fill: #FCD34D; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 700; }
+      .phase-desc { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .seq-msg { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .seq-line { stroke: #334155; stroke-dasharray: 4 4; stroke-width: 1.5; }
+      .edge { stroke-width: 1.5; fill: none; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="420" fill="#0B0F19"/>
+
+  <!-- Lifeline Columns -->
+  <!-- 1. Upstream ETL -->
+  <g transform="translate(60, 20)">
+    <rect width="160" height="40" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="80" y="25" class="actor-title" fill="#93C5FD">Upstream ETL</text>
+    <line x1="80" y1="40" x2="80" y2="390" class="seq-line"/>
+  </g>
+
+  <!-- 2. Lakehouse Core -->
+  <g transform="translate(300, 20)">
+    <rect width="180" height="40" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="90" y="25" class="actor-title" fill="#FCD34D">Production Lakehouse</text>
+    <line x1="90" y1="40" x2="90" y2="390" class="seq-line"/>
+  </g>
+
+  <!-- 3. Semantic Views -->
+  <g transform="translate(550, 20)">
+    <rect width="170" height="40" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="85" y="25" class="actor-title" fill="#C4B5FD">Semantic Views Layer</text>
+    <line x1="85" y1="40" x2="85" y2="390" class="seq-line"/>
+  </g>
+
+  <!-- 4. Downstream BI -->
+  <g transform="translate(780, 20)">
+    <rect width="150" height="40" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+    <text x="75" y="25" class="actor-title" fill="#6EE7B7">Downstream Reports</text>
+    <line x1="75" y1="40" x2="75" y2="390" class="seq-line"/>
+  </g>
+
+  <!-- Phase 1: Expand Phase -->
+  <rect x="250" y="80" width="650" height="26" rx="5" ry="5" fill="#1E293B" stroke="#3B82F6" stroke-width="1"/>
+  <text x="260" y="97" class="phase-title" fill="#93C5FD">PHASE 1: EXPAND (Additive Only - Zero Breaking Locks)</text>
+  <path fill="none" d="M 140 125 L 385 125" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <text x="145" y="118" class="seq-msg">1. Add new column 'customer_address_v2' (Keep old 'address')</text>
+
+  <path fill="none" d="M 140 155 L 385 155" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <text x="145" y="148" class="seq-msg">2. Dual-write to both legacy 'address' and new 'customer_address_v2'</text>
+
+  <!-- Phase 2: Translation & Deprecation -->
+  <rect x="250" y="185" width="650" height="26" rx="5" ry="5" fill="#1E293B" stroke="#F59E0B" stroke-width="1"/>
+  <text x="260" y="202" class="phase-title" fill="#FCD34D">PHASE 2: TRANSLATION &amp; DEPRECATION NOTICE</text>
+  <path fill="none" d="M 635 230 L 850 230" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <text x="645" y="223" class="seq-msg">3. Expose 'v2_orders' view mapping to v2 column</text>
+
+  <path fill="none" d="M 855 250 C 900 250, 900 275, 858 275" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <text x="730" y="295" class="seq-msg">4. Dashboards migrate from v1 to v2 (60-day grace period)</text>
+
+  <!-- Phase 3: Contract Phase -->
+  <rect x="250" y="315" width="650" height="26" rx="5" ry="5" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+  <text x="260" y="332" class="phase-title" fill="#6EE7B7">PHASE 3: CONTRACT (Decommission Legacy Artifacts)</text>
+  <path fill="none" d="M 140 360 L 385 360" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <text x="145" y="353" class="seq-msg">5. Stop dual-writing; archive and safely retire old 'address' column</text>
+</svg>

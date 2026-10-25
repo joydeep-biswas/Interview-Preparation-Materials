@@ -1,0 +1,19 @@
+classes: {
+  mono_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  multi_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+mono: "The Monolithic Agent Anti-Pattern\nSingle agent, 42 conflicting tools\nFails via tool hallucinations & context drift" {
+  class: mono_box
+}
+
+multi: "Multi-Agent Division of Labor Pattern" {
+  supervisor: "Supervisor Orchestrator\nClean context & task routing"
+  w1: "Financial Worker (SQL)" { class: multi_box }
+  w2: "Legal Auditor (EDGAR)" { class: multi_box }
+  w3: "Doc Drafter (Markdown)" { class: multi_box }
+
+  supervisor -> w1
+  supervisor -> w2
+  supervisor -> w3
+}

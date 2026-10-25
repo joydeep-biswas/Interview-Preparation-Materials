@@ -1,0 +1,19 @@
+# Three-Valued Logic: NULL in NOT IN Predicates
+direction: right
+
+c1: "1. De Morgan Expansion" {
+  style.stroke: "#3B82F6"
+  exp: "id NOT IN (1, 2, NULL)\n= id <> 1 AND id <> 2 AND id <> NULL\n• 5 <> NULL yields UNKNOWN"
+}
+
+c2: "2. 3VL Truth Reduction" {
+  style.stroke: "#F59E0B"
+  eval: "TRUE AND TRUE AND UNKNOWN\n= UNKNOWN"
+}
+
+c3: "3. Engine Outcome" {
+  style.stroke: "#EF4444"
+  res: "WHERE requires strictly TRUE\n• UNKNOWN is discarded\n• 0 rows returned!\n✓ Fix: Use NOT EXISTS"
+}
+
+c1 -> c2 -> c3

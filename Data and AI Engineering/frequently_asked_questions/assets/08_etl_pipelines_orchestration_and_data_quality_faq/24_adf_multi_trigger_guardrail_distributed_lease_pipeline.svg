@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 340" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Triggers -->
+  <rect x="25" y="30" width="150" height="45" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="100" y="57" class="title-txt" text-anchor="middle">Schedule Trigger (2 AM)</text>
+
+  <rect x="25" y="90" width="150" height="45" rx="6" ry="6" fill="#111827" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="100" y="117" class="title-txt" text-anchor="middle">Tumbling Window</text>
+
+  <rect x="25" y="150" width="150" height="45" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="100" y="177" class="title-txt" text-anchor="middle">Storage Event (File)</text>
+
+  <!-- Arrows into Router -->
+  <path d="M 175 52 L 230 100" fill="none" stroke="#3B82F6" stroke-width="1.5"/>
+  <path d="M 175 112 L 230 112" fill="none" stroke="#06B6D4" stroke-width="1.5"/>
+  <path d="M 175 172 L 230 125" fill="none" stroke="#8B5CF6" stroke-width="1.5"/>
+
+  <!-- Concurrency Gate -->
+  <polygon points="310,65 390,112 310,160 230,112" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="310" y="105" class="title-txt" text-anchor="middle">Concurrency = 1?</text>
+  <text x="310" y="122" class="sub-txt" text-anchor="middle">Prior Run Active?</text>
+
+  <!-- Branch YES (Queue) -->
+  <path d="M 310 65 L 310 40 Q 310 30 325 30 L 415 30" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <rect x="330" y="18" width="60" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="360" y="31" class="edge-txt" text-anchor="middle" fill="#F59E0B">ACTIVE</text>
+
+  <rect x="420" y="15" width="180" height="45" rx="6" ry="6" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="510" y="38" class="title-txt" text-anchor="middle" fill="#F59E0B">Queued in ADF</text>
+  <text x="510" y="52" class="sub-txt" text-anchor="middle">Waits for prior run to complete</text>
+
+  <!-- Branch NO (Distributed Lock) -->
+  <path d="M 390 112 L 440 112" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="395" y="98" width="40" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="415" y="111" class="edge-txt" text-anchor="middle" fill="#10B981">IDLE</text>
+
+  <!-- Blob Lease Lock -->
+  <rect x="440" y="80" width="180" height="65" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="530" y="104" class="title-txt" text-anchor="middle">Acquire Blob Lease</text>
+  <text x="450" y="124" class="mono-txt" text-anchor="start">HTTP PUT: ?comp=lease</text>
+  <text x="450" y="138" class="body-txt" text-anchor="start">Distributed mutual exclusion</text>
+
+  <!-- Fork on Lease Result -->
+  <path d="M 620 100 L 680 100" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="625" y="85" width="50" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="650" y="98" class="edge-txt" text-anchor="middle" fill="#10B981">201 OK</text>
+
+  <!-- Execution Path -->
+  <rect x="680" y="70" width="250" height="75" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="805" y="94" class="title-txt" text-anchor="middle" fill="#A7F3D0">Execute Ingestion &amp; Merge</text>
+  <text x="692" y="116" class="body-txt" text-anchor="start">• Idempotent Delta MERGE INTO</text>
+  <text x="692" y="134" class="body-txt" text-anchor="start">• Releases lease in finally block</text>
+
+  <!-- Lease Conflict (412) -->
+  <path d="M 530 145 L 530 185 Q 530 200 545 200 L 680 200" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <rect x="545" y="188" width="100" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="595" y="201" class="edge-txt" text-anchor="middle" fill="#EF4444">412 Conflict</text>
+
+  <rect x="680" y="170" width="250" height="65" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="805" y="195" class="title-txt" text-anchor="middle" fill="#FECACA">Graceful Abort</text>
+  <text x="692" y="218" class="body-txt" text-anchor="start">• Another worker holds the lease lock</text>
+</svg>

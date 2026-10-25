@@ -6,39 +6,9 @@ A comprehensive, production-grade guide to Arrays, Strings, Two Pointers, Fast &
 
 ## Architectural Overview: Linear Memory Mechanics & Pointer Topologies
 
-```mermaid
-flowchart TD
-    subgraph MemoryLayout ["1. CPU Cache Line & Array Memory Locality"]
-        direction LR
-        A0["Array[0]<br/>(Offset 0x00)"] --- A1["Array[1]<br/>(Offset 0x08)"]
-        A1 --- A2["Array[2]<br/>(Offset 0x10)"]
-        A2 --- A3["Array[3]<br/>(Offset 0x18)"]
-        A3 --- A4["Array[4]<br/>(Offset 0x20)"]
-    end
+![CPU Cache Line Hierarchy & Pointer Traversal Topologies](assets/01_linear_structures_and_pointer_patterns/01_cpu_cache_and_pointer_topologies.svg)
 
-    subgraph PointerPatterns ["2. Pointer Traversal Topologies"]
-        direction LR
-        Left["Left Pointer ->"] <--->|"Convergent Scan (Sorted / Palindromes)"| Right["<- Right Pointer"]
-        Slow["Slow (1x)"] --->|"Fast & Slow (Cycle Detection)"| Fast["Fast (2x)"]
-        WinL["Window Start ["] --->|"Dynamic Sliding Window"| WinR["] Window End"]
-    end
-
-    MemoryLayout --> PointerPatterns
-
-    style MemoryLayout fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PointerPatterns fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style A0 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style A1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style A2 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style A3 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style A4 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Left fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Right fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Slow fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Fast fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style WinL fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style WinR fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/01_linear_structures_and_pointer_patterns/01_cpu_cache_and_pointer_topologies.d2](assets/01_linear_structures_and_pointer_patterns/01_cpu_cache_and_pointer_topologies.d2)
 
 ---
 
@@ -204,17 +174,9 @@ The algorithm maintains four distinct memory regions throughout traversal:
 3. `nums[mid .. high]`: Unexamined elements undergoing evaluation.
 4. `nums[high + 1 .. n - 1]`: Contains strictly elements equal to `2`.
 
-```mermaid
-flowchart LR
-    R1["0 .. low-1<br/>All 0s"] --- R2["low .. mid-1<br/>All 1s"]
-    R2 --- R3["mid .. high<br/>Unexamined Candidates"]
-    R3 --- R4["high+1 .. n-1<br/>All 2s"]
+![Dutch National Flag 3-Way Partitioning Invariant](assets/01_linear_structures_and_pointer_patterns/02_dutch_national_flag_invariant.svg)
 
-    style R1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style R2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style R3 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style R4 fill:#1e293b,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-```
+*D2 Source:* [assets/01_linear_structures_and_pointer_patterns/02_dutch_national_flag_invariant.d2](assets/01_linear_structures_and_pointer_patterns/02_dutch_national_flag_invariant.d2)
 
 #### Production Implementation: Sort Colors (Java)
 ```java

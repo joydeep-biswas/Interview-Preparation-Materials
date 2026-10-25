@@ -1,0 +1,13 @@
+direction: right
+classes: {
+  orig: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  split: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  code: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+orig_vec: "Original Float32 Vector\n(Dim: 1536, 6144 Bytes)" { class: orig }
+sub_split: "Split into m=8 Sub-Vectors\n(Each 192 dimensions)" { class: split }
+quant_vec: "Quantized 8-Byte Code\n[42, 1A, F9, 08, C3, 7E, 21, AA]\n(97% RAM Compression)" { class: code }
+
+orig_vec -> sub_split: "Dimension slice"
+sub_split -> quant_vec: "Assign centroid ID"

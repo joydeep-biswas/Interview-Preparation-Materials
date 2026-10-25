@@ -1,0 +1,35 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+  worker: { style: { fill: "#1E293B"; stroke: "#10B981"; stroke-width: 1.5; rx: 8 } }
+}
+
+driver: "Driver Node (JVM Coordinator)" {
+  class: box
+  style.stroke: "#3B82F6"
+  sc: "SparkSession / SparkContext"
+  dag: "DAG Scheduler (Stage Splits)"
+  task: "Task Scheduler (TaskSets)"
+  sc -> dag -> task
+}
+
+cm: "Cluster Manager\n(K8s / YARN / Standalone)" {
+  class: box
+  style.stroke: "#8B5CF6"
+}
+
+w1: "Worker Node 1" {
+  class: worker
+  e1: "Executor 1 (JVM Container)\nTask Slots (Cores) + BlockManager"
+}
+
+w2: "Worker Node 2" {
+  class: worker
+  e2: "Executor 2 (JVM Container)\nTask Slots (Cores) + BlockManager"
+}
+
+driver.sc -> cm: "Resource Requests"
+cm -> w1: "Launch Pod/Container"
+cm -> w2: "Launch Pod/Container"
+driver.task -> w1: "TaskSets"
+driver.task -> w2: "TaskSets"

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Test-Driven Development (TDD): The Red-Green-Refactor Cycle</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Specification-First Engineering, Baby Steps, and Emergent Clean Architecture</text>
+<rect x="50" y="110" width="310" height="290" rx="10" fill="#1a1118" stroke="#ef4444" stroke-width="2"/>
+<rect x="65" y="125" width="140" height="24" rx="12" fill="#7f1d1d"/><text x="135" y="140" fill="#FECACA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. RED PHASE</text>
+<text x="205" y="175" fill="#F87171" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Write a Failing Test</text>
+<text x="70" y="205" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Write a unit test for desired behavior</text>
+<text x="70" y="225" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  that does not exist yet.</text>
+<text x="70" y="245" fill="#FDE68A" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Define clean public API &amp; method names</text>
+<text x="70" y="265" fill="#F87171" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Run the test &amp; CONFIRM IT FAILS!</text>
+<text x="70" y="285" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  Verify it fails for the expected reason,</text>
+<text x="70" y="300" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  not due to syntax or setup errors.</text>
+<rect x="65" y="325" width="280" height="55" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="75" y="345" fill="#FECACA" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Result: Test fails (Red bar in IDE)</text>
+<text x="75" y="362" fill="#FCA5A5" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">AssertionFailedError / Compilation error</text>
+<rect x="385" y="110" width="310" height="290" rx="10" fill="#062e24" stroke="#10b981" stroke-width="2"/>
+<rect x="400" y="125" width="150" height="24" rx="12" fill="#047857"/><text x="475" y="140" fill="#D1FAE5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. GREEN PHASE</text>
+<text x="540" y="175" fill="#34D399" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Make the Test Pass</text>
+<text x="405" y="205" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Write the MINIMAL code required to make</text>
+<text x="405" y="225" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  the test pass immediately.</text>
+<text x="405" y="245" fill="#CBD5E1" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Hardcoding return values or quick hacks</text>
+<text x="405" y="260" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  is acceptable here (Baby Steps).</text>
+<text x="405" y="285" fill="#FDE68A" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Do NOT add speculative functionality</text>
+<text x="405" y="300" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  or over-engineer future needs (YAGNI).</text>
+<rect x="400" y="325" width="280" height="55" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="410" y="345" fill="#6EE7B7" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Result: All tests pass (Green bar!)</text>
+<text x="410" y="362" fill="#A7F3D0" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Behavior verified in working state</text>
+<rect x="720" y="110" width="310" height="290" rx="10" fill="#111827" stroke="#3b82f6" stroke-width="2"/>
+<rect x="735" y="125" width="170" height="24" rx="12" fill="#1e3a8a"/><text x="820" y="140" fill="#93C5FD" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. REFACTOR PHASE</text>
+<text x="875" y="175" fill="#60A5FA" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Clean Up &amp; Enhance Design</text>
+<text x="740" y="205" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Eliminate duplication (DRY principle)</text>
+<text x="740" y="225" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Improve naming, readability, structure</text>
+<text x="740" y="245" fill="#38BDF8" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Apply SOLID design patterns &amp; abstractions</text>
+<text x="740" y="265" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Run tests continuously: Tests MUST</text>
+<text x="740" y="280" fill="#34D399" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  stay green after every modification!</text>
+<rect x="735" y="325" width="280" height="55" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="745" y="345" fill="#93C5FD" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Result: Clean, maintainable production code</text>
+<text x="745" y="362" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero regression bugs introduced</text>
+<line x1="360" y1="250" x2="385" y2="250" stroke="#34D399" stroke-width="2.5" marker-end="url(#arr-g)"/>
+<line x1="695" y1="250" x2="720" y2="250" stroke="#38BDF8" stroke-width="2.5" marker-end="url(#arr-b)"/>
+<path d="M 875 400 L 875 425 L 205 425 L 205 400" stroke="#EF4444" stroke-width="2.5" fill="none" marker-end="url(#arr-r)"/>
+<rect x="480" y="412" width="120" height="24" rx="4" fill="#7f1d1d" stroke="#ef4444" stroke-width="1"/>
+<text x="540" y="428" fill="#FECACA" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Next Requirement</text>
+<rect x="40" y="465" width="1000" height="75" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="488" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why TDD Matters in Enterprise Engineering:</text>
+<text x="65" y="508" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Emergent Architecture: Writing tests first forces code to be modular, loosely coupled, and dependency-injected by nature.</text>
+<text x="65" y="525" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Living Documentation: The test suite serves as an executable specification that never goes out of date with production code.</text>
+</svg>

@@ -1,0 +1,32 @@
+direction: right
+
+client: "1. External Client" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  jwt: "Bearer JWT (RS256 signed by IdP)"
+}
+
+gateway: "2. API Gateway (Edge AuthN)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  verify: "Validates signature with JWKS public keys"
+  blacklist: "Checks Redis token blacklist"
+}
+
+propagation: "3. Identity Propagation" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  headers: "Mints trusted internal X-User-Id headers"
+  mtls: "Transports across internal mTLS mesh"
+}
+
+services: "4. Internal Services" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  order: "Order Service & Payment Service"
+  authz: "Fast local role authorization (No RSA re-verify)"
+}
+
+client -> gateway: "HTTPS Request with JWT"
+gateway -> propagation: "Authenticated identity"
+propagation -> services: "mTLS internal propagation"

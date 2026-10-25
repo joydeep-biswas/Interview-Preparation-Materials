@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Chain of Responsibility Pattern: Sequential Decoupled Pipeline</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Passing Request Payloads Along a Dynamic Handler Chain with Short-Circuiting Capabilities</text>
+<rect x="40" y="150" width="180" height="180" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="40" y="150" width="180" height="36" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="130" y="172" fill="#3b82f6" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Incoming Request</text>
+<text x="50" y="205" fill="#3b82f6" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Payload:</text>
+<text x="52" y="218" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">OrderRequest</text>
+<text x="50" y="234" fill="#3b82f6" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Customer:</text>
+<text x="52" y="247" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">user_id = 42</text>
+<text x="50" y="263" fill="#3b82f6" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Amount:</text>
+<text x="52" y="276" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">$12,500.00</text>
+<text x="50" y="292" fill="#3b82f6" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Status:</text>
+<text x="52" y="305" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Enters pipeline</text>
+<line x1="220" y1="240" x2="245" y2="240" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="245" y="150" width="180" height="180" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+<rect x="245" y="150" width="180" height="36" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="335" y="172" fill="#ef4444" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. BlacklistFilter</text>
+<text x="255" y="205" fill="#ef4444" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Check:</text>
+<text x="257" y="218" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Sanctions &amp; OFAC list</text>
+<text x="255" y="234" fill="#ef4444" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Pass Condition:</text>
+<text x="257" y="247" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">User not blocked</text>
+<text x="255" y="263" fill="#ef4444" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Short-Circuit:</text>
+<text x="257" y="276" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Throws SecurityException</text>
+<text x="255" y="292" fill="#ef4444" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Next:</text>
+<text x="257" y="305" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Passes to Handler 2</text>
+<line x1="425" y1="240" x2="450" y2="240" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="450" y="150" width="180" height="180" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="450" y="150" width="180" height="36" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="540" y="172" fill="#f59e0b" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. CreditLimitFilter</text>
+<text x="460" y="205" fill="#f59e0b" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Check:</text>
+<text x="462" y="218" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Customer credit exposure</text>
+<text x="460" y="234" fill="#f59e0b" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Pass Condition:</text>
+<text x="462" y="247" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">exposure + amt &lt; limit</text>
+<text x="460" y="263" fill="#f59e0b" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Short-Circuit:</text>
+<text x="462" y="276" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Throws LimitExceededException</text>
+<text x="460" y="292" fill="#f59e0b" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Next:</text>
+<text x="462" y="305" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Passes to Handler 3</text>
+<line x1="630" y1="240" x2="655" y2="240" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="655" y="150" width="180" height="180" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<rect x="655" y="150" width="180" height="36" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="745" y="172" fill="#06b6d4" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. FraudDetectionFilter</text>
+<text x="665" y="205" fill="#06b6d4" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Check:</text>
+<text x="667" y="218" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Velocity &amp; ML score &lt; 0.8</text>
+<text x="665" y="234" fill="#06b6d4" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Pass Condition:</text>
+<text x="667" y="247" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Fraud score acceptable</text>
+<text x="665" y="263" fill="#06b6d4" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Short-Circuit:</text>
+<text x="667" y="276" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Routes to manual review</text>
+<text x="665" y="292" fill="#06b6d4" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Next:</text>
+<text x="667" y="305" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Passes to Core Service</text>
+<line x1="835" y1="240" x2="860" y2="240" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="860" y="150" width="180" height="180" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<rect x="860" y="150" width="180" height="36" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="950" y="172" fill="#10b981" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">5. OrderExecution</text>
+<text x="870" y="205" fill="#10b981" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Target:</text>
+<text x="872" y="218" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Core Business Service</text>
+<text x="870" y="234" fill="#10b981" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Action:</text>
+<text x="872" y="247" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Persists order &amp; WAL</text>
+<text x="870" y="263" fill="#10b981" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Result:</text>
+<text x="872" y="276" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Order placed successfully!</text>
+<text x="870" y="292" fill="#10b981" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Status:</text>
+<text x="872" y="305" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Pipeline Completed</text>
+<rect x="40" y="420" width="1000" height="110" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="445" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Chain of Responsibility Architectural Superpowers:</text>
+<text x="65" y="465" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Dynamic Reconfigurability: Filters can be added, removed, or re-ordered via Spring configuration or database feature flags at runtime.</text>
+<text x="65" y="482" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Short-Circuiting: Any handler in the chain can abort processing immediately if validation fails, preventing expensive downstream DB queries.</text>
+<text x="65" y="498" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Standard Enterprise Examples: Servlet Filters (OncePerRequestFilter), Spring Security FilterChain, Netty ChannelPipeline.</text>
+</svg>

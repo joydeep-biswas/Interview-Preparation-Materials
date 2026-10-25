@@ -1,0 +1,62 @@
+direction: right
+title: Java Compiler Overload Resolution Precedence Decision Tree
+
+Call: "Method Call: process(42) [int]" {
+  style.fill: "#1E293B"
+  style.stroke: "#64748B"
+}
+
+Step1: "1. Exact Match exists?" {
+  style.fill: "#0B132B"
+  style.stroke: "#3B82F6"
+}
+Term1: "Invoke Exact: process(int)" {
+  style.fill: "#0F172A"
+  style.stroke: "#10B981"
+}
+
+Step2: "2. Primitive Widening possible?" {
+  style.fill: "#0B132B"
+  style.stroke: "#3B82F6"
+}
+Term2: "Invoke Widened: process(long)" {
+  style.fill: "#0F172A"
+  style.stroke: "#10B981"
+}
+
+Step3: "3. Autoboxing possible?" {
+  style.fill: "#0B132B"
+  style.stroke: "#3B82F6"
+}
+Term3: "Invoke Boxed: process(Integer)" {
+  style.fill: "#0F172A"
+  style.stroke: "#06B6D4"
+}
+
+Step4: "4. Varargs Fallback available?" {
+  style.fill: "#0B132B"
+  style.stroke: "#3B82F6"
+}
+Term4: "Invoke Varargs: process(int...)" {
+  style.fill: "#0F172A"
+  style.stroke: "#8B5CF6"
+}
+
+Term5: "COMPILER ERROR: No matching method" {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+}
+
+Call -> Step1
+
+Step1 -> Term1: "Yes" { style.stroke: "#10B981" }
+Step1 -> Step2: "No" { style.stroke: "#64748B" }
+
+Step2 -> Term2: "Yes" { style.stroke: "#10B981" }
+Step2 -> Step3: "No" { style.stroke: "#64748B" }
+
+Step3 -> Term3: "Yes" { style.stroke: "#06B6D4" }
+Step3 -> Step4: "No" { style.stroke: "#64748B" }
+
+Step4 -> Term4: "Yes" { style.stroke: "#8B5CF6" }
+Step4 -> Term5: "No" { style.stroke: "#EF4444" }

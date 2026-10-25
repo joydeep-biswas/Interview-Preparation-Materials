@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="560" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Complete 12-Phase Spring Bean Lifecycle</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Canonical IoC lifecycle: Definition, instantiation, property population, aware callbacks, AOP proxying, and destruction</text>
+<rect x="30" y="85" width="300" height="445" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="180" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 1: Definition &amp; Creation</text>
+<rect x="100" y="122" width="160" height="18" rx="9" fill="#1d4ed8"/><text x="180" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Phases 1 through 4</text>
+<rect x="45" y="155" width="270" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="175" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. BeanDefinition Parsing</text>
+<text x="55" y="195" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Reads @Component, @Bean, XML</text>
+<text x="55" y="211" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Registers metadata in BeanDefinitionRegistry</text>
+<rect x="45" y="240" width="270" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="260" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. BeanFactoryPostProcessors</text>
+<text x="55" y="280" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Modifies BeanDefinitions BEFORE</text>
+<text x="55" y="296" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">beans are instantiated (${...} resolution)</text>
+<rect x="45" y="325" width="270" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="345" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. Constructor Instantiation</text>
+<text x="55" y="365" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Reflection / CGLIB constructor call</text>
+<text x="55" y="381" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Creates raw unpopulated Java instance</text>
+<rect x="45" y="410" width="270" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="430" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">4. Populate Properties</text>
+<text x="55" y="450" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Injects dependencies via constructor /</text>
+<text x="55" y="466" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">setter / field (@Autowired, @Value)</text>
+<rect x="360" y="85" width="320" height="445" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="520" y="112" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 2: Aware &amp; Initialization</text>
+<rect x="440" y="122" width="160" height="18" rx="9" fill="#047857"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Phases 5 through 8</text>
+<rect x="375" y="155" width="290" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="385" y="175" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">5. Aware Interface Callbacks</text>
+<text x="385" y="195" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BeanNameAware, BeanClassLoaderAware,</text>
+<text x="385" y="211" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BeanFactoryAware, ApplicationContextAware</text>
+<rect x="375" y="240" width="290" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="385" y="260" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">6. BPP Before-Initialization</text>
+<text x="385" y="280" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BeanPostProcessor.postProcessBeforeInit()</text>
+<text x="385" y="296" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Custom property pre-validation hooks</text>
+<rect x="375" y="325" width="290" height="75" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="385" y="345" fill="#A7F3D0" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">7. @PostConstruct Execution</text>
+<text x="385" y="365" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">JSR-250 annotation method runs</text>
+<text x="385" y="381" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">First user custom logic with full DI</text>
+<rect x="375" y="410" width="290" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="385" y="430" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">8. InitializingBean &amp; initMethod</text>
+<text x="385" y="450" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">afterPropertiesSet() runs, then custom</text>
+<text x="385" y="466" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">initMethod defined in @Bean(initMethod=...)</text>
+<rect x="710" y="85" width="300" height="445" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="860" y="112" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 3: AOP, Traffic &amp; Teardown</text>
+<rect x="780" y="122" width="160" height="18" rx="9" fill="#6d28d9"/><text x="860" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Phases 9 through 12</text>
+<rect x="725" y="155" width="270" height="75" rx="8" fill="#2e1065" stroke="#c084fc" stroke-width="1.5"/>
+<text x="735" y="175" fill="#DDD6FE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">9. BPP After-Init (AOP Proxy!)</text>
+<text x="735" y="195" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BeanPostProcessor.postProcessAfterInit()</text>
+<text x="735" y="211" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Wraps in CGLIB proxy for @Transactional!</text>
+<rect x="725" y="240" width="270" height="75" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="735" y="260" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">10. Ready: Serves Traffic</text>
+<text x="735" y="280" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Placed in 1st level singletonObjects</text>
+<text x="735" y="296" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Serves production HTTP requests</text>
+<rect x="725" y="325" width="270" height="75" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="735" y="345" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">11. @PreDestroy Method</text>
+<text x="735" y="365" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">JSR-250 teardown callback on shutdown</text>
+<text x="735" y="381" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Stops thread pools, drains active requests</text>
+<rect x="725" y="410" width="270" height="75" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="735" y="430" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">12. DisposableBean &amp; Destroy</text>
+<text x="735" y="450" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">destroy() &amp; custom destroyMethod</text>
+<text x="735" y="466" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Closes DB pools, releases OS sockets</text>
+<line x1="300" y1="310" x2="360" y2="310" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="665" y1="310" x2="710" y2="310" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

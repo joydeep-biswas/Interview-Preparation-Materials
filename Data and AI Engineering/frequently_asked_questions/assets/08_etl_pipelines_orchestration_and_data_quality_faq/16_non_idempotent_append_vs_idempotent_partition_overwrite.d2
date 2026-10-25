@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  fail_container: { style: { fill: "#0D1526", stroke: "#EF4444" } }
+  pass_container: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  bad_card: { style: { fill: "#111827", stroke: "#EF4444" } }
+  good_card: { style: { fill: "#111827", stroke: "#10B981" } }
+}
+
+NonIdempotent: "Non-Idempotent Append (Duplicate Hazard)" {
+  class: fail_container
+  Run1: "Attempt 1: Writes 60% -> Timeout!" { class: bad_card }
+  Retry1: "Airflow Retry: Writes 100% (Append)" { class: bad_card }
+  Corrupt: "Result: 1,600k rows (600k Duplicates!)" { class: bad_card }
+
+  Run1 -> Retry1 -> Corrupt
+}
+
+IdempotentSwap: "Idempotent Staging & Overwrite" {
+  class: pass_container
+  Stg: "1. Write to Ephemeral Staging Table" { class: good_card }
+  Validate: "2. Validate Schema & Counts" { class: good_card }
+  Atomic: "3. Atomic Partition Overwrite / MERGE" { class: good_card }
+
+  Stg -> Validate -> Atomic
+}

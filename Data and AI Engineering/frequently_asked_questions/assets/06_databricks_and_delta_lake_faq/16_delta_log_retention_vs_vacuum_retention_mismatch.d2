@@ -1,0 +1,26 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+meta: "Transaction Log (logRetentionDuration = 90 Days)" {
+  class: box
+  style.stroke: "#3B82F6"
+  v90: "Day 90: Version 10 JSON (Retained)"
+  v60: "Day 60: Version 120 JSON (Retained)"
+  v0: "Day 0: Version 350 JSON (Active)"
+}
+
+storage: "Cloud Object Storage (VACUUM RETAIN = 7 Days)" {
+  class: box
+  style.stroke: "#EF4444"
+  p_curr: "Active Parquet Files (Retained)"
+  p60: "Day 60 Tombstoned Files: ❌ PURGED BY VACUUM!\nExceeded 7 Days retention window" { style.stroke: "#EF4444" }
+}
+
+dev: "Developer executes:\nRESTORE VERSION AS OF 120" { class: box; style.stroke: "#F59E0B" }
+crash: "💥 java.io.FileNotFoundException\nPhysical Parquet data was purged by VACUUM!" { class: box; style.stroke: "#EF4444" }
+
+dev -> meta.v60
+meta.v60 -> storage.p60: "References Purged File"
+storage.p60 -> crash

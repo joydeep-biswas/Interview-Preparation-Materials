@@ -1,0 +1,25 @@
+# The 9-Stage Logical Execution Pipeline
+direction: right
+
+tier1: "Tier 1: Ingestion & Filtering" {
+  s1: "Stage 1: FROM & JOIN\n• Identifies sources & join ON clauses"
+  s2: "Stage 2: WHERE\n• Filters row predicates; no aliases allowed"
+  s1 -> s2
+}
+
+tier2: "Tier 2: Aggregation & Analytics" {
+  s3: "Stage 3: GROUP BY\n• Buckets rows into groups"
+  s4: "Stage 4: HAVING\n• Filters aggregated buckets"
+  s5: "Stage 5: WINDOW\n• Computes OVER() analytical metrics"
+  s3 -> s4 -> s5
+}
+
+tier3: "Tier 3: Projection & Output Shaping" {
+  s6: "Stage 6: SELECT\n• Evaluates column aliases"
+  s7: "Stage 7: DISTINCT\n• Deduplicates projected tuples"
+  s8: "Stage 8: ORDER BY\n• Sorts final rowset"
+  s9: "Stage 9: LIMIT / OFFSET\n• Discards outside boundary"
+  s6 -> s7 -> s8 -> s9
+}
+
+tier1 -> tier2 -> tier3

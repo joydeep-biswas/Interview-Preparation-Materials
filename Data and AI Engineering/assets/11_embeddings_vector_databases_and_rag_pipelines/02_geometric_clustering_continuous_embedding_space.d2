@@ -1,0 +1,34 @@
+direction: right
+classes: {
+  tech: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  fin: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  food: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
+
+tech_cluster: "Cloud Infrastructure Cluster" {
+  t1: "'Kubernetes Pod'" { class: tech }
+  t2: "'Docker Container'" { class: tech }
+  t3: "'K8s Deployment'" { class: tech }
+
+  t1 --- t2
+  t2 --- t3
+}
+
+finance_cluster: "Corporate Finance Cluster" {
+  f1: "'Quarterly Revenue'" { class: fin }
+  f2: "'EBITDA Margin'" { class: fin }
+  f3: "'Fiscal Balance Sheet'" { class: fin }
+
+  f1 --- f2
+  f2 --- f3
+}
+
+culinary_cluster: "Culinary Arts Cluster" {
+  c1: "'Artisan Sourdough'" { class: food }
+  c2: "'French Baguette'" { class: food }
+
+  c1 --- c2
+}
+
+tech_cluster -> finance_cluster: "Semantic Distance"
+finance_cluster -> culinary_cluster: "Semantic Distance"

@@ -1,0 +1,34 @@
+direction: right
+title: "System Design: Highly Scalable URL Shortener Architecture (TinyURL)"
+
+edge: "1. Edge Ingress
+Cloudflare CDN (301 Cache)
+ALB Load Balancer" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+pod: "2. Shortener Fleet
+Base62 Encoding (62^7 URLs)
+Zookeeper Range Allocator" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+redis: "3. Redis LRU Cache
+Key: short_key -> long_url
+Sub-ms Latency" {
+  style.fill: "#1a140b"
+  style.stroke: "#f59e0b"
+}
+
+db: "4. PostgreSQL / DynamoDB
+Partitioned B+Tree Table
+O(log N) Miss Lookup" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+edge -> pod: "Cache Miss"
+pod -> redis: "Cache Lookup"
+redis -> db: "DB Fallback"

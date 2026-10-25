@@ -6,53 +6,9 @@ A comprehensive, production-grade guide covering all core Data Structures & Algo
 
 ## Recommended Chronological Study Order
 
-```mermaid
-flowchart TD
-    subgraph Tier1 ["Tier 1: Linear Foundations & Pointer Patterns"]
-        direction LR
-        M1["01. Linear Structures & Pointer Patterns<br/>(Arrays, Two Pointers, Sliding Window, Fast/Slow, Cyclic Sort)"]
-        M2["02. Linked Lists, Stacks & Monotonic Structures<br/>(Linked Lists, Monotonic Stack/Deque, O(1) LRU/LFU Caches)"]
-        M1 --> M2
-    end
+![DSA Curriculum Roadmap & Theoretical Progression](assets/00_dsa_study_guide_and_index/01_dsa_curriculum_roadmap.svg)
 
-    subgraph Tier2 ["Tier 2: Hierarchical Structures & Search Space"]
-        direction LR
-        M3["03. Trees, BSTs & Trie Architectures<br/>(Tree Traversals, LCA, Serialization, Prefix Tries)"]
-        M4["04. Binary Search & Divide-and-Conquer<br/>(Rotated Arrays, Binary Search on Answer, QuickSelect)"]
-        M3 --> M4
-    end
-
-    subgraph Tier3 ["Tier 3: Priority Ordering, Networks & Optimization"]
-        direction LR
-        M5["05. Heaps, Intervals & Greedy<br/>(Dual Heaps Stream Median, Sweep-Line Meeting Rooms, Task Scheduler)"]
-        M6["06. Graphs, Topo Sort & Shortest Paths<br/>(Bidirectional BFS, 3-Color DFS, Kahn's, DSU, Dijkstra, Bellman-Ford)"]
-        M5 --> M6
-    end
-
-    subgraph Tier4 ["Tier 4: State Transitions & Combinatorial Space"]
-        direction LR
-        M7["07. Dynamic Programming & State Transitions<br/>(1D/2D DP, Circular Kadane, Patience LIS, String DP, Knapsack)"]
-        M8["08. Backtracking & Bit Manipulation<br/>(Subsets, Permutations, N-Queens, XOR Tricks, Kernighan)"]
-        M7 --> M8
-    end
-
-    Tier1 --> Tier2
-    Tier2 --> Tier3
-    Tier3 --> Tier4
-
-    style Tier1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Tier2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Tier3 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Tier4 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style M1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style M2 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style M3 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style M4 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style M5 fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style M6 fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style M7 fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style M8 fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/00_dsa_study_guide_and_index/01_dsa_curriculum_roadmap.d2](assets/00_dsa_study_guide_and_index/01_dsa_curriculum_roadmap.d2)
 
 ---
 

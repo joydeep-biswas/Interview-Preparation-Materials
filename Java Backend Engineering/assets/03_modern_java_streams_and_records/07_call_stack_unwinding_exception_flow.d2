@@ -1,0 +1,22 @@
+direction: right
+title: JVM Call Stack Unwinding & Exception Propagation Mechanics
+
+CallPush: Phase 1: Method Invocation (Frame Push) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  f1: "Frame 1: main() [try-catch handler]"
+  f2: "Frame 2: processOrder()"
+  f3: "Frame 3: calculateTax() [Throws ArithmeticException]"
+  f1 -> f2 -> f3
+}
+
+UnwindPop: Phase 2: Exception Unwinding (Frame Pop) {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  pop3: "1. Frame 3 popped (uncaught)"
+  pop2: "2. Frame 2 popped (uncaught)"
+  catch1: "3. Caught by main() try-catch handler; execution resumes!"
+  pop3 -> pop2 -> catch1
+}
+
+CallPush.f3 -> UnwindPop.pop3: Exception Thrown { style.stroke: "#EF4444" }

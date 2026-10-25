@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1240" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1240" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="620" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Zero-Downtime Deployment Strategies: Rolling, Blue-Green, Canary &amp; Shadow</text>
+  <text x="620" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Trade-offs: Infrastructure Cost vs. Rollback Speed vs. Production Traffic Risk</text>
+  <line x1="40" y1="68" x2="1200" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Strategy 1: Rolling Deployment -->
+  <rect x="40" y="105" width="270" height="360" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="40" y="105" width="270" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="175" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Rolling Deployment (K8s Default)</text>
+
+  <rect x="55" y="150" width="240" height="110" rx="6" fill="#0F172A" stroke="#0284C7"/>
+  <text x="175" y="172" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">Incremental Pod Replacement</text>
+  <rect x="70" y="185" width="65" height="25" rx="3" fill="#1E293B" stroke="#334155"/>
+  <text x="102" y="201" font-size="8" fill="#CBD5E1" text-anchor="middle">v1 (Active)</text>
+  <rect x="142" y="185" width="65" height="25" rx="3" fill="#06201B" stroke="#10B981"/>
+  <text x="174" y="201" font-size="8" fill="#34D399" text-anchor="middle">v2 (New)</text>
+  <rect x="215" y="185" width="65" height="25" rx="3" fill="#06201B" stroke="#10B981"/>
+  <text x="247" y="201" font-size="8" fill="#34D399" text-anchor="middle">v2 (New)</text>
+  <text x="175" y="235" font-size="8" fill="#CBD5E1" text-anchor="middle">maxSurge: 25% | maxUnavailable: 0</text>
+  <text x="175" y="250" font-size="8" fill="#34D399" text-anchor="middle">&#x2714; Zero extra cloud infrastructure cost!</text>
+
+  <rect x="55" y="275" width="240" height="175" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="65" y="300" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics:</text>
+  <text x="65" y="322" font-size="8" fill="#CBD5E1">&#x2022; Replaces pods one-by-one</text>
+  <text x="65" y="340" font-size="8" fill="#CBD5E1">&#x2022; Both v1 and v2 run simultaneously</text>
+  <text x="65" y="358" font-size="8" font-weight="700" fill="#FBBF24">&#x26A0; Backward Compatibility:</text>
+  <text x="65" y="375" font-size="8" fill="#FDE68A">DB schema MUST support both versions!</text>
+  <text x="65" y="400" font-size="8" fill="#FCA5A5">&#x26A0; Rollback takes minutes (re-rolling)</text>
+
+  <!-- Strategy 2: Blue-Green Deployment -->
+  <rect x="330" y="105" width="270" height="360" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="330" y="105" width="270" height="30" rx="8" fill="#064E3B"/>
+  <text x="465" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. Blue-Green (Instant Switch)</text>
+
+  <rect x="345" y="150" width="240" height="110" rx="6" fill="#0F172A" stroke="#10B981"/>
+  <text x="465" y="172" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Router Switchover</text>
+  <text x="355" y="195" font-size="8" fill="#38BDF8">&#x2022; Router &#x2192; 100% Traffic to <tspan font-weight="700">Green (v1)</tspan></text>
+  <text x="355" y="215" font-size="8" fill="#94A3B8">&#x2022; Pre-warm <tspan font-weight="700">Blue (v2)</tspan> with 0% traffic</text>
+  <text x="355" y="235" font-size="8" fill="#34D399">&#x2714; Instant 1-second router flip to Blue</text>
+  <text x="355" y="250" font-size="8" fill="#34D399">&#x2714; Instant rollback if issues found</text>
+
+  <rect x="345" y="275" width="240" height="175" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="355" y="300" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics:</text>
+  <text x="355" y="322" font-size="8" font-weight="700" fill="#F87171">&#x26A0; High Infrastructure Cost:</text>
+  <text x="355" y="340" font-size="8" fill="#FCA5A5">Requires 2x cluster hardware capacity during deploy</text>
+  <text x="355" y="365" font-size="8" fill="#CBD5E1">&#x2022; Zero mixed-version traffic running</text>
+  <text x="355" y="385" font-size="8" fill="#CBD5E1">&#x2022; Best for stateful monoliths and legacy apps</text>
+
+  <!-- Strategy 3: Canary Deployment -->
+  <rect x="620" y="105" width="270" height="360" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="620" y="105" width="270" height="30" rx="8" fill="#78350F"/>
+  <text x="755" y="125" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">3. Canary (Traffic Weighting)</text>
+
+  <rect x="635" y="150" width="240" height="110" rx="6" fill="#0F172A" stroke="#F59E0B"/>
+  <text x="755" y="172" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">Incremental Traffic Shift</text>
+  <text x="645" y="195" font-size="8" fill="#CBD5E1">&#x2022; 95% traffic &#x2192; Stable ReplicaSet</text>
+  <text x="645" y="215" font-size="8" font-weight="700" fill="#FBBF24">&#x2022; 5% traffic &#x2192; Canary ReplicaSet</text>
+  <text x="645" y="235" font-size="8" fill="#34D399">&#x2714; Limits blast radius to 5% of users</text>
+  <text x="645" y="250" font-size="8" fill="#34D399">&#x2714; Increments: 5% &#x2192; 25% &#x2192; 100%</text>
+
+  <rect x="635" y="275" width="240" height="175" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="645" y="300" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics:</text>
+  <text x="645" y="322" font-size="8" fill="#CBD5E1">&#x2022; Requires Service Mesh (Istio) or Argo Rollouts</text>
+  <text x="645" y="345" font-size="8" fill="#CBD5E1">&#x2022; Automated telemetry metric analysis</text>
+  <text x="645" y="370" font-size="8" fill="#34D399">&#x2714; Low extra infrastructure (~10%)</text>
+  <text x="645" y="395" font-size="8" fill="#CBD5E1">&#x2022; Gold standard for enterprise microservices</text>
+
+  <!-- Strategy 4: Shadow / Dark Launching -->
+  <rect x="910" y="105" width="290" height="360" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="910" y="105" width="290" height="30" rx="8" fill="#4C1D95"/>
+  <text x="1055" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">4. Shadowing (Dark Traffic Mirror)</text>
+
+  <rect x="925" y="150" width="260" height="110" rx="6" fill="#0F172A" stroke="#8B5CF6"/>
+  <text x="1055" y="172" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">Traffic Mirroring (Zero Risk)</text>
+  <text x="935" y="195" font-size="8" fill="#CBD5E1">&#x2022; Ingress duplicates 100% of live traffic</text>
+  <text x="935" y="215" font-size="8" fill="#34D399">&#x2714; Live responses returned from v1</text>
+  <text x="935" y="235" font-size="8" fill="#C084FC">&#x2022; Duplicated copy sent to v2 (Shadow)</text>
+  <text x="935" y="250" font-size="8" fill="#CBD5E1">&#x2022; v2 responses discarded asynchronously</text>
+
+  <rect x="925" y="275" width="260" height="175" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="935" y="300" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics:</text>
+  <text x="935" y="322" font-size="8" fill="#34D399">&#x2714; ZERO production user impact</text>
+  <text x="935" y="345" font-size="8" fill="#CBD5E1">&#x2022; Tests full production load on new code</text>
+  <text x="935" y="368" font-size="8" font-weight="700" fill="#EF4444">&#x26A0; Mutation Danger:</text>
+  <text x="935" y="384" font-size="8" fill="#FCA5A5">Shadowed POST/PUT requests can double-charge</text>
+  <text x="935" y="398" font-size="8" fill="#FCA5A5">credit cards if DB writes are not mocked!</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1160" height="25" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="620" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Strategy Verdict: Use Rolling for routine microservice updates; Canary for critical risk-sensitive services; Blue-Green for instant cutover with heavy database migrations.</text>
+</svg>

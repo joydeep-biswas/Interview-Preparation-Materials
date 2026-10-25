@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Domain-Driven Design (DDD): Strategic Decomposition &amp; Bounded Contexts</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Ubiquitous Language, Autonomous Context Boundaries, and Context Mapping across Subdomains</text>
+<rect x="40" y="110" width="310" height="330" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="40" y="110" width="310" height="55" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="195" y="134" fill="#3b82f6" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Order Processing Context</text>
+<text x="195" y="154" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Core Subdomain</text>
+<text x="55" y="185" fill="#3b82f6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Ubiquitous Concept:</text>
+<text x="60" y="199" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Customer = 'Purchaser / Buyer'</text>
+<text x="55" y="217" fill="#3b82f6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Aggregate Root:</text>
+<text x="60" y="231" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">OrderAggregate (status, items)</text>
+<text x="55" y="249" fill="#3b82f6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Value Objects:</text>
+<text x="60" y="263" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">OrderId, ShippingAddress, Money</text>
+<text x="55" y="281" fill="#3b82f6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Domain Events:</text>
+<text x="60" y="295" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">OrderCreated, OrderCancelled</text>
+<text x="55" y="313" fill="#3b82f6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Storage:</text>
+<text x="60" y="327" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Order RDBMS (Normalized tables)</text>
+<rect x="385" y="110" width="310" height="330" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<rect x="385" y="110" width="310" height="55" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="540" y="134" fill="#10b981" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Payment &amp; Billing Context</text>
+<text x="540" y="154" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Supporting Subdomain</text>
+<text x="400" y="185" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Ubiquitous Concept:</text>
+<text x="405" y="199" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Customer = 'Billing Account / Pa</text>
+<text x="410" y="212" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">yer'</text>
+<text x="400" y="230" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Aggregate Root:</text>
+<text x="405" y="244" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">PaymentTransaction (auth, capture)</text>
+<text x="400" y="262" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Value Objects:</text>
+<text x="405" y="276" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">PaymentToken, Currency, LedgerRef</text>
+<text x="400" y="294" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Domain Events:</text>
+<text x="405" y="308" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">PaymentAuthorized, RefundIssued</text>
+<text x="400" y="326" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Storage:</text>
+<text x="405" y="340" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Immutable Financial Ledger (WORM)</text>
+<rect x="730" y="110" width="310" height="330" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="730" y="110" width="310" height="55" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="885" y="134" fill="#f59e0b" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Inventory &amp; Warehouse Context</text>
+<text x="885" y="154" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Generic Subdomain</text>
+<text x="745" y="185" fill="#f59e0b" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Ubiquitous Concept:</text>
+<text x="750" y="199" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Customer = 'Consignee / Recipient'</text>
+<text x="745" y="217" fill="#f59e0b" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Aggregate Root:</text>
+<text x="750" y="231" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">WarehouseBin / StockAllocation</text>
+<text x="745" y="249" fill="#f59e0b" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Value Objects:</text>
+<text x="750" y="263" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SKU, Barcode, BinLocation</text>
+<text x="745" y="281" fill="#f59e0b" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Domain Events:</text>
+<text x="750" y="295" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">StockReserved, GoodsDispatched</text>
+<text x="745" y="313" fill="#f59e0b" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Storage:</text>
+<text x="750" y="327" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Inventory NoSQL / Warehouse DB</text>
+<line x1="350" y1="270" x2="385" y2="270" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="345" y="255" width="50" height="18" rx="9" fill="#064e3b"/><text x="370" y="267" fill="#6EE7B7" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Async</text>
+<line x1="695" y1="270" x2="730" y2="270" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<rect x="690" y="255" width="50" height="18" rx="9" fill="#78350f"/><text x="715" y="267" fill="#FDE68A" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Async</text>
+<rect x="40" y="460" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="483" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Eric Evans' Ubiquitous Language Invariant:</text>
+<text x="65" y="503" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Never create a single unified 'Customer' class across the entire enterprise. In Order Processing, a customer has shipping addresses; in Billing, they have credit cards.</text>
+<text x="65" y="520" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Each Bounded Context owns its own distinct model, schema, and ubiquitous terminology, eliminating semantic confusion and code bloat.</text>
+</svg>

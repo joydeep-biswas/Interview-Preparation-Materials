@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">The Hazard of Mutable HashMap Keys</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Field mutation alters hashCode(), making entries unretrievable and causing silent memory leaks</text>
+
+  <!-- Step 1: Initial Insert -->
+  <g transform="translate(40, 75)">
+    <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="110" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">1. map.put(userKey, data)</text>
+
+    <rect x="15" y="45" width="190" height="70" rx="6" ry="6" fill="#1E293B"/>
+    <text x="105" y="66" class="badge" fill="#93C5FD" text-anchor="middle">Key: userKey</text>
+    <text x="25" y="86" class="card-body">name = "Alice"</text>
+    <text x="25" y="104" class="card-body" font-family="monospace">hashCode() = 100</text>
+
+    <rect x="15" y="130" width="190" height="60" rx="6" ry="6" fill="#1E293B"/>
+    <text x="105" y="152" class="badge" fill="#6EE7B7" text-anchor="middle">Bucket Index</text>
+    <text x="25" y="172" class="card-body">index = 100 &amp; 15 = 4</text>
+
+    <rect x="15" y="205" width="190" height="70" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="105" y="228" class="badge" fill="#A7F3D0" text-anchor="middle">Stored in Bucket 4</text>
+    <text x="105" y="250" class="card-body" text-anchor="middle">Node[hash=100, "Alice", data]</text>
+
+    <text x="20" y="310" class="card-body">• Entry successfully placed</text>
+    <text x="20" y="328" class="card-body">• Internal hash saved as 100</text>
+    <text x="20" y="346" class="badge" fill="#34D399">• Status: Healthy</text>
+  </g>
+
+  <!-- Step 2: Mutate Key -->
+  <g transform="translate(290, 75)">
+    <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#92400E"/>
+    <text x="110" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">2. userKey.setName('Bob')</text>
+
+    <rect x="15" y="45" width="190" height="70" rx="6" ry="6" fill="#1E293B" stroke="#F59E0B"/>
+    <text x="105" y="66" class="badge" fill="#FDE68A" text-anchor="middle">Key Field Mutated</text>
+    <text x="25" y="86" class="card-body">name = "Bob"</text>
+    <text x="25" y="104" class="card-body" font-family="monospace">hashCode() changes: 520!</text>
+
+    <rect x="15" y="130" width="190" height="85" rx="6" ry="6" fill="#451A03" stroke="#F59E0B"/>
+    <text x="105" y="152" class="badge" fill="#FDE68A" text-anchor="middle">Desynchronization</text>
+    <text x="25" y="174" class="card-body">• Map internal structure</text>
+    <text x="25" y="192" class="card-body">  is NOT notified of mutation!</text>
+    <text x="25" y="208" class="card-body">• Table remains untouched</text>
+
+    <text x="20" y="245" class="card-body">• Entry is still in Bucket 4</text>
+    <text x="20" y="265" class="card-body">• But key&#39;s new hash is 520</text>
+    <text x="20" y="285" class="badge" fill="#F87171">• Contract is broken!</text>
+  </g>
+
+  <!-- Step 3: Lookup Attempt -->
+  <g transform="translate(540, 75)">
+    <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="110" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">3. map.get(userKey)</text>
+
+    <rect x="15" y="45" width="190" height="70" rx="6" ry="6" fill="#1E293B"/>
+    <text x="105" y="66" class="badge" fill="#FCA5A5" text-anchor="middle">Evaluates New Hash</text>
+    <text x="25" y="86" class="card-body" font-family="monospace">h = userKey.hashCode()</text>
+    <text x="25" y="104" class="card-body">h is now 520!</text>
+
+    <rect x="15" y="130" width="190" height="70" rx="6" ry="6" fill="#1E293B"/>
+    <text x="105" y="152" class="badge" fill="#FCA5A5" text-anchor="middle">Looks up Wrong Bucket</text>
+    <text x="25" y="174" class="card-body">index = 520 &amp; 15 = 8</text>
+    <text x="25" y="192" class="card-body">Scans Bucket 8!</text>
+
+    <rect x="15" y="215" width="190" height="75" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+    <text x="105" y="238" class="badge" fill="#F87171" text-anchor="middle">Returns NULL!</text>
+    <text x="25" y="260" class="card-body">Bucket 8 is empty (or has</text>
+    <text x="25" y="278" class="card-body">unrelated keys) -&gt; NOT FOUND</text>
+  </g>
+
+  <!-- Step 4: Silent Memory Leak -->
+  <g transform="translate(790, 75)">
+    <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#5B21B6"/>
+    <text x="115" y="20" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Silent Memory Leak</text>
+
+    <rect x="15" y="45" width="200" height="110" rx="6" ry="6" fill="#1E293B" stroke="#8B5CF6"/>
+    <text x="100" y="68" class="badge" fill="#DDD6FE" text-anchor="middle">Permanent Zombie Entry</text>
+    <text x="20" y="90" class="card-body">• Entry in Bucket 4 is now</text>
+    <text x="20" y="108" class="card-body">  completely unreachable by</text>
+    <text x="20" y="126" class="card-body">  map.get() or map.remove()</text>
+    <text x="20" y="144" class="card-body">• Cannot be garbage collected!</text>
+
+    <rect x="15" y="170" width="200" height="120" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="100" y="192" class="badge" fill="#A7F3D0" text-anchor="middle">Architectural Remedy</text>
+    <text x="20" y="214" class="card-body">• Always make keys IMMUTABLE</text>
+    <text x="20" y="232" class="card-body">• Use String, Integer, UUID</text>
+    <text x="20" y="250" class="card-body">• Or use Java 14+ Record</text>
+    <text x="20" y="268" class="card-body">  with final frozen fields</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 260 260 L 278 260 L 290 260" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+  <path d="M 510 260 L 528 260 L 540 260" fill="none" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+  <path d="M 760 260 L 778 260 L 790 260" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arrow-purple)"/>
+</svg>

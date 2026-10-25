@@ -1,0 +1,50 @@
+direction: right
+title: Spark UI Troubleshooting Decision Tree
+
+ScanUI: Spark UI Stages Tab (Event Timeline)
+
+SkewCheck: Are all task bars equal? {
+  shape: diamond
+  style.stroke: "#FBBF24"
+}
+
+FixSkew: Root Cause: Data Skew {
+  style.stroke: "#EF4444"
+  Sol1: Enable AQE Skew Join
+  Sol2: Salt Hot Keys (rand() * K)
+}
+
+GCCheck: GC Time > 10% of Task Time? {
+  shape: diamond
+  style.stroke: "#FBBF24"
+}
+
+FixGC: Root Cause: GC Thrashing {
+  style.stroke: "#EF4444"
+  Sol1: Replace UDF with @pandas_udf
+  Sol2: Switch to Generational ZGC
+}
+
+SpillCheck: Shuffle Disk Spill > 0? {
+  shape: diamond
+  style.stroke: "#FBBF24"
+}
+
+FixSpill: Root Cause: Memory Starvation {
+  style.stroke: "#EF4444"
+  Sol1: Increase spark.sql.shuffle.partitions
+  Sol2: Increase spark.executor.memory
+}
+
+FixOOM: Exit Code 137 (OOMKilled)? {
+  style.stroke: "#C084FC"
+  Sol: Increase spark.executor.memoryOverhead to 25%
+}
+
+ScanUI -> SkewCheck
+SkewCheck -> FixSkew: No (One long task) { style.stroke: "#EF4444" }
+SkewCheck -> GCCheck: Yes { style.stroke: "#34D399" }
+GCCheck -> FixGC: Yes (High GC) { style.stroke: "#EF4444" }
+GCCheck -> SpillCheck: No { style.stroke: "#34D399" }
+SpillCheck -> FixSpill: Yes (Spill > 0) { style.stroke: "#EF4444" }
+SpillCheck -> FixOOM: No { style.stroke: "#34D399" }

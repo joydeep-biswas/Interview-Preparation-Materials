@@ -6,38 +6,9 @@ A comprehensive, production-grade guide covering Spring Security 6 internal filt
 
 ## Architectural Overview: Enterprise Security & Cryptographic Trust Architecture
 
-```mermaid
-flowchart TD
-    subgraph Client_Security_Layer["1. Authentication, TLS & Security Edge"]
-        Client["Browser / Mobile / Partner Client"] -->|"HTTPS / TLS 1.3 (Encrypted Tunnel)"| WAF["Web Application Firewall & CORS Filter"]
-        WAF --> SecurityChain["Spring Security 6 Filter Chain<br/>(BearerTokenAuthenticationFilter & AuthorizationFilter)"]
-        SecurityChain <--> EntraID["Identity Provider (OAuth2 / OIDC / Keycloak / Auth0)<br/>(JWKS Public Key Signature Validation)"]
+![Enterprise Security & Cryptographic Trust Architecture](assets/06_security_and_cryptography/01_enterprise_security_trust_architecture.svg)
 
-        subgraph PKI_And_Certificates["Java Cryptographic Trust Engine"]
-            KeyStore["Java KeyStore (PKCS12: keystore.p12)<br/>Private Key + Leaf Certificate (Who I Am)"]
-            TrustStore["Java TrustStore (cacerts / truststore.p12)<br/>Trusted Root & Intermediate CAs (Whom I Trust)"]
-        end
-        SecurityChain -.-> KeyStore
-        SecurityChain -.-> TrustStore
-    end
-
-    subgraph App_Tier["2. Secure Spring Boot Application Core"]
-        SecurityChain --> RestAPI["Spring Boot 3 REST Application Controller<br/>@PreAuthorize(\"hasRole('ADMIN')\")"]
-        RestAPI --> SecureService["Domain Service Layer (Auditing & Encrypted Fields)"]
-    end
-
-    style Client_Security_Layer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PKI_And_Certificates fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style App_Tier fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Client fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style WAF fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SecurityChain fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style EntraID fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style KeyStore fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style TrustStore fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RestAPI fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style SecureService fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_security_and_cryptography/01_enterprise_security_trust_architecture.d2](assets/06_security_and_cryptography/01_enterprise_security_trust_architecture.d2)
 
 ---
 
@@ -94,29 +65,9 @@ flowchart TD
 
 To build secure software, engineers must never conflate authentication with authorization:
 
-```mermaid
-flowchart TD
-    subgraph AirportAnalogy ["The Airport Terminal Security Model"]
-        direction TB
-        subgraph AuthN ["Authentication (AuthN): 'Who are you?'"]
-            IDCheck["1. TSA Security Checkpoint<br/>Inspects Government Passport & Face<br/>(> Confirms Identity: 'You are John Doe')"]
-        end
+![Authentication vs Authorization: The Airport Terminal Security Model](assets/06_security_and_cryptography/02_authentication_vs_authorization_airport_model.svg)
 
-        subgraph AuthZ ["Authorization (AuthZ): 'What are you permitted to do?'"]
-            GateCheck["2. Flight Gate Agent<br/>Inspects Boarding Pass Ticket<br/>(> Confirms Permission: 'Permitted to enter Flight 402, Seat 12B')"]
-            LoungeCheck["3. First-Class Lounge Agent<br/>Inspects VIP Status<br/>(> Denied if economy ticket: '403 Forbidden')"]
-        end
-
-        AuthN --> AuthZ
-    end
-
-    style AirportAnalogy fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AuthN fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style AuthZ fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style IDCheck fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style GateCheck fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style LoungeCheck fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_security_and_cryptography/02_authentication_vs_authorization_airport_model.d2](assets/06_security_and_cryptography/02_authentication_vs_authorization_airport_model.d2)
 
 * **Authentication (AuthN)**: Validating the claimed identity of a user or system (e.g., matching username/password, verifying an X.509 certificate, or validating an asymmetric RSA signature on a JWT token).
 * **Authorization (AuthZ)**: Evaluating whether an authenticated principal holds the necessary privileges, roles, or attributes to execute an action on a target resource (e.g., verifying whether John Doe can delete order #402).
@@ -127,35 +78,9 @@ flowchart TD
 
 Backend engineers must distinguish the four core cryptographic primitives:
 
-```mermaid
-flowchart LR
-    subgraph Sym ["1. Symmetric Encryption (AES-256-GCM)"]
-        direction TB
-        P1["Plaintext"] -->|"Encrypt with Secret Key K"| C1["Ciphertext"]
-        C1 -->|"Decrypt with SAME Secret Key K"| P1_2["Plaintext"]
-    end
+![The Four Core Cryptographic Primitives](assets/06_security_and_cryptography/03_cryptographic_primitives_matrix.svg)
 
-    subgraph Asym ["2. Asymmetric Encryption (RSA / ECC)"]
-        direction TB
-        P2["Plaintext"] -->|"Encrypt with Public Key"| C2["Ciphertext"]
-        C2 -->|"Decrypt with PRIVATE Key"| P2_2["Plaintext"]
-    end
-
-    subgraph Hash ["3. Cryptographic Hash (SHA-256)"]
-        direction TB
-        P3["Any Length Input"] -->|"One-Way Trapdoor Function"| H3["Fixed 256-bit Digest (Irreversible!)"]
-    end
-
-    subgraph Hmac ["4. HMAC (HMAC-SHA256)"]
-        direction TB
-        P4["Input Message + Shared Key"] -->|"Hash-based MAC"| Tag["Authentication Tag (Guarantees Integrity)"]
-    end
-
-    style Sym fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Asym fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Hash fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Hmac fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-```
+*D2 Source:* [assets/06_security_and_cryptography/03_cryptographic_primitives_matrix.d2](assets/06_security_and_cryptography/03_cryptographic_primitives_matrix.d2)
 
 | Primitive | Key Requirements | Reversible? | Primary Enterprise Use Case |
 | :--- | :--- | :---: | :--- |
@@ -303,29 +228,9 @@ Never rely on a single perimeter wall (such as an API Gateway). Security must be
 
 Spring Security does not intercept requests at the Spring MVC controller level; it intercepts requests at the low-level **Servlet Filter pipeline** before requests ever reach `DispatcherServlet`:
 
-```mermaid
-flowchart TD
-    Req["Incoming HTTP Request"] --> DFP["DelegatingFilterProxy<br/>(Standard Servlet Filter registered in Tomcat)"]
-    DFP -->|"Delegates execution to Spring Bean"| FCP["FilterChainProxy<br/>(Spring-managed central security orchestrator)"]
+![Spring Security 6 Servlet Filter Pipeline Architecture](assets/06_security_and_cryptography/04_spring_security_filter_chain_architecture.svg)
 
-    subgraph SecurityFilterChain ["SecurityFilterChain (Ordered Pipeline of Filters)"]
-        direction TB
-        F1["1. CorsFilter (Validates Origin)"]
-        --> F2["2. CsrfFilter (Validates CSRF token)"]
-        --> F3["3. BearerTokenAuthenticationFilter (Validates JWT)"]
-        --> F4["4. ExceptionTranslationFilter (Catches AuthN/AuthZ exceptions)"]
-        --> F5["5. AuthorizationFilter (Checks role permissions & endpoints)"]
-    end
-
-    FCP --> SecurityFilterChain
-    SecurityFilterChain --> Controller["@RestController Controller Method"]
-
-    style Req fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DFP fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style FCP fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style SecurityFilterChain fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Controller fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_security_and_cryptography/04_spring_security_filter_chain_architecture.d2](assets/06_security_and_cryptography/04_spring_security_filter_chain_architecture.d2)
 
 * **`DelegatingFilterProxy`**: A standard J2EE servlet filter configured in Tomcat that acts as a bridge, delegating all incoming HTTP filtering calls to a Spring-managed bean named `springSecurityFilterChain`.
 * **`FilterChainProxy`**: The master Spring bean that inspects the request URI and routes it to the matching `SecurityFilterChain`.
@@ -621,39 +526,9 @@ public class MultiTenantSecurityConfiguration {
 
 ### 2.5 The Authentication Flow: `AuthenticationManager`, `ProviderManager` & `AuthenticationProvider`
 
-```mermaid
-flowchart TD
-    Filter["<b>AuthenticationFilter</b><br/>Creates unauthenticated UsernamePasswordAuthenticationToken"] --> AM["<b>AuthenticationManager</b><br/>Interface facade"]
-    AM --> PM["<b>ProviderManager</b><br/>Iterates registered AuthenticationProviders"]
+![Spring Security Authentication Flow: Manager & Provider Architecture](assets/06_security_and_cryptography/05_authentication_manager_provider_flow.svg)
 
-    subgraph ProviderEvaluationZone ["AuthenticationProvider Evaluation Loop"]
-        direction LR
-        P1["<b>DaoAuthenticationProvider</b><br/>Validates passwords via UserDetailsService"]
-        P2["<b>JwtAuthenticationProvider</b><br/>Validates RSA/ECDSA JWT signatures"]
-        P3["<b>LdapAuthenticationProvider</b><br/>Queries enterprise directory"]
-    end
-
-    subgraph AuthenticationOutcomes ["Authentication Result"]
-        direction LR
-        Success["<b>Authenticated Token</b><br/>GrantedAuthorities populated & stored in SecurityContext"]
-        Failure["<b>AuthenticationException</b><br/>BadCredentialsException dispatched to AuthenticationEntryPoint"]
-    end
-
-    PM --> ProviderEvaluationZone
-    ProviderEvaluationZone -->|"Credentials Valid"| Success
-    ProviderEvaluationZone -->|"Credentials Invalid"| Failure
-
-    style Filter fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#f8fafc
-    style AM fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style PM fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ProviderEvaluationZone fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AuthenticationOutcomes fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style P1 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style P2 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style P3 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Success fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Failure fill:#1e1e2e,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/06_security_and_cryptography/05_authentication_manager_provider_flow.d2](assets/06_security_and_cryptography/05_authentication_manager_provider_flow.d2)
 
 ---
 
@@ -733,21 +608,9 @@ public PasswordEncoder passwordEncoder() {
 
 ### 3.1 Stateful Session Authentication vs Stateless JWT Tokens
 
-```mermaid
-flowchart TD
-    subgraph Stateful ["Stateful Session Authentication (Legacy Monolith)"]
-        ClientA["Browser"] -->|"Cookie: JSESSIONID=xyz"| ServerA["Tomcat Server (Heap Memory)"]
-        ServerA --> SessionStore["In-Memory Session Table<br/>(Fails on horizontal scaling without sticky sessions or Redis)"]
-    end
+![Stateful Session vs. Stateless JWT Token Architecture](assets/06_security_and_cryptography/06_stateful_session_vs_stateless_jwt.svg)
 
-    subgraph Stateless ["Stateless JWT Token Authentication (Cloud Microservices)"]
-        ClientB["Client App"] -->|"Authorization: Bearer <JWT>"| Microservice["Any Microservice Instance"]
-        Microservice --> JWKS["Verifies Asymmetric Signature via Public Key<br/>(ZERO database or session lookups needed!)"]
-    end
-
-    style Stateful fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Stateless fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/06_security_and_cryptography/06_stateful_session_vs_stateless_jwt.d2](assets/06_security_and_cryptography/06_stateful_session_vs_stateless_jwt.d2)
 
 ---
 
@@ -786,29 +649,9 @@ A JSON Web Token (JWT) is composed of three Base64URL-encoded strings separated 
 
 ### 3.3 Access Token vs Refresh Token Lifecycle & Silent Token Rotation
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor User as User / Client App
-    participant AuthServer as Authorization Server (Keycloak / Auth0)
-    participant ResourceServer as Microservice Resource Server
+![OAuth 2.0 Access vs Refresh Token Lifecycle & Silent Token Rotation](assets/06_security_and_cryptography/07_oauth2_jwt_access_refresh_token_lifecycle.svg)
 
-    User->>AuthServer: Authenticate credentials
-    AuthServer-->>User: Returns Access Token (TTL: 15 min) + Refresh Token (TTL: 7 days)
-    Note over User: Refresh Token stored in HttpOnly, Secure, SameSite=Strict cookie!
-
-    User->>ResourceServer: GET /api/orders (Bearer <AccessToken>)
-    ResourceServer-->>User: 200 OK (Orders Data)
-
-    Note over User: 15 minutes elapse... Access Token expires!
-    User->>ResourceServer: GET /api/orders (Bearer <ExpiredAccessToken>)
-    ResourceServer-->>User: 401 Unauthorized (Token Expired)
-
-    User->>AuthServer: POST /oauth/token (grant_type=refresh_token + Refresh Token Cookie)
-    Note over AuthServer: Token Rotation: Invalidates old refresh token & emits brand new pair!
-    AuthServer-->>User: Returns NEW Access Token (15m) + NEW Refresh Token (7d)
-```
+*D2 Source:* [assets/06_security_and_cryptography/07_oauth2_jwt_access_refresh_token_lifecycle.d2](assets/06_security_and_cryptography/07_oauth2_jwt_access_refresh_token_lifecycle.d2)
 
 ---
 
@@ -826,27 +669,9 @@ sequenceDiagram
 
 The **Authorization Code Flow with PKCE (RFC 7636)** is the global industry standard for authenticating users across single-page applications (React, Angular) and mobile apps. In public clients, client secrets cannot be securely stored because compiled JavaScript or mobile binary code can be reverse-engineered. PKCE dynamically creates a cryptographic secret per authentication attempt.
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Browser as Browser Client (SPA)
-    participant AuthServer as Authorization Server
-    participant Backend as Backend Resource Server
+![OAuth 2.0 PKCE (Proof Key for Code Exchange) Flow](assets/06_security_and_cryptography/08_oauth2_pkce_authorization_code_flow.svg)
 
-    Note over Browser: 1. Generates secret 'Code Verifier' and hashes it to 'Code Challenge'
-    Browser->>AuthServer: Redirect to /authorize?code_challenge=xyz&code_challenge_method=S256
-    AuthServer->>Browser: Prompts user login & consent
-    Browser->>AuthServer: Submits credentials
-    AuthServer-->>Browser: Redirects to redirect_uri with temporary ?code=AUTH_CODE_123
-
-    Browser->>AuthServer: POST /token (code=AUTH_CODE_123 & code_verifier=SECRET)
-    Note over AuthServer: Computes SHA-256(code_verifier) and matches against code_challenge!
-    AuthServer-->>Browser: Returns Access Token (JWT) & Refresh Token
-
-    Browser->>Backend: GET /api/v1/profile (Authorization: Bearer <JWT>)
-    Backend-->>Browser: Returns Protected Resource
-```
+*D2 Source:* [assets/06_security_and_cryptography/08_oauth2_pkce_authorization_code_flow.d2](assets/06_security_and_cryptography/08_oauth2_pkce_authorization_code_flow.d2)
 
 #### Production Java PKCE Generator Implementation
 
@@ -1074,20 +899,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http,
 
 In a **CSRF** attack, a malicious website tricks a user's browser into executing an unwanted action on a trusted website where the user is currently authenticated via cookies:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Victim as Authenticated User
-    participant Bank as Bank Portal (Cookie Auth)
-    participant Attacker as Malicious Website
+![Cross-Site Request Forgery (CSRF) Attack Mechanics vs Defense](assets/06_security_and_cryptography/09_csrf_attack_and_double_submit_defense.svg)
 
-    Victim->>Bank: Logs in; Bank sets Session Cookie: JSESSIONID=abc
-    Victim->>Attacker: Visits malicious forum site in another tab
-    Attacker->>Bank: Malicious page fires auto-submitting form: POST /transfer?to=attacker&amt=5000
-    Note over Bank: Browser automatically attaches JSESSIONID cookie!
-    Bank->>Bank: Executes transfer! Victim funds stolen!
-```
+*D2 Source:* [assets/06_security_and_cryptography/09_csrf_attack_and_double_submit_defense.d2](assets/06_security_and_cryptography/09_csrf_attack_and_double_submit_defense.d2)
 
 #### The Defense: Synchronizer Token Pattern
 Spring Security injects a unique, cryptographically random CSRF token into each session. Mutating requests (`POST`, `PUT`, `DELETE`) must supply this token in a header (`X-XSRF-TOKEN`), which third-party sites cannot read due to the **Same-Origin Policy (SOP)**:
@@ -1157,19 +971,9 @@ Authentication endpoints (e.g. `/api/v1/auth/login`, `/oauth/token`) are primary
 
 #### Distributed Token Bucket Architecture via Redis
 
-```mermaid
-flowchart TD
-    Client["Client Request (POST /api/v1/auth/login)"] --> Filter["RateLimitingFilter (OncePerRequestFilter)"]
-    Filter --> Redis[("Redis Cluster / Redisson<br/>Key: rate:login:{client_ip}<br/>Token Bucket: Capacity 5, Refill 5 tokens / min")]
-    Redis -->|Tokens Available?| Decision{Decision}
-    Decision -->|Yes: Consume 1 Token| Allow["Pass through to AuthenticationFilter<br/>HTTP Headers: X-RateLimit-Remaining: N"]
-    Decision -->|No: Bucket Empty| Deny["Short-Circuit 429 Too Many Requests<br/>RFC 7807 ProblemDetail + Retry-After: 12s"]
+![Distributed Token Bucket Rate Limiting Architecture via Redis](assets/06_security_and_cryptography/10_redis_token_bucket_rate_limiting.svg)
 
-    style Filter fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Redis fill:#0f172a,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Allow fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Deny fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_security_and_cryptography/10_redis_token_bucket_rate_limiting.d2](assets/06_security_and_cryptography/10_redis_token_bucket_rate_limiting.d2)
 
 #### Production Rate Limiting Filter Implementation
 
@@ -1273,16 +1077,9 @@ public class DistributedRateLimitingFilter extends OncePerRequestFilter {
 
 Public Key Infrastructure binds cryptographic public keys to verified identities using digital certificates signed by **Certificate Authorities (CAs)**:
 
-```mermaid
-flowchart TD
-    RootCA["Root Certificate Authority (CA)<br/>(e.g., DigiCert, Let's Encrypt Root)<br/>Self-Signed Root Certificate installed in Java TrustStore (cacerts)"]
-    -->|"Signs with Root Private Key"| InterCA["Intermediate Certificate Authority<br/>(e.g., Let's Encrypt R3)"]
-    InterCA -->|"Signs with Intermediate Private Key"| LeafCert["Server Leaf Certificate (*.company.com)<br/>Installed in Spring Boot KeyStore (keystore.p12)"]
+![Public Key Infrastructure (PKI) Certificate Chain & TrustStore Architecture](assets/06_security_and_cryptography/11_pki_certificate_chain_truststore.svg)
 
-    style RootCA fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style InterCA fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style LeafCert fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-```
+*D2 Source:* [assets/06_security_and_cryptography/11_pki_certificate_chain_truststore.d2](assets/06_security_and_cryptography/11_pki_certificate_chain_truststore.d2)
 
 * When a client connects to a server, the server delivers its **Leaf Certificate** and the **Intermediate Certificate**.
 * The client verifies that the Intermediate Certificate was signed by a trusted **Root CA** already present in its local truststore. If any link in the chain is broken or expired, verification fails!
@@ -1293,19 +1090,9 @@ flowchart TD
 
 TLS 1.3 optimizes the connection handshake from 2 round-trips (TLS 1.2) down to a **single 1-RTT round-trip**:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Client as HTTP Client
-    participant Server as Spring Boot HTTPS Server
+![TLS 1.3 Handshake: Single Round-Trip Time (1-RTT) Timeline](assets/06_security_and_cryptography/12_tls13_handshake_1rtt_timeline.svg)
 
-    Client->>Server: ClientHello (Supported Ciphers + Key Share: Ephemeral Diffie-Hellman public key)
-    Server->>Client: ServerHello (Selected Cipher + Server Key Share + Server X.509 Certificate + Finished)
-    Note over Client,Server: Cryptographic session keys computed independently on both sides!
-    Client->>Server: Finished + Encrypted Application Data (HTTP GET /api/v1/orders)
-    Server-->>Client: Encrypted HTTP 200 OK Response
-```
+*D2 Source:* [assets/06_security_and_cryptography/12_tls13_handshake_1rtt_timeline.d2](assets/06_security_and_cryptography/12_tls13_handshake_1rtt_timeline.d2)
 
 * **Perfect Forward Secrecy (PFS)**: TLS 1.3 mandates ephemeral Diffie-Hellman key exchanges (`ECDHE`). Even if an attacker records encrypted network traffic today and steals the server's private key 5 years from now, they **cannot decrypt past recorded sessions**!
 
@@ -1339,20 +1126,9 @@ In the Java Virtual Machine, secure TLS/SSL socket handshakes rely on the Java C
 
 In standard TLS (one-way), only the client authenticates the server. In **Mutual TLS (mTLS)**, both parties authenticate each other:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Client as API Partner Microservice
-    participant Server as Enterprise Bank Gateway
+![Mutual TLS (mTLS) Zero-Trust Handshake Architecture](assets/06_security_and_cryptography/13_mtls_mutual_authentication_handshake.svg)
 
-    Client->>Server: 1. TLS 1.3 Handshake Init
-    Server->>Client: 2. Server sends its Certificate + "CertificateRequest"
-    Client->>Client: 3. Validates Server Cert against TrustStore
-    Client->>Server: 4. Client sends its OWN Certificate (from KeyStore)
-    Server->>Server: 5. Validates Client Cert against Server TrustStore
-    Note over Client,Server: Mutual Cryptographic Trust Established!
-```
+*D2 Source:* [assets/06_security_and_cryptography/13_mtls_mutual_authentication_handshake.d2](assets/06_security_and_cryptography/13_mtls_mutual_authentication_handshake.d2)
 
 #### Production Spring Boot 3 `RestClient` mTLS Client Configuration
 

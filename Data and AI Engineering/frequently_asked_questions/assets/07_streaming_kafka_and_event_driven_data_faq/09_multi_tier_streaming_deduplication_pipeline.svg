@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 220" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="220" fill="#0B0F19"/>
+
+  <!-- Step 0 -->
+  <g transform="translate(25, 40)">
+    <rect width="170" height="140" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="85" y="32" class="title" fill="#93C5FD">Raw Stream</text>
+    <line x1="15" y1="44" x2="155" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="18" y="70" class="body-txt">• Kafka Ingress</text>
+    <text x="18" y="90" class="body-txt">• Retries &amp; Duplicates</text>
+    <text x="18" y="110" class="body-txt">• 50 dupes in 10s</text>
+    <text x="18" y="130" class="body-txt">• Multi-tier filtering</text>
+  </g>
+
+  <path fill="none" d="M 195 110 L 225 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-amber)"/>
+
+  <!-- Step 1 -->
+  <g transform="translate(225, 40)">
+    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="90" y="32" class="title" fill="#FCD34D">1. Watermark Gate</text>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="18" y="70" class="body-txt">• withWatermark()</text>
+    <text x="18" y="90" class="body-txt">• 1 minute delay limit</text>
+    <text x="18" y="110" class="body-txt">• Caps state memory</text>
+    <text x="18" y="130" class="body-txt">• Evicts old keys</text>
+  </g>
+
+  <path fill="none" d="M 405 110 L 435 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-cyan)"/>
+
+  <!-- Step 2 -->
+  <g transform="translate(435, 40)">
+    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#06B6D4" stroke-width="2"/>
+    <text x="90" y="32" class="title" fill="#67E8F9">2. In-Batch Dedup</text>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="18" y="70" class="body-txt">• Window ranking</text>
+    <text x="18" y="90" class="body-txt">• row_number() over PK</text>
+    <text x="18" y="110" class="body-txt">• Keep latest timestamp</text>
+    <text x="18" y="130" class="body-txt">• Zero state cost</text>
+  </g>
+
+  <path fill="none" d="M 615 110 L 645 110" class="edge" stroke="#06B6D4" marker-end="url(#arr-green)"/>
+
+  <!-- Step 3 -->
+  <g transform="translate(645, 40)">
+    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="90" y="32" class="title" fill="#C4B5FD">3. dropDuplicates</text>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="18" y="70" class="body-txt">• Cross-batch dedup</text>
+    <text x="18" y="90" class="body-txt">• In RocksDB state store</text>
+    <text x="18" y="110" class="body-txt">• Keyed by natural ID</text>
+    <text x="18" y="130" class="body-txt">• Prunes redundant rows</text>
+  </g>
+
+  <path fill="none" d="M 825 110 L 855 110" class="edge" stroke="#8B5CF6" marker-end="url(#arr-green)"/>
+
+  <!-- Step 4 -->
+  <g transform="translate(855, 40)">
+    <rect width="140" height="140" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="70" y="32" class="title" fill="#A7F3D0">4. Delta MERGE</text>
+    <line x1="15" y1="44" x2="125" y2="44" stroke="#047857" stroke-width="1.5"/>
+    <text x="15" y="70" class="body-txt" fill="#A7F3D0">• Idempotent sink</text>
+    <text x="15" y="90" class="body-txt" fill="#A7F3D0">• ACID commit</text>
+    <text x="15" y="110" class="body-txt" fill="#A7F3D0">• Exactly-once</text>
+    <text x="15" y="130" class="body-txt" fill="#A7F3D0">• Clean serving</text>
+  </g>
+</svg>

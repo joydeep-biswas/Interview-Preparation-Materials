@@ -1,0 +1,12 @@
+# Joins vs Set Operators
+direction: right
+
+join: "Relational Joins (Horizontal)" {
+  style.stroke: "#3B82F6"
+  desc: "Combines tables side-by-side\n• Widens schema columns\n• Matches on keys (A.id = B.id)"
+}
+
+setop: "Set Operators (Vertical)" {
+  style.stroke: "#10B981"
+  desc: "Stacks rows vertically\n• Preserves schema shape\n• UNION ALL: fast append\n• UNION: dedups via sort/hash"
+}

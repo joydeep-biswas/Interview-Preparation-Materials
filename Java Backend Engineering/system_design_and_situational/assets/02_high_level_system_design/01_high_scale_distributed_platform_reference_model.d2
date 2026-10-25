@@ -1,0 +1,47 @@
+direction: right
+
+edge: "1. Edge & Ingress" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  dns: "Route53 / Anycast Geo-DNS"
+  gateway: "API Gateway (Envoy Rate Limiter & Auth)"
+}
+
+services: "2. Services & Event Mesh" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  apps: "Spring Boot 3 Stateless Microservices"
+  kafka: "Apache Kafka Partitioned Event Mesh"
+}
+
+caching: "3. Caching & Fast Data" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  l1: "Caffeine In-Process JVM Cache (L1)"
+  l2: "Redis Cluster Distributed Cache (L2)"
+}
+
+storage: "4. Polyglot Persistence" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  aurora: "Aurora PostgreSQL OLTP Master/Replicas"
+  nosql: "ScyllaDB & Elasticsearch Search Index"
+  s3: "Amazon S3 Object Store"
+}
+
+edge -> services: "Route Verified Requests" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+services -> caching: "Cache-Aside Lookups" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+services -> storage: "ACID Commits & Index Sync" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

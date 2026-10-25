@@ -1,0 +1,16 @@
+classes: {
+  drift_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  pydantic_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+telephone: "Natural Language Telephone Anti-Pattern" {
+  a1: "Agent 1: 'Revenue about $4.2M with refunds pending'" { class: drift_box }
+  a2: "Agent 2: 'Company made $4.2M without deductions'" { class: drift_box }
+  a3: "Agent 3: 'Record profit of $4.2M guaranteed!' (Hallucination!)" { class: drift_box }
+
+  a1 -> a2 -> a3: "Semantic Drift across hops"
+}
+
+pydantic: "Pydantic State Contract" {
+  state: "MissionState Object:\nrevenue_gross_usd = 4,200,000.00\npending_refunds_usd = 150,000.00\naudit_status = 'FLAGGED_REVIEW'\nDeterministic rigor across all agents" { class: pydantic_box }
+}

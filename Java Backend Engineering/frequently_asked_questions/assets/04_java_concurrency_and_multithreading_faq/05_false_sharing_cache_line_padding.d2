@@ -1,0 +1,19 @@
+direction: right
+
+false_sharing: "False Sharing (Contention)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  line: "x and y share single 64-byte line"
+  bounce: "Writes to x invalidate y on Core 2"
+  penalty: "Severe L3 cache ping-pong latency"
+}
+
+padded: "Cache Line Padding (@Contended)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  isolation: "x and y separated into distinct cache lines"
+  speed: "Zero cross-core invalidation"
+  impl: "Used in LongAdder Cell[] and LMAX Disruptor"
+}
+
+false_sharing -> padded: "128-byte cache line isolation"

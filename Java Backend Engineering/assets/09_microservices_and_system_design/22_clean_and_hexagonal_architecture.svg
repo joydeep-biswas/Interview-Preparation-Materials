@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" width="1100" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="600" rx="10" fill="url(#bg)"/>
+  <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Clean &amp; Hexagonal Architecture (Ports and Adapters)</text>
+  <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Strict Inward Dependency Rule: Pure Java Domain Core Surrounded by Driving &amp; Driven Adapters</text>
+<rect x="40" y="100" width="240" height="380" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="115" width="210" height="20" rx="10" fill="#1e3a8a"/><text x="160" y="128" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">DRIVING ADAPTERS (Inbound)</text>
+<text x="160" y="155" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Inputs that trigger use cases</text>
+<rect x="55" y="175" width="210" height="80" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="160" y="198" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring REST Controller</text>
+<text x="160" y="216" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">HTTP / JSON Ingress</text>
+<text x="160" y="232" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Calls PlaceOrderUseCase</text>
+<rect x="55" y="275" width="210" height="80" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="160" y="298" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Consumer Adapter</text>
+<text x="160" y="316" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Event-Driven Ingress</text>
+<text x="160" y="332" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Calls CancelOrderUseCase</text>
+<rect x="55" y="375" width="210" height="80" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="160" y="398" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">GraphQL / CLI Adapter</text>
+<text x="160" y="416" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Admin CLI scripts</text>
+<text x="160" y="432" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zero framework in core!</text>
+<rect x="310" y="100" width="480" height="380" rx="12" fill="#062e24" stroke="#10b981" stroke-width="2.5"/>
+<rect x="325" y="115" width="300" height="22" rx="11" fill="#047857"/><text x="475" y="129" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">APPLICATION &amp; DOMAIN CORE (Pure Java)</text>
+<text x="550" y="155" fill="#A7F3D0" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ZERO external framework imports (No Spring, No Hibernate!)</text>
+<rect x="330" y="175" width="210" height="80" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="435" y="198" fill="#34D399" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Inbound Port (Use Case)</text>
+<text x="435" y="216" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PlaceOrderUseCase (Interface)</text>
+<text x="435" y="232" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Defines application API</text>
+<rect x="560" y="175" width="210" height="80" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="665" y="198" fill="#34D399" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Outbound Port (SPI)</text>
+<text x="665" y="216" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderPersistencePort</text>
+<text x="665" y="232" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PaymentGatewayPort</text>
+<rect x="350" y="280" width="400" height="170" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="2"/>
+<text x="550" y="308" fill="#6EE7B7" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Domain Model &amp; Aggregate Roots</text>
+<text x="370" y="335" fill="#D1FAE5" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Order, LineItem, Customer (Domain Entities)</text>
+<text x="370" y="355" fill="#D1FAE5" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Money, Address, OrderStatus (Value Objects)</text>
+<text x="370" y="378" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Enforces rich business invariants &amp; domain events</text>
+<text x="370" y="398" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• 100% Deterministic: Runs in unit tests in &lt; 1 millisecond!</text>
+<text x="370" y="422" fill="#A7F3D0" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Dependency Rule: All arrows point INWARD toward this core!</text>
+<rect x="820" y="100" width="240" height="380" rx="8" fill="#1a140b" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="835" y="115" width="210" height="20" rx="10" fill="#78350f"/><text x="940" y="128" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">DRIVEN ADAPTERS (Outbound)</text>
+<text x="940" y="155" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Infrastructure implementing Ports</text>
+<rect x="835" y="175" width="210" height="80" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="940" y="198" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL JPA Adapter</text>
+<text x="940" y="216" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Implements OrderPersistencePort</text>
+<text x="940" y="232" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Data JPA &amp; Hibernate</text>
+<rect x="835" y="275" width="210" height="80" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="940" y="298" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stripe REST Adapter</text>
+<text x="940" y="316" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Implements PaymentGatewayPort</text>
+<text x="940" y="332" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">RestClient / WebClient</text>
+<rect x="835" y="375" width="210" height="80" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="940" y="398" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Event Outbox</text>
+<text x="940" y="416" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Implements DomainEventPublisher</text>
+<text x="940" y="432" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">KafkaTemplate Producer</text>
+<line x1="280" y1="215" x2="330" y2="215" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="820" y1="215" x2="770" y2="215" stroke="#FBBF24" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arr-a)"/>
+<rect x="40" y="500" width="1020" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="523" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">The Dependency Rule (Uncle Bob's Clean Architecture):</text>
+<text x="65" y="543" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Source code dependencies must point ONLY inward, toward higher-level policies. The domain core knows NOTHING of the database, web UI, or cloud providers.</text>
+<text x="65" y="560" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Frameworks are details: Spring, Hibernate, Kafka, and PostgreSQL are external plugins in the outer circle, easily mockable and completely swappable.</text>
+</svg>

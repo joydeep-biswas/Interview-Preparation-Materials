@@ -1,0 +1,26 @@
+direction: right
+classes: {
+  mid: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  route: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  di: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  val: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  exec: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+phase1: "Phase 1: Ingress Routing & Dependency Resolution" {
+  m: "Starlette Middleware\n(CORS, Auth, Tracing)" { class: mid }
+  r: "Radix Trie Router\n(Path parameter matching)" { class: route }
+  d: "Dependency Injection\n(FastAPI Depends)" { class: di }
+  pv: "Pydantic V2 Core\n(Request validation)" { class: val }
+
+  m -> r -> d -> pv
+}
+
+phase2: "Phase 2: Execution & Response Egress" {
+  ep: "Endpoint Controller (async def)" { class: exec }
+  ps: "Pydantic V2 Serialization & ASGI Send" { class: exec }
+
+  ep -> ps
+}
+
+phase1.pv -> phase2.ep: "Validated Input Model"

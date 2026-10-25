@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-b25" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-a25" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g25" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">Star Schema Analytical Query Optimization: Broadcast Hash Join &amp; Bitmap Index</text>
+
+  <!-- Left: Filtered Dimensions -->
+  <rect x="30" y="60" width="230" height="75" class="card card-blue"/>
+  <text x="145" y="85" class="card-title" fill="#93C5FD">dim_store (Filtered)</text>
+  <text x="45" y="110" class="card-body">Region = 'WEST' (10 stores)</text>
+
+  <rect x="30" y="155" width="230" height="75" class="card card-blue"/>
+  <text x="145" y="180" class="card-title" fill="#93C5FD">dim_date (Filtered)</text>
+  <text x="45" y="205" class="card-body">Quarter = 'Q4' (92 days)</text>
+
+  <rect x="30" y="250" width="230" height="75" class="card card-blue"/>
+  <text x="145" y="275" class="card-title" fill="#93C5FD">dim_product (Filtered)</text>
+  <text x="45" y="300" class="card-body">Category = 'ELECTRONICS' (50 SKUs)</text>
+
+  <!-- Center Col 1: BHJ Replicator -->
+  <rect x="330" y="115" width="240" height="150" class="card card-green"/>
+  <text x="450" y="142" class="card-title" fill="#6EE7B7">Broadcast Hash Join (BHJ)</text>
+  <text x="345" y="167" class="card-body">• Filtered dimensions &lt; 10 MB</text>
+  <text x="345" y="187" class="card-body">• Broadcasts hash tables to all nodes</text>
+  <text x="345" y="207" class="card-body">• Eliminates costly shuffle of fact table</text>
+  <text x="345" y="227" class="card-body" fill="#34D399">• Zero network data exchange</text>
+
+  <!-- Center Col 2: Fact Table -->
+  <rect x="640" y="115" width="210" height="150" class="card card-amber"/>
+  <text x="745" y="142" class="card-title" fill="#FDE68A">fact_sales (Large)</text>
+  <text x="655" y="167" class="card-body">• 2 Billion Rows / 500 GB</text>
+  <text x="655" y="187" class="card-body">• Bitmap index intersection</text>
+  <text x="655" y="207" class="card-body">• Fast vectorized bitwise AND</text>
+  <text x="655" y="227" class="card-body" fill="#FDE68A">• Reads only 0.2% of pages</text>
+
+  <!-- Right: Result -->
+  <rect x="915" y="115" width="115" height="150" class="card card-green"/>
+  <text x="972" y="142" class="card-title" fill="#6EE7B7">Result</text>
+  <text x="925" y="167" class="card-body" fill="#34D399">• 18 sec</text>
+  <text x="925" y="187" class="card-body">• (was 45m)</text>
+  <text x="925" y="207" class="card-body">• 150x</text>
+  <text x="925" y="227" class="card-body">• Speedup</text>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 260 97 C 295 97, 305 160, 316 160 L 330 160" class="edge edge-blue" marker-end="url(#arr-b25)"/>
+  <path fill="none" d="M 260 192 L 330 192" class="edge edge-blue" marker-end="url(#arr-b25)"/>
+  <path fill="none" d="M 260 287 C 295 287, 305 220, 316 220 L 330 220" class="edge edge-blue" marker-end="url(#arr-b25)"/>
+
+  <path fill="none" d="M 570 190 L 640 190" class="edge edge-amber" marker-end="url(#arr-a25)"/>
+  <path fill="none" d="M 850 190 L 915 190" class="edge edge-green" marker-end="url(#arr-g25)"/>
+</svg>

@@ -1,0 +1,25 @@
+classes: {
+  safe_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  danger_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+metric: "Metric: http_requests_total"
+
+safe: "Safe Low Cardinality Tags" {
+  env: "env (2 values)" { class: safe_box }
+  region: "region (3 values)" { class: safe_box }
+  endpoint: "endpoint (3 values)" { class: safe_box }
+  total_safe: "Total: 2 * 3 * 3 = 18 Time Series (Safe)" { class: safe_box }
+
+  env -> region -> endpoint -> total_safe
+}
+
+danger: "High-Cardinality Anti-Pattern" {
+  user_id: "user_id (1,000,000 unique UUIDs)" { class: danger_box }
+  explosion: "18 * 1,000,000 = 18,000,000 Time Series!\nRequires 72 GB RAM in Head Chunks\nResult: Linux OOM Crash" { class: danger_box }
+
+  user_id -> explosion
+}
+
+metric -> safe: "Finite categorical dimensions"
+metric -> danger: "Unbounded user tags"

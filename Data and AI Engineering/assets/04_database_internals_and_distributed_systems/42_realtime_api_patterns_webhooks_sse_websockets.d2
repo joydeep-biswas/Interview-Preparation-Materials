@@ -1,0 +1,28 @@
+direction: right
+title: Real-Time API Protocols: Webhooks vs. Polling vs. SSE vs. WebSockets
+
+webhook: 1. Webhook (Reverse API Push) {
+  producer: Producer Server
+  consumer: Consumer Ingestion API
+  producer -> consumer: "HTTP POST /webhook on event"
+}
+
+polling: 2. Long Polling (Held-Open Pull) {
+  pclient: Client
+  pserver: Server
+  pclient -> pserver: "HTTP GET /events (socket held open)"
+  pserver -> pclient: "Response on event or timeout"
+}
+
+sse: 3. Server-Sent Events (SSE) {
+  sclient: Client
+  sserver: Server
+  sclient -> sserver: "HTTP GET text/event-stream"
+  sserver -> sclient: "Continuous unidirectional chunk stream"
+}
+
+ws: 4. WebSockets (Full Duplex) {
+  wclient: Client
+  wserver: Server
+  wclient <-> wserver: "Bidirectional binary/text frames"
+}

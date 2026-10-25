@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  box_red: { style: { fill: "#111827"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+before: "Before Salting: Hot Key Bottleneck" {
+  class: box_red
+  r1: "Row Key='NULL'"
+  r2: "Row Key='NULL'"
+  r3: "Row Key='NULL'"
+  p3: "Partition 3 (OOM Crash / Straggler)"
+  r1 -> p3
+  r2 -> p3
+  r3 -> p3
+}
+
+after: "After Salting: Split into K=3 Sub-Buckets" {
+  class: box_green
+  s1: "Row Key='NULL_0'" -> p1: "Partition 1"
+  s2: "Row Key='NULL_1'" -> p2: "Partition 2"
+  s3: "Row Key='NULL_2'" -> p3_new: "Partition 3"
+}

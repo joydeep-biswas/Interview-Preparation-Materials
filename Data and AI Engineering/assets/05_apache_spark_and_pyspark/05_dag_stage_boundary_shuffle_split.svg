@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Spark DAG Stage Boundaries &amp; Shuffle Exchange</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Narrow dependencies pipeline in CPU cache; Wide dependencies force shuffle write and network barriers</text>
+
+  <!-- Column 1: Stage 1 Narrow Pipelining -->
+  <rect x="40" y="85" width="340" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="340" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="210" y="108" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">STAGE 1: NARROW TRANSFORMATIONS (PIPELINED)</text>
+
+  <!-- Task 1 Pipeline -->
+  <rect x="55" y="135" width="310" height="135" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="70" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Task 1 (Partition 1 Processing)</text>
+  
+  <rect x="70" y="170" width="80" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="110" y="187" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle">Scan Part 1</text>
+  <text x="110" y="201" font-size="8" fill="#94A3B8" text-anchor="middle">Parquet</text>
+
+  <rect x="170" y="170" width="80" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="210" y="187" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle">filter()</text>
+  <text x="210" y="201" font-size="8" fill="#94A3B8" text-anchor="middle">amount &gt; 100</text>
+
+  <rect x="270" y="170" width="80" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="310" y="187" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle">map()</text>
+  <text x="310" y="201" font-size="8" fill="#94A3B8" text-anchor="middle">prep key</text>
+
+  <line x1="150" y1="190" x2="170" y2="190" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <line x1="250" y1="190" x2="270" y2="190" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  <text x="70" y="235" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Pipelined in single CPU thread loop (Whole-Stage CodeGen)</text>
+  <text x="70" y="252" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">Zero Disk Spill, Zero Network I/O!</text>
+
+  <!-- Task 2 Pipeline -->
+  <rect x="55" y="285" width="310" height="135" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="70" y="307" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Task 2 (Partition 2 Processing)</text>
+  
+  <rect x="70" y="320" width="80" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="110" y="337" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle">Scan Part 2</text>
+  <text x="110" y="351" font-size="8" fill="#94A3B8" text-anchor="middle">Parquet</text>
+
+  <rect x="170" y="320" width="80" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="210" y="337" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle">filter()</text>
+  <text x="210" y="351" font-size="8" fill="#94A3B8" text-anchor="middle">amount &gt; 100</text>
+
+  <rect x="270" y="320" width="80" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="310" y="337" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle">map()</text>
+  <text x="310" y="351" font-size="8" fill="#94A3B8" text-anchor="middle">prep key</text>
+
+  <line x1="150" y1="340" x2="170" y2="340" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <line x1="250" y1="340" x2="270" y2="340" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  <text x="70" y="385" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Pipelined in single CPU thread loop (Whole-Stage CodeGen)</text>
+  <text x="70" y="402" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">Zero Disk Spill, Zero Network I/O!</text>
+
+  <text x="210" y="450" font-size="10" fill="#94A3B8" text-anchor="middle">Narrow: 1 Parent Partition maps to 1 Child</text>
+
+  <!-- Column 2: Shuffle Barrier -->
+  <rect x="420" y="85" width="280" height="385" rx="8" fill="#78350F" fill-opacity="0.2" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="420" y="85" width="280" height="36" rx="8" fill="#78350F" fill-opacity="0.8" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="560" y="108" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">WIDE DEPENDENCY SHUFFLE BARRIER</text>
+
+  <!-- Shuffle Write -->
+  <rect x="435" y="135" width="250" height="85" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1"/>
+  <text x="450" y="157" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="start">1. Shuffle Write Phase</text>
+  <text x="450" y="174" font-size="10" fill="#CBD5E1" text-anchor="start">• Hash partition by groupBy key</text>
+  <text x="450" y="189" font-size="10" fill="#CBD5E1" text-anchor="start">• Sort in memory &amp; write to local NVMe</text>
+  <text x="450" y="204" font-size="10" fill="#FDE68A" text-anchor="start">• Produces .data and .index files</text>
+
+  <!-- Network All-to-All Exchange -->
+  <rect x="435" y="235" width="250" height="95" rx="6" fill="#0F172A" stroke="#F87171" stroke-width="1.5"/>
+  <text x="450" y="257" font-size="11" font-weight="700" fill="#F87171" text-anchor="start">2. All-to-All Network Transfer</text>
+  <text x="450" y="274" font-size="10" fill="#CBD5E1" text-anchor="start">• M mappers x R reducers connections</text>
+  <text x="450" y="289" font-size="10" fill="#CBD5E1" text-anchor="start">• Network bandwidth saturation point</text>
+  <text x="450" y="304" font-size="10" fill="#CBD5E1" text-anchor="start">• Stage boundary forces serialization barrier</text>
+  <text x="450" y="319" font-size="9.5" font-weight="600" fill="#F87171" text-anchor="start">Stage 2 cannot start until Stage 1 finishes!</text>
+
+  <!-- Shuffle Read -->
+  <rect x="435" y="345" width="250" height="85" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1"/>
+  <text x="450" y="367" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="start">3. Shuffle Read Phase</text>
+  <text x="450" y="384" font-size="10" fill="#CBD5E1" text-anchor="start">• Reducers fetch key partition blocks</text>
+  <text x="450" y="399" font-size="10" fill="#CBD5E1" text-anchor="start">• Deserializes blocks into memory buffers</text>
+  <text x="450" y="414" font-size="10" fill="#FDE68A" text-anchor="start">• Merges sorted streams</text>
+
+  <!-- Arrows crossing columns -->
+  <path d="M 365.0 190.0 L 375.0 190.0 C 398.0 190.0, 398.0 175.0, 421.0 175.0 L 435.0 175.0" fill="none" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+  <path d="M 365.0 340.0 L 375.0 340.0 C 398.0 340.0, 398.0 185.0, 421.0 185.0 L 435.0 185.0" fill="none" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+
+  <!-- Column 3: Stage 2 Wide Transformations -->
+  <rect x="740" y="85" width="340" height="385" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="740" y="85" width="340" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="910" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">STAGE 2: WIDE REDUCE &amp; AGGREGATE</text>
+
+  <!-- Reducer 1 -->
+  <rect x="755" y="135" width="310" height="135" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="770" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Hash Reducer 1 (Key Hash % 2 == 0)</text>
+  
+  <rect x="770" y="170" width="135" height="40" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="837" y="187" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">Merge Keys (EMEA)</text>
+  <text x="837" y="201" font-size="8" fill="#CBD5E1" text-anchor="middle">Tungsten Hash Map</text>
+
+  <rect x="920" y="170" width="130" height="40" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="985" y="187" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">Final sum(amount)</text>
+  <text x="985" y="201" font-size="8" fill="#CBD5E1" text-anchor="middle">Output to Sink</text>
+
+  <line x1="905" y1="190" x2="920" y2="190" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <text x="770" y="235" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Combines partial aggregates from all Stage 1 mappers</text>
+  <text x="770" y="252" font-size="9.5" fill="#94A3B8" text-anchor="start">• Emits final partitioned dataset</text>
+
+  <!-- Reducer 2 -->
+  <rect x="755" y="285" width="310" height="135" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="770" y="307" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Hash Reducer 2 (Key Hash % 2 == 1)</text>
+  
+  <rect x="770" y="320" width="135" height="40" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="837" y="337" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">Merge Keys (APAC)</text>
+  <text x="837" y="351" font-size="8" fill="#CBD5E1" text-anchor="middle">Tungsten Hash Map</text>
+
+  <rect x="920" y="320" width="130" height="40" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="985" y="337" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">Final sum(amount)</text>
+  <text x="985" y="351" font-size="8" fill="#CBD5E1" text-anchor="middle">Output to Sink</text>
+
+  <line x1="905" y1="340" x2="920" y2="340" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <text x="770" y="385" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Combines partial aggregates from all Stage 1 mappers</text>
+  <text x="770" y="402" font-size="9.5" fill="#94A3B8" text-anchor="start">• Emits final partitioned dataset</text>
+
+  <!-- Connectors from Shuffle to Reducers -->
+  <path d="M 685.0 380.0 L 695.0 380.0 C 718.0 380.0, 718.0 200.0, 741.0 200.0 L 755.0 200.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path d="M 685.0 390.0 L 695.0 390.0 C 718.0 390.0, 718.0 350.0, 741.0 350.0 L 755.0 350.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Stage Invariant: Spark breaks Jobs into Stages strictly at Wide Dependency boundaries. Within a Stage, Narrow operations pipeline entirely in CPU registers without network or disk spill.</text>
+</svg>

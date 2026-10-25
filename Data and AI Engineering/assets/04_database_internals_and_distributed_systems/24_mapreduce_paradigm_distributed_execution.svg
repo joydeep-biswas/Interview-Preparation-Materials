@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MapReduce Paradigm: Distributed Storage &amp; Compute Pipeline</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">InputSplits, Map Workers, Combiners, Network Shuffle, and Reducer Aggregations</text>
+  
+  
+    <rect x="30" y="115" width="160" height="200" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="110.0" y="141" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. HDFS Input Dataset</text>
+    <text x="110.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">100 GB Distributed</text>
+    <circle cx="46" cy="170" r="2" fill="#3b82f6"/>
+    <text x="54" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Raw text file split into</text>
+    <circle cx="46" cy="186" r="2" fill="#3b82f6"/>
+    <text x="54" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">64MB block chunks</text>
+    <circle cx="46" cy="202" r="2" fill="#3b82f6"/>
+    <text x="54" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Split 0: Bytes 0..64MB</text>
+    <circle cx="46" cy="218" r="2" fill="#3b82f6"/>
+    <text x="54" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Split 1: Bytes 64..128MB</text>
+    <circle cx="46" cy="234" r="2" fill="#3b82f6"/>
+    <text x="54" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Split 2: Bytes 128..192MB</text>
+    <circle cx="46" cy="250" r="2" fill="#3b82f6"/>
+    <text x="54" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Data locality scheduled</text>
+
+  
+    <rect x="220" y="115" width="170" height="200" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="305.0" y="141" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. Map &amp; Combiner</text>
+    <text x="305.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Local Worker Nodes</text>
+    <circle cx="236" cy="170" r="2" fill="#8b5cf6"/>
+    <text x="244" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Mapper 0..2 parse lines</text>
+    <circle cx="236" cy="186" r="2" fill="#8b5cf6"/>
+    <text x="244" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Emit: (word, 1)</text>
+    <circle cx="236" cy="202" r="2" fill="#8b5cf6"/>
+    <text x="244" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Combiner Phase:</text>
+    <circle cx="236" cy="218" r="2" fill="#8b5cf6"/>
+    <text x="244" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Map-side pre-aggregation</text>
+    <circle cx="236" cy="234" r="2" fill="#8b5cf6"/>
+    <text x="244" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sum local keys before wire</text>
+    <circle cx="236" cy="250" r="2" fill="#8b5cf6"/>
+    <text x="244" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reduces network shuffle by 80%</text>
+
+  
+    <rect x="420" y="115" width="260" height="200" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="550.0" y="141" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. Shuffle &amp; Sort Phase</text>
+    <text x="550.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">All-to-All Network Transfer</text>
+    <circle cx="436" cy="170" r="2" fill="#f59e0b"/>
+    <text x="444" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">HashPartitioner: hash(key) % numReducers</text>
+    <circle cx="436" cy="186" r="2" fill="#f59e0b"/>
+    <text x="444" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Directs identical keys to exact same reducer</text>
+    <circle cx="436" cy="202" r="2" fill="#f59e0b"/>
+    <text x="444" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Network transfer across cluster nodes</text>
+    <circle cx="436" cy="218" r="2" fill="#f59e0b"/>
+    <text x="444" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">External merge sort on reducer disk</text>
+    <circle cx="436" cy="234" r="2" fill="#f59e0b"/>
+    <text x="444" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Grouping guaranteed by key</text>
+
+  
+    <rect x="710" y="115" width="240" height="200" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="830.0" y="141" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">4. Reduce Phase</text>
+    <text x="830.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Final Global Aggregation</text>
+    <circle cx="726" cy="170" r="2" fill="#10b981"/>
+    <text x="734" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reducer 0: ('apple') &#x2192; 48</text>
+    <circle cx="726" cy="186" r="2" fill="#10b981"/>
+    <text x="734" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reducer 1: ('banana') &#x2192; 12</text>
+    <circle cx="726" cy="202" r="2" fill="#10b981"/>
+    <text x="734" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Streams final key-value counts</text>
+    <circle cx="726" cy="218" r="2" fill="#10b981"/>
+    <text x="734" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Writes output part-00000 back to HDFS</text>
+    <circle cx="726" cy="234" r="2" fill="#10b981"/>
+    <text x="734" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Fault-tolerant: Reschedules failed tasks</text>
+
+  
+    <line x1="190" y1="215" x2="220" y2="215" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <line x1="390" y1="215" x2="420" y2="215" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  
+    <line x1="680" y1="215" x2="710" y2="215" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <text x="490" y="355" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">The MapReduce foundation: Move compute to data locality; isolate map tasks to tolerate worker failure</text>
+
+</svg>

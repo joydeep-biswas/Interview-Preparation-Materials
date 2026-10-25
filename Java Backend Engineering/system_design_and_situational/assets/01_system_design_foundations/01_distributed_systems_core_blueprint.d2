@@ -1,0 +1,49 @@
+direction: right
+
+ingress: "1. Ingress & Edge Layer" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  dns: "Geo-DNS & Anycast"
+  cdn: "CDN Edge Caching"
+  gateway: "API Gateway (Rate Limiter & Token Bucket)"
+}
+
+services: "2. Core Microservices" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  order: "Order Service"
+  payment: "Payment Gateway Service"
+  resilience: "Resilience4j Circuit Breakers"
+}
+
+cache: "3. Caching & Fast Data" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  redis: "Redis Cluster (Sub-millisecond L1/L2)"
+  pattern: "Cache-Aside & Write-Through"
+}
+
+storage: "4. Polyglot Persistence" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  sql: "Sharded PostgreSQL / Aurora OLTP"
+  nosql: "Cassandra / ScyllaDB High-Write"
+  consensus: "Raft / etcd Distributed State"
+}
+
+ingress -> services: "Authenticated Traffic" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+services -> cache: "O(1) Memory Lookups" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+services -> storage: "Durable Write-Ahead Log & Commits" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

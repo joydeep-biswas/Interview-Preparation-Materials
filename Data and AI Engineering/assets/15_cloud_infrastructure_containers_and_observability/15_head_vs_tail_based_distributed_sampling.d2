@@ -1,0 +1,20 @@
+classes: {
+  head_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  tail_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+head: "Head-Based Sampling (Decided at Gateway)" {
+  req: "Request Arrives at Edge"
+  coin: "Random 1% Coin Flip\n99% of requests discarded" { class: head_box }
+  flaw: "FATAL FLAW: Rare 500 errors & P99 latency spikes\ngetting dropped 99% of the time" { class: head_box }
+
+  req -> coin -> flaw
+}
+
+tail: "Tail-Based Sampling (Decided at OTel Collector)" {
+  buffer: "Buffer 100% of Spans in RAM (30s)"
+  rules: "Evaluate Full Trace:\n1. status_code >= 500 -> Keep 100%\n2. duration >= 2s -> Keep 100%\n3. Fast 200 OK -> Sample 0.1%" { class: tail_box }
+  win: "ADVANTAGE: 100% of errors & bottlenecks preserved\nwhile eliminating 99% of storage noise" { class: tail_box }
+
+  buffer -> rules -> win
+}

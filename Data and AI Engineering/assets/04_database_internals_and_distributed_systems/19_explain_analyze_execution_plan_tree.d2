@@ -1,0 +1,27 @@
+direction: down
+title: Forensic EXPLAIN & EXPLAIN ANALYZE Execution Plan Tree
+
+hj: Hash Join {
+  cost: "Cost: 1250.00..54200.00 | Actual Time: 185.32 ms"
+  condition: "f.customer_id = c.customer_id"
+}
+
+seq_scan: Seq Scan on fact_orders (f) {
+  cost: "Cost: 0.00..48500.00 | 500,000 rows"
+  filter: "order_date >= '2026-01-01' (Bottleneck: missing index)"
+  style.stroke: "#ef4444"
+}
+
+hash_op: Hash Operator {
+  memory: "Batches: 1 | Memory: 720 kB"
+}
+
+idx_scan: Index Scan on dim_customer (c) {
+  cost: "Using: idx_customer_tier | 8,000 rows"
+  filter: "tier = 'PLATINUM'"
+  style.stroke: "#10b981"
+}
+
+hj -> seq_scan: "Outer Stream"
+hj -> hash_op: "Inner Build Table"
+hash_op -> idx_scan

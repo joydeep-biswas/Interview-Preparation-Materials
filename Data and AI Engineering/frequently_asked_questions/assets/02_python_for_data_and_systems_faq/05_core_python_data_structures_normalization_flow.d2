@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+raw: "Raw JSON Payloads" { class: box; style.stroke: "#3B82F6" }
+
+s: "1. String Transformations\nAnagram grouping & byte compression" { class: box; style.stroke: "#F59E0B" }
+l: "2. List Manipulations\nBatch chunking & matrix transposition" { class: box; style.stroke: "#10B981" }
+d: "3. Dict Operations\nInverted index & deep recursive merge" { class: box; style.stroke: "#8B5CF6" }
+
+clean: "Clean Normalized Tabular Records\nReady for parquet storage" { class: box; style.stroke: "#10B981" }
+
+raw -> s -> clean
+raw -> l -> clean
+raw -> d -> clean

@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1240" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1240" height="560" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="620" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Kubernetes Networking &amp; Traffic Routing: Ingress, ClusterIP &amp; iptables DNAT</text>
+  <text x="620" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">External Client -&gt; Cloud Load Balancer -&gt; Ingress Controller (L7) -&gt; ClusterIP Service -&gt; kube-proxy iptables -&gt; Target Pod Endpoint</text>
+  <line x1="40" y1="68" x2="1200" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Client Layer -->
+  <rect x="40" y="105" width="220" height="150" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="40" y="105" width="220" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="150" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Public Client</text>
+  <text x="55" y="155" font-size="9" fill="#CBD5E1">External Internet User</text>
+  <text x="55" y="175" font-size="8" font-family="'JetBrains Mono', monospace" fill="#38BDF8">GET https://api.company.com</text>
+  <text x="55" y="195" font-size="8" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">/api/v1/orders</text>
+
+  <!-- Cloud External Load Balancer -->
+  <rect x="300" y="105" width="240" height="150" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="300" y="105" width="240" height="30" rx="8" fill="#064E3B"/>
+  <text x="420" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. Cloud Load Balancer</text>
+  <text x="315" y="155" font-size="9" font-weight="700" fill="#E2E8F0">Azure Public LB / AWS NLB:</text>
+  <text x="315" y="175" font-size="8" fill="#CBD5E1">&#x2022; Public Virtual IP: 20.40.10.5</text>
+  <text x="315" y="193" font-size="8" fill="#CBD5E1">&#x2022; Forwards port 443 &#x2192; NodePort</text>
+  <text x="315" y="210" font-size="8" fill="#34D399">&#x2714; Health checks cluster ingress pods</text>
+
+  <path fill="none" d="M 260 180 L 300 180" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Ingress Controller -->
+  <rect x="580" y="105" width="270" height="150" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="580" y="105" width="270" height="30" rx="8" fill="#4C1D95"/>
+  <text x="715" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">3. Ingress Controller (L7)</text>
+  <text x="595" y="155" font-size="9" font-weight="700" fill="#C084FC">NGINX / Envoy Pod:</text>
+  <text x="595" y="175" font-size="8" fill="#CBD5E1">&#x2022; Terminates TLS (X.509 cert)</text>
+  <text x="595" y="193" font-size="8" fill="#CBD5E1">&#x2022; Path Routing Rules:</text>
+  <text x="605" y="210" font-size="7" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">/api/v1/orders &#x2192; order-service</text>
+  <text x="605" y="225" font-size="7" font-family="'JetBrains Mono', monospace" fill="#FDE68A">/api/v1/payments &#x2192; payment-service</text>
+
+  <path fill="none" d="M 540 180 L 580 180" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Kubernetes Cluster Network -->
+  <rect x="40" y="290" width="1160" height="205" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1.5"/>
+  <rect x="40" y="290" width="1160" height="26" rx="8" fill="#1E293B"/>
+  <text x="620" y="308" font-size="11" font-weight="700" fill="#E2E8F0" text-anchor="middle">Kubernetes Flat Pod Network (Pod CIDR: 10.244.0.0/16 | Service CIDR: 10.96.0.0/12)</text>
+
+  <!-- ClusterIP Service -->
+  <rect x="60" y="335" width="310" height="140" rx="6" fill="#1E293B" stroke="#0284C7" stroke-width="1"/>
+  <text x="215" y="360" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">Service: order-service</text>
+  <text x="75" y="385" font-size="8" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">ClusterIP: 10.96.0.40:80</text>
+  <text x="75" y="405" font-size="8" fill="#CBD5E1">&#x2022; Virtual IP (VIP); non-pingable</text>
+  <text x="75" y="422" font-size="8" fill="#CBD5E1">&#x2022; Backed by EndpointSlice controller</text>
+  <text x="75" y="440" font-size="8" fill="#34D399">&#x2714; Stable DNS: order-service.prod.svc</text>
+
+  <!-- kube-proxy &amp; iptables -->
+  <rect x="420" y="335" width="340" height="140" rx="6" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="590" y="360" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">kube-proxy iptables DNAT Engine</text>
+  <text x="435" y="385" font-size="8" fill="#CBD5E1">&#x2022; Kernel packet rewrites (Zero user-space hops):</text>
+  <text x="445" y="405" font-size="7" font-family="'JetBrains Mono', monospace" fill="#DDD6FE">-m statistic --mode random --probability 0.50</text>
+  <text x="445" y="420" font-size="7" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">-j DNAT --to-destination 10.244.1.12:8080</text>
+  <text x="445" y="435" font-size="7" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">-j DNAT --to-destination 10.244.2.18:8080</text>
+  <text x="435" y="455" font-size="8" fill="#34D399">&#x2714; Performs random probability load balancing!</text>
+
+  <!-- Pod Endpoints -->
+  <rect x="810" y="335" width="370" height="60" rx="6" fill="#06201B" stroke="#10B981"/>
+  <text x="995" y="357" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">Pod 1: order-service-pod-1</text>
+  <text x="825" y="377" font-size="8" font-family="'JetBrains Mono', monospace" fill="#A7F3D0">Pod IP: 10.244.1.12:8080 (Node 1)</text>
+
+  <rect x="810" y="415" width="370" height="60" rx="6" fill="#06201B" stroke="#10B981"/>
+  <text x="995" y="437" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">Pod 2: order-service-pod-2</text>
+  <text x="825" y="457" font-size="8" font-family="'JetBrains Mono', monospace" fill="#A7F3D0">Pod IP: 10.244.2.18:8080 (Node 2)</text>
+
+  <!-- Routing Connectors -->
+  <path fill="none" d="M 715 255 L 715 290 L 215 290 L 215 335" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+  <path fill="none" d="M 370 405 L 420 405" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <path fill="none" d="M 760.0 380.0 L 770.0 380.0 C 783.0 380.0, 783.0 365.0, 796.0 365.0 L 810.0 365.0" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path fill="none" d="M 760.0 430.0 L 770.0 430.0 C 783.0 430.0, 783.0 445.0, 796.0 445.0 L 810.0 445.0" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="515" width="1160" height="30" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="620" y="535" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Networking Invariant: ClusterIP addresses are purely virtual. No network interface has a ClusterIP assigned; kube-proxy programmes Linux iptables/IPVS to translate the destination IP to pod IPs in kernel space.</text>
+</svg>

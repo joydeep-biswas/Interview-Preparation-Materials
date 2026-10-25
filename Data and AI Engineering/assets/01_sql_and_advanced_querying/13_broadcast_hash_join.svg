@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="420" viewBox="0 0 1080 420">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1080" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Broadcast Hash Join (BHJ) Physical Execution Architecture</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Driver node broadcasts small dimension table to all executors; zero network shuffle of large fact table</text>
+
+  <!-- Top: Driver Node (w=420, centered at x=330) -->
+  <g transform="translate(330, 80)">
+    <rect width="420" height="90" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
+    <text x="210" y="26" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">Spark / Query Engine Driver Node</text>
+    <rect x="15" y="38" width="390" height="42" rx="4" fill="#1C2541" stroke="#3B82F6"/>
+    <text x="205" y="56" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">Reads Small Dimension Table (&lt; 10 MB)</text>
+    <text x="205" y="72" font-size="10" fill="#93C5FD" text-anchor="middle">Serializes and broadcasts copy over cluster network to all workers</text>
+  </g>
+
+  <!-- Broadcast Arrows down to 3 workers -->
+  <path d="M 430.0 170.0 L 430.0 179.6 C 430.0 191.8, 200.0 191.8, 200.0 204.0 L 200.0 218.0" fill="none" stroke="#3B82F6" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arr-b)"/>
+  <path d="M 540 170 L 540 218" fill="none" stroke="#3B82F6" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arr-b)"/>
+  <path d="M 650.0 170.0 L 650.0 179.6 C 650.0 191.8, 880.0 191.8, 880.0 204.0 L 880.0 218.0" fill="none" stroke="#3B82F6" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arr-b)"/>
+
+  <!-- Broadcast Badge -->
+  <rect x="470" y="185" width="140" height="20" rx="4" fill="#1E293B" stroke="#3B82F6"/>
+  <text x="540" y="199" font-size="10" fill="#93C5FD" font-weight="600" text-anchor="middle">Broadcast In-Memory HT</text>
+
+  <!-- 3 Worker Nodes side-by-side (w=320 each) -->
+  <!-- Worker 1 -->
+  <g transform="translate(30, 220)">
+    <rect width="320" height="175" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <text x="160" y="26" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Executor Worker 1</text>
+    <rect x="15" y="38" width="290" height="122" rx="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="25" y="58" font-size="11" font-weight="600" fill="#A7F3D0" text-anchor="start">1. In-Memory Hash Table (Dim)</text>
+    <text x="25" y="76" font-size="11" fill="#FFFFFF" text-anchor="start">2. Scans Local Fact Partition 1</text>
+    <text x="25" y="94" font-size="11" fill="#A7F3D0" text-anchor="start">3. Local Hash Probe (Zero Shuffle!)</text>
+    <text x="25" y="116" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="start">Output: Local Joined Stream 1</text>
+    <text x="25" y="136" font-size="9" fill="#94A3B8" text-anchor="start">Disk I/O: Local NVMe scan only</text>
+  </g>
+
+  <!-- Worker 2 -->
+  <g transform="translate(380, 220)">
+    <rect width="320" height="175" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <text x="160" y="26" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Executor Worker 2</text>
+    <rect x="15" y="38" width="290" height="122" rx="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="25" y="58" font-size="11" font-weight="600" fill="#A7F3D0" text-anchor="start">1. In-Memory Hash Table (Dim)</text>
+    <text x="25" y="76" font-size="11" fill="#FFFFFF" text-anchor="start">2. Scans Local Fact Partition 2</text>
+    <text x="25" y="94" font-size="11" fill="#A7F3D0" text-anchor="start">3. Local Hash Probe (Zero Shuffle!)</text>
+    <text x="25" y="116" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="start">Output: Local Joined Stream 2</text>
+    <text x="25" y="136" font-size="9" fill="#94A3B8" text-anchor="start">Disk I/O: Local NVMe scan only</text>
+  </g>
+
+  <!-- Worker 3 -->
+  <g transform="translate(730, 220)">
+    <rect width="320" height="175" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <text x="160" y="26" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Executor Worker 3</text>
+    <rect x="15" y="38" width="290" height="122" rx="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="25" y="58" font-size="11" font-weight="600" fill="#A7F3D0" text-anchor="start">1. In-Memory Hash Table (Dim)</text>
+    <text x="25" y="76" font-size="11" fill="#FFFFFF" text-anchor="start">2. Scans Local Fact Partition 3</text>
+    <text x="25" y="94" font-size="11" fill="#A7F3D0" text-anchor="start">3. Local Hash Probe (Zero Shuffle!)</text>
+    <text x="25" y="116" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="start">Output: Local Joined Stream 3</text>
+    <text x="25" y="136" font-size="9" fill="#94A3B8" text-anchor="start">Disk I/O: Local NVMe scan only</text>
+  </g>
+</svg>

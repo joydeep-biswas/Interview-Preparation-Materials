@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Card Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Canvas -->
+  <rect width="1000" height="480" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g transform="translate(0, 0)">
+    <text x="500.0" y="38" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="700" fill="#f8fafc">Megatron-LM Tensor Parallelism: Column &amp; Row GEMM Projections</text>
+    <text x="500.0" y="62" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#94a3b8">Distributing multi-layer perceptron matrix multiplications across GPUs with minimal All-Reduce communication</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g transform="translate(40, 95)">
+  <rect width="290" height="360" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="14" y="-12" width="250" height="22" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="139.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">1. Column-Parallel (Split W1)</text>
+</g>
+<g transform="translate(60, 130)">
+  <rect width="250" height="75" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="125.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Input Activation X</text>
+  <line x1="12" y1="34" x2="238" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Broadcast to both GPUs</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Shape: [Batch, Seq, Hidden]</text>
+</g>
+<g transform="translate(60, 230)">
+  <rect width="115" height="80" rx="8" fill="url(#card-cyan)" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="57.5" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Shard W1_1 (GPU 0)</text>
+  <line x1="12" y1="34" x2="103" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Y1 = X * W1_1</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Columns 0..H/2</text>
+</g>
+<g transform="translate(195, 230)">
+  <rect width="115" height="80" rx="8" fill="url(#card-cyan)" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="57.5" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Shard W1_2 (GPU 1)</text>
+  <line x1="12" y1="34" x2="103" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Y2 = X * W1_2</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Columns H/2..H</text>
+</g>
+<g transform="translate(60, 335)">
+  <rect width="250" height="85" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="125.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">GeLU Activation</text>
+  <line x1="12" y1="34" x2="238" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Computed independently on each GPU</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Zero inter-GPU communication!</text>
+</g>
+<line x1="117" y1="205" x2="117" y2="230" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arr-b)"/>
+<line x1="252" y1="205" x2="252" y2="230" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arr-b)"/>
+<line x1="117" y1="310" x2="117" y2="335" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arr-c)"/>
+<line x1="252" y1="310" x2="252" y2="335" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arr-c)"/>
+<g transform="translate(360, 95)">
+  <rect width="290" height="360" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#34d399" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="14" y="-12" width="226" height="22" rx="4" fill="#0f172a" stroke="#34d399" stroke-width="1"/>
+  <text x="127.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#34d399">2. Row-Parallel (Split W2)</text>
+</g>
+<g transform="translate(380, 140)">
+  <rect width="250" height="65" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="125.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Input from GeLU</text>
+  <line x1="12" y1="34" x2="238" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Y1 on GPU 0; Y2 on GPU 1</text>
+</g>
+<g transform="translate(380, 230)">
+  <rect width="115" height="80" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="57.5" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Shard W2_A (GPU 0)</text>
+  <line x1="12" y1="34" x2="103" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Z1 = Y1 * W2_A</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Rows 0..H/2</text>
+</g>
+<g transform="translate(515, 230)">
+  <rect width="115" height="80" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="57.5" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Shard W2_B (GPU 1)</text>
+  <line x1="12" y1="34" x2="103" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Z2 = Y2 * W2_B</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Rows H/2..H</text>
+</g>
+<g transform="translate(380, 335)">
+  <rect width="250" height="85" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="125.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Partial Outputs Z1, Z2</text>
+  <line x1="12" y1="34" x2="238" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Z1 and Z2 are partial sums</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Must be combined</text>
+</g>
+<path d="M 310.0 377.0 L 320.0 377.0 C 343.0 377.0, 343.0 172.0, 366.0 172.0 L 380.0 172.0" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arr-b)"/>
+<line x1="437" y1="205" x2="437" y2="230" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<line x1="572" y1="205" x2="572" y2="230" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<line x1="437" y1="310" x2="437" y2="335" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<line x1="572" y1="310" x2="572" y2="335" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<g transform="translate(680, 95)">
+  <rect width="280" height="360" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="14" y="-12" width="250" height="22" rx="4" fill="#0f172a" stroke="#c084fc" stroke-width="1"/>
+  <text x="139.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#c084fc">3. All-Reduce Collective Sync</text>
+</g>
+<g transform="translate(700, 160)">
+  <rect width="240" height="110" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="120.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">NCCL All-Reduce (Sum)</text>
+  <line x1="12" y1="34" x2="228" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Z = Z1 + Z2</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• High-speed NVLink mesh</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Only ONE communication call</text>
+  <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  per MLP layer block!</text>
+</g>
+<g transform="translate(700, 305)">
+  <rect width="240" height="115" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="120.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Final Reconstructed Output Z</text>
+  <line x1="12" y1="34" x2="228" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Identical output on both GPUs</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Feeds directly into next block</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Zero redundant compute</text>
+</g>
+<path d="M 630.0 377.0 L 640.0 377.0 C 663.0 377.0, 663.0 215.0, 686.0 215.0 L 700.0 215.0" fill="none" stroke="#c084fc" stroke-width="1.8" marker-end="url(#arr-p)"/>
+<line x1="820" y1="270" x2="820" y2="305" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+</svg>

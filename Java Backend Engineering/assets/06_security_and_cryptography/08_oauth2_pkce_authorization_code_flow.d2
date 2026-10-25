@@ -1,0 +1,15 @@
+direction: down
+title: OAuth 2.0 PKCE Flow
+
+SPA: Browser SPA (React / Mobile)
+IdP: Authorization Server (Keycloak / Auth0)
+Backend: Spring Backend Resource Server
+
+SPA -> SPA: 1. Generates code_verifier & code_challenge (S256)
+SPA -> IdP: 2. GET /authorize with code_challenge { style.stroke: "#38BDF8" }
+IdP -> SPA: 4. 302 Redirect with ?code=AUTH_CODE_123 { style.stroke: "#F59E0B" }
+SPA -> IdP: 5. POST /token (code + code_verifier) { style.stroke: "#C084FC" }
+IdP -> IdP: 6. Computes SHA256(verifier) == code_challenge
+IdP -> SPA: 7. Returns Access Token (JWT) { style.stroke: "#34D399" }
+SPA -> Backend: 8. GET /api/profile (Bearer JWT) { style.stroke: "#38BDF8" }
+Backend -> SPA: 9. Returns Protected Profile { style.stroke: "#34D399" }

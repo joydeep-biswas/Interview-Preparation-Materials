@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Distributed Unique ID Generation: Twitter Snowflake Architecture</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">64-Bit Globally Unique, K-Ordered (Roughly Time-Sorted) IDs Without Coordination or Central Locks</text>
+<rect x="40" y="130" width="100" height="110" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="90" y="160" fill="#60A5FA" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1 Bit</text>
+<text x="90" y="185" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Sign (0)</text>
+<text x="90" y="210" fill="#94A3B8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Always 0</text>
+<text x="90" y="225" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">(Positive int)</text>
+<rect x="150" y="130" width="420" height="110" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<text x="360" y="160" fill="#34D399" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">41 Bits: Epoch Millisecond Timestamp</text>
+<text x="360" y="185" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">System.currentTimeMillis() - CUSTOM_EPOCH</text>
+<text x="360" y="208" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Capacity: 2^41 ms = 2,199,023,255,552 ms = 69.73 Years!</text>
+<text x="360" y="226" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Enables B+Tree clustered index ordering with zero disk page fragmentation</text>
+<rect x="580" y="130" width="240" height="110" rx="6" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+<text x="700" y="160" fill="#FBBF24" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">10 Bits: Worker / Node ID</text>
+<text x="700" y="185" fill="#FDE68A" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">5b Datacenter + 5b Node</text>
+<text x="700" y="208" fill="#CBD5E1" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Capacity: 2^10 = 1,024 Nodes</text>
+<text x="700" y="226" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Assigned via K8s Pod ordinal or Consul</text>
+<rect x="830" y="130" width="210" height="110" rx="6" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+<text x="935" y="160" fill="#C084FC" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">12 Bits: Sequence</text>
+<text x="935" y="185" fill="#EDE9FE" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Atomic Counter (0 - 4095)</text>
+<text x="935" y="208" fill="#34D399" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4,096 IDs / ms / node</text>
+<text x="935" y="226" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Rolls over per millisecond</text>
+<rect x="40" y="270" width="1000" height="150" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="295" fill="#38BDF8" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">System Throughput &amp; Invariants:</text>
+<text x="65" y="320" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Maximum Global Throughput: 1,024 nodes * 4,096 IDs/ms = 4,194,304,000 IDs per second (4.19 Billion IDs/sec)!</text>
+<text x="65" y="342" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Zero Database Coordination: Each node generates IDs entirely in local memory using atomic bit shifts without RPC or locks.</text>
+<text x="65" y="364" fill="#F87171" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• The Clock Drift Trap (NTP Skew): If server clock moves backward, duplicate IDs could be generated! Snowflake implementations</text>
+<text x="65" y="380" fill="#FCA5A5" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  detect drift: if (currentMillis &lt; lastMillis) throw new ClockDriftException() or wait until clock catches up.</text>
+<text x="65" y="400" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Bitwise Assembly: (timestamp &lt;&lt; 22) | (datacenterId &lt;&lt; 17) | (workerId &lt;&lt; 12) | sequence</text>
+<rect x="40" y="445" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="468" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why Snowflake Beats UUID v4 in Relational Databases:</text>
+<text x="65" y="488" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• UUID v4 is 128-bit completely random. Inserting random UUIDs into a B+Tree primary key causes massive random page splits and write amplification.</text>
+<text x="65" y="505" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Snowflake is 64-bit (fits in a standard Java Long / SQL BIGINT) and monotonically increasing, ensuring pure append-only B+Tree leaf insertions.</text>
+</svg>

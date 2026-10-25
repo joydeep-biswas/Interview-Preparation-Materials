@@ -1,0 +1,13 @@
+direction: right
+classes: {
+  sli: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  slo: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  sla: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+}
+
+sli: "1. SLI (Service Level Indicator)\nActual Measurement\ne.g. 99.2% loaded &lt;15m" { class: sli }
+slo: "2. SLO (Service Level Objective)\nInternal Engineering Target\ne.g. 99.5% compliance" { class: slo }
+sla: "3. SLA (Service Level Agreement)\nContractual Commitment\ne.g. Penalty if &lt;98.0%" { class: sla }
+
+sli -> slo: "Measured against"
+slo -> sla: "Safety margin buffer"

@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="400" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Tuple Visibility, Dead Tuples &amp; The AUTOVACUUM Engine</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">From INSERT to Heap Bloat, MVCC Snapshot Visibility, and Vacuum Space Reclamation</text>
+  
+  
+    <rect x="30" y="115" width="160" height="150" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="110.0" y="141" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. Live Tuple</text>
+    <text x="110.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">INSERT</text>
+    <rect x="146" y="125" width="38" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="165.0" y="137" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">LIVE</text>
+    <circle cx="46" cy="170" r="2" fill="#10b981"/>
+    <text x="54" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">xmin = current_xid</text>
+    <circle cx="46" cy="186" r="2" fill="#10b981"/>
+    <text x="54" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">xmax = 0</text>
+    <circle cx="46" cy="202" r="2" fill="#10b981"/>
+    <text x="54" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Visible to all queries</text>
+    <circle cx="46" cy="218" r="2" fill="#10b981"/>
+    <text x="54" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Active in heap page</text>
+    <circle cx="46" cy="234" r="2" fill="#10b981"/>
+    <text x="54" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Referenced by index</text>
+
+  
+    <rect x="225" y="115" width="165" height="150" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="307.5" y="141" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. Updated Tuple</text>
+    <text x="307.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">UPDATE / DELETE</text>
+    <rect x="325" y="125" width="59" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="354.5" y="137" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MUTATED</text>
+    <circle cx="241" cy="170" r="2" fill="#f59e0b"/>
+    <text x="249" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">xmax set to current_xid</text>
+    <circle cx="241" cy="186" r="2" fill="#f59e0b"/>
+    <text x="249" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">New tuple inserted</text>
+    <circle cx="241" cy="202" r="2" fill="#f59e0b"/>
+    <text x="249" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Old tuple remains in</text>
+    <circle cx="241" cy="218" r="2" fill="#f59e0b"/>
+    <text x="249" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">slotted page heap</text>
+
+  
+    <rect x="425" y="115" width="175" height="150" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="512.5" y="141" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. Dead Tuple</text>
+    <text x="512.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Tx Committed</text>
+    <rect x="549" y="125" width="45" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="571.5" y="137" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">BLOAT</text>
+    <circle cx="441" cy="170" r="2" fill="#ef4444"/>
+    <text x="449" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Old tuple dead to new txs</text>
+    <circle cx="441" cy="186" r="2" fill="#ef4444"/>
+    <text x="449" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">RETAINED if active txs</text>
+    <circle cx="441" cy="202" r="2" fill="#ef4444"/>
+    <text x="449" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">hold snapshot older than xmax</text>
+    <circle cx="441" cy="218" r="2" fill="#ef4444"/>
+    <text x="449" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Causes table heap bloat!</text>
+
+  
+    <rect x="635" y="115" width="175" height="150" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="722.5" y="141" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">4. Eligible Vacuum</text>
+    <text x="722.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Oldest Xmin Advanced</text>
+    <rect x="738" y="125" width="66" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="771.0" y="137" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ELIGIBLE</text>
+    <circle cx="651" cy="170" r="2" fill="#8b5cf6"/>
+    <text x="659" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Oldest active transaction</text>
+    <circle cx="651" cy="186" r="2" fill="#8b5cf6"/>
+    <text x="659" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">xmin advances past xmax.</text>
+    <circle cx="651" cy="202" r="2" fill="#8b5cf6"/>
+    <text x="659" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero snapshots can ever</text>
+    <circle cx="651" cy="218" r="2" fill="#8b5cf6"/>
+    <text x="659" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">see this tuple again!</text>
+
+  
+    <rect x="845" y="115" width="105" height="150" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="897.5" y="141" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">5. Cleaned</text>
+    <text x="897.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">AUTOVACUUM</text>
+    <rect x="871" y="125" width="73" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="907.5" y="137" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">RECLAIMED</text>
+    <circle cx="861" cy="170" r="2" fill="#10b981"/>
+    <text x="869" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reclaims slot</text>
+    <circle cx="861" cy="186" r="2" fill="#10b981"/>
+    <text x="869" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">in line pointer</text>
+    <circle cx="861" cy="202" r="2" fill="#10b981"/>
+    <text x="869" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero index</text>
+    <circle cx="861" cy="218" r="2" fill="#10b981"/>
+    <text x="869" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">rebuilds</text>
+
+  
+    <line x1="190" y1="190" x2="225" y2="190" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  
+    <line x1="390" y1="190" x2="425" y2="190" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
+  
+    <line x1="600" y1="190" x2="635" y2="190" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  
+    <line x1="810" y1="190" x2="845" y2="190" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  
+    <rect x="30" y="290" width="920" height="90" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="490.0" y="316" fill="#67e8f9" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PostgreSQL XID Wraparound Prevention: VACUUM FREEZE Invariant</text>
+    <text x="490.0" y="332" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Preventing Catastrophic Silent Data Loss Across the 2.14 Billion Transaction Boundary</text>
+    <rect x="822" y="300" width="122" height="18" rx="9" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
+    <text x="883.0" y="312" fill="#06b6d4" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">FREEZE INVARIANT</text>
+    <circle cx="46" cy="345" r="2" fill="#06b6d4"/>
+    <text x="54" y="348" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">PostgreSQL transaction IDs are 32-bit integers modulo 2^31 (2.14 billion). Once exceeded, ancient past tuples appear to be in the FUTURE and disappear!</text>
+    <circle cx="46" cy="361" r="2" fill="#06b6d4"/>
+    <text x="54" y="364" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">AUTOVACUUM FREEZE replaces ancient xmin values with FrozenTransactionId (value 2), marking tuples permanently committed and visible for all eternity.</text>
+
+</svg>

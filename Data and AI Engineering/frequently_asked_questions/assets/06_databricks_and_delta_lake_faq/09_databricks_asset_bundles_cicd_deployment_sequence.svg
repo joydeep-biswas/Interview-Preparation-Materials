@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 430" width="100%" height="100%">
+  <defs>
+    <style>
+      .actor-title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .seq-msg { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .seq-line { stroke: #334155; stroke-dasharray: 4 4; stroke-width: 1.5; }
+      .edge { stroke-width: 1.5; fill: none; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="430" fill="#0B0F19"/>
+
+  <!-- Actors -->
+  <g transform="translate(30, 20)">
+    <rect width="150" height="40" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="75" y="25" class="actor-title" fill="#93C5FD">Data Engineer</text>
+    <line x1="75" y1="40" x2="75" y2="400" class="seq-line"/>
+  </g>
+
+  <g transform="translate(220, 20)">
+    <rect width="160" height="40" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="80" y="25" class="actor-title" fill="#FCD34D">GitHub / Azure Repos</text>
+    <line x1="80" y1="40" x2="80" y2="400" class="seq-line"/>
+  </g>
+
+  <g transform="translate(420, 20)">
+    <rect width="160" height="40" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="80" y="25" class="actor-title" fill="#C4B5FD">CI/CD (Actions)</text>
+    <line x1="80" y1="40" x2="80" y2="400" class="seq-line"/>
+  </g>
+
+  <g transform="translate(620, 20)">
+    <rect width="150" height="40" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+    <text x="75" y="25" class="actor-title" fill="#6EE7B7">Databricks Staging</text>
+    <line x1="75" y1="40" x2="75" y2="400" class="seq-line"/>
+  </g>
+
+  <g transform="translate(800, 20)">
+    <rect width="150" height="40" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+    <text x="75" y="25" class="actor-title" fill="#6EE7B7">Databricks Prod</text>
+    <line x1="75" y1="40" x2="75" y2="400" class="seq-line"/>
+  </g>
+
+  <!-- Flow -->
+  <path fill="none" d="M 105 85 L 295 85" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <text x="115" y="78" class="seq-msg">1. Push feature branch &amp; open PR</text>
+
+  <path fill="none" d="M 300 120 L 495 120" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <text x="310" y="112" class="seq-msg">2. Trigger lint, mypy &amp; unit tests</text>
+
+  <path fill="none" d="M 500 155 L 305 155" class="edge" stroke="#8B5CF6" stroke-dasharray="3 3" marker-end="url(#arr-purple)"/>
+  <text x="330" y="148" class="seq-msg">Tests Pass &amp; PR Approved</text>
+
+  <path fill="none" d="M 105 195 L 295 195" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <text x="115" y="188" class="seq-msg">3. Merge PR to main</text>
+
+  <path fill="none" d="M 300 235 L 495 235" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <text x="310" y="228" class="seq-msg">4. Trigger CD: bundle deploy -t staging</text>
+
+  <path fill="none" d="M 500 275 L 690 275" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <text x="510" y="268" class="seq-msg">5. Deploy workflows &amp; run integration tests</text>
+
+  <!-- Approval Gate -->
+  <rect x="420" y="300" width="370" height="30" rx="4" ry="4" fill="#1E293B" stroke="#F59E0B" stroke-width="1"/>
+  <text x="605" y="320" class="seq-msg" fill="#FCD34D" text-anchor="middle">🔒 Manual Gate Approval: Validated in Staging</text>
+
+  <path fill="none" d="M 500 360 L 870 360" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <text x="510" y="352" class="seq-msg">6. bundle deploy -t prod (Activate Live Workflow)</text>
+</svg>

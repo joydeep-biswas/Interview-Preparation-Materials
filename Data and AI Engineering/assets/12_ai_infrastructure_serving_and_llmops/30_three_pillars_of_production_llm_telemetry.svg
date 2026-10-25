@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Card Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Canvas -->
+  <rect width="1000" height="420" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g transform="translate(0, 0)">
+    <text x="500.0" y="38" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="700" fill="#f8fafc">The Three Pillars of Production LLM Telemetry &amp; Observability</text>
+    <text x="500.0" y="62" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#94a3b8">Operational systems metrics, distributed trace trees, and continuous quality and cost tracking</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g transform="translate(40, 120)">
+  <rect width="290" height="260" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="145.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">1. Operational Systems Metrics</text>
+  <line x1="12" y1="34" x2="278" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Time to First Token (TTFT)</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  (p50, p95, p99 targets)</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Inter-Token Latency (ITL)</text>
+  <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  (Must stay &amp;lt;60ms for smooth UI)</text>
+  <text x="14" y="124" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Tokens Per Second (TPS)</text>
+  <text x="14" y="142" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Error Rates (HTTP 429, 503)</text>
+  <text x="14" y="160" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• GPU Memory &amp; Tensor Core Util</text>
+  <text x="14" y="178" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Prometheus + Grafana dashboards</text>
+</g>
+<g transform="translate(360, 120)">
+  <rect width="290" height="260" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="145.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">2. Distributed Trace Trees</text>
+  <line x1="12" y1="34" x2="278" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• OpenTelemetry Trace ID Propagation</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Detailed Span Hierarchy:</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  Ingress -&gt; Redis Rate -&gt; RAG</text>
+  <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  Embed -&gt; Vector Search -&gt; Cross-</text>
+  <text x="14" y="124" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  Encoder -&gt; Prompt Format -&gt; LLM</text>
+  <text x="14" y="142" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Prompt Template Version Tagging</text>
+  <text x="14" y="160" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Exact Token Count Attribution</text>
+</g>
+<g transform="translate(680, 120)">
+  <rect width="280" height="260" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="140.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">3. Quality &amp; Cost Metrics</text>
+  <line x1="12" y1="34" x2="268" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Financial Cost per Tenant / Dept ($)</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Context Window Saturation Ratio</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Online Sampled Faithfulness &amp;</text>
+  <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  Context Relevance (LLM-Judge)</text>
+  <text x="14" y="124" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• User Feedback Signals</text>
+  <text x="14" y="142" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  (Thumbs down / early aborts)</text>
+  <text x="14" y="160" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Continuous regression alerts</text>
+</g>
+</svg>

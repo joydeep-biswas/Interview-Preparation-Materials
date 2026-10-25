@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Horizontal vs. Vertical Scaling: Hardware Limits &amp; Amdahl's Law</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Comparing Shared-Memory Scale-Up with Network-Partitioned Scale-Out Topologies</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Vertical Scaling (Scale-Up)</text>
+  
+    <rect x="45" y="140" width="400" height="95" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="166" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Single Monolithic Super-Server</text>
+    <text x="245.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">High-End Bare Metal (e.g. AWS x1e.32xlarge)</text>
+    <rect x="345" y="150" width="94" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="392.0" y="162" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SUPER-SERVER</text>
+    <circle cx="61" cy="195" r="2" fill="#3b82f6"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Specs: 128 Cores, 4 TB RAM, 8x NVMe SSD in RAID-0</text>
+    <circle cx="61" cy="211" r="2" fill="#3b82f6"/>
+    <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Inter-process communication: CPU L3 Cache &amp;amp; RAM bus</text>
+    <circle cx="61" cy="227" r="2" fill="#3b82f6"/>
+    <text x="69" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero network serialization overhead; ACID trivially maintained</text>
+    <circle cx="61" cy="243" r="2" fill="#3b82f6"/>
+    <text x="69" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Simple architecture; zero distributed consensus required</text>
+  
+    <rect x="45" y="245" width="400" height="125" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="271" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Hard Physical &amp; Economic Boundaries</text>
+    <text x="245.0" y="287" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Amdahl's Law &amp; Diminishing Returns</text>
+    <rect x="359" y="255" width="80" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="399.0" y="267" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">BOUNDARIES</text>
+    <circle cx="61" cy="300" r="2" fill="#ef4444"/>
+    <text x="69" y="303" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Hardware Ceiling: Cannot scale beyond single largest server sold.</text>
+    <circle cx="61" cy="316" r="2" fill="#ef4444"/>
+    <text x="69" y="319" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Exponential Cost: A 4TB RAM server costs 10x more than 10x 400GB nodes.</text>
+    <circle cx="61" cy="332" r="2" fill="#ef4444"/>
+    <text x="69" y="335" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Single Point of Failure: Hardware reboot / kernel panic downs 100% of app.</text>
+    <circle cx="61" cy="348" r="2" fill="#ef4444"/>
+    <text x="69" y="351" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Amdahl's Law: Non-parallelizable serial code caps maximum speedup!</text>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Horizontal Scaling (Scale-Out)</text>
+  
+    <rect x="535" y="135" width="400" height="75" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="735.0" y="161" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Cluster Coordinator / Load Balancer</text>
+    <text x="735.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Distributed Ingress</text>
+    <rect x="842" y="145" width="87" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="885.5" y="157" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">COORDINATOR</text>
+    <circle cx="551" cy="190" r="2" fill="#f59e0b"/>
+    <text x="559" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Partitions requests across N commodity nodes via consistent hash</text>
+    <circle cx="551" cy="206" r="2" fill="#f59e0b"/>
+    <text x="559" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Provides elastic scaling: Spin up 10 or 100 nodes on demand</text>
+  
+    <rect x="535" y="220" width="125" height="90" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="597.5" y="246" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Node 1</text>
+    <text x="597.5" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">16 Cores, 64GB</text>
+    <circle cx="551" cy="275" r="2" fill="#10b981"/>
+    <text x="559" y="278" fill="#cbd5e1" font-size="10" font-family="system-ui, sans-serif" text-anchor="start">Isolated failure domain</text>
+  
+    <rect x="670" y="220" width="125" height="90" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="732.5" y="246" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Node 2</text>
+    <text x="732.5" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">16 Cores, 64GB</text>
+    <circle cx="686" cy="275" r="2" fill="#10b981"/>
+    <text x="694" y="278" fill="#cbd5e1" font-size="10" font-family="system-ui, sans-serif" text-anchor="start">Isolated failure domain</text>
+  
+    <rect x="805" y="220" width="130" height="90" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="870.0" y="246" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Node N</text>
+    <text x="870.0" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">16 Cores, 64GB</text>
+    <circle cx="821" cy="275" r="2" fill="#10b981"/>
+    <text x="829" y="278" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Linear capacity growth</text>
+  <text x="735" y="340" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle">Pros: Infinite theoretical capacity. Cons: Network latency, 2PC &amp; CAP trade-offs</text>
+
+</svg>

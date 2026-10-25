@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 360" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+    </marker>
+    <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Background -->
+  <rect width="1120" height="360" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g id="header">
+    <text x="560" y="36" fill="#f8fafc" font-size="18" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">RabbitMQ AMQP 0-9-1 Message Routing Architecture</text>
+    <text x="560" y="58" fill="#94a3b8" font-size="12" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Decoupling Producers and Consumers via Exchanges, Bindings, and Durable FIFO Buffers</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g id="diagram-elements">
+    
+    <rect x="40" y="130" width="160" height="120" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="120" y="152" fill="#e2e8f0" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Producer App</text>
+<text x="52" y="172" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Publishes message</text>
+<text x="52" y="190" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Routing Key: orders.eu</text>
+<text x="52" y="208" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Mandatory flag option</text>
+<text x="52" y="226" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Connection &amp; Channel</text>
+<text x="52" y="244" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Fire-and-forget or confirm</text>
+
+    <rect x="240" y="125" width="200" height="130" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="340" y="147" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">AMQP Exchange</text>
+<text x="252" y="167" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Type: Topic / Direct / Fanout</text>
+<text x="252" y="185" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Stateless routing engine</text>
+<text x="252" y="203" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Inspects message headers</text>
+<text x="252" y="221" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Matches routing key to bindings</text>
+<text x="252" y="239" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Zero message persistence in exchange</text>
+
+    <rect x="480" y="135" width="180" height="110" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="570" y="157" fill="#fde68a" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Queue Binding</text>
+<text x="492" y="177" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Binding Key: orders.*</text>
+<text x="492" y="195" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Pattern match rule</text>
+<text x="492" y="213" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Decoupled from producers</text>
+<text x="492" y="231" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Directs flow into buffers</text>
+
+    <rect x="700" y="125" width="180" height="130" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+<text x="790" y="147" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Durable Message Queue</text>
+<text x="712" y="167" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">FIFO Buffer in RAM + Disk</text>
+<text x="712" y="185" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">durable = True</text>
+<text x="712" y="203" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Stores unacknowledged Msgs</text>
+<text x="712" y="221" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Dead-Letter Exchange (DLX)</text>
+<text x="712" y="239" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Prefetch count limiter</text>
+
+    <rect x="910" y="130" width="160" height="120" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="990" y="152" fill="#e2e8f0" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Consumer Worker</text>
+<text x="922" y="172" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Pulls via basic_consume</text>
+<text x="922" y="190" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Processes payload</text>
+<text x="922" y="208" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Sends basic_ack on success</text>
+<text x="922" y="226" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">basic_nack / reject on fail</text>
+<text x="922" y="244" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Requeuing protection</text>
+
+    <line x1="200" y1="190" x2="240" y2="190" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<text x="220" y="180" fill="#38bdf8" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">orders.eu</text>
+    <line x1="440" y1="190" x2="480" y2="190" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<text x="460" y="180" fill="#fbbf24" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Match</text>
+    <line x1="660" y1="190" x2="700" y2="190" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="680" y="180" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Deliver</text>
+    <line x1="880" y1="190" x2="910" y2="190" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-s)"/>
+<text x="895" y="180" fill="#94a3b8" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Dispatch</text>
+
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+direction: right
+title: Kimball 4-Step Dimensional Design Process
+
+s1: Step 1: Select Business Process {
+  activity: "Retail Sales, Claims Processing, ATM Withdrawals"
+  objective: "Target enterprise activity"
+}
+
+s2: Step 2: Declare the Grain {
+  rule: "Always model at lowest atomic grain possible"
+  example: "One individual line-item barcode scan"
+  style.stroke: "#ef4444"
+}
+
+s3: Step 3: Identify Dimensions {
+  context: "Who, What, Where, When, Why, How"
+  tables: "Date, Customer, Store, Promotion, Product"
+}
+
+s4: Step 4: Identify Numeric Facts {
+  metrics: "Quantity Sold, Extended Price, Discount, Tax"
+  types: "Additive, Semi-Additive, Non-Additive"
+}
+
+s1 -> s2: "Define activity"
+s2 -> s3: "Lock atomic grain"
+s3 -> s4: "Surround with facts"

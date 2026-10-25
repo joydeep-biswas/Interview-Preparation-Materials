@@ -6,32 +6,54 @@ A comprehensive, production-grade guide to enterprise testing strategies, the Te
 
 ## Architectural Overview: Enterprise Test Automation Architecture
 
-```mermaid
-flowchart TD
-    subgraph TestPyramid ["The Enterprise Testing Pyramid"]
-        direction TB
-        E2E["End-to-End & Contract Tests<br/>(Pact / Selenium / RestAssured)"]
-        Integ["Integration & Slice Tests<br/>(Testcontainers: PostgreSQL, Redis, Kafka)"]
-        Unit["Unit Tests<br/>(JUnit 5, AssertJ, Mockito - Fast & In-Memory)"]
-        
-        E2E --> Integ --> Unit
-    end
+![Enterprise Test Automation Architecture](assets/10_testing_and_quality_engineering/01_enterprise_test_automation_architecture.svg)
 
-    subgraph CI_Execution ["Continuous Integration Quality Gates"]
-        direction LR
-        Commit["Git Push"] --> UnitRun["Run Unit Tests (~30s)"]
-        UnitRun --> IntegRun["Testcontainers Integration (~3m)"]
-        IntegRun --> Sonar["SonarQube & Trivy Gate (Coverage >= 80%)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    TestPyramid --> CI_Execution
+```d2
+direction: right
+title: "Enterprise Test Automation & Continuous Quality Gates Architecture"
 
-    style TestPyramid fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CI_Execution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Unit fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Integ fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style E2E fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
+pyramid: "The Enterprise Testing Pyramid" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+
+  e2e: "E2E & Contract Tests (5-10%)
+Pact / Selenium / RestAssured" {
+    style.fill: "#78350f"
+    style.stroke: "#f59e0b"
+  }
+  integ: "Integration Tests (20-30%)
+Testcontainers (Postgres, Kafka)" {
+    style.fill: "#083344"
+    style.stroke: "#06b6d4"
+  }
+  unit: "Unit Tests (60-70%)
+JUnit 5, AssertJ, Mockito
+Fast & Deterministic" {
+    style.fill: "#064e3b"
+    style.stroke: "#10b981"
+  }
+
+  e2e -> integ -> unit
+}
+
+ci: "CI Quality Gates" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+
+  git: "Git Push"
+  u_run: "Run Unit Tests (~30s)"
+  i_run: "Testcontainers Integration (~3m)"
+  gate: "SonarQube Gate (>=80% Coverage)"
+
+  git -> u_run -> i_run -> gate
+}
+
+pyramid -> ci: "Enforces testing standards"
 ```
+</details>
 
 ---
 
@@ -73,22 +95,40 @@ flowchart TD
 
 Originally formulated by Mike Cohn and popularized by Martin Fowler, the **Testing Pyramid** provides the foundational architectural strategy for automated testing in high-velocity software engineering:
 
-```mermaid
-flowchart TD
-    subgraph Pyramid ["The Automated Testing Pyramid"]
-        direction TB
-        E2E["(End-to-End (E2E) Tests (5-10%); Slow (~minutes), expensive, brittle; Tests full user journeys through UI/Gateway)"]
-        Integration["(Integration Tests (20-30%), Moderate speed (~seconds), Verifies service interactions with real DB & Kafka (Testcontainers))"]
-        Unit["(Unit Tests (60-70%); Blazing fast (~milliseconds), deterministic, isolated; Tests isolated business algorithms in memory with JUnit 5 & Mockito)"]
-    end
+![The Automated Testing Pyramid](assets/10_testing_and_quality_engineering/02_testing_pyramid_speed_determinism_fidelity.svg)
 
-    Unit --> Integration --> E2E
+<details>
+<summary>View D2 Source</summary>
 
-    style Pyramid fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Unit fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Integration fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style E2E fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
+```d2
+direction: down
+title: "The Automated Testing Pyramid: Speed, Cost, and Fidelity Trade-Offs"
+
+e2e: "End-to-End (E2E) Tests (5-10%)
+Minutes runtime | High Cost | Brittle
+Tests full user journeys through UI/Gateway" {
+  style.fill: "#450a0a"
+  style.stroke: "#ef4444"
+}
+
+integration: "Integration Tests (20-30%)
+Seconds runtime | Real DB & Kafka (Testcontainers)
+Verifies service interactions & repository queries" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+unit: "Unit Tests (60-70%)
+Milliseconds runtime | 100% Deterministic
+Tests isolated domain business logic in memory" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+unit -> integration: "Broad foundation"
+integration -> e2e: "Selective apex"
 ```
+</details>
 
 #### The Ice Cream Cone Anti-Pattern:
 In dysfunctional engineering organizations, teams write very few unit tests and rely predominantly on hundreds of end-to-end UI tests.
@@ -100,17 +140,41 @@ In dysfunctional engineering organizations, teams write very few unit tests and 
 
 Test-Driven Development inverts traditional development: you write the automated specification **before** writing implementation code:
 
-```mermaid
-flowchart LR
-    Red["1. RED<br/>Write a failing unit test for behavior that does not exist yet"]
-    --> Green["2. GREEN<br/>Write the minimal code needed to make the test pass"]
-    --> Refactor["3. REFACTOR<br/>Clean up code, eliminate duplication, preserve passing tests"]
-    --> Red
+![Test-Driven Development (TDD) Cycle](assets/10_testing_and_quality_engineering/03_tdd_red_green_refactor_cycle.svg)
 
-    style Red fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Green fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Refactor fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Test-Driven Development (TDD): The Red-Green-Refactor Cycle"
+
+red: "1. RED
+Write a failing unit test
+for behavior that does not exist yet" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+}
+
+green: "2. GREEN
+Write minimal code needed
+to make the test pass immediately" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+refactor: "3. REFACTOR
+Clean up code & eliminate duplication
+Preserve passing green test suite" {
+  style.fill: "#111827"
+  style.stroke: "#3b82f6"
+}
+
+red -> green: "Write minimal code"
+green -> refactor: "All tests green"
+refactor -> red: "Next requirement"
 ```
+</details>
 
 * **Why TDD Matters for Staff Engineers**: TDD forces modular, loosely-coupled object design. If a class is difficult to test in a unit test, its architectural design is flawed (e.g. violating SRP, using static global state, or missing dependency injection).
 

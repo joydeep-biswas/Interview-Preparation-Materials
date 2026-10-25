@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Snowflake Snowpipe Serverless Ingestion Architecture</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Event-Driven SQS Notification, IAM Storage Integration, and Micro-Partition Loading</text>
+  
+  
+    <rect x="40" y="110" width="190" height="170" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="135.0" y="136" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. External App</text>
+    <text x="135.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Data Producer</text>
+    <rect x="158" y="120" width="66" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="191.0" y="132" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PRODUCER</text>
+    <circle cx="56" cy="165" r="2" fill="#3b82f6"/>
+    <text x="64" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Uploads new data file:</text>
+    <circle cx="56" cy="181" r="2" fill="#3b82f6"/>
+    <text x="64" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">part-01.parquet</text>
+    <circle cx="56" cy="197" r="2" fill="#3b82f6"/>
+    <text x="64" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">to target S3 stage prefix:</text>
+    <circle cx="56" cy="213" r="2" fill="#3b82f6"/>
+    <text x="64" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">s3://company-lake/orders/</text>
+
+  
+    <rect x="260" y="110" width="200" height="170" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="360.0" y="136" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. S3 Landing Bucket</text>
+    <text x="360.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cloud Object Storage</text>
+    <rect x="381" y="120" width="73" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="417.5" y="132" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">S3 BUCKET</text>
+    <circle cx="276" cy="165" r="2" fill="#3b82f6"/>
+    <text x="284" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Stores physical bytes</text>
+    <circle cx="276" cy="181" r="2" fill="#3b82f6"/>
+    <text x="284" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">S3 Bucket Event notification:</text>
+    <circle cx="276" cy="197" r="2" fill="#3b82f6"/>
+    <text x="284" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Publishes ObjectCreated</text>
+    <circle cx="276" cy="213" r="2" fill="#3b82f6"/>
+    <text x="284" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">message to AWS SQS Queue</text>
+
+  
+    <rect x="490" y="110" width="200" height="170" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="590.0" y="136" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. AWS SQS Queue</text>
+    <text x="590.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Snowpipe Notification Queue</text>
+    <rect x="611" y="120" width="73" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="647.5" y="132" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SQS QUEUE</text>
+    <circle cx="506" cy="165" r="2" fill="#f59e0b"/>
+    <text x="514" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Managed by Snowflake or customer</text>
+    <circle cx="506" cy="181" r="2" fill="#f59e0b"/>
+    <text x="514" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Holds file notification message</text>
+    <circle cx="506" cy="197" r="2" fill="#f59e0b"/>
+    <text x="514" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Snowpipe serverless engine</text>
+    <circle cx="506" cy="213" r="2" fill="#f59e0b"/>
+    <text x="514" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">polls queue continuously</text>
+
+  
+    <rect x="720" y="110" width="220" height="170" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="830.0" y="136" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">4. Snowflake Snowpipe</text>
+    <text x="830.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Serverless Ingestion Engine</text>
+    <rect x="868" y="120" width="66" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="901.0" y="132" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SNOWPIPE</text>
+    <circle cx="736" cy="165" r="2" fill="#10b981"/>
+    <text x="744" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Consumes SQS notification</text>
+    <circle cx="736" cy="181" r="2" fill="#10b981"/>
+    <text x="744" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Pulls file bytes via IAM</text>
+    <circle cx="736" cy="197" r="2" fill="#10b981"/>
+    <text x="744" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Storage Integration role</text>
+    <circle cx="736" cy="213" r="2" fill="#10b981"/>
+    <text x="744" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Parses and writes into</text>
+    <circle cx="736" cy="229" r="2" fill="#10b981"/>
+    <text x="744" y="232" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Target Micro-Partitions</text>
+
+  
+    <line x1="230" y1="195" x2="260" y2="195" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="245.0" y="187.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Upload File</text>
+  
+    <line x1="460" y1="195" x2="490" y2="195" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="475.0" y="187.0" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">ObjectCreated</text>
+  
+    <line x1="690" y1="195" x2="720" y2="195" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="705.0" y="187.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Consume Msg</text>
+
+  
+    <rect x="40" y="310" width="900" height="85" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="336" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Snowpipe Serverless Advantage: Zero Virtual Warehouse Compute Sizing</text>
+    <text x="490.0" y="352" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Decoupling Continuous Ingestion Costs from Large Query Virtual Warehouses</text>
+    <rect x="784" y="320" width="150" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="859.0" y="332" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SERVERLESS ECONOMICS</text>
+    <circle cx="56" cy="365" r="2" fill="#8b5cf6"/>
+    <text x="64" y="368" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Snowpipe runs on Snowflake-managed serverless compute. You do NOT need to keep a dedicated virtual warehouse running 24/7!</text>
+    <circle cx="56" cy="381" r="2" fill="#8b5cf6"/>
+    <text x="64" y="384" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Charges are calculated based strictly on the exact compute used to process each micro-batch (per-second billing), reducing continuous ingestion cost by up to 70%.</text>
+
+</svg>

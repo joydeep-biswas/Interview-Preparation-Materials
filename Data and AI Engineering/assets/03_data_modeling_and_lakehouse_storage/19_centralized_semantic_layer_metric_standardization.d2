@@ -1,0 +1,24 @@
+direction: right
+title: Centralized Semantic Layer & Metric Standardization
+
+storage: Curated Lakehouse Storage {
+  fact: gold.fact_orders
+  dim: gold.dim_customer
+}
+
+semantic_layer: Centralized Semantic Layer (dbt MetricFlow / Cube) {
+  model: Semantic Models & Canonical Joins
+  metrics: Standardized Metric Catalog (MRR, Churn, Margin)
+  model -> metrics
+}
+
+consumers: Unified Consumer Tier {
+  bi: BI Dashboards (Tableau, Power BI)
+  ds: Data Science Notebooks (Python)
+  reverse_etl: Operational Reverse ETL (Salesforce)
+}
+
+storage -> semantic_layer.model: "Curated Tables"
+semantic_layer.metrics -> consumers.bi: "Consistent KPI"
+semantic_layer.metrics -> consumers.ds: "Consistent Feature"
+semantic_layer.metrics -> consumers.reverse_etl: "Sync Action"

@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  ret: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  ground: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  ans: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+c1: "1. Context Relevance\n(Did retriever fetch ground truth?)" { class: ret }
+c2: "2. Groundedness (Faithfulness)\n(Is answer strictly supported by context?)" { class: ground }
+c3: "3. Answer Relevance\n(Does response address user prompt?)" { class: ans }
+
+c1 -> c2 -> c3

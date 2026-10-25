@@ -1,0 +1,46 @@
+direction: right
+
+ingress: "1. Worker Ingress" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  threads: "Concurrent Worker Threads (Publishers/Readers)"
+  jmm: "Java Memory Model Happens-Before Fences"
+}
+
+synchronization: "2. Synchronization Tier" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  locks: "ReentrantLock & Condition Variables"
+  cas: "Atomic CAS & StampedLock Optimistic Reads"
+}
+
+structures: "3. Memory Structures" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  disruptor: "LMAX Disruptor Ring Buffer (Padded)"
+  chm: "ConcurrentHashMap with Lock Striping"
+}
+
+executors: "4. Thread Pools & Stealing" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  pool: "Custom ThreadPoolExecutor with CallerRunsPolicy"
+  forkjoin: "ForkJoinPool Work-Stealing Deques"
+}
+
+ingress -> synchronization: "Acquire Guard" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+synchronization -> structures: "Safe Concurrent Mutation" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+structures -> executors: "Dispatch Tasks" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

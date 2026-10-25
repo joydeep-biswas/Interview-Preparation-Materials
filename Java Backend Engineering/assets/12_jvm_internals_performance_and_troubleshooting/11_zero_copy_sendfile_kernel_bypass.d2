@@ -1,0 +1,26 @@
+direction: right
+title: High-Throughput I/O: Traditional vs Zero-Copy
+
+Traditional: Traditional 4-Copy I/O {
+  style.stroke: "#EF4444"
+  Disk: Physical Disk
+  KernelPage: OS Page Cache
+  JVM: JVM User Space Heap Buffer (new byte[8192])
+  Socket: OS Socket Buffer
+  NIC: Network Card
+
+  Disk -> KernelPage: DMA Copy { style.stroke: "#38BDF8" }
+  KernelPage -> JVM: CPU Copy + Context Switch { style.stroke: "#EF4444" }
+  JVM -> Socket: CPU Copy + Context Switch { style.stroke: "#EF4444" }
+  Socket -> NIC: DMA Copy { style.stroke: "#34D399" }
+}
+
+ZeroCopy: Zero-Copy (transferTo / sendfile) {
+  style.stroke: "#34D399"
+  Z_Disk: Physical Disk
+  Z_KernelPage: OS Page Cache (Kernel)
+  Z_NIC: Network Card (NIC Buffer)
+
+  Z_Disk -> Z_KernelPage: 1. DMA Copy { style.stroke: "#34D399" }
+  Z_KernelPage -> Z_NIC: 2. Gather DMA Copy (Zero CPU Copy!) { style.stroke: "#34D399" }
+}

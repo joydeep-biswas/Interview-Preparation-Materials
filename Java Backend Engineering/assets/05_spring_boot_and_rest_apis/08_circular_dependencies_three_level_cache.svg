@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Circular Dependencies: The Three-Level Cache Resolution Architecture</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">How Spring resolves setter/field circular dependencies via singletonFactories vs constructor injection deadlock</text>
+<rect x="30" y="85" width="290" height="435" rx="8" fill="#1a1116" stroke="#ef4444" stroke-width="1.5"/>
+<text x="175" y="112" fill="#FCA5A5" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Circular Dependency Cycle</text>
+<rect x="95" y="122" width="160" height="18" rx="9" fill="#991b1b"/><text x="175" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderService &lt;-&gt; BillingService</text>
+<rect x="45" y="155" width="260" height="75" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
+<text x="55" y="178" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">OrderService Bean</text>
+<text x="55" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@Autowired BillingService billing;</text>
+<text x="55" y="214" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Needs BillingService to complete creation</text>
+<rect x="45" y="255" width="260" height="75" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
+<text x="55" y="278" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BillingService Bean</text>
+<text x="55" y="298" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@Autowired OrderService order;</text>
+<text x="55" y="314" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Needs OrderService to complete creation</text>
+<line x1="175" y1="230" x2="175" y2="255" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<path d="M 305 292 L 320 292 L 320 192 L 305 192" stroke="#F87171" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<rect x="45" y="355" width="260" height="150" rx="8" fill="#2d1215" stroke="#dc2626" stroke-width="1"/>
+<text x="55" y="378" fill="#F87171" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Constructor Injection DEADLOCK:</text>
+<text x="55" y="398" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">If using constructor injection, both</text>
+<text x="55" y="414" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">constructors block before returning</text>
+<text x="55" y="430" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">an uninitialized reference to cache!</text>
+<text x="55" y="450" fill="#FCA5A5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">FAILS AT STARTUP WITH:</text>
+<text x="55" y="466" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BeanCurrentlyInCreationException</text>
+<text x="55" y="482" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">(Disabled by default in Boot 2.6+)</text>
+<rect x="350" y="85" width="660" height="435" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="680" y="112" fill="#6EE7B7" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">DefaultSingletonBeanRegistry: The 3-Level Cache</text>
+<rect x="580" y="122" width="200" height="18" rx="9" fill="#047857"/><text x="680" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Setter / Field Resolution Flow</text>
+<rect x="370" y="155" width="620" height="75" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="385" y="178" fill="#6EE7B7" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1st Level: singletonObjects (Map&amp;lt;String, Object&amp;gt;)</text>
+<text x="385" y="198" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Fully initialized, property-populated, and AOP-proxied ready beans</text>
+<text x="385" y="214" fill="#A7F3D0" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Serves all runtime getBean() calls at maximum concurrent read speed</text>
+<rect x="370" y="245" width="620" height="85" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="385" y="268" fill="#38BDF8" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2nd Level: earlySingletonObjects (Map&amp;lt;String, Object&amp;gt;)</text>
+<text x="385" y="288" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Semi-finished early bean references (instantiated, but properties not yet injected)</text>
+<text x="385" y="304" fill="#93C5FD" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Resolves circular AOP proxy consistency: ensures Service B and Level 1 get same proxy!</text>
+<text x="385" y="318" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Promoted here once early bean factory lambda is evaluated</text>
+<rect x="370" y="345" width="620" height="85" rx="8" fill="#16122b" stroke="#c084fc" stroke-width="1"/>
+<text x="385" y="368" fill="#C084FC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3rd Level: singletonFactories (Map&amp;lt;String, ObjectFactory&amp;lt;?&amp;gt;&amp;gt;)</text>
+<text x="385" y="388" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Stores ObjectFactory lambda immediately after raw Java constructor returns</text>
+<text x="385" y="404" fill="#DDD6FE" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• () -&gt; getEarlyBeanReference(beanName, mbd, rawBean): generates early proxy if needed</text>
+<text x="385" y="418" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Avoids premature AOP proxying if no circular reference actually occurs!</text>
+<rect x="370" y="440" width="620" height="65" rx="8" fill="#0f2e28" stroke="#059669" stroke-width="1"/>
+<text x="680" y="460" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Lifecycle Traversal Sequence</text>
+<text x="680" y="478" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderService raw created -&gt; puts in L3 -&gt; BillingService created -&gt; injects L3 early reference -&gt; completes -&gt; OrderService completes</text>
+</svg>

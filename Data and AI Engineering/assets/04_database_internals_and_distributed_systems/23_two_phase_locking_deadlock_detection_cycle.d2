@@ -1,0 +1,29 @@
+direction: right
+title: Two-Phase Locking & Deadlock Detection Cycle
+
+graph: Two-Phase Locking Dependency Graph {
+  tx1: Transaction 1 (TxID: 101)
+  tx2: Transaction 2 (TxID: 102)
+  row_a: Account 101
+  row_b: Account 202
+
+  tx1 -> row_a: "Holds Lock"
+  tx1 -> row_b: "Waiting for Lock" {
+    style.stroke: "#ef4444"
+    style.stroke-dash: 4
+  }
+  tx2 -> row_b: "Holds Lock"
+  tx2 -> row_a: "Waiting for Lock" {
+    style.stroke: "#ef4444"
+    style.stroke-dash: 4
+  }
+}
+
+engine: Deadlock Detection Engine {
+  resolution: DEADLOCK CYCLE DETECTED {
+    details: "Wait-for graph cycle: Tx1 <-> Tx2. Engine aborts youngest victim (Tx 2)"
+    style.stroke: "#ef4444"
+  }
+}
+
+graph -> engine.resolution: "Cycle detected via DFS"

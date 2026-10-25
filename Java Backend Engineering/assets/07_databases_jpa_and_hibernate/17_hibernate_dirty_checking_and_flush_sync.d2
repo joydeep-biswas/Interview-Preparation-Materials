@@ -1,0 +1,37 @@
+direction: right
+title: "Hibernate Automatic Dirty Checking & Flush Synchronization"
+
+app: "Application Service" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+  find: "em.find(101L)"
+  mutate: "order.setStatus(CONFIRMED)"
+  commit: "commit() / flush()"
+}
+
+pc: "Persistence Context (L1)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+  snap: "LoadedState: ['PENDING', 100]"
+  diff: "Diff: 'CONFIRMED' != 'PENDING' -> DIRTY!"
+}
+
+aq: "ActionQueue" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+  sched: "Schedules EntityUpdateAction"
+}
+
+db: "PostgreSQL Database" {
+  style.fill: "#0f172a"
+  style.stroke: "#06b6d4"
+  sql: "UPDATE orders SET status='CONFIRMED' WHERE id=101"
+}
+
+app.find -> pc: "Lookup"
+pc -> db: "SELECT"
+db -> pc: "Row loaded"
+pc.snap -> app.mutate: "Managed instance"
+app.commit -> pc.diff: "Trigger flush"
+pc.diff -> aq.sched: "Enqueue"
+aq.sched -> db.sql: "Execute SQL"

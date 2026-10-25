@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+    </marker>
+    <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Background -->
+  <rect width="980" height="440" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g id="header">
+    <text x="490" y="36" fill="#f8fafc" font-size="18" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Architectural Decision Tree: When to Choose Multi-Agent Systems</text>
+    <text x="490" y="58" fill="#94a3b8" font-size="12" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Selecting Deterministic DAG Workflows vs. Single ReAct Agents vs. Hierarchical Multi-Agent Architectures</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g id="diagram-elements">
+    
+    <rect x="370" y="95" width="240" height="45" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="490" y="117" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">New Complex AI Workload</text>
+<text x="382" y="137" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Architecture Selection Decision</text>
+
+    <rect x="60" y="175" width="240" height="60" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+<text x="180" y="197" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Deterministic DAG Workflow</text>
+<text x="72" y="217" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Steps are known and predictable upfront</text>
+<text x="72" y="235" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Zero agentic autonomy needed</text>
+<text x="72" y="253" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Framework: LangGraph State Machine</text>
+
+    <rect x="370" y="175" width="240" height="60" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="490" y="197" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Single ReAct Agent</text>
+<text x="382" y="217" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Dynamic problem solving within 1 domain</text>
+<text x="382" y="235" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Bounded toolset (&amp;lt; 5 tools), short horizon</text>
+<text x="382" y="253" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Framework: LangChain / LlamaIndex Agent</text>
+
+    <rect x="680" y="175" width="240" height="60" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+<text x="800" y="197" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Hierarchical Multi-Agent</text>
+<text x="692" y="217" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Multiple disparate domains &amp;gt; 5 tools</text>
+<text x="692" y="235" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Supervisor routes to specialized workers</text>
+<text x="692" y="253" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Framework: LangGraph Multi-Agent Team</text>
+
+    <rect x="680" y="280" width="240" height="60" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="800" y="302" fill="#fde68a" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Decentralized Swarm Mesh</text>
+<text x="692" y="322" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Peer-to-peer emergent collaboration</text>
+<text x="692" y="340" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Dynamic handoffs without central bottleneck</text>
+<text x="692" y="358" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Framework: OpenAI Swarm / AutoGen</text>
+
+    <path d="M 430.0 140.0 L 430.0 151.5 Q 430.0 157.5 424.0 157.5 L 186.0 157.5 Q 180.0 157.5 180.0 163.5 L 180.0 175.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="305" y="147" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Deterministic?</text>
+    <line x1="490" y1="140" x2="490" y2="175" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<text x="490" y="147" fill="#38bdf8" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Tools &amp;lt; 5</text>
+    <path d="M 550.0 140.0 L 550.0 151.5 Q 550.0 157.5 556.0 157.5 L 794.0 157.5 Q 800.0 157.5 800.0 163.5 L 800.0 175.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<text x="675" y="147" fill="#c084fc" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Disparate Domains</text>
+
+    <line x1="800" y1="235" x2="800" y2="280" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<text x="850" y="257" fill="#fbbf24" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Peer Handoffs</text>
+
+  </g>
+</svg>

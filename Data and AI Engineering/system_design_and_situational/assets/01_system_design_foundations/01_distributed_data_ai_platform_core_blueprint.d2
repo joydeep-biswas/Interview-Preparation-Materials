@@ -1,0 +1,49 @@
+direction: right
+
+ingestion: "1. Ingestion Backplane" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  sources: "Upstream Sources: CDC, Telemetry, Webhooks"
+  commit_log: "Distributed Ingress Log (Kafka / Event Hubs)"
+}
+
+storage: "2. Disaggregated Lakehouse" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  bronze: "Bronze: Raw Immutable Parquet"
+  silver: "Silver: Delta / Iceberg ACID Log"
+  gold: "Gold: Z-Order Clustered Aggregates"
+}
+
+compute: "3. Distributed Compute" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  spark: "Apache Spark / Databricks Catalyst"
+  olap: "ClickHouse / StarRocks Real-Time OLAP"
+  trino: "Trino Federated SQL Querying"
+}
+
+governance: "4. Catalog & AI Serving" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  catalog: "Unity Catalog / Apache Polaris"
+  feature_store: "Redis Online & Lakehouse Offline"
+  vector_rag: "Milvus / Qdrant Vector Search"
+}
+
+ingestion -> storage: "Append Events" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+storage -> compute: "Zero-Copy Parquet Read" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+compute -> governance: "Catalog Metadata & Lineage" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

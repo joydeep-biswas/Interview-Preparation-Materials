@@ -1,0 +1,42 @@
+direction: down
+
+throwable: "java.lang.Throwable" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  root: "Root Base Class for All Errors"
+}
+
+error: "java.lang.Error (Fatal JVM)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  items: "OutOfMemoryError & StackOverflowError"
+}
+
+checked: "Checked Exceptions (Compile-Time)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  items: "IOException & SQLException (Must catch/declare)"
+}
+
+unchecked: "RuntimeException (Unchecked)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  items: "NullPointerException & IllegalArgumentException"
+}
+
+throwable -> error: "Fatal Errors" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}
+throwable -> checked: "Recoverable Checked" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+throwable -> unchecked: "Programmer Logic Bugs" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

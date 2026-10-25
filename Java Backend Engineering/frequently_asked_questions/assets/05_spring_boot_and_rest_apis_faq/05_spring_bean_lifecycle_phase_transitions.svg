@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Spring Bean Lifecycle Phase Transitions</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">From instantiation and dependency injection to BeanPostProcessor proxies, active service, and destruction</text>
+
+  <!-- Phase 1: Instantiation & Population -->
+  <g transform="translate(40, 75)">
+    <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="110" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">1. Creation &amp; DI</text>
+
+    <rect x="15" y="45" width="190" height="80" rx="6" ry="6" fill="#1E293B"/>
+    <text x="95" y="66" class="badge" fill="#93C5FD" text-anchor="middle">Instantiate Bean</text>
+    <text x="15" y="86" class="card-body">• Constructor reflection</text>
+    <text x="15" y="104" class="card-body" font-family="monospace">new OrderService()</text>
+    <text x="15" y="118" class="card-body" font-size="11" fill="#9CA3AF">Raw Java instance on heap</text>
+
+    <rect x="15" y="135" width="190" height="100" rx="6" ry="6" fill="#1E293B" stroke="#3B82F6"/>
+    <text x="95" y="156" class="badge" fill="#60A5FA" text-anchor="middle">Populate Properties (DI)</text>
+    <text x="15" y="178" class="card-body">• Injects @Autowired fields</text>
+    <text x="15" y="196" class="card-body">• Setter injection</text>
+    <text x="15" y="214" class="card-body">• Resolves circular refs via</text>
+    <text x="15" y="228" class="badge" fill="#34D399">  3-level cache singletonFactories</text>
+
+    <rect x="15" y="250" width="190" height="90" rx="6" ry="6" fill="#0F172A"/>
+    <text x="95" y="272" class="badge" fill="#93C5FD" text-anchor="middle">Aware Interfaces</text>
+    <text x="15" y="292" class="card-body">• setBeanName()</text>
+    <text x="15" y="308" class="card-body">• setBeanFactory()</text>
+    <text x="15" y="324" class="card-body">• setApplicationContext()</text>
+  </g>
+
+  <!-- Phase 2: Initialization & PostProcessors -->
+  <g transform="translate(290, 75)">
+    <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#92400E"/>
+    <text x="115" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">2. Initialization</text>
+
+    <rect x="15" y="45" width="200" height="85" rx="6" ry="6" fill="#1E293B"/>
+    <text x="100" y="66" class="badge" fill="#FDE68A" text-anchor="middle">BPP Before Initialization</text>
+    <text x="15" y="88" class="card-body" font-family="monospace">BeanPostProcessor.</text>
+    <text x="15" y="104" class="card-body" font-family="monospace">postProcessBeforeInit()</text>
+    <text x="15" y="122" class="card-body" font-size="11" fill="#FDE68A">Inspects annotations</text>
+
+    <rect x="15" y="140" width="200" height="95" rx="6" ry="6" fill="#451A03" stroke="#F59E0B"/>
+    <text x="100" y="162" class="badge" fill="#FDE68A" text-anchor="middle">Init Callbacks</text>
+    <text x="15" y="184" class="card-body">• @PostConstruct method</text>
+    <text x="15" y="200" class="card-body">• InitializingBean.after-</text>
+    <text x="15" y="214" class="card-body">  PropertiesSet()</text>
+    <text x="15" y="228" class="card-body">• custom init-method</text>
+
+    <rect x="15" y="245" width="200" height="95" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="100" y="268" class="badge" fill="#A7F3D0" text-anchor="middle">BPP After Initialization</text>
+    <text x="15" y="290" class="card-body" font-family="monospace">postProcessAfterInit()</text>
+    <text x="15" y="306" class="badge" fill="#34D399">CRITICAL: Creates AOP Proxy!</text>
+    <text x="15" y="324" class="card-body" font-size="11" fill="#D1FAE5">@Transactional, @Async wraps bean</text>
+  </g>
+
+  <!-- Phase 3: In Service -->
+  <g transform="translate(545, 75)">
+    <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="115" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">3. Ready in Service</text>
+
+    <rect x="15" y="45" width="200" height="110" rx="6" ry="6" fill="#1E293B"/>
+    <text x="100" y="66" class="badge" fill="#A7F3D0" text-anchor="middle">Singleton Registry</text>
+    <text x="15" y="88" class="card-body">• Stored in singletonObjects</text>
+    <text x="15" y="104" class="card-body">  ConcurrentHashMap cache</text>
+    <text x="15" y="120" class="card-body">• Accessible via</text>
+    <text x="15" y="136" class="card-body" font-family="monospace">  context.getBean()</text>
+
+    <rect x="15" y="165" width="200" height="100" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="100" y="188" class="badge" fill="#34D399" text-anchor="middle">Active Request Handling</text>
+    <text x="15" y="210" class="card-body">• Handles client calls</text>
+    <text x="15" y="226" class="card-body">• Reentrant thread-safe</text>
+    <text x="15" y="244" class="badge" fill="#A7F3D0">• Normal application state</text>
+
+    <rect x="15" y="275" width="200" height="65" rx="6" ry="6" fill="#0F172A"/>
+    <text x="100" y="296" class="badge" fill="#A7F3D0" text-anchor="middle">Thread Scope</text>
+    <text x="15" y="316" class="card-body" font-size="11">Singleton shared across all threads</text>
+  </g>
+
+  <!-- Phase 4: Destruction -->
+  <g transform="translate(800, 75)">
+    <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="110" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">4. Destruction</text>
+
+    <g transform="translate(15, 45)">
+      <rect x="0" y="0" width="190" height="85" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#FCA5A5">Context Shutdown</text>
+      <text x="15" y="40" class="card-body">• JVM SIGTERM signal</text>
+      <text x="15" y="56" class="card-body" font-family="monospace">context.close()</text>
+      <text x="15" y="74" class="card-body" font-size="11" fill="#FCA5A5">Triggers cleanup</text>
+
+      <rect x="0" y="95" width="190" height="110" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+      <text x="15" y="117" class="badge" fill="#F87171">Destruction Callbacks</text>
+      <text x="15" y="137" class="card-body">• @PreDestroy method</text>
+      <text x="15" y="153" class="card-body">• DisposableBean.destroy()</text>
+      <text x="15" y="169" class="card-body">• Custom destroy-method</text>
+      <text x="15" y="188" class="badge" fill="#FCA5A5">• Closes pools &amp; sockets</text>
+    </g>
+
+    <rect x="15" y="275" width="190" height="65" rx="6" ry="6" fill="#0F172A"/>
+    <text x="95" y="296" class="badge" fill="#9CA3AF" text-anchor="middle">Garbage Collected</text>
+    <text x="95" y="316" class="card-body" font-size="11" text-anchor="middle">Removed from JVM heap</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 260 260 L 278 260 L 290 260" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+  <path d="M 520 260 L 533 260 L 545 260" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <path d="M 775 260 L 788 260 L 800 260" fill="none" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+</svg>

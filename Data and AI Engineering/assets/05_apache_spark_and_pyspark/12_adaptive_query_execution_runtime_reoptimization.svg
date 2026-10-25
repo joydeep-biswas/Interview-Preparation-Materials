@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="540" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="540" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Adaptive Query Execution (AQE): Runtime Dynamic Re-Optimization</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">How Spark 3.0+ uses real stage completion statistics to dynamically coalesce partitions, switch joins, and split skew</text>
+
+  <!-- Left Panel: Traditional Static Execution -->
+  <rect x="40" y="85" width="360" height="400" rx="8" fill="#450A0A" fill-opacity="0.2" stroke="#EF4444" stroke-width="1.5"/>
+  <rect x="40" y="85" width="360" height="36" rx="8" fill="#450A0A" fill-opacity="0.8" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="220" y="108" font-size="12" font-weight="700" fill="#F87171" text-anchor="middle">TRADITIONAL STATIC PLANNING (PRE-SPARK 3)</text>
+
+  <!-- Compile Plan -->
+  <rect x="55" y="140" width="330" height="75" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>
+  <text x="70" y="162" font-size="11" font-weight="700" fill="#F87171" text-anchor="start">1. Static Compile-Time Plan</text>
+  <text x="70" y="180" font-size="10" fill="#94A3B8" text-anchor="start">• Fixed default: spark.sql.shuffle.partitions = 200</text>
+  <text x="70" y="196" font-size="10" fill="#94A3B8" text-anchor="start">• Table statistics often stale, missing, or inaccurate</text>
+
+  <!-- Blind Execution -->
+  <rect x="55" y="235" width="330" height="150" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>
+  <text x="70" y="257" font-size="11" font-weight="700" fill="#F87171" text-anchor="start">2. Blind Execution of All Stages</text>
+  <text x="70" y="277" font-size="9.5" fill="#CBD5E1" text-anchor="start">✖ <tspan font-weight="700" fill="#EF4444">Partition Explosion:</tspan> 200 tasks launched for tiny</text>
+  <text x="70" y="292" font-size="9.5" fill="#CBD5E1" text-anchor="start">  1MB filtered output (massive task scheduling lag!)</text>
+  <text x="70" y="310" font-size="9.5" fill="#CBD5E1" text-anchor="start">✖ <tspan font-weight="700" fill="#EF4444">Wrong Join Strategy:</tspan> SortMergeJoin forced even</text>
+  <text x="70" y="325" font-size="9.5" fill="#CBD5E1" text-anchor="start">  when filtered dimension table is only 5MB!</text>
+  <text x="70" y="343" font-size="9.5" fill="#CBD5E1" text-anchor="start">✖ <tspan font-weight="700" fill="#EF4444">Data Skew Stragglers:</tspan> 1 single executor node runs</text>
+  <text x="70" y="358" font-size="9.5" fill="#CBD5E1" text-anchor="start">  for 3 hours on null key while others idle!</text>
+  <text x="70" y="375" font-size="9" font-weight="600" fill="#F87171" text-anchor="start">Result: Constant out-of-memory errors and wasted cluster spend.</text>
+
+  <!-- Link Col 1 Steps -->
+  <line x1="220" y1="215" x2="220" y2="235" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
+
+  <!-- Right Panel: Adaptive Query Execution -->
+  <rect x="430" y="85" width="650" height="400" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="430" y="85" width="650" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="755" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">ADAPTIVE QUERY EXECUTION (AQE ENABLED — SPARK 3.0+ DEFAULT)</text>
+
+  <!-- Step 1: Stage 1 Completes -->
+  <rect x="450" y="135" width="610" height="65" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="465" y="157" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">1. Stage 1 Completes &amp; Writes Shuffle Files</text>
+  <text x="465" y="174" font-size="10" fill="#CBD5E1" text-anchor="start">• Real runtime statistics collected: exact byte size &amp; row counts for all partitions!</text>
+  <text x="465" y="189" font-size="10" font-weight="600" fill="#34D399" text-anchor="start">• Driver pauses execution before Stage 2 to re-optimize query plan with ground truth data.</text>
+
+  <!-- Step 2: 3 Dynamic Optimizations -->
+  <rect x="450" y="215" width="610" height="175" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="465" y="235" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">2. Three Dynamic Runtime Optimizations Triggered Automatically:</text>
+
+  <!-- Opt 1 -->
+  <rect x="465" y="245" width="580" height="40" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="480" y="262" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">A. Dynamically Coalescing Shuffle Partitions</text>
+  <text x="480" y="276" font-size="9" fill="#CBD5E1" text-anchor="start">Merges thousands of tiny 20KB shuffle blocks into target 64MB partitions. Eliminates task overhead!</text>
+
+  <!-- Opt 2 -->
+  <rect x="465" y="292" width="580" height="40" rx="4" fill="#1E293B" stroke="#FBBF24" stroke-width="1"/>
+  <text x="480" y="309" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="start">B. Dynamically Switching Join Strategies (SMJ -&gt; BHJ)</text>
+  <text x="480" y="323" font-size="9" fill="#CBD5E1" text-anchor="start">If filtered dimension runtime size &lt; 10MB, cancels sort-merge and broadcasts table! Zero shuffle!</text>
+
+  <!-- Opt 3 -->
+  <rect x="465" y="339" width="580" height="42" rx="4" fill="#1E293B" stroke="#C084FC" stroke-width="1"/>
+  <text x="480" y="356" font-size="10" font-weight="700" fill="#C084FC" text-anchor="start">C. Dynamically Optimizing Skew Joins</text>
+  <text x="480" y="370" font-size="9" fill="#CBD5E1" text-anchor="start">Splits giant 50M-row partition into five 10M chunks; replicates small table partition. Stragglers eliminated!</text>
+
+  <!-- Step 3: Stage 2 Run -->
+  <rect x="450" y="405" width="610" height="55" rx="6" fill="#064E3B" fill-opacity="0.4" stroke="#34D399" stroke-width="1.5"/>
+  <text x="755" y="425" font-size="10.5" font-weight="700" fill="#34D399" text-anchor="middle">3. Stage 2 Executes with Optimized Plan</text>
+  <text x="755" y="442" font-size="9.5" fill="#A7F3D0" text-anchor="middle">Balanced CPU utilization, zero partition skew bottlenecks, and up to 8x faster query completion!</text>
+
+  <!-- Connectors within AQE -->
+  <line x1="755" y1="200" x2="755" y2="215" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <line x1="755" y1="390" x2="755" y2="405" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="500" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="517" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">AQE Invariant: Rather than relying on static compile-time estimates, AQE re-optimizes the query plan at runtime stage boundaries using accurate shuffle file metadata.</text>
+</svg>

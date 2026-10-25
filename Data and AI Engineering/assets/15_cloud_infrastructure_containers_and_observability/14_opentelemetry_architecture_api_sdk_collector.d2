@@ -1,0 +1,28 @@
+classes: {
+  api_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  sdk_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  proto_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  col_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+app: "Application Process Boundary" {
+  code: "Application Code"
+  api: "OpenTelemetry API\nInterface only; no-op fallback" { class: api_box }
+  sdk: "OpenTelemetry SDK\nBatching, sampling, resource tags" { class: sdk_box }
+
+  code -> api: "Instruments spans"
+  api -> sdk: "Implemented by"
+}
+
+wire: "OTLP Wire Protocol\ngRPC (:4317) or HTTP (:4318)\nProtobuf encoding" { class: proto_box }
+
+collector: "OpenTelemetry Collector" {
+  recv: "Receivers (OTLP Ingress)" { class: col_box }
+  proc: "Processors (batch, memory_limiter, PII scrub)" { class: col_box }
+  exp: "Exporters (Tempo, Prometheus, Datadog)" { class: col_box }
+
+  recv -> proc -> exp
+}
+
+app.sdk -> wire: "Emits serialized telemetry"
+wire -> collector.recv: "Pushes to collector gateway"

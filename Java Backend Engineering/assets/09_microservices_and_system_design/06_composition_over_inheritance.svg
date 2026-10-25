@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Favor Composition Over Inheritance: Eliminating Fragile Base Class Traps</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Forwarding Decorator Wrapper Pattern vs Fragile Implementation Inheritance (Effective Java Item 18)</text>
+<rect x="50" y="100" width="460" height="330" rx="8" fill="#1a1118" stroke="#ef4444" stroke-width="2"/>
+<rect x="65" y="115" width="260" height="20" rx="10" fill="#7f1d1d"/><text x="195" y="128" fill="#FECACA" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ANTI-PATTERN: Implementation Inheritance</text>
+<text x="280" y="158" fill="#FCA5A5" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">class InstrumentedHashSet&amp;lt;E&amp;gt; extends HashSet&amp;lt;E&amp;gt;</text>
+<rect x="70" y="178" width="420" height="110" rx="6" fill="#2d1217" stroke="#ef4444" stroke-width="1"/>
+<text x="80" y="196" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">public boolean add(E e) {</text>
+<text x="95" y="212" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">addCount++; return super.add(e);</text>
+<text x="80" y="228" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">}</text>
+<text x="80" y="244" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">public boolean addAll(Collection&amp;lt;E&amp;gt; c) {</text>
+<text x="95" y="260" fill="#F87171" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">addCount += c.size(); return super.addAll(c);</text>
+<text x="80" y="276" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">}</text>
+<rect x="70" y="300" width="420" height="110" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="80" y="320" fill="#FECACA" font-size="10" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">THE FRAGILE BASE CLASS BUG:</text>
+<text x="80" y="338" fill="#FCA5A5" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• HashSet.addAll() internally calls this.add()!</text>
+<text x="80" y="354" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• If you call addAll([A, B, C]):</text>
+<text x="95" y="370" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. addCount += 3 (in addAll)</text>
+<text x="95" y="386" fill="#EF4444" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. super.addAll calls add() 3 times -&gt; addCount += 3!</text>
+<text x="80" y="402" fill="#EF4444" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Result: addCount = 6 for 3 elements! (CORRUPTED)</text>
+<rect x="570" y="100" width="460" height="330" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
+<rect x="585" y="115" width="260" height="20" rx="10" fill="#047857"/><text x="715" y="128" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CLEAN PATTERN: Composition &amp; Forwarding</text>
+<text x="800" y="158" fill="#6EE7B7" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">class InstrumentedSet&amp;lt;E&amp;gt; implements Set&amp;lt;E&amp;gt;</text>
+<rect x="590" y="178" width="420" height="110" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="600" y="196" fill="#34D399" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">private final Set&amp;lt;E&amp;gt; delegate; // COMPOSITION</text>
+<text x="600" y="214" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">public boolean add(E e) {</text>
+<text x="615" y="230" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">addCount++; return delegate.add(e);</text>
+<text x="600" y="246" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">}</text>
+<text x="600" y="262" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">public boolean addAll(Collection&amp;lt;E&amp;gt; c) {</text>
+<text x="615" y="278" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">addCount += c.size(); return delegate.addAll(c);</text>
+<rect x="590" y="300" width="420" height="110" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="600" y="320" fill="#34D399" font-size="10" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">WHY COMPOSITION SUCCEEDS:</text>
+<text x="600" y="338" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Complete Encapsulation: We do not care how</text>
+<text x="610" y="354" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  the delegate implements addAll internally.</text>
+<text x="600" y="370" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Polymorphic Flexibility: Can wrap ANY Set!</text>
+<text x="610" y="386" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  new InstrumentedSet(new TreeSet())</text>
+<text x="600" y="402" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Result: 100% Correct, Immune to JVM upgrades!</text>
+<rect x="40" y="455" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="478" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Joshua Bloch's Rule (Effective Java):</text>
+<text x="65" y="498" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Inheritance violates encapsulation because a subclass depends on the implementation details of its superclass for its function.</text>
+<text x="65" y="515" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Use inheritance ONLY when a genuine 'is-a' relationship exists AND both classes belong to the same package under your control.</text>
+</svg>

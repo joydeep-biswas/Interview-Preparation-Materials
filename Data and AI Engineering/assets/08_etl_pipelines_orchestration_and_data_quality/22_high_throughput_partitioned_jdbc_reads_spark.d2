@@ -1,0 +1,26 @@
+direction: right
+title: High-Throughput Partitioned JDBC Reads in PySpark
+
+driver: Spark Driver {
+  calc: "Calculates 4 Non-Overlapping ID Ranges"
+}
+
+tasks: Spark Executor Tasks {
+  t1: "Task 1: WHERE id >= 1 AND id < 250,000"
+  t2: "Task 2: WHERE id >= 250,000 AND id < 500,000"
+  t3: "Task 3: WHERE id >= 500,000 AND id < 750,000"
+  t4: "Task 4: WHERE id >= 750,000 AND id <= 1,000,000"
+}
+
+db: PostgreSQL Database {
+  sockets: "4 Concurrent JDBC Sockets"
+}
+
+driver -> tasks.t1
+driver -> tasks.t2
+driver -> tasks.t3
+driver -> tasks.t4
+tasks.t1 <-> db.sockets: "Concurrent Read"
+tasks.t2 <-> db.sockets: "Concurrent Read"
+tasks.t3 <-> db.sockets: "Concurrent Read"
+tasks.t4 <-> db.sockets: "Concurrent Read"

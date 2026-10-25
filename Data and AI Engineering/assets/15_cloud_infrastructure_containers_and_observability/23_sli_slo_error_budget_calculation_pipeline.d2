@@ -1,0 +1,14 @@
+classes: {
+  filter_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  sli_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  slo_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+raw: "Raw Ingress Events\nAll requests & probes"
+filter: "Traffic Filter\nExclude synthetic checks & 4xx" { class: filter_box }
+sli: "SLI Calculation\nGood Events / Total Valid Events\n(Latency <= 200ms AND no 5xx)" { class: sli_box }
+slo: "SLO & Error Budget\nSLO = 99.9%\nError Budget = 0.1% unreliability\nBurn Rate monitoring" { class: slo_box }
+
+raw -> filter: "Ingest stream"
+filter -> sli: "Valid production requests"
+sli -> slo: "Compare against 30-day target"

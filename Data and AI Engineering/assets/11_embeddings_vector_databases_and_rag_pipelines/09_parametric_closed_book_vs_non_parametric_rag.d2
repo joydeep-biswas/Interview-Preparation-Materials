@@ -1,0 +1,24 @@
+direction: right
+classes: {
+  closed: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  open: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  norm: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+}
+
+parametric: "Parametric Generation (Closed Book)" {
+  q1: "User Query" { class: norm }
+  theta: "Frozen Weights theta\n(Static cutoff)" { class: closed }
+  hallucinate: "Plausible Hallucination\n(No verification possible)" { class: closed }
+
+  q1 -> theta -> hallucinate
+}
+
+rag: "Retrieval-Augmented Generation (Open Book)" {
+  q2: "User Query" { class: norm }
+  retriever: "Retriever eta\n(Non-Parametric Corpus D)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  context: "Top-K Grounded Chunks z" { class: open }
+  generator: "Generator theta\n(Grounded with citations)" { class: open }
+
+  q2 -> retriever -> context -> generator
+  q2 -> generator
+}

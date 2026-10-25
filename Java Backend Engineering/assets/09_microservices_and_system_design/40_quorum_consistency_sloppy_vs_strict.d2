@@ -1,0 +1,36 @@
+direction: right
+title: "The Quorum Consistency Guarantee: Strict Quorums & The Overlap Principle"
+
+writer: "Write Client (W = 3)
+Writes latest version v2" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+group: "Replication Group (N = 5)" {
+  style.fill: "#0f172a"
+  style.stroke: "#334155"
+
+  n1: "Node 1 (v2)"
+  n2: "Node 2 (v2)"
+  n3: "Node 3 (v2 - OVERLAP!)" {
+    style.fill: "#78350f"
+    style.stroke: "#f59e0b"
+  }
+  n4: "Node 4 (v1)"
+  n5: "Node 5 (v1)"
+}
+
+reader: "Read Client (R = 3)
+Reads from Nodes 3, 4, 5" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+writer -> group.n1
+writer -> group.n2
+writer -> group.n3
+
+reader -> group.n3: "Reads v2"
+reader -> group.n4: "Reads v1"
+reader -> group.n5: "Reads v1"

@@ -1,0 +1,27 @@
+direction: right
+title: Apache Avro & Confluent Schema Registry Wire Format
+
+producer: 1. Microservice Producer {
+  event: "Kafka Producer: {id: 101, name: 'Alice', status: 'ACTIVE'}"
+}
+
+registry: 2. Central Schema Registry {
+  schema: "Confluent Schema Registry (Schema ID #42)"
+}
+
+wire: 3. Kafka Network Wire Payload {
+  magic: "Byte 0: Magic 0x00"
+  schema_id: "Bytes 1-4: Schema ID #42"
+  payload: "Bytes 5+: Raw Binary Values"
+}
+
+consumer: 4. Downstream Stream Consumer {
+  engine: "Spark Streaming / Flink (Reads ID #42, caches schema, deserializes)"
+}
+
+producer -> registry: "1. Register / Validate Schema"
+producer -> wire: "2. Publish Compact Binary"
+wire -> consumer: "3. Read Stream"
+registry -> consumer: "Cache Schema Locally" {
+  style.stroke-dash: 4
+}

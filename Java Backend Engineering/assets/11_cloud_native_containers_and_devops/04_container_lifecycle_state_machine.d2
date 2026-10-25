@@ -1,0 +1,17 @@
+direction: right
+title: Docker / OCI Container Lifecycle State Machine
+
+Created: CREATED State
+Running: RUNNING State
+Paused: PAUSED State
+Stopped: STOPPED (Exit 0)
+OOM: OOMKILLED (Exit 137)
+Removed: REMOVED
+
+Created -> Running: docker run / start { style.stroke: "#38BDF8" }
+Running -> Paused: docker pause { style.stroke: "#F59E0B" }
+Paused -> Running: docker unpause { style.stroke: "#10B981" }
+Running -> Stopped: docker stop (SIGTERM) { style.stroke: "#94A3B8" }
+Running -> OOM: Exceeds memory.max (SIGKILL) { style.stroke: "#EF4444" }
+Stopped -> Removed: docker rm
+OOM -> Removed: docker rm

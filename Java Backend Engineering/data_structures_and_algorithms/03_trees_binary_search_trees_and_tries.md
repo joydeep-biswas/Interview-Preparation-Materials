@@ -6,52 +6,9 @@ A comprehensive, production-grade guide to Binary Trees, Binary Search Trees (BS
 
 ## Architectural Overview: Hierarchical Pointers & Trie Prefixes
 
-```mermaid
-flowchart TD
-    subgraph BSTLayout ["1. Binary Search Tree Invariant (Left < Root < Right)"]
-        direction TB
-        R["Root (8)"]
-        L1["Left (3)"]
-        R1["Right (10)"]
-        L2["Node (1)"]
-        L3["Node (6)"]
-        R2["Node (14)"]
-        
-        R --> L1
-        R --> R1
-        L1 --> L2
-        L1 --> L3
-        R1 --> R2
-    end
+![BST Invariants, Rotations, and Trie Architecture](assets/03_trees_binary_search_trees_and_tries/01_bst_invariants_and_trie_architecture.svg)
 
-    subgraph TrieLayout ["2. Multi-Way Prefix Trie Structure"]
-        direction TB
-        TRoot["Trie Root ''"]
-        TC["Node 'c'"]
-        TA["Node 'a'"]
-        TT["Node 't' (isWord = true)"]
-        TR["Node 'r' (isWord = true)"]
-        
-        TRoot --> TC
-        TC --> TA
-        TA --> TT
-        TA --> TR
-    end
-
-    style BSTLayout fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TrieLayout fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style R fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style L1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style R1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style L2 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style L3 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style R2 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style TRoot fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style TC fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style TA fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style TT fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style TR fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/03_trees_binary_search_trees_and_tries/01_bst_invariants_and_trie_architecture.d2](assets/03_trees_binary_search_trees_and_tries/01_bst_invariants_and_trie_architecture.d2)
 
 ---
 

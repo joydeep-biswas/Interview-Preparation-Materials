@@ -1,0 +1,17 @@
+direction: down
+classes: {
+  alert_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+  diamond_box: { shape: diamond, style: { fill: "#111827", stroke: "#F59E0B" } }
+  cuda_box: { style: { fill: "#111827", stroke: "#F59E0B" } }
+  k8s_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+}
+
+Alert: "Memory Failure Detected" { class: alert_box }
+TypeCheck: "Allocation Target Domain?" { class: diamond_box }
+
+CUDA: "PyTorch CUDA OOM\n• Process ALIVE, exception raised\n• Fix: batch_size, FlashAttention" { class: cuda_box }
+K8s: "K8s Pod OOMKilled (Exit 137)\n• Kernel SIGKILL 9\n• Fix: Increase limits.memory" { class: k8s_box }
+
+Alert -> TypeCheck
+TypeCheck -> CUDA: "GPU VRAM"
+TypeCheck -> K8s: "Host RAM"

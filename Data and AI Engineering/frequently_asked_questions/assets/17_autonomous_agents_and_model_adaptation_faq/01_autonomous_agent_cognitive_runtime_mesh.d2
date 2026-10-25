@@ -1,0 +1,33 @@
+direction: right
+classes: {
+  loop_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  mem_box: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  adapt_box: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+CognitiveLoop: "1. Cognitive Agent Runtime" {
+  class: loop_box
+  Plan: "Reasoning & Plan Synthesis" { class: card_dark }
+  Tools: "Tool Execution (MCP/Sandbox)" { class: card_dark }
+  Eval: "Evaluator & Reflexion Loop" { class: card_dark }
+  Plan -> Tools -> Eval -> Plan
+}
+
+Memory: "2. State & Memory (LangGraph)" {
+  class: mem_box
+  Scratch: "Working Memory Scratchpad" { class: card_dark }
+  Checkpointer: "Postgres Checkpointer" { class: card_dark }
+  Semantic: "Semantic Vector Store" { class: card_dark }
+}
+
+Adaptation: "3. Model Adaptation" {
+  class: adapt_box
+  Base: "Foundation Base Model" { class: card_dark }
+  LoRA: "LoRA Low-Rank Adapters" { class: card_dark }
+  DPO: "Direct Preference Optimization" { class: card_dark }
+  Base -> LoRA -> DPO
+}
+
+CognitiveLoop -> Memory
+Memory -> Adaptation

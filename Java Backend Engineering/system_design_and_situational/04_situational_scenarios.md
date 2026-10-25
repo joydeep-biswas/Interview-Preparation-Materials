@@ -6,31 +6,9 @@ A comprehensive, production-grade guide answering real-world situational enginee
 
 ## Architectural Overview: Incident Lifecycle & Cross-Service Coordination
 
-```mermaid
-flowchart TD
-    subgraph TriagePhase ["Phase 1: Detection, Blast-Radius Triage & Immediate Containment"]
-        direction LR
-        Alert["1. Metric Breach<br/>(p99 Latency / 5xx Spike / OOM)"] --> Triage["2. Incident Commander Triage<br/>(Thread Dump / Trace Isolation)"]
-        Triage --> Isolate["3. Fast Mitigation<br/>(Traffic Shedding / Circuit Breaker / Rollback)"]
-    end
+![Incident Lifecycle & Cross-Service Coordination Protocol](assets/04_situational_scenarios/01_incident_lifecycle_and_cross_service_coordination.svg)
 
-    subgraph RemediationPhase ["Phase 2: Stakeholder Communication & Technical Rectification"]
-        direction LR
-        Comms["4. Bridge & Comms<br/>(Statuspage / Executive Briefing)"] --> Patch["5. Hotfix Deployment<br/>(Canary Verification / Health Check)"]
-        Patch --> PostMortem["6. Blameless RCA<br/>(5-Whys / Architectural Action Items)"]
-    end
-
-    Isolate -->|"Stabilized Boundary"| Comms
-
-    style TriagePhase fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style RemediationPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Alert fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Triage fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Isolate fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Comms fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Patch fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style PostMortem fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_situational_scenarios/01_incident_lifecycle_and_cross_service_coordination.d2](assets/04_situational_scenarios/01_incident_lifecycle_and_cross_service_coordination.d2)
 
 ---
 
@@ -72,26 +50,9 @@ flowchart TD
 #### Scenario Context & Low-Level Mechanics
 During a high-traffic flash sale, our primary `Order-Processing Service` (Java 17, Spring Boot 3) experienced a sudden surge in $p99$ response times from 45ms to 12,000ms. Within 4 minutes, all available Tomcat worker threads (200 threads per pod across 30 Kubernetes replicas) became saturated in `TIMED_WAITING` state, waiting for a downstream legacy `Fraud-Detection Service`. Incoming HTTP requests began failing at the API Gateway with HTTP 504 Gateway Timeout.
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Client as Web/Mobile Client
-    participant GW as API Gateway (Envoy)
-    participant Order as Order Service (Tomcat Pool Saturated)
-    participant Fraud as Downstream Fraud Svc (Hangs)
-    participant Redis as Redis Cache / Circuit Breaker
+![Cascading Failure: Thread Pool Exhaustion & Circuit Breaker Salvation](assets/04_situational_scenarios/02_thread_pool_exhaustion_cascading_failure.svg)
 
-    Client->>GW: POST /orders
-    GW->>Order: Forward Request
-    Note over Order: Thread pool reaches max 200/200 threads
-    Order->>Fraud: HTTP Call (No Bulkhead / 30s Timeout)
-    Fraud--xOrder: Latency spike (>15s)
-    Order--xGW: HTTP 504 Gateway Timeout
-    Note over GW: Gateway health checks fail -> Pods marked unhealthy
-    Note over Order: Incident Commander declares Sev-1
-    Order->>Redis: Trigger Circuit Breaker Trip
-    Order-->>Client: Fallback: Queue Order for Async Fraud Verification
-```
+*D2 Source:* [assets/04_situational_scenarios/02_thread_pool_exhaustion_cascading_failure.d2](assets/04_situational_scenarios/02_thread_pool_exhaustion_cascading_failure.d2)
 
 #### Incident Command & Execution Playbook
 1. **Immediate Stabilization (Blast Radius Containment):**
@@ -119,28 +80,9 @@ sequenceDiagram
 #### Scenario Context & Low-Level Mechanics
 Our high-throughput real-time WebSocket messaging service experienced rolling crashes every 36 hours. Kubernetes pods were terminated by the OS with `OOMKilled` (exit code 137), preceded by severe stop-the-world (STW) GC pauses spanning 4.2 seconds under G1GC, causing WebSocket heartbeats to drop and triggering massive reconnections.
 
-```mermaid
-flowchart LR
-    subgraph HeapMemory ["JVM Heap Anatomy"]
-        Eden["Eden Space<br/>(Short-lived request DTOs)"]
-        Survivor["Survivor S0/S1"]
-        OldGen["Tenured / Old Generation<br/>(Uncollected HashMaps holding ThreadLocal/Cache)"]
-    end
+![JVM Memory Leak & OOM Diagnostic Architecture](assets/04_situational_scenarios/03_jvm_memory_leak_diagnostic_topology.svg)
 
-    subgraph OffHeap ["Off-Heap & Metaspace"]
-        DirectMem["Direct ByteBuffers<br/>(Netty Channel Pipelines)"]
-        Meta["Metaspace<br/>(Class Metadata)"]
-    end
-
-    Eden --> Survivor --> OldGen
-    OldGen -.->|"Leak: Static strong reference prevents GC"| FullGC["Frequent Full GC STW (4.2s Pauses)"]
-    FullGC --> Crash["Pod OOMKilled by Kernel"]
-
-    style HeapMemory fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style OffHeap fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style FullGC fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Crash fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_situational_scenarios/03_jvm_memory_leak_diagnostic_topology.d2](assets/04_situational_scenarios/03_jvm_memory_leak_diagnostic_topology.d2)
 
 #### Diagnostic & Remediation Playbook
 1. **Automated Diagnostic Dump Collection:**
@@ -174,23 +116,9 @@ flowchart LR
 #### Context & Low-Level Mechanics
 Following a marketing push, our `Wallet-Transfer Service` began throwing `HikariPool-1 - Connection is not available, request timed out after 30000ms`. PostgreSQL `pg_stat_activity` showed 100 active connections (the maximum allowed pool size), with 85 sessions stuck in `waiting` state holding exclusive row-level locks on the `accounts` table.
 
-```mermaid
-flowchart TD
-    subgraph ThreadA ["Thread A: Transfer from User 1 to User 2"]
-        Lock1["1. Acquires Row Lock: User 1"] --> Lock2["2. Waits for Row Lock: User 2"]
-    end
+![Distributed Deadlocks: Circular Wait vs Canonical Lock Ordering](assets/04_situational_scenarios/04_distributed_deadlock_detection_and_lock_ordering.svg)
 
-    subgraph ThreadB ["Thread B: Transfer from User 2 to User 1"]
-        Lock3["1. Acquires Row Lock: User 2"] --> Lock4["2. Waits for Row Lock: User 1"]
-    end
-
-    Lock1 -.->|"Contends with"| Lock4
-    Lock3 -.->|"Contends with"| Lock2
-    Lock2 <-->|"Deadlock Detected (Cycles in Wait-For Graph)"| Lock4
-
-    style ThreadA fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ThreadB fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/04_situational_scenarios/04_distributed_deadlock_detection_and_lock_ordering.d2](assets/04_situational_scenarios/04_distributed_deadlock_detection_and_lock_ordering.d2)
 
 #### Diagnostic & Architectural Resolution
 1. **Lock Contention Analysis:**
@@ -310,26 +238,9 @@ A staff engineer wanted to introduce Apache Flink and a distributed graph databa
 **Question:** *How do you introduce a non-backwards-compatible schema or protocol change when 8 downstream teams consume your service?*
 
 #### Parallel Run & Expand-Contract Pattern
-```mermaid
-flowchart LR
-    subgraph Step1 ["Phase 1: Expand"]
-        V1["v1 Endpoint / Schema<br/>(Deprecated, Active)"]
-        V2["v2 Endpoint / Schema<br/>(New Contract Live)"]
-    end
-    subgraph Step2 ["Phase 2: Migrate"]
-        Clients1["Fast Teams Migrate -> v2"]
-        Clients2["Slow Teams Use v1"]
-    end
-    subgraph Step3 ["Phase 3: Contract"]
-        V1Off["v1 Deprecated & Retired"]
-        V2Only["v2 Production Standard"]
-    end
+![Zero-Downtime Database Migration: Expand-Contract (Parallel Run) Pattern](assets/04_situational_scenarios/05_zero_downtime_schema_migration_expand_contract.svg)
 
-    Step1 --> Step2 --> Step3
-    style Step1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Step2 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Step3 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/04_situational_scenarios/05_zero_downtime_schema_migration_expand_contract.d2](assets/04_situational_scenarios/05_zero_downtime_schema_migration_expand_contract.d2)
 
 1. **Never Break Contracts in Place:** Never modify fields in an existing REST or Protobuf schema. Apply the **Expand-Contract Pattern**:
    - Add new fields alongside existing fields with dual-writing in service handlers.

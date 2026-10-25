@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="400" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Dremel Record Shredding: Schema Tree Traversal</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Decomposing Nested Schemas into Flat Columnar Arrays with Repetition &amp; Definition Levels</text>
+  
+  
+    <rect x="40" y="110" width="200" height="100" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="140.0" y="136" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Document Root</text>
+    <text x="140.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Level 0 (Required)</text>
+    <rect x="189" y="120" width="45" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="211.5" y="132" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">LVL 0</text>
+    <circle cx="56" cy="165" r="2" fill="#3b82f6"/>
+    <text x="64" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Doc { id: 101 }</text>
+    <circle cx="56" cy="181" r="2" fill="#3b82f6"/>
+    <text x="64" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Root of the document schema</text>
+    <circle cx="56" cy="197" r="2" fill="#3b82f6"/>
+    <text x="64" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Definition Level: 0</text>
+    <circle cx="56" cy="213" r="2" fill="#3b82f6"/>
+    <text x="64" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Repetition Level: 0</text>
+
+  
+    <rect x="275" y="110" width="210" height="100" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="380.0" y="136" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">owner: Optional Struct</text>
+    <text x="380.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Level 1 (Optional)</text>
+    <rect x="434" y="120" width="45" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="456.5" y="132" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">LVL 1</text>
+    <circle cx="291" cy="165" r="2" fill="#10b981"/>
+    <text x="299" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Can be NULL or present</text>
+    <circle cx="291" cy="181" r="2" fill="#10b981"/>
+    <text x="299" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Max Definition Level: 1</text>
+    <circle cx="291" cy="197" r="2" fill="#10b981"/>
+    <text x="299" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">If NULL: D = 0, R = 0</text>
+    <circle cx="291" cy="213" r="2" fill="#10b981"/>
+    <text x="299" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">If Present: D = 1</text>
+
+  
+    <rect x="520" y="110" width="210" height="100" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="625.0" y="136" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">phone: Repeated Array</text>
+    <text x="625.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Level 2 (Repeated)</text>
+    <rect x="679" y="120" width="45" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="701.5" y="132" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">LVL 2</text>
+    <circle cx="536" cy="165" r="2" fill="#f59e0b"/>
+    <text x="544" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Array of phone structs</text>
+    <circle cx="536" cy="181" r="2" fill="#f59e0b"/>
+    <text x="544" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Max Repetition Level: 1</text>
+    <circle cx="536" cy="197" r="2" fill="#f59e0b"/>
+    <text x="544" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Max Definition Level: 2</text>
+    <circle cx="536" cy="213" r="2" fill="#f59e0b"/>
+    <text x="544" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Tracks list boundaries</text>
+
+  
+    <rect x="765" y="110" width="185" height="100" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="857.5" y="136" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">number: String</text>
+    <text x="857.5" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Level 3 (Required Value)</text>
+    <rect x="906" y="120" width="38" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="925.0" y="132" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">LEAF</text>
+    <circle cx="781" cy="165" r="2" fill="#8b5cf6"/>
+    <text x="789" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Leaf primitive string</text>
+    <circle cx="781" cy="181" r="2" fill="#8b5cf6"/>
+    <text x="789" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Max Definition Level: 2</text>
+    <circle cx="781" cy="197" r="2" fill="#8b5cf6"/>
+    <text x="789" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Physical value stored</text>
+    <circle cx="781" cy="213" r="2" fill="#8b5cf6"/>
+    <text x="789" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">e.g. '+1-415-555-0100'</text>
+
+  
+    <line x1="240" y1="160" x2="275" y2="160" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="257.5" y="152.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">traverse</text>
+  
+    <line x1="485" y1="160" x2="520" y2="160" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="502.5" y="152.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">traverse</text>
+  
+    <line x1="730" y1="160" x2="765" y2="160" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="747.5" y="152.0" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">traverse</text>
+
+  
+    <rect x="40" y="240" width="910" height="130" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="495.0" y="266" fill="#67e8f9" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Record Reconstruction Algorithm: Definition &amp;amp; Repetition Levels Invariant</text>
+    <text x="495.0" y="282" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Lossless Reconstruction of Complex Nested Hierarchy Without Schema Duplication</text>
+    <rect x="822" y="250" width="122" height="18" rx="9" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
+    <text x="883.0" y="262" fill="#06b6d4" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DREMEL INVARIANT</text>
+    <circle cx="56" cy="295" r="2" fill="#06b6d4"/>
+    <text x="64" y="298" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Definition Level (D): Specifies how many optional ancestors in the path from root to leaf are actually defined (present vs null).</text>
+    <circle cx="56" cy="311" r="2" fill="#06b6d4"/>
+    <text x="64" y="314" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Repetition Level (R): Specifies at what repeated field level the value repeats. R = 0 means a new document started; R &amp;gt; 0 marks repeated item.</text>
+    <circle cx="56" cy="327" r="2" fill="#06b6d4"/>
+    <text x="64" y="330" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Storage Impact: Parquet stores ONLY the leaf values along with two bit-packed integer streams: (R, D, Value).</text>
+    <circle cx="56" cy="343" r="2" fill="#06b6d4"/>
+    <text x="64" y="346" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reconstruction: The query engine re-creates the exact JSON/Protobuf nested structure on read without scanning unused sibling columns!</text>
+
+</svg>

@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+adls: "100 GB CSV in ADLS Gen2\nParallel Blob Partitions" { class: card; style.stroke: "#3B82F6" }
+copy_cmd: "Synapse COPY INTO\nParallelized Bulk Ingest" { class: card; style.stroke: "#06B6D4" }
+staging: "Staging Table\nRound-Robin Heap" { class: card; style.stroke: "#F59E0B" }
+ctas: "CTAS Transformation\nHash Distribution" { class: card; style.stroke: "#8B5CF6" }
+prod: "Dedicated Fact Table\nClustered Columnstore (CCI)" { class: card; style.stroke: "#10B981" }
+
+adls -> copy_cmd -> staging -> ctas -> prod

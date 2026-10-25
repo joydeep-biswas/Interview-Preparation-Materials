@@ -1,0 +1,28 @@
+direction: right
+classes: {
+  box_amber: { style: { fill: "#111827"; stroke: "#F59E0B"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+mode_a: "Mode A: Directory Listing (Synchronous Crawl)" {
+  class: box_amber
+  drv_a: "Spark Driver"
+  api: "Cloud Storage API (ListBlobs)"
+  state: "RocksDB State Filtering"
+  work_a: "Workers Ingest Files"
+  drv_a -> api: "Paginated HTTP Requests"
+  api -> drv_a: "O(N) Object Metadata"
+  drv_a -> state -> work_a
+}
+
+mode_b: "Mode B: File Notification (Event-Driven Queue)" {
+  class: box_green
+  upload: "New File Lands in Bucket"
+  grid: "Event Grid / SNS Trigger"
+  queue: "FIFO Queue (Storage Queue / SQS)"
+  drv_b: "Auto Loader Driver"
+  work_b: "Workers Ingest Files"
+  upload -> grid -> queue
+  drv_b -> queue: "O(1) Fast Pull"
+  drv_b -> work_b: "Dispatch Partitions"
+}

@@ -1,0 +1,37 @@
+direction: right
+
+step1: "Step 1: Declare & Contain" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  alert: "Alert Triggered (PagerDuty)"
+  declare: "Declare Sev-1 (Incident Commander)"
+  contain: "Contain Blast Radius (Halt writes / Enable DLQ)"
+}
+
+step2: "Step 2: Mitigate, Patch & Backfill" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  isolate: "Isolate Corrupted Batch / Schema"
+  patch: "Hotfix Code Deployment"
+  backfill: "Delta RESTORE & Idempotent Backfill"
+}
+
+step3: "Step 3: Verify & Reconcile" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  reconcile: "Reconciliation Assertions"
+  unfreeze: "Unfreeze Downstream Consumers"
+  closure: "Close Incident & Schedule Post-Mortem"
+}
+
+step1 -> step2: "System Isolated" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+step2 -> step3: "Data Repaired" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

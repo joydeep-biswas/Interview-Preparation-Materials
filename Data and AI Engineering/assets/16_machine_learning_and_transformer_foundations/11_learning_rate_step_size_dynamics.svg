@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 360" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+    </marker>
+    <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Background -->
+  <rect width="980" height="360" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g id="header">
+    <text x="490" y="36" fill="#f8fafc" font-size="18" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Optimization Dynamics: Learning Rate Step Size Hazards</text>
+    <text x="490" y="58" fill="#94a3b8" font-size="12" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Comparing Loss Manifold Traversal: Too Small (Glacial) vs. Optimal (Convergant) vs. Too Large (Explosion)</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g id="diagram-elements">
+    
+    <rect x="40" y="120" width="270" height="170" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="175" y="142" fill="#f8fafc" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Too Small (eta = 1e-6)</text>
+<text x="52" y="162" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Glacial Convergence Speed</text>
+<text x="52" y="180" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Step sizes are infinitesimally tiny</text>
+<text x="52" y="198" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Easily trapped in shallow local minima</text>
+<text x="52" y="216" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">and saddle point plateaus</text>
+<text x="52" y="234" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Wastes thousands of GPU hours</text>
+<text x="52" y="252" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Fails to reach global valley</text>
+
+    <rect x="355" y="120" width="270" height="170" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+<text x="490" y="142" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Optimal Step (eta = 3e-4)</text>
+<text x="367" y="162" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Balanced Gradient Descent</text>
+<text x="367" y="180" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Smooth trajectory down loss contours</text>
+<text x="367" y="198" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Steadies toward global minimum</text>
+<text x="367" y="216" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Fast convergence rate</text>
+<text x="367" y="234" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Escapes minor noisy ripples</text>
+<text x="367" y="252" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Default for AdamW in Transformers</text>
+
+    <rect x="670" y="120" width="270" height="170" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+<text x="805" y="142" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Too Large (eta = 0.5)</text>
+<text x="682" y="162" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Catastrophic Divergence</text>
+<text x="682" y="180" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Overshoots loss valley floor</text>
+<text x="682" y="198" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Bounces wildly across ravine walls</text>
+<text x="682" y="216" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Loss explodes to NaN / +infinity!</text>
+<text x="682" y="234" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Weights blow up to floating-point overflow</text>
+<text x="682" y="252" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Destroyed model weights permanently</text>
+
+  </g>
+</svg>

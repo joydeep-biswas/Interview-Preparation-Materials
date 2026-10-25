@@ -1,0 +1,26 @@
+direction: right
+
+state: "1. State Registers" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  reg: "first = MIN_VAL | second = MIN_VAL"
+  space: "O(1) auxiliary space"
+}
+
+decision: "2. Decision Tree per x" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  c1: "x > first -> second=first, first=x"
+  c2: "x > second && x != first -> second=x"
+  c3: "else -> skip"
+}
+
+verdict: "3. Edge Cases & Result" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  dup: "Filters duplicates correctly"
+  result: "return second == MIN ? -1 : second"
+}
+
+state -> decision: "Stream elements"
+decision -> verdict: "Final evaluation"

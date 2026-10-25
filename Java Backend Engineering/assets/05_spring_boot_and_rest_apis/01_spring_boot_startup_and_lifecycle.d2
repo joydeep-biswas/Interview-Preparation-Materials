@@ -1,0 +1,51 @@
+direction: right
+title: Enterprise Spring Core & Spring Boot Runtime Architecture
+
+stage1: "1. Startup & Config" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  main: "SpringApplication.run()"
+  env: "Environment Preparation\n(application.yml, profiles)"
+  ctx: "Create ApplicationContext"
+  auto: "Auto-Configuration Engine\n(@Conditional evaluations)"
+
+  main -> env -> ctx -> auto
+}
+
+stage2: "2. Definitions & Factory" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  defs: "Scan Bean Definitions\n(@Component, @Bean)"
+  bfpp: "BeanFactoryPostProcessors\n(Modify definitions early)"
+  inst: "Instantiate Raw Beans\n(Reflection constructor)"
+
+  defs -> bfpp -> inst
+}
+
+stage3: "3. Injection & AOP" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+
+  pop: "Populate Properties (DI)"
+  init: "Bean Initialization\n(@PostConstruct, InitializingBean)"
+  aop: "BeanPostProcessor (AOP)\n(Wrap in CGLIB/JDK proxy)"
+
+  pop -> init -> aop
+}
+
+stage4: "4. Web Server & Ready" {
+  style.fill: "#062e22"
+  style.stroke: "#10b981"
+
+  tomcat: "Start Embedded Server (Tomcat :8080)"
+  act: "Expose Actuator (/health, /metrics)"
+  ready: "ApplicationReadyEvent\n(Live traffic serving)"
+
+  tomcat -> act -> ready
+}
+
+stage1.auto -> stage2.defs
+stage2.inst -> stage3.pop
+stage3.aop -> stage4.tomcat

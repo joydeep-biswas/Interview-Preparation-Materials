@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 320" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-red { stroke: #EF4444; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-red { stroke: #EF4444; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-b124" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-a124" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-r124" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="510" y="35" class="title-text">Premature Tenuring &amp; Allocation Churn Mechanics</text>
+
+  <!-- Step 1: Allocation Churn -->
+  <rect x="30" y="80" width="170" height="180" class="card card-blue"/>
+  <text x="115" y="110" class="card-title" fill="#93C5FD">High Churn</text>
+  <text x="45" y="140" class="card-body">• Excessive JSON</text>
+  <text x="45" y="160" class="card-body">• String concat</text>
+  <text x="45" y="180" class="card-body">• Short-lived DTOs</text>
+  <text x="45" y="200" class="card-body">• Rate: &gt;2 GB/sec</text>
+
+  <!-- Step 2: Eden Space -->
+  <rect x="230" y="80" width="170" height="180" class="card card-blue"/>
+  <text x="315" y="110" class="card-title" fill="#93C5FD">Eden Space</text>
+  <text x="245" y="140" class="card-body">• 80% Young Gen</text>
+  <text x="245" y="160" class="card-body">• Fills in &lt;100ms</text>
+  <text x="245" y="180" class="card-body">• Triggers constant</text>
+  <text x="245" y="200" class="card-body">  Minor GC cycles</text>
+
+  <!-- Step 3: Survivor S0/S1 -->
+  <rect x="430" y="80" width="170" height="180" class="card card-amber"/>
+  <text x="515" y="110" class="card-title" fill="#FDE68A">Survivor S0/S1</text>
+  <text x="445" y="140" class="card-body">• Exceeds Target</text>
+  <text x="445" y="160" class="card-body">  SurvivorRatio</text>
+  <text x="445" y="180" class="card-body">• Dynamic threshold</text>
+  <text x="445" y="200" class="card-body">  drops: 15 -> 1</text>
+
+  <!-- Step 4: Old Gen -->
+  <rect x="630" y="80" width="170" height="180" class="card card-red"/>
+  <text x="715" y="110" class="card-title" fill="#FCA5A5">Old Gen (Tenured)</text>
+  <text x="645" y="140" class="card-body">• Flooded with</text>
+  <text x="645" y="160" class="card-body">  short-lived junk</text>
+  <text x="645" y="180" class="card-body">• Reaches Initiating</text>
+  <text x="645" y="200" class="card-body">  Occupancy (IHOP)</text>
+
+  <!-- Step 5: Full GC -->
+  <rect x="830" y="80" width="160" height="180" class="card card-red"/>
+  <text x="910" y="110" class="card-title" fill="#FCA5A5">Major / Full GC</text>
+  <text x="845" y="140" class="card-body">• Multi-second</text>
+  <text x="845" y="160" class="card-body">  Stop-The-World</text>
+  <text x="845" y="180" class="card-body">• API 504 Gateway</text>
+  <text x="845" y="200" class="card-body">  timeouts spike</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 200 170 L 230 170" class="edge edge-blue" marker-end="url(#arr-b124)"/>
+  <path fill="none" d="M 400 170 L 430 170" class="edge edge-amber" marker-end="url(#arr-a124)"/>
+  <path fill="none" d="M 600 170 L 630 170" class="edge edge-red" marker-end="url(#arr-r124)"/>
+  <path fill="none" d="M 800 170 L 830 170" class="edge edge-red" marker-end="url(#arr-r124)"/>
+</svg>

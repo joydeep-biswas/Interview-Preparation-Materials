@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 390" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="550" y="32" class="title" font-size="19" text-anchor="middle">JVM Memory Leak &amp; OOM Diagnostic Architecture</text>
+  <text x="550" y="52" class="subtitle" text-anchor="middle">Heap memory anatomy, off-heap DirectByteBuffers, MAT dominator tree leak analysis, and preventative guards</text>
+
+  <!-- Heap Anatomy -->
+  <g transform="translate(30, 75)">
+    <rect width="240" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="120" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">1. JVM Heap Anatomy</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#60A5FA">• Young Generation:</text>
+    <text x="24" y="78" class="card-body">  - Eden Space (Short-lived DTOs)</text>
+    <text x="24" y="98" class="card-body">  - Survivor S0 / S1 spaces</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#60A5FA">• Old / Tenured Generation:</text>
+    <text x="24" y="146" class="card-body">  - Long-lived objects</text>
+    <text x="24" y="166" class="card-body">  - Static HashMaps &amp; caches</text>
+    <text x="24" y="186" class="card-body">  - ThreadLocal leaked references</text>
+    <text x="24" y="206" class="card-body">  - Triggers Full GC pauses</text>
+    <rect x="16" y="244" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="259" class="badge" fill="#93C5FD" text-anchor="middle">On-Heap Memory Space</text>
+  </g>
+
+  <!-- Off-Heap & Metaspace -->
+  <g transform="translate(300, 75)">
+    <rect width="240" height="280" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <text x="120" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Off-Heap &amp; Native</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• Direct ByteBuffers:</text>
+    <text x="24" y="78" class="card-body">  - Netty zero-copy pipelines</text>
+    <text x="24" y="98" class="card-body">  - Unsafe.allocateMemory()</text>
+    <text x="24" y="118" class="card-body">  - Out-of-control off-heap OOM</text>
+    <text x="16" y="146" class="card-body" font-weight="600" fill="#34D399">• Metaspace:</text>
+    <text x="24" y="166" class="card-body">  - Dynamic proxy class generation</text>
+    <text x="24" y="186" class="card-body">  - CGLIB / Spring AOP proxies</text>
+    <text x="24" y="206" class="card-body">  - ClassLoader memory leaks</text>
+    <rect x="16" y="244" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="259" class="badge" fill="#A7F3D0" text-anchor="middle">Native OS Memory</text>
+  </g>
+
+  <!-- Diagnostics & Dumps -->
+  <g transform="translate(570, 75)">
+    <rect width="240" height="280" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#78350F"/>
+    <text x="120" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">3. Triage &amp; MAT Tool</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#FBBF24">• Live Heap Dump Capture:</text>
+    <text x="24" y="78" class="card-body">  - jcmd PID GC.heap_dump</text>
+    <text x="24" y="98" class="card-body">  - -XX:+HeapDumpOnOutOfMemory</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#FBBF24">• Eclipse MAT Analysis:</text>
+    <text x="24" y="146" class="card-body">  - Dominator Tree inspection</text>
+    <text x="24" y="166" class="card-body">  - Retained size vs Shallow size</text>
+    <text x="24" y="186" class="card-body">  - Finds exact leaking class loader</text>
+    <text x="16" y="214" class="card-body" font-weight="600" fill="#FBBF24">• Async-Profiler allocation flame</text>
+    <rect x="16" y="244" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="259" class="badge" fill="#FDE68A" text-anchor="middle">Dominator Tree Triage</text>
+  </g>
+
+  <!-- Preventative Hardening -->
+  <g transform="translate(840, 75)">
+    <rect width="230" height="280" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <text x="115" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Preventative Fixes</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• Code-Level Remediations:</text>
+    <text x="24" y="78" class="card-body">  - ThreadLocal.remove() in finally</text>
+    <text x="24" y="98" class="card-body">  - Caffeine weakKeys/values</text>
+    <text x="24" y="118" class="card-body">  - ReferenceCounted.release()</text>
+    <text x="16" y="146" class="card-body" font-weight="600" fill="#A78BFA">• JVM Flags &amp; Limits:</text>
+    <text x="24" y="166" class="card-body">  - -XX:MaxDirectMemorySize=2g</text>
+    <text x="24" y="186" class="card-body">  - -XX:MaxMetaspaceSize=512m</text>
+    <text x="16" y="214" class="card-body" font-weight="600" fill="#A78BFA">• K8s Liveness Probe Guard</text>
+    <rect x="16" y="244" width="198" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="115" y="259" class="badge" fill="#DDD6FE" text-anchor="middle">Production Hardening</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 270 215 L 288 215 L 300 215" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <path d="M 540 215 L 558 215 L 570 215" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+  <path d="M 810 215 L 828 215 L 840 215" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arrow-purple)"/>
+</svg>

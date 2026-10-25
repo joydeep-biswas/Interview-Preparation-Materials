@@ -1,0 +1,22 @@
+direction: right
+title: SynchronousQueue Direct Handoff Sequence Diagram
+
+Producer: Producer Thread
+Queue: SynchronousQueue (0 Capacity)
+Consumer: Consumer Thread
+
+Producer -> Queue: 1. put("TASK-101") (Producer parks) {
+  style.stroke: "#3B82F6"
+}
+
+Consumer -> Queue: 2. take() arrives {
+  style.stroke: "#10B981"
+}
+
+Queue -> Consumer: 3. Returns "TASK-101" (Direct handoff) {
+  style.stroke: "#10B981"
+}
+
+Queue -> Producer: Unparks Producer Thread {
+  style.stroke: "#3B82F6"
+}

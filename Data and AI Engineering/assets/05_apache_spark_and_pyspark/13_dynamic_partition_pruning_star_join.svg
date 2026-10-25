@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Dynamic Partition Pruning (DPP) in Star Schema Joins</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">How runtime broadcast filters from filtered dimensions skip massive partition folders on storage</text>
+
+  <!-- Left Panel: Dimension Filtering -->
+  <rect x="40" y="85" width="340" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="340" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="210" y="108" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">1. DIMENSION TABLE FILTERING</text>
+
+  <!-- Dim Scan -->
+  <rect x="55" y="135" width="310" height="85" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1"/>
+  <text x="70" y="157" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">Scan dim_store (Small Table)</text>
+  <text x="70" y="174" font-size="10" font-family="monospace" fill="#93C5FD" text-anchor="start">WHERE store_region = 'EMEA'</text>
+  <text x="70" y="192" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Table size: 5,000 rows (150 KB)</text>
+  <text x="70" y="207" font-size="9.5" fill="#34D399" text-anchor="start">• Scanned in milliseconds on Driver</text>
+
+  <!-- Key Calculation -->
+  <rect x="55" y="240" width="310" height="95" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="70" y="262" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="start">2. Extract Matching Join Keys</text>
+  <text x="70" y="282" font-size="10" font-family="monospace" fill="#FDE68A" text-anchor="start">Matching Keys: [10, 25, 42, 88]</text>
+  <text x="70" y="302" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Catalyst generates subquery broadcast filter</text>
+  <text x="70" y="319" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Encodes keys into a compact Bloom Filter</text>
+
+  <rect x="55" y="355" width="310" height="90" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="375" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="start">Why Static Pruning Failed Here:</text>
+  <text x="70" y="393" font-size="9" fill="#CBD5E1" text-anchor="start">Static pruning only works on literal constants</text>
+  <text x="70" y="408" font-size="9" fill="#CBD5E1" text-anchor="start">(WHERE date &gt; '2023-01-01'). It cannot inspect</text>
+  <text x="70" y="423" font-size="9" fill="#F87171" text-anchor="start">runtime keys produced by a join partner!</text>
+
+  <line x1="210" y1="220" x2="210" y2="240" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+  <!-- Middle Broadcast Dynamic Filter Bridge -->
+  <rect x="410" y="195" width="160" height="150" rx="8" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="410" y="195" width="160" height="30" rx="8" fill="#78350F" fill-opacity="0.8" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="490" y="215" font-size="10" font-weight="700" fill="#FDE68A" text-anchor="middle">DYNAMIC BROADCAST</text>
+  
+  <text x="490" y="245" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">DynamicPruning</text>
+  <text x="490" y="260" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">Expression</text>
+
+  <text x="490" y="285" font-size="9" fill="#CBD5E1" text-anchor="middle">Injected directly into</text>
+  <text x="490" y="300" font-size="9" fill="#CBD5E1" text-anchor="middle">FileSourceScan</text>
+  <text x="490" y="315" font-size="9" fill="#CBD5E1" text-anchor="middle">before file listing</text>
+  <text x="490" y="333" font-size="9" font-weight="600" fill="#34D399" text-anchor="middle">Zero Fact Read!</text>
+
+  <!-- Link Dim Keys -> Broadcast Bridge -->
+  <line x1="365" y1="270" x2="410" y2="270" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+
+  <!-- Right Panel: Fact Table Partition Pruning -->
+  <rect x="600" y="85" width="480" height="375" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="600" y="85" width="480" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="840" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">3. FACT TABLE SCAN (PRUNES 90% PARTITIONS ON S3/GCS)</text>
+
+  <!-- Storage Folders -->
+  <rect x="620" y="135" width="440" height="195" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="635" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">fact_sales Storage Partitions (100 Terabytes)</text>
+
+  <!-- Kept Partitions -->
+  <rect x="635" y="170" width="200" height="50" rx="4" fill="#064E3B" fill-opacity="0.4" stroke="#34D399" stroke-width="1"/>
+  <text x="735" y="190" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">store_id=10 &amp; store_id=25</text>
+  <text x="735" y="206" font-size="9" fill="#A7F3D0" text-anchor="middle">MATCHES KEY -&gt; READ FROM DISK</text>
+
+  <rect x="635" y="228" width="200" height="50" rx="4" fill="#064E3B" fill-opacity="0.4" stroke="#34D399" stroke-width="1"/>
+  <text x="735" y="248" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">store_id=42 &amp; store_id=88</text>
+  <text x="735" y="264" font-size="9" fill="#A7F3D0" text-anchor="middle">MATCHES KEY -&gt; READ FROM DISK</text>
+
+  <!-- Skipped Partitions -->
+  <rect x="855" y="170" width="190" height="108" rx="4" fill="#450A0A" fill-opacity="0.3" stroke="#EF4444" stroke-dasharray="3 3" stroke-width="1"/>
+  <text x="950" y="195" font-size="10" font-weight="700" fill="#F87171" text-anchor="middle">store_id=01..09, 11..24...</text>
+  <text x="950" y="215" font-size="9" fill="#CBD5E1" text-anchor="middle">960 Partition Folders</text>
+  <text x="950" y="235" font-size="10" font-weight="700" fill="#EF4444" text-anchor="middle">SKIPPED ON STORAGE!</text>
+  <text x="950" y="255" font-size="8.5" fill="#FCA5A5" text-anchor="middle">Zero bytes transferred from cloud</text>
+
+  <text x="635" y="300" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Partition Pruning Ratio: <tspan fill="#34D399" font-weight="700">96% of data skipped!</tspan></text>
+  <text x="635" y="318" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Physical I/O reduced from 100TB to 4TB!</text>
+
+  <!-- Result Box -->
+  <rect x="620" y="345" width="440" height="100" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1"/>
+  <text x="635" y="367" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="start">Downstream Execution Impact</text>
+  <text x="635" y="387" font-size="9.5" fill="#CBD5E1" text-anchor="start">1. Join runs on only 4TB of data instead of full 100TB.</text>
+  <text x="635" y="403" font-size="9.5" fill="#CBD5E1" text-anchor="start">2. Prevents shuffle spill and reduces runtime from 45 mins to 2 mins.</text>
+  <text x="635" y="423" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">Enable flag: spark.sql.optimizer.dynamicPartitionPruning.enabled = true</text>
+
+  <!-- Connect Broadcast Bridge -> Fact Scan -->
+  <path d="M 570.0 270.0 L 580.0 270.0 C 593.0 270.0, 593.0 210.0, 606.0 210.0 L 620.0 210.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="468" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="484" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">DPP Invariant: DPP calculates dynamic keys from the small dimension table and injects them as partition filters into the fact table scan, avoiding reading non-matching partition folders.</text>
+</svg>

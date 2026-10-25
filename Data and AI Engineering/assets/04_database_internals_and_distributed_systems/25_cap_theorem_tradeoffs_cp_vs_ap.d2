@@ -1,0 +1,22 @@
+direction: down
+title: CAP Theorem: Architectural Trade-Offs (CP vs. AP)
+
+p: Partition Tolerance (P) {
+  note: "MANDATORY: Physical networks WILL experience latency and partitions"
+  style.stroke: "#8b5cf6"
+}
+
+cp: CP Systems (Consistency > Availability) {
+  examples: "Google Spanner, HBase, Bigtable, ZooKeeper, etcd"
+  behavior: "Blocks writes or returns HTTP 503 on minority split; guarantees zero stale reads"
+  style.stroke: "#3b82f6"
+}
+
+ap: AP Systems (Availability > Consistency) {
+  examples: "Apache Cassandra, Amazon DynamoDB, CouchDB"
+  behavior: "Accepts reads and writes on both sides; returns eventual data; reconciles conflicts later"
+  style.stroke: "#10b981"
+}
+
+p -> cp: "Trade Availability for Correctness"
+p -> ap: "Trade Consistency for 100% Uptime"

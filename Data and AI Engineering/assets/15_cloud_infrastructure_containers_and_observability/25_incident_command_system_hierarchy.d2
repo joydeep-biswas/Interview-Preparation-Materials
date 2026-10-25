@@ -1,0 +1,15 @@
+classes: {
+  ic_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  ops_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  comms_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  scribe_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+ic: "Incident Commander (IC)\nHands-off-keyboard tactical leader\nDirects strategy & delegates tasks" { class: ic_box }
+ops: "Operations Lead\nExecutes technical investigations\nInspects logs, metrics & tests fixes" { class: ops_box }
+comms: "Communications Lead\nUpdates StatusPage & execs\nShields responders from noise" { class: comms_box }
+scribe: "Incident Scribe\nMaintains UTC timeline & war-room log\nCaptures data for post-mortem" { class: scribe_box }
+
+ic -> ops: "Delegates investigations"
+ic -> comms: "Approves external broadcasts"
+ic -> scribe: "Ensures timestamped log"

@@ -1,0 +1,23 @@
+direction: down
+title: "Separation of Concerns (SoC) & Clean Layered Architecture"
+
+web: "1. Web / Presentation Layer
+@RestController | DTO Validation | RFC 7807" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+}
+
+svc: "2. Application & Domain Layer
+@Service (Tx Boundary) | Domain Entities | Events" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+repo: "3. Infrastructure & Persistence Layer
+@Repository | Hibernate L1 Cache | Database" {
+  style.fill: "#1a140b"
+  style.stroke: "#f59e0b"
+}
+
+web -> svc: "Calls use case"
+svc -> repo: "Calls persistence"

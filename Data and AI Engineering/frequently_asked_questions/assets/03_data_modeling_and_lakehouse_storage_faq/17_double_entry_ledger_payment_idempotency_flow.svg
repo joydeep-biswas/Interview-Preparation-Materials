@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" width="100%" height="100%">
+  <defs>
+    <style>
+      .actor-title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .seq-msg { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .alt-lbl { fill: #FCD34D; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 700; }
+      .seq-line { stroke: #334155; stroke-dasharray: 4 4; stroke-width: 1.5; }
+      .edge { stroke-width: 1.5; fill: none; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="440" fill="#0B0F19"/>
+
+  <!-- Actors -->
+  <g transform="translate(40, 20)">
+    <rect width="160" height="40" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="80" y="25" class="actor-title" fill="#93C5FD">Customer / POS</text>
+    <line x1="80" y1="40" x2="80" y2="410" class="seq-line"/>
+  </g>
+
+  <g transform="translate(280, 20)">
+    <rect width="180" height="40" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="90" y="25" class="actor-title" fill="#C4B5FD">Payment Gateway API</text>
+    <line x1="90" y1="40" x2="90" y2="410" class="seq-line"/>
+  </g>
+
+  <g transform="translate(540, 20)">
+    <rect width="180" height="40" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="90" y="25" class="actor-title" fill="#FCD34D">Relational Core DB</text>
+    <line x1="90" y1="40" x2="90" y2="410" class="seq-line"/>
+  </g>
+
+  <g transform="translate(790, 20)">
+    <rect width="160" height="40" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+    <text x="80" y="25" class="actor-title" fill="#6EE7B7">Double-Entry Ledger</text>
+    <line x1="80" y1="40" x2="80" y2="410" class="seq-line"/>
+  </g>
+
+  <!-- Flow -->
+  <!-- 1. Post request -->
+  <path fill="none" d="M 120 90 L 365 90" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <text x="130" y="82" class="seq-msg">1. POST /v1/payments (idempotency_key="tx_881")</text>
+
+  <!-- 2. Check DB -->
+  <path fill="none" d="M 370 120 L 625 120" class="edge" stroke="#8B5CF6" marker-end="url(#arr-amber)"/>
+  <text x="380" y="112" class="seq-msg">2. Check idempotency_key in payment_intents</text>
+
+  <!-- Alt Box -->
+  <rect x="100" y="140" width="840" height="260" rx="6" ry="6" fill="#131B2E" stroke="#334155" stroke-width="1"/>
+  
+  <!-- Alt branch 1: Key exists -->
+  <text x="115" y="160" class="alt-lbl" fill="#93C5FD">[ALT: Key Exists - Idempotent Return]</text>
+  <path fill="none" d="M 630 185 L 375 185" class="edge" stroke="#3B82F6" stroke-dasharray="3 3" marker-end="url(#arr-blue)"/>
+  <text x="400" y="177" class="seq-msg">Return existing payment_intent (AUTHORIZED)</text>
+
+  <path fill="none" d="M 370 205 L 125 205" class="edge" stroke="#3B82F6" stroke-dasharray="3 3" marker-end="url(#arr-blue)"/>
+  <text x="145" y="197" class="seq-msg">200 OK (Cached / Idempotent Response)</text>
+
+  <!-- Divider -->
+  <line x1="100" y1="225" x2="940" y2="225" stroke="#334155" stroke-dasharray="4 4" stroke-width="1"/>
+
+  <!-- Alt branch 2: New Request -->
+  <text x="115" y="245" class="alt-lbl" fill="#FCD34D">[ELSE: New Unique Request]</text>
+  
+  <path fill="none" d="M 370 265 L 625 265" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <text x="380" y="258" class="seq-msg">3. INSERT payment_intent (Status: PENDING)</text>
+
+  <path fill="none" d="M 370 295 L 625 295" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <text x="380" y="288" class="seq-msg">4. Handshake Visa/MC &amp; UPDATE payment_intent (AUTHORIZED)</text>
+
+  <path fill="none" d="M 370 330 L 865 330" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <text x="380" y="322" class="seq-msg">5. INSERT journal_entry + 2 balanced ledger_lines (Debit Hold, Credit Clearing)</text>
+
+  <path fill="none" d="M 370 375 L 125 375" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <text x="145" y="367" class="seq-msg">6. 201 Created (Authorization Code: "AUTH77281")</text>
+</svg>

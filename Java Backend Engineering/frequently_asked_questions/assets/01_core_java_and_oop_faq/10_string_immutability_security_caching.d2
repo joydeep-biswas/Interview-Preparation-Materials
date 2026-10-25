@@ -1,0 +1,33 @@
+direction: right
+
+security: "1. Security & Classloading" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  params: "Tamper-proof file paths, DB URLs & credentials"
+}
+
+thread_safety: "2. Thread Safety" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  concurrency: "Lock-free safe sharing across threads"
+}
+
+hash_caching: "3. HashCode Caching" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  hash: "Cached 32-bit field enables instant O(1) in Map"
+}
+
+pool: "4. String Pool Sharing" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  ram: "Massive RAM savings via literal deduplication"
+}
+
+security -> thread_safety
+thread_safety -> hash_caching
+hash_caching -> pool

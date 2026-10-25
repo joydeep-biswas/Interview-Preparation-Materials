@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 360" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+    </marker>
+    <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Background -->
+  <rect width="980" height="360" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g id="header">
+    <text x="490" y="36" fill="#f8fafc" font-size="18" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">High-Performance Deep Learning: The Three GPU Hardware Bottlenecks</text>
+    <text x="490" y="58" fill="#94a3b8" font-size="12" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Compute-Bound Tensor Cores vs. Memory-Bandwidth-Bound HBM vs. PCIe Bus Transfer Latency</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g id="diagram-elements">
+    
+    <rect x="40" y="115" width="280" height="190" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="180" y="137" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">1. Compute-Bound (GEMM)</text>
+<text x="52" y="157" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Bottleneck: Tensor Core math limits</text>
+<text x="52" y="175" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Operations: Dense Matrix Multiplies (W * x)</text>
+<text x="52" y="193" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Q, K, V projections and FFN layers</text>
+<text x="52" y="211" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Arithmetic Intensity: High (FLOPs / Byte &amp;gt; 150)</text>
+<text x="52" y="229" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Symptom: GPU SM active at 98%+</text>
+<text x="52" y="247" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Optimization: Ensure matrix dimensions are</text>
+<text x="52" y="265" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">clean multiples of 16/32/64 for Tensor Cores</text>
+
+    <rect x="350" y="115" width="280" height="190" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+<text x="490" y="137" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">2. Memory-Bandwidth Bound</text>
+<text x="362" y="157" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Bottleneck: HBM (High-Bandwidth Memory) Bus</text>
+<text x="362" y="175" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Operations: Softmax, LayerNorm, RMSNorm, SiLU</text>
+<text x="362" y="193" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Arithmetic Intensity: Low (FLOPs / Byte &amp;lt; 5)</text>
+<text x="362" y="211" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">GPU sits starved waiting to load/store bytes</text>
+<text x="362" y="229" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Symptom: SMs idle while memory bus at 100%</text>
+<text x="362" y="247" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Optimization: Kernel Fusion (FlashAttention,</text>
+<text x="362" y="265" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Triton fused kernels, Torch.compile)</text>
+
+    <rect x="660" y="115" width="280" height="190" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+<text x="800" y="137" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">3. Host-to-Device (PCIe) Bound</text>
+<text x="672" y="157" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Bottleneck: PCIe Gen4/5 Bus (32-64 GB/s)</text>
+<text x="672" y="175" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Operations: Copying training tensors from CPU</text>
+<text x="672" y="193" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">RAM to GPU VRAM via cudaMemcpy</text>
+<text x="672" y="211" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Symptom: GPU shows 0% utilization spikes</text>
+<text x="672" y="229" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Optimization: pin_memory=True in DataLoader,</text>
+<text x="672" y="247" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">num_workers &amp;gt; 4, non_blocking=True, keep</text>
+<text x="672" y="265" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">data pipeline strictly on GPU</text>
+
+  </g>
+</svg>

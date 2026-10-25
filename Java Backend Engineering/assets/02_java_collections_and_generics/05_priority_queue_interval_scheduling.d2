@@ -1,0 +1,33 @@
+direction: right
+title: PriorityQueue Min-Heap for Interval Scheduling (Meeting Rooms II)
+
+Input: Sorted Intervals {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  i1: "Interval 1: [0, 30] -> Room 1"
+  i2: "Interval 2: [5, 10] -> Overlap! Room 2"
+  i3: "Interval 3: [15, 20] -> Room 2 free; reuse!"
+}
+
+MinHeap: PriorityQueue<Integer> Tracks End Times {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  s1: "Step 1: Offer 30 -> Heap: [30] (1 room)"
+  s2: "Step 2: Start 5 < 30 -> Offer 10 -> Heap: [10, 30] (2 rooms)"
+  s3: "Step 3: Start 15 >= 10 -> Poll 10, Offer 20 -> Heap: [20, 30]"
+  result: "Max simultaneous rooms = Heap.size() = 2"
+}
+
+ArrayMath: Min-Heap Array Storage {
+  style.fill: "#0B132B"
+  style.stroke: "#1D4ED8"
+  parent: "parent(i) = (i - 1) / 2"
+  left: "left(i) = 2i + 1"
+  right: "right(i) = 2i + 2"
+  complexity: "Time: O(N log N) | Space: O(N)"
+}
+
+Input.i1 -> MinHeap.s1
+Input.i2 -> MinHeap.s2
+Input.i3 -> MinHeap.s3
+MinHeap -> ArrayMath

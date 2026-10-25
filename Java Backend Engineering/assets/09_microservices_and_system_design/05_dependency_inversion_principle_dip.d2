@@ -1,0 +1,26 @@
+direction: right
+title: "Dependency Inversion Principle (DIP): Inverting Domain-to-Database Control"
+
+service: "AccountService
+High-Level Domain
+Contains transfer() logic" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+port: "AccountPersistencePort <<interface>>
+Domain Port Abstraction
+load(id), save(account)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+adapter: "JpaAccountAdapter
+Low-Level Infrastructure
+Spring Data JPA + PostgreSQL" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+service -> port: "Calls abstraction"
+adapter -> port: "Implements (Dependency inverts inward!)"

@@ -1,0 +1,20 @@
+direction: right
+title: DP State Transitions & Space Compression Architecture
+
+StateDAG: 1. State Transition DAG {
+  Sub2: "Subproblem (i-2)"
+  Sub1: "Subproblem (i-1)"
+  Curr: "Current State DP[i]"
+  Next: "Next State DP[i+1]"
+  Sub2 -> Curr
+  Sub1 -> Curr
+  Curr -> Next
+}
+
+SpaceCompression: 2. Rolling Memory Compression {
+  FullMatrix: "Full 2D Matrix: DP[N][W] (O(N*W))"
+  RollingRow: "1D Array: DP[W] (O(W))"
+  Scalars: "Two Scalar Registers (O(1))"
+  FullMatrix -> RollingRow: "Eliminate historical rows"
+  RollingRow -> Scalars: "Keep only last 2 states"
+}

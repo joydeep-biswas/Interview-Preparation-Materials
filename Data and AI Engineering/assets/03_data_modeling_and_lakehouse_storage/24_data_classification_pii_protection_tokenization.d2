@@ -1,0 +1,27 @@
+direction: right
+title: Data Classification, PII Protection & Tokenization
+
+raw: Raw Input {
+  ssn: "123-45-6789"
+  email: "alice@corp.com"
+  style.stroke: "#ef4444"
+}
+
+engine: Cryptographic Tokenization & Masking Engine {
+  hsm: Hardware Security Module (KMS Salt)
+}
+
+masked: Masked View (For Analysts) {
+  ssn: "***-**-6789"
+  email: "a****@corp.com"
+  style.stroke: "#10b981"
+}
+
+token: Tokenized Join Key (For ETL Joins) {
+  hash: "SHA256(email + secret_salt)"
+  style.stroke: "#8b5cf6"
+}
+
+raw -> engine: "Secure ingest"
+engine -> masked: "Dynamic Masking for Analysts"
+engine -> token: "Deterministic Salted Hash for Joins"

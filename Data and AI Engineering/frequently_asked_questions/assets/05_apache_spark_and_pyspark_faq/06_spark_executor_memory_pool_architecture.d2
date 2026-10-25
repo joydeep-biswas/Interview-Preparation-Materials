@@ -1,0 +1,19 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+container: "Total Executor Container (e.g., 32 GB RAM)" {
+  class: box
+  style.stroke: "#3B82F6"
+  heap: "JVM On-Heap Memory (spark.executor.memory)" {
+    pool: "Spark Unified Memory (60%): Execution + Storage Pool"
+    user: "User Memory (40%): Custom UDFs & Structures"
+    res: "Reserved Memory (300 MB): Spark Engine Guard"
+  }
+  offheap: "Off-Heap Memory (Tungsten Binary Unsafe)"
+  overhead: "Overhead Memory (Py4J IPC, OS Buffer)"
+}
+
+spill: "Local NVMe Scratch Disk Spill" { class: box; style.stroke: "#EF4444" }
+container -> spill: "Spills on Exhaustion"

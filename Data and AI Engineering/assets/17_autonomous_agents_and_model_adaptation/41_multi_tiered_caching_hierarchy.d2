@@ -1,0 +1,22 @@
+direction: down
+classes: {
+  query: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  t1: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  t2: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  t3: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+}
+
+q: "Incoming User Prompt" { class: query }
+t1: "Tier 1: Redis Exact Hash (~1ms)
+SHA-256 Normalized Match
+(Hit: <2ms, $0)" { class: t1 }
+t2: "Tier 2: Semantic Vector Cache (~15ms)
+Cosine Similarity > 0.96
+(Hit: <20ms, $0)" { class: t2 }
+t3: "Tier 3: Model Inference (~1500ms)
+Invoke LLM & backfill caches
+(Full API Cost & Compute)" { class: t3 }
+
+q -> t1
+t1 -> t2: "Cache Miss"
+t2 -> t3: "Cache Miss"

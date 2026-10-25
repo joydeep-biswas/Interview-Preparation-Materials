@@ -1,0 +1,29 @@
+direction: right
+title: Java Generics Type Erasure & Synthetic Bridge Methods
+
+Source: 1. Source Code (Compile Time) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  generic: "List<String> list = new ArrayList<>()"
+  call: "String s = list.get(0)"
+  override: "MyNode extends Node<Integer>: setData(Integer)"
+}
+
+Erasure: 2. Javac Type Erasure Engine {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  erase: "List<String> erased to raw List; T erased to Object"
+  cast: "Injects synthetic (String) checkcast"
+  bridge: "Generates synthetic bridge method: setData(Object)"
+}
+
+Bytecode: 3. Compiled Bytecode (Runtime) {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  raw: "Operates on raw Object types"
+  checkcast: "checkcast java/lang/String instruction"
+  compat: "Maintains 100% backward binary compatibility"
+}
+
+Source -> Erasure: javac compilation
+Erasure -> Bytecode: bytecode emission

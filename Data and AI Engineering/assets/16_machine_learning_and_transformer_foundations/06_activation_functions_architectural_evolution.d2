@@ -1,0 +1,17 @@
+classes: {
+  sigmoid_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  relu_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  gelu_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  swiglu_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+evolution: "Activation Function Architectural Evolution" {
+  sigmoid: "1. Sigmoid / Tanh\n1 / (1 + e^-z)\nSevere Vanishing Gradients when |z| > 3" { class: sigmoid_box }
+  relu: "2. ReLU (Rectified Linear Unit)\nmax(0, z)\nConstant derivative (=1) for z > 0\nFlaw: Dying ReLU if z < 0 permanently" { class: relu_box }
+  gelu: "3. GELU (Gaussian Error Linear Unit)\nz * Phi(z)\nSmooth probabilistic gating\nStandard in BERT & GPT-2" { class: gelu_box }
+  swiglu: "4. SwiGLU (Swish-Gated Linear Unit)\nSwish(xW_gate) * (xW_up)\nBilinear multiplicative gating\nSOTA in LLaMA-3 & Mistral" { class: swiglu_box }
+
+  sigmoid -> relu: "Enables deep training"
+  relu -> gelu: "Smooth non-monotonic curvature"
+  gelu -> swiglu: "Multiplicative feature gating"
+}

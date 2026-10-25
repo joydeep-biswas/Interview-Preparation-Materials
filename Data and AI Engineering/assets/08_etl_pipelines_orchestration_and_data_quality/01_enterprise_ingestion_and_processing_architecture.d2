@@ -1,0 +1,46 @@
+direction: right
+title: End-to-End Enterprise Ingestion & Processing Architecture
+
+sources: 1. Data Sources {
+  oltp: OLTP Database (Postgres / MySQL)
+  storage: Cloud Storage (S3 / ADLS)
+  saas: Third-Party SaaS APIs
+  iot: IoT & Telemetry Streams
+}
+
+ingestion: 2. Ingestion Layer {
+  cdc: Log-Based CDC (Debezium)
+  autoloader: Cloud File Ingestion (Auto Loader)
+  api: Resilient API Ingestion (Backoff)
+  stream_gw: Event Streaming Gateway
+}
+
+buffer: 3. Buffer Layer {
+  kafka: Kafka / Event Hubs Raw Topic
+}
+
+processing: 4. Processing Tier {
+  spark: Spark Structured Streaming
+  flink: Apache Flink Low-Latency
+  dbt: dbt In-Engine Transformations
+}
+
+lakehouse: 5. Target Lakehouse {
+  bronze: Bronze Layer (Raw Parquet)
+  silver: Silver Layer (Cleaned & Typed)
+  gold: Gold Marts (Aggregated BI/ML)
+}
+
+sources.oltp -> ingestion.cdc
+sources.storage -> ingestion.autoloader
+sources.saas -> ingestion.api
+sources.iot -> ingestion.stream_gw
+
+ingestion.cdc -> buffer.kafka
+ingestion.stream_gw -> buffer.kafka
+buffer.kafka -> processing.spark
+buffer.kafka -> processing.flink
+
+ingestion.autoloader -> lakehouse.bronze: "Direct Cloud Load"
+processing.spark -> lakehouse.silver: "Cleanse"
+processing.dbt -> lakehouse.gold: "Aggregate"

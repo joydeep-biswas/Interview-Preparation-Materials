@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1200" height="520" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Modern Java Language &amp; Functional Pipeline Architecture</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Records, Sealed Hierarchies &amp; Pattern Matching (Java 16-21+) + Lazy Stream Pipeline Engine</text>
+
+  <!-- Left Side: Modern Type System Container -->
+  <rect x="50" y="95" width="530" height="380" rx="8" fill="#0B132B" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="50" y="95" width="530" height="32" rx="8" fill="#1E3A8A"/>
+  <text x="315" y="117" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Modern Type System: Domain Modeling (Java 16 - 21+)</text>
+
+  <!-- Records -->
+  <rect x="70" y="145" width="490" height="90" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="85" y="170" font-size="12" font-weight="700" fill="#60A5FA">Records (Java 16 - JEP 395)</text>
+  <text x="85" y="192" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">record Order(UUID id, Customer cust, double total) {}</text>
+  <text x="85" y="210" font-size="10" fill="#94A3B8">&#x2022; Immutable data carriers with compiler-generated fields, getters, equals, hashCode</text>
+  <text x="85" y="226" font-size="10" fill="#38BDF8">&#x2022; Compact constructors enforce domain invariants at creation time</text>
+
+  <!-- Sealed Interfaces -->
+  <rect x="70" y="250" width="490" height="90" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="85" y="275" font-size="12" font-weight="700" fill="#60A5FA">Sealed Classes &amp; Interfaces (Java 17 - JEP 409)</text>
+  <text x="85" y="297" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">sealed interface Payment permits Card, Crypto, Cash {}</text>
+  <text x="85" y="315" font-size="10" fill="#94A3B8">&#x2022; Explicitly restricts subclassing to declared permit list</text>
+  <text x="85" y="331" font-size="10" fill="#34D399">&#x2022; Enables exhaustive compiler verification in pattern matching switch</text>
+
+  <!-- Pattern Matching -->
+  <rect x="70" y="355" width="490" height="105" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+  <text x="85" y="380" font-size="12" font-weight="700" fill="#34D399">Pattern Matching for Switch (Java 21 - JEP 441)</text>
+  <text x="85" y="402" font-size="10" font-family="'JetBrains Mono', monospace" fill="#A7F3D0">return switch (payment) {</text>
+  <text x="95" y="420" font-size="10" font-family="'JetBrains Mono', monospace" fill="#A7F3D0">  case Card(var n, var exp) -&gt; chargeCard(n, exp);</text>
+  <text x="95" y="438" font-size="10" font-family="'JetBrains Mono', monospace" fill="#A7F3D0">  case Crypto(var addr)     -&gt; transferOnChain(addr);</text>
+  <text x="85" y="454" font-size="9" fill="#94A3B8">}; // No default branch required: compiler proves totality!</text>
+
+  <!-- Right Side: Functional Streams Container -->
+  <rect x="620" y="95" width="530" height="380" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
+  <rect x="620" y="95" width="530" height="32" rx="8" fill="#064E3B"/>
+  <text x="885" y="117" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Functional Processing &amp; Stream Pipeline Engine</text>
+
+  <!-- Source Stage -->
+  <rect x="640" y="145" width="490" height="85" rx="6" fill="#0F172A" stroke="#0284C7" stroke-width="1.5"/>
+  <text x="655" y="170" font-size="12" font-weight="700" fill="#38BDF8">1. Stream Source (Collection, Supplier, I/O)</text>
+  <text x="655" y="192" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">orders.stream() / Stream.of() / Files.lines()</text>
+  <text x="655" y="212" font-size="10" fill="#94A3B8">Backed by Spliterator (tryAdvance / trySplit / characteristics)</text>
+
+  <!-- Intermediate Lazy Ops -->
+  <rect x="640" y="245" width="490" height="95" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="655" y="270" font-size="12" font-weight="700" fill="#FBBF24">2. Intermediate Operations (Lazy Sink Chaining)</text>
+  <text x="655" y="292" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">.filter(o -&gt; o.isPaid()).map(Order::total).sorted()</text>
+  <text x="655" y="312" font-size="10" fill="#CBD5E1">&#x2022; Stateless (filter, map) vs Stateful (sorted, distinct)</text>
+  <text x="655" y="328" font-size="10" fill="#FDE68A">&#x2022; Purely declarative; zero element computation until terminal op!</text>
+
+  <!-- Terminal Eager Evaluation -->
+  <rect x="640" y="355" width="490" height="105" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+  <text x="655" y="380" font-size="12" font-weight="700" fill="#34D399">3. Terminal Operation (Eager Evaluation &amp; Sinks)</text>
+  <text x="655" y="402" font-size="10" font-family="'JetBrains Mono', monospace" fill="#A7F3D0">.collect(Collectors.toList()) / .reduce() / .findFirst()</text>
+  <text x="655" y="422" font-size="10" fill="#CBD5E1">&#x2022; Triggers downstream element pull through chained Sinks</text>
+  <text x="655" y="438" font-size="10" fill="#34D399">&#x2022; Materializes result or short-circuits early; closes stream</text>
+
+  <!-- Bottom Architectural Synergy -->
+  <rect x="50" y="485" width="1100" height="25" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="600" y="502" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Architectural Synergy: Sealed hierarchies and Records feed directly into Stream pipelines and Pattern Matching switches.</text>
+</svg>

@@ -1,0 +1,23 @@
+direction: down
+title: "Linux Kernel Networking & High-Concurrency Socket Subsystem"
+
+nic: "1. Hardware & Driver
+NIC -> DMA -> RX Ring -> Hard IRQ -> NAPI SoftIRQ" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+}
+
+tcp: "2. Kernel TCP/IP Stack
+IP Route -> Netfilter -> TCP Engine -> SYN Backlog -> Accept Queue" {
+  style.fill: "#1a102f"
+  style.stroke: "#8b5cf6"
+}
+
+jvm: "3. JVM Runtime & NIO Sockets
+epoll_wait() -> Netty EventLoop -> SO_RCVBUF -> Java App Logic" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+nic -> tcp: "SoftIRQ packet delivery"
+tcp -> jvm: "Socket ready for read"

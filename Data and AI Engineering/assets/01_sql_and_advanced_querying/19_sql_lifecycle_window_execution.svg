@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="450" viewBox="0 0 1180 450">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1180" height="450" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">SQL Execution Lifecycle: Why Window Functions Cannot Be in WHERE or HAVING</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Logical lifecycle stages: Stage 2 WHERE filters rows BEFORE Stage 4 Window calculations exist</text>
+
+  <!-- Top: 5 Sequential Stages Across (Safely starts at y=95, completely clear of canvas header!) -->
+  <!-- Stage 1 -->
+  <g transform="translate(30, 95)">
+    <rect width="210" height="110" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
+    <text x="105" y="24" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Stage 1: FROM / JOIN</text>
+    <rect x="12" y="36" width="186" height="62" rx="4" fill="#1C2541" stroke="#3B82F6"/>
+    <text x="20" y="54" font-size="10" fill="#94A3B8" text-anchor="start">• Reads base tables</text>
+    <text x="20" y="70" font-size="10" fill="#94A3B8" text-anchor="start">• Evaluates ON joins</text>
+    <text x="20" y="86" font-size="10" fill="#60A5FA" font-weight="600" text-anchor="start">Base tuples available</text>
+  </g>
+
+  <!-- Stage 2: WHERE (Highlighted with Warning) -->
+  <g transform="translate(260, 95)">
+    <rect width="210" height="110" rx="8" fill="#2A0B0B" stroke="#EF4444" stroke-width="2"/>
+    <text x="105" y="24" font-size="12" font-weight="700" fill="#FCA5A5" text-anchor="middle">Stage 2: WHERE</text>
+    <rect x="12" y="36" width="186" height="62" rx="4" fill="#4C0505" stroke="#EF4444"/>
+    <text x="20" y="54" font-size="10" fill="#FCA5A5" text-anchor="start">• Filters base rows</text>
+    <text x="20" y="70" font-size="10" fill="#EF4444" font-weight="700" text-anchor="start">⚠️ RUNS HERE!</text>
+    <text x="20" y="86" font-size="9" fill="#FCA5A5" text-anchor="start">Window funcs do NOT exist yet</text>
+  </g>
+
+  <!-- Stage 3 -->
+  <g transform="translate(490, 95)">
+    <rect width="210" height="110" rx="8" fill="#2E1C05" stroke="#F59E0B" stroke-width="2"/>
+    <text x="105" y="24" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Stage 3: GROUP BY &amp; HAVING</text>
+    <rect x="12" y="36" width="186" height="62" rx="4" fill="#451A03" stroke="#F59E0B"/>
+    <text x="20" y="54" font-size="10" fill="#FDE68A" text-anchor="start">• Aggregates groups</text>
+    <text x="20" y="70" font-size="10" fill="#FDE68A" text-anchor="start">• Evaluates HAVING</text>
+    <text x="20" y="86" font-size="10" fill="#F59E0B" font-weight="600" text-anchor="start">Emits group buckets</text>
+  </g>
+
+  <!-- Stage 4: WINDOW (Where Window funcs are calculated) -->
+  <g transform="translate(720, 95)">
+    <rect width="210" height="110" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <text x="105" y="24" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Stage 4: WINDOW Functions</text>
+    <rect x="12" y="36" width="186" height="62" rx="4" fill="#064E3B" stroke="#10B981"/>
+    <text x="20" y="54" font-size="10" fill="#A7F3D0" text-anchor="start">✓ COMPUTED HERE!</text>
+    <text x="20" y="70" font-size="10" fill="#FFFFFF" text-anchor="start">ROW_NUMBER(), RANK(),</text>
+    <text x="20" y="86" font-size="10" fill="#6EE7B7" font-weight="600" text-anchor="start">Appended to row tuples</text>
+  </g>
+
+  <!-- Stage 5 -->
+  <g transform="translate(950, 95)">
+    <rect width="200" height="110" rx="8" fill="#1A102F" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="100" y="24" font-size="12" font-weight="700" fill="#DDD6FE" text-anchor="middle">Stage 5: SELECT / Output</text>
+    <rect x="12" y="36" width="176" height="62" rx="4" fill="#2E1065" stroke="#8B5CF6"/>
+    <text x="20" y="54" font-size="10" fill="#DDD6FE" text-anchor="start">• Materializes aliases</text>
+    <text x="20" y="70" font-size="10" fill="#DDD6FE" text-anchor="start">• Evaluates DISTINCT</text>
+    <text x="20" y="86" font-size="10" fill="#C4B5FD" font-weight="600" text-anchor="start">ORDER BY &amp; LIMIT</text>
+  </g>
+
+  <!-- Connectors between stages -->
+  <path d="M 240 150 L 258 150" fill="none" stroke="#3B82F6" stroke-width="2" marker-end="url(#arr-b)"/>
+  <path d="M 470 150 L 488 150" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <path d="M 700 150 L 718 150" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path d="M 930 150 L 948 150" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+
+  <!-- Visual Conflict Banner (Placed BELOW stages, perfectly clear of header!) -->
+  <rect x="260" y="225" width="670" height="40" rx="6" fill="#4C0505" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="595" y="250" font-size="11" font-weight="700" fill="#FCA5A5" text-anchor="middle">⛔ Lifecycle Violation: Stage 2 WHERE executes BEFORE Stage 4 Window Functions exist!</text>
+  <path d="M 365 205 L 365 223" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arr-r)"/>
+  <path d="M 825 205 L 825 223" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arr-r)"/>
+
+  <!-- Bottom: The Production Solution -->
+  <g transform="translate(30, 285)">
+    <rect width="1120" height="145" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
+    <text x="560" y="24" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">Architectural Solutions to Filter by Window Results</text>
+
+    <!-- Solution 1: QUALIFY -->
+    <rect x="25" y="38" width="520" height="92" rx="6" fill="#1C2541" stroke="#10B981" stroke-width="1.2"/>
+    <text x="285" y="58" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Solution A: QUALIFY Clause (Modern Engines)</text>
+    <text x="40" y="78" font-size="11" fill="#A7F3D0" text-anchor="start">• Supported in BigQuery, Snowflake, DuckDB, Databricks</text>
+    <text x="40" y="96" font-size="11" fill="#A7F3D0" text-anchor="start">• Evaluated logically at Stage 4.5 (directly AFTER Window functions!)</text>
+    <text x="40" y="116" font-size="10" fill="#FFFFFF" class="code" text-anchor="start">  SELECT * FROM sales QUALIFY ROW_NUMBER() OVER(...) = 1</text>
+
+    <!-- Solution 2: CTE Wrapper -->
+    <rect x="575" y="38" width="520" height="92" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
+    <text x="835" y="58" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Solution B: CTE / Subquery Wrapper (ANSI Universal)</text>
+    <text x="590" y="78" font-size="11" fill="#94A3B8" text-anchor="start">• Universal ANSI standard (PostgreSQL, MySQL, SQL Server, Oracle)</text>
+    <text x="590" y="96" font-size="11" fill="#94A3B8" text-anchor="start">• Inner query materializes window metric; Outer query filters in WHERE</text>
+    <text x="590" y="116" font-size="10" fill="#FFFFFF" class="code" text-anchor="start">  WITH ranked AS (SELECT *, ROW_NUMBER()... rn) SELECT * WHERE rn=1</text>
+  </g>
+</svg>

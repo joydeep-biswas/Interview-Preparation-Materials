@@ -1,0 +1,47 @@
+direction: right
+
+phase1: "Phase 1: Shadow CDC" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  mainframe: "Mainframe DB2 (Primary)"
+  cdc: "Debezium CDC to Kafka"
+  cloud_db: "Passive Cloud Replica"
+}
+
+phase2: "Phase 2: Dual-Run Parity" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  gateway: "Smart Routing API Gateway"
+  reconcile: "Flink Continuous Reconciliation"
+}
+
+phase3: "Phase 3: Read Cutover" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  reads: "100% Reads on Cloud DB"
+  mips: "70% MIPS Cost Reduction"
+}
+
+phase4: "Phase 4: Full Cutover" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  cloud_primary: "Cloud DB Source of Truth"
+  decom: "Mainframe Decommissioned to Archive"
+}
+
+phase1 -> phase2: "CDC Pipeline Stable" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+phase2 -> phase3: "Parity Proven (30 Days)" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+phase3 -> phase4: "Zero Read Regressions" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

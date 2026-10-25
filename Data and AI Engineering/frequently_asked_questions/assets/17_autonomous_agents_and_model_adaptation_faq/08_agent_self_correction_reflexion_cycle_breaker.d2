@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6" } }
+  diamond_box: { shape: diamond, style: { fill: "#111827", stroke: "#F59E0B" } }
+  good_box: { style: { fill: "#064E3B", stroke: "#10B981" } }
+  cycle_box: { style: { fill: "#111827", stroke: "#EC4899" } }
+  bad_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+}
+
+Task: "Incoming Task" { class: blue_box }
+Gen: "Generator Agent\nSynthesizes Tool Call" { class: blue_box }
+Eval: "Evaluator Assertions" { class: diamond_box }
+Success: "Success Payload" { class: good_box }
+Cycle: "Cycle Detector\nStep > 5 or duplicate?" { class: cycle_box }
+Fallback: "Human Escalate\nGraceful Exit" { class: bad_box }
+
+Task -> Gen -> Eval
+Eval -> Success: "PASS"
+Eval -> Cycle: "FAIL"
+Cycle -> Gen: "NO: Reflexion"
+Cycle -> Fallback: "YES: Cycle"

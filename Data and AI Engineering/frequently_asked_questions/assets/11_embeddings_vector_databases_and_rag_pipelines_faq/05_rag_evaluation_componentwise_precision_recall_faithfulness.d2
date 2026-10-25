@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  ret_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  gen_box: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+RetrievalEval: "1. Retrieval Evaluation" {
+  class: ret_box
+  Prec: "Context Precision\nAre top-K chunks relevant?" { class: card_dark }
+  Rec: "Context Recall\nDid we capture all ground-truth facts?" { class: card_dark }
+  Prec -> Rec
+}
+
+GenerationEval: "2. Generation Evaluation" {
+  class: gen_box
+  Faith: "Faithfulness / Groundedness\nZero hallucination check" { class: card_dark }
+  AnsRel: "Answer Relevance\nDoes answer address prompt?" { class: card_dark }
+  Faith -> AnsRel
+}
+
+RetrievalEval -> GenerationEval

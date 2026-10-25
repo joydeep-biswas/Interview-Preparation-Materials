@@ -1,0 +1,28 @@
+direction: right
+title: Rate Limiting Algorithms: Token Bucket vs. Leaky Bucket
+
+token_bucket: 1. Token Bucket: Allows Bursts up to Capacity {
+  refill: "Continuous Refill: +r tokens/sec"
+  bucket: "Token Bucket (Cap: 100)"
+  check: "Token Available?" {
+    shape: diamond
+  }
+  exec: "Consume 1 Token -> Execute Request"
+  drop: "HTTP 429: Throttled"
+  refill -> bucket -> check
+  check -> exec: "Yes"
+  check -> drop: "No"
+}
+
+leaky_bucket: 2. Leaky Bucket: Smooths Traffic to Constant Rate {
+  ingress: "Bursty Requests Ingress"
+  fifo: "Bounded FIFO Buffer (Cap: 50)"
+  overflow: "Buffer Full?" {
+    shape: diamond
+  }
+  leak: "Leak at Strict Constant Rate (10 req/s)"
+  drop_lb: "HTTP 429: Queue Full"
+  ingress -> fifo -> overflow
+  overflow -> leak: "No"
+  overflow -> drop_lb: "Yes"
+}

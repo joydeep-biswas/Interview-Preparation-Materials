@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 480" width="100%" height="100%">
+  <defs>
+    <style>
+      .entity-title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .field-pk { fill: #FCD34D; font-family: "SFMono-Regular", Consolas, monospace; font-size: 11px; font-weight: 600; }
+      .field-fk { fill: #93C5FD; font-family: "SFMono-Regular", Consolas, monospace; font-size: 11px; }
+      .field-norm { fill: #94A3B8; font-family: "SFMono-Regular", Consolas, monospace; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+      .edge-lbl { fill: #64748B; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="480" fill="#0B0F19"/>
+
+  <!-- Left Column: Venue Hierarchy -->
+  <g transform="translate(30, 30)">
+    <rect width="180" height="90" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="90" y="24" class="entity-title" fill="#93C5FD">THEATER</text>
+    <line x1="10" y1="34" x2="170" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <text x="15" y="52" class="field-pk">theater_id (PK)</text>
+    <text x="15" y="70" class="field-norm">name, city, address</text>
+  </g>
+
+  <g transform="translate(30, 160)">
+    <rect width="180" height="95" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="90" y="24" class="entity-title" fill="#93C5FD">AUDITORIUM</text>
+    <line x1="10" y1="34" x2="170" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <text x="15" y="52" class="field-pk">auditorium_id (PK)</text>
+    <text x="15" y="70" class="field-fk">theater_id (FK)</text>
+    <text x="15" y="88" class="field-norm">screen_num, total_seats</text>
+  </g>
+
+  <g transform="translate(30, 295)">
+    <rect width="180" height="105" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="90" y="24" class="entity-title" fill="#93C5FD">SEAT</text>
+    <line x1="10" y1="34" x2="170" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <text x="15" y="52" class="field-pk">seat_id (PK)</text>
+    <text x="15" y="70" class="field-fk">auditorium_id (FK)</text>
+    <text x="15" y="88" class="field-norm">row_num, col_num</text>
+    <text x="15" y="102" class="field-norm">seat_tier (VIP/Std)</text>
+  </g>
+
+  <!-- Middle Top: Movie & Showtime -->
+  <g transform="translate(290, 30)">
+    <rect width="180" height="90" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="90" y="24" class="entity-title" fill="#C4B5FD">MOVIE</text>
+    <line x1="10" y1="34" x2="170" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <text x="15" y="52" class="field-pk">movie_id (PK)</text>
+    <text x="15" y="70" class="field-norm">title, duration_min</text>
+  </g>
+
+  <g transform="translate(290, 160)">
+    <rect width="180" height="105" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="90" y="24" class="entity-title" fill="#C4B5FD">SHOWTIME</text>
+    <line x1="10" y1="34" x2="170" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <text x="15" y="52" class="field-pk">showtime_id (PK)</text>
+    <text x="15" y="70" class="field-fk">movie_id (FK)</text>
+    <text x="15" y="88" class="field-fk">auditorium_id (FK)</text>
+    <text x="15" y="102" class="field-norm">start_time, end_time</text>
+  </g>
+
+  <!-- Central Entity: SHOW_SEAT (Concurrency & Lock) -->
+  <g transform="translate(560, 120)">
+    <rect width="240" height="235" rx="10" ry="10" fill="#1F2937" stroke="#F59E0B" stroke-width="2"/>
+    <text x="120" y="26" class="entity-title" fill="#FCD34D">SHOW_SEAT (Inventory)</text>
+    <line x1="15" y1="36" x2="225" y2="36" stroke="#374151" stroke-width="1.5"/>
+    <text x="20" y="58" class="field-pk">show_seat_id (PK)</text>
+    <text x="20" y="78" class="field-fk">showtime_id (FK)</text>
+    <text x="20" y="98" class="field-fk">seat_id (FK)</text>
+    <text x="20" y="118" class="field-norm">status (AVAILABLE, LOCKED, BOOKED)</text>
+    <text x="20" y="138" class="field-norm">hold_expiry (Timestamp)</text>
+    <text x="20" y="158" class="field-fk">booking_id (FK - Nullable)</text>
+    <text x="20" y="178" class="field-norm">price (Decimal)</text>
+    <text x="20" y="198" class="field-norm">version (Optimistic Lock)</text>
+    <line x1="20" y1="210" x2="220" y2="210" stroke="#374151" stroke-width="1"/>
+    <text x="120" y="226" class="edge-lbl" fill="#FBBF24">Serialized Hot-Spot Unit</text>
+  </g>
+
+  <!-- Right: Booking & User -->
+  <g transform="translate(860, 130)">
+    <rect width="130" height="105" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+    <text x="65" y="24" class="entity-title" fill="#6EE7B7">BOOKING</text>
+    <line x1="10" y1="34" x2="120" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <text x="12" y="52" class="field-pk">booking_id (PK)</text>
+    <text x="12" y="70" class="field-fk">user_id (FK)</text>
+    <text x="12" y="88" class="field-norm">total_amount</text>
+    <text x="12" y="100" class="field-norm">status (CONFIRMED)</text>
+  </g>
+
+  <g transform="translate(860, 275)">
+    <rect width="130" height="90" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+    <text x="65" y="24" class="entity-title" fill="#6EE7B7">USER</text>
+    <line x1="10" y1="34" x2="120" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <text x="12" y="52" class="field-pk">user_id (PK)</text>
+    <text x="12" y="70" class="field-norm">full_name</text>
+    <text x="12" y="88" class="field-norm">email, phone</text>
+  </g>
+
+  <!-- Connections -->
+  <!-- Theater -> Aud -->
+  <path fill="none" d="M 120 120 L 120 160" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <!-- Aud -> Seat -->
+  <path fill="none" d="M 120 255 L 120 295" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <!-- Aud -> Showtime -->
+  <path fill="none" d="M 210 200 L 290 200" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <!-- Movie -> Showtime -->
+  <path fill="none" d="M 380 120 L 380 160" class="edge" stroke="#8B5CF6" marker-end="url(#arr-blue)"/>
+  <!-- Showtime -> Show_Seat -->
+  <path fill="none" d="M 470 210 L 560 210" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <!-- Seat -> Show_Seat (Curved with straight runway) -->
+  <path fill="none" d="M 210 345 L 385 345 C 470 345, 510 280, 545 280 L 560 280" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <!-- User -> Booking -->
+  <path fill="none" d="M 925 275 L 925 235" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <!-- Booking -> Show_Seat -->
+  <path fill="none" d="M 860 180 L 800 180" class="edge" stroke="#10B981" marker-end="url(#arr-amber)"/>
+</svg>

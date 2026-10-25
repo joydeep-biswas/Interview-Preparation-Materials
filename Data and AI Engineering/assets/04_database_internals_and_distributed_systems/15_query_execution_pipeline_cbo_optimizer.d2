@@ -1,0 +1,16 @@
+direction: right
+title: The Query Execution Pipeline (Parser to Executor)
+
+sql: Declarative SQL Query String
+parser: 1. Lexer & Parser (Generates AST)
+rewriter: 2. Query Rewriter (View expansion & constant folding)
+cbo: 3. Cost-Based Optimizer (CBO Search Engine) {
+  search: Join Permutations & Index Selection
+  cost: Cost Formula = Disk I/O + CPU Instructions
+}
+executor: 4. Physical Execution Engine (Tuple Processing)
+
+sql -> parser: "Raw SQL"
+parser -> rewriter: "Validated AST"
+rewriter -> cbo: "Logical Plan"
+cbo -> executor: "Optimal Physical Plan"

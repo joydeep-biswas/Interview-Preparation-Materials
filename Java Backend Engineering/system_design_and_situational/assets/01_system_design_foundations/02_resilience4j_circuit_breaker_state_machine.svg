@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="500" y="32" class="title" font-size="19" text-anchor="middle">Resilience4j Circuit Breaker State Machine</text>
+  <text x="500" y="52" class="subtitle" text-anchor="middle">State transitions between Closed, Open, and Half-Open based on sliding window failure rates</text>
+
+  <!-- Start Point -->
+  <circle cx="80" cy="180" r="14" fill="#3B82F6"/>
+  <circle cx="80" cy="180" r="8" fill="#93C5FD"/>
+  <path d="M 94 180 L 148 180 L 160 180" fill="none" stroke="#3B82F6" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Closed State -->
+  <g transform="translate(160, 100)">
+    <rect width="240" height="160" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2.5"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <text x="120" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">CLOSED (Normal)</text>
+    <text x="16" y="58" class="card-body">• Requests execute normally</text>
+    <text x="16" y="78" class="card-body">• Count/Time sliding window active</text>
+    <text x="16" y="98" class="card-body">• Tracks failure rate &amp; slow calls</text>
+    <rect x="16" y="118" width="208" height="24" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="134" class="badge" fill="#A7F3D0" text-anchor="middle">Traffic Flowing 100%</text>
+  </g>
+
+  <!-- Open State -->
+  <g transform="translate(620, 100)">
+    <rect width="240" height="160" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2.5"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="120" y="22" class="card-title" fill="#FCA5A5" text-anchor="middle">OPEN (Tripped)</text>
+    <text x="16" y="58" class="card-body">• Fails fast immediately</text>
+    <text x="16" y="78" class="card-body">• Throws CallNotPermittedException</text>
+    <text x="16" y="98" class="card-body">• Executes Fallback method</text>
+    <rect x="16" y="118" width="208" height="24" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="134" class="badge" fill="#FCA5A5" text-anchor="middle">Shedding 100% Traffic</text>
+  </g>
+
+  <!-- Half-Open State (Below) -->
+  <g transform="translate(390, 275)">
+    <rect width="240" height="125" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2.5"/>
+    <rect width="240" height="32" rx="10" ry="10" fill="#78350F"/>
+    <text x="120" y="21" class="card-title" fill="#FDE68A" text-anchor="middle">HALF-OPEN (Probing)</text>
+    <text x="16" y="54" class="card-body">• Allows limited probe requests (e.g. 10)</text>
+    <text x="16" y="74" class="card-body">• Evaluates downstream recovery</text>
+    <rect x="16" y="88" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="103" class="badge" fill="#FDE68A" text-anchor="middle">Testing Canary Health</text>
+  </g>
+
+  <!-- Transition 1: Closed -> Open (Top straight connector) -->
+  <path d="M 400 150 L 608 150 L 620 150" fill="none" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+  <rect x="440" y="132" width="140" height="20" rx="4" ry="4" fill="#1E293B" stroke="#EF4444" stroke-width="1"/>
+  <text x="510" y="146" class="conn-label" fill="#FCA5A5" text-anchor="middle">Failure Rate &gt;= 50%</text>
+
+  <!-- Transition 2: Open -> Half-Open (Curves down-left) -->
+  <!-- Leaves bottom of Open (740, 260), enters right of Half-Open (630, 335) -->
+  <path d="M 740 260 L 740 310 Q 740 335 715 335 L 642 335 L 630 335" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+  <rect x="660" y="322" width="130" height="20" rx="4" ry="4" fill="#1E293B" stroke="#F59E0B" stroke-width="1"/>
+  <text x="725" y="336" class="conn-label" fill="#FDE68A" text-anchor="middle">Sleep Window (30s) Expired</text>
+
+  <!-- Transition 3: Half-Open -> Closed (Curves up-left) -->
+  <!-- Leaves left of Half-Open (390, 335), curves up into bottom of Closed (280, 260) -->
+  <path d="M 390 335 L 305 335 Q 280 335 280 310 L 280 272 L 280 260" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <rect x="230" y="322" width="140" height="20" rx="4" ry="4" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+  <text x="300" y="336" class="conn-label" fill="#A7F3D0" text-anchor="middle">Probe Success &gt;= 10</text>
+
+  <!-- Transition 4: Half-Open -> Open (Probes fail) -->
+  <path d="M 570 275 L 570 240 Q 570 220 595 220 L 608 220 L 620 220" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <rect x="520" y="210" width="95" height="18" rx="3" ry="3" fill="#1E293B"/>
+  <text x="567" y="223" class="conn-label" fill="#FCA5A5" text-anchor="middle">Probe Fails</text>
+</svg>

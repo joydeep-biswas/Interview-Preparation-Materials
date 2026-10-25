@@ -1,0 +1,29 @@
+direction: right
+title: Spark Data Abstractions Evolution
+
+RDD: RDD (Low-Level JVM Objects) {
+  style.stroke: "#64748B"
+  R_type: Opaque JVM objects (RDD[T])
+  R_opt: No Catalyst optimization
+  R_gc: High GC overhead & memory churn
+  R_py: Very slow in PySpark (Pickle serialization)
+}
+
+DataFrame: DataFrame (Relational Table Schema) {
+  style.stroke: "#34D399"
+  D_type: Untyped Relational Rows (Dataset[Row])
+  D_opt: Full Catalyst Optimizer & CBO
+  D_gc: Tungsten off-heap memory (Zero GC overhead)
+  D_py: Native speed in PySpark (Identical to Scala)
+}
+
+Dataset: Dataset (Strongly Typed JVM Objects) {
+  style.stroke: "#C084FC"
+  S_type: Strongly typed JVM case classes (Dataset[T])
+  S_opt: Catalyst optimization + compile-time type safety
+  S_gc: Efficient Encoders to Tungsten format
+  S_py: Scala / Java only (Not in Python)
+}
+
+RDD -> DataFrame: Schema Enforced & Tungsten Memory { style.stroke: "#34D399" }
+DataFrame -> Dataset: Compile-Time Type Safety (Scala) { style.stroke: "#C084FC" }

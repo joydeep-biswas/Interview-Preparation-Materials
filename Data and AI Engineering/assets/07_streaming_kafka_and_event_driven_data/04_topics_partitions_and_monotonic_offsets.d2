@@ -1,0 +1,22 @@
+direction: down
+title: Kafka Topics, Partitions, and Monotonic Sequential Offsets
+
+topic: "Topic: commerce.orders" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  p0: "Partition 0 (Broker 1 Leader)" {
+    style.stroke: "#f59e0b"
+    offsets: "Off 0 -> Off 1 -> Off 2 -> Off 3 -> Off 4 -> Off 5 -> Off 6"
+  }
+
+  p1: "Partition 1 (Broker 2 Leader)" {
+    style.stroke: "#10b981"
+    offsets: "Off 0 -> Off 1 -> Off 2 -> Off 3 -> Off 4 -> Off 5"
+  }
+
+  p2: "Partition 2 (Broker 3 Leader)" {
+    style.stroke: "#8b5cf6"
+    offsets: "Off 0 -> Off 1 -> Off 2 -> Off 3 -> Off 4 -> Off 5 -> Off 6 -> Off 7"
+  }
+}

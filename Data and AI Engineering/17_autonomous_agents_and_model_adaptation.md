@@ -171,31 +171,34 @@ In classical software engineering, computational routines follow deterministic, 
 
 In an **Autonomous AI Agent**, the Large Language Model acts as the cognitive engine within a dynamic cybernetic feedback loop. Borrowing from autonomic computing principles, an autonomous agent embodies the **MAPE-K Loop (Monitor, Analyze, Plan, Execute over Knowledge)**:
 
-```mermaid
-flowchart TD
-    subgraph MAPEKLoop ["The Agentic Cybernetic Feedback Architecture (MAPE-K)"]
-        direction TB
-        KB[("Shared Knowledge Base & Memory<br/>(Semantic Vectors (Knowledge); Episodic Logs (Past Runs); Procedural System Prompts)")]
+![Mape K Agentic Cybernetic Feedback Loop](./assets/17_autonomous_agents_and_model_adaptation/01_mape_k_agentic_cybernetic_feedback_loop.svg)
 
-        Monitor["1. MONITOR (Perceive)<br/>Ingests environmental changes, API responses, tool stdout/stderr, and user inputs."]
-        Analyze["2. ANALYZE (Reason)<br/>Synthesizes current observation against the global objective; detects anomalies or missing data."]
-        Plan["3. PLAN (Decide)<br/>Selects next logical step or tool action; decomposes complex goals into sub-tasks."]
-        Execute["4. EXECUTE (Act)<br/>Dispatches validated tool invocation, evaluates API payloads, or emits final answer."]
+<details>
+<summary>View D2 Source</summary>
 
-        Monitor --> Analyze --> Plan --> Execute --> Monitor
-        KB <--> Monitor
-        KB <--> Analyze
-        KB <--> Plan
-        KB <--> Execute
-    end
+```d2
+classes: {
+  kb_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  monitor_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  analyze_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  plan_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  execute_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
 
-    style MAPEKLoop fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style KB fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style Monitor fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Analyze fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Plan fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style Execute fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+kb: "Shared Knowledge Base (K)\nVectors, Episodic Logs, Procedural Directives" { class: kb_box }
+
+monitor: "1. MONITOR (Perceive)\nIngests environment & tool stdout" { class: monitor_box }
+analyze: "2. ANALYZE (Reason)\nSynthesizes current state vs goal" { class: analyze_box }
+plan: "3. PLAN (Decide)\nDecomposes tasks & selects tools" { class: plan_box }
+execute: "4. EXECUTE (Act)\nDispatches API calls & scripts" { class: execute_box }
+
+monitor -> analyze -> plan -> execute -> monitor: "Cybernetic Feedback Loop"
+kb <-> monitor
+kb <-> analyze
+kb <-> plan
+kb <-> execute
 ```
+</details>
 
 #### What Distinguishes an Agent from a Standard LLM Call?
 * **A Standard LLM Call:** Pure input-to-output mapping: $\hat{\mathbf{y}} = f_{\theta}(\mathbf{x})$. The process is one-shot, static, and cannot query external state or react to runtime environmental changes.
@@ -211,31 +214,45 @@ Where $\mathbf{s}_t$ represents the internal conversational and memory state at 
 
 Engineers must choose the correct degree of agency for each business problem. Introducing unconstrained autonomy into a task that requires deterministic predictability introduces catastrophic variance.
 
-```mermaid
-flowchart LR
-    subgraph Level1 ["1. Linear Chain"]
-        direction TB
-        L1A["Step A: Ingest"] --> L1B["Step B: Translate"] --> L1C["Step C: Summarize"]
-    end
+![Autonomous Agent Orchestration Spectrum](./assets/17_autonomous_agents_and_model_adaptation/02_autonomous_agent_orchestration_spectrum.svg)
 
-    subgraph Level2 ["2. Router / DAG Workflow"]
-        direction TB
-        L2A["Step A: Classify Intent"] --> L2B{"Router Code"}
-        L2B -- "Billing" --> L2C["Billing Workflow"]
-        L2B -- "Tech Support" --> L2D["Tech Support Workflow"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph Level3 ["3. Autonomous Agent"]
-        direction TB
-        L3A["Goal: 'Fix Bug #402'"] --> L3B["LLM Reasoning Core"]
-        L3B <-->|"Dynamic Action/Observation Loop"| L3C["Tools: Git, Pytest, Bash, SQL"]
-        L3B --> L3D["Goal Completed"]
-    end
+```d2
+classes: {
+  chain_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  dag_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  agent_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
 
-    style Level1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Level2 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Level3 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
+c1: "1. Linear Chain" {
+  a: "Step A: Ingest" { class: chain_box }
+  b: "Step B: Translate" { class: chain_box }
+  c: "Step C: Summarize" { class: chain_box }
+  a -> b -> c
+}
+
+c2: "2. Router / DAG Workflow" {
+  classify: "Step A: Classify Intent" { class: dag_box }
+  router: "Router (if/else)" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  billing: "Billing Branch" { class: dag_box }
+  tech: "Tech Support" { class: dag_box }
+
+  classify -> router
+  router -> billing
+  router -> tech
+}
+
+c3: "3. Autonomous Agent" {
+  goal: "Goal: Fix Issue #402" { class: agent_box }
+  core: "LLM Reasoning Core\nReAct Loop with Tools" { class: agent_box }
+  done: "Goal Completed" { class: agent_box }
+
+  goal -> core -> done
+}
 ```
+</details>
 
 #### Comparative Architectural Spectrum:
 
@@ -267,13 +284,29 @@ If a frontier model operates at an impressive single-step accuracy of $p_t = 0.9
 
 By step 15, the agent is mathematically more likely to fail than succeed. This phenomenon—**Trajectory Derailment**—explains why naive autonomous loops collapse in production.
 
-```mermaid
-xychart-beta
-    title "Agent Task Success Probability vs. Trajectory Length (p_step = 0.95)"
-    x-axis ["Step 1", "Step 3", "Step 5", "Step 8", "Step 10", "Step 15", "Step 20", "Step 25"]
-    y-axis "Cumulative Success Rate (%)" 0 --> 100
-    bar [95, 86, 77, 66, 60, 46, 36, 28]
+![Agent Trajectory Decay Probability Decay](./assets/17_autonomous_agents_and_model_adaptation/03_agent_trajectory_decay_probability_decay.svg)
+
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  bar_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  warn_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  fail_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+trajectory: "Agent Success Probability vs. Steps (p_step = 0.95)" {
+  s1: "Step 1: 95% Success" { class: bar_box }
+  s5: "Step 5: 77% Success" { class: warn_box }
+  s10: "Step 10: 60% Success" { class: warn_box }
+  s15: "Step 15: 46% Success" { class: fail_box }
+  s25: "Step 25: 28% Success (72% Failure Rate!)" { class: fail_box }
+
+  s1 -> s5 -> s10 -> s15 -> s25: "Exponential Decay: P = (0.95)^N"
+}
 ```
+</details>
 
 #### Sizing the Blast Radius & Operational Risk Controls:
 To deploy agents safely in production, enterprise platforms enforce three strict blast-radius controls:
@@ -294,29 +327,29 @@ First formulated by Yao et al. (2022), the **ReAct (Reasoning and Acting)** fram
 * **Reasoning-Only (Standard Chain-of-Thought):** The model thinks internally but cannot query the world. It hallucinates current system states, file contents, or real-time database rows.
 * **ReAct Synthesis:** The model generates a **Thought** (synthesizing state and formulating intent), then an **Action** (invoking a specific tool), and then halts generation while the environment injects the **Observation** (the real tool result).
 
-```mermaid
-flowchart TD
-    subgraph ReActExecutionLoop ["The ReAct Step Cycle"]
-        direction TB
-        StateInput["Current Context State (System Prompt + History)"] --> Thought["1. Thought:<br/>'The user wants to diagnose latency on checkout-service.<br/>First, I need to fetch the last 100 container error logs.'"]
-        Thought --> Action["2. Action:<br/>fetch_k8s_logs(service='checkout-service', tail=100)"]
-        Action --> Execution["Tool Execution Engine<br/>(Executes query against cluster)"]
-        Execution --> Observation["3. Observation:<br/>'HTTP 504 Gateway Timeout: Database connection pool exhausted.'"]
-        Observation --> NextThought["4. Next Thought:<br/>'The observation indicates DB pool exhaustion.<br/>I must inspect the PostgreSQL connection count.'"]
-        NextThought --> NextAction["5. Next Action:<br/>query_db_metrics(metric='active_connections')"]
+![React Framework Thought Action Observation Loop](./assets/17_autonomous_agents_and_model_adaptation/04_react_framework_thought_action_observation_loop.svg)
 
-        StateInput --> Thought
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style ReActExecutionLoop fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StateInput fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Thought fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Action fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style Execution fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Observation fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style NextThought fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style NextAction fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
+```d2
+classes: {
+  thought_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  action_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  obs_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+context: "Context State Ingress"
+thought1: "1. Thought\n'User wants to diagnose checkout latency.\nFetch container error logs.'" { class: thought_box }
+action1: "2. Action\nfetch_k8s_logs(service='checkout', tail=100)" { class: action_box }
+tool: "Tool Execution Engine\nKubernetes API call"
+obs1: "3. Observation\n'HTTP 504: DB connection pool exhausted'" { class: obs_box }
+thought2: "4. Next Thought\n'Observation indicates DB pool exhaustion.\nInspect active queries.'" { class: thought_box }
+action2: "5. Next Action\nquery_db_metrics('active_queries')" { class: action_box }
+
+context -> thought1 -> action1 -> tool -> obs1 -> thought2 -> action2
 ```
+</details>
 
 ---
 
@@ -324,35 +357,38 @@ flowchart TD
 
 While ReAct operates linearly ($T_1 \to A_1 \to O_1 \to T_2 \dots$), complex problem solving (such as software refactoring, algorithmic optimization, or strategic planning) requires **non-linear heuristic search**:
 
-```mermaid
-flowchart TD
-    subgraph TreeOfThoughts ["Tree of Thoughts (ToT) Heuristic Search"]
-        Root["Initial Problem State"] --> BranchA["Thought Path A: 'Optimize SQL Index'"]
-        Root --> BranchB["Thought Path B: 'Add Redis Cache'"]
-        Root --> BranchC["Thought Path C: 'Scale K8s Pods'"]
+![Tree Of Thoughts Heuristic Search Dag](./assets/17_autonomous_agents_and_model_adaptation/05_tree_of_thoughts_heuristic_search_dag.svg)
 
-        BranchA --> EvaluationA{"Heuristic Evaluator<br/>Score = 0.3 (Discard)"}
-        BranchB --> EvaluationB{"Heuristic Evaluator<br/>Score = 0.9 (Promising)"}
-        BranchC --> EvaluationC{"Heuristic Evaluator<br/>Score = 0.6 (Secondary)"}
+<details>
+<summary>View D2 Source</summary>
 
-        EvaluationB --> SubB1["Sub-Thought B.1: 'Cache Invalidation via Redis Pub/Sub'"]
-        EvaluationB --> SubB2["Sub-Thought B.2: 'Cache TTL with Write-Through'"]
+```d2
+classes: {
+  root_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  bad_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  good_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  mid_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
 
-        EvaluationA -.->|"Prune Branch"| Pruned[X]
-    end
+root: "Root: Diagnose 504 Timeout" { class: root_box }
 
-    style TreeOfThoughts fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Root fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style BranchA fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style BranchB fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style BranchC fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style EvaluationA fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style EvaluationB fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style EvaluationC fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style SubB1 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style SubB2 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Pruned fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
+branch_a: "Path A: 'Optimize SQL Index'\nScore = 0.30 (Poor fit)" { class: bad_box }
+branch_b: "Path B: 'Pool & Cache Resiliency'\nScore = 0.90 (Promising)" { class: good_box }
+branch_c: "Path C: 'Scale Pod Replicas'\nScore = 0.60 (Secondary)" { class: mid_box }
+
+pruned_a: "[PRUNED BRANCH]" { class: bad_box }
+
+sub_b1: "Sub-Thought B.1: PgBouncer\nScore = 0.95 -> Selected for Execution!" { class: good_box }
+sub_b2: "Sub-Thought B.2: Redis Cache\nScore = 0.75 -> Kept as Fallback" { class: mid_box }
+
+root -> branch_a -> pruned_a
+root -> branch_b
+root -> branch_c
+
+branch_b -> sub_b1
+branch_b -> sub_b2
 ```
+</details>
 
 #### Algorithms for Agent Thought Search:
 1. **Breadth-First Search (BFS):** Generates $k$ candidate thoughts for the current step, prompts an Evaluator LLM to score each thought $V(s) \in [0, 1]$, selects the top $b$ paths, and expands them concurrently.
@@ -383,23 +419,29 @@ When an agent executes an invalid tool call or receives a failure observation (`
 
 The **Reflexion Framework (Shinn et al., 2023)** equips the agent with verbal self-reflection stored in episodic memory:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Agent as Agent Execution Core
-    participant Tool as Target Tool / Environment
-    participant Memory as Episodic Memory Store
+![Human In The Loop Interrupt Resume Protocol](./assets/17_autonomous_agents_and_model_adaptation/06_human_in_the_loop_interrupt_resume_protocol.svg)
 
-    Agent->>Tool: 1. Action: execute_query("SELECT user_id, sum(val) FROM sales;")
-    Tool-->>Agent: 2. Observation: "ERROR: column 'sales.val' does not exist."
-    Note over Agent: 3. Reflection Phase Initiated:<br/>"Why did this fail? I assumed 'val' was the column name.<br/>I should have inspected the table schema first."
-    Agent->>Memory: 4. Store Verbal Reflection: "Reflection: sales table requires schema check."
-    Agent->>Tool: 5. Action: describe_table("sales")
-    Tool-->>Agent: 6. Observation: "Columns: user_id (INT), total_amount (NUMERIC)"
-    Agent->>Tool: 7. Action: execute_query("SELECT user_id, sum(total_amount) FROM sales GROUP BY user_id;")
-    Tool-->>Agent: 8. Observation: "Query OK, 400 rows."
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  agent_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  db_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  human_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+agent: "Agent Execution Core" { class: agent_box }
+checkpoint: "PostgreSQL Checkpointer" { class: db_box }
+human: "Human Operations Engineer" { class: human_box }
+
+agent -> checkpoint: "1. Reaches Ring 2 action -> Snapshot state & interrupt"
+checkpoint -> human: "2. Emits Slack approval card"
+checkpoint -> checkpoint: "SUSPENDED (Zero CPU/memory consumed)"
+human -> checkpoint: "3. Approves with verified arguments"
+checkpoint -> agent: "4. Resume execution from checkpoint"
 ```
+</details>
 
 By converting environmental feedback into semantic reflections, the agent achieves **Verbal Reinforcement Learning** without modifying neural network weights.
 
@@ -468,22 +510,29 @@ When invoked, the model emits a content block of type `tool_use` containing an i
 
 Never provide an autonomous agent with uniform, flat tool permissions. Enterprise runtimes enforce a **Ring Privilege Architecture**:
 
-```mermaid
-flowchart TD
-    subgraph ToolRings ["Enterprise Tool Privilege Rings"]
-        direction TB
-        Ring0["<b>RING 0: Safe / Read-Only Tools (Auto-Executed)</b><br/>(Zero side-effects; zero latency gating): search_knowledge_base(query); get_pod_status(namespace); query_read_replica_sql(query)"]
-        
-        Ring1["<b>RING 1: Reversible Mutations (Monitored)</b><br/>(Logged to audit ledger; auto-retry enabled): create_staging_branch(name); upload_draft_invoice(id); set_cache_key(key, val)"]
-        
-        Ring2["<b>RING 2: Consequential / Destructive (Strict HITL Gated)</b><br/>(HALTS execution; requires cryptographic human sign-off): terminate_k8s_pod(pod_id); drop_database_table(name); execute_wire_transfer(amount, to)"]
-    end
+![Enterprise Tool Privilege Rings Security](./assets/17_autonomous_agents_and_model_adaptation/07_enterprise_tool_privilege_rings_security.svg)
 
-    style ToolRings fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Ring0 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Ring1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Ring2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  r0_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  r1_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  r2_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  r3_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+}
+
+rings: "Enterprise Tool Privilege Rings" {
+  r0: "RING 0: Safe Read-Only (Auto-Executed)\nsearch_docs(), read_sql(), get_pod_status()\nZero side-effects; auto-run" { class: r0_box }
+  r1: "RING 1: Reversible Mutations (Monitored)\ncreate_branch(), set_cache_key()\nLogged to audit ledger" { class: r1_box }
+  r2: "RING 2: Destructive / High-Privilege (Strict HITL)\nterminate_pod(), drop_table(), wire_transfer()\nHALTS execution; requires human sign-off" { class: r2_box }
+  r3: "RING 3: Forbidden Root (Hard Blocked)\nrm -rf, modify_iam(), disable_audit()\nStrictly prohibited by kernel guardrails" { class: r3_box }
+
+  r0 -> r1 -> r2 -> r3: "Escalating blast radius & governance"
+}
 ```
+</details>
 
 * **Ring 0 Tools:** Read-only queries with zero mutations. Executed immediately with sub-millisecond dispatch overhead.
 * **Ring 1 Tools:** Low-impact mutations with easy programmatic rollback. Executed with structured logging and rate limiting.
@@ -532,33 +581,31 @@ Prior to the introduction of the **Model Context Protocol (MCP)** by Anthropic i
 * If an enterprise maintained $M=6$ AI host environments (Claude Desktop, Cursor, LangGraph, AutoGen, custom corporate web app, CLI assistant) and $N=10$ corporate systems (PostgreSQL, GitHub, Jira, Kubernetes, Slack, Salesforce, Google Drive, Datadog, Snowflake, AWS):
 * Developers were forced to build and maintain $M \times N = 6 \times 10 = \mathbf{60}\text{ custom point-to-point integrations}$! Every framework had its own schema DSL, parameter parser, and error handling syntax.
 
-```mermaid
-flowchart LR
-    subgraph WithoutMCP ["Before MCP: M x N Point-to-Point Fragmentation"]
-        direction TB
-        H1["Claude Desktop"] --- S1["PostgreSQL"]
-        H1 --- S2["GitHub"]
-        H2["Cursor IDE"] --- S1
-        H2 --- S2
-        H3["LangGraph Agent"] --- S1
-        H3 --- S2
-    end
+![Model Context Protocol Mcp Architecture](./assets/17_autonomous_agents_and_model_adaptation/08_model_context_protocol_mcp_architecture.svg)
 
-    subgraph WithMCP ["With MCP: Standardized Open Client-Server Protocol"]
-        direction TB
-        HC1["Claude Desktop"] --> MCPBus["Standardized MCP Interface<br/>(JSON-RPC 2.0 over stdio / SSE)"]
-        HC2["Cursor IDE"] --> MCPBus
-        HC3["LangGraph Agent"] --> MCPBus
-        
-        MCPBus --> MS1["PostgreSQL MCP Server"]
-        MCPBus --> MS2["GitHub MCP Server"]
-        MCPBus --> MS3["Kubernetes MCP Server"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style WithoutMCP fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style WithMCP fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style MCPBus fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+```d2
+classes: {
+  legacy_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  mcp_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  bus_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+legacy: "Before MCP: M x N Fragmentation\nEvery client rewrites wrappers for every tool" {
+  class: legacy_box
+}
+
+mcp: "With MCP: Open Standard Protocol (JSON-RPC 2.0)" {
+  clients: "Clients: Claude Desktop, Cursor, LangGraph"
+  bus: "Standardized MCP Bus (stdio / SSE)" { class: bus_box }
+  servers: "MCP Servers: Postgres, GitHub, Kubernetes" { class: mcp_box }
+
+  clients -> bus -> servers: "Universal discovery & execution"
+}
 ```
+</details>
 
 MCP standardizes tool, resource, and prompt integrations using the identical architectural paradigm that the **Language Server Protocol (LSP)** used to standardize programming language support across code editors:
 $$\text{Any MCP-compliant Client can seamlessly talk to Any MCP-compliant Server!}$$
@@ -659,27 +706,29 @@ if __name__ == "__main__":
 
 Autonomous agents utilize a four-tier memory architecture mirroring human cognitive psychology:
 
-```mermaid
-flowchart TD
-    subgraph CognitiveMemoryHierarchy ["Four-Tier Cognitive Agent Memory Architecture"]
-        direction TB
-        WorkingMem["<b>1. Working Memory (Active Attention Buffer)</b><br/>(Active prompt tokens (Current dialogue turn, tool outputs); Ephemeral scratchpad; evicted upon context exhaustion)"]
-        
-        EpisodicMem["<b>2. Episodic Memory (Autobiographical Experience)</b><br/>(Vectorized records of past agent executions (Successes & Failures); 'Last time I restarted pod X, the DB pool crashed. Need to scale DB first.'; Stored in relational DB (PostgreSQL) + Vector Store)"]
-        
-        SemanticMem["<b>3. Semantic Memory (Static World Knowledge & Facts)</b><br/>(Enterprise documentation, API schemas, code repositories; Stored in Vector Database (Qdrant / pgvector) & Knowledge Graph)"]
-        
-        ProceduralMem["<b>4. Procedural Memory (Behavioral Rules & Policies)</b><br/>(System prompts, few-shot examples, safety guidelines, tool schemas; Encoded in model weights and immutable system directives)"]
+![Four Tier Cognitive Agent Memory Hierarchy](./assets/17_autonomous_agents_and_model_adaptation/09_four_tier_cognitive_agent_memory_hierarchy.svg)
 
-        WorkingMem --- EpisodicMem --- SemanticMem --- ProceduralMem
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style CognitiveMemoryHierarchy fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style WorkingMem fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style EpisodicMem fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style SemanticMem fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style ProceduralMem fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+```d2
+classes: {
+  working_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  episodic_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  semantic_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  procedural_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+memory: "Four-Tier Cognitive Agent Memory Architecture" {
+  working: "1. Working Memory (Active Buffer)\nActive prompt tokens, scratchpad, ephemeral" { class: working_box }
+  episodic: "2. Episodic Memory (Experience)\nPast trajectories, reflection on tool failures" { class: episodic_box }
+  semantic: "3. Semantic Memory (World Facts)\nEnterprise docs, API specs in Vector DB" { class: semantic_box }
+  procedural: "4. Procedural Memory (Rules)\nSystem prompt, few-shot examples, safety policies" { class: procedural_box }
+
+  working -> episodic -> semantic -> procedural
+}
 ```
+</details>
 
 ---
 
@@ -740,26 +789,34 @@ Whenever an agent transitions between graph nodes, the checkpointer executes an 
 
 **LangGraph** is the industry standard for stateful, multi-actor LLM orchestration. Under the hood, LangGraph implements Google's **Pregel Bulk Synchronous Parallel (BSP)** computational model:
 
-```mermaid
-flowchart LR
-    subgraph PregelSuperstep ["Pregel Superstep Execution"]
-        direction LR
-        StateChannels[("State Channels<br/>(Shared State Dictionary)")]
-        NodeA["Node A<br/>(Pure Function)"]
-        NodeB["Node B<br/>(Pure Function)"]
-        ReducerFunction["Channel Reducer<br/>(operator.add)"]
+![Langgraph Pregel State Superstep Architecture](./assets/17_autonomous_agents_and_model_adaptation/10_langgraph_pregel_state_superstep_architecture.svg)
 
-        StateChannels --> NodeA & NodeB
-        NodeA & NodeB -->|"Emits State Updates"| ReducerFunction
-        ReducerFunction -->|"Applies Delta"| StateChannels
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style PregelSuperstep fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StateChannels fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style NodeA fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style NodeB fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style ReducerFunction fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+classes: {
+  channel_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  node_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  reducer_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+channels: "State Channels\nShared State Dictionary" { class: channel_box }
+
+nodes: {
+  node_a: "Node A: Retriever\nPure function" { class: node_box }
+  node_b: "Node B: Guardrail\nPure function" { class: node_box }
+}
+
+reducer: "Channel Reducer\n(e.g., operator.add)\nApplies delta deterministically" { class: reducer_box }
+
+channels -> nodes.node_a: "Read state"
+channels -> nodes.node_b: "Read state"
+nodes.node_a -> reducer: "Emit state update"
+nodes.node_b -> reducer: "Emit state update"
+reducer -> channels: "Commit new superstep state"
 ```
+</details>
 
 #### Core Components:
 1. **State Channels:** Strongly-typed schemas defining what state variables exist.
@@ -820,24 +877,34 @@ workflow.add_edge("act", "reason")  # Cyclical edge!
 
 LangGraph provides native support for pausing graph execution prior to consequential operations:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Admin as Operations Engineer
-    participant Graph as LangGraph Engine
-    participant Checkpoint as PostgreSQL Checkpointer
-    participant Slack as Enterprise Slack Gateway
+![Multi Agent Supervisor Worker Collaboration](./assets/17_autonomous_agents_and_model_adaptation/11_multi_agent_supervisor_worker_collaboration.svg)
 
-    Graph->>Graph: Reaches 'execute_reboot' node (Marked with interrupt_before)
-    Graph->>Checkpoint: 1. Persists state snapshot to Postgres
-    Graph->>Slack: 2. Emits approval notification card
-    Note over Graph: Graph execution enters SUSPENDED state (Zero thread/CPU consumption)
-    Admin->>Slack: 3. Admin clicks "Approve with pod_id='auth-service-pod-02'"
-    Slack->>Graph: 4. Resume signal with state mutation payload
-    Graph->>Checkpoint: 5. Updates state with admin parameter
-    Graph->>Graph: 6. Executes reboot with modified verified arguments
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  super_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  research_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  coder_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  reviewer_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+supervisor: "Supervisor Agent\nPlans, decomposes & orchestrates" { class: super_box }
+
+w_research: "Worker 1: Research Agent\nWeb search & Vector DB" { class: research_box }
+w_coder: "Worker 2: Coder Agent\nPython REPL & Git execution" { class: coder_box }
+w_reviewer: "Worker 3: Reviewer Agent\nSecurity analysis & tests" { class: reviewer_box }
+
+supervisor -> w_research: "Delegate research"
+supervisor -> w_coder: "Delegate implementation"
+supervisor -> w_reviewer: "Delegate QA"
+
+w_research -> supervisor: "Report facts"
+w_coder -> supervisor: "Report code"
+w_reviewer -> supervisor: "Report review"
 ```
+</details>
 
 #### Time-Travel Debugging:
 Because every step is saved as a discrete checkpoint UUID, engineers can rewind a derailed agent back to Turn 3, edit a corrupted state channel, and fork a new execution trajectory from that historical point.
@@ -868,33 +935,30 @@ exec(model_generated_code)
 
 Enterprise code execution requires multi-layered, hardware-assisted virtualization:
 
-```mermaid
-flowchart TD
-    subgraph HostOS ["Host Infrastructure Operating System"]
-        BareMetalHost["Host Linux Kernel (Bare-Metal)"]
-    end
+![Agent Code Execution Sandbox Isolation](./assets/17_autonomous_agents_and_model_adaptation/12_agent_code_execution_sandbox_isolation.svg)
 
-    subgraph StandardDocker ["Standard Docker Container"]
-        ContainerA["Docker Container<br/>(Shared Host Kernel)<br/>Risk: Kernel exploit compromises entire host!"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph gVisorSandbox ["Google gVisor (runsc)"]
-        ContainerB["gVisor Sandbox<br/>(Intercepts & virtualizes syscalls in Go)<br/>Eliminates direct host kernel interaction."]
-    end
+```d2
+classes: {
+  host_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  docker_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  gvisor_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  microvm_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
 
-    subgraph E2BMicroVM ["E2B Firecracker MicroVM"]
-        MicroVM["Hardware-Isolated Linux MicroVM<br/>(Dedicated guest kernel, ephemeral rootfs)<br/>Hardware virtualization boundary (KVM)."]
-    end
+host: "Host Linux Kernel (Bare-Metal)" { class: host_box }
 
-    BareMetalHost --- StandardDocker
-    BareMetalHost --- gVisorSandbox
-    BareMetalHost --- E2BMicroVM
+docker: "1. Standard Docker Container\nShared host kernel\nRisk: Kernel exploit compromises host" { class: docker_box }
+gvisor: "2. Google gVisor (runsc)\nUser-space syscall virtualization in Go\nEliminates direct host kernel interaction" { class: gvisor_box }
+microvm: "3. E2B Firecracker MicroVM\nHardware-isolated Linux MicroVM (KVM)\nDedicated guest kernel, ephemeral rootfs" { class: microvm_box }
 
-    style HostOS fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style StandardDocker fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style gVisorSandbox fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style E2BMicroVM fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+host -> docker: "Direct syscalls (Insecure)"
+host -> gvisor: "Virtualized syscalls"
+host -> microvm: "Hardware virtualization boundary"
 ```
+</details>
 
 #### Sandbox Comparison Matrix:
 * **Standard Docker (`runc`):** Cold start: $\approx 200\text{ms}$. Security: Moderate. Shares host Linux kernel; susceptible to container breakout exploits.
@@ -1171,35 +1235,33 @@ In classic computer systems, forcing a single monolithic operating system proces
 
 In AI engineering, the equivalent failure is the **Monolithic Agent Anti-Pattern**: equipping a single prompt context with 40 distinct tools, 15 disparate system instructions, and expecting it to execute complex multi-domain missions flawlessly.
 
-```mermaid
-flowchart TD
-    subgraph MonolithicFailure ["The Monolithic Agent Anti-Pattern"]
-        MonoPrompt["<b>Single Monolithic Agent</b><br/>(Bloated prompt, 42 conflicting tools & unpartitioned memory)"]
-        Symptoms["<b>Catastrophic Failure Modes</b><br/>(Tool hallucination, lost-in-the-middle context drift, quadratic token accumulation)"]
-        MonoPrompt --> Symptoms
-    end
+![Monolithic Agent Anti Pattern Breakdown](./assets/17_autonomous_agents_and_model_adaptation/13_monolithic_agent_anti_pattern_breakdown.svg)
 
-    subgraph MultiAgentSuccess ["The Multi-Agent Division of Labor Pattern"]
-        Supervisor["<b>Supervisor Orchestrator</b><br/>(Clean context: high-level mission goals & status routing)"]
-        subgraph SpecializedWorkers ["Domain-Isolated Specialist Workers"]
-            direction LR
-            Worker1["<b>Financial Worker</b><br/>(Dedicated SQL ledger tools)"]
-            Worker2["<b>Legal Auditor</b><br/>(SEC EDGAR vector tools)"]
-            Worker3["<b>Document Drafter</b><br/>(Synthesis & markdown formatting)"]
-        end
-        Supervisor --> SpecializedWorkers
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style MonolithicFailure fill:#1e1e2e,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style MultiAgentSuccess fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style MonoPrompt fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Symptoms fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Supervisor fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SpecializedWorkers fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#6ee7b7
-    style Worker1 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style Worker2 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style Worker3 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
+```d2
+classes: {
+  mono_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  multi_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+mono: "The Monolithic Agent Anti-Pattern\nSingle agent, 42 conflicting tools\nFails via tool hallucinations & context drift" {
+  class: mono_box
+}
+
+multi: "Multi-Agent Division of Labor Pattern" {
+  supervisor: "Supervisor Orchestrator\nClean context & task routing"
+  w1: "Financial Worker (SQL)" { class: multi_box }
+  w2: "Legal Auditor (EDGAR)" { class: multi_box }
+  w3: "Doc Drafter (Markdown)" { class: multi_box }
+
+  supervisor -> w1
+  supervisor -> w2
+  supervisor -> w3
+}
 ```
+</details>
 
 #### Why Context Isolation Works
 1. **Pristine Signal-to-Noise Ratio (SNR):** A financial analyst agent that only sees database schemas and financial numbers does not have its attention heads diluted by legal statutes or HTML formatting rules.
@@ -1237,40 +1299,32 @@ Furthermore, because self-attention computation scales quadratically ($\mathcal{
 
 Multi-agent architectures introduce network latency, distributed state synchronization overhead, and debugging complexity. Do not build a multi-agent system if a single-turn prompt or linear workflow suffices.
 
-```mermaid
-flowchart TD
-    Start["<b>New Complex AI Workload</b><br/>Architecture selection"] --> Q1{"Deterministic Pipeline<br/>Suffices?"}
+![Multi Agent System Decision Tree](./assets/17_autonomous_agents_and_model_adaptation/14_multi_agent_system_decision_tree.svg)
 
-    subgraph SingleAgentZone ["Deterministic & Single-Agent Patterns"]
-        direction TB
-        Workflow["<b>Deterministic DAG Workflow</b><br/>LangGraph state machine / step functions"]
-        ReActSingle["<b>Single ReAct Agent</b><br/>Bounded toolset (&lt; 5 tools), short horizon"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph MultiAgentZone ["Multi-Agent Architectures"]
-        direction TB
-        SupervisorPattern["<b>Hierarchical Supervisor</b><br/>Router agent delegates to specialized workers"]
-        ChoreographyPattern["<b>Swarm / Decentralized Mesh</b><br/>Peer agents hand off context via shared state"]
-    end
+```d2
+classes: {
+  dag_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  single_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  super_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  swarm_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
 
-    Q1 -- "Yes (Predictable)" --> Workflow
-    Q1 -- "No" --> Q2{"Tools &gt; 5 or Disparate Domains?"}
-    Q2 -- "No (Narrow scope)" --> ReActSingle
-    Q2 -- "Yes" --> Q3{"Central Governance Required?"}
-    Q3 -- "Yes (Strict SLA)" --> SupervisorPattern
-    Q3 -- "No (Dynamic peers)" --> ChoreographyPattern
+start: "New AI Workload"
 
-    style Start fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style SingleAgentZone fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MultiAgentZone fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Q1 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Q2 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Q3 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Workflow fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ReActSingle fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style SupervisorPattern fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style ChoreographyPattern fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
+workflow: "Deterministic DAG\nKnown steps, predictable flow\nZero agentic drift" { class: dag_box }
+single: "Single ReAct Agent\nDynamic problem, < 5 tools" { class: single_box }
+supervisor: "Hierarchical Multi-Agent\n> 5 tools, disparate domains\nCentral supervisor governance" { class: super_box }
+swarm: "Decentralized Swarm\nPeer-to-peer handoffs" { class: swarm_box }
+
+start -> workflow: "Predictable pipeline"
+start -> single: "Narrow domain"
+start -> supervisor: "Multiple specialized domains"
+supervisor -> swarm: "Dynamic peer coordination"
 ```
+</details>
 
 ---
 
@@ -1280,32 +1334,33 @@ flowchart TD
 
 The most robust and predictable enterprise pattern. A centralized **Supervisor** acts as the project manager, decomposing high-level mission goals into distinct sub-tasks, assigning them to specialized workers, and synthesizing the final artifact.
 
-```mermaid
-flowchart TD
-    UserQuery["User Request"] --> Supervisor["Supervisor Orchestrator"]
-    
-    subgraph Workers ["Specialized Worker Tier"]
-        SQLWorker["SQL Specialist"]
-        DocWorker["Doc Search Specialist"]
-        CodeWorker["Python Specialist"]
-    end
+![Supervisor Orchestration Hub And Spoke](./assets/17_autonomous_agents_and_model_adaptation/15_supervisor_orchestration_hub_and_spoke.svg)
 
-    Supervisor -->|"1. Dispatch Task A"| SQLWorker
-    SQLWorker -->|"2. Return Structured Data"| Supervisor
-    Supervisor -->|"3. Dispatch Task B"| DocWorker
-    DocWorker -->|"4. Return Policy Text"| Supervisor
-    Supervisor -->|"5. Synthesize Final Code"| CodeWorker
-    CodeWorker -->|"6. Return Validated Code"| Supervisor
-    Supervisor --> FinalOutput["Final Response to User"]
+<details>
+<summary>View D2 Source</summary>
 
-    style UserQuery fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Supervisor fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Workers fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SQLWorker fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style DocWorker fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style CodeWorker fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style FinalOutput fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
+```d2
+classes: {
+  super_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  worker_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+user: "User Request"
+supervisor: "Supervisor Orchestrator\nDecomposes tasks & synthesizes" { class: super_box }
+
+w_sql: "Worker 1: SQL Specialist\nQueries Read-Replica" { class: worker_box }
+w_doc: "Worker 2: Doc Search\nQdrant Vector Retrieval" { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2 } }
+w_code: "Worker 3: Python Specialist\nE2B Sandbox Analysis" { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+
+user -> supervisor: "Analyze churn"
+supervisor -> w_sql: "1. Dispatch SQL task"
+w_sql -> supervisor: "2. Tabular metrics"
+supervisor -> w_doc: "3. Policy search"
+w_doc -> supervisor: "4. Qualitative citations"
+supervisor -> w_code: "5. Python chart & report"
+w_code -> supervisor: "6. Final report artifacts"
 ```
+</details>
 
 - **Advantages:** Total centralization of mission state, deterministic workflow control, and clear human-in-the-loop interruption points.
 - **Vulnerabilities:** The supervisor is a single point of cognitive failure. If the supervisor misinterprets the user's intent, all downstream workers are dispatched on incorrect tasks.
@@ -1316,19 +1371,31 @@ flowchart TD
 
 In a pipeline topology, agents pass state sequentially along a predefined chain. Agent A processes the raw input, refines the state, and invokes an explicit handoff function transferring control to Agent B.
 
-```mermaid
-flowchart LR
-    Ingress["Customer Support Ticket"] --> TriageAgent["1. Triage Agent<br/>(Classifies urgency & domain)"]
-    TriageAgent -->|"Handoff to Billing"| BillingAgent["2. Billing Agent<br/>(Queries Stripe & issues refund)"]
-    BillingAgent -->|"Handoff to Communications"| CommsAgent["3. Communications Agent<br/>(Drafts personalized email)"]
-    CommsAgent --> Resolution["Ticket Resolved"]
+![Hierarchical Linear Pipeline Handoff](./assets/17_autonomous_agents_and_model_adaptation/16_hierarchical_linear_pipeline_handoff.svg)
 
-    style Ingress fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style TriageAgent fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style BillingAgent fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style CommsAgent fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Resolution fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  triage_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  billing_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  comms_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+ticket: "Customer Support Ticket\n'Double charged on invoice #8042'"
+
+triage: "1. Triage Agent\nClassifies intent & extracts ID" { class: triage_box }
+billing: "2. Billing Agent\nVerifies Stripe charge & issues refund" { class: billing_box }
+comms: "3. Communications Agent\nDrafts email & sends receipt" { class: comms_box }
+done: "Ticket Resolved"
+
+ticket -> triage: "Ingress"
+triage -> billing: "Handoff: Billing domain"
+billing -> comms: "Handoff: Refund succeeded"
+comms -> done: "Close ticket"
 ```
+</details>
 
 - **Advantages:** Simple mental model, low orchestration overhead, and highly optimized for assembly-line workflows.
 - **Vulnerabilities:** Error propagation. If Agent 1 makes a subtle mistake in classification, Agent 2 operates on faulty assumptions with zero ability to rewind without a centralized supervisor.
@@ -1339,28 +1406,36 @@ flowchart LR
 
 When sub-tasks are mathematically independent, dispatching workers sequentially wastes minutes of user time. In the parallel topology, the supervisor broadcasts sub-tasks simultaneously, executing them concurrently via `asyncio.gather`.
 
-```mermaid
-flowchart TD
-    Mission["Code Refactoring Mission"] --> Dispatcher["Parallel Task Dispatcher"]
-    
-    subgraph ParallelWorkers ["Concurrent Worker Execution (asyncio.gather)"]
-        W1["Security Auditing Agent<br/>(Scans for SQLi, XSS, CVEs)"]
-        W2["Performance Profiler Agent<br/>(Checks Big-O complexity & loops)"]
-        W3["Type Checking & Linting Agent<br/>(Runs mypy & flake8)"]
-    end
+![Concurrent Scatter Gather Orchestration](./assets/17_autonomous_agents_and_model_adaptation/17_concurrent_scatter_gather_orchestration.svg)
 
-    Dispatcher --> W1 & W2 & W3
-    
-    W1 & W2 & W3 --> Aggregator["Consensus & Synthesis Aggregator<br/>(Merges all findings into a unified Pull Request)"]
+<details>
+<summary>View D2 Source</summary>
 
-    style Mission fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Dispatcher fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ParallelWorkers fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style W1 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style W2 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style W3 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style Aggregator fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+```d2
+classes: {
+  dispatch_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  worker_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  agg_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+mission: "Code Refactor Mission"
+dispatcher: "Task Dispatcher (asyncio.gather)\nConcurrent Fan-Out" { class: dispatch_box }
+
+w_sec: "Worker 1: Security Agent\nScans SQLi, CVEs, secrets" { class: worker_box }
+w_prof: "Worker 2: Profiler Agent\nBig-O complexity & memory" { class: worker_box }
+w_lint: "Worker 3: Linter Agent\nmypy type checking & flake8" { class: worker_box }
+
+aggregator: "Consensus & Synthesis Aggregator\nMerges findings into unified PR review" { class: agg_box }
+
+mission -> dispatcher
+dispatcher -> w_sec
+dispatcher -> w_prof
+dispatcher -> w_lint
+w_sec -> aggregator
+w_prof -> aggregator
+w_lint -> aggregator
 ```
+</details>
 
 ---
 
@@ -1368,19 +1443,27 @@ flowchart TD
 
 In a dynamic swarm (popularized by OpenAI Swarm and AutoGen), there is no static hierarchy. Any agent can hand off execution to any other peer agent dynamically by returning a special `TransferToAgent` function call.
 
-```mermaid
-flowchart TD
-    subgraph SwarmMesh ["Peer-to-Peer Agent Mesh"]
-        AgentA["Agent A (Sales)"] <-->|"Dynamic Handoff"| AgentB["Agent B (Tech Support)"]
-        AgentB <-->|"Dynamic Handoff"| AgentC["Agent C (Escalations)"]
-        AgentC <-->|"Dynamic Handoff"| AgentA
-    end
+![Peer To Peer Agent Swarm Mesh](./assets/17_autonomous_agents_and_model_adaptation/18_peer_to_peer_agent_swarm_mesh.svg)
 
-    style SwarmMesh fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style AgentA fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style AgentB fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style AgentC fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  peer_box: { style: { fill: "#1e293b"; stroke: "#fbbf24"; stroke-width: 2 } }
+}
+
+mesh: "Peer-to-Peer Agent Mesh (Swarm)" {
+  agent_a: "Agent A: Sales Specialist" { class: peer_box }
+  agent_b: "Agent B: Tech Support" { class: peer_box }
+  agent_c: "Agent C: Incident Escalation" { class: peer_box }
+
+  agent_a <-> agent_b: "Dynamic handoff"
+  agent_b <-> agent_c: "Dynamic handoff"
+  agent_c <-> agent_a: "Dynamic handoff"
+}
 ```
+</details>
 
 > [!WARNING]
 > **Production Hazards of Dynamic Swarms:**
@@ -1394,25 +1477,30 @@ flowchart TD
 
 A common novice mistake is allowing agents to communicate via unconstrained natural language chat (e.g., passing raw string messages back and forth).
 
-```mermaid
-flowchart TD
-    subgraph UnstructuredTelephone ["Natural Language Chat (Agent Telephone Degradation)"]
-        Agent1["Analyst: 'I looked at the revenue and it seems to be about $4.2M, though some refunds are pending.'"]
-        --> Agent2["Writer: 'The company made $4.2M without deductions.'"]
-        --> Agent3["Executive Memo: 'Record profit of $4.2M guaranteed!' (Hallucination!)"]
-    end
+![Structured Pydantic Contracts Vs Telephone](./assets/17_autonomous_agents_and_model_adaptation/19_structured_pydantic_contracts_vs_telephone.svg)
 
-    subgraph StructuredContract ["Pydantic State Schema Contract (Deterministic Rigor)"]
-        WorkerState["MissionState Object:<br/>{<br/>  \"revenue_gross_usd\": 4200000.00,<br/>  \"pending_refunds_usd\": 150000.00,<br/>  \"audit_status\": \"FLAGGED_REVIEW\",<br/>  \"data_source\": \"snowflake://ledger/2026_q3\"<br/>}"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style UnstructuredTelephone fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Agent1 fill:#1f2937,stroke:#ef4444,stroke-width:1px,color:#fff
-    style Agent2 fill:#1f2937,stroke:#ef4444,stroke-width:1px,color:#fff
-    style Agent3 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style StructuredContract fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style WorkerState fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+classes: {
+  drift_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  pydantic_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+telephone: "Natural Language Telephone Anti-Pattern" {
+  a1: "Agent 1: 'Revenue about $4.2M with refunds pending'" { class: drift_box }
+  a2: "Agent 2: 'Company made $4.2M without deductions'" { class: drift_box }
+  a3: "Agent 3: 'Record profit of $4.2M guaranteed!' (Hallucination!)" { class: drift_box }
+
+  a1 -> a2 -> a3: "Semantic Drift across hops"
+}
+
+pydantic: "Pydantic State Contract" {
+  state: "MissionState Object:\nrevenue_gross_usd = 4,200,000.00\npending_refunds_usd = 150,000.00\naudit_status = 'FLAGGED_REVIEW'\nDeterministic rigor across all agents" { class: pydantic_box }
+}
 ```
+</details>
 
 By enforcing **Pydantic Data Contracts**, agents communicate via typed, validated JSON schemas. If a worker emits a response missing a required field or containing an invalid enum, the validation layer catches it immediately before corrupting the global state.
 
@@ -1458,17 +1546,26 @@ In multi-agent systems, errors compound multiplicatively:
 
 $$P(\text{System Success}) = \prod_{i=1}^{M} P(\text{Agent } i \text{ Success})$$
 
-```mermaid
-flowchart LR
-    A1["Agent 1 (Accuracy: 90%)"] -->|"10% Error"| A2["Agent 2 (Accuracy: 90%)"]
-    A2 -->|"19% Cumulative Error"| A3["Agent 3 (Accuracy: 90%)"]
-    A3 --> FinalFail["Final Output (Total Accuracy: 72.9%!)<br/>Nearly 1 in 3 runs completely fails!"]
+![Multi Agent Compounding Error Cascade](./assets/17_autonomous_agents_and_model_adaptation/20_multi_agent_compounding_error_cascade.svg)
 
-    style A1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style A2 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style A3 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style FinalFail fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  step_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  warn_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  fail_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+a1: "Agent 1 (90% Acc)\n10% Error" { class: step_box }
+a2: "Agent 2 (90% Acc)\n19% Cumulative Error" { class: warn_box }
+a3: "Agent 3 (90% Acc)\n27.1% Cumulative Error" { class: warn_box }
+final: "Final Output (72.9% Total Accuracy!)\nNearly 1 in 3 runs fails!" { class: fail_box }
+
+a1 -> a2 -> a3 -> final: "Compounding probabilistic error"
 ```
+</details>
 
 #### Production Mitigation: Inter-Stage Guardrail Assertions
 Never permit raw agent outputs to pass directly to downstream agents without passing an automated programmatic verification gate (e.g., validating JSON schema, checking code compilation, or asserting fact presence).
@@ -1515,23 +1612,29 @@ When solving complex mathematical proofs, analyzing ambiguous legal contracts, o
 
 **Multi-Agent Debate (MAD)** (Liang et al., 2023) organizes independent agents into an adversarial debate protocol:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor User as Enterprise Architect
-    participant AgentA as Agent A (Proponent / Creator)
-    participant AgentB as Agent B (Opponent / Red Team)
-    participant Judge as Judge Agent (Synthesizer)
+![Infinite Delegation Deadlock Detection](./assets/17_autonomous_agents_and_model_adaptation/21_infinite_delegation_deadlock_detection.svg)
 
-    User->>AgentA: "Propose a zero-downtime database migration strategy."
-    AgentA->>AgentB: Round 1 Proposal: "Dual-write to both databases simultaneously."
-    Note over AgentB: Agent B searches for failure modes and concurrency hazards
-    AgentB->>AgentA: Round 1 Critique: "Dual-writing risks race conditions and dirty reads without distributed 2PC locking."
-    AgentA->>Judge: Round 2 Revised Proposal: "Adopt Change-Data-Capture (CDC) via Debezium and Kafka to stream writes asynchronously."
-    AgentB->>Judge: Round 2 Review: "CDC mitigates locking hazards; acceptable if replication lag is monitored."
-    Judge-->>User: Final Validated Plan with Complete Risk Matrix
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  pro_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  opp_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  judge_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+agent_a: "Agent A (Proponent / Creator)" { class: pro_box }
+agent_b: "Agent B (Opponent / Red Team)" { class: opp_box }
+judge: "Judge Agent (Synthesizer)" { class: judge_box }
+
+agent_a -> agent_b: "Round 1: 'Dual-write to both DBs'"
+agent_b -> agent_a: "Critique: 'Risks race conditions without 2PC'"
+agent_a -> agent_b: "Round 2: 'CDC via Debezium + Kafka'"
+agent_b -> judge: "Round 2 Review: 'CDC mitigates locking; approved'"
+judge -> judge: "Deliver validated consensus plan"
 ```
+</details>
 
 Debate forces models to cross-examine factual claims and code edge cases, reducing hallucinations by over $60\%$ compared to standard single-agent generation.
 
@@ -1622,30 +1725,38 @@ OpenAI's official multi-agent blueprint relies on **Handoff Functions**:
 
 Debugging a multi-agent system requires tracing execution paths across dozens of asynchronous tool calls and agent hops. Systems must emit **OpenTelemetry / OpenInference** traces with hierarchical span relationships:
 
-```mermaid
-%%{init: {theme: dark, themeVariables: { primaryColor: #3b82f6, primaryTextColor: #ffffff, primaryBorderColor: #3b82f6, lineColor: #64748b, secondaryColor: #10b981, tertiaryColor: #1e293b }}}%%
-gantt
-    title Multi-Agent Distributed Trace Span Tree (Total Mission: 3,450ms)
-    dateFormat X
-    axisFormat %s ms
+![Multi Agent Distributed Tracing Spans](./assets/17_autonomous_agents_and_model_adaptation/22_multi_agent_distributed_tracing_spans.svg)
 
-    section Supervisor
-    Root Mission Span (Supervisor)       :active, span1, 0, 3450
-    Decompose Goal Sub-Task             :span2, 10, 180
+<details>
+<summary>View D2 Source</summary>
 
-    section Worker A (Finance)
-    Spawn Worker A (Finance Specialist) :span3, 190, 1420
-    SQL Ledger Execution Tool           :span4, 250, 680
-    Analyst Reasoning & Schema Export   :span5, 685, 1410
+```d2
+classes: {
+  super_span: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  worker_a_span: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  worker_b_span: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  crit_span: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
 
-    section Worker B (Compliance)
-    Spawn Worker B (Compliance Auditor) :span6, 190, 1680
-    SEC EDGAR Vector Search Tool        :span7, 240, 820
-    Legal Compliance Assertion          :span8, 825, 1670
+trace: "Multi-Agent Distributed Trace Span Tree (Total: 3,450ms)" {
+  root: "Root Mission Span (Supervisor) [0..3450ms]" { class: super_span }
+  decompose: "Decompose Sub-Task [10..180ms]" { class: super_span }
+  
+  worker_a: "Worker A (Finance) [190..1420ms]" { class: worker_a_span }
+  sql_tool: "SQL Ledger Execution [250..680ms]" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  
+  worker_b: "Worker B (Compliance) [190..1680ms]" { class: worker_b_span }
+  edgar_tool: "SEC EDGAR Vector Search [240..820ms]" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
 
-    section Synthesis
-    Supervisor Final Memo Drafting      :crit, span9, 1690, 3450
+  synthesis: "Supervisor Final Memo Synthesis [1690..3450ms]" { class: crit_span }
+
+  root -> decompose
+  root -> worker_a -> sql_tool
+  root -> worker_b -> edgar_tool
+  root -> synthesis
+}
 ```
+</details>
 
 Every sub-agent span inherits the root `trace_id` and records its own `parent_span_id`, model snapshot, prompt token count, and financial cost.
 
@@ -1655,30 +1766,28 @@ Every sub-agent span inherits the root `trace_id` and records its own `parent_sp
 
 In multi-agent systems, **never grant identical access permissions to all agents**. Follow the operating system **Protection Ring Architecture**:
 
-```mermaid
-flowchart TD
-    subgraph Ring0 ["Ring 0: Unprivileged Public Workers"]
-        WebSearchAgent["Web Search Specialist<br/>(Can access public internet; ZERO internal DB access)"]
-    end
+![Multi Agent Defense In Depth Privilege Rings](./assets/17_autonomous_agents_and_model_adaptation/23_multi_agent_defense_in_depth_privilege_rings.svg)
 
-    subgraph Ring1 ["Ring 1: Internal Read-Only Specialists"]
-        AnalystAgent["Financial Analyst Agent<br/>(Read-only SELECT access to data warehouse; No mutation tools)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph Ring2 ["Ring 2: Privileged Action Agents"]
-        DBMutationAgent["Database Migration Specialist<br/>(Requires signed JWT & explicit Human Approval)"]
-    end
+```d2
+classes: {
+  r0_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  r1_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  r2_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
 
-    Ring0 -->|"Sanitized Findings Only"| Ring1
-    Ring1 -->|"Audit Proposals Only"| Ring2
+rings: "Multi-Agent Security Blast Radius Rings" {
+  r0: "Ring 0: Public Web Worker\nWeb Search; ZERO internal DB access\nPrompt injection contained here" { class: r0_box }
+  r1: "Ring 1: Internal Read-Only\nSELECT access only; zero mutation tools" { class: r1_box }
+  r2: "Ring 2: Privileged Action Agent\nDB migration specialist\nRequires signed JWT & human sign-off" { class: r2_box }
 
-    style Ring0 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Ring1 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Ring2 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style WebSearchAgent fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style AnalystAgent fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style DBMutationAgent fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
+  r0 -> r1: "Sanitized findings only"
+  r1 -> r2: "Audit proposals only"
+}
 ```
+</details>
 
 If an external prompt injection compromises the Web Search Agent, the attacker cannot execute database mutations because the Web Search Agent possesses zero database credentials or mutation tools.
 
@@ -1688,23 +1797,37 @@ If an external prompt injection compromises the Web Search Agent, the attacker c
 
 For operations involving financial transfers, sensitive customer communications, or database schema alterations, the multi-agent graph must pause execution:
 
-```mermaid
-stateDiagram-v2
-    [*] --> PlanGeneration: Supervisor generates plan
-    PlanGeneration --> WorkerExecution: Workers produce recommendations
-    WorkerExecution --> ApprovalGate: Action flagged as HIGH_IMPACT
-    
-    ApprovalGate --> Paused: System executes interrupt()<br/>State checkpointed to PostgreSQL
-    
-    Paused --> HumanReview: Webhook alerts Staff Engineer via Slack / Dashboard
-    HumanReview --> Approved: Engineer clicks 'Approve Action'
-    HumanReview --> Rejected: Engineer clicks 'Reject & Modify'
-    
-    Approved --> ResumeExecution: State restored from checkpoint; Worker executes action
-    Rejected --> SupervisorRevision: Feedback routed back to Supervisor
-    ResumeExecution --> [*]
-    SupervisorRevision --> WorkerExecution
+![Multi Agent Hitl Approval Gate State Machine](./assets/17_autonomous_agents_and_model_adaptation/24_multi_agent_hitl_approval_gate_state_machine.svg)
+
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  plan_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  worker_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  gate_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  pause_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+init: "" { shape: circle }
+
+plan: "PlanGeneration" { class: plan_box }
+exec: "WorkerExecution" { class: worker_box }
+gate: "ApprovalGate" { class: gate_box }
+paused: "Paused (Suspended in DB)" { class: pause_box }
+resume: "ResumeExecution" { class: worker_box }
+revise: "SupervisorRevision" { class: pause_box }
+
+init -> plan
+plan -> exec: "Dispatches tasks"
+exec -> gate: "Action flagged HIGH_IMPACT"
+gate -> paused: "interrupt() raised"
+paused -> resume: "Engineer approves"
+paused -> revise: "Engineer rejects"
+revise -> exec: "Revised strategy"
 ```
+</details>
 
 ---
 
@@ -2035,37 +2158,48 @@ When executing the multi-agent engine:
 
 A pervasive anti-pattern in enterprise AI initiatives is jumping directly to fine-tuning whenever a foundation model fails a task. Fine-tuning is an expensive, maintenance-intensive engineering commitment that should only be undertaken when simpler, more agile paradigms prove mathematically or operationally insufficient.
 
-```mermaid
-flowchart TD
-    Start["<b>New Production Capability</b><br/>Adaptation strategy selection"] --> Q1{"Prompting & RAG<br/>Achieve Goal?"}
+![Adaptation Hierarchy Prompt Rag Ft](./assets/17_autonomous_agents_and_model_adaptation/25_adaptation_hierarchy_prompt_rag_ft.svg)
 
-    subgraph InContextTier ["In-Context Adaptation (Zero Weight Modification)"]
-        direction TB
-        Prompting["<b>Prompt Engineering & Few-Shot</b><br/>Fastest iteration, lowest cost"]
-        RAG["<b>Advanced Modular RAG</b><br/>Dynamic domain knowledge & document grounding"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph ParameterTuningTier ["Parameter Adaptation (Model Weights Modified)"]
-        direction TB
-        LoRA["<b>Parameter-Efficient Fine-Tuning (LoRA / QLoRA)</b><br/>Adapt style, tone & structured JSON schemas"]
-        FullFT["<b>Full Parameter Fine-Tuning</b><br/>New linguistic domain, pretraining from scratch"]
-    end
+```d2
+direction: down
+classes: {
+  card: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  decision: { shape: diamond; style: { fill: "#1e293b"; stroke: "#fbbf24"; stroke-width: 2 } }
+  green_card: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  purple_card: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+}
 
-    Q1 -- "Yes (Sufficient accuracy)" --> InContextTier
-    Q1 -- "No (Needs specialized style/syntax)" --> Q2{"Compute Budget & Data Size?"}
-    Q2 -- "Standard (≤ 50k samples)" --> LoRA
-    Q2 -- "Enterprise (≥ 500k samples)" --> FullFT
+start: "New Production Capability
+Adaptation Strategy Evaluation" { class: card }
+q1: "Prompting & RAG
+Achieve Target Accuracy?" { class: decision }
+q2: "Compute Budget &
+Dataset Volume?" { class: decision }
 
-    style Start fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style InContextTier fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ParameterTuningTier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Q1 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Q2 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Prompting fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style RAG fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#6ee7b7
-    style LoRA fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style FullFT fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
+in_context: "Tier 1: In-Context Adaptation" {
+  prompt: "Prompt Engineering & Few-Shot
+Fast iteration, zero training cost" { class: green_card }
+  rag: "Modular RAG & Grounding
+Dynamic enterprise knowledge" { class: green_card }
+}
+
+lora: "LoRA / QLoRA PEFT
+Frozen base weights (0.1% params)
+Single GPU viable" { class: card }
+full_ft: "Full Parameter FT
+All weights updated
+Multi-Node Cluster" { class: purple_card }
+
+start -> q1: "Evaluate"
+q1 -> in_context: "YES (Sufficient)"
+q1 -> q2: "NO (Style/Syntax)"
+q2 -> lora: "<= 50k Samples"
+q2 -> full_ft: ">= 500k Samples"
 ```
+</details>
 
 #### Architectural Trade-Off Analysis: Adaptation Matrix
 
@@ -2138,29 +2272,39 @@ In Supervised Fine-Tuning, data quality overwhelmingly supersedes data quantity.
 > 
 > Training a model on **1,000 curated, human-inspected, high-signal demonstrations** consistently outperforms training on **50,000 noisy, web-scraped synthetic examples**.
 
-```mermaid
-flowchart TD
-    subgraph DatasetCurationPipeline ["High-Signal Dataset Engineering Pipeline"]
-        RawDump["Raw Internal Enterprise Logs<br/>(100,000 messy historical customer chat transcripts)"]
-        
-        Filter1["<b>1. Heuristic & Rule-Based Filtering</b><br/>(Strip PII (SSN, credit cards, emails) via Presidio; Remove truncated dialogues & empty responses; Filter length: 150 < characters < 4,000)"]
-        
-        Filter2["<b>2. Deduplication & Semantic Diversity</b><br/>(MinHash LSH deduplication (Jaccard similarity > 0.85); Cluster embeddings to ensure uniform topical coverage)"]
-        
-        Filter3["<b>3. Automated Quality Verification (LLM-as-a-Judge)</b><br/>(Frontier model scores demonstrations on accuracy & tone; Drop examples scoring below 4.5 / 5.0)"]
-        
-        CuratedSet["Curated Golden Training Dataset<br/>(2,500 Pristine Multi-Turn Demonstrations)"]
+![High Signal Dataset Engineering Pipeline](./assets/17_autonomous_agents_and_model_adaptation/26_high_signal_dataset_engineering_pipeline.svg)
 
-        RawDump --> Filter1 --> Filter2 --> Filter3 --> CuratedSet
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style DatasetCurationPipeline fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RawDump fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style Filter1 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Filter2 fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Filter3 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style CuratedSet fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  red: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+  blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  purple: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+}
+
+raw: "Raw Enterprise Data
+100,000 Unfiltered Logs
+(Messy, PII, Duplicates)" { class: red }
+f1: "1. Rule & PII Filtering
+• Presidio PII removal
+• Length 150-4000 chars
+(Remaining: ~25k)" { class: blue }
+f2: "2. Deduplication & Diversity
+• MinHash LSH (Jaccard > 0.85)
+• Embedding k-means clusters
+(Remaining: ~8k)" { class: purple }
+f3: "3. LLM-as-a-Judge
+• Quality & tone verification
+• Retain scores >= 4.5/5.0
+(Golden Set: 2,500)" { class: green }
+
+raw -> f1 -> f2 -> f3
 ```
+</details>
 
 ---
 
@@ -2168,21 +2312,29 @@ flowchart TD
 
 Foundation models process a single continuous sequence of integer token IDs. To structure multi-turn dialogues between users and assistants, models utilize **Chat Templates** containing special, reserved non-printing delimiter tokens.
 
-```mermaid
-flowchart TD
-    subgraph ChatMLStructure ["Standard ChatML Prompt Framing"]
-        Sys["<|im_start|>system\nYou are a financial extraction specialist.<|im_end|>"]
-        User["<|im_start|>user\nExtract the EBITDA from this paragraph...<|im_end|>"]
-        Assist["<|im_start|>assistant\n{\"ebitda_usd\": 42000000}<|im_end|>"]
-        
-        Sys --> User --> Assist
-    end
+![Chatml And Special Delimiter Tokens](./assets/17_autonomous_agents_and_model_adaptation/27_chatml_and_special_delimiter_tokens.svg)
 
-    style ChatMLStructure fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Sys fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style User fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style Assist fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: down
+classes: {
+  sys_card: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  usr_card: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  ast_card: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+}
+
+sys: "<|im_start|>system
+You are a financial extraction specialist.<|im_end|>" { class: sys_card }
+usr: "<|im_start|>user
+Extract the EBITDA from this paragraph...<|im_end|>" { class: usr_card }
+ast: "<|im_start|>assistant
+{"ebitda_usd": 42000000}<|im_end|>" { class: ast_card }
+
+sys -> usr -> ast
 ```
+</details>
 
 #### The Llama-3 Delimiter Template
 Meta's LLaMA-3 architecture employs explicit header and end-of-turn delimiters:
@@ -2206,58 +2358,49 @@ SELECT customer_id, name FROM customers WHERE state = 'TX' AND status = 'active'
 
 In standard autoregressive language modeling, the cross-entropy loss is computed over every token in the sequence. In Supervised Fine-Tuning, **computing loss over the user's prompt tokens is a severe bug**.
 
-```mermaid
-flowchart LR
-    subgraph FullSequence ["Tokenized Training Example (Length: 8 Tokens)"]
-        T0["Tok 0: 'System'"]
-        T1["Tok 1: 'Prompt'"]
-        T2["Tok 2: 'User'"]
-        T3["Tok 3: 'Question'"]
-        T4["Tok 4: 'Assistant'"]
-        T5["Tok 5: 'Target'"]
-        T6["Tok 6: 'Answer'"]
-        T7["Tok 7: '<|eot_id|>'"]
-    end
+![Loss Masking Cross Entropy Label Minus 100](./assets/17_autonomous_agents_and_model_adaptation/28_loss_masking_cross_entropy_label_minus_100.svg)
 
-    subgraph MaskedLabels ["Target Labels Array (Passed to Cross-Entropy Loss)"]
-        L0["-100 (Ignored)"]
-        L1["-100 (Ignored)"]
-        L2["-100 (Ignored)"]
-        L3["-100 (Ignored)"]
-        L4["-100 (Ignored)"]
-        L5["Target Token ID (Loss Computed)"]
-        L6["Answer Token ID (Loss Computed)"]
-        L7["<|eot_id|> ID (Loss Computed)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    T0 --- L0
-    T1 --- L1
-    T2 --- L2
-    T3 --- L3
-    T4 --- L4
-    T5 --- L5
-    T6 --- L6
-    T7 --- L7
+```d2
+direction: down
+classes: {
+  masked: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 1.5; border-radius: 6 } }
+  active: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 6 } }
+  tok: { style: { fill: "#1e293b"; stroke: "#64748b"; stroke-width: 1; border-radius: 6 } }
+}
 
-    style FullSequence fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MaskedLabels fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style T0 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style T1 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style T2 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style T3 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style T4 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style T5 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T6 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T7 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style L0 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style L1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style L2 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style L3 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style L4 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style L5 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style L6 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style L7 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
+tokens: "Token Sequence" {
+  direction: right
+  t0: "Tok 0: System" { class: tok }
+  t1: "Tok 1: Prompt" { class: tok }
+  t2: "Tok 2: User" { class: tok }
+  t3: "Tok 3: Question" { class: tok }
+  t4: "Tok 4: Assistant" { class: tok }
+  t5: "Tok 5: Target" { class: active }
+  t6: "Tok 6: Answer" { class: active }
+  t7: "Tok 7: <|eot|>" { class: active }
+}
+
+labels: "Labels Array" {
+  direction: right
+  l0: "-100 (Ignored)" { class: masked }
+  l1: "-100 (Ignored)" { class: masked }
+  l2: "-100 (Ignored)" { class: masked }
+  l3: "-100 (Ignored)" { class: masked }
+  l4: "-100 (Ignored)" { class: masked }
+  l5: "Target ID (Loss)" { class: active }
+  l6: "Answer ID (Loss)" { class: active }
+  l7: "EOT ID (Loss)" { class: active }
+}
+
+tokens.t0 -> labels.l0
+tokens.t4 -> labels.l4
+tokens.t5 -> labels.l5
+tokens.t7 -> labels.l7
 ```
+</details>
 
 #### Why Prompt Masking with `-100` is Mandatory
 PyTorch's `torch.nn.CrossEntropyLoss(ignore_index=-100)` ignores all targets set to `-100`.
@@ -2283,29 +2426,37 @@ Supervised Fine-Tuning optimizes the foundation model weights $\theta$ to minimi
 
 $$\mathcal{L}_{\text{SFT}}(\theta) = -\sum_{t=1}^T \log P_\theta(y_t \mid y_{<t}, x)$$
 
-```mermaid
-flowchart TD
-    BatchIngress["Mini-Batch of Masked Token Sequences<br/>Input IDs: [B, Max_Seq_Len]<br/>Labels: [B, Max_Seq_Len] (Prompt tokens = -100)"]
-    
-    ForwardPass["Forward Pass through Model<br/>Computes Logits: z ∈ ℝ^(B × Max_Seq_Len × Vocab_Size)"]
-    
-    ShiftLogits["Shift Logits & Labels by 1 Token:<br/>logits_pred = logits[:, :-1, :]<br/>target_labels = labels[:, 1:]"]
-    
-    ComputeLoss["Cross-Entropy Loss (ignore_index = -100):<br/>Loss = CrossEntropy(logits_pred, target_labels)"]
-    
-    BackwardPass["Backward Pass (Autograd Gradient Accumulation):<br/>Computes ∇_θ L_SFT across active adapters"]
-    
-    OptimizerStep["Optimizer Step (Paged AdamW):<br/>Updates parameters θ ← θ - η · m_hat / (sqrt(v_hat) + ε)"]
+![Sft Autoregressive Training Loop](./assets/17_autonomous_agents_and_model_adaptation/29_sft_autoregressive_training_loop.svg)
 
-    BatchIngress --> ForwardPass --> ShiftLogits --> ComputeLoss --> BackwardPass --> OptimizerStep
+<details>
+<summary>View D2 Source</summary>
 
-    style BatchIngress fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ForwardPass fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style ShiftLogits fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style ComputeLoss fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style BackwardPass fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style OptimizerStep fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  purple: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  amber: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+}
+
+ingress: "1. Masked Batch Ingress
+[B, Seq_Len] (Prompt=-100)" { class: blue }
+forward: "2. Forward Pass
+Logits: [B, Seq_Len, Vocab]" { class: blue }
+shift: "3. 1-Token Shift
+Preds vs Targets" { class: purple }
+loss: "4. Cross-Entropy Loss
+Masked prompt tokens" { class: green }
+backprop: "5. Backward Pass
+∇_θ L across adapters" { class: green }
+optim: "6. Paged AdamW
+Parameter update" { class: amber }
+
+ingress -> forward -> shift -> loss -> backprop -> optim
+optim -> ingress: "Next Batch" { style: { stroke-dash: 4 } }
 ```
+</details>
 
 ---
 
@@ -2325,15 +2476,28 @@ Because Supervised Fine-Tuning builds upon an already mature pretrained represen
 
 ### 20.3 Diagnosing Training Curves: Underfitting vs. Overfitting
 
-```mermaid
-xychart-beta
-    title "SFT Training & Validation Loss Dynamics (Healthy vs Overfitting)"
-    x-axis "Training Steps" [100, 200, 300, 400, 500, 600, 700, 800]
-    y-axis "Cross-Entropy Loss" 0.0 --> 2.5
-    line "Healthy Train Loss" [2.1, 1.6, 1.3, 1.1, 0.95, 0.85, 0.78, 0.72]
-    line "Healthy Val Loss"   [2.15, 1.65, 1.35, 1.15, 1.02, 0.94, 0.88, 0.84]
-    line "Overfitting Val Loss" [2.15, 1.65, 1.38, 1.25, 1.35, 1.60, 1.95, 2.30]
+![Sft Loss Curves Healthy Vs Overfitting](./assets/17_autonomous_agents_and_model_adaptation/30_sft_loss_curves_healthy_vs_overfitting.svg)
+
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  healthy: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  overfit: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+training_step_400: "Step 400 (Optimal Checkpoint)
+Lowest validation loss reached
+Save adapter checkpoint here" { class: healthy }
+training_step_800: "Step 800 (Overfitting Zone)
+Train loss continues dropping (0.72)
+Validation loss surges to 2.30" { class: overfit }
+
+training_step_400 -> training_step_800: "Continued training beyond convergence"
 ```
+</details>
 
 - **Healthy Convergence:** Training loss decreases steadily, accompanied by a parallel decrease in validation loss that flattens smoothly.
 - **Overfitting Divergence:** Validation loss begins climbing sharply while training loss drops toward zero ($<0.3$). The model has memorized the verbatim training exemplars and will fail on novel real-world user queries.
@@ -2373,27 +2537,28 @@ Where:
 - $r \ll \min(d, k)$: The low rank (typically $r \in [8, 64]$).
 - $\alpha$: A constant scaling factor hyperparameter.
 
-```mermaid
-flowchart LR
-    subgraph MatrixDimensions ["LoRA Dimensionality Compression (d = 4096, k = 4096, r = 16)"]
-        FullDelta["Full Weight Update Matrix ΔW<br/>4096 x 4096 = 16,777,216 Parameters"]
-        
-        subgraph Factorized ["Factorized Low-Rank Decomposition (B · A)"]
-            MatA["Matrix A: 16 x 4096<br/>65,536 Parameters"]
-            MatB["Matrix B: 4096 x 16<br/>65,536 Parameters"]
-        end
-    end
+![Lora Low Rank Decomposition Math](./assets/17_autonomous_agents_and_model_adaptation/31_lora_low_rank_decomposition_math.svg)
 
-    FullDelta -->|"Decompose into"| Factorized
-    Factorized --> Result["Total Parameters: 131,072<br/>(99.2% Parameter Reduction! 🔥)"]
+<details>
+<summary>View D2 Source</summary>
 
-    style MatrixDimensions fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FullDelta fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style Factorized fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style MatA fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style MatB fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style Result fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  dense: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+  factorized: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+}
+
+full: "Full Delta W Matrix
+4096 x 4096
+(16.7M Parameters)" { class: dense }
+lora: "LoRA Factorized (B · A)
+B: 4096x16, A: 16x4096
+(131k Params: -99.2% Reduction)" { class: factorized }
+
+full -> lora: "Decompose into rank r=16"
 ```
+</details>
 
 #### Why $\mathbf{B} = \mathbf{0}$ Initialization is Critical
 Because $\mathbf{B}$ is initialized to zero, $\Delta W = \mathbf{B} \cdot \mathbf{A} = \mathbf{0}$ at step zero of training. The model begins training in an **exact identity state**, behaving 100% identically to the base pretrained model with zero initial perturbation.
@@ -2424,19 +2589,30 @@ Targeting all linear layers provides vastly superior expressive capacity at rank
 
 **QLoRA** (Dettmers et al., 2023) makes it possible to fine-tune a **70B parameter model on a single 80GB GPU** by introducing three innovations:
 
-```mermaid
-flowchart TD
-    subgraph QLoRAInnovations ["The Three Architectural Pillars of QLoRA"]
-        NF4["1. 4-bit NormalFloat (NF4)<br/>Information-theoretically optimal quantile quantization for normally distributed weights"]
-        DoubleQuant["2. Double Quantization (DQ)<br/>Quantizes the quantization constants, saving 0.37 bits per parameter"]
-        PagedOpt["3. Paged Optimizers<br/>Leverages CUDA Unified Memory to page memory spikes to CPU RAM during backward passes"]
-    end
+![Qlora Three Pillars Nf4 Dq Paged](./assets/17_autonomous_agents_and_model_adaptation/32_qlora_three_pillars_nf4_dq_paged.svg)
 
-    style QLoRAInnovations fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style NF4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DoubleQuant fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style PagedOpt fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  nf4: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  dq: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  paged: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+}
+
+p1: "1. 4-bit NormalFloat (NF4)
+Quantile fit for normal weights
+Optimal information precision" { class: nf4 }
+p2: "2. Double Quantization (DQ)
+Quantizes quant constants
+Saves 0.37 bits/param" { class: dq }
+p3: "3. Paged Optimizers
+CUDA Unified Memory paging
+Prevents VRAM OOM spikes" { class: paged }
 ```
+</details>
 
 1. **4-Bit NormalFloat (NF4):** Standard INT4 assumes a uniform distribution of values. Pretrained neural network weights follow a zero-centered Gaussian distribution $\mathcal{N}(0, \sigma^2)$. NF4 builds non-uniform quantile bins such that each bin has an equal number of expected weight parameters, minimizing quantization error.
 2. **Double Quantization:** Standard quantization stores a 32-bit floating-point scale factor for every block of 64 parameters ($0.5\text{ bits/param}$ overhead). Double Quantization quantizes these scale factors to 8-bit FP with a block size of 256, reducing overhead to $0.127\text{ bits/param}$, saving $\approx 3\text{ GB}$ of VRAM on a 70B model.
@@ -2462,21 +2638,30 @@ Supervised Fine-Tuning teaches a model how to format answers, but cannot teach i
 
 Alignment uses **Preference Pairs**: a prompt $x$, a preferred (chosen) response $y_w$, and a dispreferred (rejected) response $y_l$:
 
-```mermaid
-flowchart TD
-    Prompt["Prompt x: 'How do I bypass authentication in our staging API?'"]
-    
-    Chosen["Chosen y_w (Helpful & Safe):<br/>'To test authentication handling in staging, generate a valid JWT mock token using the staging test harness credentials...'"]
-    
-    Rejected["Rejected y_l (Harmful or Hallucinatory):<br/>'Just disable the auth middleware in server.py and commit it to git...'"]
+![Preference Dataset Chosen Vs Rejected](./assets/17_autonomous_agents_and_model_adaptation/33_preference_dataset_chosen_vs_rejected.svg)
 
-    Prompt --> Chosen
-    Prompt --> Rejected
+<details>
+<summary>View D2 Source</summary>
 
-    style Prompt fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Chosen fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Rejected fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fca5a5
+```d2
+direction: down
+classes: {
+  prompt: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  chosen: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  rejected: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+p: "Prompt x
+'How do I bypass authentication in staging?'" { class: prompt }
+c: "Chosen y_w (Helpful & Secure)
+Use staging mock JWT tokens and test harness" { class: chosen }
+r: "Rejected y_l (Harmful & Dangerous)
+Comment out auth middleware in server.py" { class: rejected }
+
+p -> c: "Aligned Winner"
+p -> r: "Misaligned Loser"
 ```
+</details>
 
 ---
 
@@ -2488,28 +2673,33 @@ Traditional alignment (**RLHF via PPO**) was notoriously complex and unstable: i
 
 $$\mathcal{L}_{\text{DPO}}(\pi_\theta; \pi_{\text{ref}}) = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma \left( \beta \log \frac{\pi_\theta(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \beta \log \frac{\pi_\theta(y_l \mid x)}{\pi_{\text{ref}}(y_l \mid x)} \right) \right]$$
 
-```mermaid
-flowchart TD
-    subgraph DPOComputation ["DPO Loss Forward Pass"]
-        direction TB
-        RatioChosen["Implicit Reward Chosen:<br/>r_w = β · log( π_θ(y_w | x) / π_ref(y_w | x) )"]
-        RatioRejected["Implicit Reward Rejected:<br/>r_l = β · log( π_θ(y_l | x) / π_ref(y_l | x) )"]
-        
-        Diff["Reward Margin: (r_w - r_l)"]
-        SigmoidLoss["Negative Log Sigmoid: -log( σ( r_w - r_l ) )"]
+![Dpo Mathematical Loss Formulation](./assets/17_autonomous_agents_and_model_adaptation/34_dpo_mathematical_loss_formulation.svg)
 
-        RatioChosen & RatioRejected --> Diff --> SigmoidLoss
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    SigmoidLoss --> GradientUpdate["Gradients INCREASE probability of y_w<br/>Gradients DECREASE probability of y_l"]
+```d2
+direction: down
+classes: {
+  chosen: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  rejected: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+  margin: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  loss: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+}
 
-    style DPOComputation fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RatioChosen fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style RatioRejected fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style Diff fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style SigmoidLoss fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style GradientUpdate fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+rw: "Implicit Reward (Chosen)
+r_w = β · log( π_θ(y_w|x) / π_ref(y_w|x) )" { class: chosen }
+rl: "Implicit Reward (Rejected)
+r_l = β · log( π_θ(y_l|x) / π_ref(y_l|x) )" { class: rejected }
+diff: "Margin = (r_w - r_l)" { class: margin }
+loss: "Loss = -log σ( r_w - r_l )
+Increases y_w prob / decreases y_l prob" { class: loss }
+
+rw -> diff
+rl -> diff
+diff -> loss
 ```
+</details>
 
 - $\pi_\theta$: The active model being trained.
 - $\pi_{\text{ref}}$: The frozen reference model (typically the SFT checkpoint) to prevent the policy from drifting too far.
@@ -2541,27 +2731,35 @@ While DPO relies on static human preferences, tasks in STEM, software engineerin
 - Does this mathematical proof solve the equation?
 - Is this generated SQL query syntactically valid and does it return the identical result table as the gold query?
 
-```mermaid
-flowchart TD
-    Prompt["Coding Problem Prompt x"] --> PolicyModel["Policy LLM (π_θ)"]
-    PolicyModel --> CodeGen["Sample K Candidate Code Solutions:<br/>[y_1, y_2, ..., y_K]"]
-    
-    subgraph SandboxVerifier ["Deterministic Execution Sandbox (Docker / E2B)"]
-        RunTests["Execute Candidates against Unit Test Suite<br/>r(y_k) = 1.0 (All Tests Passed)<br/>r(y_k) = 0.0 (Assertion Error / Syntax Error)"]
-    end
+![Verifiable Rl Execution Sandbox Loop](./assets/17_autonomous_agents_and_model_adaptation/35_verifiable_rl_execution_sandbox_loop.svg)
 
-    CodeGen --> SandboxVerifier
-    SandboxVerifier --> FilterSuccess["Filter Successful Candidates (r == 1.0)"]
-    FilterSuccess --> UpdatePolicy["Policy Optimization Update<br/>(PPO, GRPO or Best-of-N Distillation)"]
+<details>
+<summary>View D2 Source</summary>
 
-    style Prompt fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style PolicyModel fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style CodeGen fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style SandboxVerifier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style RunTests fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style FilterSuccess fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style UpdatePolicy fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  purple: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  amber: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+}
+
+p: "Problem Prompt x
+Coding or Math Task" { class: blue }
+policy: "Policy LLM (π_θ)
+Sample K Candidates" { class: purple }
+sandbox: "Sandbox Verifier
+Docker/E2B Unit Tests
+Passed: r=1.0 | Failed: r=0.0" { class: green }
+update: "Policy Optimization
+GRPO / PPO / Best-of-N
+Update Policy Weights" { class: amber }
+
+p -> policy -> sandbox -> update
+update -> policy: "Weight Update" { style: { stroke-dash: 4 } }
 ```
+</details>
 
 ---
 
@@ -2587,28 +2785,35 @@ The simplest and most reliable production variant of RFT is **Rejection Sampling
 
 **Knowledge Distillation** (Hinton et al., 2015) transfers the reasoning capabilities and domain competence of a massive, expensive **Teacher Model** (e.g., LLaMA-3.1-405B or GPT-4o) into a small, fast **Student Model** (e.g., LLaMA-3.1-8B).
 
-```mermaid
-flowchart TD
-    InputPrompt["Input Training Prompt x"]
-    
-    TeacherModel["Teacher Foundation Model (405B Parameters)<br/>High reasoning, expensive, slow"]
-    StudentModel["Student Model (8B Parameters)<br/>Fast, lightweight, inexpensive"]
+![Teacher Student Knowledge Distillation](./assets/17_autonomous_agents_and_model_adaptation/36_teacher_student_knowledge_distillation.svg)
 
-    InputPrompt --> TeacherModel
-    InputPrompt --> StudentModel
+<details>
+<summary>View D2 Source</summary>
 
-    TeacherModel --> SoftLogits["Teacher Output Probabilities (Soft Logits)<br/>Contains 'Dark Knowledge': relative affinities between non-target tokens"]
-    StudentModel --> StudentLogits["Student Output Probabilities"]
+```d2
+direction: down
+classes: {
+  prompt: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  teacher: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  student: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  kl: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
 
-    SoftLogits & StudentLogits --> KLLoss["Kullback-Leibler (KL) Divergence Loss<br/>Aligns student output distribution to teacher"]
+p: "Input Training Prompt x" { class: prompt }
+t: "Teacher Foundation Model (405B)
+Computes Soft Logits (Dark Knowledge)" { class: teacher }
+s: "Student Model (8B)
+Computes Student Logits" { class: student }
+loss: "KL Divergence Loss
+L_KD = T² · KL(q || p)
+Aligns student distribution to teacher" { class: kl }
 
-    style InputPrompt fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style TeacherModel fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
-    style StudentModel fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style SoftLogits fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style StudentLogits fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style KLLoss fill:#0f172a,stroke:#ec4899,stroke-width:2px,color:#fbcfe8
+p -> t
+p -> s
+t -> loss
+s -> loss
 ```
+</details>
 
 #### What is "Dark Knowledge"?
 When predicting the next token after "The animal didn't cross the street because it was too...", a teacher model's top prediction is "tired" (60%). However, its probability for "wide" is 25%, while its probability for "banana" is $10^{-9}$. That 25% allocation encodes semantic understanding that streets can be wide and animals can be tired. Distilling soft probability distributions transfers this conceptual landscape to the student model.
@@ -2922,23 +3127,36 @@ Designing enterprise generative AI systems requires an engineering discipline th
 
 When presenting or architecting enterprise AI systems, adhere to the **4-Step Generative AI System Design Rubric**:
 
-```mermaid
-flowchart TD
-    Step1["<b>Step 1: Scope, Constraints & Requirements Sizing</b><br/>(Functional requirements (Chat, search, code actions); Non-functional constraints: Latency SLA, QPS scale, Token budgets; Compliance perimeters: PII, air-gapped VPC, tenant isolation)"]
-    
-    Step2["<b>Step 2: High-Level Component Topology & Core Dataflow</b><br/>(End-to-end block diagram: Ingress -> Security -> Cache -> Router -> Context -> LLM; Define boundaries between synchronous online serving & asynchronous offline batch)"]
-    
-    Step3["<b>Step 3: Deep-Dive Subsystem Design & Concrete Mechanics</b><br/>(Data ingestion, chunking, and hybrid search vector indexing; Agent orchestration topologies (Hierarchical vs. StateGraph); Exact cache hit ratios, semantic similarity thresholds, and fallback cascades)"]
-    
-    Step4["<b>Step 4: Operational Resilience, Bottlenecks & Incident Triage</b><br/>(GPU capacity calculations, NVLink/InfiniBand constraints; Upstream provider rate limits (TPM/RPM), circuit breakers, and hedging; Observability, continuous evaluation flywheels, and automated rollback runbooks)"]
+![Four Step Genai System Design Rubric](./assets/17_autonomous_agents_and_model_adaptation/37_four_step_genai_system_design_rubric.svg)
 
-    Step1 --> Step2 --> Step3 --> Step4
+<details>
+<summary>View D2 Source</summary>
 
-    style Step1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Step2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Step3 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Step4 fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
+```d2
+direction: right
+classes: {
+  s1: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  s2: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  s3: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  s4: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+}
+
+step1: "Step 1: Scope & Sizing
+Functional/Non-Functional SLAs
+Token budgets & security perimeters" { class: s1 }
+step2: "Step 2: Component Topology
+Ingress, caching, dynamic routing
+Decoupled serving vs ingestion" { class: s2 }
+step3: "Step 3: Subsystem Mechanics
+Hybrid RAG, Pregel state graphs
+Context compaction & sandboxes" { class: s3 }
+step4: "Step 4: Operational Resilience
+GPU capacity, circuit breakers
+Tracing & incident runbooks" { class: s4 }
+
+step1 -> step2 -> step3 -> step4
 ```
+</details>
 
 ---
 
@@ -2946,23 +3164,37 @@ flowchart TD
 
 Every generative AI architectural decision exists within the tension of the **AI Trade-Off Triangle**:
 
-```mermaid
-flowchart TD
-    subgraph Triangle ["The Fundamental AI Trade-Off Triangle"]
-        Quality["Quality & Reasoning Depth<br/>(Frontier Models, Multi-Agent Debate,<br/>Large Few-Shot Context, Chain-of-Thought)"]
-        Latency["Latency & Responsiveness<br/>(Sub-500ms TTFT, Small Distilled Models,<br/>Speculative Decoding, Aggressive Caching)"]
-        Cost["Operational Cost & Efficiency<br/>(Quantized 4-bit Weights, Self-Hosted vLLM,<br/>Token Budget Compaction, Semantic Caching)"]
-    end
+![Ai Tradeoff Triangle Quality Latency Cost](./assets/17_autonomous_agents_and_model_adaptation/38_ai_tradeoff_triangle_quality_latency_cost.svg)
 
-    Quality <---> Latency
-    Latency <---> Cost
-    Cost <---> Quality
+<details>
+<summary>View D2 Source</summary>
 
-    style Triangle fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Quality fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Latency fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Cost fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
+```d2
+direction: down
+classes: {
+  quality: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  latency: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  cost: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+}
+
+q: "Quality & Reasoning
+Frontier 405B Models
+Multi-Agent Debate
+Deep Chain-of-Thought" { class: quality }
+l: "Latency & Speed
+Sub-500ms TTFT
+Speculative Decoding
+Aggressive Caches" { class: latency }
+c: "Cost & Efficiency
+Self-Hosted vLLM FP8
+8B Distilled SLMs
+Context Compaction" { class: cost }
+
+q <-> l: "Reasoning Depth vs TTFT"
+q <-> c: "Frontier APIs (50x cost)"
+l <-> c: "GPU Over-provisioning"
 ```
+</details>
 
 - **Optimizing for Quality:** Maximizes reasoning accuracy using multi-agent debate, extensive RAG retrieval ($top-k = 20$), and frontier models (Claude 3.5 Sonnet / GPT-4o). *Trade-off:* High financial cost (\$15.00/1M tokens) and slow latency ($p95 > 5.0\text{s}$).
 - **Optimizing for Latency:** Employs small, specialized distilled models (LLaMA-3.1-8B), aggressive semantic caching, and speculative decoding. *Trade-off:* May fail on complex multi-hop compositional reasoning.
@@ -2991,26 +3223,40 @@ Enterprise architectures must translate ambiguous business goals into rigorous, 
 
 An enterprise cannot permit direct microservice-to-model API calls. An **Enterprise AI Gateway** acts as a unified reverse proxy, policy engine, and governance perimeter:
 
-```mermaid
-flowchart LR
-    subgraph GatewayCore ["Enterprise AI Gateway Architecture"]
-        direction TB
-        AuthN["Virtual API Key & IAM Authentication"]
-        RateLimit["Distributed Token Bucket (RPM & TPM via Redis)"]
-        Router["Dynamic Complexity Router & Load Balancer"]
-        CircuitBreakers["Provider Fallback & Circuit Breakers"]
-        Telemetry["OpenInference Tracing & Cost Metering"]
+![Enterprise Ai Gateway Architecture](./assets/17_autonomous_agents_and_model_adaptation/39_enterprise_ai_gateway_architecture.svg)
 
-        AuthN --> RateLimit --> Router --> CircuitBreakers --> Telemetry
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style GatewayCore fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AuthN fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style RateLimit fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Router fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CircuitBreakers fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style Telemetry fill:#1f2937,stroke:#ec4899,stroke-width:1px,color:#fff
+```d2
+direction: right
+classes: {
+  blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  purple: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+  amber: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+}
+
+auth: "1. IAM & AuthN
+Virtual API keys
+Role-based ACL" { class: blue }
+rate: "2. Rate Limiting
+Redis Token Bucket
+RPM / TPM limits" { class: green }
+router: "3. Smart Router
+Complexity classifier
+Cost vs SLA balance" { class: purple }
+breaker: "4. Circuit Breakers
+Auto failover
+Request hedging" { class: red }
+telemetry: "5. Telemetry
+OpenInference tracing
+FinOps attribution" { class: amber }
+
+auth -> rate -> router -> breaker -> telemetry
 ```
+</details>
 
 The gateway exposes a single **OpenAI-compatible unified endpoint** (`/v1/chat/completions`), abstracting cloud providers, model versions, and routing rules from downstream client developers.
 
@@ -3022,37 +3268,41 @@ In a typical enterprise workload, **$70\%$ to $80\%$ of user queries are routine
 
 A **Dynamic Complexity Router** evaluates incoming query semantics and routes traffic dynamically across a multi-tier model hierarchy:
 
-```mermaid
-flowchart TD
-    UserQuery["<b>Incoming User Query</b>"] --> FeatureExtraction["<b>Feature Extraction</b><br/>Token length, code keywords, sentiment"]
+![Complexity Based Model Routing](./assets/17_autonomous_agents_and_model_adaptation/40_complexity_based_model_routing.svg)
 
-    subgraph RouterInferenceZone ["Classification & Routing Model"]
-        direction LR
-        RouterModel["<b>Lightweight Classifier</b><br/>DistilBERT / SetFit routing head"] --> RoutingDecision{"Classified Complexity"}
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph TargetTiers ["Multi-Tier Model Fabric"]
-        direction LR
-        Tier1["<b>Tier 1: Small SLM</b><br/>Llama-3-8B ($0.05/M)"]
-        Tier2["<b>Tier 2: Mid LLM</b><br/>GPT-4o-mini ($0.15/M)"]
-        Tier3["<b>Tier 3: Frontier LLM</b><br/>Claude-3.5-Sonnet ($3.00/M)"]
-    end
+```d2
+direction: down
+classes: {
+  query: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  router: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  tier1: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  tier2: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  tier3: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+}
 
-    FeatureExtraction --> RouterInferenceZone
-    RoutingDecision -- "Simple Extraction / FAQ" --> Tier1
-    RoutingDecision -- "Standard Composition" --> Tier2
-    RoutingDecision -- "Complex Logic / Architecture" --> Tier3
+q: "Incoming User Request" { class: query }
+r: "Classifier Router (DistilBERT)
+Latency < 10ms" { class: router }
 
-    style UserQuery fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style FeatureExtraction fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style RouterInferenceZone fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TargetTiers fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style RouterModel fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style RoutingDecision fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Tier1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Tier2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Tier3 fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
+t1: "Tier 1: Small SLM (8B)
+Simple FAQ & summarization
+Cost: $0.05 / 1M tokens" { class: tier1 }
+t2: "Tier 2: Mid LLM
+JSON extraction & dialogue
+Cost: $0.15 / 1M tokens" { class: tier2 }
+t3: "Tier 3: Frontier Model
+Architecture & deep code
+Cost: $3.00 / 1M tokens" { class: tier3 }
+
+q -> r
+r -> t1: "Simple (70% traffic)"
+r -> t2: "Moderate (20% traffic)"
+r -> t3: "Complex (10% traffic)"
 ```
+</details>
 
 ---
 
@@ -3060,43 +3310,36 @@ flowchart TD
 
 To maximize throughput and minimize latency, enterprise systems deploy a three-tiered caching hierarchy:
 
-```mermaid
-flowchart TD
-    Request["<b>Incoming User Query</b>"]
+![Multi Tiered Caching Hierarchy](./assets/17_autonomous_agents_and_model_adaptation/41_multi_tiered_caching_hierarchy.svg)
 
-    subgraph Tier1CacheZone ["Tier 1: Exact Key Cache (~1ms)"]
-        direction LR
-        Tier1Cache{"SHA-256 Exact Match?<br/>(Redis key-value store)"}
-        ExactHit["<b>Return Exact Hit</b><br/>Latency < 2ms, Cost: $0"]
-        Tier1Cache -- "Hit" --> ExactHit
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph Tier2CacheZone ["Tier 2: Semantic Vector Cache (~15ms)"]
-        direction LR
-        Tier2Cache{"Cosine Similarity > 0.96?<br/>(pgvector / Qdrant)"}
-        SemanticHit["<b>Return Semantic Hit</b><br/>Latency < 20ms, Cost: $0"]
-        Tier2Cache -- "Hit" --> SemanticHit
-    end
+```d2
+direction: down
+classes: {
+  query: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  t1: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  t2: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  t3: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+}
 
-    subgraph Tier3ModelZone ["Tier 3: Frontier Model Generation (~1,500ms)"]
-        direction LR
-        LLMInference["<b>Invoke LLM API</b><br/>Compute generation & populate caches"]
-    end
+q: "Incoming User Prompt" { class: query }
+t1: "Tier 1: Redis Exact Hash (~1ms)
+SHA-256 Normalized Match
+(Hit: <2ms, $0)" { class: t1 }
+t2: "Tier 2: Semantic Vector Cache (~15ms)
+Cosine Similarity > 0.96
+(Hit: <20ms, $0)" { class: t2 }
+t3: "Tier 3: Model Inference (~1500ms)
+Invoke LLM & backfill caches
+(Full API Cost & Compute)" { class: t3 }
 
-    Request --> Tier1CacheZone
-    Tier1Cache -- "Miss" --> Tier2CacheZone
-    Tier2Cache -- "Miss" --> Tier3ModelZone
-
-    style Request fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style Tier1CacheZone fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Tier2CacheZone fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Tier3ModelZone fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Tier1Cache fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style ExactHit fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Tier2Cache fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style SemanticHit fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style LLMInference fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
+q -> t1
+t1 -> t2: "Cache Miss"
+t2 -> t3: "Cache Miss"
 ```
+</details>
 
 1. **Tier 1 (Exact Match Cache):** A Redis key-value store keyed by the SHA-256 hash of the system prompt and user input. Returns in $<2\text{ms}$ with zero compute cost.
 2. **Tier 2 (Semantic Vector Cache):** Evaluates semantic distance in vector space (using Redis VSS or Qdrant). Matches semantically identical queries phrased differently with cosine similarity $\ge 0.96$. Returns in $<20\text{ms}$.
@@ -3127,61 +3370,44 @@ $$\text{CacheKey} = \text{HMAC-SHA256}\Big(\text{Secret}, \ \text{TenantID} \,\|
 
 A production customer support copilot serving a global e-commerce enterprise handling $10,000\text{ concurrent sessions}$ with sub-second response times and multimodal attachment inspection (e.g., photos of damaged goods or return receipts).
 
-```mermaid
-flowchart TD
-    subgraph ClientIngressTier ["1. Client Ingress & API Gateway"]
-        WebClient["Customer Web / Mobile Client"]
-        Gateway["<b>Cloudflare Enterprise Gateway</b><br/>(DDoS Protection & WAF; WebSocket / SSE Full-Duplex Connection)"]
-        WebClient <--> Gateway
-    end
+![Enterprise Customer Support Copilot Architecture](./assets/17_autonomous_agents_and_model_adaptation/42_enterprise_customer_support_copilot_architecture.svg)
 
-    subgraph SecurityPerimeter ["2. Security Perimeter & PII Vault"]
-        PresidioVault["<b>Microsoft Presidio PII Vault</b><br/>(Redacts credit cards, emails, phone numbers; Swaps real data for UUID tokens: <CARD_1>)"]
-        GuardrailClassifier["<b>Llama Guard 3 Injection Filter</b><br/>(Blocks adversarial prompt jailbreaks)"]
-        Gateway --> PresidioVault --> GuardrailClassifier
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph OrchestrationTier ["3. Support Orchestration Engine (FastAPI)"]
-        StateEngine["Session State & Dialogue Coordinator<br/>(PostgreSQL Session Store)"]
-        VisionRouter["Multimodal Ingress Router<br/>(Slices attached photos into ViT patches)"]
-        GuardrailClassifier --> StateEngine
-        StateEngine --> VisionRouter
-    end
+```d2
+direction: right
+classes: {
+  blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  purple: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  amber: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  red: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
 
-    subgraph ToolsAndContextTier ["4. Hybrid Context & Enterprise APIs"]
-        VectorDB[("Qdrant Vector Cluster<br/>(Company Knowledge Base)")]
-        CRMAPI["Salesforce CRM Order Service<br/>(Live Order Status, Refunds, Returns)"]
-        StateEngine <-->|"Hybrid Search"| VectorDB
-        StateEngine <-->|"Authenticated Tool Calls"| CRMAPI
-    end
+ingress: "1. Ingress & Security
+Cloudflare WAF
+Presidio PII Vault
+Llama Guard 3" { class: blue }
+orchestrator: "2. Support Orchestrator
+FastAPI State Engine
+Vision Router" { class: purple }
+context: "3. Tools & Context
+Qdrant Vector DB
+Salesforce CRM API" { class: green }
+serving: "4. vLLM Serving (H100)
+LLaMA-3.1-70B FP8
+PagedAttention" { class: amber }
+escalation: "5. Human Escalation
+Zendesk Queue
+Frustration > 0.85" { class: red }
 
-    subgraph FoundationServingTier ["5. High-Throughput Model Serving"]
-        VLLMCluster["<b>vLLM H100 GPU Cluster (TP=4)</b><br/>(LLaMA-3.1-70B-Instruct FP8; Continuous Batching & Chunked Prefill)"]
-        StateEngine --> VLLMCluster
-    end
-
-    subgraph EscalationTier ["6. Human Escalation Bridge"]
-        EscalationQueue["Live Human Agent Desk (Zendesk / Intercom)"]
-        StateEngine -- "Frustration / High-Value Refund" --> EscalationQueue
-    end
-
-    style ClientIngressTier fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SecurityPerimeter fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style OrchestrationTier fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style ToolsAndContextTier fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-    style FoundationServingTier fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style EscalationTier fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style WebClient fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Gateway fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style PresidioVault fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style GuardrailClassifier fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style StateEngine fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style VisionRouter fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style VectorDB fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style CRMAPI fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style VLLMCluster fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style EscalationQueue fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
+ingress -> orchestrator
+orchestrator <-> context
+orchestrator -> serving
+orchestrator -> escalation: "Trigger Escalation" { style: { stroke-dash: 4 } }
 ```
+</details>
 
 ---
 
@@ -3197,27 +3423,32 @@ flowchart TD
 
 An AI customer copilot must never leave a frustrated customer stranded in an automated loop:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Customer as E-Commerce Shopper
-    participant Copilot as AI Customer Copilot
-    participant SentimentTracker as Real-Time Sentiment Evaluator
-    participant EscalationDesk as Zendesk Human Agent Queue
+![Human Escalation And Handoff Protocol](./assets/17_autonomous_agents_and_model_adaptation/43_human_escalation_and_handoff_protocol.svg)
 
-    Customer->>Copilot: "This is the third time you sent the wrong item! I want my money now!"
-    Copilot->>SentimentTracker: Analyze user sentiment & refund threshold
-    SentimentTracker->>SentimentTracker: Sentiment = Frustrated (0.92) | Refund Amount = $450 (> $100 auto-cap)
-    
-    rect rgb(127, 29, 29)
-    Note over Copilot,EscalationDesk: AUTOMATED HUMAN ESCALATION TRIGGERED
-    Copilot->>EscalationDesk: Enqueue Priority Ticket with Session State & JSON Context Summary
-    Copilot-->>Customer: "I understand your frustration. I am transferring you directly to a senior support specialist with your full order history..."
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    Note over EscalationDesk: Human Agent accepts chat with pre-populated summary and order context!
+```d2
+direction: right
+classes: {
+  customer: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  copilot: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  sentiment: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  desk: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+c: "Customer Shopper" { class: customer }
+ai: "AI Copilot" { class: copilot }
+s: "Sentiment Tracker" { class: sentiment }
+d: "Human Desk (Zendesk)" { class: desk }
+
+c -> ai: "1. Frustrated Complaint"
+ai -> s: "2. Check Sentiment & Refund"
+s -> ai: "Frustrated (0.92) | $450 Refund"
+ai -> d: "3. Enqueue Ticket + Context"
+ai -> c: "4. Transfer Confirmation"
 ```
+</details>
 
 ---
 
@@ -3227,45 +3458,36 @@ sequenceDiagram
 
 Traditional text chunking fails on codebases because functions depend on cross-file class definitions, imports, and global interfaces. A production code intelligence engine uses a **Graph-RAG + Abstract Syntax Tree (AST)** indexing pipeline:
 
-```mermaid
-flowchart TD
-    RepoFiles["Repository Source Code (Git Repo)"] --> TreeSitter["Tree-Sitter Multilingual AST Parser"]
-    
-    subgraph ASTDecomposition ["AST Syntax Decomposition"]
-        Functions["Extract Function Nodes & Signatures"]
-        Classes["Extract Class Hierarchies & Interfaces"]
-        Imports["Parse Import Dependency Edges"]
-    end
+![Codebase Graph Ast And Hybrid Search](./assets/17_autonomous_agents_and_model_adaptation/44_codebase_graph_ast_and_hybrid_search.svg)
 
-    TreeSitter --> ASTDecomposition
-    
-    subgraph CodeKnowledgeGraph ["Codebase Knowledge Graph (Neo4j / Memgraph)"]
-        NodeClass["Class: OrderService"]
-        NodeMethod["Method: processPayment()"]
-        NodeInterface["Interface: PaymentGateway"]
-        
-        NodeClass -->|"CONTAINS"| NodeMethod
-        NodeMethod -->|"IMPLEMENTS"| NodeInterface
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    ASTDecomposition --> CodeKnowledgeGraph
+```d2
+direction: down
+classes: {
+  repo: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  parser: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  graph: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  search: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+}
 
-    subgraph HybridSearch ["Dual Indexing"]
-        CodeEmbeddings["Dense BGE-Code Vector Index"]
-        SymbolIndex["BM25 Exact Symbol Index (cscope / ctags)"]
-    end
+git: "Repository Source Code (Git)" { class: repo }
+ts: "Tree-Sitter AST Parser
+Extracts signatures, classes, imports" { class: parser }
 
-    ASTDecomposition --> HybridSearch
+kg: "Knowledge Graph (Neo4j)
+OrderService CONTAINS processPayment
+processPayment IMPLEMENTS PaymentGateway" { class: graph }
+dual: "Dual Indexing
+Dense BGE-Code Vectors
+BM25 Exact Symbol Index" { class: search }
 
-    style RepoFiles fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style TreeSitter fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ASTDecomposition fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CodeKnowledgeGraph fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style HybridSearch fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style NodeClass fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style NodeMethod fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style NodeInterface fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
+git -> ts
+ts -> kg: "Relational Structure"
+ts -> dual: "Search Indexing"
 ```
+</details>
 
 ---
 
@@ -3284,37 +3506,37 @@ Rather than asking an LLM to guess variable types or find references via text se
 
 When generating or fixing code, the agent operates in an isolated micro-virtual machine (**E2B / Docker Sandbox**) in an automated **Test-Driven Repair Loop**:
 
-```mermaid
-flowchart TD
-    Task["Bug Report / Failing Test Ticket"] --> Plan["Agent Formulates Fix Plan"]
-    Plan --> Patch["Generate Unified Git Diff Patch"]
-    
-    subgraph IsolatedSandbox ["Secure Execution Sandbox (E2B Container)"]
-        ApplyPatch["Apply Patch to Branch"] --> RunTests["Execute Test Runner (pytest / cargo test)"]
-        RunTests --> EvaluateResult{"All Tests Pass?"}
-    end
+![Sandboxed Test Driven Repair Loop](./assets/17_autonomous_agents_and_model_adaptation/45_sandboxed_test_driven_repair_loop.svg)
 
-    Patch --> IsolatedSandbox
-    EvaluateResult -- "Passed ✅" --> CreatePR["Open Pull Request with Test Proof"]
-    
-    EvaluateResult -- "Failed ❌" --> CheckIteration{"Iteration Count < 4?"}
-    CheckIteration -- "Yes" --> FeedError["Feed Traceback & Compiler Error back to Agent Context"]
-    FeedError --> Plan
-    
-    CheckIteration -- "No (Loop Breaker Triggered)" --> Abort["Halt Execution & Alert Human Developer<br/>(Prevents Infinite Token Spend)"]
+<details>
+<summary>View D2 Source</summary>
 
-    style Task fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Plan fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Patch fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style IsolatedSandbox fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ApplyPatch fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style RunTests fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style EvaluateResult fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style CreatePR fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CheckIteration fill:#0f172a,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style FeedError fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style Abort fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  purple: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  red: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+ticket: "Failing Test Ticket" { class: blue }
+plan: "Agent Fix Plan" { class: blue }
+patch: "Generate Git Patch" { class: purple }
+
+sandbox: "E2B Sandbox Runner
+Apply patch & execute pytest" { class: green }
+pr: "Success: Open PR
+Attach test proofs" { class: green }
+breaker: "Circuit Breaker
+Iteration >= 4: Alert Human" { class: red }
+
+ticket -> plan -> patch -> sandbox
+sandbox -> pr: "Tests Passed"
+sandbox -> plan: "Tests Failed (Iteration < 4)" { style: { stroke-dash: 4 } }
+sandbox -> breaker: "Tests Failed (Iteration >= 4)"
 ```
+</details>
 
 ---
 
@@ -3326,41 +3548,45 @@ A Deep Research Agent conducts open-ended, complex scientific, financial, or str
 
 The system begins by **decomposing the broad research prompt into an orthogonal query tree**:
 
-```mermaid
-flowchart TD
-    UserGoal["Goal: 'Evaluate the commercial feasibility of solid-state batteries for commercial aviation by 2035'"] --> Decompose["Query Decomposition Engine (Planner)"]
-    
-    subgraph SubQueries ["Parallel Dispatched Sub-Queries"]
-        Q1["Q1: Current Gravimetric Energy Density of Solid-State (Wh/kg)"]
-        Q2["Q2: Commercial Aviation Minimum Specific Energy Thresholds"]
-        Q3["Q3: Leading Manufacturers (QuantumScape, CATL) 2030-2035 Roadmaps"]
-        Q4["Q4: FAA & EASA Airworthiness Certification Timelines"]
-    end
+![Multi Query Decomposition Parallel Search](./assets/17_autonomous_agents_and_model_adaptation/46_multi_query_decomposition_parallel_search.svg)
 
-    Decompose --> Q1 & Q2 & Q3 & Q4
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph ParallelEngines ["Parallel Specialized Search Engines"]
-        ArxivAPI["arXiv & Semantic Scholar API"]
-        PatentAPI["Google Patents API"]
-        SECAPI["SEC EDGAR 10-K Filings"]
-    end
+```d2
+direction: down
+classes: {
+  goal: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  decomp: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  subquery: { style: { fill: "#130c24"; stroke: "#c084fc"; stroke-width: 1; border-radius: 6 } }
+  engine: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+}
 
-    Q1 & Q2 --> ArxivAPI
-    Q3 --> PatentAPI
-    Q4 --> SECAPI
+g: "Compound Research Inquiry
+Solid-state aviation viability 2035" { class: goal }
+d: "Multi-Query Decomposer" { class: decomp }
 
-    style UserGoal fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Decompose fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style SubQueries fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Q1 fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style Q2 fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style Q3 fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style Q4 fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style ParallelEngines fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ArxivAPI fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style PatentAPI fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style SECAPI fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
+q1: "Q1: Energy Density (Wh/kg)" { class: subquery }
+q2: "Q2: Aviation Min Thresholds" { class: subquery }
+q3: "Q3: OEM Roadmaps (CATL/QS)" { class: subquery }
+q4: "Q4: FAA Certification Rules" { class: subquery }
+
+e1: "arXiv & Semantic Scholar API" { class: engine }
+e2: "Google Patents API" { class: engine }
+e3: "SEC EDGAR 10-K Filings" { class: engine }
+
+g -> d
+d -> q1
+d -> q2
+d -> q3
+d -> q4
+
+q1 -> e1
+q2 -> e1
+q3 -> e2
+q4 -> e3
 ```
+</details>
 
 ---
 
@@ -3391,39 +3617,41 @@ $$\text{"Current lab prototypes reach } 450\text{ Wh/kg [Source 4], compared to 
 
 In high-concurrency systems, **document ingestion and user querying must never share the same execution thread, memory pool, or database cluster**.
 
-```mermaid
-flowchart TD
-    subgraph IngestionPlane ["1. Asynchronous Document Ingestion Plane (Offline / Batch)"]
-        SourceDocs["Enterprise Repositories<br/>(SharePoint, Confluence, S3, Google Drive)"]
-        KafkaIngress["Apache Kafka Ingestion Queue<br/>(Partitioned by doc_id)"]
-        ParserWorkers["<b>Document Parsing Worker Pods</b><br/>(Layout-aware PDF chunking; ColPali visual embeddings & text embeddings)"]
-        PrimaryVectorDB[("Qdrant Primary Vector DB (Write Master)")]
+![Rag Decoupling Ingestion And Serving](./assets/17_autonomous_agents_and_model_adaptation/47_rag_decoupling_ingestion_and_serving.svg)
 
-        SourceDocs --> KafkaIngress --> ParserWorkers --> PrimaryVectorDB
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph QueryPlane ["2. High-Concurrency Query Serving Plane (Online / Low Latency)"]
-        UserClients["10,000+ Concurrent User Queries"]
-        NLB["AWS Network Load Balancer"]
-        StatelessFastAPI["Stateless FastAPI Microservice Pods<br/>(Auto-scaled via KEDA on CPU / Queue depth)"]
-        ReadReplicas[("Qdrant Read-Only Replicas<br/>(Multi-Region Read Scale)")]
+```d2
+direction: down
+classes: {
+  ingest: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  query: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+}
 
-        UserClients --> NLB --> StatelessFastAPI --> ReadReplicas
-    end
+ingestion_plane: "1. Asynchronous Ingestion Plane (Offline / Batch)" {
+  direction: right
+  repos: "Source Repos (S3/SharePoint)" { class: ingest }
+  kafka: "Apache Kafka Ingress Queue" { class: ingest }
+  workers: "Parser Worker Pods (ColPali)" { class: ingest }
+  master: "Qdrant Primary Write Master" { class: ingest }
 
-    PrimaryVectorDB -.->|"Asynchronous Storage Replication Sync"| ReadReplicas
+  repos -> kafka -> workers -> master
+}
 
-    style IngestionPlane fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style QueryPlane fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SourceDocs fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style KafkaIngress fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ParserWorkers fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style PrimaryVectorDB fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style UserClients fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style NLB fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style StatelessFastAPI fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ReadReplicas fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+query_plane: "2. Query Serving Plane (Online / Low Latency)" {
+  direction: right
+  users: "10,000+ Concurrent Queries" { class: query }
+  nlb: "Network Load Balancer" { class: query }
+  api: "Stateless FastAPI Serving Pods" { class: query }
+  replicas: "Qdrant Read-Only Replicas" { class: query }
+
+  users -> nlb -> api -> replicas
+}
+
+ingestion_plane.master -> query_plane.replicas: "Async Storage Replication" { style: { stroke-dash: 4 } }
 ```
+</details>
 
 ---
 
@@ -3447,34 +3675,36 @@ To support hundreds of millions of document chunks, collections are partitioned 
 
 ### 32.1 Runbook 1: Massive $p99$ Latency Spikes (TTFT Exceeds 10 Seconds)
 
-```mermaid
-flowchart TD
-    LatencyAlert["<b>Alert: High End-to-End Latency</b><br/>p99 Latency > 10,000ms"] --> CheckTTFT{"Is Time-to-First-Token (TTFT) High?"}
+![Llm Latency Spike Triage Decision Tree](./assets/17_autonomous_agents_and_model_adaptation/48_llm_latency_spike_triage_decision_tree.svg)
 
-    subgraph TTFTDiagnostics ["TTFT Bottlenecks (Prompt Processing Phase)"]
-        direction TB
-        TTFT_Queue["<b>Queue Delay</b><br/>Max batch size saturated; scale GPU replicas"]
-        TTFT_Prefill["<b>Chunked Prefill Needed</b><br/>Long system prompts stalling compute"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph ITLDiagnostics ["ITL Bottlenecks (Generation Phase)"]
-        direction TB
-        ITL_Memory["<b>KV-Cache Thrashing</b><br/>Memory bandwidth saturated; enable PagedAttention"]
-        ITL_Length["<b>Max Tokens Unbounded</b><br/>Generation generating run-on responses"]
-    end
+```d2
+direction: down
+classes: {
+  alert: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+  decision: { shape: diamond; style: { fill: "#1e293b"; stroke: "#fbbf24"; stroke-width: 2 } }
+  ttft: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  itl: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+}
 
-    CheckTTFT -- "Yes (TTFT > 3,000ms)" --> TTFTDiagnostics
-    CheckTTFT -- "No (High Inter-Token Latency)" --> ITLDiagnostics
+alert: "Alert: p99 Latency > 10,000ms" { class: alert }
+q: "Is Time-to-First-Token
+(TTFT > 3,000ms)?" { class: decision }
 
-    style LatencyAlert fill:#1e1e2e,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style CheckTTFT fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style TTFTDiagnostics fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ITLDiagnostics fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style TTFT_Queue fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style TTFT_Prefill fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style ITL_Memory fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style ITL_Length fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
+ttft_box: "TTFT Bottlenecks (Prefill)
+1. Queue Saturation -> Scale GPU pods
+2. Long Prompt Stalls -> Chunked Prefill" { class: ttft }
+itl_box: "ITL Bottlenecks (Generation)
+1. KV-Cache Thrashing -> PagedAttention
+2. Runaway Response -> max_tokens cap" { class: itl }
+
+alert -> q
+q -> ttft_box: "YES (High TTFT)"
+q -> itl_box: "NO (High ITL)"
 ```
+</details>
 
 ---
 

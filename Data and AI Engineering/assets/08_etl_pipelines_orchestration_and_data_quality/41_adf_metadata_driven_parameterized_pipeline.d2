@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  ctrl: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  loop: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  copy: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  wm: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+lookup: "1. Lookup Activity\n(Query Control Table)" { class: ctrl }
+
+foreach: "2. ForEach Activity (Parallel Container)" {
+  branch: "3. If Incremental Check" { class: loop }
+  copy_act: "4. Parameterized Copy Activity\n(Source -> ADLS Gen2)" { class: copy }
+  update_wm: "5. Update Watermark Activity\n(Stored Procedure Update)" { class: wm }
+
+  branch -> copy_act: "Dynamic Query"
+  copy_act -> update_wm: "On Success"
+}
+
+lookup -> foreach: "Iterate Table Array"

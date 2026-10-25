@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 420" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-blue { stroke: #3B82F6; }
+      .card-green { stroke: #10B981; }
+      .card-red { stroke: #EF4444; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-green { stroke: #10B981; }
+      .edge-red { stroke: #EF4444; }
+    </style>
+    <marker id="arr-g23" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-r23" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Left: UNION ALL -->
+  <rect x="25" y="25" width="480" height="370" class="pillar-box" stroke="#10B981"/>
+  <text x="265" y="55" class="title-text" fill="#6EE7B7">UNION ALL: Streaming Append (O(1) RAM)</text>
+
+  <rect x="45" y="80" width="200" height="80" class="card card-blue"/>
+  <text x="145" y="105" class="card-title" fill="#93C5FD">Query 1 (10M rows)</text>
+  <text x="55" y="128" class="card-body">• Streaming cursor</text>
+
+  <rect x="45" y="180" width="200" height="80" class="card card-blue"/>
+  <text x="145" y="205" class="card-title" fill="#93C5FD">Query 2 (10M rows)</text>
+  <text x="55" y="228" class="card-body">• Streaming cursor</text>
+
+  <rect x="280" y="115" width="205" height="110" class="card card-green"/>
+  <text x="382" y="142" class="card-title" fill="#6EE7B7">Stream Concatenator</text>
+  <text x="295" y="167" class="card-body">• Zero hash table overhead</text>
+  <text x="295" y="187" class="card-body">• Zero disk spill</text>
+  <text x="295" y="207" class="card-body" fill="#34D399">• Pushes direct to client</text>
+
+  <rect x="45" y="285" width="440" height="85" class="card card-green"/>
+  <text x="265" y="310" class="card-title" fill="#6EE7B7">Output: 20M Rows Materialized</text>
+  <text x="60" y="335" class="card-body" fill="#34D399">• Sub-second execution | Constant memory O(1)</text>
+  <text x="60" y="353" class="card-body">• Preserves all rows including duplicates</text>
+
+  <!-- Connectors Left -->
+  <path fill="none" d="M 245 120 C 260 120, 265 150, 266 150 L 280 150" class="edge edge-green" marker-end="url(#arr-g23)"/>
+  <path fill="none" d="M 245 220 C 260 220, 265 190, 266 190 L 280 190" class="edge edge-green" marker-end="url(#arr-g23)"/>
+  <path fill="none" d="M 382 225 L 382 285" class="edge edge-green" marker-end="url(#arr-g23)"/>
+
+  <!-- Right: UNION DISTINCT -->
+  <rect x="555" y="25" width="480" height="370" class="pillar-box" stroke="#EF4444"/>
+  <text x="795" y="55" class="title-text" fill="#FCA5A5">UNION DISTINCT: Hash Spill (Heavy)</text>
+
+  <rect x="575" y="80" width="200" height="80" class="card card-blue"/>
+  <text x="675" y="105" class="card-title" fill="#93C5FD">Query 1 (10M rows)</text>
+  <text x="585" y="128" class="card-body">• Input rowset A</text>
+
+  <rect x="575" y="180" width="200" height="80" class="card card-blue"/>
+  <text x="675" y="205" class="card-title" fill="#93C5FD">Query 2 (10M rows)</text>
+  <text x="585" y="228" class="card-body">• Input rowset B</text>
+
+  <rect x="810" y="115" width="205" height="110" class="card card-red"/>
+  <text x="912" y="142" class="card-title" fill="#FCA5A5">Hash / Sort Spill</text>
+  <text x="825" y="167" class="card-body">• Work_mem exhausted</text>
+  <text x="825" y="187" class="card-body" fill="#EF4444">• Spills 2 GB to TempDB</text>
+  <text x="825" y="207" class="card-body">• High disk write latency</text>
+
+  <rect x="575" y="285" width="440" height="85" class="card card-red"/>
+  <text x="795" y="310" class="card-title" fill="#FCA5A5">Output: 18M Deduplicated Rows</text>
+  <text x="590" y="335" class="card-body" fill="#FCA5A5">• 2-5 minutes execution | Massive I/O bottleneck</text>
+  <text x="590" y="353" class="card-body">• Always prefer UNION ALL unless deduplication is required</text>
+
+  <!-- Connectors Right -->
+  <path fill="none" d="M 775 120 C 790 120, 795 150, 796 150 L 810 150" class="edge edge-red" marker-end="url(#arr-r23)"/>
+  <path fill="none" d="M 775 220 C 790 220, 795 190, 796 190 L 810 190" class="edge edge-red" marker-end="url(#arr-r23)"/>
+  <path fill="none" d="M 912 225 L 912 285" class="edge edge-red" marker-end="url(#arr-r23)"/>
+</svg>

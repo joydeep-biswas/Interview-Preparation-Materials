@@ -1,0 +1,34 @@
+direction: down
+title: "Saga Pattern: Choreography vs Orchestration Architecture"
+
+choreography: "1. Saga Choreography (Decentralized Events)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  o1: "Order Service"
+  p1: "Payment Service"
+  i1: "Inventory Service"
+  s1: "Shipping Service"
+
+  o1 -> p1: "OrderCreated"
+  p1 -> i1: "PaymentCharged"
+  i1 -> s1: "StockReserved"
+}
+
+orchestration: "2. Saga Orchestration (Centralized State Machine)" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+
+  orch: "OrderSagaOrchestrator
+Tracks state in SagaLog" {
+    style.fill: "#111827"
+    style.stroke: "#f59e0b"
+  }
+  p2: "Payment Service"
+  i2: "Inventory Service"
+  s2: "Shipping Service"
+
+  orch -> p2: "Command: Charge"
+  orch -> i2: "Command: Reserve"
+  orch -> s2: "Command: Ship"
+}

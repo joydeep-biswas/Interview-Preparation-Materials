@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 280" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Left: Traditional RLHF PPO -->
+  <rect x="30" y="40" width="420" height="200" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="50" y="66" class="title-txt" fill="#FECACA">Traditional RLHF with PPO (4 Models)</text>
+  <text x="50" y="95" class="body-txt">• Step 1: Train separate Reward Model on human preferences</text>
+  <text x="50" y="115" class="body-txt">• Step 2: Complex PPO Reinforcement Loop simultaneously hosting:</text>
+  <rect x="50" y="125" width="380" height="40" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+  <text x="60" y="148" class="mono-txt">Actor (Policy) + Critic (Value) + Ref + Reward Model</text>
+  <text x="50" y="185" class="body-txt">• Extreme VRAM consumption &amp; prone to reward hacking</text>
+  <text x="50" y="215" class="badge-txt" fill="#EF4444">Complex Hyperparameter Tuning</text>
+
+  <!-- Right: DPO -->
+  <rect x="510" y="40" width="420" height="200" rx="10" ry="10" fill="#0D1F1C" stroke="#10B981" stroke-width="1.5"/>
+  <text x="530" y="66" class="title-txt" fill="#6EE7B7">Direct Preference Optimization: DPO (2 Models)</text>
+  <text x="530" y="95" class="body-txt">• Mathematically reparameterizes reward function into policy</text>
+  <text x="530" y="115" class="body-txt">• Optimizes binary cross-entropy loss directly on log-ratios:</text>
+  <rect x="530" y="125" width="380" height="40" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1"/>
+  <text x="540" y="148" class="mono-txt">L_DPO = -log sigma( beta * log(pi/pi_ref) )</text>
+  <text x="530" y="185" class="body-txt">• Requires only Active Policy + Frozen Reference model</text>
+  <text x="530" y="215" class="badge-txt" fill="#10B981">✓ Stable, Deterministic &amp; Lightweight</text>
+</svg>

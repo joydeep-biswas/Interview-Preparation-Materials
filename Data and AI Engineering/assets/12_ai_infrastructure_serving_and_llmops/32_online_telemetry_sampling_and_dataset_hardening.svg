@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 440" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Card Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Canvas -->
+  <rect width="1000" height="440" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g transform="translate(0, 0)">
+    <text x="500.0" y="38" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="700" fill="#f8fafc">Continuous Evaluation &amp; Regression Dataset Hardening Loop</text>
+    <text x="500.0" y="62" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#94a3b8">Asynchronously sampling live production traffic into LLM-as-a-judge pipelines to build golden regression suites</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g transform="translate(40, 95)">
+  <rect width="270" height="310" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="14" y="-12" width="266" height="22" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="147.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">1. Ingress &amp; Telemetry Sampling</text>
+</g>
+<g transform="translate(60, 130)">
+  <rect width="230" height="75" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="115.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Live Traffic (100%)</text>
+  <line x1="12" y1="34" x2="218" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• 10M requests / day</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Real enterprise user prompts</text>
+</g>
+<g transform="translate(60, 215)">
+  <rect width="230" height="80" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="115.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">98% Fast Path</text>
+  <line x1="12" y1="34" x2="218" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Direct response to user</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Zero latency penalty</text>
+</g>
+<g transform="translate(60, 305)">
+  <rect width="230" height="80" rx="8" fill="url(#card-cyan)" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="115.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">2% Async Sample</text>
+  <line x1="12" y1="34" x2="218" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Kafka / SQS buffer queue</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Decoupled background async</text>
+</g>
+<line x1="175" y1="205" x2="175" y2="215" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<text x="175.0" y="204.0" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="600" fill="#34d399">98%</text>
+<polyline points="175,205 175,210 100,210 100,305" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arr-c)"/>
+<g transform="translate(350, 95)">
+  <rect width="280" height="310" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="14" y="-12" width="234" height="22" rx="4" fill="#0f172a" stroke="#c084fc" stroke-width="1"/>
+  <text x="131.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#c084fc">2. LLM-as-a-Judge Eval Tier</text>
+</g>
+<g transform="translate(370, 140)">
+  <rect width="240" height="95" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="120.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Background Evaluator</text>
+  <line x1="12" y1="34" x2="228" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• LLM-as-a-Judge (Claude 3.5)</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Scores Faithfulness &amp; Relevance</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Evaluates citation accuracy</text>
+</g>
+<g transform="translate(370, 260)">
+  <rect width="240" height="120" rx="8" fill="url(#card-amber)" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="120.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Quality Decision Gate</text>
+  <line x1="12" y1="34" x2="228" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• If Score &gt;= 0.85:</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  -&gt; Log to Prometheus &amp; discard</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• If Score &lt; 0.85 (FAILURE!):</text>
+  <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  -&gt; Route to Quarantine Lake!</text>
+</g>
+<path d="M 290.0 345.0 L 300.0 345.0 C 328.0 345.0, 328.0 187.0, 356.0 187.0 L 370.0 187.0" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arr-c)"/>
+<line x1="490" y1="235" x2="490" y2="260" stroke="#c084fc" stroke-width="1.8" marker-end="url(#arr-p)"/>
+<g transform="translate(670, 95)">
+  <rect width="290" height="310" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#34d399" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="14" y="-12" width="250" height="22" rx="4" fill="#0f172a" stroke="#34d399" stroke-width="1"/>
+  <text x="139.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#34d399">3. Dataset Hardening &amp; Curate</text>
+</g>
+<g transform="translate(690, 130)">
+  <rect width="250" height="95" rx="8" fill="url(#card-red)" stroke="#f87171" stroke-width="1.5"/>
+  <text x="125.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#fca5a5">Failure Lake (Quarantine)</text>
+  <line x1="12" y1="34" x2="238" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Redact PII (Presidio)</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Extract prompt &amp; retrieved context</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Flag specific hallucination</text>
+</g>
+<g transform="translate(690, 250)">
+  <rect width="250" height="135" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="125.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Golden Regression Dataset</text>
+  <line x1="12" y1="34" x2="238" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Automated PR test suite</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Hardened with real production edge cases!</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Guarantees resolved failures NEVER regress</text>
+  <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  in future prompt releases!</text>
+</g>
+<path d="M 610.0 320.0 L 620.0 320.0 C 648.0 320.0, 648.0 177.0, 676.0 177.0 L 690.0 177.0" fill="none" stroke="#f87171" stroke-width="1.8" marker-end="url(#arr-r)"/>
+<text x="650.0" y="242.5" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="600" fill="#f87171">Score &lt; 0.85</text>
+<line x1="815" y1="225" x2="815" y2="250" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<text x="815.0" y="231.5" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="600" fill="#34d399">Sanitize &amp; Commit</text>
+</svg>

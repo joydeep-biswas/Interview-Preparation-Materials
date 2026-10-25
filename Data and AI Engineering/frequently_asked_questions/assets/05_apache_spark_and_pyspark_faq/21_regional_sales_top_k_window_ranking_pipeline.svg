@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 220" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .code-txt { fill: #FCD34D; font-family: "SFMono-Regular", Consolas, monospace; font-size: 10px; }
+      .edge { stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="220" fill="#0B0F19"/>
+
+  <!-- Step 1 -->
+  <g transform="translate(25, 40)">
+    <rect width="170" height="140" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="85" y="32" class="title" fill="#93C5FD">fact_sales</text>
+    <line x1="15" y1="44" x2="155" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="18" y="70" class="body-txt">• order_id</text>
+    <text x="18" y="90" class="body-txt">• region</text>
+    <text x="18" y="110" class="body-txt">• product_id</text>
+    <text x="18" y="130" class="body-txt">• quantity</text>
+  </g>
+
+  <path fill="none" d="M 195 110 L 225 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+
+  <!-- Step 2 -->
+  <g transform="translate(225, 40)">
+    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="90" y="32" class="title" fill="#FCD34D">1. GroupBy &amp; Sum</text>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="15" y="70" class="code-txt">.groupBy(</text>
+    <text x="15" y="88" class="code-txt">  'region', 'product_id')</text>
+    <text x="15" y="106" class="code-txt">.agg(sum('qty'))</text>
+    <text x="15" y="128" class="body-txt">Local pre-aggregation</text>
+  </g>
+
+  <path fill="none" d="M 405 110 L 435 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+
+  <!-- Step 3 -->
+  <g transform="translate(435, 40)">
+    <rect width="210" height="140" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="105" y="32" class="title" fill="#6EE7B7">2. Dense Rank Window</text>
+    <line x1="15" y1="44" x2="195" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="15" y="70" class="code-txt">dense_rank().over(</text>
+    <text x="15" y="88" class="code-txt">  W.partitionBy('region')</text>
+    <text x="15" y="106" class="code-txt">   .orderBy(desc('qty')))</text>
+    <text x="15" y="128" class="body-txt">Isolated per regional slice</text>
+  </g>
+
+  <path fill="none" d="M 645 110 L 675 110" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- Step 4 -->
+  <g transform="translate(675, 40)">
+    <rect width="160" height="140" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="80" y="32" class="title" fill="#6EE7B7">3. Top-K Filter</text>
+    <line x1="15" y1="44" x2="145" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="15" y="70" class="code-txt">.filter(</text>
+    <text x="15" y="88" class="code-txt">  col('rank') &lt;= 3)</text>
+    <text x="15" y="115" class="body-txt">• Prunes bottom ranks</text>
+    <text x="15" y="132" class="body-txt">• Exact Top 3 items</text>
+  </g>
+
+  <path fill="none" d="M 835 110 L 865 110" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- Step 5 -->
+  <g transform="translate(865, 40)">
+    <rect width="130" height="140" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="65" y="32" class="title" fill="#A7F3D0">Top 3 Matrix</text>
+    <line x1="15" y1="44" x2="115" y2="44" stroke="#047857" stroke-width="1.5"/>
+    <text x="15" y="70" class="body-txt" fill="#A7F3D0">• Clean mart</text>
+    <text x="15" y="90" class="body-txt" fill="#A7F3D0">• Fast serving</text>
+    <text x="15" y="110" class="body-txt" fill="#A7F3D0">• BI ready</text>
+  </g>
+</svg>

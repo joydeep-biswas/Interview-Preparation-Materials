@@ -1,0 +1,20 @@
+direction: right
+title: Clustered Indexes vs. Heap-Organized Tables
+
+clustered: 1. Clustered Table / Index-Organized (MySQL InnoDB) {
+  pk_tree: Primary Key B+ Tree {
+    leaf: "Leaf pages contain the actual table row data!"
+  }
+  sec_tree: Secondary Index {
+    leaf: "Stores Primary Key value (forces double lookup)"
+  }
+  sec_tree -> pk_tree: "Double B-Tree Traversal"
+}
+
+heap: 2. Heap-Organized Table (PostgreSQL / Oracle) {
+  heap_files: "Heap Data Files: Rows placed unordered in slotted pages"
+  pk_index: "PK B+ Tree: Leaf points to (Block, Slot) ctid"
+  sec_index: "Secondary B+ Tree: Leaf points directly to (Block, Slot) ctid"
+  pk_index -> heap_files: "Direct read"
+  sec_index -> heap_files: "Direct read"
+}

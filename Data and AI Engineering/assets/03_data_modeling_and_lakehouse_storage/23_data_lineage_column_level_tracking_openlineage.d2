@@ -1,0 +1,23 @@
+direction: right
+title: Data Lineage: Column-Level Tracking & OpenLineage Standard
+
+stage1: Stage 1: Raw Ingestion & Bronze Storage {
+  pg: Operational PostgreSQL (Source)
+  s3: S3 Bronze Bucket (Raw Parquet)
+  pg -> s3: "Airbyte CDC Extract"
+}
+
+stage2: Stage 2: Cleansing & Silver Lakehouse {
+  silver: Delta Silver Table (Cleaned & Typed)
+}
+
+stage3: Stage 3: Gold Aggregation & Consumers {
+  gold: Snowflake Gold Mart (dbt Aggregated)
+  tableau: Executive KPI Dashboard (Tableau)
+  ml: Customer Churn Model (Feature Store)
+  gold -> tableau: "Direct SQL"
+  gold -> ml: "Feature Pipeline"
+}
+
+stage1.s3 -> stage2.silver: "Spark Distributed Cleanse"
+stage2.silver -> stage3.gold: "dbt Incremental Aggregate"

@@ -1,0 +1,19 @@
+direction: down
+classes: {
+  alert_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+  trace_box: { style: { fill: "#111827", stroke: "#3B82F6" } }
+  diamond_box: { shape: diamond, style: { fill: "#111827", stroke: "#F59E0B" } }
+  ret_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+  gen_box: { style: { fill: "#111827", stroke: "#8B5CF6" } }
+}
+
+Alert: "User Reports Incorrect Answer" { class: alert_box }
+TraceAudit: "Inspect OpenTelemetry Trace" { class: trace_box }
+Decision: "Context Contains Ground Truth?" { class: diamond_box }
+
+RetFail: "🔴 RETRIEVAL DEFECT (Recall = 0)\n• Semantic Gap / Lexical Mismatch\n• Chunk boundary split critical sentence\n• Top-K too small" { class: ret_box }
+GenFail: "🔴 GENERATION DEFECT (Faithfulness < 1)\n• Lost in the middle distraction\n• Conflicting chunks\n• Prompt lacked strict grounding" { class: gen_box }
+
+Alert -> TraceAudit -> Decision
+Decision -> RetFail: "NO: Ground Truth Missing"
+Decision -> GenFail: "YES: Ground Truth Present"

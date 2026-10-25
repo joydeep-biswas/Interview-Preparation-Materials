@@ -1,0 +1,17 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+repart: "repartition(N): Full Network Shuffle (All-to-All)" {
+  class: box
+  style.stroke: "#3B82F6"
+  r_in: "4 Partitions" -> r_shuff: "Shuffle Exchange HashPartitioning" -> r_out: "8 Partitions (Evenly Balanced)"
+}
+
+coal: "coalesce(N): Zero Shuffle (Locality Merge)" {
+  class: box
+  style.stroke: "#10B981"
+  n1: "Node 1: Part 1 + Part 2" -> m1: "Merged Partition 1 (Local)"
+  n2: "Node 2: Part 3 + Part 4" -> m2: "Merged Partition 2 (Local)"
+}

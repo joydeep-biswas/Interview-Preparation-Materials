@@ -1,0 +1,39 @@
+direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+  card: { style: { fill: "#1E293B"; stroke-width: 1.5; rx: 8 } }
+}
+
+diag: "Phase 1: Shell & Metric Diagnostics" {
+  class: pillar
+  style.stroke: "#3B82F6"
+  cmd1: "top -H -p PID\nCheck CPU user% vs sys%" { class: card; style.stroke: "#3B82F6" }
+  cmd2: "pidstat -w 1 5\nMeasure context switches/sec (cswch/s)" { class: card; style.stroke: "#3B82F6" }
+  cmd3: "jcmd PID Thread.print > threads.tdump\nCapture 3 thread dumps 5s apart" { class: card; style.stroke: "#3B82F6" }
+
+  cmd1 -> cmd2 -> cmd3
+}
+
+analysis: "Phase 2: Thread State Triage" {
+  class: pillar
+  style.stroke: "#F59E0B"
+  blocked: "Many BLOCKED threads\nContention on synchronized / locks" { class: card; style.stroke: "#EF4444" }
+  waiting: "Many WAITING in parking\nHikariPool connection starvation" { class: card; style.stroke: "#EF4444" }
+  runnable: "Many RUNNABLE with high sys%\nContext switch storm / thread thrashing" { class: card; style.stroke: "#EF4444" }
+}
+
+solution: "Phase 3: Production Remediation" {
+  class: pillar
+  style.stroke: "#10B981"
+  fix_locks: "Striped / Non-blocking Locks\nReplace synchronized with LongAdder/ConcurrentMap" { class: card; style.stroke: "#10B981" }
+  fix_pool: "Size HikariCP Pool Properly\nPool = 2 * Cores + Spindle Count" { class: card; style.stroke: "#10B981" }
+  fix_threads: "Virtual Threads (Java 21+)\nShrink platform pool & adopt virtual threads" { class: card; style.stroke: "#10B981" }
+}
+
+diag.cmd3 -> analysis.blocked: "Lock Contention"
+diag.cmd3 -> analysis.waiting: "Pool Starvation"
+diag.cmd3 -> analysis.runnable: "Thread Thrashing"
+
+analysis.blocked -> solution.fix_locks
+analysis.waiting -> solution.fix_pool
+analysis.runnable -> solution.fix_threads

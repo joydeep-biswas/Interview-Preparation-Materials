@@ -125,22 +125,9 @@ When external vendors accidentally send the identical file twice on the same day
    - If the checksum already exists for that partition date, log a warning and **skip processing**.
    - If the checksum is new, record it in the metadata control table and proceed.
 
-```mermaid
-flowchart TD
-    subgraph IdempotentFileDedup ["Idempotent File Ingestion & Checksum Deduplication Flow"]
-        File["Incoming File from Source"] --> Hash["Compute File SHA-256 Checksum"]
-        Hash --> Check{"Checksum Exists in<br/>etl_file_audit Table?"}
-        Check -->|Yes| Skip["Skip File Idempotently<br/>(Log Duplicate Warning)"]
-        Check -->|No| Process["Execute Ingestion<br/>Commit Checksum to Audit Table"]
-    end
+![Idempotent File Ingestion & Checksum Deduplication Flow](assets/08_etl_pipelines_orchestration_and_data_quality_faq/01_idempotent_file_deduplication_checksum_flow.svg)
 
-    style IdempotentFileDedup fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style File fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Hash fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Check fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Skip fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Process fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/01_idempotent_file_deduplication_checksum_flow.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/01_idempotent_file_deduplication_checksum_flow.d2)
 
 ---
 
@@ -181,22 +168,9 @@ To ensure a 10-step nightly load restarts from the exact step that failed:
 #### Metadata-Driven Ingestion Architecture (ADF Q6, Q13)
 Instead of building 100 individual ADF pipelines for 100 tables, build **ONE generic pipeline** driven by a SQL Control Table.
 
-```mermaid
-flowchart TD
-    subgraph MetadataPipeline ["ADF Dynamic Metadata-Driven Ingestion Architecture (100+ Tables)"]
-        ControlTable[("SQL Metadata Control Table<br/>(table_name, source_schema, target_adls_path, is_active)")] --> Lookup["1. ADF Lookup Activity<br/>(SELECT * FROM etl_control WHERE is_active = 1)"]
-        Lookup --> ForEach["2. ADF ForEach Activity (Parallel Execution)"]
-        ForEach --> Copy["3. Dynamic Copy Activity<br/>(Source: on-prem SQL (@item().source_schema, @item().table_name); Sink: ADLS Parquet (@item().target_adls_path))"]
-        Copy --> Databricks["4. Databricks Notebook Activity<br/>(Executes Silver/Gold transformations)"]
-    end
+![ADF Dynamic Metadata-Driven Ingestion Architecture](assets/08_etl_pipelines_orchestration_and_data_quality_faq/02_adf_dynamic_metadata_driven_ingestion_architecture.svg)
 
-    style MetadataPipeline fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style ControlTable fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Lookup fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ForEach fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Copy fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Databricks fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/02_adf_dynamic_metadata_driven_ingestion_architecture.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/02_adf_dynamic_metadata_driven_ingestion_architecture.d2)
 
 ---
 
@@ -257,21 +231,9 @@ ADF supports four conditional activity dependencies:
 - Connect downstream activities using **Upon Completion** dependencies.
 - Alternatively, wrap independent activities inside a **ForEach Activity** with `isSequential: false`. An individual iteration failure does not abort other iterations.
 
-```mermaid
-flowchart TD
-    subgraph DependencyBranching ["ADF Activity Dependency Branching & Error Resilience"]
-        Act1["Activity 1 (e.g., Ingest Customers)"] -->|Upon Success| Act2["Activity 2 (Normal Path)"]
-        Act1 -->|Upon Failure| ErrLog["Log Error to Azure SQL / Send Alert"]
-        Act2 -->|Upon Completion| Act3["Activity 3 (Continues Pipeline Execution)"]
-        ErrLog -->|Upon Completion| Act3
-    end
+![ADF Activity Dependency Branching & Error Resilience](assets/08_etl_pipelines_orchestration_and_data_quality_faq/03_adf_activity_dependency_branching_error_resilience.svg)
 
-    style DependencyBranching fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Act1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Act2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style ErrLog fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Act3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/03_adf_activity_dependency_branching_error_resilience.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/03_adf_activity_dependency_branching_error_resilience.d2)
 
 ---
 
@@ -450,31 +412,9 @@ ALTER TABLE dim_customers ADD COLUMNS (
 **Question:** If you are asked to ingest PDF and image files into your pipeline and make them queryable, how would you design it?
 
 #### End-to-End Architectural Blueprint
-```mermaid
-flowchart TD
-    subgraph Stage1 ["Stage 1: Landing & Document Intelligence"]
-        direction LR
-        A["Raw Documents<br/>(PDFs, Invoices, Images)"] --> B[("ADLS Gen2 Landing<br/>(Raw Binary Storage)")] --> C["Azure AI Document Intelligence<br/>(Layout, OCR & Table Extraction)"]
-    end
+![End-to-End Multimodal Document Intelligence Pipeline](assets/08_etl_pipelines_orchestration_and_data_quality_faq/04_end_to_end_multimodal_document_intelligence_pipeline.svg)
 
-    subgraph Stage2 ["Stage 2: Extraction & Multimodal Storage"]
-        direction LR
-        D["Parsed JSON & Structured Text"] --> E["Embedding Model<br/>(text-embedding-3)"] --> F[("Vector Search Index<br/>(Azure AI Search / Databricks)")]
-        D --> G[("Relational Delta Tables<br/>(gold.fact_invoices)")]
-    end
-
-    C --> D
-
-    style Stage1 fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Stage2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style A fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style C fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style D fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style E fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style F fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style G fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/04_end_to_end_multimodal_document_intelligence_pipeline.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/04_end_to_end_multimodal_document_intelligence_pipeline.d2)
 
 #### Step-by-Step Processing Pipeline
 1. **Storage Landing:** Stream raw PDF/TIFF files into ADLS Gen2 raw container.
@@ -501,20 +441,9 @@ flowchart TD
 - A daily batch job that normally takes 2 hours is now taking 6 hours. How do you identify the root cause?
 
 #### The 5-Step Systematic RCA Diagnostic Tree
-```mermaid
-flowchart TD
-    S1["Step 1: Orchestrator Gantt Chart (Airflow / ADF)<br/>Which exact task consumed the extra 2.5 hours?"] --> S2{"Is it Ingestion, Transformation, or Target Load?"}
-    
-    S2 -->|Ingestion / Source| C1["Check Source System & Network<br/>(Source DB connection pool throttling?, Table lock / block by long-running OLTP transaction?, Network throughput / VPN gateway saturation?)"]
-    S2 -->|Transformation (Spark)| C2["Check Spark Web UI<br/>(Stage breakdown: Was it 1 straggler task (Data Skew)?, Input Volume: Did input data jump 10x (Spike/Replay)?, Spill (Disk): Did executors spill memory to disk?)"]
-    S2 -->|Target Load / Merge| C3["Check Target Table State<br/>(Target table fragmentation (millions of small files)?, Target locks or concurrency conflicts (OCC retries)?, Delta Lake missing OPTIMIZE / Z-ORDER?)"]
+![5-Step Systematic ETL RCA Diagnostic Tree](assets/08_etl_pipelines_orchestration_and_data_quality_faq/05_systematic_etl_rca_diagnostic_tree.svg)
 
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style C1 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style C2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style C3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#c084fc
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/05_systematic_etl_rca_diagnostic_tree.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/05_systematic_etl_rca_diagnostic_tree.d2)
 
 #### Diagnostic Step-by-Step Runbook:
 1. **Identify the Culprit Task:** Open Airflow Gantt view or ADF Monitoring. Compare the duration of every task against the 7-day baseline average. 95% of slowdowns isolate to a single task.
@@ -534,27 +463,9 @@ flowchart TD
 Total Delivery Time is a composite metric:
 $$\text{Total Delivery Time} = T_{\text{kitchen\_prep}} + T_{\text{driver\_assignment}} + T_{\text{driver\_to\_restaurant}} + T_{\text{transit\_to\_customer}}$$
 
-```mermaid
-flowchart TD
-    subgraph TemporalDecomposition ["1. Temporal Component Slicing"]
-        Total["🚨 <b>Delivery Time Spikes +8 Min on Weekends</b>"] --> Slice1["<b>1. Slicing by Time Component</b>"]
-        Slice1 --> Sub1["Prep Time: +1 min (Normal)"]
-        Slice1 --> Sub2["Driver Wait Time: +6.5 min (BOTTLENECK)"]
-        Slice1 --> Sub3["Transit Time: +0.5 min (Normal)"]
-    end
+![SLA Breach Dimensional Decomposition Framework](assets/08_etl_pipelines_orchestration_and_data_quality_faq/06_sla_breach_dimensional_decomposition_framework.svg)
 
-    subgraph GeospatialAnalysis ["2. Geospatial Drilldown"]
-        Sub2 --> Slice2["<b>2. Dimensional Geospatial Slicing</b>"]
-        Slice2 --> Geo1["City A: +1 min (Normal)"]
-        Slice2 --> Geo2["City B (Downtown Zone): +14 min (Isolated Hotspot)"]
-    end
-
-    style TemporalDecomposition fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style GeospatialAnalysis fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Total fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Sub2 fill:#ef4444,stroke:#fff,stroke-width:2px,color:#fff
-    style Geo2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/06_sla_breach_dimensional_decomposition_framework.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/06_sla_breach_dimensional_decomposition_framework.d2)
 
 #### Investigation Steps:
 1. **Deconstruct the Funnel:** Break delivery time into discrete timestamp intervals: Order Placed $\to$ Kitchen Accepted $\to$ Food Prepared $\to$ Driver Assigned $\to$ Driver Arrived $\to$ Delivered.
@@ -575,19 +486,9 @@ flowchart TD
 - A downstream API used by your ETL pipeline slows to 10 seconds per request and blocks the entire workflow. What three controls should protect the pipeline?
 - A downstream REST API used by your ETL pipeline slows to 10 seconds per request and blocks the entire workflow. What three controls should protect the pipeline?
 
-```mermaid
-flowchart LR
-    Batch["ETL Ingestion Tasks"] --> RL["1. Token-Bucket Rate Limiter<br/>Caps calls to 50 req/sec<br/>Prevents HTTP 429 Overload"]
-    RL --> CB["2. Circuit Breaker<br/>Trips to OPEN state if<br/>latency > 5s or errors > 20%"]
-    CB --> Downstream["External Slow REST API"]
-    CB -.->|When Breaker Trips| DLQ["3. Dead-Letter Queue (DLQ)<br/>Buffered in SQS/Kafka<br/>Exponential Backoff Retry"]
+![Circuit Breakers, Token-Bucket Rate Limiters & Dead-Letter Backoff](assets/08_etl_pipelines_orchestration_and_data_quality_faq/07_circuit_breaker_token_bucket_dead_letter_pipeline.svg)
 
-    style Batch fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style RL fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CB fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style DLQ fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Downstream fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#c084fc
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/07_circuit_breaker_token_bucket_dead_letter_pipeline.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/07_circuit_breaker_token_bucket_dead_letter_pipeline.d2)
 
 #### The 3 Architectural Controls:
 1. **Circuit Breaker Pattern:**
@@ -674,19 +575,9 @@ In distributed orchestrators (CeleryExecutor / KubernetesExecutor), duplicate ex
 - How do you implement incremental loading in Azure Data Factory?
 
 #### End-to-End ADF Pipeline Control Flow
-```mermaid
-flowchart TD
-    S1["1. Lookup Old Watermark<br/>SELECT WatermarkValue FROM WatermarkTable WHERE TableName = 'Orders'"] --> S2["2. Lookup Current Max Watermark<br/>SELECT MAX(LastModifiedDate) AS NewWatermark FROM Orders"]
-    S2 --> S3["3. Copy Activity (Incremental Extract)<br/>SELECT * FROM Orders WHERE LastModifiedDate > '@{OldWatermark}' AND LastModifiedDate <= '@{NewWatermark}'"]
-    S3 --> S4["4. Store in ADLS Gen2<br/>Parquet format: /raw/orders/year=YYYY/month=MM/"]
-    S4 --> S5["5. Stored Procedure: Update Watermark<br/>UPDATE WatermarkTable SET WatermarkValue = '@{NewWatermark}' WHERE TableName = 'Orders'"]
+![ADF Watermark Incremental Extraction Control Flow](assets/08_etl_pipelines_orchestration_and_data_quality_faq/08_adf_watermark_incremental_extraction_control_flow.svg)
 
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style S4 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style S5 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#c084fc
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/08_adf_watermark_incremental_extraction_control_flow.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/08_adf_watermark_incremental_extraction_control_flow.d2)
 
 #### Production Hardening Rule:
 Notice the query boundary: `LastModifiedDate > @OldWatermark AND LastModifiedDate <= @NewWatermark`.
@@ -729,17 +620,9 @@ Notice the query boundary: `LastModifiedDate > @OldWatermark AND LastModifiedDat
 #### The Expand / Contract Migration Pattern
 Directly executing `ALTER TABLE orders RENAME COLUMN customer_id TO client_uuid;` instantly breaks every downstream BI dashboard, ETL pipeline, and SQL query querying that table.
 
-```mermaid
-flowchart TD
-    Phase1["Phase 1: Expand<br/>Add new column client_uuid (NULLable)<br/>Update ETL pipeline to dual-write to both columns"] --> Phase2["Phase 2: Backfill<br/>UPDATE orders SET client_uuid = customer_id WHERE client_uuid IS NULL"]
-    Phase2 --> Phase3["Phase 3: Abstraction & Deprecation<br/>Expose view v_orders with both names<br/>Notify downstream teams; migrate dashboards over 30 days"]
-    Phase3 --> Phase4["Phase 4: Contract<br/>Drop old column customer_id<br/>Zero downtime achieved!"]
+![Expand / Contract Zero-Downtime Migration Pattern](assets/08_etl_pipelines_orchestration_and_data_quality_faq/09_expand_contract_zero_downtime_migration_pattern.svg)
 
-    style Phase1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Phase2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Phase3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Phase4 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/09_expand_contract_zero_downtime_migration_pattern.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/09_expand_contract_zero_downtime_migration_pattern.d2)
 
 ---
 
@@ -814,37 +697,9 @@ Traditional batch CDC queries databases via polling (`WHERE updated_at > last_wa
 3. **Sub-Second Streaming Replication:** Streams database changes immediately into Kafka topics for real-time downstream lakehouse upserts.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph SourceWAL ["Source Transaction Log"]
-        direction LR
-        OLTP[("<b>OLTP Database</b><br/>PostgreSQL / MySQL")] --> WAL["<b>Transaction Log</b><br/>WAL / Binlog"]
-    end
+![Log-Based CDC & ACID Lakehouse Pipeline](assets/08_etl_pipelines_orchestration_and_data_quality_faq/10_log_based_cdc_debezium_kafka_delta_lakehouse.svg)
 
-    subgraph CDCStreaming ["Log-Based CDC & Event Streaming"]
-        direction LR
-        WAL --> Debezium["<b>Debezium Connector</b><br/>Log-based CDC reader"]
-        Debezium --> Kafka[("<b>Kafka Topic: orders_cdc</b><br/>Partitioned by order_id")]
-    end
-
-    subgraph StreamLakehouse ["Stream Processing & ACID Lakehouse"]
-        direction LR
-        Kafka --> Stream["<b>Structured Streaming / Flink</b><br/>Event-driven stateful engine"]
-        Stream --> Delta[("<b>Delta Lake Silver Table</b><br/>MERGE / Deletion Vectors")]
-    end
-
-    SourceWAL --> CDCStreaming --> StreamLakehouse
-
-    style SourceWAL fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CDCStreaming fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style StreamLakehouse fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style OLTP fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style WAL fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Debezium fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Kafka fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Stream fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Delta fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/10_log_based_cdc_debezium_kafka_delta_lakehouse.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/10_log_based_cdc_debezium_kafka_delta_lakehouse.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -920,27 +775,9 @@ Key pillars:
 4. **Automated End-to-End Lineage:** Captures column-level lineage automatically across SQL, PySpark, notebooks, workflows, and dashboards without manual tagging.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph UCStructure ["Unity Catalog 3-Level Namespace & Governance"]
-        Catalog["1. Catalog: prod_analytics<br/>(Storage Root Container / ADLS Account)"]
-        Schema["2. Schema: finance / customer_360<br/>(Logical Domain Boundaries)"]
-        Table["3. Table: fact_transactions<br/>(Delta Lake Parquet Data)"]
-        Catalog --> Schema --> Table
-    end
+![Unity Catalog 3-Level Namespace & Governance Enforcement](assets/08_etl_pipelines_orchestration_and_data_quality_faq/11_unity_catalog_three_level_namespace_governance.svg)
 
-    subgraph GovernanceEnforcement ["Enforcement Policies"]
-        Table --> RM["Row Filter:<br/>region_code = CURRENT_USER_REGION()"]
-        Table --> CM["Column Mask:<br/>CASE WHEN IS_ACCOUNT_GROUP_MEMBER('hr') THEN ssn ELSE 'XXX-XX-XXXX' END"]
-        Table --> Lineage["Automated Column-Level Lineage Graph<br/>Source Table -> Transformation -> BI Dashboard"]
-    end
-
-    style UCStructure fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style GovernanceEnforcement fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style RM fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style CM fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Lineage fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/11_unity_catalog_three_level_namespace_governance.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/11_unity_catalog_three_level_namespace_governance.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -1032,28 +869,9 @@ final_output_df.coalesce(2).write.format("parquet").save("abfss://...")
      ```
 
 #### Architectural Root Causes & Prevention Framework
-```mermaid
-flowchart TD
-    subgraph RootCauses ["Why Duplicates Occurred"]
-        RC1["1. Pipeline Concurrency Uncapped (Default is unlimited concurrent runs)"]
-        RC2["2. Sink configured with naive APPEND instead of MERGE / UPSERT"]
-        RC3["3. Watermark read before write commitment (Race condition)"]
-    end
-    subgraph Solutions ["The 3-Pillar Architectural Invariants"]
-        S1["Set Pipeline Concurrency = 1 in ADF JSON definition"]
-        S2["Enforce Idempotency at Sink: Delta MERGE / Staging UPSERT"]
-        S3["Advance Watermark Atomically within Target Transaction"]
-    end
-    RC1 --> S1
-    RC2 --> S2
-    RC3 --> S3
+![Architectural Root Causes & 3-Pillar Invariants](assets/08_etl_pipelines_orchestration_and_data_quality_faq/12_architectural_duplicate_prevention_three_pillars.svg)
 
-    style RootCauses fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Solutions fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style S1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style S3 fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/12_architectural_duplicate_prevention_three_pillars.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/12_architectural_duplicate_prevention_three_pillars.d2)
 
 1. **Pipeline Concurrency Limit (`concurrency = 1`):** In ADF pipeline settings, set **Concurrency to 1**. Subsequent triggers are queued sequentially rather than executing in parallel.
 2. **Sink Idempotency Guarantee:** Never write raw batch outputs directly via `INSERT INTO` or append mode. Always load into a temporary staging table and execute an idempotent `MERGE` on natural keys (`target.id = stage.id`).
@@ -1067,19 +885,9 @@ flowchart TD
 
 #### The 3 Incremental Ingestion Strategies Without Timestamps
 
-```mermaid
-flowchart TD
-    Source["Source Database (No Last-Modified Timestamps)"] --> Strategy{"Select Optimal Strategy based on Database Engine"}
-    Strategy -->|SQL Server / Azure SQL| CT["Strategy 1: Enable SQL Change Tracking<br/>(Lightweight, zero table modification)"]
-    Strategy -->|Oracle / Postgres| CDC["Strategy 2: Log-Based CDC<br/>(Reads transaction WAL / redo logs)"]
-    Strategy -->|Generic / Legacy / File Source| HashDiff["Strategy 3: Staging Full Extract + Hash Diff<br/>(Compare MD5/SHA-256 against Target Master)"]
+![Incremental Ingestion Strategies Without Timestamps](assets/08_etl_pipelines_orchestration_and_data_quality_faq/13_incremental_ingestion_strategies_without_timestamps.svg)
 
-    style Source fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Strategy fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style CT fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style CDC fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style HashDiff fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/13_incremental_ingestion_strategies_without_timestamps.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/13_incremental_ingestion_strategies_without_timestamps.d2)
 
 #### Production Implementation: SQL Server Change Tracking Pattern
 ```sql
@@ -1145,38 +953,9 @@ CREATE TABLE etl_control.pipeline_task_checkpoint (
 **Question:** How would you design and implement Slowly Changing Dimensions Type 2 (SCD2) using Azure Data Factory Mapping Data Flows?
 
 #### Mapping Data Flow Design Graph
-```mermaid
-flowchart TD
-    subgraph IngestionLookup ["Stream Ingestion & Key Lookup"]
-        direction LR
-        Source["<b>1. Source Stream</b><br/>Incoming updated records"] --> Lookup["<b>2. Lookup on Dim Table</b><br/>Matches on natural PK"]
-    end
+![Mapping Data Flow SCD Type 2 Conditional Split Architecture](assets/08_etl_pipelines_orchestration_and_data_quality_faq/14_mapping_data_flow_scd_type_2_conditional_split.svg)
 
-    subgraph ConditionalSplit ["Conditional Split & Alteration"]
-        direction LR
-        Lookup --> Split{"3. Conditional Split"}
-        Split -->|New Record| InsertNew["<b>4. INSERT Action</b><br/>IsCurrent = 1, StartDate = CurrentDate, EndDate = NULL"]
-        Split -->|Changed Record| AlterSCD["<b>5. SCD Type 2 Dual Action</b><br/>UPDATE: IsCurrent = 0, EndDate = CurrentDate<br/>INSERT: IsCurrent = 1, StartDate = CurrentDate"]
-    end
-
-    subgraph StorageSink ["Target Dimension Lakehouse Sink"]
-        direction LR
-        InsertNew --> Sink[("<b>6. Dimension Sink</b><br/>Key: customer_id")]
-        AlterSCD --> Sink
-    end
-
-    IngestionLookup --> ConditionalSplit --> StorageSink
-
-    style IngestionLookup fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ConditionalSplit fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style StorageSink fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Source fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Lookup fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Split fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style InsertNew fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style AlterSCD fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Sink fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/14_mapping_data_flow_scd_type_2_conditional_split.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/14_mapping_data_flow_scd_type_2_conditional_split.d2)
 
 #### Step-by-Step Data Flow Configuration:
 1. **Source:** Ingests updated customer records. Add Derived Column: `incoming_hash = md5(name + address + phone)`.
@@ -1199,29 +978,9 @@ flowchart TD
 **Question:** How would you design an ADF pipeline to ingest data from multiple on-premises SQL databases into Azure Data Lake Gen2 and load it into Azure Synapse Analytics?
 
 #### Hybrid Architecture Blueprint
-```mermaid
-flowchart LR
-    subgraph OnPremDatacenter ["On-Premises Datacenter"]
-        SQL1[("SQL DB 1: ERP")] & SQL2[("SQL DB 2: CRM")] & SQL3[("SQL DB 3: Inventory")]
-        SHIR["Self-Hosted Integration Runtime (SHIR)<br/>(High-Availability 4-Node Cluster)"]
-        SQL1 & SQL2 & SQL3 --> SHIR
-    end
+![Hybrid On-Premises to Azure SHIR Ingestion Architecture](assets/08_etl_pipelines_orchestration_and_data_quality_faq/15_hybrid_onprem_to_azure_shir_ingestion_architecture.svg)
 
-    subgraph AzureCloud ["Microsoft Azure Cloud"]
-        ExpressRoute["Azure ExpressRoute / VPN Gateway"]
-        SHIR --> ExpressRoute
-        ExpressRoute --> ADF["Azure Data Factory Ingestion Pipeline<br/>(@item().DatabaseName Parameterized Copy)"]
-        ADF --> ADLS[("ADLS Gen2 Bronze / Staging<br/>(Fast Columnar Parquet Staging)")]
-        ADLS --> Synapse[("Azure Synapse Dedicated SQL Pool<br/>(High-Throughput COPY INTO / PolyBase)")]
-    end
-
-    style OnPremDatacenter fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-    style AzureCloud fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style SHIR fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ADF fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ADLS fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Synapse fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/15_hybrid_onprem_to_azure_shir_ingestion_architecture.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/15_hybrid_onprem_to_azure_shir_ingestion_architecture.d2)
 
 #### Production Engineering Rules:
 1. **High-Availability SHIR Clustering:** Deploy SHIR across at least 2 on-premises VMs in an active-active cluster to ensure zero single-point-of-failure and automatic failover.
@@ -1250,27 +1009,9 @@ The three production patterns to enforce strict idempotency are:
 3. **Staging Table Atomic Swap:** Write 100% of the data to a temporary/staging table (`orders_stg_batch_123`). Once validated, execute an atomic metadata swap or partitioned rename into production (`ALTER TABLE orders SWAP WITH orders_stg`).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph NonIdempotent ["❌ Non-Idempotent Append (Duplicates Produced)"]
-        Run1["Attempt 1: Writes 60% (600k rows) -> Network Timeout!"]
-        Retry1["Airflow Retry: Writes 100% (1,000k rows)"]
-        Corrupt["Result: 1,600k rows (600,000 DUPLICATES!)"]
-        Run1 --> Retry1 --> Corrupt
-    end
+![Non-Idempotent Append vs Idempotent Staging Table Overwrite](assets/08_etl_pipelines_orchestration_and_data_quality_faq/16_non_idempotent_append_vs_idempotent_partition_overwrite.svg)
 
-    subgraph IdempotentSwap ["✅ Idempotent Staging Table & Partition Overwrite"]
-        Stg["1. Write to Ephemeral Staging: orders_stg_run_42"]
-        Validate{"2. Check Quality & Row Count"}
-        Swap["3. Atomic Partition Overwrite / Table Swap<br/>INSERT OVERWRITE TABLE orders PARTITION (date='2024-10-17')"]
-        Clean["4. Drop Staging Table"]
-        Stg --> Validate -- "Pass" --> Swap --> Clean
-        Validate -- "Fail" --> Abort["Abort & Rollback: Zero target contamination"]
-    end
-
-    style NonIdempotent fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style IdempotentSwap fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/16_non_idempotent_append_vs_idempotent_partition_overwrite.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/16_non_idempotent_append_vs_idempotent_partition_overwrite.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1335,23 +1076,9 @@ In Apache Airflow, DAG task dependencies define an execution graph:
    - **Cleanup Finalizer (`TriggerRule.ALL_DONE`):** Ensure a teardown task ($T_{cleanup}$) executes regardless of whether upstream tasks succeeded or failed, preventing compute cluster leaks.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph HappyPath ["Normal Sequential Execution (ALL_SUCCESS)"]
-        T1["Task 1: Extract & Stage<br/>(Retries: 3, Backoff: 2m)"] --> T2["Task 2: Transform & Validate"]
-        T2 --> T3["Task 3: Promote to Production"]
-    end
+![Airflow Trigger Rules: ALL_SUCCESS vs ALL_DONE Teardown](assets/08_etl_pipelines_orchestration_and_data_quality_faq/17_airflow_all_success_vs_all_done_teardown_branching.svg)
 
-    subgraph FailureBranch ["Failure & Teardown Architecture"]
-        T1 -- "Failure after 3 retries" --> FailAlert["🚨 on_failure_callback<br/>Alerts PagerDuty / Slack with Log Link"]
-        T2 -.->|"Skipped (UPSTREAM_FAILED)"| T3
-        T1 & T2 & T3 --> Clean["Task 4: Cleanup Ephemeral Cluster<br/>(trigger_rule = TriggerRule.ALL_DONE)"]
-    end
-
-    style HappyPath fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FailureBranch fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Clean fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/17_airflow_all_success_vs_all_done_teardown_branching.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/17_airflow_all_success_vs_all_done_teardown_branching.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1446,24 +1173,9 @@ When upstream Pipeline $C$ slows down:
    If Pipeline $A$ waits for Pipeline $B$ using an `ExternalTaskSensor` configured in default **`mode='poke'`**, the sensor worker thread blocks an Airflow worker slot continuously for 4 hours! With multiple sensor tasks waiting simultaneously, all worker pool slots are exhausted (`Pool Starvation`). Other unrelated pipelines across the company cannot find an available worker slot and freeze.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph CascadeDelay ["Dependency Delay Propagation"]
-        C["Pipeline C (Raw Ingestion): Explodes from 20m -> 240m (4 Hours!)"] --> B["Pipeline B (Silver Cleansing): Starts 3.5 Hours Late!"]
-        B --> A["Pipeline A (Gold Executive Mart): Transformations take 5 min, but misses SLA by 3 hours!"]
-    end
+![Upstream Cascade SLA Delay & Dependency Mitigation](assets/08_etl_pipelines_orchestration_and_data_quality_faq/18_upstream_cascade_sla_delay_and_mitigation.svg)
 
-    subgraph SensorDeadlock ["Worker Pool Starvation Disaster (mode='poke')"]
-        SensorA["Sensor A (Waiting for B): Consumes Worker Slot 1"]
-        SensorB["Sensor B (Waiting for C): Consumes Worker Slot 2"]
-        SensorOther["Sensor X (Waiting): Consumes Worker Slot 3"]
-        Exhaustion["🚨 Airflow Worker Pool (Capacity: 3/3 FULL)<br/>Zero slots available! Entire company DAG execution freezes!"]
-        SensorA & SensorB & SensorOther --> Exhaustion
-    end
-
-    style CascadeDelay fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SensorDeadlock fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/18_upstream_cascade_sla_delay_and_mitigation.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/18_upstream_cascade_sla_delay_and_mitigation.d2)
 
 #### Production Architectural Solution: Reschedule Mode & Data Contracts
 ```python
@@ -1504,26 +1216,9 @@ In high-scale enterprise environments with thousands of tables, hardcoding a sep
 3. **Pluggable Quality Rules Engine:** Declarative assertion checks (e.g. `not_null`, `unique`, `regex_match`, `range_check`) are evaluated dynamically before table promotion.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    Config["📄 <b>Metadata Configuration (YAML / Catalog)</b><br/>Source: PostgreSQL | Target: Delta Lake<br/>Rules: not_null(id), min_val(amount, 0)"] --> Engine["🚀 <b>Reusable Ingestion Engine</b>"]
-    
-    subgraph EngineInternals ["Engine Processing Lifecycle"]
-        Factory["<b>1. Connector Factory</b><br/>Instantiates JDBC / S3 Reader"]
-        Ingest["<b>2. Chunked Extraction & Staging</b>"]
-        Validator["<b>3. Dynamic Rule Validator</b><br/>Evaluates Assertion Matrix"]
-        Router{"All Validations Passed?"}
-        Factory --> Ingest --> Validator --> Router
-    end
+![Metadata-Driven YAML Configurable Ingestion Engine](assets/08_etl_pipelines_orchestration_and_data_quality_faq/19_metadata_driven_yaml_configurable_ingestion_engine.svg)
 
-    Router -- "Pass" --> Target["<b>4a. Idempotent MERGE</b><br/>Merge into Target Silver Table"]
-    Router -- "Fail" --> Quarantine["<b>4b. Route to Quarantine DLQ</b><br/>Isolate corrupt payload"]
-
-    style Config fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style EngineInternals fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style Target fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Quarantine fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/19_metadata_driven_yaml_configurable_ingestion_engine.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/19_metadata_driven_yaml_configurable_ingestion_engine.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1600,34 +1295,9 @@ Analytical batch queries running against production OLTP databases can degrade t
 4. **Read-Only Replica Routing:** Production ETL should **never** query the primary write master. Route analytical queries to an asynchronous physical streaming read replica (`hot_standby`).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph IngestionInspection ["PostgreSQL Ingestion Inspection"]
-        Alert["🚨 <b>PostgreSQL CPU Spike</b><br/>CPU at 90% during ETL Ingestion Run"] --> Step1["<b>1. Identify Offending Query</b><br/>Inspect pg_stat_activity active queries"]
-        Step1 --> Step2["<b>2. Run EXPLAIN (ANALYZE, BUFFERS)</b><br/>Examine extraction query execution plan"]
-    end
+![PostgreSQL ETL CPU Spike Diagnostic & Remediation Flow](assets/08_etl_pipelines_orchestration_and_data_quality_faq/20_postgresql_etl_cpu_spike_diagnostic_remediation.svg)
 
-    subgraph TargetedRemediation ["Targeted Remediation Paths"]
-        Step2 --> CheckScan{"Sequential Scan on Millions of Rows?"}
-        Fix1["<b>Fix 1: CREATE INDEX CONCURRENTLY</b><br/>Add index on orders(updated_at) &rarr; 200ms scan"]
-        CheckScan -- "Yes: Missing Index" --> Fix1
-
-        CheckScan -- "No: Index Used" --> CheckReplica{"Querying Primary Write Master?"}
-        Fix2["<b>Fix 2: Read-Only Streaming Replica</b><br/>Point ETL connection string to read-only replica"]
-        Fix3["<b>Fix 3: Keyset Batch Chunking</b><br/>Extract in 50k row slices to throttle CPU load"]
-
-        CheckReplica -- "Yes: Write DB" --> Fix2
-        CheckReplica -- "No: On Replica" --> Fix3
-    end
-
-    style IngestionInspection fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TargetedRemediation fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Alert fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Step1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Fix1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Fix2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Fix3 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/20_postgresql_etl_cpu_spike_diagnostic_remediation.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/20_postgresql_etl_cpu_spike_diagnostic_remediation.d2)
 
 #### Production Implementation / Diagnostic Playbook
 ```sql
@@ -1691,29 +1361,9 @@ The decision between an **Immediate Automated Rollback** and a **Fix-Forward** i
      - The failure caused zero partial writes or corrupt data (pure read failure with clean retryability).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Assessment ["Failure Assessment & Impact Analysis"]
-        Alert["🚨 <b>Failure Rate Spike</b><br/>0.1% &rarr; 4.0% Post-Deployment"] --> CheckData{"Did Failure Cause Corrupted / Duplicate Data?"}
-    end
+![Deployment Failure Rate Spike Triage & Rollback Decision Tree](assets/08_etl_pipelines_orchestration_and_data_quality_faq/21_deployment_failure_rate_spike_triage_rollback_decision.svg)
 
-    subgraph RemediationAction ["Remediation Strategy"]
-        Rollback["⛔ <b>IMMEDIATE ROLLBACK</b><br/>Revert Git release tag to previous stable commit<br/>Revert Delta tables using RESTORE VERSION AS OF<br/>Re-run previous version to fulfill SLA"]
-        CheckTime{"Can Root Cause be Fixed & Verified in < 15 Min?"}
-        FixForward["⚡ <b>FIX FORWARD</b><br/>Apply targeted patch, deploy hotfix, monitor metrics"]
-
-        CheckData -- "YES: Data Integrity At Risk" --> Rollback
-        CheckData -- "NO: Pure Read / Connection Failure" --> CheckTime
-        CheckTime -- "NO: Complex Debugging Needed" --> Rollback
-        CheckTime -- "YES: Known Minor Fix" --> FixForward
-    end
-
-    style Assessment fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style RemediationAction fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Alert fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Rollback fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style FixForward fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/21_deployment_failure_rate_spike_triage_rollback_decision.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/21_deployment_failure_rate_spike_triage_rollback_decision.d2)
 
 #### Production Incident Runbook: Delta Lake Automated Rollback
 ```sql
@@ -1752,32 +1402,9 @@ When an ADF pipeline's execution duration jumps $6\times$ on static data volumes
 4. **Data Integration Unit (DIU) Sizing:** ADF allocated minimum default DIUs (4 DIUs), constraining copy parallelization.
 
 #### Visual Flow: ADF Latency Diagnostic Triage Hierarchy
-```mermaid
-flowchart TD
-    subgraph LatencyAlert ["Alert: Pipeline Duration Jumped from 20m to 120m"]
-        A1["ADF Monitor -> Pipeline Run -> Activity Runs"]
-    end
+![ADF Latency Diagnostic Triage Hierarchy](assets/08_etl_pipelines_orchestration_and_data_quality_faq/22_adf_pipeline_latency_diagnostic_triage_hierarchy.svg)
 
-    subgraph StepTriage ["Step-by-Step Triage Hierarchy"]
-        S1["Step 1: Check Activity Breakdown<br/>Which exact activity took 100+ minutes?"]
-        S2["Step 2: Inspect Copy Activity Details<br/>Check 'Queue Duration' vs 'Transfer Duration'"]
-        S3["Step 3: Source & Sink Throughput Analysis<br/>Read throughput (MB/s) vs Write throughput (MB/s)"]
-        S4["Step 4: Source Database Health Audit<br/>Inspect Azure SQL DTU / Lock Waits / Blocking Spids"]
-    end
-
-    LatencyAlert --> StepTriage
-    S1 --> S2 --> S3 --> S4
-
-    S2 -->|Queue Time = 95 Min| Cause1["Root Cause: Self-Hosted IR CPU 100% or Node Exhaustion"]
-    S3 -->|Read Rate = 200 KB/s| Cause2["Root Cause: Upstream DB Table Lock or Missing Index"]
-    S3 -->|Files = 400,000| Cause3["Root Cause: Small File Network Latency Bottleneck"]
-
-    style LatencyAlert fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style StepTriage fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Cause1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Cause2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Cause3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/22_adf_pipeline_latency_diagnostic_triage_hierarchy.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/22_adf_pipeline_latency_diagnostic_triage_hierarchy.d2)
 
 #### Production Diagnostic Runbook:
 
@@ -1827,33 +1454,9 @@ In cloud object storage (Azure Data Lake Storage Gen2, AWS S3, Google Cloud Stor
 | **Databricks Auto Loader (File Notification Mode)** | **Zero directory listing:** Azure Event Grid publishes blob creation events to Azure Storage Queue (ASQ); Auto Loader reads queue | **Zero ($O(1)$ Queue Poll)** | **< 30 seconds** |
 
 #### Visual Flow: Auto Loader Event Grid Architecture vs. Directory Scans
-```mermaid
-flowchart TD
-    subgraph StorageIngress ["ADLS Gen2: 12,000 Enterprise Folders"]
-        NewFile["New File Landed: /data/orders/2026/10/part-99.parquet"]
-    end
+![Auto Loader Event Grid Architecture vs Recursive Directory Scans](assets/08_etl_pipelines_orchestration_and_data_quality_faq/23_autoloader_eventgrid_vs_naive_directory_scan.svg)
 
-    subgraph NaivePattern ["❌ Naive Pattern: ADF Recursive Scan (45 Min)"]
-        GetMeta["ADF GetMetadata: Scans all 12,000 folders<br/>Iterates 500,000 file metadata blocks!"]
-    end
-
-    subgraph EventGridPattern ["✅ Production Standard: Event-Driven Queue (< 30 Sec)"]
-        EGrid["Azure Event Grid<br/>Subscribes to Microsoft.Storage.BlobCreated"]
-        AQueue["Azure Storage Queue (ASQ)<br/>Enqueues atomic event notification"]
-        AutoLoad["Databricks Auto Loader / Spark Streaming<br/>Reads ASQ in O(1) time without scanning folders!"]
-    end
-
-    StorageIngress --> GetMeta
-    StorageIngress -->|BlobCreated Event| EGrid
-    EGrid --> AQueue
-    AQueue --> AutoLoad
-    AutoLoad --> DeltaSink[("Target Silver Delta Lake Table<br/>Processed in Seconds!")]
-
-    style StorageIngress fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style NaivePattern fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style EventGridPattern fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style DeltaSink fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/23_autoloader_eventgrid_vs_naive_directory_scan.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/23_autoloader_eventgrid_vs_naive_directory_scan.d2)
 
 #### Production Implementation: Databricks Auto Loader (File Notification Mode)
 ```python
@@ -1902,28 +1505,9 @@ When multiple triggers initiate the same ADF pipeline simultaneously, concurrent
    Never use blind `APPEND` or `INSERT INTO`. Target writes must always use `MERGE INTO` matching on unique natural business keys (`order_id`, `updated_at`).
 
 #### Visual Flow: Multi-Trigger Guardrail Pipeline
-```mermaid
-flowchart TD
-    T1["Schedule Trigger (2 AM)"] --> Router
-    T2["Tumbling Window (Hourly)"] --> Router
-    T3["Storage Event (File Drop)"] --> Router
+![Multi-Trigger Guardrail Pipeline & Distributed Blob Lease](assets/08_etl_pipelines_orchestration_and_data_quality_faq/24_adf_multi_trigger_guardrail_distributed_lease_pipeline.svg)
 
-    Router["ADF Orchestration Ingress"] --> Gate{"Pipeline Concurrency = 1<br/>Is Previous Run Active?"}
-
-    Gate -->|YES| Queue["Queued State<br/>Wait for active run to finish"]
-    Gate -->|NO| LockAct["Web Activity:<br/>Acquire Azure Blob Lease Lock"]
-
-    LockAct -->|Lease Acquired (HTTP 201)| Execute["Execute Copy & Transformation"]
-    LockAct -->|Lease Failed (HTTP 412)| Abort["Graceful Abort:<br/>Another pipeline holds the distributed lock"]
-
-    Execute --> MergeTarget[("Target Delta Lake / SQL Database<br/>Idempotent MERGE INTO (Zero Duplicates!)")]
-    MergeTarget --> ReleaseLock["Web Activity: Release Blob Lease"]
-
-    style Router fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Gate fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style MergeTarget fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Abort fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/24_adf_multi_trigger_guardrail_distributed_lease_pipeline.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/24_adf_multi_trigger_guardrail_distributed_lease_pipeline.d2)
 
 ---
 

@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">First Non-Repeating Character: IntStream &amp; Frequency Map</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Primitive IntStream mapping to LinkedHashMap frequency counts with insertion-order preservation</text>
+
+  <!-- Step 1: IntStream Source -->
+  <g transform="translate(40, 75)">
+    <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="115" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">1. IntStream Source</text>
+
+    <rect x="15" y="45" width="200" height="70" rx="6" ry="6" fill="#1E293B"/>
+    <text x="100" y="66" class="badge" fill="#93C5FD" text-anchor="middle">Input String</text>
+    <text x="25" y="86" class="card-body" font-family="monospace">String s = "swiss";</text>
+    <text x="25" y="104" class="card-body">s.chars() -&gt; IntStream</text>
+
+    <!-- Visual Stream Elements -->
+    <g transform="translate(15, 130)">
+      <rect x="0" y="0" width="200" height="35" rx="4" ry="4" fill="#0F172A" stroke="#3B82F6"/>
+      <text x="15" y="22" class="card-body" font-family="monospace">'s' -&gt; 115 (ASCII)</text>
+
+      <rect x="0" y="40" width="200" height="35" rx="4" ry="4" fill="#0F172A" stroke="#3B82F6"/>
+      <text x="15" y="62" class="card-body" font-family="monospace">'w' -&gt; 119 (ASCII)</text>
+
+      <rect x="0" y="80" width="200" height="35" rx="4" ry="4" fill="#0F172A" stroke="#3B82F6"/>
+      <text x="15" y="102" class="card-body" font-family="monospace">'i' -&gt; 105 (ASCII)</text>
+
+      <rect x="0" y="120" width="200" height="35" rx="4" ry="4" fill="#0F172A" stroke="#3B82F6"/>
+      <text x="15" y="142" class="card-body" font-family="monospace">'s' -&gt; 115, 's' -&gt; 115</text>
+    </g>
+
+    <rect x="15" y="300" width="200" height="50" rx="6" ry="6" fill="#1E293B"/>
+    <text x="100" y="320" class="badge" fill="#60A5FA" text-anchor="middle">.mapToObj(c -&gt; (char)c)</text>
+    <text x="100" y="338" class="card-body" font-size="11" text-anchor="middle">Boxes ints into Characters</text>
+  </g>
+
+  <!-- Step 2: LinkedHashMap Collector -->
+  <g transform="translate(305, 75)">
+    <rect width="360" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="300" height="30" rx="10" ry="10" fill="#92400E"/>
+    <text x="180" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">2. LinkedHashMap Frequency Map</text>
+
+    <rect x="15" y="45" width="330" height="65" rx="6" ry="6" fill="#1E293B"/>
+    <text x="165" y="66" class="badge" fill="#FDE68A" text-anchor="middle">Three-Argument Collector</text>
+    <text x="25" y="86" class="card-body" font-family="monospace">collect(groupingBy(c -&gt; c,</text>
+    <text x="25" y="102" class="card-body" font-family="monospace">  LinkedHashMap::new, counting()))</text>
+
+    <!-- Map Table -->
+    <g transform="translate(15, 125)">
+      <rect x="0" y="0" width="330" height="150" rx="6" ry="6" fill="#0F172A" stroke="#F59E0B"/>
+      <text x="20" y="25" class="badge" fill="#9CA3AF">Key (Char)</text>
+      <text x="120" y="25" class="badge" fill="#9CA3AF">Frequency</text>
+      <text x="220" y="25" class="badge" fill="#9CA3AF">Insertion Order</text>
+
+      <line x1="10" y1="35" x2="320" y2="35" stroke="#374151" stroke-width="1"/>
+
+      <text x="20" y="55" class="card-body" font-family="monospace">'s'</text>
+      <text x="120" y="55" class="badge" fill="#EF4444">3 (Repeated)</text>
+      <text x="220" y="55" class="card-body">Index 0</text>
+
+      <text x="20" y="85" class="card-body" font-family="monospace">'w'</text>
+      <text x="120" y="85" class="badge" fill="#10B981">1 (UNIQUE!)</text>
+      <text x="220" y="85" class="badge" fill="#34D399">Index 1 &lt;-- Target</text>
+
+      <text x="20" y="115" class="card-body" font-family="monospace">'i'</text>
+      <text x="120" y="115" class="badge" fill="#10B981">1 (Unique)</text>
+      <text x="220" y="115" class="card-body">Index 2</text>
+    </g>
+
+    <rect x="15" y="295" width="330" height="55" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="165" y="316" class="badge" fill="#A7F3D0" text-anchor="middle">Why LinkedHashMap is Vital</text>
+    <text x="165" y="334" class="card-body" font-size="11" text-anchor="middle">Standard HashMap would scramble order, returning 'i' instead of 'w'!</text>
+  </g>
+
+  <!-- Step 3: Stream FindFirst Evaluation -->
+  <g transform="translate(700, 75)">
+    <rect width="320" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="320" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="160" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">3. Find First Non-Repeating</text>
+
+    <rect x="15" y="45" width="290" height="110" rx="6" ry="6" fill="#1E293B"/>
+    <text x="145" y="68" class="badge" fill="#A7F3D0" text-anchor="middle">Second Stream Pipeline</text>
+    <text x="25" y="90" class="card-body" font-family="monospace">map.entrySet().stream()</text>
+    <text x="25" y="108" class="card-body" font-family="monospace">   .filter(e -&gt; e.getValue() == 1L)</text>
+    <text x="25" y="126" class="card-body" font-family="monospace">   .map(Map.Entry::getKey)</text>
+    <text x="25" y="144" class="card-body" font-family="monospace">   .findFirst()</text>
+
+    <rect x="15" y="170" width="290" height="85" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="145" y="192" class="badge" fill="#34D399" text-anchor="middle">Evaluation Result: Optional['w']</text>
+    <text x="25" y="214" class="card-body">• Traverses LinkedHashMap in order</text>
+    <text x="25" y="232" class="card-body">• Skips 's' (freq 3), matches 'w' (freq 1)</text>
+    <text x="25" y="248" class="badge" fill="#A7F3D0">• Short-circuits immediately!</text>
+
+    <rect x="15" y="270" width="290" height="80" rx="6" ry="6" fill="#1E293B"/>
+    <text x="145" y="292" class="badge" fill="#93C5FD" text-anchor="middle">Total Complexity</text>
+    <text x="25" y="314" class="card-body">• Time: O(N) [Two linear passes]</text>
+    <text x="25" y="332" class="card-body">• Space: O(min(N, Sigma)) [Max 256 ASCII chars]</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 270 260 L 293 260 L 305 260" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+  <path d="M 665 260 L 688 260 L 700 260" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+</svg>

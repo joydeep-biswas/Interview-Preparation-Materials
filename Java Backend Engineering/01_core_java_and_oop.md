@@ -6,41 +6,9 @@ A comprehensive, production-grade learning guide to Java language fundamentals, 
 
 ## Architectural Overview: Object Model & Virtual Method Dispatch
 
-```mermaid
-flowchart TD
-    subgraph Stack_Frame["Thread Stack (Stack Frame)"]
-        RefVar["Object Reference Variable<br/>(4 bytes compressed OOP / 8 bytes raw)"]
-    end
+![Java Object Model & Dynamic Method Dispatch Architecture](assets/01_core_java_and_oop/01_java_object_model_and_dispatch.svg)
 
-    subgraph Heap_Space["JVM Heap (Object Instance)"]
-        subgraph Object_Header["64-bit Object Header (12 or 16 bytes)"]
-            MarkWord["Mark Word (8 bytes)<br/>Identity Hashcode, 4-bit GC Age, Biased/Lock Flags"]
-            KlassWord["Klass Pointer (4 bytes compressed / 8 bytes uncompressed)<br/>Points to Metadata in Metaspace"]
-        end
-        Fields["Instance Fields<br/>(Primitives grouped by size + Reference OOPs)"]
-        Padding["Alignment Padding<br/>(0–7 bytes to round up to 8-byte boundary)"]
-    end
-
-    subgraph Metaspace_Metadata["Metaspace (Native Process Memory)"]
-        KlassWord --> KlassStruct["InstanceKlass Metadata Structure"]
-        KlassStruct --> VTable["Virtual Method Table (vtable)<br/>Pointers to JIT-compiled native code addresses"]
-    end
-
-    RefVar -->|"Points to Heap Base Address"| Object_Header
-
-    style Stack_Frame fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Heap_Space fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Object_Header fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Metaspace_Metadata fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-
-    style RefVar fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style MarkWord fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style KlassWord fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Fields fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Padding fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style KlassStruct fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style VTable fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-```
+*D2 Source: [`01_java_object_model_and_dispatch.d2`](assets/01_core_java_and_oop/01_java_object_model_and_dispatch.d2)*
 
 ---
 
@@ -117,16 +85,9 @@ To understand Java, a software engineer must establish a clear mental model of t
 * **Class**: A compile-time blueprint or structural template. It defines what fields and methods instances of that type will possess. It exists as class metadata in JVM **Metaspace** (in native memory).
 * **Object (Instance)**: A runtime concrete entity instantiated dynamically on the JVM **Heap**. It possesses its own private copy of instance fields, occupies a measurable number of bytes, and has a physical memory address.
 
-```mermaid
-flowchart LR
-    Blueprint["Class Blueprint<br/>(Defined once in source / Metaspace)<br/>class Account { balance; deposit(); }"]
-    -->|"new Account('ACC-1', $100)"| Instance1["Heap Instance 1<br/>Addr: 0x7fa810<br/>accountNumber: 'ACC-1'<br/>balance: $100.00"]
-    Blueprint -->|"new Account('ACC-2', $500)"| Instance2["Heap Instance 2<br/>Addr: 0x7fa838<br/>accountNumber: 'ACC-2'<br/>balance: $500.00"]
+![Class Blueprint vs. Heap Instances](assets/01_core_java_and_oop/02_classes_vs_objects.svg)
 
-    style Blueprint fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Instance1 fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Instance2 fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source: [`02_classes_vs_objects.d2`](assets/01_core_java_and_oop/02_classes_vs_objects.d2)*
 
 **Analogy for Beginners**:
 A blueprint of a house drawn on paper is a **Class**. It specifies that every house has 3 bedrooms, 2 bathrooms, and a front door. You cannot live inside a blueprint. When a construction crew pours concrete and puts up walls at 123 Elm Street, that physical house is an **Object**. Another house built from the same blueprint at 456 Oak Street is a separate Object; painting the kitchen in the Elm Street house does not turn the kitchen in Oak Street yellow.
@@ -208,19 +169,9 @@ A **constructor** is a specialized block of code invoked automatically when an o
 #### Constructor Overloading & Constructor Chaining (`this()`)
 Constructor overloading allows a class to offer multiple initialization paths with default parameters. **Constructor Chaining** via `this(...)` allows one constructor to call another in the same class, avoiding duplicated initialization logic:
 
-```mermaid
-flowchart TD
-    C1["new UserProfile('john_doe')<br/>Single argument constructor"]
-    -->|"this(username, 'STANDARD', ZoneOffset.UTC)"| C3["Master Constructor<br/>UserProfile(username, tier, timezone)"]
-    C2["new UserProfile('alice', 'PREMIUM')<br/>Two argument constructor"]
-    -->|"this(username, tier, ZoneOffset.UTC)"| C3
-    C3 -->|"Validates all invariants & assigns final fields"| HeapInstance["Object Initialized on Heap"]
+![Constructor Overloading & Delegation Chaining (this())](assets/01_core_java_and_oop/03_constructor_chaining.svg)
 
-    style C1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style C2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style C3 fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style HeapInstance fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-```
+*D2 Source: [`03_constructor_chaining.d2`](assets/01_core_java_and_oop/03_constructor_chaining.d2)*
 
 ```java
 public class UserProfile {
@@ -418,33 +369,9 @@ public class InstrumentedSet<E> implements Set<E> {
 #### Exact Class Initialization Order
 When a subclass is instantiated, the JVM executes static initialization (`<clinit>`) followed by instance initialization (`<init>`) in strict hierarchical order:
 
-```mermaid
-flowchart TD
-    subgraph Class_Clinit ["Phase 1: Class Loading (<clinit>) - Runs ONCE"]
-        direction TB
-        S1["1. Superclass Static Variables & static { } blocks"]
-        --> S2["2. Subclass Static Variables & static { } blocks"]
-    end
+![Exact Class Loading & Instance Initialization Order](assets/01_core_java_and_oop/04_class_initialization_order.svg)
 
-    subgraph Instance_Init ["Phase 2: Instance Instantiation (<init>) - Runs on 'new'"]
-        direction TB
-        S3["3. Superclass Instance Fields & { } Instance Init Blocks"]
-        --> S4["4. Superclass Constructor Body"]
-        --> S5["5. Subclass Instance Fields & { } Instance Init Blocks"]
-        --> S6["6. Subclass Constructor Body"]
-    end
-
-    Class_Clinit --> Instance_Init
-
-    style Class_Clinit fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Instance_Init fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S4 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S5 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style S6 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`04_class_initialization_order.d2`](assets/01_core_java_and_oop/04_class_initialization_order.d2)*
 
 ---
 
@@ -454,20 +381,9 @@ flowchart TD
 
 Java divides polymorphism into two fundamental forms:
 
-```mermaid
-flowchart TD
-    Poly["Polymorphism in Java"] --> StaticP["Compile-Time / Static Polymorphism<br/>(Method Overloading)"]
-    Poly --> DynamicP["Runtime / Dynamic Polymorphism<br/>(Method Overriding via Dynamic Dispatch)"]
+![Java Polymorphism: Compile-Time vs. Runtime Dynamic Binding](assets/01_core_java_and_oop/05_polymorphism_types.svg)
 
-    StaticP --> S_Desc["(Resolved by javac at compile time, Based on argument count and static types, Bytecode: invokestatic / invokevirtual)"]
-    DynamicP --> D_Desc["(Resolved by JVM at runtime, Based on actual object type in Heap, Bytecode: invokevirtual traversing vtable)"]
-
-    style Poly fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style StaticP fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#67e8f9
-    style DynamicP fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style S_Desc fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-    style D_Desc fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source: [`05_polymorphism_types.d2`](assets/01_core_java_and_oop/05_polymorphism_types.d2)*
 
 #### Production Walkthrough: Decoupled Payment Gateway
 ```java
@@ -597,50 +513,9 @@ When the compiler encounters an overloaded method call, it evaluates candidates 
 3. **Autoboxing**: `int` is boxed into `Integer`.
 4. **Varargs**: `int...` (lowest priority, considered only if no other match exists).
 
-```mermaid
-flowchart TD
-    Call["<b>Overloaded Call</b><br/>process(42) - int literal"]
+![Java Compiler Overload Resolution Precedence Decision Tree](assets/01_core_java_and_oop/06_compiler_overload_resolution_tree.svg)
 
-    subgraph Phase1 ["Phase 1: Primitive & Exact Matching"]
-        direction LR
-        Step1{"1. Exact Type Match?"}
-        ExactMatch["<b>Invoke Exact</b><br/>process(int)"]
-        Step2{"2. Primitive Widening?"}
-        WidenMatch["<b>Invoke Widened</b><br/>process(long/double)"]
-        Step1 -- "Yes" --> ExactMatch
-        Step1 -- "No" --> Step2
-        Step2 -- "Yes" --> WidenMatch
-    end
-
-    subgraph Phase2 ["Phase 2: Reference Boxing & Varargs Fallback"]
-        direction LR
-        Step3{"3. Autoboxing?"}
-        BoxMatch["<b>Invoke Boxed</b><br/>process(Integer)"]
-        Step4{"4. Varargs Fallback?"}
-        VarargsMatch["<b>Invoke Varargs</b><br/>process(int... / Object...)"]
-        Ambiguity["<b>Compiler Error</b><br/>Ambiguous method call"]
-        Step3 -- "Yes" --> BoxMatch
-        Step3 -- "No" --> Step4
-        Step4 -- "Yes" --> VarargsMatch
-        Step4 -- "No" --> Ambiguity
-    end
-
-    Call --> Phase1
-    Step2 -- "No" --> Phase2
-
-    style Call fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style Phase1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Phase2 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Step1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ExactMatch fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Step2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style WidenMatch fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Step3 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style BoxMatch fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Step4 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style VarargsMatch fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Ambiguity fill:#1e1e2e,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source: [`06_compiler_overload_resolution_tree.d2`](assets/01_core_java_and_oop/06_compiler_overload_resolution_tree.d2)*
 
 #### The Classic Ambiguity Trap with `null`:
 ```java
@@ -870,29 +745,9 @@ Java provides four levels of visibility to enforce structural encapsulation:
 | **`protected`** | ✅ Yes | ✅ Yes | ✅ Yes (only via inheritance) | ❌ No |
 | **`public`** | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
 
-```mermaid
-flowchart TD
-    subgraph PackageA ["Package: com.enterprise.order"]
-        ClassOrder["class Order (public)<br/>(private id, default calculateTax(), protected audit(), public checkout())"]
-        ClassOrderService["class OrderService<br/>(Can access default, protected, public)"]
-    end
+![Java Access Modifier Visibility & Encapsulation Boundaries](assets/01_core_java_and_oop/07_access_modifiers_matrix.svg)
 
-    subgraph PackageB ["Package: com.enterprise.billing"]
-        ClassBillingAudit["class BillingAudit extends Order<br/>(Can access protected, public)"]
-        ClassExternalClient["class ExternalClient<br/>(Can access ONLY public)"]
-    end
-
-    ClassOrderService -->|"Same package"| ClassOrder
-    ClassBillingAudit -->|"Inherits via extends"| ClassOrder
-    ClassExternalClient -->|"Different package, non-subclass"| ClassOrder
-
-    style PackageA fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PackageB fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ClassOrder fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ClassOrderService fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ClassBillingAudit fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ClassExternalClient fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source: [`07_access_modifiers_matrix.d2`](assets/01_core_java_and_oop/07_access_modifiers_matrix.d2)*
 
 ---
 
@@ -940,22 +795,9 @@ To master Java, an engineer must visualize what happens on the stack when a meth
    * Mutating object state via the pointer modifies the shared heap instance.
    * **Reassigning** the parameter variable inside the method (`param = new Customer()`) merely overwrites the callee's local stack pointer. The caller's stack pointer remains completely unchanged!
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant CallerStack as Caller Stack Frame
-    participant CalleeStack as Callee Stack Frame (modify)
-    participant Heap as JVM Heap (0x9a4f)
+![Strictly Pass-by-Value Memory Mechanics in Java](assets/01_core_java_and_oop/08_pass_by_value_stack_heap_tracing.svg)
 
-    CallerStack->>Heap: customerRef points to Customer("Alice")
-    CallerStack->>CalleeStack: modify(customerRef, primitiveVal) passes COPIES of values
-    Note over CalleeStack: Callee receives copied pointer (0x9a4f) & copied int (42)
-    CalleeStack->>Heap: c.setName("Bob") dereferences 0x9a4f and updates name
-    Note over CalleeStack: c = new Customer("Charlie") assigns NEW pointer (0xbb12) to local variable
-    CalleeStack-->>CallerStack: Method returns and Callee Stack Frame is POPPED
-    Note over CallerStack: Caller customerRef STILL points to 0x9a4f! Now named "Bob".
-```
+*D2 Source: [`08_pass_by_value_stack_heap_tracing.d2`](assets/01_core_java_and_oop/08_pass_by_value_stack_heap_tracing.d2)*
 
 #### Step-by-Step Code Proof:
 ```java
@@ -1104,16 +946,9 @@ Runnable r2 = () -> System.out.println("Lambda running");
 
 Because non-static inner classes and anonymous classes hold an implicit pointer to their enclosing outer class, retaining an inner instance prevents the entire outer instance from being garbage-collected:
 
-```mermaid
-flowchart LR
-    ThreadCache["Long-Lived ThreadPool Queue"]
-    -->|"holds task reference"| InnerTask["Anonymous Runnable Instance"]
-    InnerTask -->|"Implicit synthetic Outer.this pointer"| HeavyService["HeavyProcessingService<br/>(Retains 100MB byte[] cache)"]
+![Non-Static Inner Class Memory Leak: Hidden Outer.this Reference](assets/01_core_java_and_oop/09_outer_this_memory_leak.svg)
 
-    style ThreadCache fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style InnerTask fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style HeavyService fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source: [`09_outer_this_memory_leak.d2`](assets/01_core_java_and_oop/09_outer_this_memory_leak.d2)*
 
 ```java
 public class HeavyReportService {
@@ -1153,27 +988,9 @@ public class HeavyReportService {
 
 Every object residing on the HotSpot heap starts with an internal **Object Header**:
 
-```mermaid
-flowchart TD
-    subgraph ObjectLayout ["HotSpot 64-bit Java Object Memory Layout"]
-        direction TB
-        subgraph Header ["Object Header (12 Bytes with Compressed OOPs / 16 Bytes Uncompressed)"]
-            direction LR
-            MarkWord["Mark Word (64 bits / 8 Bytes)<br/>Identity HashCode (31b) · GC Age (4b) · Biased Flag (1b) · Lock State (2b)"]
-            KlassWord["Klass Word (32 bits / 4 Bytes with +UseCompressedClassPointers)<br/>Points directly to Metaspace InstanceKlass"]
-        end
-        InstanceData["Instance Fields Data (Variable Size)<br/>Fields ordered by size (long/double · int/float · short/char · byte/boolean) followed by reference OOPs"]
-        Padding["Alignment Padding (0 to 7 Bytes)<br/>Zero-fill bytes ensuring total object size is an exact multiple of 8 bytes"]
-        Header --> InstanceData --> Padding
-    end
+![HotSpot 64-bit Java Object Memory Layout & Lock States](assets/01_core_java_and_oop/10_hotspot_64bit_object_header_layout.svg)
 
-    style ObjectLayout fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Header fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style MarkWord fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style KlassWord fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style InstanceData fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Padding fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#94a3b8
-```
+*D2 Source: [`10_hotspot_64bit_object_header_layout.d2`](assets/01_core_java_and_oop/10_hotspot_64bit_object_header_layout.d2)*
 
 | Memory Component | Bit Width (64-bit JVM) | Byte Width | Architectural Contents & Function |
 | :--- | :---: | :---: | :--- |
@@ -1341,27 +1158,9 @@ In distributed architectures, object graphs representing workflows, linked lists
 ### Floyd's Cycle-Finding Algorithm (Tortoise and Hare)
 Detects cycles in $O(N)$ time and $O(1)$ auxiliary memory using two pointers moving at different velocities:
 
-```mermaid
-flowchart LR
-    N1["Node 1"] --> N2["Node 2"]
-    N2 --> N3["Node 3 (Cycle Start)"]
-    N3 --> N4["Node 4"]
-    N4 --> N5["Node 5"]
-    N5 --> N3
+![Floyd's Cycle-Finding Algorithm (Tortoise and Hare)](assets/01_core_java_and_oop/11_floyd_cycle_detection.svg)
 
-    subgraph Pointers ["Pointer Velocities"]
-        Slow["Tortoise (Slow): advances 1 step / tick"]
-        Fast["Hare (Fast): advances 2 steps / tick"]
-    end
-
-    style N1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style N2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style N3 fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style N4 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style N5 fill:#1e293b,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Slow fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Fast fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source: [`11_floyd_cycle_detection.d2`](assets/01_core_java_and_oop/11_floyd_cycle_detection.d2)*
 
 ```java
 package com.enterprise.datastructures;

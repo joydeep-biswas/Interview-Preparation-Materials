@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 360" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="360" fill="#0B0F19"/>
+
+  <!-- Left: _delta_log Single Source of Truth -->
+  <g transform="translate(30, 40)">
+    <rect width="280" height="260" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="140" y="32" class="title" fill="#6EE7B7">_delta_log/ (Metadata Truth)</text>
+    <line x1="20" y1="44" x2="260" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="25" y="60" width="230" height="90" rx="8" ry="8" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="140" y="85" class="title" font-size="12" fill="#A7F3D0">000014.json Active Files:</text>
+    <text x="35" y="108" class="body-txt">• part-00001.parquet</text>
+    <text x="35" y="126" class="body-txt">• <tspan fill="#FCA5A5">part-00002.parquet</tspan> (Listed!)</text>
+    <text x="35" y="142" class="body-txt">• part-00003.parquet</text>
+
+    <text x="140" y="195" class="body-txt" text-anchor="middle">Catalyst constructs physical scan</text>
+    <text x="140" y="215" class="body-txt" text-anchor="middle">plan STRICTLY from JSON commits,</text>
+    <text x="140" y="235" class="body-txt" text-anchor="middle" fill="#6EE7B7">never by checking filesystem!</text>
+  </g>
+
+  <!-- Connectors to Planner & Executor -->
+  <path fill="none" d="M 310 160 L 370 160" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- Middle: Engine & Executor -->
+  <g transform="translate(370, 70)">
+    <rect width="240" height="180" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="120" y="32" class="title" fill="#C4B5FD">Spark Catalyst Execution</text>
+    <line x1="15" y1="44" x2="225" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="20" y="72" class="body-txt">• Builds partition scan tasks</text>
+    <text x="20" y="94" class="body-txt">• Dispatches task to Executor</text>
+    <text x="20" y="116" class="body-txt">• Worker attempts direct read</text>
+    <text x="20" y="136" class="body-txt">  of part-00002 via Cloud API</text>
+  </g>
+
+  <path fill="none" d="M 610 160 L 670 160" class="edge" stroke="#8B5CF6" marker-end="url(#arr-blue)"/>
+
+  <!-- Right: Storage & Crash -->
+  <g transform="translate(670, 30)">
+    <rect width="320" height="150" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="160" y="28" class="title" fill="#93C5FD">Cloud Storage (S3 / ADLS)</text>
+    <line x1="15" y1="38" x2="305" y2="38" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="62" class="body-txt">📄 part-00001.parquet (Active)</text>
+    <text x="20" y="85" class="title" font-size="11" fill="#EF4444">❌ part-00002.parquet DELETED via CLI!</text>
+    <text x="20" y="108" class="body-txt">📄 part-00003.parquet (Active)</text>
+    <text x="20" y="132" class="body-txt" fill="#FCA5A5">Storage returns HTTP 404 Not Found</text>
+  </g>
+
+  <!-- Crash Alert Box -->
+  <g transform="translate(670, 205)">
+    <rect width="320" height="110" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <text x="160" y="32" class="title" fill="#FECACA">💥 Query Terminates Abruptly</text>
+    <line x1="15" y1="44" x2="305" y2="44" stroke="#991B1B" stroke-width="1"/>
+    <text x="160" y="70" class="body-txt" text-anchor="middle" fill="#FECACA">java.io.FileNotFoundException</text>
+    <text x="160" y="90" class="body-txt" text-anchor="middle" fill="#FCA5A5">Never delete Delta parquet files manually!</text>
+  </g>
+
+  <path fill="none" d="M 830 180 L 830 205" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+</svg>

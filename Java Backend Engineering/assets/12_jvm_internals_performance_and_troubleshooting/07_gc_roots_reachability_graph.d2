@@ -1,0 +1,31 @@
+direction: right
+title: HotSpot GC Reachability & Root Sets
+
+Roots: GC Root Set {
+  style.stroke: "#38BDF8"
+  R1: Active Thread Stack Local Variables
+  R2: Metaspace Class Statics
+  R3: JNI Global & Local Handles
+  R4: JVM Internal Monitors & System Classes
+}
+
+LiveGraph: Live Reachable Object Graph {
+  style.stroke: "#34D399"
+  ObjA: Live Object A (Direct Stack Root Child)
+  ObjB: Live Object B (Transitive Child)
+  ObjC: Live Object C (Leaf Node)
+
+  ObjA -> ObjB: objA.child { style.stroke: "#34D399" }
+  ObjB -> ObjC: objB.child { style.stroke: "#34D399" }
+}
+
+DeadIsland: Island of Isolation (Unreachable) {
+  style.stroke: "#EF4444"
+  ObjD: Dead Object D
+  ObjE: Dead Object E
+
+  ObjD -> ObjE: cyclic reference { style.stroke: "#EF4444" }
+  ObjE -> ObjD: cyclic reference { style.stroke: "#EF4444" }
+}
+
+Roots.R1 -> LiveGraph.ObjA: Root Pointer { style.stroke: "#34D399" }

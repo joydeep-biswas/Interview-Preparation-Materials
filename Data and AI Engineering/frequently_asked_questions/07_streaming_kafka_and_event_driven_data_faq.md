@@ -116,34 +116,9 @@ query = (
 
 #### Directory Listing Mode vs File Notification Mode Architecture
 
-```mermaid
-flowchart TD
-    subgraph Mode1 ["Mode A: Directory Listing (Synchronous Crawl)"]
-        direction TB
-        SparkDriverA["Spark Driver Process"] -->|"1. Paginated LIST HTTP Requests"| StorageAPI["Cloud Storage API (ADLS / S3)"]
-        StorageAPI -->|"2. O(N) Object Metadata Payload"| SparkDriverA
-        SparkDriverA -->|"3. RocksDB State Store Filtering"| WorkerExecA["Worker Tasks Ingest New Files"]
-    end
+![Auto Loader Directory Listing vs File Notification Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/01_auto_loader_directory_listing_vs_file_notification.svg)
 
-    subgraph Mode2 ["Mode B: File Notification (Event-Driven Queue)"]
-        direction TB
-        BlobUpload["New File Lands in Bucket"] -->|"1. Storage Event Trigger"| EventGrid["Event Service (Event Grid / SNS)"]
-        EventGrid -->|"2. Forward File Payload"| MsgQueue["FIFO Message Queue (Storage Queue / SQS)"]
-        SparkDriverB["Auto Loader Driver"] -->|"3. O(1) Fast Queue Pull"| MsgQueue
-        SparkDriverB -->|"4. Dispatch File Partitions"| WorkerExecB["Worker Tasks Ingest New Files"]
-    end
-
-    style Mode1 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Mode2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SparkDriverA fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style StorageAPI fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style WorkerExecA fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style BlobUpload fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style EventGrid fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style MsgQueue fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style SparkDriverB fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style WorkerExecB fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/01_auto_loader_directory_listing_vs_file_notification.d2](assets/07_streaming_kafka_and_event_driven_data_faq/01_auto_loader_directory_listing_vs_file_notification.d2)
 
 #### Auto Loader Discovery Mode Comparison Matrix
 
@@ -191,24 +166,9 @@ stream_df = (
 
 #### Checkpoint Directory Architecture (Q3)
 Inside the `checkpointLocation`, Structured Streaming maintains three critical directories:
-```mermaid
-flowchart TD
-    subgraph CheckpointDir ["📁 /checkpointLocation/ (Fault-Tolerant Root)"]
-        direction TB
-        Offsets["📁 offsets/<br/><b>Write-Ahead Log (WAL)</b><br/>(Monotonic micro-batch IDs (0, 1, 2...); Exact start/end source offset ranges)"]
-        Commits["📁 commits/<br/><b>Completion Manifests</b><br/>(Logs completed micro-batches, Written ONLY after sink commits idempotently)"]
-        StateStore["📁 state/<br/><b>State Stores (RocksDB / HDFS)</b><br/>(Stateful streaming aggregations, Watermark thresholds & session keys)"]
-    end
+![Structured Streaming Checkpoint Directory Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/02_structured_streaming_checkpoint_directory_architecture.svg)
 
-    CheckpointDir --> Offsets
-    CheckpointDir --> Commits
-    CheckpointDir --> StateStore
-
-    style CheckpointDir fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Offsets fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Commits fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style StateStore fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/02_structured_streaming_checkpoint_directory_architecture.d2](assets/07_streaming_kafka_and_event_driven_data_faq/02_structured_streaming_checkpoint_directory_architecture.d2)
 
 ---
 
@@ -220,24 +180,9 @@ flowchart TD
 - **Q11**: A streaming pipeline restarts after a failure and you notice some records are processed again. How would you ensure exactly-once or effectively-once processing?
 
 #### What Happens Upon Stream Failure? (Q2, Q11)
-```mermaid
-flowchart LR
-    subgraph CheckpointRecovery ["Structured Streaming Fault-Tolerance & Checkpoint Recovery Flow"]
-        Crash["Stream Crashes during Micro-Batch 15"] --> Restart["Stream Restarts"]
-        Restart --> CheckOffsets["Inspects offsets/15 and commits/15"]
-        CheckOffsets --> Decision{"Was Batch 15 committed to commits/?"}
-        Decision -->|No| Replay["Re-executes Batch 15 from exact offsets<br/>(Replay from Write-Ahead Log)"]
-        Decision -->|Yes| Next["Proceeds cleanly to Batch 16"]
-    end
+![Streaming Fault-Tolerance Checkpoint Recovery Flow](assets/07_streaming_kafka_and_event_driven_data_faq/03_streaming_fault_tolerance_checkpoint_recovery_flow.svg)
 
-    style CheckpointRecovery fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Crash fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Restart fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CheckOffsets fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Decision fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Replay fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Next fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/03_streaming_fault_tolerance_checkpoint_recovery_flow.d2](assets/07_streaming_kafka_and_event_driven_data_faq/03_streaming_fault_tolerance_checkpoint_recovery_flow.d2)
 
 #### Achieving End-to-End Exactly-Once Processing
 Replaying a micro-batch after failure guarantees **At-Least-Once** ingestion. To achieve **End-to-End Exactly-Once**:
@@ -367,22 +312,9 @@ If **Input Rate > Processed Rate** continuously, the stream is accumulating an u
 - **Q9**: Files are arriving continuously in ADLS, but the Auto Loader pipeline is processing them slower than they arrive. How would you troubleshoot the backlog?
 
 #### Diagnostic & Troubleshooting Steps (Q8, Q9)
-```mermaid
-flowchart TD
-    subgraph BacklogDiagnostics ["Streaming Processing Backlog Diagnostic & Remediation Flow"]
-        Backlog["Backlog Detected (Input > Processed)"] --> S1["1. Inspect Stage Breakdown in Spark UI<br/>Is latency spent on GC, Shuffling, or External APIs?"]
-        S1 --> S2["2. Check Sink Bottleneck<br/>Is target Delta table bloated with small files?<br/>Run OPTIMIZE or enable auto-compaction."]
-        S2 --> S3["3. Increase Batch Micro-Capacity<br/>Tune maxFilesPerTrigger to saturate executor cores."]
-        S3 --> S4["4. Scale Out Worker Hardware<br/>Switch from Standard to Memory-Optimized or Photon nodes."]
-    end
+![Streaming Backlog Diagnostic and Remediation Flow](assets/07_streaming_kafka_and_event_driven_data_faq/04_streaming_backlog_diagnostic_remediation_flow.svg)
 
-    style BacklogDiagnostics fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Backlog fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style S4 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/04_streaming_backlog_diagnostic_remediation_flow.d2](assets/07_streaming_kafka_and_event_driven_data_faq/04_streaming_backlog_diagnostic_remediation_flow.d2)
 
 ---
 
@@ -405,20 +337,9 @@ flowchart TD
 
 #### Watermarking Semantics
 A **Watermark** is a dynamic threshold ($T_{\text{watermark}} = \max(\text{event\_time}) - \text{delay}$) that defines how long Spark waits for late-arriving data before finalizing an analytical window:
-```mermaid
-flowchart LR
-    subgraph WatermarkPipeline ["Structured Streaming Event-Time Watermarking Semantics"]
-        Events["Stream of Events"] --> W{"Event Time >= MaxTime - 2 hours?"}
-        W -->|Yes| State["Update Window Aggregate in State Store"]
-        W -->|No| Dropped["Dropped as Too Late (Discarded to prevent state bloat)"]
-    end
+![Event-Time Watermarking and State Eviction Semantics](assets/07_streaming_kafka_and_event_driven_data_faq/05_event_time_watermarking_state_eviction_semantics.svg)
 
-    style WatermarkPipeline fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Events fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style W fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style State fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Dropped fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/05_event_time_watermarking_state_eviction_semantics.d2](assets/07_streaming_kafka_and_event_driven_data_faq/05_event_time_watermarking_state_eviction_semantics.d2)
 
 ```python
 from pyspark.sql import functions as F
@@ -450,22 +371,9 @@ windowed_counts = (
 A single corrupt record (e.g., malformed binary payload, invalid date string) that triggers an unhandled parsing exception terminates the entire streaming query. When the stream restarts from its checkpoint, it reads the exact same bad record and crashes again in an infinite loop.
 
 #### Non-Blocking Quarantine Architecture
-```mermaid
-flowchart TD
-    subgraph PoisonPillPipeline ["Non-Blocking Streaming Poison Pill Quarantine Architecture"]
-        Raw["Raw Incoming Micro-Batch"] --> Validate["Parse & Apply Validation Schema"]
-        Validate --> Split{"Is Valid Record?"}
-        Split -->|Valid| SilverTable[("Write to Silver Production Table")]
-        Split -->|Corrupt| QuarantineTable[("Write to bronze_quarantine Table<br/>(Includes Raw Payload + Stack Trace)")]
-    end
+![Streaming Poison Pill Quarantine and DLQ Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/06_streaming_poison_pill_quarantine_architecture.svg)
 
-    style PoisonPillPipeline fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Raw fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Validate fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Split fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SilverTable fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style QuarantineTable fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/06_streaming_poison_pill_quarantine_architecture.d2](assets/07_streaming_kafka_and_event_driven_data_faq/06_streaming_poison_pill_quarantine_architecture.d2)
 
 ```python
 from pyspark.sql import functions as F
@@ -506,15 +414,9 @@ streaming_df.writeStream.foreachBatch(split_and_quarantine).start()
 - Explain the difference between batch processing, micro-batch processing, and continuous streaming in Spark Structured Streaming.
 
 #### The Latency-Throughput Spectrum
-```mermaid
-flowchart LR
-    Batch["Batch Processing<br/>Hours / Days<br/>High Throughput, High Latency"] --> MicroBatch["Micro-Batching (Default)<br/>100ms to 60s<br/>Balanced Throughput & Latency"]
-    MicroBatch --> Continuous["Continuous Processing<br/>Sub-Millisecond (~1ms)<br/>Ultra-Low Latency, Restricted SQL"]
-    
-    style Batch fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style MicroBatch fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Continuous fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+![Batch vs Micro-Batch vs Continuous Processing Spectrum](assets/07_streaming_kafka_and_event_driven_data_faq/07_batch_microbatch_continuous_processing_spectrum.svg)
+
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/07_batch_microbatch_continuous_processing_spectrum.d2](assets/07_streaming_kafka_and_event_driven_data_faq/07_batch_microbatch_continuous_processing_spectrum.d2)
 
 #### Detailed Architectural Comparison Matrix
 | Architectural Dimension | Micro-Batch Processing (Default Engine) | Continuous Processing (`Trigger.Continuous("1 millisecond")`) |
@@ -544,31 +446,9 @@ $$\text{Max Active Consumers per Topic} \le \text{Number of Partitions}$$
   - **12 consumers** are assigned exactly 1 partition each and actively process records.
   - **The remaining 3 consumers are 100% IDLE**. They consume zero partitions, process zero records, and consume compute resources doing nothing except sending heartbeat pings to the Group Coordinator.
 
-```mermaid
-flowchart LR
-    subgraph Partitions ["Kafka Topic (12 Partitions)"]
-        P0["Partition 0"]
-        P1["Partition 1"]
-        P11["... Partition 11"]
-    end
+![Kafka Consumer Group Partition Rebalancing Mechanics](assets/07_streaming_kafka_and_event_driven_data_faq/08_kafka_consumer_group_partition_rebalancing.svg)
 
-    subgraph Consumers ["Consumer Group (15 Consumers)"]
-        C0["Consumer 1 (Active)"]
-        C1["Consumer 2 (Active)"]
-        C11["Consumer 12 (Active)"]
-        C12["Consumer 13 (IDLE STANDBY)"]
-        C13["Consumer 14 (IDLE STANDBY)"]
-        C14["Consumer 15 (IDLE STANDBY)"]
-    end
-
-    P0 --> C0
-    P1 --> C1
-    P11 --> C11
-
-    style C12 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style C13 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style C14 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/08_kafka_consumer_group_partition_rebalancing.d2](assets/07_streaming_kafka_and_event_driven_data_faq/08_kafka_consumer_group_partition_rebalancing.d2)
 
 #### Production Implications & Recommended Action:
 1. **Idle Standbys:** The 3 idle consumers act purely as hot standbys. If any of the active 12 consumers crash, the Group Coordinator immediately triggers a rebalance and reallocates the orphaned partition to one of the 3 standby consumers without spinning up new pods.
@@ -628,18 +508,9 @@ flowchart LR
 If you deduplicate unbounded streaming records naively (`dropDuplicates(["restaurant_id", "menu_id"])` without a watermark), Spark Structured Streaming must retain every restaurant key in memory **forever**. Within days, the executor state store runs out of memory (`OutOfMemoryError: Java heap space`).
 
 #### The Production Solution: Watermarked Deduplication + In-Batch Rank
-```mermaid
-flowchart TD
-    Raw["Raw Kafka Stream<br/>(50 duplicate updates in 10s)"] --> Watermark["1. Event-Time Watermark (e.g. 1 minute)<br/>Limits memory state window"]
-    Watermark --> MicroDedup["2. In-Micro-Batch Deduplication<br/>Rank by event_timestamp DESC -> Keep latest"]
-    MicroDedup --> StateDedup["3. Structured Streaming dropDuplicates<br/>Drop within watermark window"]
-    StateDedup --> DeltaSink[("4. Delta Lake Idempotent MERGE Sink")]
+![Multi-Tier Streaming Deduplication Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/09_multi_tier_streaming_deduplication_pipeline.svg)
 
-    style Raw fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Watermark fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style MicroDedup fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style DeltaSink fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/09_multi_tier_streaming_deduplication_pipeline.d2](assets/07_streaming_kafka_and_event_driven_data_faq/09_multi_tier_streaming_deduplication_pipeline.d2)
 
 #### Production Implementation in PySpark
 ```python
@@ -768,19 +639,9 @@ If `batchDuration` (e.g. 45s) > `triggerInterval` (e.g. 10s), latency compounds 
 - How would you implement exactly-once delivery in a Kafka + Spark Structured Streaming + Delta Lake setup?
 
 #### The 3 Architectural Prerequisites for End-to-End Exactly-Once:
-```mermaid
-flowchart TD
-    subgraph ExactlyOnceArchitecture ["The 3 Prerequisites of End-to-End Exactly-Once Delivery"]
-        P1["1. Replayable Source (Kafka)<br/>(Offsets stored deterministically, Configurable retention period (e.g. 7 days))"]
-        P2["2. Deterministic Engine (Spark Structured Streaming)<br/>(Write-Ahead Log (WAL) Checkpointing, Atomic micro-batch offset commits)"]
-        P3["3. Idempotent / Transactional Sink (Delta Lake)<br/>(ACID Transaction Log (_delta_log), Two-phase commit / Idempotent MERGE)"]
-    end
-    P1 --> P2 --> P3
-    style ExactlyOnceArchitecture fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style P1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style P2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style P3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+![End-to-End Exactly-Once Streaming Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/10_end_to_end_exactly_once_streaming_architecture.svg)
+
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/10_end_to_end_exactly_once_streaming_architecture.d2](assets/07_streaming_kafka_and_event_driven_data_faq/10_end_to_end_exactly_once_streaming_architecture.d2)
 
 1. **Replayable Source:** Kafka retains messages with fixed offsets for $N$ days. If a node fails, Spark can re-read the exact byte offsets.
 2. **Deterministic Processing Engine:** Spark records the exact start and end Kafka offsets in its persistent checkpoint directory before processing.
@@ -813,32 +674,9 @@ flowchart TD
 **Question:** Your ADLS pipeline ingests millions of files daily. Some arrive late, some get reprocessed, and failures must not create duplicate records. How would you design a reliable ingestion pipeline?
 
 #### The 5-Layer Resilience Architecture
-```mermaid
-flowchart TD
-    subgraph IngestionLayer ["Storage Ingestion & Notification Mode"]
-        ADLS["<b>ADLS Gen2 Storage</b><br/>Millions of daily incoming files"] --> AL["<b>Databricks Auto Loader</b><br/>cloudFiles with File Notification Mode"]
-    end
+![Auto Loader Event Grid Idempotent Delta Merge Pipeline](assets/07_streaming_kafka_and_event_driven_data_faq/11_autoloader_eventgrid_idempotent_delta_merge_pipeline.svg)
 
-    subgraph ProcessingEngine ["Schema Rescue & Micro-Batching"]
-        Schema["<b>Schema Evolution & Rescue</b><br/>_rescued_data captures malformed rows"] --> Stream["<b>Structured Streaming</b><br/>Micro-batch rate-limiting: maxFiles=50,000"]
-        AL --> Schema
-    end
-
-    subgraph PersistenceLayer ["Idempotent Sink & State Management"]
-        IdempMerge["<b>Idempotent Delta MERGE</b><br/>foreachBatch deduplication on natural PK"] --> Checkpoint[("<b>Cloud Checkpoint Store</b><br/>Deterministic offset tracking & state recovery")]
-        Stream --> IdempMerge
-    end
-
-    style IngestionLayer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ProcessingEngine fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style PersistenceLayer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ADLS fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-    style AL fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Schema fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Stream fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style IdempMerge fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Checkpoint fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/11_autoloader_eventgrid_idempotent_delta_merge_pipeline.d2](assets/07_streaming_kafka_and_event_driven_data_faq/11_autoloader_eventgrid_idempotent_delta_merge_pipeline.d2)
 
 #### Production PySpark Implementation
 ```python
@@ -1040,36 +878,9 @@ If a streaming pipeline groups data by event time without safeguards:
    - When $W_t$ advances past a window's end boundary ($\text{window.end} \le W_t$), that window's state is permanently committed and evicted from memory.
 
 #### Visual Flow: Dynamic Watermarking & State Store Eviction
-```mermaid
-flowchart TD
-    subgraph IngressStream ["Kafka Ingress Stream (Max Event Time Observed: 12:30 PM)"]
-        WMark["Watermark Threshold: 12:30 PM - 15 Min = 12:15 PM"]
-        E1["Event A: ts = 12:22 PM (Valid: ts >= 12:15 PM)"]
-        E2["Event B: ts = 12:18 PM (Valid: ts >= 12:15 PM)"]
-        E3["Event C: ts = 12:08 PM (LATE! ts < 12:15 PM)"]
-    end
+![Watermark Window Eviction and DLQ Quarantine Flow](assets/07_streaming_kafka_and_event_driven_data_faq/12_watermark_window_eviction_dlq_quarantine_flow.svg)
 
-    subgraph StateStoreEngine ["Spark Structured Streaming State Engine (RocksDB)"]
-        Win1["Window [12:00 - 12:15]:<br/>⛔ CLOSED & EVICTED from Memory!"]
-        Win2["Window [12:15 - 12:30]:<br/>🟢 OPEN in RocksDB (Accepts Events A & B)"]
-    end
-
-    subgraph OutputTriage ["Pipeline Sink & Dead-Letter Routing"]
-        SinkDelta[("Clean Lakehouse Target<br/>(Delta Lake Streaming Sink)")]
-        SinkDLQ[("DLQ Quarantine Store<br/>(Late Events for Batch Replay)")]
-    end
-
-    IngressStream --> WMark
-    E1 --> Win2
-    E2 --> Win2
-    E3 -->|Dropped by Watermark| SinkDLQ
-    Win2 --> SinkDelta
-
-    style IngressStream fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StateStoreEngine fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style SinkDelta fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style SinkDLQ fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/12_watermark_window_eviction_dlq_quarantine_flow.d2](assets/07_streaming_kafka_and_event_driven_data_faq/12_watermark_window_eviction_dlq_quarantine_flow.d2)
 
 #### Production PySpark Structured Streaming Implementation
 ```python
@@ -1157,36 +968,9 @@ Dynamic surge pricing balances real-time marketplace demand and driver supply:
 4. **Low-Latency In-Memory Serving:** Multipliers must be refreshed every 30 seconds into an ultra-low-latency distributed cache (**Redis Cluster**), where driver dispatch algorithms and consumer mobile apps retrieve multipliers in sub-2ms.
 
 #### Visual Flow: Real-Time Dynamic Surge Pipeline Topology
-```mermaid
-flowchart TD
-    subgraph StreamSources ["Live High-Throughput Event Ingress"]
-        DStream["Kafka Topic: user_ride_searches<br/>(Demand Stream: 50k events/sec)"]
-        SStream["Kafka Topic: driver_gps_heartbeats<br/>(Supply Stream: 120k events/sec)"]
-    end
+![Real-Time Surge Pricing Sliding Window Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/13_real_time_surge_pricing_sliding_window_architecture.svg)
 
-    subgraph SparkProcessing ["Spark Structured Streaming (30-Second Micro-Batches)"]
-        H3Transform["H3 Spatial Indexer (Resolution 8)<br/>Transform (lat, lon) -> h3_hex_id"]
-        WindowAgg["30-Second Sliding Window Aggregation<br/>Group by (h3_hex_id, window)"]
-        SurgeFormula["Calculate Surge Multiplier:<br/>M = 1.0 + alpha * (Demand - Supply) / (Supply + 5)"]
-    end
-
-    subgraph FastServing ["Ultra-Low Latency Serving Tier (< 2ms)"]
-        RedisCache[("Redis Distributed Cluster<br/>Key: surge:{h3_hex_id}<br/>Value: {multiplier: 1.8, ttl: 45s}")]
-        ConsumerApp["Mobile Consumer App & Pricing Gateway"]
-    end
-
-    DStream --> H3Transform
-    SStream --> H3Transform
-    H3Transform --> WindowAgg
-    WindowAgg --> SurgeFormula
-    SurgeFormula --> RedisCache
-    RedisCache --> ConsumerApp
-
-    style StreamSources fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SparkProcessing fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style FastServing fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style ConsumerApp fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/13_real_time_surge_pricing_sliding_window_architecture.d2](assets/07_streaming_kafka_and_event_driven_data_faq/13_real_time_surge_pricing_sliding_window_architecture.d2)
 
 #### Production PySpark Implementation: Surge Aggregation Engine
 ```python

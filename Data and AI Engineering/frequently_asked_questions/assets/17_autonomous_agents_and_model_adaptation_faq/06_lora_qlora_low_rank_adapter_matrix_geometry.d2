@@ -1,0 +1,17 @@
+direction: right
+classes: {
+  base_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  lora_box: { style: { fill: "#0D1F1C", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+BaseW: "Frozen Weights W_0\n[4096 x 4096]\nZero gradient overhead" { class: base_box }
+
+LoRA: "Trainable Low-Rank Adapters" {
+  class: lora_box
+  MatB: "Matrix B [d x r] (Zero init)" { class: card_dark }
+  MatA: "Matrix A [r x k] (Gaussian)" { class: card_dark }
+  MatB -> MatA
+}
+
+BaseW -> LoRA: "W = W_0 + (alpha/r)*B*A"

@@ -1,0 +1,26 @@
+direction: down
+title: "Composite Pattern: Recursive Tree Hierarchies with Uniform Contracts"
+
+iface: "PermissionComponent <<interface>>
++checkAccess(action): boolean" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+leaf: "LeafPrivilege
+Atomic permission
+'READ_INVOICE'" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+composite: "CompositeRole
+Aggregates List<PermissionComponent>
+Evaluates anyMatch() recursively" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+iface <- leaf: "implements"
+iface <- composite: "implements"
+composite -> iface: "contains children recursively"

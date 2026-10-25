@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-blue { stroke: #3B82F6; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-p21" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-g21" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Col 1: Raw Audit History -->
+  <rect x="25" y="25" width="310" height="350" class="pillar-box" stroke="#3B82F6"/>
+  <text x="180" y="55" class="title-text" fill="#60A5FA">1. Raw Audit History</text>
+
+  <rect x="45" y="75" width="270" height="60" class="card card-blue"/>
+  <text x="180" y="98" class="card-title" fill="#93C5FD">Emp 101 | Lead Engineer (2024)</text>
+  <text x="60" y="120" class="card-body">Change ID: 42 (Most recent)</text>
+
+  <rect x="45" y="145" width="270" height="60" class="card card-blue"/>
+  <text x="180" y="168" class="card-title" fill="#93C5FD">Emp 101 | Senior Analyst (2023)</text>
+  <text x="60" y="190" class="card-body">Change ID: 14</text>
+
+  <rect x="45" y="215" width="270" height="60" class="card card-blue"/>
+  <text x="180" y="238" class="card-title" fill="#93C5FD">Emp 101 | Junior Analyst (2021)</text>
+  <text x="60" y="260" class="card-body">Change ID: 1 (Original hiring)</text>
+
+  <rect x="45" y="285" width="270" height="60" class="card card-blue"/>
+  <text x="180" y="308" class="card-title" fill="#93C5FD">Emp 102 | Associate Data (2023)</text>
+  <text x="60" y="330" class="card-body">Change ID: 22</text>
+
+  <!-- Col 2: Window Ranking -->
+  <rect x="365" y="25" width="320" height="350" class="pillar-box" stroke="#8B5CF6"/>
+  <text x="525" y="55" class="title-text" fill="#C4B5FD">2. Window Rank: rn = 1</text>
+
+  <rect x="385" y="75" width="280" height="60" class="card card-green"/>
+  <text x="525" y="98" class="card-title" fill="#6EE7B7">Emp 101: Lead Eng -&gt; rn = 1</text>
+  <text x="400" y="120" class="card-body" fill="#34D399">• Latest state selected</text>
+
+  <rect x="385" y="145" width="280" height="60" class="card card-purple"/>
+  <text x="525" y="168" class="card-title" fill="#D8B4FE">Emp 101: Senior -&gt; rn = 2</text>
+  <text x="400" y="190" class="card-body">• Historical state</text>
+
+  <rect x="385" y="215" width="280" height="60" class="card card-purple"/>
+  <text x="525" y="238" class="card-title" fill="#D8B4FE">Emp 101: Junior -&gt; rn = 3</text>
+  <text x="400" y="260" class="card-body">• Historical state</text>
+
+  <rect x="385" y="285" width="280" height="60" class="card card-green"/>
+  <text x="525" y="308" class="card-title" fill="#6EE7B7">Emp 102: Assoc -&gt; rn = 1</text>
+  <text x="400" y="330" class="card-body" fill="#34D399">• Latest state selected</text>
+
+  <!-- Col 3: Filtered Current State -->
+  <rect x="715" y="25" width="320" height="350" class="pillar-box" stroke="#10B981"/>
+  <text x="875" y="55" class="title-text" fill="#6EE7B7">3. Current Snapshot</text>
+
+  <rect x="735" y="100" width="280" height="95" class="card card-green"/>
+  <text x="875" y="125" class="card-title" fill="#6EE7B7">Emp 101: Lead Engineer</text>
+  <text x="750" y="150" class="card-body">• Active current role</text>
+  <text x="750" y="170" class="card-body">• Effective date: 2024-05-10</text>
+
+  <rect x="735" y="230" width="280" height="95" class="card card-green"/>
+  <text x="875" y="255" class="card-title" fill="#6EE7B7">Emp 102: Associate Data</text>
+  <text x="750" y="280" class="card-body">• Active current role</text>
+  <text x="750" y="300" class="card-body">• Effective date: 2023-09-01</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 315 105 L 385 105" class="edge edge-purple" marker-end="url(#arr-p21)"/>
+  <path fill="none" d="M 315 315 L 385 315" class="edge edge-purple" marker-end="url(#arr-p21)"/>
+
+  <path fill="none" d="M 665 105 C 690 105, 700 145, 721 145 L 735 145" class="edge edge-green" marker-end="url(#arr-g21)"/>
+  <path fill="none" d="M 665 315 C 690 315, 700 275, 721 275 L 735 275" class="edge edge-green" marker-end="url(#arr-g21)"/>
+</svg>

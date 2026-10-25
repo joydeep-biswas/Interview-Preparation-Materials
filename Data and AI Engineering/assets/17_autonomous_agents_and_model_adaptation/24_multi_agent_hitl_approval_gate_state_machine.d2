@@ -1,0 +1,23 @@
+classes: {
+  plan_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  worker_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  gate_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  pause_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+init: "" { shape: circle }
+
+plan: "PlanGeneration" { class: plan_box }
+exec: "WorkerExecution" { class: worker_box }
+gate: "ApprovalGate" { class: gate_box }
+paused: "Paused (Suspended in DB)" { class: pause_box }
+resume: "ResumeExecution" { class: worker_box }
+revise: "SupervisorRevision" { class: pause_box }
+
+init -> plan
+plan -> exec: "Dispatches tasks"
+exec -> gate: "Action flagged HIGH_IMPACT"
+gate -> paused: "interrupt() raised"
+paused -> resume: "Engineer approves"
+paused -> revise: "Engineer rejects"
+revise -> exec: "Revised strategy"

@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  p1: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  p2: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  p3: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+pillar1: "1. Operational Systems Metrics\n• TTFT, ITL, TPS\n• Error Rates (429/503)\n• GPU Tensor Core Util" { class: p1 }
+pillar2: "2. Distributed Trace Trees\n• OpenTelemetry Spans\n• RAG -> LLM propagation\n• Prompt Version Tags" { class: p2 }
+pillar3: "3. Continuous Quality & Cost\n• Dollar Cost per Tenant\n• Faithfulness Evals\n• User Feedback Signals" { class: p3 }
+
+pillar1 -> pillar2 -> pillar3

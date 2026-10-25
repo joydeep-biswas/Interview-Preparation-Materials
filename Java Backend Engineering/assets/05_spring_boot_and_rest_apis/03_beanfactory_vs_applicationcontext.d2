@@ -1,0 +1,24 @@
+direction: right
+title: BeanFactory vs. ApplicationContext Architecture
+
+bf: "BeanFactory (Root IoC Interface)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  core: "Basic DI & Lifecycle"
+  lazy: "Lazy Instantiation (On-demand)"
+  limits: "No auto-AOP or Event Publication"
+}
+
+ac: "ApplicationContext (Enterprise Superset)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  eager: "Eager Singleton Pre-instantiation"
+  aop: "Integrated AOP & Declarative Transactions"
+  events: "ApplicationEventPublisher"
+  env: "Environment & Active Profiles"
+  i18n: "MessageSource Internationalization"
+}
+
+bf -> ac: "Inherits & Extends"

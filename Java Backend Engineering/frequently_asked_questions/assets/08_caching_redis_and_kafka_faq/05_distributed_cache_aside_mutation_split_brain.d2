@@ -1,0 +1,19 @@
+direction: right
+
+flawed: "Flawed: Update Cache" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  race: "Concurrent writers update out-of-order"
+  split_brain: "DB has 'B', Cache has 'A' forever!"
+}
+
+standard: "Standard: Delete Cache (Cache-Aside)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  step1: "Update DB (Commit source of truth)"
+  step2: "Evict Cache: redis.delete(key)"
+  step3: "Next reader reloads fresh state from DB"
+  ttl: "Always pair with TTL safety net"
+}
+
+flawed -> standard: "Eviction avoids race conditions"

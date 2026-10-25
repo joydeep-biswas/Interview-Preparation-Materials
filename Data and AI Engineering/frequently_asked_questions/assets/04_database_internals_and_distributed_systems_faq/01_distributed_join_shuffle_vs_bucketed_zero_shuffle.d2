@@ -1,0 +1,27 @@
+direction: right
+classes: {
+  box_red: { style: { fill: "#111827"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+without_bucketing: "Standard Join: Network Shuffle Required" {
+  class: box_red
+  t1: "Table A (Partitions 1..4)"
+  t2: "Table B (Partitions 1..4)"
+  shuffle: "Massive Network Shuffle\nHigh disk I/O & network saturation"
+  join: "Distributed Hash Join Output"
+  t1 -> shuffle
+  t2 -> shuffle
+  shuffle -> join
+}
+
+with_bucketing: "Pre-Bucketed Join: ZERO Shuffle" {
+  class: box_green
+  b1: "Bucket 1 (A + B) -> Worker 1 (Local Join)"
+  b2: "Bucket 2 (A + B) -> Worker 2 (Local Join)"
+  b3: "Bucket 3 (A + B) -> Worker 3 (Local Join)"
+  output: "Consolidated Fast Output\nZero network data movement"
+  b1 -> output
+  b2 -> output
+  b3 -> output
+}

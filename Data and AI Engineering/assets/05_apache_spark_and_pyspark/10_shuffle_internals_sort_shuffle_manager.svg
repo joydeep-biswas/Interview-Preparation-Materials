@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Spark SortShuffleManager: Disk Spilling &amp; Index Merging</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">How Mappers buffer, sort, spill, and consolidate partition blocks into .data and .index files for Reducer fetching</text>
+
+  <!-- Column 1: Mapper Memory &amp; Spill -->
+  <rect x="40" y="85" width="340" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="340" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="210" y="108" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">1. MAPPER BUFFER &amp; INTERMEDIATE SPILL</text>
+
+  <!-- AppendOnlyMap -->
+  <rect x="55" y="135" width="310" height="95" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="70" y="157" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">PartitionedAppendOnlyMap (RAM)</text>
+  <text x="70" y="177" font-size="10" fill="#CBD5E1" text-anchor="start">• Hash table storing: <tspan font-family="monospace">(partition_id, key) -&gt; value</tspan></text>
+  <text x="70" y="194" font-size="10" fill="#CBD5E1" text-anchor="start">• Performs in-memory aggregation if combinable</text>
+  <text x="70" y="211" font-size="9.5" fill="#FBBF24" text-anchor="start">Monitors memory threshold (spark.shuffle.memoryFraction)</text>
+
+  <!-- Spill Trigger -->
+  <rect x="55" y="245" width="310" height="85" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1"/>
+  <text x="70" y="267" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="start">In-Memory Sort &amp; Disk Spill Trigger</text>
+  <text x="70" y="287" font-size="10" fill="#CBD5E1" text-anchor="start">• If memory limit reached: sorts entries by partition_id</text>
+  <text x="70" y="304" font-size="10" fill="#CBD5E1" text-anchor="start">• Flushes sorted batch to temporary spill file on disk</text>
+  <text x="70" y="319" font-size="9.5" fill="#F87171" text-anchor="start">Produces multiple temp files: spill_01.tmp, spill_02.tmp...</text>
+
+  <!-- Note below -->
+  <rect x="55" y="345" width="310" height="110" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="367" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="start">Why not write 1 file per partition?</text>
+  <text x="70" y="387" font-size="9.5" fill="#CBD5E1" text-anchor="start">Old HashShuffle produced M x R files (1000 mappers</text>
+  <text x="70" y="402" font-size="9.5" fill="#CBD5E1" text-anchor="start">x 1000 reducers = 1,000,000 files!), which choked the</text>
+  <text x="70" y="417" font-size="9.5" fill="#CBD5E1" text-anchor="start">OS file system. SortShuffle consolidates into ONE file!</text>
+
+  <!-- Connectors within Col 1 -->
+  <line x1="210" y1="230" x2="210" y2="245" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+  <!-- Column 2: Consolidated Shuffle Files -->
+  <rect x="400" y="85" width="320" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="400" y="85" width="320" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="560" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">2. CONSOLIDATED DATA &amp; INDEX FILES</text>
+
+  <!-- Merge Sorter -->
+  <rect x="415" y="135" width="290" height="65" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="430" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">K-Way External Merge Sort</text>
+  <text x="430" y="174" font-size="10" fill="#CBD5E1" text-anchor="start">• Merges all temp spill files into single stream</text>
+  <text x="430" y="189" font-size="10" fill="#34D399" text-anchor="start">• Strips temp files; outputs exactly 2 files:</text>
+
+  <!-- .data File Layout -->
+  <rect x="415" y="215" width="290" height="115" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="430" y="235" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="start">shuffle_0_0_0.data (Contiguous Data)</text>
+  
+  <rect x="425" y="245" width="85" height="30" rx="3" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="467" y="264" font-size="9" fill="#38BDF8" text-anchor="middle">Part 0 Data</text>
+
+  <rect x="515" y="245" width="85" height="30" rx="3" fill="#1E293B" stroke="#FBBF24" stroke-width="1"/>
+  <text x="557" y="264" font-size="9" fill="#FBBF24" text-anchor="middle">Part 1 Data</text>
+
+  <rect x="605" y="245" width="90" height="30" rx="3" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="650" y="264" font-size="9" fill="#34D399" text-anchor="middle">Part 2 Data</text>
+
+  <text x="430" y="295" font-size="9" fill="#94A3B8" text-anchor="start">• All partition bytes written back-to-back</text>
+  <text x="430" y="310" font-size="9" fill="#94A3B8" text-anchor="start">• Zero file-descriptor explosion</text>
+
+  <!-- .index File Layout -->
+  <rect x="415" y="340" width="290" height="115" rx="6" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="430" y="360" font-size="10" font-weight="700" fill="#C084FC" text-anchor="start">shuffle_0_0_0.index (Byte Offset Map)</text>
+
+  <text x="430" y="380" font-size="9.5" font-family="monospace" fill="#E9D5FF" text-anchor="start">[Part 0] offset: 0, length: 1048576</text>
+  <text x="430" y="397" font-size="9.5" font-family="monospace" fill="#E9D5FF" text-anchor="start">[Part 1] offset: 1048576, length: 524288</text>
+  <text x="430" y="414" font-size="9.5" font-family="monospace" fill="#E9D5FF" text-anchor="start">[Part 2] offset: 1572864, length: 2097152</text>
+  <text x="430" y="435" font-size="9" font-weight="600" fill="#34D399" text-anchor="start">Reducers seek exact byte offsets directly!</text>
+
+  <!-- Link Col 1 -> Col 2 -->
+  <path d="M 365.0 280.0 L 375.0 280.0 C 388.0 280.0, 388.0 167.0, 401.0 167.0 L 415.0 167.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Column 3: Reducer Fetch Layer -->
+  <rect x="740" y="85" width="340" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="740" y="85" width="340" height="36" rx="8" fill="#3B0764" fill-opacity="0.8" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="910" y="108" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle">3. REDUCER SHUFFLE FETCH (NETTY)</text>
+
+  <!-- Netty Block Transfer -->
+  <rect x="755" y="135" width="310" height="135" rx="6" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="770" y="157" font-size="11" font-weight="700" fill="#C084FC" text-anchor="start">External Shuffle Service / Netty Server</text>
+  <text x="770" y="177" font-size="10" fill="#CBD5E1" text-anchor="start">• Worker hosts Netty non-blocking I/O server</text>
+  <text x="770" y="194" font-size="10" fill="#CBD5E1" text-anchor="start">• Reducer requests block: <tspan font-family="monospace">fetch(execId, partId)</tspan></text>
+  <text x="770" y="211" font-size="10" fill="#CBD5E1" text-anchor="start">• Netty server reads .index file to get offset</text>
+  <text x="770" y="228" font-size="10" fill="#34D399" text-anchor="start">• Uses Linux <tspan font-weight="700">sendfile zero-copy</tspan> straight to NIC!</text>
+  <text x="770" y="248" font-size="9" fill="#94A3B8" text-anchor="start">Executor GC pauses do not block shuffle serving!</text>
+
+  <!-- Reducer Ingestion -->
+  <rect x="755" y="285" width="310" height="170" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="770" y="307" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Reducer Memory Buffer (Shuffle Read)</text>
+  <text x="770" y="327" font-size="10" fill="#CBD5E1" text-anchor="start">• Fetches blocks in parallel chunks (up to 48MB)</text>
+  <text x="770" y="344" font-size="10" fill="#CBD5E1" text-anchor="start">• Deserializes blocks into Execution Memory</text>
+  <text x="770" y="361" font-size="10" fill="#CBD5E1" text-anchor="start">• Streams sorted keys into downstream operator</text>
+  <text x="770" y="380" font-size="9.5" font-weight="600" fill="#FBBF24" text-anchor="start">Bottlenecks to Monitor:</text>
+  <text x="770" y="398" font-size="9" fill="#94A3B8" text-anchor="start">- "Shuffle Fetch Failed": Worker killed by OOM</text>
+  <text x="770" y="413" font-size="9" fill="#94A3B8" text-anchor="start">- "Connection Reset": Network timeout during heavy GC</text>
+  <text x="770" y="435" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">Fix: External Shuffle Service + increase retry wait</text>
+
+  <!-- Connectors Col 2 -> Col 3 -->
+  <path d="M 705.0 270.0 L 715.0 270.0 C 728.0 270.0, 728.0 200.0, 741.0 200.0 L 755.0 200.0" fill="none" stroke="#C084FC" stroke-width="2" marker-end="url(#arr-p)"/>
+  <path d="M 705.0 390.0 L 715.0 390.0 C 728.0 390.0, 728.0 215.0, 741.0 215.0 L 755.0 215.0" fill="none" stroke="#C084FC" stroke-width="2" marker-end="url(#arr-p)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">SortShuffle Invariant: SortShuffleManager solves the file descriptor explosion problem by consolidating all mapper output partitions into exactly one .data and one .index file per task.</text>
+</svg>

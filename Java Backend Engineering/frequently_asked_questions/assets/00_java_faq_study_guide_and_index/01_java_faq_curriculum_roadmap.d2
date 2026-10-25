@@ -1,0 +1,51 @@
+direction: right
+
+tier1: "Tier 1: Language & Memory" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  m1: "01. Core Java & Algorithms"
+  m2: "02. Collections & Generics"
+  m3: "03. Modern Java & Streams"
+  m4: "04. Concurrency & Async"
+}
+
+tier2: "Tier 2: Frameworks & Sec" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  m5: "05. Spring Boot & REST"
+  m6: "06. Security & Cryptography"
+}
+
+tier3: "Tier 3: Distributed Data" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  m7: "07. Databases & Hibernate"
+  m8: "08. Caching & Messaging"
+  m9: "09. Microservices & Design"
+}
+
+tier4: "Tier 4: Production & Ops" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  m10: "10. Testing & Quality"
+  m11: "11. Cloud & Containers"
+  m12: "12. JVM Performance"
+  m13: "13. Linux & Networking"
+}
+
+tier1 -> tier2: "Language to Enterprise" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+tier2 -> tier3: "Services to Distributed Systems" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+tier3 -> tier4: "Architecture to Production Ops" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

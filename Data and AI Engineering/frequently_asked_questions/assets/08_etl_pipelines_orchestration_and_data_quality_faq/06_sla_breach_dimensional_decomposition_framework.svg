@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Left: Temporal Slicing -->
+  <rect x="30" y="25" width="430" height="305" rx="12" ry="12" fill="#0D1526" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="50" y="52" class="title-txt" fill="#FCA5A5">1. Temporal Component Slicing</text>
+
+  <rect x="50" y="70" width="390" height="60" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="245" y="95" class="title-txt" text-anchor="middle" fill="#F87171">🚨 Metric: Delivery Spikes +8 Min on Weekends</text>
+  <text x="245" y="115" class="sub-txt" text-anchor="middle">Baseline: 28 min → Weekend: 36 min</text>
+
+  <path d="M 245 130 L 245 160" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+  <rect x="50" y="160" width="390" height="150" rx="8" ry="8" fill="#111827" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="65" y="188" class="title-txt" text-anchor="start">Decomposed Time Intervals:</text>
+  <text x="65" y="215" class="body-txt" text-anchor="start">• Prep Time (Kitchen): <tspan fill="#10B981">+1 min</tspan> (Normal)</text>
+  <text x="65" y="240" class="body-txt" text-anchor="start">• Driver Transit Time: <tspan fill="#10B981">+0 min</tspan> (Traffic identical)</text>
+  <text x="65" y="265" class="body-txt" text-anchor="start">• <tspan fill="#EF4444" font-weight="700">Driver Wait Time at Store: +7 min</tspan> (90% of breach!)</text>
+  <text x="65" y="290" class="mono-txt" text-anchor="start">→ Bottleneck isolated to store pickup queue</text>
+
+  <!-- Right: Entity & Spatial Slicing -->
+  <rect x="490" y="25" width="440" height="305" rx="12" ry="12" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="510" y="52" class="title-txt" fill="#93C5FD">2. Entity &amp; Spatial Slicing</text>
+
+  <rect x="510" y="70" width="400" height="110" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="525" y="96" class="title-txt" text-anchor="start">Spatial / Geo Partitioning:</text>
+  <text x="525" y="122" class="body-txt" text-anchor="start">• City A / Suburbs: No breach (Δ &lt; 0.5 min)</text>
+  <text x="525" y="144" class="body-txt" text-anchor="start">• <tspan fill="#EF4444" font-weight="700">Downtown Cluster: +12 min spike</tspan></text>
+  <text x="525" y="166" class="mono-txt" text-anchor="start">→ Parking &amp; high-density merchant delays</text>
+
+  <rect x="510" y="200" width="400" height="110" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="525" y="226" class="title-txt" text-anchor="start">Merchant Category Breakdown:</text>
+  <text x="525" y="252" class="body-txt" text-anchor="start">• Fast food chains: Normal pickup pace</text>
+  <text x="525" y="274" class="body-txt" text-anchor="start">• <tspan fill="#F59E0B" font-weight="700">Boutique Bakeries: +14 min order lag</tspan></text>
+  <text x="525" y="296" class="mono-txt" text-anchor="start">→ Kitchen lack of dedicated staging area</text>
+</svg>

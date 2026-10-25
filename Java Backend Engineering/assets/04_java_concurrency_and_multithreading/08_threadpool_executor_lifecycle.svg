@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="560" viewBox="0 0 1240 560">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1240" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">ThreadPoolExecutor Architecture &amp; Task Execution Lifecycle</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">corePoolSize Allocation -&gt; BlockingQueue Buffering -&gt; maxPoolSize Surge -&gt; Rejection Policy</text>
+
+  <!-- Stage 1: Core Threads -->
+  <rect x="50" y="105" width="265" height="365" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="105" width="265" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="182" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">Stage 1: Core Pool Allocation</text>
+
+  <rect x="65" y="150" width="235" height="95" rx="6" fill="#0F172A" stroke="#0284C7" stroke-width="1"/>
+  <text x="80" y="175" font-size="11" font-weight="700" fill="#38BDF8">Condition Check:</text>
+  <text x="80" y="198" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">active &lt; corePoolSize</text>
+  <text x="80" y="225" font-size="10" fill="#34D399">&#x2714; Spawns NEW worker thread</text>
+
+  <rect x="65" y="260" width="235" height="195" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="80" y="285" font-size="11" font-weight="700" fill="#F8FAFC">Core Worker Characteristics:</text>
+  <text x="80" y="310" font-size="10" fill="#CBD5E1">&#x2022; Always spawned on new tasks</text>
+  <text x="80" y="330" font-size="10" fill="#CBD5E1">  even if existing core threads idle</text>
+  <text x="80" y="350" font-size="10" fill="#CBD5E1">&#x2022; Core threads do NOT terminate</text>
+  <text x="80" y="370" font-size="10" fill="#CBD5E1">  by default (blocks on queue.take())</text>
+  <text x="80" y="395" font-size="9" fill="#94A3B8">Config: allowCoreThreadTimeOut(true)</text>
+  <text x="80" y="415" font-size="9" fill="#94A3B8">allows idle core thread reclamation</text>
+
+  <!-- Stage 2: Queue Buffering -->
+  <rect x="345" y="105" width="265" height="365" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="345" y="105" width="265" height="30" rx="8" fill="#78350F"/>
+  <text x="477" y="125" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">Stage 2: Queue Buffering</text>
+
+  <rect x="360" y="150" width="235" height="95" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+  <text x="375" y="175" font-size="11" font-weight="700" fill="#FBBF24">Condition Check:</text>
+  <text x="375" y="198" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">queue.offer(task) == true</text>
+  <text x="375" y="225" font-size="10" fill="#34D399">&#x2714; Task enqueued in buffer</text>
+
+  <rect x="360" y="260" width="235" height="195" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="375" y="285" font-size="11" font-weight="700" fill="#F8FAFC">Buffer Mechanics:</text>
+  <text x="375" y="310" font-size="10" fill="#CBD5E1">&#x2022; Core threads are busy</text>
+  <text x="375" y="330" font-size="10" fill="#CBD5E1">&#x2022; Tasks wait in BlockingQueue</text>
+  <text x="375" y="355" font-size="11" font-weight="700" fill="#F87171">Production Warning:</text>
+  <text x="375" y="375" font-size="10" fill="#FCA5A5">Unbounded LinkedBlockingQueue</text>
+  <text x="375" y="393" font-size="10" fill="#FCA5A5">causes OOM &amp; prevents Stage 3!</text>
+  <text x="375" y="420" font-size="9" fill="#34D399">&#x2714; Always use bounded queue</text>
+
+  <!-- Stage 3: Maximum Pool Surge -->
+  <rect x="640" y="105" width="265" height="365" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="640" y="105" width="265" height="30" rx="8" fill="#064E3B"/>
+  <text x="772" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">Stage 3: Max Pool Surge</text>
+
+  <rect x="655" y="150" width="235" height="95" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="670" y="175" font-size="11" font-weight="700" fill="#34D399">Condition Check:</text>
+  <text x="670" y="198" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">active &lt; maximumPoolSize</text>
+  <text x="670" y="225" font-size="10" fill="#34D399">&#x2714; Spawns SURGE worker</text>
+
+  <rect x="655" y="260" width="235" height="195" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="670" y="285" font-size="11" font-weight="700" fill="#F8FAFC">Surge Worker Lifecycle:</text>
+  <text x="670" y="310" font-size="10" fill="#CBD5E1">&#x2022; Only spawns when queue FULL</text>
+  <text x="670" y="330" font-size="10" fill="#CBD5E1">&#x2022; Absorbs temporary load spike</text>
+  <text x="670" y="350" font-size="10" fill="#CBD5E1">&#x2022; Keep-Alive Expiration:</text>
+  <text x="670" y="370" font-size="10" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">keepAliveTime (e.g. 60s)</text>
+  <text x="670" y="390" font-size="10" fill="#CBD5E1">Surge threads terminate if idle</text>
+  <text x="670" y="415" font-size="9" fill="#94A3B8">Reclaims memory after load drops</text>
+
+  <!-- Stage 4: Rejection Policy -->
+  <rect x="935" y="105" width="255" height="365" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
+  <rect x="935" y="105" width="255" height="30" rx="8" fill="#7F1D1D"/>
+  <text x="1062" y="125" font-size="11" font-weight="700" fill="#FCA5A5" text-anchor="middle">Stage 4: Rejection Handler</text>
+
+  <rect x="950" y="150" width="225" height="95" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>
+  <text x="965" y="175" font-size="11" font-weight="700" fill="#F87171">Condition Check:</text>
+  <text x="965" y="198" font-size="10" font-family="'JetBrains Mono', monospace" fill="#FCA5A5">Queue FULL &amp;&amp; Max Reached</text>
+  <text x="965" y="225" font-size="10" fill="#EF4444">&#x2718; Invokes RejectedExecution</text>
+
+  <rect x="950" y="260" width="225" height="195" rx="6" fill="#1E293B" stroke="#EF4444" stroke-width="1"/>
+  <text x="965" y="285" font-size="11" font-weight="700" fill="#F87171">Rejection Policies:</text>
+  <text x="965" y="308" font-size="10" font-weight="700" fill="#CBD5E1">1. AbortPolicy (Default):</text>
+  <text x="975" y="324" font-size="9" fill="#94A3B8">Throws RejectedExecutionException</text>
+  
+  <text x="965" y="344" font-size="10" font-weight="700" fill="#34D399">2. CallerRunsPolicy:</text>
+  <text x="975" y="360" font-size="9" fill="#A7F3D0">Calling thread runs task (Backpressure!)</text>
+
+  <text x="965" y="380" font-size="10" font-weight="700" fill="#CBD5E1">3. DiscardPolicy:</text>
+  <text x="975" y="396" font-size="9" fill="#94A3B8">Silently drops task</text>
+
+  <text x="965" y="416" font-size="10" font-weight="700" fill="#CBD5E1">4. DiscardOldestPolicy:</text>
+  <text x="975" y="432" font-size="9" fill="#94A3B8">Drops head of queue, retries task</text>
+
+  <!-- Connectors -->
+  <path fill="none" d="M 315 197 L 360 197" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <path fill="none" d="M 610 197 L 655 197" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path fill="none" d="M 905 197 L 950 197" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="50" y="485" width="1140" height="40" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="620" y="510" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Architecture Invariant: Tasks are ONLY queued after corePoolSize threads are created. Surge threads are ONLY spawned after queue fills completely.</text>
+</svg>

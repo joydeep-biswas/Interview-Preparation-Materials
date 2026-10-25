@@ -1,0 +1,27 @@
+direction: right
+title: "Test-Driven Development (TDD): The Red-Green-Refactor Cycle"
+
+red: "1. RED
+Write a failing unit test
+for behavior that does not exist yet" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+}
+
+green: "2. GREEN
+Write minimal code needed
+to make the test pass immediately" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+refactor: "3. REFACTOR
+Clean up code & eliminate duplication
+Preserve passing green test suite" {
+  style.fill: "#111827"
+  style.stroke: "#3b82f6"
+}
+
+red -> green: "Write minimal code"
+green -> refactor: "All tests green"
+refactor -> red: "Next requirement"

@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 430" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="430" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Lambda Architecture: Dual Batch &amp; Speed Processing</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Immutable Master Data Lake Store, Real-Time Streaming Delta, and Serving Query Merge</text>
+  
+  
+    <rect x="390" y="85" width="200" height="50" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="490.0" y="111" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Incoming Event Stream</text>
+    <text x="490.0" y="127" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Kafka / Kinesis Events</text>
+    <rect x="518" y="95" width="66" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="551.0" y="107" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1M msg/s</text>
+
+  
+    <rect x="30" y="165" width="440" height="175" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="46" y="187" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Batch Layer (Cold Path: High Accuracy, High Latency)</text>
+  
+    <rect x="45" y="200" width="125" height="125" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="107.5" y="226" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Master Store</text>
+    <text x="107.5" y="242" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Immutable Raw Lake</text>
+    <circle cx="61" cy="255" r="2" fill="#10b981"/>
+    <text x="69" y="258" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Append-only data</text>
+    <circle cx="61" cy="271" r="2" fill="#10b981"/>
+    <text x="69" y="274" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">No mutation ever</text>
+    <circle cx="61" cy="287" r="2" fill="#10b981"/>
+    <text x="69" y="290" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Source of truth</text>
+    <circle cx="61" cy="303" r="2" fill="#10b981"/>
+    <text x="69" y="306" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Complete history</text>
+  
+    <rect x="185" y="200" width="130" height="125" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="250.0" y="226" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Batch Engine</text>
+    <text x="250.0" y="242" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Spark Batch / dbt</text>
+    <circle cx="201" cy="255" r="2" fill="#10b981"/>
+    <text x="209" y="258" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Full recomputation</text>
+    <circle cx="201" cy="271" r="2" fill="#10b981"/>
+    <text x="209" y="274" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Hourly / Daily run</text>
+    <circle cx="201" cy="287" r="2" fill="#10b981"/>
+    <text x="209" y="290" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Complex joins &amp; ML</text>
+    <circle cx="201" cy="303" r="2" fill="#10b981"/>
+    <text x="209" y="306" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Tolerates failure</text>
+  
+    <rect x="330" y="200" width="125" height="125" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="392.5" y="226" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Batch Views</text>
+    <text x="392.5" y="242" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Precomputed Marts</text>
+    <circle cx="346" cy="255" r="2" fill="#10b981"/>
+    <text x="354" y="258" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Immutable views</text>
+    <circle cx="346" cy="271" r="2" fill="#10b981"/>
+    <text x="354" y="274" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">High indexing</text>
+    <circle cx="346" cy="287" r="2" fill="#10b981"/>
+    <text x="354" y="290" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Fast reads</text>
+    <circle cx="346" cy="303" r="2" fill="#10b981"/>
+    <text x="354" y="306" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Lag: 1-24 hours</text>
+
+  
+    <rect x="510" y="165" width="440" height="175" rx="10" fill="#291b05" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="526" y="187" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Speed Layer (Hot Path: Low Latency, Eventual Accuracy)</text>
+  
+    <rect x="525" y="200" width="195" height="125" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="622.5" y="226" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Stream Engine</text>
+    <text x="622.5" y="242" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Apache Flink / Spark Streaming</text>
+    <circle cx="541" cy="255" r="2" fill="#f59e0b"/>
+    <text x="549" y="258" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Processes delta only</text>
+    <circle cx="541" cy="271" r="2" fill="#f59e0b"/>
+    <text x="549" y="274" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sliding window stats</text>
+    <circle cx="541" cy="287" r="2" fill="#f59e0b"/>
+    <text x="549" y="290" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sub-second updates</text>
+    <circle cx="541" cy="303" r="2" fill="#f59e0b"/>
+    <text x="549" y="306" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Micro-batches or record</text>
+  
+    <rect x="735" y="200" width="200" height="125" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="835.0" y="226" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Real-Time Views</text>
+    <text x="835.0" y="242" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Redis / Cassandra / RocksDB</text>
+    <circle cx="751" cy="255" r="2" fill="#f59e0b"/>
+    <text x="759" y="258" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Low latency read store</text>
+    <circle cx="751" cy="271" r="2" fill="#f59e0b"/>
+    <text x="759" y="274" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Overwritten on update</text>
+    <circle cx="751" cy="287" r="2" fill="#f59e0b"/>
+    <text x="759" y="290" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Transformed deltas</text>
+    <circle cx="751" cy="303" r="2" fill="#f59e0b"/>
+    <text x="759" y="306" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Replaced by batch view</text>
+
+  
+    <rect x="340" y="360" width="300" height="55" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="386" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Serving Layer Query Processor</text>
+    <text x="490.0" y="402" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Unified Client Request Merge</text>
+    <rect x="589" y="370" width="45" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="611.5" y="382" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MERGE</text>
+    <circle cx="356" cy="415" r="2" fill="#8b5cf6"/>
+    <text x="364" y="418" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Query: SELECT * FROM batch_view UNION speed_view</text>
+    <circle cx="356" cy="431" r="2" fill="#8b5cf6"/>
+    <text x="364" y="434" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Merges precomputed historical + real-time delta</text>
+
+  
+    <polyline points="440,135 440,150 105,150 105,195" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="270" y="142" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Append to Lake</text>
+  
+    <polyline points="540,135 540,150 620,150 620,195" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="580" y="142" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Stream to Flink</text>
+
+  
+    <line x1="170" y1="260" x2="185" y2="260" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <line x1="315" y1="260" x2="330" y2="260" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <line x1="720" y1="260" x2="735" y2="260" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+  
+    <polyline points="392,325 392,345 430,345 430,360" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <polyline points="835,325 835,345 550,345 550,360" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+</svg>

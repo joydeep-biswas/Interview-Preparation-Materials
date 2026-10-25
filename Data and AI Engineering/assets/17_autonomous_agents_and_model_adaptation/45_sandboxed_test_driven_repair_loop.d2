@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  purple: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  red: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+ticket: "Failing Test Ticket" { class: blue }
+plan: "Agent Fix Plan" { class: blue }
+patch: "Generate Git Patch" { class: purple }
+
+sandbox: "E2B Sandbox Runner
+Apply patch & execute pytest" { class: green }
+pr: "Success: Open PR
+Attach test proofs" { class: green }
+breaker: "Circuit Breaker
+Iteration >= 4: Alert Human" { class: red }
+
+ticket -> plan -> patch -> sandbox
+sandbox -> pr: "Tests Passed"
+sandbox -> plan: "Tests Failed (Iteration < 4)" { style: { stroke-dash: 4 } }
+sandbox -> breaker: "Tests Failed (Iteration >= 4)"

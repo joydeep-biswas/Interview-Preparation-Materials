@@ -8,107 +8,38 @@ Every guide includes formal architectural definitions, Mermaid topological diagr
 
 ## Recommended Chronological Study Order
 
-```mermaid
-flowchart TD
-    subgraph FoundationTier ["Tier 1: Core Languages & Relational Foundations"]
-        direction LR
-        M1["01. SQL Fundamentals & Advanced Querying<br/>(Logical order, window funcs, CTEs, MERGE, MVCC)"]
-        --> M2["02. Python for Data & Systems<br/>(Memory, streaming I/O, Pydantic, Polars, DuckDB)"]
-    end
+![Data & AI Engineering: 9-Tier Chronological Curriculum Roadmap](assets/00_data_and_ai_study_guide_and_index/01_data_and_ai_curriculum_tiers.svg)
 
-    subgraph StorageSystemsTier ["Tier 2: Architecture, Modeling & Storage Engines"]
-        direction LR
-        M3["03. Data Architecture & Lakehouse Storage<br/>(Kimball Star/Snowflake, Parquet, Avro, Iceberg)"]
-        --> M4["04. Database Internals & Distributed Systems<br/>(B+ Trees, LSM, WAL, CAP, Raft, consistent hashing)"]
-    end
-
-    subgraph DistributedLakehouseTier ["Tier 3: Distributed Computing & Modern Lakehouse"]
-        direction LR
-        M5["05. Apache Spark & PySpark<br/>(Catalyst, Tungsten, joins, skew salting, AQE, OOM)"]
-        --> M6["06. Databricks & Delta Lake<br/>(ACID log, OPTIMIZE/Z-ORDER, Liquid, VACUUM)"]
-    end
-
-    subgraph PipelineStreamingTier ["Tier 4: Streaming, Orchestration & Data Quality"]
-        direction LR
-        M7["07. Streaming, Kafka & Auto Loader<br/>(Kafka commit log, checkpoints, watermarks, exactly-once)"]
-        --> M8["08. ETL Pipelines & Data Quality<br/>(Airflow DAGs, dbt models, DLQs, Great Expectations)"]
-        --> M9["09. Unity Catalog & Governance<br/>(3-level namespace, column masks, audit, lineage)"]
-    end
-
-    subgraph AIDataInfrastructureTier ["Tier 5: AI Data Engineering & Retrieval Infrastructure"]
-        direction LR
-        M10["10. Document Processing & AI Data Prep<br/>(PDF parsing, table extraction, chunking, MinHash LSH)"]
-        --> M11["11. Embeddings, Vector DBs & RAG<br/>(HNSW, IVF-PQ, hybrid search RRF, rerankers, semantic cache)"]
-        --> M12["12. AI Infrastructure, Serving & LLMOps<br/>(vLLM, PagedAttention, LiteLLM gateways, MLflow)"]
-    end
-
-    subgraph PythonBackendTier ["Tier 6: Python Backend for Data & AI Services"]
-        direction LR
-        M13["13. Python Backend & FastAPI<br/>(FastAPI ASGI, async/await, SSE token streaming, WebSockets)"]
-        --> M14["14. Persistence, Caching & Integration<br/>(SQLAlchemy 2.0 AsyncSession, Redis caching, Celery)"]
-    end
-
-    subgraph CloudDevOpsTier ["Tier 7: Cloud Infrastructure & Platform DevOps"]
-        direction LR
-        M15["15. Cloud Infrastructure & Observability<br/>(Docker, Kubernetes for AI/Data, OpenTelemetry, Prometheus)"]
-    end
-
-    subgraph SpecializedAITier ["Tier 8: Advanced & Specialized AI Foundations"]
-        direction LR
-        M16["16. ML & Transformer Foundations<br/>(Loss surfaces, backprop, AdamW, Attention, KV cache)"]
-        --> M17["17. Autonomous Agents & Adaptation<br/>(ReAct loops, LangGraph, LoRA/QLoRA, DPO fine-tuning)"]
-    end
-
-    subgraph InterviewPillarsTier ["Tier 9: Universal Interview Preparation Pillars"]
-        direction LR
-        DSA["Universal DSA Track<br/>(Centralized under Java Backend Track)"]
-        SDB["System Design & Situational<br/>(14 HLDs + 8 LLDs + Foundations + 41 Leadership Scenarios)"]
-        DSA --> SDB
-    end
-
-    FoundationTier --> StorageSystemsTier
-    StorageSystemsTier --> DistributedLakehouseTier
-    DistributedLakehouseTier --> PipelineStreamingTier
-    PipelineStreamingTier --> AIDataInfrastructureTier
-    AIDataInfrastructureTier --> PythonBackendTier
-    PythonBackendTier --> CloudDevOpsTier
-    CloudDevOpsTier --> SpecializedAITier
-    SpecializedAITier --> InterviewPillarsTier
-
-    style FoundationTier fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StorageSystemsTier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style DistributedLakehouseTier fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style PipelineStreamingTier fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style AIDataInfrastructureTier fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#f472b6
-    style PythonBackendTier fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style CloudDevOpsTier fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-    style SpecializedAITier fill:#0f172a,stroke:#a855f7,stroke-width:1.5px,color:#d8b4fe
-    style InterviewPillarsTier fill:#0f172a,stroke:#eab308,stroke-width:1.5px,color:#fef08a
-```
+*D2 Source: [`01_data_and_ai_curriculum_tiers.d2`](assets/00_data_and_ai_study_guide_and_index/01_data_and_ai_curriculum_tiers.d2)*
 
 ---
 
 ## Master Curriculum Modules Overview
 
-| Study Order | Guide File | Conceptual Domain | Companion Interview FAQs | Key Topics & Production Scenarios Covered |
-| :---: | :--- | :--- | :--- | :--- |
-| **01** | [`01_sql_and_advanced_querying.md`](01_sql_and_advanced_querying.md) | Relational & Analytical SQL | [`01_sql_and_advanced_querying_faq.md`](frequently_asked_questions/01_sql_and_advanced_querying_faq.md) | Logical query processing order, window functions, recursive CTEs, distributed joins (BHJ, SMJ), skew salting, MERGE/UPSERT, MVCC, DoorDash delivery streaks, cross-shopping diversity, and production revenue discrepancy triage. |
-| **02** | [`02_python_for_data_and_systems.md`](02_python_for_data_and_systems.md) | Python Systems & Memory Engineering | [`02_python_for_data_and_systems_faq.md`](frequently_asked_questions/02_python_for_data_and_systems_faq.md) | Python memory manager and GIL internals, generator streaming for 10GB+ files, Pydantic data validation, Polars vs Pandas benchmarks, DuckDB OLAP, streaming dictionary aggregation without Pandas, Sweep-Line interval tracking, and Roman numeral parsing. |
-| **03** | [`03_data_modeling_and_lakehouse_storage.md`](03_data_modeling_and_lakehouse_storage.md) | Dimensional Modeling & Storage Formats | [`03_data_modeling_and_lakehouse_storage_faq.md`](frequently_asked_questions/03_data_modeling_and_lakehouse_storage_faq.md) | Kimball dimensional design (Star vs Snowflake), Fact/Dim taxonomies, SCD Types 0–6, Data Vault 2.0, Medallion Lakehouse, Parquet/ORC/Avro internals, compaction, and DoorDash/Uber three-sided marketplace dimensional architecture with H3 indexing. |
-| **04** | [`04_database_internals_and_distributed_systems.md`](04_database_internals_and_distributed_systems.md) | Storage Engines & Distributed Systems | [`04_database_internals_and_distributed_systems_faq.md`](frequently_asked_questions/04_database_internals_and_distributed_systems_faq.md) | B+ Trees vs LSM Trees, WAL, Buffer Pool cache eviction, MVCC, CAP/PACELC theorems, consensus (Raft, 2PC), consistent hashing, distributed locks, rate limiting, and API resilience. |
-| **05** | [`05_apache_spark_and_pyspark.md`](05_apache_spark_and_pyspark.md) | Distributed Computing & PySpark | [`05_apache_spark_and_pyspark_faq.md`](frequently_asked_questions/05_apache_spark_and_pyspark_faq.md) | Spark Driver/Executor architecture, Catalyst optimizer phases, Project Tungsten, join strategies, skew salting with virtual partitions & two-track broadcast, AQE dynamic optimizations, and Spark JVM memory spilling vs G1GC stop-the-world triage. |
-| **06** | [`06_databricks_and_delta_lake.md`](06_databricks_and_delta_lake.md) | Databricks & Delta Lake ACID | [`06_databricks_and_delta_lake_faq.md`](frequently_asked_questions/06_databricks_and_delta_lake_faq.md) | Delta transaction log (`_delta_log`), ACID transactions, OPTIMIZE with Z-ORDER, Liquid Clustering, manual Parquet file deletion recovery, Delta OCC file-level collisions vs Deletion Vectors, VACUUM retention divergence, and schema validation. |
-| **07** | [`07_streaming_kafka_and_event_driven_data.md`](07_streaming_kafka_and_event_driven_data.md) | Real-Time Streaming & Auto Loader | [`07_streaming_kafka_and_event_driven_data_faq.md`](frequently_asked_questions/07_streaming_kafka_and_event_driven_data_faq.md) | Kafka commit log, consumer groups, KRaft consensus, Databricks Auto Loader, 15-minute out-of-order dynamic watermarks & RocksDB state store eviction, exactly-once delivery, and real-time H3 dynamic surge pricing engines. |
-| **08** | [`08_etl_pipelines_orchestration_and_data_quality.md`](08_etl_pipelines_orchestration_and_data_quality.md) | Pipelines, Airflow, ADF, dbt & Quality | [`08_etl_pipelines_orchestration_and_data_quality_faq.md`](frequently_asked_questions/08_etl_pipelines_orchestration_and_data_quality_faq.md) | Batch vs streaming ingestion, pipeline idempotency, checkpoint stores, DLQs, Airflow DAGs, dynamic task mapping, dbt incremental models, ADF Integration Runtime latency triage, 12,000 ADLS subfolders Auto Loader, multi-trigger concurrency, and zero-downtime blue/green view swapping. |
-| **09** | [`09_unity_catalog_and_data_governance.md`](09_unity_catalog_and_data_governance.md) | Governance, Zero-Trust & Observability | [`09_unity_catalog_and_data_governance_faq.md`](frequently_asked_questions/09_unity_catalog_and_data_governance_faq.md) | Unity Catalog 3-level namespace, RBAC vs ABAC, Row-Level Security (RLS), Column-Level Security (CLS), dynamic data masking, GDPR compliance, OpenLineage, and data observability. |
-| **10** | [`10_document_processing_and_data_preparation_for_ai.md`](10_document_processing_and_data_preparation_for_ai.md) | AI Document Processing & Chunking | [`10_document_processing_and_data_preparation_for_ai_faq.md`](frequently_asked_questions/10_document_processing_and_data_preparation_for_ai_faq.md) | Unstructured document parsing (PDF, tables, OCR), recursive & semantic chunking strategies, token budget management (BPE, tiktoken), and MinHash LSH semantic deduplication. |
-| **11** | [`11_embeddings_vector_databases_and_rag_pipelines.md`](11_embeddings_vector_databases_and_rag_pipelines.md) | Vector Databases & Retrieval RAG | [`11_embeddings_vector_databases_and_rag_pipelines_faq.md`](frequently_asked_questions/11_embeddings_vector_databases_and_rag_pipelines_faq.md) | Dense vs sparse embeddings (ColBERT/SPLADE), HNSW graph indexing, IVF-PQ quantization, hybrid search with Reciprocal Rank Fusion (RRF), cross-encoder rerankers, and production RAG failure isolation (Context Recall vs Faithfulness). |
-| **12** | [`12_ai_infrastructure_serving_and_llmops.md`](12_ai_infrastructure_serving_and_llmops.md) | High-Throughput Serving & LLMOps | [`12_ai_infrastructure_serving_and_llmops_faq.md`](frequently_asked_questions/12_ai_infrastructure_serving_and_llmops_faq.md) | GPU memory allocation, vLLM continuous batching sizing (compute prefill vs bandwidth decode), PagedAttention, TensorRT-LLM, model gateways (LiteLLM), semantic caching (GPTCache), token rate-limiting, and evaluation telemetry. |
-| **13** | [`13_python_backend_and_api_development.md`](13_python_backend_and_api_development.md) | AsyncIO & FastAPI Web Services | [`13_python_backend_and_api_development_faq.md`](frequently_asked_questions/13_python_backend_and_api_development_faq.md) | CPython event loops (`epoll`), `asyncio` task groups, FastAPI ASGI architecture, Pydantic v2 validation, Server-Sent Events (SSE) token streaming for LLMs, and WebSockets. |
-| **14** | [`14_persistence_caching_and_service_architecture.md`](14_persistence_caching_and_service_architecture.md) | Persistence, Caching & Integration | [`14_persistence_caching_and_service_architecture_faq.md`](frequently_asked_questions/14_persistence_caching_and_service_architecture_faq.md) | SQLAlchemy 2.0 AsyncSession, connection pool sizing, Redis distributed caching, Redlock distributed locking, Celery asynchronous background tasks, and pytest integration testing. |
-| **15** | [`15_cloud_infrastructure_containers_and_observability.md`](15_cloud_infrastructure_containers_and_observability.md) | Cloud Containers & Data Observability | [`15_cloud_infrastructure_containers_and_observability_faq.md`](frequently_asked_questions/15_cloud_infrastructure_containers_and_observability_faq.md) | Docker containerization for data/AI workloads, Kubernetes (Spark on K8s, Ray Operator, vLLM Deployments), Terraform IaC, OpenTelemetry distributed tracing, and Prometheus metrics. |
-| **16** | [`16_machine_learning_and_transformer_foundations.md`](16_machine_learning_and_transformer_foundations.md) | ML, Deep Learning & Transformers | [`16_machine_learning_and_transformer_foundations_faq.md`](frequently_asked_questions/16_machine_learning_and_transformer_foundations_faq.md) | Loss surfaces, backpropagation computational graphs, numerical stability, AdamW decoupled weight decay mechanics, Precision vs Recall cost matrix calibration, multi-head attention, KV cache memory footprint, and MoE. |
-| **17** | [`17_autonomous_agents_and_model_adaptation.md`](17_autonomous_agents_and_model_adaptation.md) | Agents, PEFT & Enterprise AI Design | [`17_autonomous_agents_and_model_adaptation_faq.md`](frequently_asked_questions/17_autonomous_agents_and_model_adaptation_faq.md) | ReAct cognitive loops, LangGraph state machine harnesses, multi-agent debate and consensus protocols, Parameter-Efficient Fine-Tuning (LoRA, QLoRA), DPO, and enterprise AI architecture. |
+Comprehensive 17-chapter progressive engineering curriculum covering core data foundations, distributed lakehouses, streaming pipelines, vector search, and production AI serving infrastructure:
+
+### Phase 1: Systems & Distributed Core
+- [`01. SQL Fundamentals & Advanced Querying`](01_sql_and_advanced_querying.md) ([Companion FAQ](frequently_asked_questions/01_sql_and_advanced_querying_faq.md)) — *Relational & Analytical SQL*: Logical query processing order, window functions, recursive CTEs, distributed joins (BHJ, SMJ), skew salting, MERGE/UPSERT, MVCC, DoorDash delivery streaks, cross-shopping diversity, and production revenue discrepancy triage.
+- [`02. Python for Data & Systems`](02_python_for_data_and_systems.md) ([Companion FAQ](frequently_asked_questions/02_python_for_data_and_systems_faq.md)) — *Python Systems & Memory Engineering*: Python memory manager and GIL internals, generator streaming for 10GB+ files, Pydantic data validation, Polars vs Pandas benchmarks, DuckDB OLAP, streaming dictionary aggregation without Pandas, Sweep-Line interval tracking, and Roman numeral parsing.
+- [`03. Data Modeling & Lakehouse Storage`](03_data_modeling_and_lakehouse_storage.md) ([Companion FAQ](frequently_asked_questions/03_data_modeling_and_lakehouse_storage_faq.md)) — *Dimensional Modeling & Storage Formats*: Kimball dimensional design (Star vs Snowflake), Fact/Dim taxonomies, SCD Types 0–6, Data Vault 2.0, Medallion Lakehouse, Parquet/ORC/Avro internals, compaction, and DoorDash/Uber three-sided marketplace dimensional architecture with H3 indexing.
+- [`04. Database Internals & Distributed Systems`](04_database_internals_and_distributed_systems.md) ([Companion FAQ](frequently_asked_questions/04_database_internals_and_distributed_systems_faq.md)) — *Storage Engines & Distributed Systems*: B+ Trees vs LSM Trees, WAL, Buffer Pool cache eviction, MVCC, CAP/PACELC theorems, consensus (Raft, 2PC), consistent hashing, distributed locks, rate limiting, and API resilience.
+- [`05. Apache Spark & PySpark`](05_apache_spark_and_pyspark.md) ([Companion FAQ](frequently_asked_questions/05_apache_spark_and_pyspark_faq.md)) — *Distributed Computing & PySpark*: Spark Driver/Executor architecture, Catalyst optimizer phases, Project Tungsten, join strategies, skew salting with virtual partitions & two-track broadcast, AQE dynamic optimizations, and Spark JVM memory spilling vs G1GC stop-the-world triage.
+- [`06. Databricks & Delta Lake`](06_databricks_and_delta_lake.md) ([Companion FAQ](frequently_asked_questions/06_databricks_and_delta_lake_faq.md)) — *Databricks & Delta Lake ACID*: Delta transaction log (`_delta_log`), ACID transactions, OPTIMIZE with Z-ORDER, Liquid Clustering, manual Parquet file deletion recovery, Delta OCC file-level collisions vs Deletion Vectors, VACUUM retention divergence, and schema validation.
+
+### Phase 2: Pipelines, Streaming & AI Engineering
+- [`07. Streaming, Kafka & Auto Loader`](07_streaming_kafka_and_event_driven_data.md) ([Companion FAQ](frequently_asked_questions/07_streaming_kafka_and_event_driven_data_faq.md)) — *Real-Time Streaming & Auto Loader*: Kafka commit log, consumer groups, KRaft consensus, Databricks Auto Loader, 15-minute out-of-order dynamic watermarks & RocksDB state store eviction, exactly-once delivery, and real-time H3 dynamic surge pricing engines.
+- [`08. ETL Pipelines & Data Quality`](08_etl_pipelines_orchestration_and_data_quality.md) ([Companion FAQ](frequently_asked_questions/08_etl_pipelines_orchestration_and_data_quality_faq.md)) — *Pipelines, Airflow, ADF, dbt & Quality*: Batch vs streaming ingestion, pipeline idempotency, checkpoint stores, DLQs, Airflow DAGs, dynamic task mapping, dbt incremental models, ADF Integration Runtime latency triage, 12,000 ADLS subfolders Auto Loader, multi-trigger concurrency, and zero-downtime blue/green view swapping.
+- [`09. Unity Catalog & Governance`](09_unity_catalog_and_data_governance.md) ([Companion FAQ](frequently_asked_questions/09_unity_catalog_and_data_governance_faq.md)) — *Governance, Zero-Trust & Observability*: Unity Catalog 3-level namespace, RBAC vs ABAC, Row-Level Security (RLS), Column-Level Security (CLS), dynamic data masking, GDPR compliance, OpenLineage, and data observability.
+- [`10. Document Processing & AI Data Prep`](10_document_processing_and_data_preparation_for_ai.md) ([Companion FAQ](frequently_asked_questions/10_document_processing_and_data_preparation_for_ai_faq.md)) — *AI Document Processing & Chunking*: Unstructured document parsing (PDF, tables, OCR), recursive & semantic chunking strategies, token budget management (BPE, tiktoken), and MinHash LSH semantic deduplication.
+- [`11. Embeddings, Vector DBs & RAG`](11_embeddings_vector_databases_and_rag_pipelines.md) ([Companion FAQ](frequently_asked_questions/11_embeddings_vector_databases_and_rag_pipelines_faq.md)) — *Vector Databases & Retrieval RAG*: Dense vs sparse embeddings (ColBERT/SPLADE), HNSW graph indexing, IVF-PQ quantization, hybrid search with Reciprocal Rank Fusion (RRF), cross-encoder rerankers, and production RAG failure isolation (Context Recall vs Faithfulness).
+- [`12. AI Infrastructure, Serving & LLMOps`](12_ai_infrastructure_serving_and_llmops.md) ([Companion FAQ](frequently_asked_questions/12_ai_infrastructure_serving_and_llmops_faq.md)) — *High-Throughput Serving & LLMOps*: GPU memory allocation, vLLM continuous batching sizing (compute prefill vs bandwidth decode), PagedAttention, TensorRT-LLM, model gateways (LiteLLM), semantic caching (GPTCache), token rate-limiting, and evaluation telemetry.
+- [`13. Python Backend & FastAPI`](13_python_backend_and_api_development.md) ([Companion FAQ](frequently_asked_questions/13_python_backend_and_api_development_faq.md)) — *AsyncIO & FastAPI Web Services*: CPython event loops (`epoll`), `asyncio` task groups, FastAPI ASGI architecture, Pydantic v2 validation, Server-Sent Events (SSE) token streaming for LLMs, and WebSockets.
+- [`14. Persistence, Caching & Integration`](14_persistence_caching_and_service_architecture.md) ([Companion FAQ](frequently_asked_questions/14_persistence_caching_and_service_architecture_faq.md)) — *Persistence, Caching & Integration*: SQLAlchemy 2.0 AsyncSession, connection pool sizing, Redis distributed caching, Redlock distributed locking, Celery asynchronous background tasks, and pytest integration testing.
+
+### Phase 3: Platform, ML & Specialized AI
+- [`15. Cloud Infrastructure & Observability`](15_cloud_infrastructure_containers_and_observability.md) ([Companion FAQ](frequently_asked_questions/15_cloud_infrastructure_containers_and_observability_faq.md)) — *Cloud Containers & Data Observability*: Docker containerization for data/AI workloads, Kubernetes (Spark on K8s, Ray Operator, vLLM Deployments), Terraform IaC, OpenTelemetry distributed tracing, and Prometheus metrics.
+- [`16. ML & Transformer Foundations`](16_machine_learning_and_transformer_foundations.md) ([Companion FAQ](frequently_asked_questions/16_machine_learning_and_transformer_foundations_faq.md)) — *ML, Deep Learning & Transformers*: Loss surfaces, backpropagation computational graphs, numerical stability, AdamW decoupled weight decay mechanics, Precision vs Recall cost matrix calibration, multi-head attention, KV cache memory footprint, and MoE.
+- [`17. Autonomous Agents & Adaptation`](17_autonomous_agents_and_model_adaptation.md) ([Companion FAQ](frequently_asked_questions/17_autonomous_agents_and_model_adaptation_faq.md)) — *Agents, PEFT & Enterprise AI Design*: ReAct cognitive loops, LangGraph state machine harnesses, multi-agent debate and consensus protocols, Parameter-Efficient Fine-Tuning (LoRA, QLoRA), DPO, and enterprise AI architecture.
 
 ---
 

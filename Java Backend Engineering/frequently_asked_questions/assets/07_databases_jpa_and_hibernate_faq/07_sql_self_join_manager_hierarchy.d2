@@ -1,0 +1,25 @@
+direction: right
+
+worker: "employees e (Worker)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  alice: "Alice (mgr: 103)"
+  charlie: "Charlie (mgr: 103)"
+  bob: "Bob (mgr: NULL)"
+}
+
+join: "Self-Join Condition" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  sql: "e LEFT JOIN m ON e.manager_id = m.id"
+  rule: "LEFT JOIN preserves root CEO"
+}
+
+manager: "employees m (Manager)" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  bob_mgr: "103 Bob (Manager to Alice & Charlie)"
+}
+
+worker -> join: "Foreign Key: e.manager_id"
+join -> manager: "Primary Key: m.id"

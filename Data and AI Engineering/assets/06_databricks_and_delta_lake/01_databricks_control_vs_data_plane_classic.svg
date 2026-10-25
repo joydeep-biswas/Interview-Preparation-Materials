@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Databricks Classic Architecture: Control Plane vs Data Plane</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Separation of concerns between Databricks-managed control services and customer cloud account execution</text>
+
+  <!-- Column 1: Control Plane -->
+  <rect x="40" y="85" width="310" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="310" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="195" y="108" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">DATABRICKS CONTROL PLANE</text>
+
+  <!-- Service 1: Web UI -->
+  <rect x="55" y="135" width="280" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="157" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Workspace Web UI &amp; Notebooks</text>
+  <text x="70" y="174" font-size="10" fill="#94A3B8" text-anchor="start">• Browser UI, Monaco code editors, IDEs</text>
+  <text x="70" y="189" font-size="10" fill="#94A3B8" text-anchor="start">• Git folders &amp; workspace asset storage</text>
+
+  <!-- Service 2: Orchestration -->
+  <rect x="55" y="210" width="280" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="232" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">Workflows &amp; Cluster Manager</text>
+  <text x="70" y="249" font-size="10" fill="#94A3B8" text-anchor="start">• Schedules cron jobs, tasks, DLT DAGs</text>
+  <text x="70" y="264" font-size="10" fill="#94A3B8" text-anchor="start">• VM autoscaling &amp; instance orchestration</text>
+
+  <!-- Service 3: Unity Catalog Service -->
+  <rect x="55" y="285" width="280" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="307" font-size="11" font-weight="700" fill="#C084FC" text-anchor="start">Unity Catalog Control Service</text>
+  <text x="70" y="324" font-size="10" fill="#94A3B8" text-anchor="start">• Central RBAC, ABAC, table lineage</text>
+  <text x="70" y="339" font-size="10" fill="#94A3B8" text-anchor="start">• Generates short-lived storage credentials</text>
+
+  <!-- Control Plane Guarantee -->
+  <rect x="55" y="360" width="280" height="85" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1"/>
+  <text x="70" y="380" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="start">Data Privacy Guarantee</text>
+  <text x="70" y="398" font-size="9" fill="#CBD5E1" text-anchor="start">Customer data NEVER resides in the control plane.</text>
+  <text x="70" y="412" font-size="9" fill="#CBD5E1" text-anchor="start">Only user metadata, notebook source code, and</text>
+  <text x="70" y="426" font-size="9" fill="#34D399" text-anchor="start">governance policies live in Databricks cloud.</text>
+
+  <!-- Middle Transit: Secure Cluster Connectivity -->
+  <rect x="375" y="195" width="150" height="150" rx="8" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="375" y="195" width="150" height="30" rx="8" fill="#78350F" fill-opacity="0.8" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="450" y="215" font-size="10" font-weight="700" fill="#FDE68A" text-anchor="middle">SECURE RELAY</text>
+  
+  <text x="450" y="245" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">No Public IPs</text>
+  <text x="450" y="260" font-size="9" fill="#CBD5E1" text-anchor="middle">(SCC / PrivateLink)</text>
+
+  <text x="450" y="285" font-size="9" fill="#CBD5E1" text-anchor="middle">Outbound-only</text>
+  <text x="450" y="300" font-size="9" fill="#CBD5E1" text-anchor="middle">HTTPS/gRPC tunnel</text>
+  <text x="450" y="315" font-size="9" fill="#CBD5E1" text-anchor="middle">Port 443 only</text>
+  <text x="450" y="333" font-size="9" font-weight="600" fill="#34D399" text-anchor="middle">Zero Inbound Open!</text>
+
+  <line x1="350" y1="270" x2="375" y2="270" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+
+  <!-- Column 3: Customer Data Plane -->
+  <rect x="550" y="85" width="530" height="385" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="550" y="85" width="530" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="815" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">CUSTOMER DATA PLANE (CUSTOMER CLOUD VPC / VNET / SUBNET)</text>
+
+  <!-- Spark Cluster Compute -->
+  <rect x="570" y="135" width="490" height="150" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="585" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Active Spark / Photon Compute Cluster (Customer VMs)</text>
+
+  <!-- Driver VM -->
+  <rect x="585" y="170" width="145" height="70" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="657" y="190" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">Driver VM</text>
+  <text x="657" y="207" font-size="9" fill="#CBD5E1" text-anchor="middle">Coordinates tasks</text>
+  <text x="657" y="224" font-size="9" fill="#94A3B8" text-anchor="middle">Direct VPC egress</text>
+
+  <!-- Worker 1 VM -->
+  <rect x="745" y="170" width="145" height="70" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="817" y="190" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Worker 1 VM</text>
+  <text x="817" y="207" font-size="9" fill="#CBD5E1" text-anchor="middle">Photon Execution</text>
+  <text x="817" y="224" font-size="9" fill="#A7F3D0" text-anchor="middle">Local NVMe cache</text>
+
+  <!-- Worker 2 VM -->
+  <rect x="905" y="170" width="140" height="70" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="975" y="190" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Worker 2 VM</text>
+  <text x="975" y="207" font-size="9" fill="#CBD5E1" text-anchor="middle">Photon Execution</text>
+  <text x="975" y="224" font-size="9" fill="#A7F3D0" text-anchor="middle">Local NVMe cache</text>
+
+  <text x="585" y="265" font-size="9.5" fill="#CBD5E1" text-anchor="start">• VMs provisioned inside customer subscription via Cloud API IAM role</text>
+
+  <!-- Cloud Object Storage (S3 / ADLS Gen2 / GCS) -->
+  <rect x="570" y="300" width="490" height="145" rx="6" fill="#083344" fill-opacity="0.3" stroke="#22D3EE" stroke-width="1.5"/>
+  <text x="585" y="322" font-size="11" font-weight="700" fill="#22D3EE" text-anchor="start">Customer Cloud Object Storage (AWS S3 / Azure ADLS Gen2 / GCS)</text>
+
+  <rect x="585" y="335" width="225" height="60" rx="4" fill="#0F172A" stroke="#22D3EE" stroke-width="1"/>
+  <text x="697" y="355" font-size="10" font-weight="700" fill="#22D3EE" text-anchor="middle">_delta_log/ (ACID Commits)</text>
+  <text x="697" y="372" font-size="9" fill="#A5F3FC" text-anchor="middle">000000.json, 000001.json</text>
+  <text x="697" y="386" font-size="8.5" fill="#CBD5E1" text-anchor="middle">Atomic transaction metadata</text>
+
+  <rect x="830" y="335" width="215" height="60" rx="4" fill="#0F172A" stroke="#22D3EE" stroke-width="1"/>
+  <text x="937" y="355" font-size="10" font-weight="700" fill="#22D3EE" text-anchor="middle">Parquet Data Files</text>
+  <text x="937" y="372" font-size="9" fill="#A5F3FC" text-anchor="middle">part-00000.snappy.parquet</text>
+  <text x="937" y="386" font-size="8.5" fill="#CBD5E1" text-anchor="middle">Compressed columnar data</text>
+
+  <text x="585" y="420" font-size="9.5" fill="#A5F3FC" text-anchor="start">✔ Direct high-bandwidth read/write access via cloud internal backbone</text>
+  <text x="585" y="435" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">✔ Zero data ever traverses public internet or Databricks control plane!</text>
+
+  <!-- Connectors -->
+  <path d="M 525.0 270.0 L 534.0 270.0 C 545.2 270.0, 545.2 210.0, 556.5 210.0 L 570.0 210.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <line x1="815" y1="285" x2="815" y2="300" stroke="#22D3EE" stroke-width="2" marker-end="url(#arr-c)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Architecture Invariant: In classic Databricks, compute VMs and object storage live inside the customer's cloud account; the Control Plane orchestrates execution over a secure outbound tunnel with zero inbound open ports.</text>
+</svg>

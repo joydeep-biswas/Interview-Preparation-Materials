@@ -1,0 +1,15 @@
+classes: {
+  working_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  episodic_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  semantic_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  procedural_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+memory: "Four-Tier Cognitive Agent Memory Architecture" {
+  working: "1. Working Memory (Active Buffer)\nActive prompt tokens, scratchpad, ephemeral" { class: working_box }
+  episodic: "2. Episodic Memory (Experience)\nPast trajectories, reflection on tool failures" { class: episodic_box }
+  semantic: "3. Semantic Memory (World Facts)\nEnterprise docs, API specs in Vector DB" { class: semantic_box }
+  procedural: "4. Procedural Memory (Rules)\nSystem prompt, few-shot examples, safety policies" { class: procedural_box }
+
+  working -> episodic -> semantic -> procedural
+}

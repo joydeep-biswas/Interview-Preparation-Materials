@@ -1,0 +1,17 @@
+classes: {
+  legacy_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  mcp_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  bus_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+legacy: "Before MCP: M x N Fragmentation\nEvery client rewrites wrappers for every tool" {
+  class: legacy_box
+}
+
+mcp: "With MCP: Open Standard Protocol (JSON-RPC 2.0)" {
+  clients: "Clients: Claude Desktop, Cursor, LangGraph"
+  bus: "Standardized MCP Bus (stdio / SSE)" { class: bus_box }
+  servers: "MCP Servers: Postgres, GitHub, Kubernetes" { class: mcp_box }
+
+  clients -> bus -> servers: "Universal discovery & execution"
+}

@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+deliveries: "Raw Delivery Stream\nD1: 4.9 (Pass)\nD2: 5.0 (Pass)\nD3: 4.7 (BREACH!)\nD4: 4.9 (Pass)\nD5: 5.0 (Pass)\nD6: 4.8 (Pass)" {
+  class: box
+  style.stroke: "#3B82F6"
+}
+
+islands: "Island Partitioning (Gap Detection)\nIsland 0: [D1, D2] (Streak = 2)\nGap Boundary: D3 (Rating &lt; 4.8)\nIsland 1: [D4, D5, D6] (Streak = 3)" {
+  class: box
+  style.stroke: "#F59E0B"
+}
+
+winner: "Aggregated Max Streak Winner\nDasher Max Consecutive Streak = 3 Deliveries" {
+  class: box
+  style.stroke: "#10B981"
+}
+
+deliveries -> islands -> winner

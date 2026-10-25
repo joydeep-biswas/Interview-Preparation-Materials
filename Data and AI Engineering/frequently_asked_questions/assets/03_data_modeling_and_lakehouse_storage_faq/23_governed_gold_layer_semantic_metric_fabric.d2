@@ -1,0 +1,31 @@
+direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+silver: "Silver Layer\nCleaned, Deduplicated Entities" { class: pillar; style.stroke: "#3B82F6" }
+
+gold: "Governed Gold Layer" {
+  class: pillar
+  style.stroke: "#10B981"
+  dims: "Conformed Dimensions\ndim_customer, dim_product, dim_date"
+  facts: "Kimball Fact Tables\nfact_orders, fact_subscriptions"
+  obt: "Curated Wide Analytical Mart (OBT)\nClustered via Liquid Clustering"
+}
+
+semantic: "Semantic Metric Fabric\ndbt Semantic Layer / Cube / Power BI Shared Datasets" {
+  class: pillar
+  style.stroke: "#8B5CF6"
+}
+
+consumers: "Serving Layer" {
+  class: pillar
+  style.stroke: "#F59E0B"
+  fin: "Finance Dashboards"
+  mkt: "Marketing Self-Service"
+  exec: "Executive KPI Reports"
+}
+
+silver -> gold: "Curated Business Modeling"
+gold -> semantic: "Certified Metric Governance"
+semantic -> consumers: "Consistent KPI Serving"

@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 430" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="540" y="32" class="title" font-size="19" text-anchor="middle">E-Commerce Flash Sale: 2-Tier Inventory Reservation Architecture</text>
+  <text x="540" y="52" class="subtitle" text-anchor="middle">Atomic Redis Lua stock decrement, 15-minute temporary reservation TTL, and zero-loss database sync</text>
+
+  <!-- Ingress Node -->
+  <g transform="translate(390, 75)">
+    <rect width="300" height="65" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="150" y="27" class="card-title" fill="#93C5FD" text-anchor="middle">Checkout Request (User buys Item #42)</text>
+    <text x="150" y="49" class="card-body" font-weight="700" fill="#60A5FA" text-anchor="middle">Redis Atomic DECR Lua Script</text>
+  </g>
+
+  <!-- Left Branch: Success (Stock >= 0) -->
+  <g transform="translate(40, 195)">
+    <rect width="470" height="205" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="470" height="32" rx="10" ry="10" fill="#064E3B"/>
+    <text x="235" y="21" class="card-title" fill="#A7F3D0" text-anchor="middle">Stock &gt;= 0: Temporary Reservation Success</text>
+    
+    <text x="16" y="54" class="card-body" font-weight="600" fill="#34D399">• Step 1: Create Temporary Reservation in Redis</text>
+    <text x="24" y="74" class="card-body">  - Key: "reserve:order_123", TTL: 15 Minutes</text>
+    <text x="24" y="94" class="card-body">  - Holds stock exclusively while user completes checkout</text>
+    
+    <text x="16" y="122" class="card-body" font-weight="600" fill="#34D399">• Step 2: Payment Confirmation &amp; Durable Commit</text>
+    <text x="24" y="142" class="card-body">  - If user pays within 15m: Commit deduction to PostgreSQL</text>
+    <text x="24" y="162" class="card-body">  - If 15m expires: Redis keyspace notification triggers atomic INCR rollback!</text>
+    <rect x="16" y="174" width="438" height="20" rx="3" ry="3" fill="#1E293B"/>
+    <text x="235" y="188" class="badge" fill="#A7F3D0" text-anchor="middle">Protects RDBMS from Million-QPS Thundering Herd</text>
+  </g>
+
+  <!-- Right Branch: Sold Out (Stock < 0) -->
+  <g transform="translate(570, 195)">
+    <rect width="470" height="205" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="470" height="32" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="235" y="21" class="card-title" fill="#FCA5A5" text-anchor="middle">Stock &lt; 0: Instant Sold Out Reversion</text>
+    
+    <text x="16" y="54" class="card-body" font-weight="600" fill="#F87171">• Step 1: Atomic INCR Reversion</text>
+    <text x="24" y="74" class="card-body">  - Lua script immediately reverts counter (INCR item:42:stock)</text>
+    <text x="24" y="94" class="card-body">  - Restores stock counter to 0 without drift</text>
+    
+    <text x="16" y="122" class="card-body" font-weight="600" fill="#F87171">• Step 2: Ultra-Fast Rejection Response</text>
+    <text x="24" y="142" class="card-body">  - Returns HTTP 200 / 409 "Item Out of Stock" immediately</text>
+    <text x="24" y="162" class="card-body">  - Response latency &lt; 3ms, zero database reads or locks created</text>
+    <rect x="16" y="174" width="438" height="20" rx="3" ry="3" fill="#1E293B"/>
+    <text x="235" y="188" class="badge" fill="#FCA5A5" text-anchor="middle">Zero Database Locks on Sold-Out Traffic</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 450 140 L 450 165 Q 450 175 430 175 L 295 175 Q 275 175 275 183 L 275 195" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <rect x="300" y="162" width="120" height="20" rx="4" ry="4" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+  <text x="360" y="176" class="conn-label" fill="#A7F3D0" text-anchor="middle">Stock &gt;= 0 (Success)</text>
+
+  <path d="M 630 140 L 630 165 Q 630 175 650 175 L 785 175 Q 805 175 805 183 L 805 195" fill="none" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+  <rect x="660" y="162" width="120" height="20" rx="4" ry="4" fill="#1E293B" stroke="#EF4444" stroke-width="1"/>
+  <text x="720" y="176" class="conn-label" fill="#FCA5A5" text-anchor="middle">Stock &lt; 0 (Sold Out)</text>
+</svg>

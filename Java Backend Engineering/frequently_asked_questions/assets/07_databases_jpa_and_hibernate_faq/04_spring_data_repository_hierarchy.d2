@@ -1,0 +1,36 @@
+direction: down
+
+repo: "Repository<T, ID> (Root Marker)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+}
+
+crud: "CrudRepository<T, ID>" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  methods: "save(), findById(), delete()"
+}
+
+list_crud: "ListCrudRepository<T, ID>" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  methods: "findAll(): List<T>"
+}
+
+paging: "PagingAndSortingRepository<T, ID>" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  methods: "findAll(Pageable): Page<T>"
+}
+
+jpa: "JpaRepository<T, ID>" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  methods: "flush(), saveAndFlush(), deleteInBatch()"
+}
+
+repo -> crud: "extends"
+crud -> list_crud: "extends"
+crud -> paging: "extends"
+list_crud -> jpa: "extends"
+paging -> jpa: "extends"

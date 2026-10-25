@@ -1,0 +1,26 @@
+direction: right
+
+hierarchy: "Type Hierarchy" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  obj: "Object (Root)"
+  animal: "Animal (Base T)"
+  dog: "Dog (Subtype)"
+}
+
+producer: "Producer Extends (? extends T)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  read: "READ: Safe (polymorphic Animal a = get())"
+  write: "WRITE: Forbidden (compile error on add())"
+}
+
+consumer: "Consumer Super (? super T)" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  write: "WRITE: Safe (dest.add(new Dog()))"
+  read: "READ: Degraded (only Object)"
+}
+
+hierarchy -> producer: "Covariance"
+producer -> consumer: "Contravariance"

@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Card Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Canvas -->
+  <rect width="1000" height="480" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g transform="translate(0, 0)">
+    <text x="500.0" y="38" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="700" fill="#f8fafc">End-to-End Azure Modern Data Platform Architecture</text>
+    <text x="500.0" y="62" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#94a3b8">Comprehensive pipeline: Upstream sources, hybrid ingestion, ADLS Gen2 medallion storage, and multi-tier analytics</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g transform="translate(40, 95)">
+  <rect width="170" height="360" rx="10" fill="#0f172a" fill-opacity="0.06" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="14" y="-12" width="146" height="22" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="87.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">Upstream Sources</text>
+</g>
+<g transform="translate(55, 130)">
+  <rect width="140" height="85" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="70.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">OLTP RDBMS</text>
+  <line x1="12" y1="34" x2="128" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• SQL Server, Oracle</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Transactional logs</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• CDC / Change tracking</text>
+</g>
+<g transform="translate(55, 235)">
+  <rect width="140" height="85" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="70.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">REST SaaS APIs</text>
+  <line x1="12" y1="34" x2="128" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Salesforce, Stripe</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• OAuth token polling</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Paginated JSON</text>
+</g>
+<g transform="translate(55, 340)">
+  <rect width="140" height="85" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="70.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">IoT Streams</text>
+  <line x1="12" y1="34" x2="128" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Telemetry events</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• High throughput</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Sub-second latency</text>
+</g>
+<g transform="translate(230, 95)">
+  <rect width="180" height="360" rx="10" fill="#0f172a" fill-opacity="0.06" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="14" y="-12" width="130" height="22" rx="4" fill="#0f172a" stroke="#c084fc" stroke-width="1"/>
+  <text x="79.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#c084fc">Ingestion Tier</text>
+</g>
+<g transform="translate(245, 150)">
+  <rect width="150" height="100" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="75.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Azure Data Factory</text>
+  <line x1="12" y1="34" x2="138" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Copy Activity</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Self-Hosted IR</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Parameterized loops</text>
+  <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Event triggers</text>
+</g>
+<g transform="translate(245, 290)">
+  <rect width="150" height="100" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="75.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Azure Event Hubs</text>
+  <line x1="12" y1="34" x2="138" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Partitioned log</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Kafka protocol head</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Auto-inflate scaling</text>
+  <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Avro capture</text>
+</g>
+<path d="M 195.0 172.0 L 205.0 172.0 C 218.0 172.0, 218.0 190.0, 231.0 190.0 L 245.0 190.0" fill="none" stroke="#c084fc" stroke-width="1.8" marker-end="url(#arr-p)"/>
+<path d="M 195.0 277.0 L 205.0 277.0 C 218.0 277.0, 218.0 210.0, 231.0 210.0 L 245.0 210.0" fill="none" stroke="#c084fc" stroke-width="1.8" marker-end="url(#arr-p)"/>
+<path d="M 195.0 382.0 L 205.0 382.0 C 218.0 382.0, 218.0 340.0, 231.0 340.0 L 245.0 340.0" fill="none" stroke="#c084fc" stroke-width="1.8" marker-end="url(#arr-p)"/>
+<g transform="translate(430, 95)">
+  <rect width="220" height="360" rx="10" fill="#0f172a" fill-opacity="0.06" stroke="#34d399" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="14" y="-12" width="154" height="22" rx="4" fill="#0f172a" stroke="#34d399" stroke-width="1"/>
+  <text x="91.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#34d399">ADLS Gen2 Storage</text>
+</g>
+<g transform="translate(445, 130)">
+  <rect width="190" height="85" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="95.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Bronze Container</text>
+  <line x1="12" y1="34" x2="178" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Raw immutable landing</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Append-only JSON/Parquet</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Retains audit history</text>
+</g>
+<g transform="translate(445, 235)">
+  <rect width="190" height="85" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="95.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Silver Container</text>
+  <line x1="12" y1="34" x2="178" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Deduplicated, cleaned</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Delta Lake ACID table</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Conformed dimensions</text>
+</g>
+<g transform="translate(445, 340)">
+  <rect width="190" height="85" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="95.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Gold Container</text>
+  <line x1="12" y1="34" x2="178" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Star schema data marts</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Aggregated business KPIs</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Optimized partition layout</text>
+</g>
+<path d="M 395.0 190.0 L 405.0 190.0 C 418.0 190.0, 418.0 172.0, 431.0 172.0 L 445.0 172.0" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<path d="M 395.0 340.0 L 405.0 340.0 C 418.0 340.0, 418.0 185.0, 431.0 185.0 L 445.0 185.0" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<line x1="540" y1="215" x2="540" y2="235" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<text x="540.0" y="219.0" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="600" fill="#34d399">Clean</text>
+<line x1="540" y1="320" x2="540" y2="340" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<text x="540.0" y="324.0" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="600" fill="#34d399">Aggregate</text>
+<g transform="translate(670, 95)">
+  <rect width="290" height="360" rx="10" fill="#0f172a" fill-opacity="0.06" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="14" y="-12" width="210" height="22" rx="4" fill="#0f172a" stroke="#fbbf24" stroke-width="1"/>
+  <text x="119.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#fbbf24">Analytics &amp; Serving Tier</text>
+</g>
+<g transform="translate(685, 130)">
+  <rect width="260" height="75" rx="8" fill="url(#card-amber)" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="130.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Synapse Dedicated SQL</text>
+  <line x1="12" y1="34" x2="248" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• MPP DWU scaling</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• High-concurrency BI reporting</text>
+</g>
+<g transform="translate(685, 215)">
+  <rect width="260" height="75" rx="8" fill="url(#card-cyan)" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="130.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Synapse Serverless SQL</text>
+  <line x1="12" y1="34" x2="248" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Ad-hoc OPENROWSET queries</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Pay-per-TB scanned</text>
+</g>
+<g transform="translate(685, 300)">
+  <rect width="260" height="75" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="130.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Power BI (Direct Lake)</text>
+  <line x1="12" y1="34" x2="248" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• VertiPaq zero-copy querying</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Sub-second interactive response</text>
+</g>
+<g transform="translate(685, 385)">
+  <rect width="260" height="55" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="130.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Cosmos DB</text>
+  <line x1="12" y1="34" x2="248" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Real-time operational apps</text>
+</g>
+<polyline points="635,382 660,382 660,167 685,167" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arr-a)"/>
+<polyline points="635,382 660,382 660,252 685,252" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arr-c)"/>
+<polyline points="635,382 660,382 660,337 685,337" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<path d="M 635.0 382.0 L 645.0 382.0 C 658.0 382.0, 658.0 412.0, 671.0 412.0 L 685.0 412.0" fill="none" stroke="#c084fc" stroke-width="1.8" marker-end="url(#arr-p)"/>
+</svg>

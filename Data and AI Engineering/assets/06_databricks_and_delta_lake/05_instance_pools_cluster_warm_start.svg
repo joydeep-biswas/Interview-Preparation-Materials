@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Databricks Instance Pools: Cluster Warm-Start Architecture</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">How pre-warmed virtual machine pools eliminate the 5-7 minute cloud provider VM boot lag</text>
+
+  <!-- Column 1: Without Pools Cold Start -->
+  <rect x="40" y="85" width="460" height="375" rx="8" fill="#450A0A" fill-opacity="0.2" stroke="#EF4444" stroke-width="1.5"/>
+  <rect x="40" y="85" width="460" height="36" rx="8" fill="#450A0A" fill-opacity="0.8" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="270" y="108" font-size="12" font-weight="700" fill="#F87171" text-anchor="middle">WITHOUT INSTANCE POOLS: COLD START LAG (5 - 7 MINS)</text>
+
+  <!-- Step 1: Job Trigger -->
+  <rect x="60" y="135" width="420" height="60" rx="4" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="75" y="157" font-size="10.5" font-weight="700" fill="#CBD5E1" text-anchor="start">1. Job Scheduled / Triggered (2:00:00 AM)</text>
+  <text x="75" y="174" font-size="9" fill="#94A3B8" text-anchor="start">Cluster Manager requests N virtual machines from cloud provider.</text>
+
+  <!-- Step 2: Cloud VM Provisioning -->
+  <rect x="60" y="205" width="420" height="60" rx="4" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>
+  <text x="75" y="227" font-size="10.5" font-weight="700" fill="#F87171" text-anchor="start">2. Cloud VM Provisioning (2:00 - 2:04 AM) [4 Mins]</text>
+  <text x="75" y="244" font-size="9" fill="#CBD5E1" text-anchor="start">AWS EC2 / Azure VM allocation, hardware boot, hypervisor init.</text>
+
+  <!-- Step 3: DBR Container Download -->
+  <rect x="60" y="275" width="420" height="60" rx="4" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>
+  <text x="75" y="297" font-size="10.5" font-weight="700" fill="#F87171" text-anchor="start">3. DBR Image Download &amp; Init (2:04 - 2:07 AM) [3 Mins]</text>
+  <text x="75" y="314" font-size="9" fill="#CBD5E1" text-anchor="start">Pulls giant 10GB Databricks Runtime Docker container image.</text>
+
+  <!-- Total Time Box -->
+  <rect x="60" y="350" width="420" height="90" rx="6" fill="#450A0A" fill-opacity="0.4" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="270" y="375" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">TOTAL BOOT TIME: 5 TO 7 MINUTES</text>
+  <text x="270" y="395" font-size="9.5" fill="#CBD5E1" text-anchor="middle">For a quick 30-second ETL task, 90% of duration is wasted on boot!</text>
+  <text x="270" y="415" font-size="9.5" font-weight="600" fill="#FCA5A5" text-anchor="middle">Violates strict enterprise SLA deadlines.</text>
+
+  <line x1="270" y1="195" x2="270" y2="205" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
+  <line x1="270" y1="265" x2="270" y2="275" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
+  <line x1="270" y1="335" x2="270" y2="350" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
+
+  <!-- Column 2: With Instance Pools Warm Start -->
+  <rect x="530" y="85" width="550" height="375" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="530" y="85" width="550" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="805" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">WITH INSTANCE POOLS: WARM START (&lt; 30 SECONDS)</text>
+
+  <!-- Pre-Warmed Pool Container -->
+  <rect x="550" y="135" width="510" height="150" rx="6" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="565" y="157" font-size="11" font-weight="700" fill="#C084FC" text-anchor="start">Pre-Warmed Instance Pool (Idle VMs in Customer Account)</text>
+
+  <!-- VM 1 -->
+  <rect x="565" y="170" width="150" height="65" rx="4" fill="#1E293B" stroke="#C084FC" stroke-width="1"/>
+  <text x="640" y="190" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">Pre-Warmed VM 1</text>
+  <text x="640" y="206" font-size="8.5" fill="#CBD5E1" text-anchor="middle">DBR Pre-Cached</text>
+  <text x="640" y="220" font-size="8" fill="#34D399" text-anchor="middle">Zero DBU Cost while idle!</text>
+
+  <!-- VM 2 -->
+  <rect x="730" y="170" width="150" height="65" rx="4" fill="#1E293B" stroke="#C084FC" stroke-width="1"/>
+  <text x="805" y="190" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">Pre-Warmed VM 2</text>
+  <text x="805" y="206" font-size="8.5" fill="#CBD5E1" text-anchor="middle">DBR Pre-Cached</text>
+  <text x="805" y="220" font-size="8" fill="#34D399" text-anchor="middle">Zero DBU Cost while idle!</text>
+
+  <!-- VM 3 -->
+  <rect x="895" y="170" width="150" height="65" rx="4" fill="#1E293B" stroke="#C084FC" stroke-width="1"/>
+  <text x="970" y="190" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">Pre-Warmed VM 3</text>
+  <text x="970" y="206" font-size="8.5" fill="#CBD5E1" text-anchor="middle">DBR Pre-Cached</text>
+  <text x="970" y="220" font-size="8" fill="#34D399" text-anchor="middle">Zero DBU Cost while idle!</text>
+
+  <text x="565" y="255" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Customer only pays standard cloud VM host cost; <tspan fill="#34D399" font-weight="700">0 DBU charged</tspan> when idle.</text>
+  <text x="565" y="272" font-size="9.5" fill="#CBD5E1" text-anchor="start">• OS and DBR image are already running in memory.</text>
+
+  <!-- Allocation Box -->
+  <rect x="550" y="300" width="510" height="140" rx="6" fill="#064E3B" fill-opacity="0.3" stroke="#34D399" stroke-width="1.5"/>
+  <text x="565" y="322" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Instant Allocation on Job Trigger: &lt; 30 Seconds!</text>
+
+  <text x="565" y="345" font-size="9.5" fill="#CBD5E1" text-anchor="start">1. Scheduled workflow triggers: Cluster Manager attaches pre-warmed VMs.</text>
+  <text x="565" y="362" font-size="9.5" fill="#CBD5E1" text-anchor="start">2. Zero cloud VM provisioning lag. Zero 10GB container image download!</text>
+  <text x="565" y="379" font-size="9.5" fill="#CBD5E1" text-anchor="start">3. Job starts execution in 20-30 seconds flat.</text>
+  <text x="565" y="399" font-size="9.5" font-weight="700" fill="#34D399" text-anchor="start">4. On completion: VMs return to pool and are immediately ready for next job!</text>
+  <text x="565" y="420" font-size="9" fill="#A7F3D0" text-anchor="start">Ideal for: SLA-critical short jobs, frequent streaming micro-batches, DLT pipelines.</text>
+
+  <line x1="805" y1="285" x2="805" y2="300" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="468" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="484" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Instance Pool Invariant: Pools maintain pre-initialized VMs with pre-cached runtime images (0 DBU cost while idle), shrinking cluster startup time from 7 minutes to under 30 seconds.</text>
+</svg>

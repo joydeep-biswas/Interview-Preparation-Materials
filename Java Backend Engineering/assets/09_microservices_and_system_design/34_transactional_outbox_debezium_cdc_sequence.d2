@@ -1,0 +1,33 @@
+direction: right
+title: "Transactional Outbox Pattern: Debezium CDC Sequence"
+
+client: "Customer Client" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+svc: "Order Service" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+db: "PostgreSQL Database
+ACID Boundary
+orders + outbox" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+deb: "Debezium CDC
+Reads pg_wal log" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+kfk: "Kafka Cluster
+'orders.events'" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+client -> svc: "1. POST /orders"
+svc -> db: "2. Atomic Dual-Write (1 Tx)"
+svc -> client: "3. 201 Created (15ms)"
+db -> deb: "4. WAL Log Mining"
+deb -> kfk: "5. Streams event to Kafka"

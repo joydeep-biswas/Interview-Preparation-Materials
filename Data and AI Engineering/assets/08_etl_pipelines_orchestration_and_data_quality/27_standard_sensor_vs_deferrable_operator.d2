@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  standard: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  deferrable: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+standard_sensor: "Standard Sensor (Worker Slot Starvation)" {
+  slot: "Worker Slot 1\n(Occupied / Blocked)" { class: standard }
+  s3_1: "S3 Bucket" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  starvation: "Resource Waste\n(Zero Task Slots Left)" { class: standard }
+
+  slot -> s3_1: "Poke every 60s"
+  slot -> starvation: "Locks worker slot"
+}
+
+deferrable_sensor: "Deferrable Operator (Zero Slot Utilization)" {
+  init: "Worker Initializes" { class: deferrable }
+  triggerer: "Airflow Triggerer\n(AsyncIO Event Loop)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  resumed: "New Worker Slot\n(Executes finish job)" { class: deferrable }
+
+  init -> triggerer: "Releases slot & yields"
+  triggerer -> resumed: "Event fired: File detected"
+}

@@ -1,0 +1,26 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+log_dir: "_delta_log/ Directory (Ordered Commits)" {
+  class: box
+  style.stroke: "#10B981"
+  c0: "000000.json\nadd: part-0000.parquet"
+  c1: "000001.json\nremove: part-0000.parquet\nadd: part-0001.parquet"
+  ckpt: "000010.checkpoint.parquet\nConsolidated State (Every 10 Commits)"
+  c0 -> c1 -> ckpt
+}
+
+data_dir: "Physical Columnar Storage (Parquet)" {
+  class: box
+  style.stroke: "#06B6D4"
+  f0: "part-0000.parquet\n(Logical Tombstone)" { style.stroke: "#EF4444" }
+  f1: "part-0001.parquet\n(Active Valid Snapshot)"
+  f2: "part-0002.parquet\n(Active Valid Snapshot)"
+}
+
+log_dir.c0 -> data_dir.f0: "References"
+log_dir.c1 -> data_dir.f1: "Tombstones F0, Adds F1"
+log_dir.ckpt -> data_dir.f1: "Consolidated Pointer"
+log_dir.ckpt -> data_dir.f2: "Consolidated Pointer"

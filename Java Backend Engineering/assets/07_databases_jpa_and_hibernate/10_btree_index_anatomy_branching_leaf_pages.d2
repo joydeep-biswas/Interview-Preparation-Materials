@@ -1,0 +1,63 @@
+direction: down
+title: "B+Tree Index Anatomy: Branching Factor & Doubly-Linked Leaves"
+
+root: "Root Page (Level 0)
+[ 100 | 200 ]" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+branch1: "Branch Page A
+[ 30 | 70 ]" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+branch2: "Branch Page B
+[ 130 | 170 ]" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+branch3: "Branch Page C
+[ 230 | 270 ]" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+leaf1: "Leaf 1 (1..29)
+-> Heap (0, 1)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+leaf2: "Leaf 2 (30..69)
+-> Heap (1, 1)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+leaf3: "Leaf 3 (100..129)
+-> Heap (2, 1)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+leaf4: "Leaf 4 (200..229)
+-> Heap (3, 1)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+root -> branch1: "< 100"
+root -> branch2: "100..199"
+root -> branch3: ">= 200"
+
+branch1 -> leaf1
+branch1 -> leaf2
+branch2 -> leaf3
+branch3 -> leaf4
+
+leaf1 <-> leaf2: "Doubly Linked"
+leaf2 <-> leaf3: "Doubly Linked"
+leaf3 <-> leaf4: "Doubly Linked"

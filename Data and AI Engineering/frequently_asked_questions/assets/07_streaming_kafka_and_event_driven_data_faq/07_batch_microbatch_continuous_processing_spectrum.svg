@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 240" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="240" fill="#0B0F19"/>
+
+  <!-- Col 1: Batch -->
+  <g transform="translate(30, 45)">
+    <rect width="280" height="150" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="140" y="32" class="title" fill="#93C5FD">1. Batch Processing</text>
+    <line x1="15" y1="44" x2="265" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="20" y="70" class="body-txt">• Cadence: Hours to Days</text>
+    <text x="20" y="92" class="body-txt">• Maximum I/O throughput</text>
+    <text x="20" y="114" class="body-txt">• Full table scan optimization</text>
+    <text x="20" y="136" class="body-txt">• High processing latency</text>
+  </g>
+
+  <path fill="none" d="M 310 120 L 360 120" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+
+  <!-- Col 2: Micro-Batching -->
+  <g transform="translate(360, 45)">
+    <rect width="280" height="150" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="140" y="32" class="title" fill="#A7F3D0">2. Micro-Batching (Default)</text>
+    <line x1="15" y1="44" x2="265" y2="44" stroke="#047857" stroke-width="1.5"/>
+    <text x="20" y="70" class="body-txt" fill="#A7F3D0">• Cadence: 100ms to 60s</text>
+    <text x="20" y="92" class="body-txt" fill="#A7F3D0">• Balanced throughput &amp; latency</text>
+    <text x="20" y="114" class="body-txt" fill="#A7F3D0">• Supports full Spark SQL operations</text>
+    <text x="20" y="136" class="body-txt" fill="#A7F3D0">• Fault-tolerant WAL checkpointing</text>
+  </g>
+
+  <path fill="none" d="M 640 120 L 690 120" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- Col 3: Continuous Processing -->
+  <g transform="translate(690, 45)">
+    <rect width="280" height="150" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <text x="140" y="32" class="title" fill="#FCA5A5">3. Continuous Processing</text>
+    <line x1="15" y1="44" x2="265" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="20" y="70" class="body-txt">• Cadence: Sub-millisecond (~1ms)</text>
+    <text x="20" y="92" class="body-txt">• Epoch-based coordination</text>
+    <text x="20" y="114" class="body-txt">• Lowest possible latency</text>
+    <text x="20" y="136" class="body-txt">• Restricted SQL (map/filter only)</text>
+  </g>
+</svg>

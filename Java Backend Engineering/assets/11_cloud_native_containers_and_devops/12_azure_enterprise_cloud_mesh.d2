@@ -1,0 +1,40 @@
+direction: right
+title: Enterprise Microsoft Azure Cloud Architecture
+
+Edge: Public Edge {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  user: Users
+  afd: Azure Front Door (WAF)
+  user -> afd
+}
+
+Hub: Hub VNet (10.0.0.0/16) {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  fw: Azure Firewall
+  dns: Private DNS Zones
+}
+
+Compute: Spoke Compute (AKS Cluster) {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  appgw: Application Gateway v2
+  pods: Spring Boot Pods (Order & Payment)
+  appgw -> pods
+}
+
+Data: Spoke Data (Private Endpoints) {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  kv: Azure Key Vault
+  sql: Azure PostgreSQL DB
+  redis: Azure Redis Cache
+  sb: Azure Service Bus
+}
+
+Edge.afd -> Hub.fw: Private Link { style.stroke: "#38BDF8" }
+Hub.fw -> Compute.appgw: VNet Peering { style.stroke: "#10B981" }
+Compute.pods -> Data.sql: Private Endpoint { style.stroke: "#8B5CF6" }
+Compute.pods -> Data.redis: Private Endpoint { style.stroke: "#8B5CF6" }
+Compute.pods -> Data.kv: Workload Identity { style.stroke: "#8B5CF6" }

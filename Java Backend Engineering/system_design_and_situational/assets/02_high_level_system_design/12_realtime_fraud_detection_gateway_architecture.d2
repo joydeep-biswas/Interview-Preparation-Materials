@@ -1,0 +1,47 @@
+direction: right
+
+ingress: "1. Ingress & Card Switch" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  pos: "POS Swipe Authorization Request"
+  switch: "ISO 8583 Binary Message Switch"
+  gateway: "Netty Low-Latency Ingress Gateway"
+}
+
+features: "2. Online Feature Store" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  redis: "Redis Low-Latency Velocity Features"
+  metrics: "tx_count_10m & distinct_countries"
+}
+
+inference: "3. Inference & Rules" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  drools: "Drools Sanctions & Hard Block Rules"
+  onnx: "ONNX Runtime Vectorized XGBoost Model"
+}
+
+decision: "4. Decision & Audit" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  policy: "Approve / 3DS Challenge / Decline"
+  audit: "Async Feature Snapshot to Kafka"
+}
+
+ingress -> features: "Fetch Real-Time Features" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+features -> inference: "Evaluate ML Model" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+inference -> decision: "Emit Live Scoring Result" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

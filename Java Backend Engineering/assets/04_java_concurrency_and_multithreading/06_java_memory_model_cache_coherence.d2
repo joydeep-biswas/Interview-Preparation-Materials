@@ -1,0 +1,31 @@
+direction: down
+title: Java Memory Model (JMM) Hardware Cache Coherence Architecture
+
+RAM: Main System Memory (RAM) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  flag: "Shared Variable: boolean flag = false"
+}
+
+Core1: CPU Core 1 (Thread 1: Writer) {
+  style.fill: "#1C1917"
+  style.stroke: "#8B5CF6"
+  l1: "L1 Cache & Store Buffer: flag = true (Unflushed!)"
+  code: "flag = true (without volatile, write is buffered locally)"
+}
+
+Core2: CPU Core 2 (Thread 2: Reader) {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  l1: "L1 Cache: flag == false (Stale hit!)"
+  loop: "while(!flag) spins forever (Liveness failure)"
+}
+
+VolatileFix: The Volatile Remedy {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  barriers: "StoreLoad Memory Barrier: Flushes store buffer to RAM; invalidates reader L1 cache"
+}
+
+Core1 -> RAM: Non-volatile write stays in local buffer
+RAM -> Core2: Reader misses update; uses stale L1 cache

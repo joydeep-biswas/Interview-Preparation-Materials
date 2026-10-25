@@ -1,0 +1,13 @@
+classes: {
+  short_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  med_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  long_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+vram: "VRAM Scaling at 128k Long-Context Serving" {
+  short: "8k Context Length\nKV Cache: 1.0 GB / user\nSingle 80GB GPU Capacity: ~64 Concurrent Users" { class: short_box }
+  med: "32k Context Length\nKV Cache: 4.0 GB / user\nSingle 80GB GPU Capacity: ~16 Concurrent Users" { class: med_box }
+  long: "128k Context Length\nKV Cache: 16.0 GB / user!\nSingle 80GB GPU Capacity: STRICTLY 2-4 USERS!" { class: long_box }
+
+  short -> med -> long: "Linear memory growth crushes concurrency"
+}

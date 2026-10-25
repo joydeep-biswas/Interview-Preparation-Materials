@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 440" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="440" fill="#0B0F19"/>
+
+  <!-- Master Container Box -->
+  <g transform="translate(30, 20)">
+    <rect width="680" height="400" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="340" y="26" class="title" fill="#93C5FD">Total Executor Container Footprint (e.g., 32 GB Cgroup Memory)</text>
+    <line x1="20" y1="36" x2="660" y2="36" stroke="#1F2937" stroke-width="1.5"/>
+
+    <!-- JVM Heap Box -->
+    <rect x="25" y="50" width="400" height="330" rx="8" ry="8" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
+    <text x="225" y="74" class="title" font-size="12" fill="#67E8F9">JVM On-Heap (spark.executor.memory: 24 GB)</text>
+
+    <!-- Unified Memory Pool -->
+    <rect x="40" y="90" width="370" height="130" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+    <text x="225" y="112" class="title" font-size="11" fill="#6EE7B7">Unified Memory Pool (spark.memory.fraction = 0.6)</text>
+    
+    <rect x="50" y="125" width="165" height="80" rx="4" ry="4" fill="#064E3B"/>
+    <text x="132.5" y="145" class="title" font-size="11" fill="#A7F3D0">Storage (50%)</text>
+    <text x="132.5" y="165" class="body-txt" text-anchor="middle" fill="#A7F3D0">Cached DataFrames</text>
+    <text x="132.5" y="185" class="body-txt" text-anchor="middle" fill="#A7F3D0">Broadcast Variables</text>
+
+    <rect x="235" y="125" width="165" height="80" rx="4" ry="4" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
+    <text x="317.5" y="145" class="title" font-size="11" fill="#6EE7B7">Execution (50%)</text>
+    <text x="317.5" y="165" class="body-txt" text-anchor="middle">Shuffle buffers, joins</text>
+    <text x="317.5" y="185" class="body-txt" text-anchor="middle">Aggregation hash maps</text>
+
+    <!-- User Memory -->
+    <rect x="40" y="235" width="370" height="70" rx="6" ry="6" fill="#111827" stroke="#F59E0B" stroke-width="1"/>
+    <text x="225" y="258" class="title" font-size="11" fill="#FCD34D">User Memory (~40% of Usable Heap)</text>
+    <text x="225" y="280" class="body-txt" text-anchor="middle">UDF objects, metadata, custom arrays (Can cause Full GC)</text>
+
+    <!-- Reserved Memory -->
+    <rect x="40" y="320" width="370" height="45" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+    <text x="225" y="348" class="body-txt" text-anchor="middle" fill="#FCA5A5">Reserved Memory (300 MB): Spark internal system engine guard</text>
+
+    <!-- Off-Heap & Overhead -->
+    <rect x="445" y="50" width="215" height="155" rx="8" ry="8" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="552.5" y="76" class="title" font-size="11" fill="#FCD34D">Memory Overhead</text>
+    <text x="552.5" y="96" class="body-txt" text-anchor="middle">(spark.executor.memoryOverhead)</text>
+    <text x="460" y="122" class="body-txt">• PySpark worker daemon</text>
+    <text x="460" y="142" class="body-txt">• Py4J Arrow IPC buffers</text>
+    <text x="460" y="162" class="body-txt">• Netty shuffle buffers</text>
+    <text x="460" y="182" class="body-txt">• JVM Metaspace / C++</text>
+
+    <rect x="445" y="225" width="215" height="155" rx="8" ry="8" fill="#1E293B" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="552.5" y="255" class="title" font-size="11" fill="#C4B5FD">Off-Heap Memory</text>
+    <text x="552.5" y="275" class="body-txt" text-anchor="middle">(spark.memory.offHeap.size)</text>
+    <text x="460" y="305" class="body-txt">• Tungsten unsafe byte memory</text>
+    <text x="460" y="325" class="body-txt">• Direct sun.misc.Unsafe alloc</text>
+    <text x="460" y="345" class="body-txt">• Bypasses JVM Garbage Coll</text>
+  </g>
+
+  <!-- Right: Spill Storage -->
+  <g transform="translate(750, 140)">
+    <rect width="240" height="160" rx="10" ry="10" fill="#1F2937" stroke="#EF4444" stroke-width="2"/>
+    <text x="120" y="32" class="title" fill="#FCA5A5">Node NVMe Disk Spill</text>
+    <line x1="15" y1="44" x2="225" y2="44" stroke="#374151" stroke-width="1.5"/>
+    <text x="20" y="70" class="body-txt">• /tmp/spark-scratch/blockmgr-*</text>
+    <text x="20" y="92" class="body-txt">• Execution memory exhausts RAM</text>
+    <text x="20" y="114" class="body-txt">• Serializes row chunks to SSD</text>
+    <text x="20" y="136" class="body-txt" fill="#FCA5A5">• Prevents OOM but adds disk I/O</text>
+  </g>
+
+  <path fill="none" d="M 710 220 L 750 220" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+</svg>

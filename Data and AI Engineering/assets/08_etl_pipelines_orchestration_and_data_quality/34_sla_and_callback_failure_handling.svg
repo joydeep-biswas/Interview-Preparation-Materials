@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Card Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Canvas -->
+  <rect width="1000" height="420" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g transform="translate(0, 0)">
+    <text x="500.0" y="38" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="700" fill="#f8fafc">Airflow SLA &amp; Lifecycle Callbacks Architecture</text>
+    <text x="500.0" y="62" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#94a3b8">Event-driven asynchronous hooks triggered on task success, retry, terminal failure, and SLA breaches</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g transform="translate(40, 175)">
+  <rect width="200" height="90" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="100.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">TaskInstance Execution</text>
+  <line x1="12" y1="34" x2="188" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• SparkSubmit / dbt task</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Monitored by worker</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Emits status code</text>
+</g>
+<g transform="translate(300, 175)">
+  <rect width="180" height="90" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="90.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Execution Outcome</text>
+  <line x1="12" y1="34" x2="168" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Process exit status</text>
+  <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Retries countdown</text>
+  <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Execution time audit</text>
+</g>
+<line x1="240" y1="220" x2="300" y2="220" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arr-b)"/>
+<g transform="translate(550, 95)">
+  <rect width="410" height="65" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="205.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">on_success_callback</text>
+  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Emits custom Prometheus metrics, updates lineage metadata</text>
+</g>
+<g transform="translate(550, 175)">
+  <rect width="410" height="65" rx="8" fill="url(#card-amber)" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="205.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">on_retry_callback</text>
+  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Log retry context to Datadog, alert DevOps Slack channel</text>
+</g>
+<g transform="translate(550, 255)">
+  <rect width="410" height="65" rx="8" fill="url(#card-red)" stroke="#f87171" stroke-width="1.5"/>
+  <text x="205.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#fca5a5">on_failure_callback</text>
+  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Trigger high-severity PagerDuty incident, write error to DLQ</text>
+</g>
+<g transform="translate(550, 335)">
+  <rect width="410" height="65" rx="8" fill="url(#card-cyan)" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="205.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">sla_miss_callback</text>
+  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1"/>
+  <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Fired if task execution exceeds configured SLA window (e.g. &gt;2h)</text>
+</g>
+<polyline points="480,200 515,200 515,127 550,127" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
+<line x1="480" y1="207" x2="550" y2="207" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arr-a)"/>
+<text x="515.0" y="201.0" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="600" fill="#fbbf24">Retries &gt; 0</text>
+<path d="M 480.0 232.0 L 490.0 232.0 C 513.0 232.0, 513.0 287.0, 536.0 287.0 L 550.0 287.0" fill="none" stroke="#f87171" stroke-width="1.8" marker-end="url(#arr-r)"/>
+<text x="515.0" y="253.5" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="600" fill="#f87171">Retries = 0</text>
+<polyline points="480,240 515,240 515,367 550,367" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arr-c)"/>
+</svg>

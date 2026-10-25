@@ -1,0 +1,10 @@
+direction: down
+title: CORS Preflight Handshake: OPTIONS Method & Security Headers
+
+browser: "Web Browser (https://app.com)"
+api: "Spring Boot API (https://api.com)"
+
+browser -> api: "1. OPTIONS /api/v1/orders (Origin: https://app.com)"
+api -> browser: "2. HTTP 204 No Content (Allow-Origin: https://app.com, Max-Age: 3600)"
+browser -> api: "3. POST /api/v1/orders (Actual JSON Request)"
+api -> browser: "4. HTTP 201 Created (Order Response JSON)"

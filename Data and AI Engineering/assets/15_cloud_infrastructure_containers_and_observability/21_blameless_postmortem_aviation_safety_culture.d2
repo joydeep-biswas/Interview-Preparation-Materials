@@ -1,0 +1,22 @@
+classes: {
+  blame_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  sre_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+blame: "Fragile Culture (Blame the Operator)" {
+  incident: "1. Incident Occurs" { class: blame_box }
+  pilot: "2. Blame Operator ('Human Error')" { class: blame_box }
+  fire: "3. Punitive Action / Reprimand" { class: blame_box }
+  repeat: "4. Same Outage Repeats 6 Months Later" { class: blame_box }
+
+  incident -> pilot -> fire -> repeat
+}
+
+sre: "Modern SRE (Blameless Systemic Culture)" {
+  telemetry: "1. Telemetry Ingestion (Black Box / Traces)" { class: sre_box }
+  crm: "2. Psychological Safety (CRM)" { class: sre_box }
+  why: "3. Systemic Root Cause: Why did tooling fail?" { class: sre_box }
+  guard: "4. Automated Guardrails & Defense-in-Depth" { class: sre_box }
+
+  telemetry -> crm -> why -> guard
+}

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="500" viewBox="0 0 1180 500">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1180" height="500" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Java Polymorphism: Compile-Time vs. Runtime Dynamic Binding</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Method Overloading (Static Early Binding) vs. Method Overriding (Dynamic vtable Dispatch)</text>
+
+  <!-- Root Node -->
+  <rect x="410" y="95" width="360" height="70" rx="8" fill="#1E293B" stroke="#3B82F6" stroke-width="2"/>
+  <text x="590" y="122" font-size="14" font-weight="700" fill="#60A5FA" text-anchor="middle">Polymorphism in Java</text>
+  <text x="590" y="145" font-size="11" fill="#94A3B8" text-anchor="middle">Uniform call abstraction masking distinct concrete implementations</text>
+
+  <!-- Left Column: Compile-Time Polymorphism -->
+  <rect x="50" y="200" width="510" height="270" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="200" width="510" height="35" rx="8" fill="#0C4A6E"/>
+  <text x="305" y="223" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Compile-Time / Static Polymorphism (Method Overloading)</text>
+
+  <rect x="70" y="250" width="470" height="135" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="85" y="275" font-size="11" fill="#94A3B8"><tspan fill="#F8FAFC" font-weight="600">Resolution:</tspan> Evaluated entirely at compile time by javac</text>
+  <text x="85" y="295" font-size="11" fill="#94A3B8"><tspan fill="#F8FAFC" font-weight="600">Binding:</tspan> Early / Static binding based on declared reference types</text>
+  <text x="85" y="315" font-size="11" fill="#94A3B8"><tspan fill="#F8FAFC" font-weight="600">Bytecode:</tspan> <tspan fill="#38BDF8" font-family="'JetBrains Mono', monospace">invokestatic, invokespecial, invokevirtual</tspan></text>
+  <text x="85" y="335" font-size="11" fill="#94A3B8"><tspan fill="#F8FAFC" font-weight="600">Runtime Cost:</tspan> Zero overhead; direct call address determined at compile/link</text>
+  <text x="85" y="355" font-size="11" fill="#94A3B8"><tspan fill="#F8FAFC" font-weight="600">JIT Optimization:</tspan> Trivial candidate for direct inline expansion</text>
+
+  <rect x="70" y="398" width="470" height="55" rx="6" fill="#1E293B" stroke="#0284C7" stroke-width="1"/>
+  <text x="85" y="420" font-size="10" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">calc.add(10, 20);       // resolves to add(int, int)</text>
+  <text x="85" y="438" font-size="10" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">calc.add(10.5, 20.2);   // resolves to add(double, double)</text>
+
+  <!-- Right Column: Runtime Polymorphism -->
+  <rect x="620" y="200" width="510" height="270" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
+  <rect x="620" y="200" width="510" height="35" rx="8" fill="#064E3B"/>
+  <text x="875" y="223" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Runtime / Dynamic Polymorphism (Method Overriding)</text>
+
+  <rect x="640" y="250" width="470" height="135" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="655" y="275" font-size="11" fill="#94A3B8"><tspan fill="#F8FAFC" font-weight="600">Resolution:</tspan> Evaluated dynamically at runtime by JVM</text>
+  <text x="655" y="295" font-size="11" fill="#94A3B8"><tspan fill="#F8FAFC" font-weight="600">Binding:</tspan> Late / Dynamic binding based on actual heap instance</text>
+  <text x="655" y="315" font-size="11" fill="#94A3B8"><tspan fill="#F8FAFC" font-weight="600">Bytecode:</tspan> <tspan fill="#34D399" font-family="'JetBrains Mono', monospace">invokevirtual (classes) / invokeinterface (interfaces)</tspan></text>
+  <text x="655" y="335" font-size="11" fill="#94A3B8"><tspan fill="#F8FAFC" font-weight="600">Runtime Cost:</tspan> vtable dereference overhead (mitigated by inline cache)</text>
+  <text x="655" y="355" font-size="11" fill="#94A3B8"><tspan fill="#F8FAFC" font-weight="600">JIT Optimization:</tspan> Monomorphic &amp; bimorphic inline caching (PIC)</text>
+
+  <rect x="640" y="398" width="470" height="55" rx="6" fill="#1E293B" stroke="#047857" stroke-width="1"/>
+  <text x="655" y="420" font-size="10" font-family="'JetBrains Mono', monospace" fill="#6EE7B7">Payment p = new CryptoPayment();</text>
+  <text x="655" y="438" font-size="10" font-family="'JetBrains Mono', monospace" fill="#6EE7B7">p.process();            // executes CryptoPayment.process()</text>
+
+  <!-- Connectors from Root to Columns -->
+  <path d="M 490 165 L 490 182 L 305 182 L 305 200" stroke="#0284C7" stroke-width="2" fill="none" marker-end="url(#arr-c)"/>
+  <rect x="330" y="172" width="120" height="18" rx="4" fill="#0B132B" stroke="#0284C7" stroke-width="1"/>
+  <text x="390" y="185" font-size="8" font-weight="700" fill="#7DD3FC" text-anchor="middle">Compiler Static Binding</text>
+
+  <path d="M 690 165 L 690 182 L 875 182 L 875 200" stroke="#047857" stroke-width="2" fill="none" marker-end="url(#arr-g)"/>
+  <rect x="730" y="172" width="120" height="18" rx="4" fill="#0B132B" stroke="#047857" stroke-width="1"/>
+  <text x="790" y="185" font-size="8" font-weight="700" fill="#6EE7B7" text-anchor="middle">JVM Dynamic Dispatch</text>
+</svg>

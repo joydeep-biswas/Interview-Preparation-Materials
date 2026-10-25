@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  work: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  gate: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  serv: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  gpu: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  dist: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+start: "New AI Workload Deployment" { class: work }
+traffic: "Traffic Volatility & Scale?" { class: gate }
+
+serverless: "Managed Serverless Endpoint\n(SageMaker Serverless / Vertex AI)" { class: serv }
+
+size: "Model Parameter Size?" { class: gate }
+single_gpu: "Single GPU Instance (vLLM / TGI)\n(Models <= 14B)" { class: gpu }
+multi_gpu: "Multi-GPU Distributed Cluster\n(TP + PP, Models >= 70B)" { class: dist }
+
+start -> traffic
+traffic -> serverless: "Intermittent / Spiky"
+traffic -> size: "Predictable / High Throughput"
+size -> single_gpu: "Fits on 1 GPU"
+size -> multi_gpu: "Exceeds 1 GPU"

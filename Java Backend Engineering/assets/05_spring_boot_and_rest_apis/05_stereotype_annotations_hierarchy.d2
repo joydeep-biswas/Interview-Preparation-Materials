@@ -1,0 +1,37 @@
+direction: down
+title: Spring Stereotype Annotations Hierarchy & Responsibilities
+
+comp: "@Component (Meta-Annotation Root)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+  description: "General-purpose candidate for classpath scanning"
+}
+
+svc: "@Service (Domain Logic)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+  description: "Orchestration & @Transactional boundaries"
+}
+
+repo: "@Repository (Persistence)" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+  description: "DAO & automatic DataAccessException translation"
+}
+
+ctrl: "@Controller / @RestController" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+  description: "HTTP web controllers & JSON @ResponseBody"
+}
+
+cfg: "@Configuration (Factory)" {
+  style.fill: "#0b1329"
+  style.stroke: "#38bdf8"
+  description: "@Bean factory with CGLIB proxyBeanMethods=true"
+}
+
+comp -> svc
+comp -> repo
+comp -> ctrl
+comp -> cfg

@@ -1,0 +1,36 @@
+direction: right
+classes: {
+  raw: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  stg: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  mart: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  bi: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+sources: "Raw Ingestion Layer" {
+  s1: "raw_erp.orders" { class: raw }
+  s2: "raw_crm.customers" { class: raw }
+}
+
+staging: "Staging Layer: Views" {
+  stg1: "stg_orders (View)" { class: stg }
+  stg2: "stg_customers (View)" { class: stg }
+}
+
+marts: "Curated Marts: Incremental & Tables" {
+  fct: "fct_orders (Incremental Merge)" { class: mart }
+  dim: "dim_customers (SCD Type 2)" { class: mart }
+}
+
+bi_layer: "Downstream Consumption Layer" {
+  dash: "Looker / Tableau Executive Dashboard" { class: bi }
+  ml: "Customer Churn ML Model" { class: bi }
+}
+
+sources.s1 -> staging.stg1
+sources.s2 -> staging.stg2
+staging.stg1 -> marts.fct
+staging.stg2 -> marts.fct
+staging.stg2 -> marts.dim
+marts.fct -> bi_layer.dash
+marts.dim -> bi_layer.dash
+marts.fct -> bi_layer.ml

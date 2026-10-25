@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="580" viewBox="0 0 1260 580">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1260" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Java Collections Framework Selection Decision Tree</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Key-Value Associations vs. Unique Sets vs. Ordered Lists vs. Queues vs. Concurrency</text>
+
+  <!-- Root Decision Node -->
+  <rect x="470" y="90" width="320" height="55" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="2"/>
+  <text x="630" y="113" font-size="12" font-weight="700" fill="#60A5FA" text-anchor="middle">Java Collections Selection Root</text>
+  <text x="630" y="133" font-size="10" fill="#94A3B8" text-anchor="middle">Key-Value Pairs OR Individual Elements?</text>
+
+  <!-- Left Side: Map Decisions Container -->
+  <rect x="40" y="175" width="560" height="380" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="40" y="175" width="560" height="30" rx="8" fill="#78350F"/>
+  <text x="320" y="195" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Key-Value Association Branch: Map&lt;K, V&gt;</text>
+
+  <!-- Concurrent Map -->
+  <rect x="60" y="225" width="240" height="65" rx="6" fill="#0F172A" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="180" y="248" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">ConcurrentHashMap</text>
+  <text x="180" y="268" font-size="10" fill="#CBD5E1" text-anchor="middle">Thread-safe, fine-grained bucket locks</text>
+
+  <!-- Sorted TreeMap -->
+  <rect x="330" y="225" width="250" height="65" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+  <text x="455" y="248" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">TreeMap</text>
+  <text x="455" y="268" font-size="10" fill="#CBD5E1" text-anchor="middle">Sorted keys, O(log N) Red-Black tree</text>
+
+  <!-- Insertion Order LinkedHashMap -->
+  <rect x="60" y="315" width="240" height="65" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="180" y="338" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle">LinkedHashMap</text>
+  <text x="180" y="358" font-size="10" fill="#CBD5E1" text-anchor="middle">Preserves insertion / access order (LRU)</text>
+
+  <!-- General Purpose HashMap -->
+  <rect x="330" y="315" width="250" height="65" rx="6" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+  <text x="455" y="338" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle">HashMap (Default Choice)</text>
+  <text x="455" y="358" font-size="10" fill="#CBD5E1" text-anchor="middle">Standard O(1) hash table for general use</text>
+
+  <!-- Map Selection Guidelines -->
+  <rect x="60" y="405" width="520" height="130" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="75" y="428" font-size="11" font-weight="700" fill="#F8FAFC">Map Selection Heuristics:</text>
+  <text x="75" y="450" font-size="10" fill="#CBD5E1">&#x2022; Multiple threads writing concurrently? -&gt; <tspan fill="#38BDF8" font-weight="700">ConcurrentHashMap</tspan></text>
+  <text x="75" y="470" font-size="10" fill="#CBD5E1">&#x2022; Need keys sorted in natural/comparator order? -&gt; <tspan fill="#34D399" font-weight="700">TreeMap</tspan></text>
+  <text x="75" y="490" font-size="10" fill="#CBD5E1">&#x2022; Need FIFO or LRU cache eviction order? -&gt; <tspan fill="#FBBF24" font-weight="700">LinkedHashMap</tspan></text>
+  <text x="75" y="510" font-size="10" fill="#CBD5E1">&#x2022; All other 90% cases? -&gt; <tspan fill="#FBBF24" font-weight="700">HashMap</tspan></text>
+
+  <!-- Right Side: Collection Decisions Container -->
+  <rect x="640" y="175" width="580" height="380" rx="8" fill="#0B132B" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="640" y="175" width="580" height="30" rx="8" fill="#1E3A8A"/>
+  <text x="930" y="195" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Individual Elements Branch: Collection&lt;E&gt;</text>
+
+  <!-- Set Choices -->
+  <rect x="660" y="225" width="260" height="90" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+  <text x="790" y="248" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">Unique Elements (Set)</text>
+  <text x="675" y="270" font-size="10" fill="#CBD5E1">&#x2022; General: <tspan fill="#34D399" font-weight="700">HashSet</tspan> O(1)</text>
+  <text x="675" y="288" font-size="10" fill="#CBD5E1">&#x2022; Sorted: <tspan fill="#34D399">TreeSet</tspan> O(log N)</text>
+  <text x="675" y="304" font-size="10" fill="#CBD5E1">&#x2022; Ordered: <tspan fill="#34D399">LinkedHashSet</tspan></text>
+
+  <!-- Queue / Deque Choices -->
+  <rect x="940" y="225" width="260" height="90" rx="6" fill="#0F172A" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="1070" y="248" font-size="12" font-weight="700" fill="#A78BFA" text-anchor="middle">FIFO / LIFO / Priority (Queue)</text>
+  <text x="955" y="270" font-size="10" fill="#CBD5E1">&#x2022; Standard Queue/Stack: <tspan fill="#A78BFA" font-weight="700">ArrayDeque</tspan></text>
+  <text x="955" y="288" font-size="10" fill="#CBD5E1">&#x2022; Priority Min-Heap: <tspan fill="#A78BFA">PriorityQueue</tspan></text>
+  <text x="955" y="304" font-size="10" fill="#CBD5E1">&#x2022; Concurrency: <tspan fill="#A78BFA">ArrayBlockingQueue</tspan></text>
+
+  <!-- List Choices -->
+  <rect x="660" y="335" width="540" height="85" rx="6" fill="#0F172A" stroke="#0284C7" stroke-width="1.5"/>
+  <text x="930" y="358" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">Ordered Sequence with Duplicates (List)</text>
+  <text x="675" y="380" font-size="10" fill="#CBD5E1">&#x2022; <tspan fill="#38BDF8" font-weight="700">ArrayList:</tspan> 95% default choice. Contiguous memory, O(1) random access, high CPU cache locality.</text>
+  <text x="675" y="402" font-size="10" fill="#CBD5E1">&#x2022; <tspan fill="#38BDF8" font-weight="700">CopyOnWriteArrayList:</tspan> Thread-safe read-heavy event listeners and observer registries.</text>
+
+  <!-- Summary Banner -->
+  <rect x="660" y="440" width="540" height="95" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="675" y="465" font-size="11" font-weight="700" fill="#F8FAFC">Golden Performance Rule:</text>
+  <text x="675" y="488" font-size="10" fill="#CBD5E1">Avoid <tspan fill="#F87171" font-weight="700">LinkedList</tspan> and legacy <tspan fill="#F87171" font-weight="700">Vector / Stack</tspan> in modern code.</text>
+  <text x="675" y="508" font-size="10" fill="#34D399">Use ArrayList for lists and ArrayDeque for queues/stacks.</text>
+
+  <!-- Connectors from Root -->
+  <path d="M 520 145 L 520 160 L 320 160 L 320 175" stroke="#F59E0B" stroke-width="2" fill="none" marker-end="url(#arr-a)"/>
+  <rect x="360" y="150" width="100" height="20" rx="3" fill="#0B132B" stroke="#F59E0B" stroke-width="1"/>
+  <text x="410" y="164" font-size="9" font-weight="700" fill="#FBBF24" text-anchor="middle">Key-Value Pairs</text>
+
+  <path d="M 740 145 L 740 160 L 930 160 L 930 175" stroke="#3B82F6" stroke-width="2" fill="none" marker-end="url(#arr-b)"/>
+  <rect x="780" y="150" width="120" height="20" rx="3" fill="#0B132B" stroke="#3B82F6" stroke-width="1"/>
+  <text x="840" y="164" font-size="9" font-weight="700" fill="#93C5FD" text-anchor="middle">Individual Elements</text>
+</svg>

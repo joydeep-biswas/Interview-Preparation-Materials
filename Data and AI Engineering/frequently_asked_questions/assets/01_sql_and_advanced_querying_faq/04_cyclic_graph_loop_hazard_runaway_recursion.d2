@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+a: "Employee A\n(Reports to Manager B)" { class: box; style.stroke: "#3B82F6" }
+b: "Manager B\n(Reports to Director C)" { class: box; style.stroke: "#3B82F6" }
+c: "Director C\n(Data Error: Reports to A!)" { class: box; style.stroke: "#EF4444" }
+
+a -> b: "reports_to"
+b -> c: "reports_to"
+c -> a: "CYCLE HAZARD!\nInfinite CTE Recursion"

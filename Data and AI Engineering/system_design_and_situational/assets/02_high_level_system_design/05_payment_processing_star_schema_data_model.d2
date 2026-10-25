@@ -1,0 +1,71 @@
+direction: right
+
+DIM_CUSTOMER: {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  customer_id: "PK: string"
+  customer_name: "string"
+  kyc_status: "varchar(16)"
+  country_code: "varchar(2)"
+}
+
+DIM_MERCHANT: {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  merchant_id: "PK: string"
+  merchant_name: "string"
+  mcc_code: "varchar(4)"
+  risk_tier: "varchar(8)"
+}
+
+FACT_PAYMENT_TRANSACTION: {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  transaction_id: "PK: string"
+  customer_id: "FK: string"
+  merchant_id: "FK: string"
+  amount_cents: "bigint"
+  currency: "varchar(3)"
+  status: "varchar(16)"
+  fraud_risk_score: "decimal(5,2)"
+}
+
+FACT_REFUND: {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  refund_id: "PK: string"
+  transaction_id: "FK: string"
+  refund_amount_cents: "bigint"
+  reason_code: "varchar(32)"
+}
+
+FACT_CHARGEBACK: {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  dispute_id: "PK: string"
+  transaction_id: "FK: string"
+  disputed_amount_cents: "bigint"
+  dispute_status: "varchar(16)"
+}
+
+DIM_CUSTOMER -> FACT_PAYMENT_TRANSACTION: "1 : N places" {
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+}
+DIM_MERCHANT -> FACT_PAYMENT_TRANSACTION: "1 : N accepts" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+FACT_PAYMENT_TRANSACTION -> FACT_REFUND: "1 : N has refund" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}
+FACT_PAYMENT_TRANSACTION -> FACT_CHARGEBACK: "1 : N has dispute" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}

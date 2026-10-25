@@ -8,62 +8,9 @@ A comprehensive, production-grade guide to relational query architecture, ANSI d
 
 SQL (Structured Query Language) is not simply a syntax for querying data; it is a mathematical implementation of **Relational Algebra** and **Tuple Relational Calculus**, executed over physical storage engines.
 
-```mermaid
-flowchart TD
-    subgraph Conceptual ["1. Mental Model: Declarative vs. Imperative"]
-        Dec["Declarative (SQL):<br/>Describe WHAT data you want"]
-        Opt["Query Optimizer:<br/>Cost Model, Statistics & Relational Algebra"]
-        Imp["Imperative Engine:<br/>Scans, Hash Tables, B-Trees & Disk Pages"]
-        Dec --> Opt --> Imp
-    end
+![Relational Query Execution & Processing Architecture](assets/01_sql_and_advanced_querying/01_query_architecture.svg)
 
-    subgraph Pipeline ["2. Logical Query Processing Order"]
-        direction TB
-        P1["1. FROM & JOINs (Data Ingestion & Pairing)"]
-        P2["2. WHERE (Row-Level Tuple Filtering)"]
-        P3["3. GROUP BY (Bucket Rows into Hash Groups)"]
-        P4["4. HAVING (Filter Summarized Aggregate Groups)"]
-        P5["5. SELECT & WINDOW (Project Expressions & Window Math)"]
-        P6["6. DISTINCT (Set Deduplication via Hash/Sort)"]
-        P7["7. UNION / INTERSECT / EXCEPT (Set Algebra)"]
-        P8["8. ORDER BY (Materialized Result Sorting)"]
-        P9["9. LIMIT / OFFSET (Volume Restriction)"]
-        P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7 --> P8 --> P9
-    end
-
-    subgraph CoreFoundations ["3. Core Relational Building Blocks"]
-        F1["Data Types & Defensive Casting (Exact vs Float, 3VL)"]
-        F2["Joins (INNER, LEFT, RIGHT, FULL, CROSS, Range)"]
-        F3["Aggregations (Scalar, Vector, Array, Statistical)"]
-        F4["Set Algebra (UNION ALL vs UNION, INTERSECT, EXCEPT)"]
-        F5["Subqueries & Derived Tables (Scalar, Correlated, Anti/Semi)"]
-        F6["DML & Storage Objects (INSERT, UPDATE, DELETE vs TRUNCATE, Views)"]
-    end
-
-    Conceptual --> Pipeline --> CoreFoundations
-
-    style Conceptual fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Pipeline fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style CoreFoundations fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Dec fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Opt fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Imp fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style P1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style P2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style P3 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style P4 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style P5 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style P6 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style P7 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style P8 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style P9 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style F1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style F2 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style F3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style F4 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style F5 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style F6 fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-```
+*D2 Source: [`01_query_architecture.d2`](assets/01_sql_and_advanced_querying/01_query_architecture.d2)*
 
 ---
 
@@ -200,38 +147,9 @@ To write high-performance SQL queries and debug strange bugs, one must first rec
   > *"I would like a medium-rare ribeye steak with roasted asparagus and a glass of Pinot Noir."*
   You state **WHAT** you want. You do not tell the kitchen which pan to use, what order to chop the vegetables, or what temperature the oven should be. The **Master Chef (the Database Query Engine & Cost-Based Optimizer)** evaluates the kitchen's inventory, available stove burners (CPU cores), and preparation time to determine the most efficient physical workflow to prepare your meal.
 
-```mermaid
-flowchart TD
-    subgraph Client ["Client / Data Engineer"]
-        Q["Declarative SQL Query<br/>(Specifies WHAT)"]
-    end
+![The Intuitive Mental Model: Client to Storage](assets/01_sql_and_advanced_querying/02_engine_mental_model.svg)
 
-    subgraph RDBMS ["Database Engine Internals"]
-        Parser["Parser & Lexer<br/>(Syntax Check & Parse Tree)"]
-        Analyzer["Catalog Binder / Semantic Analyzer<br/>(Verifies Tables, Columns & Types)"]
-        Optimizer["Cost-Based Optimizer (CBO)<br/>(Evaluates Stats, Indexes, Join Order)"]
-        Exec["Execution Engine<br/>(Volcano Iterator / Vectorized Engine)"]
-    end
-
-    subgraph Storage ["Storage Engine"]
-        Buffer["Buffer Pool / Cache"]
-        Disk["Physical Storage (Data Pages / Parquet)"]
-    end
-
-    Q --> Parser --> Analyzer --> Optimizer --> Exec
-    Exec <--> Buffer <--> Disk
-
-    style Client fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RDBMS fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Storage fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Q fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Parser fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Analyzer fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Optimizer fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Exec fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Buffer fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Disk fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source: [`02_engine_mental_model.d2`](assets/01_sql_and_advanced_querying/02_engine_mental_model.d2)*
 
 Because SQL is declarative, the order in which you write the query in your text editor (**Lexical / Syntactic Order**) is completely different from the order in which the database conceptually evaluates it (**Logical Execution Order**).
 
@@ -255,51 +173,9 @@ Here is the exact logical execution order:
 | **8** | `ORDER BY` | Sort the materialized rows by specified columns or expressions. | Sorting is computationally expensive ($O(N \log N)$); deferred until the smallest row volume remains. |
 | **9** | `LIMIT` / `OFFSET` | Discard rows outside the requested pagination boundary. | Final gatekeeper before serializing packets over the network to the client. |
 
-```mermaid
-flowchart TD
-    subgraph StageA ["Stage A: Ingestion & Row-Level Pruning"]
-        S1["1. FROM & JOINs<br/>(Scans base tables, evaluates ON join conditions)"]
-        S2["2. WHERE Clause<br/>(Filters individual rows before grouping)"]
-        S1 --> S2
-    end
+![The 9-Stage Logical Execution Pipeline](assets/01_sql_and_advanced_querying/03_logical_execution_pipeline.svg)
 
-    subgraph StageB ["Stage B: Aggregation & Group Filtering"]
-        S3["3. GROUP BY<br/>(Buckets rows by grouping keys into hash table)"]
-        S4["4. HAVING<br/>(Prunes groups based on aggregate calculations)"]
-        S3 --> S4
-    end
-
-    subgraph StageC ["Stage C: Projection & Deduplication"]
-        S5["5. SELECT & Window Functions<br/>(Computes math, assigns aliases, evaluates OVER)"]
-        S6["6. DISTINCT<br/>(Hash/Sort deduplication of projected tuples)"]
-        S7["7. SET OPERATORS<br/>(UNION / INTERSECT / EXCEPT combining statements)"]
-        S5 --> S6 --> S7
-    end
-
-    subgraph StageD ["Stage D: Ordering & Limiting"]
-        S8["8. ORDER BY<br/>(Top-N / Sort materialized result set)"]
-        S9["9. LIMIT / OFFSET<br/>(Restricts total rows returned to client)"]
-        S8 --> S9
-    end
-
-    StageA -->|"Surviving Rows"| StageB
-    StageB -->|"Surviving Groups"| StageC
-    StageC --> StageD
-
-    style StageA fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StageB fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style StageC fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style StageD fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S4 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S5 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style S6 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style S7 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style S8 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style S9 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source: [`03_logical_execution_pipeline.d2`](assets/01_sql_and_advanced_querying/03_logical_execution_pipeline.d2)*
 
 #### Why This Order Matters: The Three Classic Gotchas
 1. **The WHERE Alias Trap:** Why does `SELECT price * quantity AS total_amount FROM sales WHERE total_amount > 100` fail with `column "total_amount" does not exist`?
@@ -691,31 +567,9 @@ $$\text{NOT (UNKNOWN)} \implies \text{UNKNOWN}$$
 
 Because the final predicate evaluates to `UNKNOWN`, the `WHERE` clause discards the row! The same happens for every customer in the table. **The entire query silently drops all data.**
 
-```mermaid
-flowchart TD
-    subgraph ExpansionPhase ["Predicate Expansion & Logical Reduction"]
-        direction LR
-        Q["<b>Query Predicate</b><br/>customer_id NOT IN (1, 2, NULL)"] --> Exp["<b>Logical Expansion</b><br/>NOT (id = 1 OR id = 2 OR id = NULL)"]
-        Exp --> Eval["<b>Evaluate id = 3</b><br/>NOT (FALSE OR FALSE OR UNKNOWN)"]
-    end
+![Three-Valued Logic: NULL in NOT IN Predicates](assets/01_sql_and_advanced_querying/04_three_valued_logic.svg)
 
-    subgraph ResolutionPhase ["Three-Valued Logic Resolution"]
-        direction LR
-        Collapse["<b>OR Reduction</b><br/>NOT (UNKNOWN)"] --> Result["<b>Final Result</b><br/>UNKNOWN (Neither TRUE nor FALSE)"]
-        Result --> Action["<b>WHERE Clause Action</b><br/>Row Discarded (Result set is EMPTY)"]
-    end
-
-    ExpansionPhase --> ResolutionPhase
-
-    style ExpansionPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ResolutionPhase fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Q fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Exp fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Eval fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Collapse fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Result fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Action fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-```
+*D2 Source: [`04_three_valued_logic.d2`](assets/01_sql_and_advanced_querying/04_three_valued_logic.d2)*
 
 #### Production-Safe Remedies
 
@@ -957,36 +811,9 @@ Do not confuse column-level aggregates with row-level scalar comparisons:
 - **`MAX(col)` and `MIN(col)`:** Aggregate values **vertically across multiple rows** within a column.
 - **`GREATEST(col1, col2, ...)` and `LEAST(...)`:** Compare values **horizontally across multiple columns within the same row**.
 
-```mermaid
-flowchart TD
-    subgraph Vertical ["Vertical Aggregate: MAX(salary)"]
-        direction TB
-        V1["Row 1: Salary = $5,000"]
-        V2["Row 2: Salary = $8,000"]
-        V3["Row 3: Salary = $6,000"]
-        V1 --- V2 --- V3
-        VRes["MAX(Salary) = $8,000<br/>(Folds 3 rows into 1 value)"]
-        V2 ==> VRes
-    end
+![Vertical Aggregate MAX() vs Horizontal Scalar GREATEST()](assets/01_sql_and_advanced_querying/05_greatest_least_scalar.svg)
 
-    subgraph Horizontal ["Horizontal Scalar: GREATEST(base, bonus, stipend)"]
-        direction LR
-        H1["Base: $5,000"] --- H2["Bonus: $7,000"] --- H3["Stipend: $2,000"]
-        HRes["GREATEST(...) = $7,000<br/>(Evaluates within a single row)"]
-        H2 ==> HRes
-    end
-
-    style Vertical fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Horizontal fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style V1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style V2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style V3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style VRes fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style H1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style H2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style H3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style HRes fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [`05_greatest_least_scalar.d2`](assets/01_sql_and_advanced_querying/05_greatest_least_scalar.d2)*
 
 > [!CAUTION]
 > **NULL Behavior in GREATEST / LEAST:**
@@ -1087,37 +914,9 @@ WHERE event_timestamp >= CURRENT_DATE - INTERVAL '7 days';
 
 When the database engine processes a `GROUP BY` clause, it typically chooses between two physical execution strategies:
 
-```mermaid
-flowchart TD
-    subgraph SortAgg ["Strategy 2: Sort / Stream Aggregation (Presorted / Indexed Inputs)"]
-        direction TB
-        SIn["Input Stream (Pre-sorted by B-Tree or Sort)"] --> SScan["Sequential Iterator Scan"]
-        SScan --> SGroup["Aggregate rows on-the-fly until Key changes"]
-        SGroup --> SOut["Emit Group Immediately (Minimal Memory Footprint)"]
-    end
+![Hash Aggregation vs Sort/Stream Aggregation](assets/01_sql_and_advanced_querying/06_hash_vs_sort_aggregation.svg)
 
-    subgraph HashAgg ["Strategy 1: Hash Aggregation (Unsorted Inputs)"]
-        direction TB
-        HIn["Input Stream of Rows"] --> HHash["Compute Hash Key for GROUP BY cols"]
-        HHash --> HTable["In-Memory Hash Table<br/>Key: Dept | Values: Running SUM, COUNT"]
-        HTable --> HCheck{"Exceeds work_mem?"}
-        HCheck -- No --> HOut["Materialize Final Groups"]
-        HCheck -- Yes --> HSpill["Spill Partitions to Disk / tempdb<br/>(Substantial Performance Penalty!)"]
-    end
-
-    style HashAgg fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SortAgg fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style HIn fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style HHash fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style HTable fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style HCheck fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style HOut fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style HSpill fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style SIn fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SScan fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SGroup fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SOut fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [`06_hash_vs_sort_aggregation.d2`](assets/01_sql_and_advanced_querying/06_hash_vs_sort_aggregation.d2)*
 
 1. **Hash Aggregation:**
    - The engine builds an in-memory hash table where the keys are the grouping attributes (e.g., `department_id`) and the values are the running aggregate accumulators (e.g., `count = 5`, `sum = 45000`).
@@ -1275,21 +1074,9 @@ The relational join is the core operation of relational database management syst
 
 #### The Visual Join Spectrum
 
-```mermaid
-flowchart LR
-    CJ["<b>CROSS JOIN</b><br/>Cartesian Product (N × M)<br/>(Zero Predicate Filtering)"]
-    LJ["<b>LEFT / RIGHT JOIN</b><br/>Preserves Dominant Table<br/>(Inner matches + Outer NULLs)"]
-    IJ["<b>INNER JOIN</b><br/>Intersection (A ∩ B)<br/>(Strict Predicate Match)"]
-    AJ["<b>ANTI JOIN</b><br/>Difference (A - B)<br/>(Non-Matching Records Only)"]
+![The Visual Join Spectrum](assets/01_sql_and_advanced_querying/07_visual_join_spectrum.svg)
 
-    CJ -->|"Add Join Predicate"| LJ -->|"Drop Unmatched Rows"| IJ
-    LJ -->|"Filter WHERE Right.key IS NULL"| AJ
-
-    style CJ fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style LJ fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style IJ fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style AJ fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source: [`07_visual_join_spectrum.d2`](assets/01_sql_and_advanced_querying/07_visual_join_spectrum.d2)*
 
 To explain every join type with complete clarity, we will use two sample tables:
 
@@ -1582,19 +1369,9 @@ INNER JOIN finance.fx_rates AS r
 
 In enterprise data warehouses (Kimball Star Schema), a central **Fact Table** contains numeric metrics (revenue, quantity) and connects radially to multiple **Dimension Tables** containing business context (customers, products, dates).
 
-```mermaid
-flowchart TD
-    DimDate["dim_date<br/>(date_key)"] --> FactSales[("fact_sales<br/>(Central Fact Table)")]
-    DimCustomer["dim_customer<br/>(customer_key)"] --> FactSales
-    DimProduct["dim_product<br/>(product_key)"] --> FactSales
-    DimStore["dim_store<br/>(store_key)"] --> FactSales
+![Multi-Table Joins & Star Schema Dimensional Querying](assets/01_sql_and_advanced_querying/08_star_schema_joins.svg)
 
-    style DimDate fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style FactSales fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DimCustomer fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DimProduct fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DimStore fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source: [`08_star_schema_joins.d2`](assets/01_sql_and_advanced_querying/08_star_schema_joins.d2)*
 
 ```sql
 -- Star Schema multi-table join for dimensional business intelligence
@@ -1642,34 +1419,9 @@ It is essential to understand the difference in geometry:
 - **`JOIN`:** Combines data **horizontally** (attaches new columns from another table side-by-side).
 - **`SET OPERATOR`:** Combines data **vertically** (stacks rows from one query on top of another).
 
-```mermaid
-flowchart LR
-    subgraph HorizontalJoin ["JOIN: Horizontal Combination (Wider Relation)"]
-        direction LR
-        TableA["Table A Columns<br/>(id, customer_name)"]
-        TableB["Table B Columns<br/>(id, order_total)"]
-        JoinResult["Joined Result: More Columns<br/>(id, customer_name, order_total)"]
-        TableA --- TableB --> JoinResult
-    end
+![Joins vs Set Operators: Horizontal vs Vertical Combination](assets/01_sql_and_advanced_querying/09_joins_vs_set_operators.svg)
 
-    subgraph VerticalSet ["SET OPERATOR: Vertical Stacking (Taller Relation)"]
-        direction TD
-        Query1["Query 1 Rows: 100 rows (id, event_name)"]
-        Query2["Query 2 Rows: 150 rows (id, event_name)"]
-        SetResult["Combined Result: 250 rows (More Rows)<br/>(id, event_name)"]
-        Query1 --> SetResult
-        Query2 --> SetResult
-    end
-
-    style HorizontalJoin fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style VerticalSet fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style TableA fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style TableB fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style JoinResult fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Query1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Query2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style SetResult fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source: [`09_joins_vs_set_operators.d2`](assets/01_sql_and_advanced_querying/09_joins_vs_set_operators.d2)*
 
 #### Syntax Rules for All Set Operators
 1. Every participating `SELECT` statement must project the **exact same number of columns**.
@@ -1962,37 +1714,9 @@ Data engineers frequently need to clear staging tables. Understanding the deep p
 | **Lock Level Acquired** | Row-exclusive locks. Concurrent reads often continue. | **Exclusive Table Lock (`ACCESS EXCLUSIVE`)**. Blocks all reads and writes. | Exclusive Table Lock. |
 | **Speed Profile** | Minutes to hours on 100M+ rows. | Sub-second execution even on multi-terabyte tables. | Sub-second execution. |
 
-```mermaid
-flowchart LR
-    subgraph DeleteOp ["DELETE (Row-by-Row WAL Logging - O(N))"]
-        direction LR
-        D1["Scan Table Pages for Matching Rows"] --> D2["Acquire Row-Level Lock"]
-        D2 --> D3["Write Full Undo/Redo Record to WAL"]
-        D3 --> D4["Mark Row Pointer as DEAD in Page Header"]
-        D4 --> D5["Repeat for all matching rows (High I/O & WAL Bloat)"]
-    end
+![DELETE vs TRUNCATE vs DROP: Physical Disk, WAL, MVCC Bloat, and Locks](assets/01_sql_and_advanced_querying/10_delete_truncate_drop.svg)
 
-    subgraph TruncateOp ["TRUNCATE (Metadata Extent Deallocation - O(1))"]
-        direction LR
-        T1["Acquire ACCESS EXCLUSIVE Table Lock"] --> T2["Lookup Table Allocation Map in Catalog"]
-        T2 --> T3["Sever Pointer to Data Extents / Pages"]
-        T3 --> T4["Return Extents to Free Storage Pool"]
-        T4 --> T5["Reset High Watermark & Identity Counters (Sub-second!)"]
-    end
-
-    style DeleteOp fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style TruncateOp fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style D1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style D2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style D3 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style D4 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style D5 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style T1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style T4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T5 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [`10_delete_truncate_drop.d2`](assets/01_sql_and_advanced_querying/10_delete_truncate_drop.d2)*
 
 ---
 
@@ -2105,28 +1829,9 @@ Foundational join mechanics (covered in [01. SQL Fundamentals](01_sql_and_advanc
 - **SEMI JOIN is like a Nightclub Bouncer with a VIP Guest List:** The bouncer inspects each patron waiting in the general admission line (the Left Table). He checks whether their name appears anywhere on the VIP guest list (the Right Table). The very microsecond he spots their name on the list, he stamps their hand and lets them through the door. **He does not care if their name appears 5 times on the VIP list**; they are admitted **exactly once**, and no VIP list attributes (like table reservation numbers) are attached to them.
 - **ANTI JOIN is like a Bouncer with a Blacklist:** The bouncer checks each patron against a list of banned troublemakers. If the person's name is **not** on the blacklist, they enter. If their name appears on the blacklist, they are turned away immediately.
 
-```mermaid
-flowchart LR
-    subgraph SemiJoin ["LEFT SEMI JOIN: Filter Left where Match Exists"]
-        direction LR
-        L1["Customer #101"] --- R1["Order #A (101)<br/>Order #B (101)"] ==> SJ["Customer #101 (Appears EXACTLY ONCE)"]
-    end
+![LEFT SEMI JOIN vs LEFT ANTI JOIN: Existence Filtering](assets/01_sql_and_advanced_querying/11_semi_vs_anti_join.svg)
 
-    subgraph AntiJoin ["LEFT ANTI JOIN: Filter Left where Match Does NOT Exist"]
-        direction LR
-        L2["Customer #102"] --- R2["No Orders Found"] ==> AJ["Customer #102 (Retained Cleanly)"]
-    end
-
-    style SemiJoin fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style AntiJoin fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-
-    style L1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style R1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SJ fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style L2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style R2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style AJ fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-```
+*D2 Source: [`11_semi_vs_anti_join.d2`](assets/01_sql_and_advanced_querying/11_semi_vs_anti_join.d2)*
 
 #### Concrete Step-by-Step Dataset Walkthrough
 
@@ -2222,28 +1927,9 @@ By enforcing the **strict asymmetric inequality** `u1.user_id < u2.user_id`:
 2. Mirrored pairs `(User2, User1)` are eliminated because $2 < 1$ is False.
 3. The comparison space is reduced by over 50% ($\frac{N(N-1)}{2}$ combinations).
 
-```mermaid
-flowchart LR
-    Pairs["Raw Pair Comparisons:<br/>(Alice, Bob) & (Bob, Alice)"]
-    
-    subgraph FilterGate ["Strict Inequality Filter: u1.id &lt; u2.id"]
-        Keep["Alice &lt; Bob: TRUE (1 &lt; 2)<br/><i>(Unique Canonical Combination)</i>"]
-        Drop["Bob &lt; Alice: FALSE (2 &lt; 1)<br/><i>(Mirrored Duplicate)</i>"]
-    end
-    
-    Output["Deduplicated Result Set:<br/>(Alice, Bob)"]
-    Trash[("Discarded")]
+![Self-Joins & Avoiding Mirrored Duplicate Pairs](assets/01_sql_and_advanced_querying/12_self_join_symmetric_collision.svg)
 
-    Pairs --> Keep --> Output
-    Pairs --> Drop -.->|"Pruned"| Trash
-
-    style Pairs fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style FilterGate fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Keep fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Drop fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Output fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Trash fill:#331111,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-```
+*D2 Source: [`12_self_join_symmetric_collision.d2`](assets/01_sql_and_advanced_querying/12_self_join_symmetric_collision.d2)*
 
 #### Production Fraud Ring Detection Query
 ```sql
@@ -2275,48 +1961,9 @@ In a distributed compute cluster (Spark, Databricks, Trino), physical worker nod
 4. **Zero-Shuffle Stream Probe:** Each executor reads its assigned partition of the 10 TB fact table from local storage or cloud disk. As fact rows stream through CPU cache, the executor performs instant $O(1)$ memory lookups against the broadcasted hash table.
 5. **Network Savings:** **Zero rows of the 10 TB fact table traverse the physical network switches!**
 
-```mermaid
-flowchart TD
-    subgraph DriverLayer ["Spark Driver Node"]
-        DriverNode["<b>Driver Node</b><br/>(Reads 15MB dim_stores)"]
-    end
+![Broadcast Hash Join (BHJ) Physical Execution Architecture](assets/01_sql_and_advanced_querying/13_broadcast_hash_join.svg)
 
-    subgraph ExecutorCluster ["Distributed Worker Executors"]
-        direction LR
-        subgraph Worker1 ["Worker Node 1"]
-            W1_RAM["Heap RAM"] --> Hash1["In-Memory Hash Table"]
-            F1["Fact Partition 1"] -->|Stream Probe| Hash1
-        end
-        subgraph Worker2 ["Worker Node 2"]
-            W2_RAM["Heap RAM"] --> Hash2["In-Memory Hash Table"]
-            F2["Fact Partition 2"] -->|Stream Probe| Hash2
-        end
-        subgraph Worker3 ["Worker Node 3"]
-            W3_RAM["Heap RAM"] --> Hash3["In-Memory Hash Table"]
-            F3["Fact Partition 3"] -->|Stream Probe| Hash3
-        end
-    end
-
-    DriverNode -->|Torrent Broadcast Protocol| W1_RAM
-    DriverNode -->|Torrent Broadcast Protocol| W2_RAM
-    DriverNode -->|Torrent Broadcast Protocol| W3_RAM
-
-    style DriverLayer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ExecutorCluster fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Worker1 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Worker2 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Worker3 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style DriverNode fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style W1_RAM fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style W2_RAM fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style W3_RAM fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Hash1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Hash2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Hash3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style F1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style F2 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style F3 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-```
+*D2 Source: [`13_broadcast_hash_join.d2`](assets/01_sql_and_advanced_querying/13_broadcast_hash_join.d2)*
 
 #### Production Thresholds & Failure Traps
 - **Default Threshold:** Spark's `spark.sql.autoBroadcastJoinThreshold` defaults to 10 MB (`10485760` bytes). In modern clouds, you can safely tune this threshold to **64 MB or 128 MB**:
@@ -2348,23 +1995,9 @@ When both tables are too large to broadcast, but one table is significantly smal
 #### Physical Execution Mechanics
 Sort-Merge Join is the **battle-hardened workhorse** of distributed big data processing. It operates in three sequential phases:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Scan as Storage Scanners
-    participant Shuffle as Network Exchange
-    participant Disk as External Disk Merge-Sorter
-    participant Joiner as Linear Pointer Merge Joiner
+![Shuffle Sort-Merge Join (SMJ) Execution Timeline](assets/01_sql_and_advanced_querying/14_shuffle_sort_merge_join.svg)
 
-    Scan->>Shuffle: 1. Hash exchange: hash(key) % num_partitions
-    Shuffle->>Disk: 2. Transmit partition slices to assigned worker node
-    Disk->>Disk: 3. External Run Sort: Sort Partition A by Key
-    Disk->>Disk: 4. External Run Sort: Sort Partition B by Key
-    Disk->>Joiner: 5. Stream sorted stream A via pointer
-    Disk->>Joiner: 6. Stream sorted stream B via pointer
-    Joiner->>Joiner: 7. Linear single-pass comparison: advance matching pointers
-```
+*D2 Source: [`14_shuffle_sort_merge_join.d2`](assets/01_sql_and_advanced_querying/14_shuffle_sort_merge_join.d2)*
 
 #### Why Sort-Merge Join Never Dies (Disk Spilling Resilience)
 In Sort-Merge Join, neither table needs to fit entirely in RAM!
@@ -2381,42 +2014,9 @@ If a partition has 50 GB of data and the executor only has 4 GB of working memor
 
 ### 11.6 Distributed Join Comparison & Selection Decision Tree
 
-```mermaid
-flowchart TD
-    subgraph SizingGate ["Table Sizing & Broadcast Assessment"]
-        Start(["Join Execution Planning"]) --> CheckSize{"Is either table<br/>&le; 64MB - 100MB?"}
-        BHJ["<b>Broadcast Hash Join (BHJ)</b><br/>(Zero network shuffle on fact table)"]
-        CheckSize -- "Yes" --> BHJ
-    end
+![Distributed Join Comparison & Selection Decision Tree](assets/01_sql_and_advanced_querying/15_distributed_join_decision_tree.svg)
 
-    subgraph JoinTopology ["Join Condition & Equi-Join Evaluation"]
-        CheckEqui{"Is it an Equi-Join?<br/>(ON a.id = b.id)"}
-        BNLJ["<b>Broadcast Nested Loop / Interval Join</b><br/>(High Cartesian cost O(N x M))"]
-        CheckSize -- "No" --> CheckEqui
-        CheckEqui -- "No (Non-Equi)" --> BNLJ
-    end
-
-    subgraph MemoryStrategy ["Execution Strategy & Spill Tolerance"]
-        CheckMem{"Does smaller partition fit in task RAM<br/>AND sorting disabled?"}
-        SHJ["<b>Shuffle Hash Join (SHJ)</b><br/>(Fast in-memory, risk of OOM on skew)"]
-        SMJ["<b>Sort-Merge Join (SMJ)</b><br/>(Default standard, resilient to spilling)"]
-        CheckEqui -- "Yes" --> CheckMem
-        CheckMem -- "Yes" --> SHJ
-        CheckMem -- "No" --> SMJ
-    end
-
-    style SizingGate fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style JoinTopology fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style MemoryStrategy fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Start fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CheckSize fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CheckEqui fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CheckMem fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style BHJ fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style BNLJ fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style SHJ fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style SMJ fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [`15_distributed_join_decision_tree.d2`](assets/01_sql_and_advanced_querying/15_distributed_join_decision_tree.d2)*
 
 | Distributed Join Operator | Pre-conditions | Network I/O Cost | Memory Overhead | Disk Spilling Capability | Skew Tolerance |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -2436,43 +2036,9 @@ The **Cost-Based Optimizer (CBO)** estimates execution cost ($C$) using quantita
 $$C_{\text{total}} = C_{\text{I/O}} \times \text{PagesRead} + C_{\text{CPU}} \times \text{TuplesProcessed} + C_{\text{Network}} \times \text{BytesShuffled}$$
 
 #### Left-Deep vs. Bushy Execution Trees
-```mermaid
-flowchart TD
-    subgraph LeftDeepTree ["Left-Deep Tree (Pipelined Execution)"]
-        J3["Hash Join 3"] --> J2["Hash Join 2"]
-        J3 --> DimC["Scan Dim C"]
-        J2 --> J1["Hash Join 1"]
-        J2 --> DimB["Scan Dim B"]
-        J1 --> Fact[("Scan Fact Table")]
-        J1 --> DimA["Scan Dim A"]
-    end
+![Left-Deep vs Bushy Execution Trees](assets/01_sql_and_advanced_querying/16_left_deep_vs_bushy_trees.svg)
 
-    subgraph BushyTree ["Bushy Tree (Parallel Sub-Tree Execution)"]
-        BJ["Final Join"] --> Sub1["Join A + B"]
-        BJ --> Sub2["Join C + D"]
-        Sub1 --> T_A["Scan Table A"]
-        Sub1 --> T_B["Scan Table B"]
-        Sub2 --> T_C["Scan Table C"]
-        Sub2 --> T_D["Scan Table D"]
-    end
-
-    style LeftDeepTree fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BushyTree fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style J3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style J2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DimC fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style J1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DimB fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Fact fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DimA fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style BJ fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Sub1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Sub2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T_A fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T_B fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T_C fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T_D fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`16_left_deep_vs_bushy_trees.d2`](assets/01_sql_and_advanced_querying/16_left_deep_vs_bushy_trees.d2)*
 
 - **Left-Deep Trees:** Pipelined; output of join 1 immediately feeds join 2. Keeps working memory strictly minimal because intermediate tables are consumed immediately without disk materialization.
 - **Bushy Trees:** Sub-joins ($A \bowtie B$ and $C \bowtie D$) execute concurrently across separate worker nodes and merge at the root. Essential when joining multiple large fact-to-fact or snowflake dimension models.
@@ -2671,41 +2237,9 @@ A **Recursive CTE** executes fixed-point relational iteration until zero new row
 4. **Intermediate Queue:** Rows from Step $N$ are appended to the cumulative result (`UNION ALL`) and become the new working table for Step $N+1$.
 5. **Termination:** When Step $N$ returns 0 rows, recursion terminates cleanly.
 
-```mermaid
-flowchart TD
-    subgraph Initialization ["Anchor Member Initialization"]
-        Anchor["<b>Step 0: Anchor Query</b><br/>(Find root hierarchy: manager_id IS NULL)"]
-    end
+![Recursive CTEs: Fixed-Point Relational Iteration & Cycle Guard](assets/01_sql_and_advanced_querying/17_recursive_cte_iteration.svg)
 
-    subgraph IterationLoop ["Recursive Member Evaluation"]
-        Check{"<b>Recursive Check</b><br/>(Did Step N yield rows?)"}
-        Rec["<b>Step N: Recursive Member</b><br/>(Join Employees to Managers from Step N-1)"]
-        CycleCheck{"<b>Cycle Guard</b><br/>(Visited Array Check)"}
-        Abort["<b>Halt Recursion</b><br/>(Infinite Loop Detected)"]
-
-        Check -- "Yes" --> Rec
-        Rec --> CycleCheck
-        CycleCheck -- "Pass" --> Check
-        CycleCheck -- "Cycle Detected" --> Abort
-    end
-
-    subgraph Termination ["Result Consolidation"]
-        Out["<b>Final Output</b><br/>(UNION ALL Aggregated Result Set)"]
-    end
-
-    Anchor --> Check
-    Check -- "No Rows Left" --> Out
-
-    style Initialization fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style IterationLoop fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Termination fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Anchor fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Check fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Rec fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CycleCheck fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Abort fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Out fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [`17_recursive_cte_iteration.d2`](assets/01_sql_and_advanced_querying/17_recursive_cte_iteration.d2)*
 
 ---
 
@@ -2936,30 +2470,9 @@ By contrast, a **Window Function** performs calculation across a defined set of 
 
 $$\text{Window Function: } N \text{ input rows} \longrightarrow N \text{ enriched output rows}$$
 
-```mermaid
-flowchart TD
-    subgraph GroupByPattern ["Standard GROUP BY (Collapses Rows)"]
-        R1["Row 1 (Dept A, $100)"]
-        R2["Row 2 (Dept A, $200)"]
-        R3["Row 3 (Dept B, $300)"]
-        R1 & R2 --> G1["Group A: SUM = $300 (1 Row)"]
-        R3 --> G2["Group B: SUM = $300 (1 Row)"]
-    end
+![Windowing Paradigm vs Standard GROUP BY](assets/01_sql_and_advanced_querying/18_window_vs_group_by.svg)
 
-    subgraph WindowPattern ["Window Function OVER() (Retains Every Row)"]
-        W1["Row 1 (Dept A, $100)"] --> O1["Row 1: Dept A | $100 | Dept_Total = $300"]
-        W2["Row 2 (Dept A, $200)"] --> O2["Row 2: Dept A | $200 | Dept_Total = $300"]
-        W3["Row 3 (Dept B, $300)"] --> O3["Row 3: Dept B | $300 | Dept_Total = $300"]
-    end
-
-    style GroupByPattern fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style WindowPattern fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style G1 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style G2 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style O1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff
-    style O2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff
-    style O3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`18_window_vs_group_by.d2`](assets/01_sql_and_advanced_querying/18_window_vs_group_by.d2)*
 
 #### 2. Detailed Syntax Anatomy of the `OVER` Clause
 Every window function requires an `OVER` clause, which instructs the query planner to evaluate expressions over window partitions rather than collapsing result sets:
@@ -2985,45 +2498,9 @@ The clause contains three distinct operational components:
 #### 4. The 9-Stage SQL Logical Lifecycle & Why `WHERE` Filtering Fails
 In the ANSI SQL logical query processing model, window functions execute at **Stage 8**, immediately alongside `SELECT` projection, which is *after* `FROM`, `ON`, `JOIN`, `WHERE`, `GROUP BY`, and `HAVING` have fully resolved:
 
-```mermaid
-flowchart TD
-    subgraph RowFiltering ["Phase 1: Working Set & Row Filtering"]
-        direction LR
-        S1["<b>1. FROM</b><br/>(Identify source tables)"] --> S2["<b>2. ON</b><br/>(Join predicate filter)"]
-        S2 --> S3["<b>3. JOIN</b><br/>(Merge joined tables)"]
-        S3 --> S4["<b>4. WHERE</b><br/>(Filter rows prior to grouping)"]
-    end
+![SQL Execution Lifecycle: Why Window Functions Cannot Be in WHERE](assets/01_sql_and_advanced_querying/19_sql_lifecycle_window_execution.svg)
 
-    subgraph Aggregation ["Phase 2: Aggregation & Projection"]
-        direction LR
-        S5["<b>5. GROUP BY</b><br/>(Aggregate into buckets)"] --> S6["<b>6. HAVING</b><br/>(Filter grouped aggregates)"]
-        S6 --> S7["<b>7. SELECT</b><br/>(Evaluate expressions & aliases)"]
-        S7 --> S8["<b>8. WINDOW</b><br/>(Partitioned analytic functions)"]
-    end
-
-    subgraph Presentation ["Phase 3: Ordering & Pagination"]
-        direction LR
-        S9["<b>9. DISTINCT</b><br/>(Deduplicate rows)"] --> S10["<b>10. ORDER BY</b><br/>(Sort final dataset)"]
-        S10 --> S11["<b>11. LIMIT / OFFSET</b><br/>(Slice result pagination)"]
-    end
-
-    RowFiltering --> Aggregation --> Presentation
-
-    style RowFiltering fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Aggregation fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Presentation fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style S1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style S2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style S3 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style S4 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style S5 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style S6 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style S7 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style S8 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style S9 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style S10 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style S11 fill:#78350f,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-```
+*D2 Source: [`19_sql_lifecycle_window_execution.d2`](assets/01_sql_and_advanced_querying/19_sql_lifecycle_window_execution.d2)*
 
 > [!CAUTION]
 > **The Stage 8 Evaluation Invariant:**
@@ -3039,24 +2516,9 @@ The frame clause specifies the sliding window of rows evaluated relative to the 
 {ROWS | RANGE | GROUPS} BETWEEN frame_start AND frame_end
 ```
 
-```mermaid
-flowchart TD
-    subgraph FramingVisual ["Frame Comparison on Duplicate Values"]
-        Row1["Row 1: 2026-03-01 ($100)"]
-        Row2["Row 2: 2026-03-02 ($200) [TIE]"]
-        Row3["Row 3: 2026-03-02 ($200) [TIE]"]
-        
-        Row1 --> ROWS_Path["ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW<br/>(Row 2 Sum: $100 + $200 = $300, Row 3 Sum: $300 + $200 = $500)"]
-        Row1 --> RANGE_Path["RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW (Default!)<br/>(Row 2 Sum: $500 (Includes Row 3 because dates are tied!), Row 3 Sum: $500)"]
-    end
+![Window Framing Deep-Dive: ROWS vs RANGE on Duplicate Values](assets/01_sql_and_advanced_querying/20_rows_vs_range_framing.svg)
 
-    style FramingVisual fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Row1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Row2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Row3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ROWS_Path fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style RANGE_Path fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-```
+*D2 Source: [`20_rows_vs_range_framing.d2`](assets/01_sql_and_advanced_querying/20_rows_vs_range_framing.d2)*
 
 #### Concrete Framing Comparison Table
 
@@ -3402,36 +2864,9 @@ Modern execution engines (including Apache Spark 3.2+, Databricks Photon, and Sn
 
 $$\text{Island Identifier} = \text{Date} - \text{ROW\_NUMBER}() \times \text{INTERVAL '1 day'} = \text{Constant}$$
 
-```mermaid
-flowchart LR
-    subgraph RawDates ["User Daily Login Events"]
-        direction LR
-        D1["Jan 01 (Row 1)"] --> D2["Jan 02 (Row 2)"] --> D3["Jan 03 (Row 3)"]
-        D3 -.->|3-Day Inactivity Gap!| D4["Jan 07 (Row 4)"] --> D5["Jan 08 (Row 5)"]
-    end
+![The Gaps and Islands Problem: Difference-of-Ranks](assets/01_sql_and_advanced_querying/21_gaps_and_islands.svg)
 
-    subgraph DiffMath ["Difference: Date - RowNumber"]
-        direction TD
-        G1["Jan 01 - 1 = Dec 31 (Island A)"]
-        G2["Jan 02 - 2 = Dec 31 (Island A)"]
-        G3["Jan 03 - 3 = Dec 31 (Island A)"]
-        G4["Jan 07 - 4 = Jan 03 (Island B)"]
-        G5["Jan 08 - 5 = Jan 03 (Island B)"]
-    end
-
-    style RawDates fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DiffMath fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style D1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style D2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style D3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style D4 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style D5 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style G1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style G2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style G3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style G4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style G5 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`21_gaps_and_islands.d2`](assets/01_sql_and_advanced_querying/21_gaps_and_islands.d2)*
 
 #### Production Gaps and Islands SQL Implementation
 ```sql
@@ -3753,25 +3188,9 @@ A transaction is an atomic unit of work:
 | **T5** | `SELECT balance FROM accounts WHERE id = 1;`<br/>*(Returns `$500`)* | — | **NON-REPEATABLE READ ANOMALY:** Alice re-reads the exact same row inside her still-open transaction, but receives `$500` instead of `$1,000`! |
 | **T6** | `COMMIT;` | — | Alice transaction completes with internal inconsistency. |
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Alice as Transaction A (Alice)
-    participant DB as Accounts Table
-    actor Bob as Transaction B (Bob)
+![Transaction Isolation Timeline: Non-Repeatable Read Anomaly under READ COMMITTED](assets/01_sql_and_advanced_querying/22_isolation_read_committed_timeline.svg)
 
-    Note over Alice,Bob: Isolation: READ COMMITTED
-    Alice->>DB: BEGIN
-    Bob->>DB: BEGIN
-    Alice->>DB: SELECT balance WHERE id = 1
-    DB-->>Alice: Returns $1,000
-    Bob->>DB: UPDATE accounts SET balance = $500 WHERE id = 1
-    Bob->>DB: COMMIT
-    Alice->>DB: SELECT balance WHERE id = 1
-    DB-->>Alice: Returns $500 (Non-Repeatable Read!)
-    Alice->>DB: COMMIT
-```
+*D2 Source: [`22_isolation_read_committed_timeline.d2`](assets/01_sql_and_advanced_querying/22_isolation_read_committed_timeline.d2)*
 
 ---
 

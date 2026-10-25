@@ -1,0 +1,41 @@
+direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; rx: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke: "#4B5563"; stroke-width: 1; rx: 8 } }
+}
+
+pyramid: "1. Enterprise Testing Pyramid & Blast Radius" {
+  class: pillar
+  e2e: "End-to-End & Chaos Tests (5% Volume)\nSlow, Expensive, Staging Env Dependent" { class: stage }
+  contract: "Consumer-Driven Contract Tests (Pact) (10%)\nFast Microservice Boundary Schema Validation" { class: stage }
+  integration: "Integration Tests (Testcontainers + Context) (25%)\nReal Ephemeral PostgreSQL, Redis & Kafka" { class: stage }
+  unit: "Fast Isolated Unit Tests (JUnit 5 + Mockito) (60%)\nMillisecond Execution, Pure Memory Logic" { class: stage }
+  
+  e2e -> contract -> integration -> unit
+}
+
+spring_test: "2. Spring TestContext Framework & Caching" {
+  class: pillar
+  tcm: "TestContextManager\nCoordinates test execution lifecycle" { class: stage }
+  cache: "ContextCache (SHA-256 Key)\nReuses ApplicationContext across classes" { class: stage }
+  props: "@DynamicPropertySource\nInjects container host:port dynamically" { class: stage }
+  
+  tcm <-> cache
+  tcm -> props
+}
+
+containers: "3. Ephemeral Infrastructure (Testcontainers)" {
+  class: pillar
+  daemon: "Docker Daemon Host\nLocal socket /var/run/docker.sock" { class: stage }
+  ryuk: "Ryuk Moby Cleaner Container\nMonitors JVM heartbeat & purges on exit" { class: stage }
+  pg: "PostgreSQL 16 Container\nRandom port mapping 32778:5432" { class: stage }
+  kafka: "Apache Kafka KRaft Container\nZero Zookeeper dependency cluster" { class: stage }
+  
+  daemon -> ryuk
+  ryuk -> pg
+  ryuk -> kafka
+}
+
+pyramid.unit -> spring_test.tcm: "Spring Runner"
+pyramid.integration -> containers.daemon: "Spin Containers"
+containers.pg -> spring_test.props: "JDBC URLs"

@@ -1,0 +1,27 @@
+direction: right
+
+hash_calc: "1. Hash Calculation" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  h1: "h = key.hashCode()"
+  h2: "spread = h ^ (h >>> 16)"
+  index: "index = (n - 1) & spread"
+}
+
+table: "2. Array Table & Buckets" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  buckets: "table[index] Node<K,V>[]"
+  load: "Load Factor 0.75 threshold"
+}
+
+treeify: "3. Collision: Treeify vs Untreeify" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  tree: ">= 8 items & cap >= 64 -> Red-Black Tree O(log N)"
+  untree: "<= 6 items -> Revert to Linked List"
+  gap: "Hysteresis prevents thrashing"
+}
+
+hash_calc -> table: "Maps to bucket"
+table -> treeify: "Collision handling"

@@ -1,0 +1,45 @@
+direction: right
+
+tpp: "1. FinTech App (TPP)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  req: "GET /accounts (Signed DPoP JWT + mTLS)"
+}
+
+edge_auth: "2. Edge Validation (< 2ms)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  crypto: "RS256 Signature Verification"
+  bloom: "In-Memory Bloom Filter Revocation Check"
+}
+
+registry: "3. Central Registry (Fallback)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  redis: "Redis Token Blacklist"
+  pubsub: "Pub/Sub Syncs Bloom Filter"
+}
+
+account_svc: "4. Account API Service" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  core: "Fetch Balance with Masked PII"
+  audit: "GDPR Access Audit Trail in Kafka"
+}
+
+tpp -> edge_auth: "Inbound Request" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+edge_auth -> registry: "Bloom False Positive Disambiguation" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+edge_auth -> account_svc: "Verified Consent Dispatch" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

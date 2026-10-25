@@ -1,0 +1,17 @@
+direction: right
+classes: {
+  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  gate: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  fix_r: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  fix_g: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+incident: "RAG Emits Flawed / Hallucinated Answer" { class: fail }
+gate: "1. Inspect Retrieved Chunks\nDo chunks contain the ground-truth factual answer?" { class: gate }
+
+retrieval_fail: "TRIAGE RETRIEVAL SUBSYSTEM\n• Check PDF table parsing\n• Fix chunk boundary cuts\n• Add BM25 hybrid search\n• Deploy HyDE expansion" { class: fix_r }
+generation_fail: "TRIAGE GENERATION SUBSYSTEM\n• Fix Lost-in-the-Middle\n• Set Temperature = 0.0\n• Enforce strict system prompt\n• Add NLI post-verifier" { class: fix_g }
+
+incident -> gate
+gate -> retrieval_fail: "NO (Ground truth missing)"
+gate -> generation_fail: "YES (Ground truth present!)"

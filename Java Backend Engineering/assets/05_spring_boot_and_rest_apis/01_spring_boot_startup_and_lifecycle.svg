@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="560" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Enterprise Spring Core &amp; Spring Boot Runtime Architecture</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">End-to-end bootstrap: Environment setup, Bean definition scanning, lifecycle instantiation, and embedded server start</text>
+<rect x="30" y="85" width="220" height="445" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="140" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Startup &amp; Config</text>
+<rect x="70" y="122" width="140" height="18" rx="9" fill="#1d4ed8"/><text x="140" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SpringApplication.run()</text>
+<rect x="45" y="155" width="190" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Bootstrap &amp; Environment</text>
+<text x="55" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• application.yml &amp; profiles</text>
+<text x="55" y="214" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Environment variables &amp; args</text>
+<rect x="45" y="245" width="190" height="80" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="268" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Create ApplicationContext</text>
+<text x="55" y="288" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• AnnotationConfigServlet</text>
+<text x="55" y="302" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  WebServerAppContext</text>
+<text x="55" y="316" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Initializes BeanFactory</text>
+<rect x="45" y="340" width="190" height="85" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="363" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Auto-Configuration Engine</text>
+<text x="55" y="383" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Reads AutoConfiguration.imports</text>
+<text x="55" y="399" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Evaluates @ConditionalOnClass</text>
+<text x="55" y="413" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Evaluates @ConditionalOnMissingBean</text>
+<rect x="45" y="440" width="190" height="75" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="140" y="462" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Bootstrap Result</text>
+<text x="140" y="482" fill="#6EE7B7" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Configured Environment &amp;</text>
+<text x="140" y="498" fill="#6EE7B7" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Active Profiles Ready</text>
+<rect x="280" y="85" width="220" height="445" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="390" y="112" fill="#FDE68A" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Definitions &amp; Factory</text>
+<rect x="320" y="122" width="140" height="18" rx="9" fill="#b45309"/><text x="390" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">BeanFactory Setup</text>
+<rect x="295" y="155" width="190" height="80" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="305" y="178" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Scan Bean Definitions</text>
+<text x="305" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Scans @Component, @Service</text>
+<text x="305" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Parses @Bean factory methods</text>
+<text x="305" y="228" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Registers BeanDefinition objects</text>
+<rect x="295" y="250" width="190" height="85" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="305" y="273" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BeanFactoryPostProcessors</text>
+<text x="305" y="293" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Modifies BeanDefinitions BEFORE</text>
+<text x="305" y="307" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  any bean is instantiated!</text>
+<text x="305" y="323" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• PropertySourcesPlaceholderCfg</text>
+<rect x="295" y="350" width="190" height="80" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="305" y="373" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Instantiate Bean Instances</text>
+<text x="305" y="393" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Reflection / CGLIB constructor</text>
+<text x="305" y="409" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Raw bean instances created</text>
+<text x="305" y="423" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Placed in 3rd level singleton factory</text>
+<rect x="530" y="85" width="220" height="445" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="640" y="112" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Injection &amp; AOP</text>
+<rect x="570" y="122" width="140" height="18" rx="9" fill="#6d28d9"/><text x="640" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Lifecycle Pipeline</text>
+<rect x="545" y="155" width="190" height="80" rx="8" fill="#1e293b" stroke="#c084fc" stroke-width="1"/>
+<text x="555" y="178" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Populate Properties</text>
+<text x="555" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Autowired constructor / setter</text>
+<text x="555" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Resolves dependencies via DI</text>
+<text x="555" y="228" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Injects @Value property literals</text>
+<rect x="545" y="250" width="190" height="85" rx="8" fill="#1e293b" stroke="#c084fc" stroke-width="1"/>
+<text x="555" y="273" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Bean Initialization</text>
+<text x="555" y="293" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Aware callbacks (BeanNameAware)</text>
+<text x="555" y="309" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• @PostConstruct execution</text>
+<text x="555" y="323" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• InitializingBean.afterPropertiesSet()</text>
+<rect x="545" y="350" width="190" height="95" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="555" y="373" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BeanPostProcessor (AOP)</text>
+<text x="555" y="393" fill="#D1FAE5" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• postProcessAfterInitialization()</text>
+<text x="555" y="409" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Wraps target beans in CGLIB /</text>
+<text x="555" y="423" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  JDK dynamic proxies (@Transactional,</text>
+<text x="555" y="437" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  @Async, @Secured)</text>
+<rect x="780" y="85" width="230" height="445" rx="8" fill="#062e22" stroke="#10b981" stroke-width="1.5"/>
+<text x="895" y="112" fill="#34D399" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Web Server &amp; Ready</text>
+<rect x="825" y="122" width="140" height="18" rx="9" fill="#059669"/><text x="895" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Production Traffic</text>
+<rect x="795" y="155" width="200" height="80" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="805" y="178" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Embedded Web Server</text>
+<text x="805" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Starts Tomcat / Jetty / Undertow</text>
+<text x="805" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Binds to HTTP port (8080)</text>
+<text x="805" y="228" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Registers DispatcherServlet</text>
+<rect x="795" y="250" width="200" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="805" y="273" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Actuator Observability</text>
+<text x="805" y="293" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• /actuator/health (K8s probes)</text>
+<text x="805" y="309" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• /actuator/prometheus metrics</text>
+<text x="805" y="323" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• /actuator/info &amp; env</text>
+<rect x="795" y="350" width="200" height="95" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="805" y="373" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">ApplicationReadyEvent</text>
+<text x="805" y="393" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Fires readiness listener</text>
+<text x="805" y="409" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Kubernetes mark as Ready</text>
+<text x="805" y="425" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Begins serving live production</text>
+<text x="805" y="439" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  REST API traffic!</text>
+<line x1="250" y1="290" x2="280" y2="290" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="500" y1="290" x2="530" y2="290" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<line x1="750" y1="290" x2="780" y2="290" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

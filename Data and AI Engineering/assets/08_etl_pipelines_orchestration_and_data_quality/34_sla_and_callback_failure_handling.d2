@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  exec: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  hook_g: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  hook_r: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  hook_a: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  hook_c: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+task: "Task Instance Execution" { class: exec }
+state: "Execution Outcome" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+
+success_cb: "Execute: on_success_callback" { class: hook_g }
+retry_cb: "Execute: on_retry_callback" { class: hook_a }
+fail_cb: "Execute: on_failure_callback\n(Slack / PagerDuty)" { class: hook_r }
+sla_cb: "Execute: sla_miss_callback" { class: hook_c }
+
+task -> state
+state -> success_cb: "Succeeds"
+state -> retry_cb: "Fails (Retries Left)"
+state -> fail_cb: "Fails (Retries Exhausted)"
+state -> sla_cb: "Exceeds SLA Window"

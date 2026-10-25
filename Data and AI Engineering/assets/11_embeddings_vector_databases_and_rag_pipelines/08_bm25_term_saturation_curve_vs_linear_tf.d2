@@ -1,0 +1,10 @@
+direction: right
+classes: {
+  linear: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  bm25: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+naive_tf: "Naive Linear Term Frequency (TF)\nScore = TF\n(Unbounded growth, spam vulnerable)" { class: linear }
+bm25_tf: "BM25 Saturation Curve (k1 = 1.5)\nScore tapers off at (k1 + 1) = 2.5\n(Immune to keyword stuffing)" { class: bm25 }
+
+naive_tf -> bm25_tf: "BM25 Dampens Inflation"

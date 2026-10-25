@@ -6,32 +6,9 @@ A comprehensive, production-grade guide to Apache Spark distributed computing ar
 
 ## Architectural Overview: Apache Spark Cluster & Query Lifecycle Architecture
 
-```mermaid
-flowchart TD
-    subgraph DriverNode ["Spark Driver (Cluster Master)"]
-        SparkSession["SparkSession & DataFrame API<br/>(User Python / SQL code)"]
-        Catalyst["Catalyst Optimizer<br/>(Analysis -> Logical Plan -> Optimized Physical Plan)"]
-        DAGScheduler["DAG Scheduler<br/>(Divides query into Stages by shuffle boundaries)"]
-        TaskScheduler["Task Scheduler<br/>(Launches individual tasks onto executors)"]
-    end
-    subgraph WorkerNodes ["Distributed Spark Executors"]
-        E1["Executor 1 (Tasks + Tungsten Memory)<br/>(Off-heap memory management & byte-code generation)"]
-        E2["Executor 2 (Tasks + Tungsten Memory)<br/>(Block Manager, Shuffle Service, Local Disks)"]
-    end
+![Spark Distributed Cluster Architecture](assets/05_apache_spark_and_pyspark/01_spark_cluster_architecture_driver_executors.svg)
 
-    SparkSession --> Catalyst --> DAGScheduler --> TaskScheduler
-    TaskScheduler -->|"Launches tasks"| E1
-    TaskScheduler -->|"Launches tasks"| E2
-
-    style DriverNode fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style WorkerNodes fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style SparkSession fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Catalyst fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DAGScheduler fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style TaskScheduler fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style E1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style E2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/01_spark_cluster_architecture_driver_executors.d2](assets/05_apache_spark_and_pyspark/01_spark_cluster_architecture_driver_executors.d2)
 
 ---
 
@@ -121,54 +98,9 @@ Apache Spark is an open-source, distributed, general-purpose cluster-computing f
 #### Definition
 Apache Spark operates on a **Master-Worker architecture** coordinated by a central Driver program and a pluggable Cluster Manager.
 
-```mermaid
-flowchart TD
-    subgraph ClientDriver ["Driver Node (Coordinator)"]
-        direction LR
-        App["Spark Application Code"] --> SC["SparkSession / SparkContext"] --> DAGScheduler["DAG Scheduler (Stages)"] --> TaskScheduler["Task Scheduler (Tasks)"]
-    end
+![Driver to Executor Task Scheduling Flow](assets/05_apache_spark_and_pyspark/02_driver_to_executor_task_scheduling_flow.svg)
 
-    subgraph ClusterMgr ["Cluster Manager (Kubernetes / YARN / Standalone)"]
-        CM["Resource Allocator & Container Master"]
-    end
-
-    subgraph Worker1 ["Worker Node 1"]
-        subgraph Exec1 ["Executor 1 (JVM Container)"]
-            direction LR
-            Slot1["Task Slot 1 (Core)"] --- Slot2["Task Slot 2 (Core)"] --- BlockMgr1["Block Manager (RAM)"]
-        end
-    end
-
-    subgraph Worker2 ["Worker Node 2"]
-        subgraph Exec2 ["Executor 2 (JVM Container)"]
-            direction LR
-            Slot3["Task Slot 3 (Core)"] --- Slot4["Task Slot 4 (Core)"] --- BlockMgr2["Block Manager (RAM)"]
-        end
-    end
-
-    SC <-->|Request & Allocate Containers| CM
-    CM -->|Launch Containers| BlockMgr1 & BlockMgr2
-    TaskScheduler -->|Distribute Tasks| Slot1 & Slot2 & Slot3 & Slot4
-
-    style ClientDriver fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ClusterMgr fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Worker1 fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style Worker2 fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style Exec1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#86efac
-    style Exec2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#86efac
-
-    style App fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style SC fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style DAGScheduler fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style TaskScheduler fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style CM fill:#182234,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Slot1 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Slot2 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style BlockMgr1 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Slot3 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Slot4 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style BlockMgr2 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/02_driver_to_executor_task_scheduling_flow.d2](assets/05_apache_spark_and_pyspark/02_driver_to_executor_task_scheduling_flow.d2)
 
 #### Key Architectural Components
 1. **Driver Program:** The process running the `main()` method of the application. It creates the `SparkSession`, translates code into a DAG, splits stages, and assigns tasks to executor worker slots.
@@ -191,23 +123,9 @@ Spark provides three core data abstractions:
 - **DataFrame:** A distributed collection of data organized into named columns (conceptually equivalent to a relational table). Untyped in Java/Scala (`Dataset[Row]`), dynamically typed in Python. Fully optimized by Catalyst and Tungsten.
 - **Dataset:** A strongly typed, object-oriented API available only in JVM languages (Scala and Java). Provides compile-time type safety with the performance benefits of Catalyst.
 
-```mermaid
-flowchart TD
-    subgraph AbstractionHierarchy ["Spark Data Abstractions Evolution"]
-        RDD["RDD (Low-Level JVM Objects)<br/>No Schema, No Optimization, High GC Overhead"]
-        DF["DataFrame (Relational Table Schema)<br/>Catalyst Optimized, Tungsten Off-Heap Memory, Fast in PySpark"]
-        DS["Dataset (Strongly Typed JVM Objects)<br/>Scala/Java Compile-Time Safety + Catalyst Optimization"]
-        
-        RDD -->|Schema Enforced| DF
-        DF -->|Type Checked| DS
-    end
+![Spark Data Abstractions Evolution](assets/05_apache_spark_and_pyspark/03_rdd_dataframe_dataset_evolution.svg)
 
-    style AbstractionHierarchy fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style RDD fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DF fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DS fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/03_rdd_dataframe_dataset_evolution.d2](assets/05_apache_spark_and_pyspark/03_rdd_dataframe_dataset_evolution.d2)
 
 #### Detailed Mechanical Breakdown
 1. **Resilient Distributed Datasets (RDDs):**
@@ -244,26 +162,9 @@ flowchart TD
 #### Definition
 Spark operations are strictly divided into **Transformations** and **Actions**. Transformations are **lazy**: calling `.filter()` or `.select()` does not compute results or read data from storage immediately; instead, Spark records the transformation into a logical execution graph (**Lineage Graph**). Computation only executes when an **Action** (such as `.count()`, `.collect()`, or `.write`) is invoked.
 
-```mermaid
-flowchart LR
-    Read["read.parquet()"] -->|Transformation| F["filter(amount > 100)"]
-    F -->|Transformation| G["groupBy('region')"]
-    G -->|Transformation| S["agg(sum('amount'))"]
-    
-    subgraph LazyExecution ["Driver Graph Construction (Lazy - Zero Compute)"]
-        Read -.-> F -.-> G -.-> S
-    end
+![Spark Lazy Evaluation Pipeline](assets/05_apache_spark_and_pyspark/04_lazy_evaluation_transformation_vs_action.svg)
 
-    S -->|"ACTION: write.save()"| Execute["Trigger Job Execution!<br/>Catalyst builds physical plan and executes!"]
-
-    style LazyExecution fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-
-    style Read fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style F fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style G fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Execute fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/04_lazy_evaluation_transformation_vs_action.d2](assets/05_apache_spark_and_pyspark/04_lazy_evaluation_transformation_vs_action.d2)
 
 #### Why Lazy Evaluation Matters
 - Enables **Whole-Stage Optimization**: Spark views the entire pipeline before executing, allowing Catalyst to push filters directly into storage readers and combine multiple map operations into a single CPU loop.
@@ -282,82 +183,18 @@ A Directed Acyclic Graph (DAG) is the internal mathematical representation of a 
 - **Acyclic:** No circular loops or infinite cycles.
 - **Graph:** Vertices represent RDD partitions and operations; edges represent data transformations.
 
-```mermaid
-flowchart TD
-    subgraph Stage1 ["Stage 1: Scan & Filter (Narrow)"]
-        A1["Partition 1 Scan"] --> B1["Filter"]
-        A2["Partition 2 Scan"] --> B2["Filter"]
-    end
+![Spark DAG Stage Boundary and Shuffle Exchange](assets/05_apache_spark_and_pyspark/05_dag_stage_boundary_shuffle_split.svg)
 
-    subgraph ShuffleBoundary ["Wide Dependency: Network Shuffle Barrier"]
-        B1 & B2 -.->|Hash Partitioning Shuffle| Reducers
-    end
-
-    subgraph Stage2 ["Stage 2: Reduce & Aggregate"]
-        Reducers["Hash Reducer 1"] --> C1["Final Aggregate"]
-        Reducers --> C2["Final Aggregate"]
-    end
-
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ShuffleBoundary fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Stage2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style A1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style A2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Reducers fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style C1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style C2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/05_dag_stage_boundary_shuffle_split.d2](assets/05_apache_spark_and_pyspark/05_dag_stage_boundary_shuffle_split.d2)
 
 #### Fault Tolerance via Lineage
 If an executor crashes and loses a data partition mid-job, Spark does not restart the entire job. It consults the DAG lineage graph to recompute **only the missing partition** from the original source files.
 
 #### Visualizing the End-to-End Lifecycle of a Spark Query
 
-```mermaid
-flowchart TD
-    subgraph Client_Space ["Client / Driver Program"]
-        A["PySpark Code / DataFrame API"] --> B["Catalyst Logical Plan Analysis"]
-        B --> C["Catalyst Logical Optimization"]
-        C --> D["Physical Planning (Cost-Based Optimizer)"]
-        D --> E["Tungsten Whole-Stage Code Generation"]
-        E --> F["Action: show() / count() triggers DAG Scheduler"]
-    end
-    
-    subgraph Cluster_Orchestration ["Cluster Manager (Kubernetes / YARN / Standalone)"]
-        F --> G["DAG divided into Stages by Shuffle Boundaries"]
-        G --> H["Stages divided into Tasks (1 Task per Data Partition)"]
-        H --> I["Task Scheduler dispatches Tasks to Worker Fleet"]
-    end
+![PySpark Runtime Architecture and Py4J Interop](assets/05_apache_spark_and_pyspark/06_pyspark_py4j_driver_worker_interop.svg)
 
-    subgraph Worker_Nodes ["Executors on Distributed Worker Nodes"]
-        I --> J1["Executor 1: Run Tasks on CPU Cores 1..N"]
-        I --> J2["Executor 2: Run Tasks on CPU Cores 1..N"]
-        J1 --> K["Shuffle Exchange (Network Disk Spill I/O)"]
-        J2 --> K
-        K --> L["Final Stage Aggregation & Result Returned to Driver"]
-    end
-
-    style Client_Space fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Cluster_Orchestration fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Worker_Nodes fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style A fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style C fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style D fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style E fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style F fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style G fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style H fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style I fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style J1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style J2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style K fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style L fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/06_pyspark_py4j_driver_worker_interop.d2](assets/05_apache_spark_and_pyspark/06_pyspark_py4j_driver_worker_interop.d2)
 
 #### References
 - [GeeksforGeeks: DAG in Apache Spark](https://www.geeksforgeeks.org/directed-acyclic-graphdag-in-apache-spark/)
@@ -370,38 +207,9 @@ flowchart TD
 #### Definition
 The Catalyst Optimizer is the core optimization engine powering Spark SQL, DataFrames, and Datasets. It applies rule-based and cost-based optimizations across four distinct phases:
 
-```mermaid
-flowchart TD
-    subgraph Stage1 ["Stage 1: Analysis & Catalog Resolution"]
-        direction LR
-        Unresolved["1. Unresolved Logical Plan<br/>(Code Syntax Tree)"] --> Catalog["Catalog / Metastore<br/>(Resolve Tables & Columns)"] --> Logical["2. Resolved Logical Plan<br/>(Valid Attributes)"]
-    end
+![Catalyst Optimizer 4 Query Compilation Phases](assets/05_apache_spark_and_pyspark/07_catalyst_optimizer_four_phases.svg)
 
-    subgraph Stage2 ["Stage 2: Logical & Cost Optimization"]
-        direction LR
-        OptLogical["3. Optimized Logical Plan<br/>(Predicate Pushdown & Projection Pruning)"] --> CBO["4. Cost-Based Optimizer (CBO)<br/>(Evaluate Join Reordering & Stats)"]
-    end
-
-    subgraph Stage3 ["Stage 3: Physical Planning & Code Generation"]
-        direction LR
-        Phys["5. Selected Physical Plan<br/>(SparkPlan Strategy Selection)"] --> CodeGen["6. Whole-Stage CodeGen<br/>(Janino Bytecode Generation)"] --> Exec["7. Execution on Workers<br/>(Tungsten Off-Heap Engine)"]
-    end
-
-    Stage1 --> Stage2
-    Stage2 --> Stage3
-
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Stage2 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Stage3 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Unresolved fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Catalog fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Logical fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style OptLogical fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style CBO fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Phys fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CodeGen fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Exec fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/07_catalyst_optimizer_four_phases.d2](assets/05_apache_spark_and_pyspark/07_catalyst_optimizer_four_phases.d2)
 
 #### Key Optimization Techniques
 1. **Predicate Pushdown:** Moves `.filter()` directly into storage readers (Parquet footer min/max).
@@ -420,23 +228,9 @@ flowchart TD
 #### Definition
 Project Tungsten is the underlying CPU and memory performance engine of Apache Spark, designed to eliminate JVM memory overhead and maximize modern hardware efficiency.
 
-```mermaid
-flowchart LR
-    subgraph TungstenPipeline ["Project Tungsten Execution Engine Architecture"]
-        direction LR
-        OffHeap["<b>1. Memory Management</b><br/>(Binary Off-Heap Formats via sun.misc.Unsafe)"]
-        CacheAware["<b>2. Cache-Aware Computation</b><br/>(8-Byte Key/Pointer Arrays aligned to 64-byte Cache Lines)"]
-        CodeGen["<b>3. Whole-Stage Codegen</b><br/>(Janino compiles physical plan into a single flattened loop)"]
-        
-        OffHeap -->|"Binary Pointers"| CacheAware
-        CacheAware -->|"L1 Cache Residency"| CodeGen
-    end
+![Project Tungsten Execution Engine Architecture](assets/05_apache_spark_and_pyspark/08_tungsten_offheap_cache_conscious_engine.svg)
 
-    style TungstenPipeline fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style OffHeap fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CacheAware fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CodeGen fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/08_tungsten_offheap_cache_conscious_engine.d2](assets/05_apache_spark_and_pyspark/08_tungsten_offheap_cache_conscious_engine.d2)
 
 #### Architectural Impact
 - **Off-Heap Memory:** Stores tabular rows as compact binary bytes outside the JVM garbage collector heap. A 10GB dataset consumes 10GB of RAM (unlike standard JVM objects which balloon to 40GB with object headers).
@@ -454,32 +248,9 @@ flowchart LR
 - **Narrow Dependency:** Each partition of the parent RDD/DataFrame is used by at most **one** partition of the child. Data does not move across cluster nodes. Highly performant.
 - **Wide Dependency:** Multiple child partitions depend on data from a single parent partition. Requires a **Shuffle** where data is serialized, sorted, and transmitted across the cluster network.
 
-```mermaid
-flowchart TD
-    subgraph NarrowDep ["Narrow Dependency: No Shuffle (Fast)"]
-        P1["Parent Part 1"] --> C1["Child Part 1 (map / filter)"]
-        P2["Parent Part 2"] --> C2["Child Part 2 (map / filter)"]
-    end
+![Narrow vs Wide Dependencies Mechanics](assets/05_apache_spark_and_pyspark/09_narrow_vs_wide_dependencies.svg)
 
-    subgraph WideDep ["Wide Dependency: Full Shuffle (Network I/O)"]
-        WP1["Parent Part 1"] --> WC1["Child Part 1 (groupBy)"]
-        WP1 --> WC2["Child Part 2 (groupBy)"]
-        WP2["Parent Part 2"] --> WC1
-        WP2 --> WC2
-    end
-
-    style NarrowDep fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style WideDep fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-
-    style P1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style C1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style P2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style C2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style WP1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style WC1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style WC2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style WP2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/09_narrow_vs_wide_dependencies.d2](assets/05_apache_spark_and_pyspark/09_narrow_vs_wide_dependencies.d2)
 
 #### Operations Classification
 - **Narrow Operations:** `select()`, `filter()`, `map()`, `union()`, `coalesce()`
@@ -530,34 +301,9 @@ Every operation in Apache Spark belongs to one of two fundamental functional cat
 #### Definition
 Shuffling is the physical process of redistributing data across cluster worker nodes so that all records sharing the same partition key (e.g., all rows with `customer_id = 45`) end up located on the same physical worker node for grouping or joining.
 
-```mermaid
-flowchart TD
-    subgraph ShuffleWritePhase ["Stage 1: Shuffle Write Phase"]
-        W1["Worker 1: Hash Partitions Local Memory"] --> SW1["Spills Shuffle Files to Local NVMe Disk"]
-        W2["Worker 2: Hash Partitions Local Memory"] --> SW2["Spills Shuffle Files to Local NVMe Disk"]
-    end
+![Spark SortShuffleManager Internals](assets/05_apache_spark_and_pyspark/10_shuffle_internals_sort_shuffle_manager.svg)
 
-    subgraph NetworkPhase ["Network Transfer Layer"]
-        SW1 & SW2 -.->|All-to-All Network Transfer| Net[Cluster Network Backbone]
-    end
-
-    subgraph ShuffleReadPhase ["Stage 2: Shuffle Read Phase"]
-        Net --> R1["Worker 1 (Pulls Key Hash % 2 = 0)"]
-        Net --> R2["Worker 2 (Pulls Key Hash % 2 = 1)"]
-    end
-
-    style ShuffleWritePhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style NetworkPhase fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ShuffleReadPhase fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style W1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SW1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style W2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SW2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Net fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style R1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style R2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/10_shuffle_internals_sort_shuffle_manager.d2](assets/05_apache_spark_and_pyspark/10_shuffle_internals_sort_shuffle_manager.d2)
 
 #### Why Shuffling is the #1 Performance Bottleneck
 1. **Disk I/O:** Every shuffle writes temporary map files to local worker disks.
@@ -595,41 +341,9 @@ Spark executes applications through a strict three-level hierarchical breakdown:
 3. **Stage:** A Job is split into multiple Stages separated by **Shuffle boundaries** (Wide Dependencies).
 4. **Task:** The smallest unit of execution in Spark. A Stage is split into Tasks based on the number of data partitions. One Task executes on one Partition inside one Executor Slot.
 
-```mermaid
-flowchart TD
-    subgraph AppLevel ["Spark Application"]
-        Job1["Job 1: Action (.count())"]
-        Job2["Job 2: Action (.write.parquet())"]
-    end
+![Spark Execution Hierarchy: App to Task](assets/05_apache_spark_and_pyspark/11_spark_application_job_stage_task_hierarchy.svg)
 
-    subgraph JobLevel ["Job 2 Decomposition"]
-        Stage1["Stage 1: Scan & Map (200 Partitions)"]
-        Stage2["Stage 2: Shuffle & Aggregate (200 Partitions)"]
-        
-        Stage1 -->|Shuffle Barrier| Stage2
-    end
-
-    subgraph TaskLevel ["Stage 1 Tasks (Executed in Parallel Across Slots)"]
-        T1["Task 1 (Partition 1)"]
-        T2["Task 2 (Partition 2)"]
-        TN["... Task 200 (Partition 200)"]
-    end
-
-    Job2 --> Stage1
-    Stage1 --> T1 & T2 & TN
-
-    style AppLevel fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style JobLevel fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style TaskLevel fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style Job1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Job2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Stage1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Stage2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style T1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style TN fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/11_spark_application_job_stage_task_hierarchy.d2](assets/05_apache_spark_and_pyspark/11_spark_application_job_stage_task_hierarchy.d2)
 
 #### References
 - [GeeksforGeeks: Jobs, Stages, and Tasks in Spark](https://www.geeksforgeeks.org/apache-spark-jobs-stages-tasks/)
@@ -642,36 +356,9 @@ flowchart TD
 #### Definition
 Introduced in Spark 3.0, Adaptive Query Execution (AQE) is an optimization framework that re-optimizes and mutates the physical query execution plan **at runtime based on actual stage runtime statistics**.
 
-```mermaid
-flowchart LR
-    subgraph TraditionalExecution ["Traditional Execution: Static Plan Fixed at Compile Time"]
-        direction LR
-        Compile["Compile Plan"] --> RunAll["Execute All Stages (Cannot Adapt to Runtime Skew)"]
-    end
+![Adaptive Query Execution (AQE) Dynamic Re-Optimization](assets/05_apache_spark_and_pyspark/12_adaptive_query_execution_runtime_reoptimization.svg)
 
-    subgraph AQEExecution ["Adaptive Query Execution (AQE): Dynamic Re-Optimization"]
-        direction LR
-        Stage1Done["Stage 1 Completes (Shuffle Files Written)"] --> Stats["Inspect Real Runtime Stage Stats!"]
-        Stats --> Adapt{"Runtime Optimizations Triggered:"}
-        Adapt --> Opt1["1. Dynamically Coalesce Small Shuffle Partitions"]
-        Adapt --> Opt2["2. Dynamically Switch Sort-Merge Join to Broadcast Join"]
-        Adapt --> Opt3["3. Dynamically Split & Handle Skewed Partitions"]
-        Opt1 & Opt2 & Opt3 --> Stage2Run["Execute Stage 2 with Optimized Plan!"]
-    end
-
-    style TraditionalExecution fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style AQEExecution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style Compile fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style RunAll fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Stage1Done fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Stats fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Adapt fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Opt1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Opt2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Opt3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Stage2Run fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/12_adaptive_query_execution_runtime_reoptimization.d2](assets/05_apache_spark_and_pyspark/12_adaptive_query_execution_runtime_reoptimization.d2)
 
 #### The Three Core Features of AQE
 1. **Dynamically Coalescing Shuffle Partitions:** If shuffle partitions are tiny (e.g. 200 partitions of 1MB each), AQE merges them into a smaller number of balanced partitions (e.g., 5 partitions of 40MB).
@@ -698,15 +385,9 @@ Dynamic Partition Pruning (DPP) skips reading irrelevant partitions in large fac
 
 Unlike static pruning, where the filter is a literal (`WHERE date = '2024-10-01'`), DPP handles dynamic filters (`WHERE dim_store.region = 'EMEA'`) by calculating the list of matching partition keys from the dimension table at runtime and injecting them directly into the fact table scan.
 
-```mermaid
-flowchart LR
-    DimScan["Scan dim_store (WHERE region = 'EMEA')"] --> Keys["Calculate Matching Store Keys: [10, 25, 42]"]
-    Keys -.->|Dynamic Broadcast Filter| FactScan["Scan fact_sales (Prunes 90% of Partition Folders!)"]
+![Dynamic Partition Pruning (DPP) in Star Joins](assets/05_apache_spark_and_pyspark/13_dynamic_partition_pruning_star_join.svg)
 
-    style DimScan fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Keys fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style FactScan fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/13_dynamic_partition_pruning_star_join.d2](assets/05_apache_spark_and_pyspark/13_dynamic_partition_pruning_star_join.d2)
 
 #### References
 - [Databricks: Dynamic Partition Pruning](https://www.databricks.com/blog/2020/05/29/dynamic-partition-pruning-in-apache-spark.html)
@@ -726,36 +407,9 @@ Both functions change the number of partitions in a DataFrame, but they use comp
 | **Data Distribution** | Uneven (Merges adjacent partitions locally) | Uniform (Hash-distributed across all nodes) |
 | **Use Case** | Merging small files before writing to storage | Eliminating data skew; increasing parallelism |
 
-```mermaid
-flowchart TD
-    subgraph CoalesceOp ["coalesce(2) from 4 Partitions: Zero Shuffle"]
-        P1["Node 1 Part 1"] & P2["Node 1 Part 2"] --> CNode1["Merged Part A (Local)"]
-        P3["Node 2 Part 3"] & P4["Node 2 Part 4"] --> CNode2["Merged Part B (Local)"]
-    end
+![Spark Partitioning: Repartition vs Coalesce](assets/05_apache_spark_and_pyspark/14_repartition_vs_coalesce_mechanics.svg)
 
-    subgraph RepartitionOp ["repartition(2) from 4 Partitions: Full Shuffle"]
-        RP1["Part 1"] & RP2["Part 2"] & RP3["Part 3"] & RP4["Part 4"] --> Shuffle["Cluster Network Shuffle"]
-        Shuffle --> RC1["Even Part A"]
-        Shuffle --> RC2["Even Part B"]
-    end
-
-    style CoalesceOp fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style RepartitionOp fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-
-    style P1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style P2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CNode1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style P3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style P4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CNode2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style RP1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RP2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RP3 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RP4 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Shuffle fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RC1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RC2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/14_repartition_vs_coalesce_mechanics.d2](assets/05_apache_spark_and_pyspark/14_repartition_vs_coalesce_mechanics.d2)
 
 #### Code Example
 ```python
@@ -793,22 +447,9 @@ $$	ext{Partitions} = \frac{	ext{Total Shuffle Volume (e.g. 500GB)}}{150	ext{MB}}
 #### Definition
 The Spark UI is a web dashboard (running by default on port `4040` on the Driver) providing deep operational metrics on running and completed jobs.
 
-```mermaid
-flowchart TD
-    UI["Spark UI Core Tabs"]
-    UI --> Jobs["Jobs Tab: High-level Action duration & progress"]
-    UI --> Stages["Stages Tab: DAG visualization, shuffle read/write, task skew"]
-    UI --> Storage["Storage Tab: Cached DataFrames and memory utilization"]
-    UI --> Exec["Executors Tab: Garbage collection time, disk spills, thread state"]
-    UI --> SQL["SQL Tab: Catalyst execution plan and execution metrics"]
+![Spark UI Performance Diagnostics Architecture](assets/05_apache_spark_and_pyspark/15_spark_ui_debugging_stages_storage_executors.svg)
 
-    style UI fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Jobs fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Stages fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Storage fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Exec fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SQL fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/15_spark_ui_debugging_stages_storage_executors.d2](assets/05_apache_spark_and_pyspark/15_spark_ui_debugging_stages_storage_executors.d2)
 
 #### Key Diagnostic Checkpoints in Spark UI
 1. **SQL Tab:** Inspect the physical plan to verify if broadcast joins and predicate pushdowns were triggered.
@@ -1005,28 +646,9 @@ df_pivoted = df_sales.groupBy("product_id") \
 - **Standard Python UDF:** Executes row-by-row. Data is serialized from the JVM across a local socket to a Python worker process (via Py4J / Pickle), evaluated, and serialized back to the JVM. Extremely slow (10x to 100x slower than native SQL).
 - **Vectorized Pandas UDF (`@pandas_udf`):** Built on **Apache Arrow**. Transfers entire batches of columnar records in-memory directly between the JVM and Python processes without serialization overhead, executing SIMD-accelerated NumPy/Pandas operations.
 
-```mermaid
-flowchart LR
-    subgraph StandardUDF ["Standard Python UDF: Row-by-Row Bottleneck"]
-        direction LR
-        JVM1[JVM Memory] -->|Serialize Row via Pickle| PyProc1[Python Worker Process]
-        PyProc1 -->|Execute Python Function| PyProc1
-        PyProc1 -->|Deserialize Row to JVM| JVM1
-    end
+![Python UDF vs Vectorized Pandas UDF via Apache Arrow](assets/05_apache_spark_and_pyspark/16_python_udf_vs_vectorized_pandas_udf_arrow.svg)
 
-    subgraph VectorizedArrowUDF ["Vectorized Pandas UDF: Zero-Copy Apache Arrow"]
-        direction LR
-        JVM2[JVM Memory] <-->|Apache Arrow Shared In-Memory Format| VectorPy[Python Pandas / NumPy Batch Processing]
-    end
-
-    style StandardUDF fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style VectorizedArrowUDF fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style JVM1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style PyProc1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style JVM2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style VectorPy fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/16_python_udf_vs_vectorized_pandas_udf_arrow.d2](assets/05_apache_spark_and_pyspark/16_python_udf_vs_vectorized_pandas_udf_arrow.d2)
 
 #### Code Example
 ```python
@@ -1255,43 +877,9 @@ When joining two distributed DataFrames across a cluster, Spark selects one of s
 #### Definition
 A Broadcast Hash Join copies the smaller table across the network to all executor nodes. Each executor builds an in-memory hash table of the small dataset and scans its local partition of the large table. **Zero network shuffling of the large table occurs.**
 
-```mermaid
-flowchart TD
-    subgraph DriverBroadcast ["Driver Layer & Broadcast Distribution"]
-        Driver["<b>Driver Node</b>"]
-        SmallDim[("Small Dim Table (15MB)")] --> Driver
-    end
+![Broadcast Hash Join (BHJ) Architecture](assets/05_apache_spark_and_pyspark/17_broadcast_hash_join_bhj_distribution.svg)
 
-    subgraph WorkerExecution ["Executor Worker Tasks"]
-        direction LR
-        subgraph Worker1 ["Worker 1"]
-            W1["Local Hash Table"]
-            LargeFact1[("Fact Partition 1 (500GB)")] --> W1
-            W1 --> Out1["Local Join Complete<br/>(Zero Network Shuffle)"]
-        end
-        subgraph Worker2 ["Worker 2"]
-            W2["Local Hash Table"]
-            LargeFact2[("Fact Partition 2 (500GB)")] --> W2
-            W2 --> Out2["Local Join Complete<br/>(Zero Network Shuffle)"]
-        end
-    end
-
-    Driver -->|Torrent Broadcast Copy| W1
-    Driver -->|Torrent Broadcast Copy| W2
-
-    style DriverBroadcast fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style WorkerExecution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Worker1 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Worker2 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Driver fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SmallDim fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style W1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style W2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style LargeFact1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style LargeFact2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Out1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Out2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/17_broadcast_hash_join_bhj_distribution.d2](assets/05_apache_spark_and_pyspark/17_broadcast_hash_join_bhj_distribution.d2)
 
 #### Code Example
 ```python
@@ -1337,34 +925,9 @@ Sort-Merge Join is the default physical join strategy in Spark for joining two l
 2. **Sort:** Each executor sorts its partition locally by the join key.
 3. **Merge:** A coordinated pointer streams through both sorted partitions, merging matching keys.
 
-```mermaid
-flowchart TD
-    subgraph Step1Shuffle ["1. Shuffle Phase"]
-        T1["Table 1 Partition"] & T2["Table 2 Partition"] --> Shuffle["Hash Shuffle across Network"]
-    end
+![Sort-Merge Join (SMJ) Architecture](assets/05_apache_spark_and_pyspark/18_shuffle_hash_join_vs_sort_merge_join.svg)
 
-    subgraph Step2Sort ["2. Local Sort Phase"]
-        Shuffle --> S1["Sort Table 1 Keys on Worker"]
-        Shuffle --> S2["Sort Table 2 Keys on Worker"]
-    end
-
-    subgraph Step3Merge ["3. Sequential Merge Phase"]
-        S1 & S2 --> M["Linear Pointer Merge: O(N + M)"]
-        M --> Out["Joined Stream Output"]
-    end
-
-    style Step1Shuffle fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Step2Sort fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Step3Merge fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style T1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style T2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Shuffle fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style M fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Out fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/18_shuffle_hash_join_vs_sort_merge_join.d2](assets/05_apache_spark_and_pyspark/18_shuffle_hash_join_vs_sort_merge_join.d2)
 
 #### Advantages
 Extremely robust and scalable. Can handle terabyte-scale datasets because it streams through sorted data without needing to hold entire tables in memory.
@@ -1396,33 +959,9 @@ Data skew occurs when an asymmetric distribution of keys (e.g., 90% of orders be
 #### Automatic Handling via AQE
 Adaptive Query Execution automatically detects skewed partitions (partitions exceeding `spark.sql.adaptive.skewJoin.skewedPartitionFactor * medianSize`) and splits the skewed partition into smaller sub-partitions, replicating the matching dimension partition to join them in parallel.
 
-```mermaid
-flowchart TD
-    subgraph WithoutAQE ["Skewed Join: Single Reducer Overloaded"]
-        WKey1["Customer 1: 50,000,000 Rows"] --> Reducer1["Worker 1: Spills & Runs 4 Hours (Straggler)"]
-        WKey2["Customer 2: 1,000 Rows"] --> Reducer2["Worker 2: Finished in 1 Second"]
-    end
+![AQE Skew Join Dynamic Splitting](assets/05_apache_spark_and_pyspark/19_aqe_skew_join_optimization_splitting.svg)
 
-    subgraph WithAQE ["AQE Skew Join: Dynamic Splitting"]
-        WKey1 --> Split1["Chunk 1A (10M Rows)"] --> ReducerA["Worker A"]
-        WKey1 --> Split2["Chunk 1B (10M Rows)"] --> ReducerB["Worker B"]
-        WKey1 --> Split3["Chunk 1C (10M Rows)"] --> ReducerC["Worker C"]
-    end
-
-    style WithoutAQE fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style WithAQE fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style WKey1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Reducer1 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style WKey2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Reducer2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Split1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ReducerA fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Split2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ReducerB fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Split3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ReducerC fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/19_aqe_skew_join_optimization_splitting.d2](assets/05_apache_spark_and_pyspark/19_aqe_skew_join_optimization_splitting.d2)
 
 #### References
 - [Databricks Documentation: Optimize Skew Joins](https://docs.databricks.com/en/optimizations/skew-join.html)
@@ -1438,30 +977,9 @@ When joining two large tables (e.g., 500 GB Fact joined with 300 GB Dimension) w
 #### Solution: Bucketing
 **Bucketing** physically pre-sorts and pre-partitions datasets based on the hash of the join key when writing to storage. If two tables are pre-bucketed on the same join key with identical (or integer-multiple) bucket counts, Spark **completely eliminates the Shuffle Exchange stage**, streaming pre-matched buckets directly into worker sort-merge executors.
 
-```mermaid
-flowchart TD
-    subgraph PreBucketedTables ["Pre-Bucketed Storage (32 Buckets on customer_id)"]
-        FactTable[("fact_orders\n(Bucket 0..31 on customer_id)")]
-        DimTable[("dim_customers\n(Bucket 0..31 on customer_id)")]
-    end
+![Bucket Join Optimization: Zero Shuffle](assets/05_apache_spark_and_pyspark/20_bucket_join_optimization_zero_shuffle.svg)
 
-    subgraph DirectJoinExecution ["Co-Located Sort-Merge Join (Zero Network Shuffle!)"]
-        Task0["Task 0: SMJ(Fact Bucket 0, Dim Bucket 0)"]
-        Task1["Task 1: SMJ(Fact Bucket 1, Dim Bucket 1)"]
-        TaskN["Task 31: SMJ(Fact Bucket 31, Dim Bucket 31)"]
-    end
-
-    FactTable --> Task0 & Task1 & TaskN
-    DimTable --> Task0 & Task1 & TaskN
-
-    style PreBucketedTables fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style DirectJoinExecution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style FactTable fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style DimTable fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Task0 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Task1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style TaskN fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/20_bucket_join_optimization_zero_shuffle.d2](assets/05_apache_spark_and_pyspark/20_bucket_join_optimization_zero_shuffle.d2)
 
 > [!TIP]
 > **Deep-Dive Interview Scenarios:**
@@ -1514,32 +1032,9 @@ Performance tuning in distributed environments requires eliminating data skew, m
 #### Definition
 Key Salting is a manual optimization pattern used to resolve extreme data skew when joining two large tables where AQE cannot sufficiently balance the load. A random integer suffix (the "salt", e.g., 0 to $K-1$) is appended to the skewed key of the large table, while the matching dimension table is exploded $K$ times with all salt values.
 
-```mermaid
-flowchart TD
-    subgraph SaltingProcess ["Salting Process (Salt Factor K = 4)"]
-        SkewedRow["Skewed Large Table Row: [Key: 'NULL', Data...]"]
-        SaltGen["Append Random Integer: concat('NULL', '_', floor(rand() * 4))"]
-        SkewedRow --> SaltGen
-        SaltGen --> SalterRows["Produces 4 Evenly Distributed Buckets: 'NULL_0', 'NULL_1', 'NULL_2', 'NULL_3'"]
+![Key Salting Technique for Skew Mitigation](assets/05_apache_spark_and_pyspark/21_salting_technique_skew_mitigation.svg)
 
-        SmallDim["Dimension Table: [Key: 'NULL', Info...]"]
-        Explode["Explode with Array [0, 1, 2, 3]"]
-        SmallDim --> Explode
-        Explode --> DimReplicated["4 Replicated Rows: 'NULL_0', 'NULL_1', 'NULL_2', 'NULL_3'"]
-
-        SalterRows & DimReplicated --> BalancedJoin["Evenly Balanced Join Across 4 Workers!"]
-    end
-
-    style SaltingProcess fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-
-    style SkewedRow fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style SaltGen fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SalterRows fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SmallDim fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Explode fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DimReplicated fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style BalancedJoin fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/21_salting_technique_skew_mitigation.d2](assets/05_apache_spark_and_pyspark/21_salting_technique_skew_mitigation.d2)
 
 #### Code Example (PySpark Key Salting Implementation)
 ```python
@@ -1659,34 +1154,9 @@ Caching a DataFrame via `.cache()` or `.persist()` instructs Spark to retain com
 #### Unified Memory Manager Architecture
 Each Spark executor JVM allocates its available memory (`spark.executor.memory`) into distinct regions managed dynamically by the Unified Memory Manager:
 
-```mermaid
-flowchart TD
-    subgraph TotalJVM ["Total Executor JVM Memory (e.g., 16 GB)"]
-        direction LR
-        subgraph SystemMemory ["Base Memory Allocations"]
-            direction TD
-            Reserved["Reserved Memory<br/>(300 MB fixed for Spark internals)"]
-            UserMem["User Memory (25%)<br/>(Custom structures, UDFs, maps)"]
-        end
-        
-        subgraph SparkPool ["Spark Memory Pool (75% of remaining RAM)"]
-            direction LR
-            StoragePool["Storage Memory (50%)<br/>(Cached DataFrames & Broadcasts)"]
-            ExecPool["Execution Memory (50%)<br/>(Shuffle, Join & Aggregation Buffers)"]
-            
-            StoragePool <-->|"Dynamic Borrowing Boundary"| ExecPool
-        end
-    end
+![Spark Executor Memory Breakdown](assets/05_apache_spark_and_pyspark/22_spark_executor_memory_breakdown.svg)
 
-    style TotalJVM fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style SystemMemory fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-    style SparkPool fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-
-    style Reserved fill:#0f172a,stroke:#94a3b8,stroke-width:1.5px,color:#fff
-    style UserMem fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style StoragePool fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style ExecPool fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/22_spark_executor_memory_breakdown.d2](assets/05_apache_spark_and_pyspark/22_spark_executor_memory_breakdown.d2)
 
 #### Spill to Disk Explained
 When Execution Memory is full and a task requires more memory to complete a sort or hash aggregate, it attempts to borrow memory from Storage. If no storage memory is available, the engine **spills temporary shuffle pages to local executor NVMe disk**.
@@ -1735,19 +1205,9 @@ Modern Spark deployments standardize on the **Garbage-First Garbage Collector (G
 2. Identify whether execution time is dominated by **Task Deserialization Time**, **Shuffle Fetch Wait Time**, or **Executor Computing Time**.
 3. If tasks spend 80% of time in **Shuffle Read Blocked / Wait Time**, network congestion or disk I/O on mapper nodes is the bottleneck.
 
-```mermaid
-flowchart LR
-    ScanUI["Spark UI Stages Tab"] --> Timeline["Inspect Event Timeline"]
-    Timeline --> Skew{"Are all task bars equal?"}
-    Skew -- No (One long bar) --> FixSkew["Diagnose Data Skew (Salt Keys / AQE)"]
-    Skew -- Yes (All long bars) --> FixCompute["Add Cluster Worker Nodes / Cores"]
+![Spark UI Performance Diagnostics Decision Tree](assets/05_apache_spark_and_pyspark/23_spark_ui_troubleshooting_decision_tree.svg)
 
-    style ScanUI fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Timeline fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Skew fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style FixSkew fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style FixCompute fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark/23_spark_ui_troubleshooting_decision_tree.d2](assets/05_apache_spark_and_pyspark/23_spark_ui_troubleshooting_decision_tree.d2)
 
 ---
 

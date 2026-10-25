@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="560" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Idempotency Lifecycle State Machine: Distributed Redis Protocol</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Preventing duplicate execution: Ingress SHA-256 hash validation, distributed mutex locking, and cached response replay</text>
+<rect x="30" y="85" width="270" height="445" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="165" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 1: Ingress &amp; Key Lookup</text>
+<rect x="85" y="122" width="160" height="18" rx="9" fill="#1d4ed8"/><text x="165" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Idempotency-Key Header</text>
+<rect x="45" y="155" width="240" height="85" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client POST Request</text>
+<text x="55" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Header: Idempotency-Key:</text>
+<text x="55" y="212" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">'uuid-1234-abcd'</text>
+<text x="55" y="226" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Payload: JSON purchase request</text>
+<rect x="45" y="255" width="240" height="125" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="55" y="278" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Redis Key Lookup</text>
+<text x="55" y="298" fill="#F8FAFC" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key: 'idempotency:uuid-1234'</text>
+<text x="55" y="318" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Evaluates current key state:</text>
+<text x="55" y="334" fill="#34D399" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Key Absent -&gt; First request</text>
+<text x="55" y="348" fill="#FBBF24" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• State: IN_FLIGHT -&gt; Concurrent</text>
+<text x="55" y="362" fill="#38BDF8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• State: COMPLETED -&gt; Cached</text>
+<rect x="45" y="395" width="240" height="115" rx="8" fill="#0b2a4a" stroke="#38bdf8" stroke-width="1"/>
+<text x="165" y="417" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Payload SHA-256 Hash</text>
+<text x="55" y="437" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Computes cryptographic hash</text>
+<text x="55" y="451" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">of request body to detect payload</text>
+<text x="55" y="465" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">tampering on retried keys</text>
+<text x="55" y="485" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Prevents key collision hijacking!</text>
+<rect x="330" y="85" width="330" height="445" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="495" y="112" fill="#FDE68A" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 2: Concurrency &amp; Validation</text>
+<rect x="415" y="122" width="160" height="18" rx="9" fill="#b45309"/><text x="495" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">State Decision Matrix</text>
+<rect x="345" y="155" width="300" height="80" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="355" y="178" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">State: IN_FLIGHT (Concurrent Duplicate)</text>
+<text x="355" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">First request is currently executing in DB!</text>
+<text x="355" y="214" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Action: Return HTTP 409 Conflict with Retry-After</text>
+<rect x="345" y="250" width="300" height="115" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="355" y="273" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">State: COMPLETED (Hash Matches)</text>
+<text x="355" y="293" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Cached response already persisted in Redis!</text>
+<text x="355" y="311" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Action: Replay cached HTTP 201 Created directly!</text>
+<text x="355" y="329" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero DB query, zero re-execution, 0ms risk</text>
+<text x="355" y="345" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Flawless transparent replay to client</text>
+<rect x="345" y="380" width="300" height="130" rx="8" fill="#2d1215" stroke="#ef4444" stroke-width="1.5"/>
+<text x="355" y="403" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">State: COMPLETED (Hash Mismatch!)</text>
+<text x="355" y="423" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client reused existing Idempotency-Key with a</text>
+<text x="355" y="437" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">DIFFERENT request payload body!</text>
+<text x="355" y="455" fill="#FCA5A5" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Action: Return HTTP 422 Unprocessable Entity</text>
+<text x="355" y="471" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Rejects fraudulent / accidental key reuse!</text>
+<rect x="690" y="85" width="320" height="445" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="850" y="112" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 3: First Execution Pipeline</text>
+<rect x="760" y="122" width="180" height="18" rx="9" fill="#047857"/><text x="850" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Key Absent (First Ingress)</text>
+<rect x="705" y="155" width="290" height="80" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="715" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Acquire Redis Mutex Lock</text>
+<text x="715" y="198" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SET key IN_FLIGHT NX EX 30</text>
+<text x="715" y="214" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Atomic atomic put-if-absent with 30s TTL</text>
+<rect x="705" y="245" width="290" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="715" y="268" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Execute Business Logic</text>
+<text x="715" y="288" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Runs OrderService &amp; ACID DB write</text>
+<text x="715" y="304" fill="#A7F3D0" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Generates Order #101 in PostgreSQL</text>
+<text x="715" y="318" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Produces ResponseEntity&amp;lt;OrderDto&amp;gt;</text>
+<rect x="705" y="340" width="290" height="80" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="715" y="363" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. Save Response to Redis</text>
+<text x="715" y="383" fill="#D1FAE5" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Updates key -&gt; State: COMPLETED, TTL: 24h</text>
+<text x="715" y="399" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Saves HTTP status, headers &amp; JSON payload</text>
+<rect x="705" y="430" width="290" height="80" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="715" y="453" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">4. Return HTTP 201 Response</text>
+<text x="715" y="473" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Releases mutex lock, delivers 201 Created</text>
+<text x="715" y="489" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">with JSON body to client browser / caller</text>
+<line x1="300" y1="290" x2="330" y2="290" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<path d="M 300.0 200.0 L 310.0 200.0 C 493.0 200.0, 493.0 190.0, 676.0 190.0 L 690.0 190.0" fill="none" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+</svg>

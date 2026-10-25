@@ -1,0 +1,19 @@
+direction: right
+title: File Splittability: Non-Splittable GZIP vs. Splittable Parquet
+
+non_splittable: Non-Splittable Nightmare: 10 GB orders.csv.gz (80 Cores) {
+  core1: "Core 1: Forced to process ALL 10 GB sequentially from Byte 0"
+  idle: "Cores 2 through 80 sit completely IDLE!"
+  result: "Total Processing Time: 2 Hours (Out of Memory Risk)"
+  core1 -> result
+}
+
+splittable: Splittable Processing: 10 GB Parquet File (80 Cores) {
+  c1: "Core 1: Reads Row Group 1 (0 - 128 MB)"
+  c2: "Core 2: Reads Row Group 2 (128 - 256 MB)"
+  c80: "Core 80: Reads Row Group 80 (9.87 - 10 GB)"
+  result: "Total Processing Time: 90 Seconds"
+  c1 -> result
+  c2 -> result
+  c80 -> result
+}

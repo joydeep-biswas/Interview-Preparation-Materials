@@ -1,0 +1,16 @@
+classes: {
+  token_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  cache_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  engine_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  out_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+token: "New Token at Step t\nComputes single Q_t, K_t, V_t" { class: token_box }
+cache: "Persistent GPU VRAM KV Cache\nPast Keys: [K_1..K_{t-1}]\nPast Values: [V_1..V_{t-1}]" { class: cache_box }
+engine: "Attention Engine\nEvaluates Q_t against K_{1..t}\nContext = A_t * V_{1..t}" { class: engine_box }
+out: "Next Token Logit\nEmits Token t+1" { class: out_box }
+
+token -> engine: "Q_t"
+token -> cache: "Append K_t, V_t"
+cache -> engine: "Past K, V"
+engine -> out

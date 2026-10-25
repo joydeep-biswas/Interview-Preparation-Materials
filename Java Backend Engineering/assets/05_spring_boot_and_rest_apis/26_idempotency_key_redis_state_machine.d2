@@ -1,0 +1,45 @@
+direction: right
+title: Idempotency Lifecycle State Machine: Distributed Redis Protocol
+
+stage1: "Stage 1: Ingress & Key Lookup" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  req: "Client POST Request\n(Header: Idempotency-Key)"
+  lookup: "Redis Lookup: 'idempotency:uuid-123'"
+  hash: "Compute Request SHA-256 Hash"
+
+  req -> lookup -> hash
+}
+
+stage2: "Stage 2: Validation & Decision" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  in_flight: "State: IN_FLIGHT -> Return HTTP 409 Conflict" {
+    style.stroke: "#ef4444"
+  }
+  cached: "State: COMPLETED (Hash Match) -> Return Cached 201" {
+    style.stroke: "#10b981"
+  }
+  tampered: "State: COMPLETED (Hash Mismatch) -> Return HTTP 422" {
+    style.stroke: "#ef4444"
+  }
+}
+
+stage3: "Stage 3: First Execution Pipeline" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  lock: "1. SETNX key IN_FLIGHT (TTL 30s)"
+  db: "2. Execute Business Logic & DB Write"
+  save: "3. Save Response in Redis (TTL 24h)"
+  reply: "4. Return HTTP 201 Created"
+
+  lock -> db -> save -> reply
+}
+
+stage1.lookup -> stage3.lock: "Key Absent (1st Request)"
+stage1.lookup -> stage2.in_flight
+stage1.hash -> stage2.cached
+stage1.hash -> stage2.tampered

@@ -1,0 +1,22 @@
+direction: right
+title: Bitemporal Data Modeling: Valid Time vs. Transaction Time
+
+plane: Bitemporal Time Plane {
+  valid: Valid Time (Business occurrence: valid_from, valid_to)
+  system: Transaction Time (Database insert: system_from, system_to)
+}
+
+t1: T1: Real Event Occurs (Jan 10) {
+  note: "Policy signed for $100 in physical branch"
+}
+
+t2: T2: Late Ingestion (Jan 15) {
+  note: "Record inserted: valid=[Jan 10, Inf), system=[Jan 15, Inf)"
+}
+
+t3: T3: Retroactive Correction (Jan 20) {
+  note: "Amount was $120. Row 1 system_to closed at Jan 20. Row 2 inserted with system=[Jan 20, Inf)"
+}
+
+t1 -> t2: "Paperwork arrives"
+t2 -> t3: "Audit correction"

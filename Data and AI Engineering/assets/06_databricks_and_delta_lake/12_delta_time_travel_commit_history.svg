@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Delta Lake Time Travel &amp; Log Checkpoint Reconstruction</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">How query engines reconstruct historical table states at any point in time by replaying commits from checkpoints</text>
+
+  <!-- Top Panel: Commit Timeline -->
+  <rect x="40" y="85" width="1040" height="195" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="1040" height="32" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="560" y="106" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">DELTA LOG HISTORICAL TIMELINE: COMMITS &amp; PERIODIC CHECKPOINTS</text>
+
+  <!-- Commit 0..9 Strip -->
+  <rect x="60" y="130" width="220" height="65" rx="6" fill="#0F172A" stroke="#64748B" stroke-width="1"/>
+  <text x="170" y="152" font-size="10.5" font-weight="700" fill="#94A3B8" text-anchor="middle">Historical Commits</text>
+  <text x="170" y="172" font-size="9.5" font-family="monospace" fill="#CBD5E1" text-anchor="middle">0.json -&gt; 1.json ... 9.json</text>
+  <text x="170" y="187" font-size="8.5" fill="#64748B" text-anchor="middle">Each commit records adds/removes</text>
+
+  <!-- Checkpoint 10 -->
+  <rect x="330" y="125" width="260" height="75" rx="6" fill="#064E3B" fill-opacity="0.3" stroke="#34D399" stroke-width="2"/>
+  <text x="460" y="147" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">10.checkpoint.parquet</text>
+  <text x="460" y="167" font-size="9.5" fill="#A7F3D0" text-anchor="middle">Consolidated Table Snapshot at Version 10</text>
+  <text x="460" y="184" font-size="8.5" fill="#CBD5E1" text-anchor="middle">Contains net set of all active Parquet files</text>
+  <text x="460" y="195" font-size="8" font-weight="600" fill="#34D399" text-anchor="middle">Auto-generated every 10 commits!</text>
+
+  <!-- Commits 11 &amp; 12 -->
+  <rect x="640" y="130" width="200" height="65" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="740" y="152" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="middle">Recent Commits</text>
+  <text x="740" y="172" font-size="9.5" font-family="monospace" fill="#FDE68A" text-anchor="middle">11.json -&gt; 12.json</text>
+  <text x="740" y="187" font-size="8.5" fill="#CBD5E1" text-anchor="middle">Incremental delta changes</text>
+
+  <!-- Head Version 12 -->
+  <rect x="880" y="130" width="180" height="65" rx="6" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <text x="970" y="152" font-size="10.5" font-weight="700" fill="#34D399" text-anchor="middle">Current Head (v12)</text>
+  <text x="970" y="172" font-size="9.5" fill="#34D399" text-anchor="middle">Latest Table State</text>
+  <text x="970" y="187" font-size="8.5" fill="#A7F3D0" text-anchor="middle">Active production snapshot</text>
+
+  <!-- Connectors Timeline -->
+  <line x1="280" y1="162" x2="330" y2="162" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <line x1="590" y1="162" x2="640" y2="162" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+  <line x1="840" y1="162" x2="880" y2="162" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <text x="560" y="240" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Engine Resolution Strategy: To read version 12, the engine loads 10.checkpoint.parquet directly, then applies only 11.json and 12.json!</text>
+  <text x="560" y="258" font-size="9.5" fill="#CBD5E1" text-anchor="middle">This avoids replaying 1000s of historical JSON files, ensuring sub-second metadata resolution even on million-commit tables.</text>
+
+  <!-- Bottom Panel: Time Travel Execution -->
+  <rect x="40" y="295" width="1040" height="175" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="40" y="295" width="1040" height="32" rx="8" fill="#3B0764" fill-opacity="0.8" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="560" y="316" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle">TIME TRAVEL QUERY SYNTAX &amp; PRODUCTION USE CASES</text>
+
+  <!-- Query Mode 1: Version As Of -->
+  <rect x="60" y="340" width="315" height="115" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="75" y="362" font-size="10.5" font-weight="700" fill="#38BDF8" text-anchor="start">1. Query by Version Number</text>
+  <text x="75" y="380" font-size="9" font-family="monospace" fill="#93C5FD" text-anchor="start">SELECT * FROM orders</text>
+  <text x="75" y="395" font-size="9" font-family="monospace" fill="#93C5FD" text-anchor="start">VERSION AS OF 10</text>
+  <text x="75" y="415" font-size="9" fill="#CBD5E1" text-anchor="start">• Reads 10.checkpoint.parquet directly</text>
+  <text x="75" y="430" font-size="9" fill="#34D399" text-anchor="start">• Reconstructs exact state at commit 10</text>
+
+  <!-- Query Mode 2: Timestamp As Of -->
+  <rect x="395" y="340" width="315" height="115" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="410" y="362" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="start">2. Query by Wall-Clock Timestamp</text>
+  <text x="410" y="380" font-size="9" font-family="monospace" fill="#FDE68A" text-anchor="start">SELECT * FROM orders</text>
+  <text x="410" y="395" font-size="9" font-family="monospace" fill="#FDE68A" text-anchor="start">TIMESTAMP AS OF '2023-10-25 08:00'</text>
+  <text x="410" y="415" font-size="9" fill="#CBD5E1" text-anchor="start">• Finds latest commit before timestamp</text>
+  <text x="410" y="430" font-size="9" fill="#34D399" text-anchor="start">• Audits data before a bad ETL job ran</text>
+
+  <!-- Query Mode 3: Restore / Rollback -->
+  <rect x="730" y="340" width="330" height="115" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="745" y="362" font-size="10.5" font-weight="700" fill="#34D399" text-anchor="start">3. Instant Disaster Rollback</text>
+  <text x="745" y="380" font-size="9" font-family="monospace" fill="#A7F3D0" text-anchor="start">RESTORE TABLE orders</text>
+  <text x="745" y="395" font-size="9" font-family="monospace" fill="#A7F3D0" text-anchor="start">TO VERSION AS OF 10;</text>
+  <text x="745" y="415" font-size="9" fill="#CBD5E1" text-anchor="start">• Instantly reverts accidental DELETE / DROP</text>
+  <text x="745" y="430" font-size="9" font-weight="600" fill="#34D399" text-anchor="start">• Zero data restore lag: pure commit pointer revert!</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Time Travel Invariant: Delta Lake allows querying or rolling back to any historical commit retained within the log retention window (default 30 days) before VACUUM deletes tombstoned files.</text>
+</svg>

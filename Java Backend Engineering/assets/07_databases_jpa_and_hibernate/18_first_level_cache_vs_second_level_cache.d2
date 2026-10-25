@@ -1,0 +1,37 @@
+direction: right
+title: "Hibernate Caching Architecture: L1 Session Cache vs L2 Distributed Cache"
+
+app: "Application Service Method" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+l1: "First-Level (L1) Cache
+Scope: EntityManager / Session
+Always Enabled | Thread-Bound
+Live Object References" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+}
+
+l2: "Second-Level (L2) Cache
+Scope: SessionFactory / Cluster
+Optional (Redis / Ehcache)
+Disassembled Hydrated State" {
+  style.fill: "#1a102f"
+  style.stroke: "#8b5cf6"
+}
+
+db: "Relational Database
+Scope: Disk Storage
+PostgreSQL 8KB Heap Blocks
+ACID Source of Truth" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+
+app -> l1: "1. Query"
+l1 -> l2: "2. L1 Miss"
+l2 -> db: "3. L2 Miss"
+db -> l2: "4. Populates L2"
+l2 -> l1: "5. Populates L1"

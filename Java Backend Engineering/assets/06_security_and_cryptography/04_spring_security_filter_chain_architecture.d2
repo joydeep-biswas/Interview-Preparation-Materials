@@ -1,0 +1,37 @@
+direction: down
+title: Spring Security 6 Servlet Filter Pipeline Architecture
+
+Tomcat: Tomcat Servlet Container {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  proxy: DelegatingFilterProxy
+}
+
+SpringBean: Spring ApplicationContext {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  fcp: FilterChainProxy (springSecurityFilterChain)
+}
+
+Chain: SecurityFilterChain Pipeline {
+  style.fill: "#0F172A"
+  style.stroke: "#8B5CF6"
+  cors: "1. CorsFilter"
+  csrf: "2. CsrfFilter"
+  jwt: "3. BearerTokenAuthenticationFilter"
+  ex: "4. ExceptionTranslationFilter"
+  authz: "5. AuthorizationFilter"
+  cors -> csrf -> jwt -> ex -> authz
+}
+
+MVC: Spring MVC Core {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  servlet: DispatcherServlet
+  controller: "@RestController Handler Method"
+  servlet -> controller
+}
+
+Tomcat.proxy -> SpringBean.fcp: Delegates to Spring Bean { style.stroke: "#38BDF8" }
+SpringBean.fcp -> Chain.cors: Dispatches filter pipeline { style.stroke: "#10B981" }
+Chain.authz -> MVC.servlet: Request passed (Principal verified) { style.stroke: "#34D399" }

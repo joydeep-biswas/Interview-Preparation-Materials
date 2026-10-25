@@ -1,0 +1,9 @@
+classes: {
+  easy_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  hard_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+focal: "Focal Loss Dynamics (gamma = 2.0)" {
+  easy: "Easy Sample (p_t = 0.99)\nFactor: (1 - 0.99)^2 = 0.0001\nLoss attenuated by 10,000x!\nZero gradient waste on background" { class: easy_box }
+  hard: "Hard Sample (p_t = 0.10)\nFactor: (1 - 0.10)^2 = 0.8100\nLoss preserved at 81% strength!\nForces network to learn rare minority class" { class: hard_box }
+}

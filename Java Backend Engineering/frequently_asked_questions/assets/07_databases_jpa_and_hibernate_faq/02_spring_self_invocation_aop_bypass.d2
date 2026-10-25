@@ -1,0 +1,19 @@
+direction: right
+
+bypass: "Anti-Pattern: Self-Invocation" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  call: "methodA() calls this.methodB()"
+  reason: "'this' refers to raw object, bypassing Spring AOP proxy"
+  bug: "Transaction is NEVER started!"
+}
+
+solutions: "Production Fixes" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  separate_bean: "Extract methodB() into separate Spring bean (Best)"
+  self_inject: "Inject proxy into itself: @Autowired @Lazy self"
+  aspectj: "AspectJ bytecode weaving (bypasses proxy limit)"
+}
+
+bypass -> solutions: "Architectural remedies"

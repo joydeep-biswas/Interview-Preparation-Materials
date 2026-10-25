@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+    </marker>
+    <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Background -->
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g id="header">
+    <text x="490" y="36" fill="#f8fafc" font-size="18" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Log Aggregation Architectures: OpenSearch/Elasticsearch vs. Grafana Loki</text>
+    <text x="490" y="58" fill="#94a3b8" font-size="12" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Full Lucene Inverted Index (Index Everything) vs. Metadata Label Index + Compressed Chunk Store</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g id="diagram-elements">
+    
+    <rect x="350" y="95" width="280" height="50" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="490" y="117" fill="#f8fafc" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Incoming Structured Log Event</text>
+<text x="362" y="137" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">{'level': 'error', 'app': 'payment', 'msg': 'db timeout'}</text>
+
+    <rect x="40" y="175" width="430" height="225" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4"/>
+<text x="255" y="195" fill="#f87171" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">OpenSearch / Elasticsearch (Full Inverted Index)</text>
+<text x="255" y="211" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">High query flexibility at massive storage and RAM cost</text>
+    <rect x="60" y="220" width="390" height="70" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+<text x="255" y="242" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">1. Lucene Tokenizer &amp; Analyzer</text>
+<text x="72" y="262" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Tokenizes EVERY word in message body into discrete terms:</text>
+<text x="72" y="280" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">['level', 'error', 'app', 'payment', 'msg', 'db', 'timeout']</text>
+<text x="72" y="298" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Builds memory-intensive term dictionaries</text>
+    <rect x="60" y="300" width="390" height="85" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+<text x="255" y="322" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">2. Inverted Index Dictionary</text>
+<text x="72" y="342" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Maps every single token to posting lists of document IDs</text>
+<text x="72" y="360" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Enormous RAM and fast NVMe SSD storage footprint</text>
+<text x="72" y="378" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Index size frequently exceeds 120% of the raw log data!</text>
+<text x="72" y="396" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Expensive write amplification during large ingest bursts</text>
+
+    <rect x="510" y="175" width="430" height="225" rx="8" fill="#0f172a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,4"/>
+<text x="725" y="195" fill="#4ade80" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Grafana Loki (Index-Free Chunk Store)</text>
+<text x="725" y="211" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Cost-effective object storage with Prometheus-like labels</text>
+    <rect x="530" y="220" width="390" height="70" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+<text x="725" y="242" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">1. Metadata Label Extraction</text>
+<text x="542" y="262" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Indexes ONLY high-level stream labels (app='payment', env='prod')</text>
+<text x="542" y="280" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Ignores log message contents entirely during indexing</text>
+<text x="542" y="298" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Zero tokenization overhead; minimal RAM footprint</text>
+    <rect x="530" y="300" width="390" height="85" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+<text x="725" y="322" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">2. Snappy/Gzip Compressed Chunk Store</text>
+<text x="542" y="342" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Compresses raw log lines into 2MB chunks (Snappy/gzip)</text>
+<text x="542" y="360" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Flushes chunks directly to cheap cloud object storage (S3/GCS)</text>
+<text x="542" y="378" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Storage cost is ~90% lower than Elasticsearch</text>
+<text x="542" y="396" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Queries scan matching stream chunks using LogQL grep</text>
+
+    <path d="M 490.0 145.0 L 490.0 154.0 Q 490.0 160.0 484.0 160.0 L 261.0 160.0 Q 255.0 160.0 255.0 166.0 L 255.0 175.0" fill="none" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+    <path d="M 490.0 145.0 L 490.0 154.0 Q 490.0 160.0 496.0 160.0 L 719.0 160.0 Q 725.0 160.0 725.0 166.0 L 725.0 175.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  </g>
+</svg>

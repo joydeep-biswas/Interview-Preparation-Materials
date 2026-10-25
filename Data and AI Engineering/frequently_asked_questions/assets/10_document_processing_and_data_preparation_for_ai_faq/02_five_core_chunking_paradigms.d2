@@ -1,0 +1,19 @@
+direction: down
+classes: {
+  fixed_box: { style: { fill: "#111827", stroke: "#EF4444", stroke-width: 2 } }
+  recur_box: { style: { fill: "#111827", stroke: "#F59E0B", stroke-width: 2 } }
+  struct_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  sem_box: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
+  parent_box: { style: { fill: "#0D1F1C", stroke: "#10B981", stroke-width: 2 } }
+}
+
+Fixed: "1. Fixed-Size Token (Naive)\n• 512 tokens + 50 overlap" { class: fixed_box }
+Recursive: "2. Recursive Character\n• Separators: 
+
+, 
+, ' '" { class: recur_box }
+Structural: "3. Document-Structure-Aware\n• Markdown headings & metadata" { class: struct_box }
+Semantic: "4. Semantic Embedding\n• Cosine similarity inflection points" { class: sem_box }
+Hierarchical: "5. Parent-Child Multi-Vector (Gold Standard)\n• 150-token child vector -> 1500-token parent context" { class: parent_box }
+
+Fixed -> Recursive -> Structural -> Semantic -> Hierarchical

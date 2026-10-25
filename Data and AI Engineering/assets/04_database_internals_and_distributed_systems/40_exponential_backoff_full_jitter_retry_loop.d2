@@ -1,0 +1,25 @@
+direction: down
+title: Exponential Backoff with Full Jitter: Retry Architecture
+
+request: Initial HTTP Request Dispatched {
+  status: "Evaluates Status Code (200 OK vs 429/503)"
+}
+
+backoff: Backoff & Jitter Evaluation {
+  cap: "Exponential Cap: min(MaxSleep, Base * 2^attempt)"
+  jitter: "Full Jitter: Sleep = Uniform(0, Cap)"
+  cap -> jitter
+}
+
+gate: Retry Execution Gate {
+  sleep: "Execute time.sleep()"
+  check: "attempt < MaxRetries?" {
+    shape: diamond
+  }
+  sleep -> check
+}
+
+request -> backoff: "HTTP 429 Throttled"
+backoff.jitter -> gate.sleep
+gate.check -> request: "Yes: Retry with Jitter"
+gate.check -> timeout: "No: Raise TimeoutException"

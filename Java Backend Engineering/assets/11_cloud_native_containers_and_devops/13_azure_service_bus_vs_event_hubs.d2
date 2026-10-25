@@ -1,0 +1,22 @@
+direction: right
+title: Azure Service Bus vs Azure Event Hubs
+
+ServiceBus: Azure Service Bus (Enterprise Broker) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  app: Producer App
+  queue: Service Bus Queue
+  worker: Consumer Pod
+  app -> queue -> worker: Destructive read / Ack
+  features: "Sessions (FIFO), DLQ, Scheduled Delivery"
+}
+
+EventHubs: Azure Event Hubs (Event Stream) {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  iot: IoT Telemetry
+  log: Event Hub (Partitions)
+  consumer: Analytics Group
+  iot -> log -> consumer: Read offset (Non-destructive)
+  features: "Kafka API, Retention based, Millions msgs/sec"
+}

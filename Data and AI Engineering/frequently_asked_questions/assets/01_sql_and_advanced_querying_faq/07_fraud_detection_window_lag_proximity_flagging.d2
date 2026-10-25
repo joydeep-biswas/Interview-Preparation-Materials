@@ -1,0 +1,11 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+b1: "Booking 1\nTime: 14:00:00\nUser: U918" { class: box; style.stroke: "#3B82F6" }
+b2: "Booking 2 (FLAGGED!)\nTime: 14:04:00\nUser: U918\nDiff: 4 min (&lt; 10m threshold)" { class: box; style.stroke: "#EF4444" }
+b3: "Booking 3 (Normal)\nTime: 14:24:00\nUser: U918\nDiff: 20 min (Safe window)" { class: box; style.stroke: "#10B981" }
+
+b1 -> b2: "LAG diff = 4 min\n(Fraud Flagged)"
+b2 -> b3: "LAG diff = 20 min\n(Compliant)"

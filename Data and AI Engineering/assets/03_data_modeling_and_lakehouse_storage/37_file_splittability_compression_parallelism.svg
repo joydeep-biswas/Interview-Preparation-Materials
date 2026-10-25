@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">File Splittability: GZIP CSV vs. Splittable Parquet Processing</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Comparing Single-Threaded Bottlenecks vs. Massive Multi-Core Distributed Parallelism</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#260b0b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#fca5a5" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Non-Splittable Nightmare: 10 GB orders.csv.gz (80 Cores)</text>
+  
+    <rect x="45" y="140" width="400" height="110" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="166" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Core 1: Single-Threaded Sequential Scan</text>
+    <text x="245.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">GZIP Compression Stream Bottleneck</text>
+    <rect x="359" y="150" width="80" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="399.0" y="162" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">BOTTLENECK</text>
+    <circle cx="61" cy="195" r="2" fill="#ef4444"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">GZIP lacks sync markers or fixed block boundaries</text>
+    <circle cx="61" cy="211" r="2" fill="#ef4444"/>
+    <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Core 1 forced to decompress ALL 10 GB sequentially from Byte 0!</text>
+    <circle cx="61" cy="227" r="2" fill="#ef4444"/>
+    <text x="69" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cores 2 through 80 sit completely IDLE!</text>
+    <circle cx="61" cy="243" r="2" fill="#ef4444"/>
+    <text x="69" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Out of Memory (OOM) risk on large files</text>
+  
+    <rect x="45" y="270" width="400" height="95" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="296" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Result: High Latency &amp;amp; Resource Waste</text>
+    <text x="245.0" y="312" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Execution Time Metrics</text>
+    <rect x="401" y="280" width="38" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="420.0" y="292" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">FAIL</text>
+    <circle cx="61" cy="325" r="2" fill="#ef4444"/>
+    <text x="69" y="328" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Total Processing Time: 2 HOURS</text>
+    <circle cx="61" cy="341" r="2" fill="#ef4444"/>
+    <text x="69" y="344" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cluster utilization: 1.25% (79 of 80 cores wasted)</text>
+    <circle cx="61" cy="357" r="2" fill="#ef4444"/>
+    <text x="69" y="360" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Network / IOPS throttled on single VM node</text>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Splittable Processing: 10 GB Parquet File (80 Cores)</text>
+  
+    <rect x="535" y="140" width="400" height="110" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Cores 1..80: Distributed Independent Scans</text>
+    <text x="735.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Row Group InputSplits (Snappy / ZSTD)</text>
+    <rect x="863" y="150" width="66" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="896.0" y="162" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PARALLEL</text>
+    <circle cx="551" cy="195" r="2" fill="#10b981"/>
+    <text x="559" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Core 1: Reads Row Group 1 (Bytes 0 - 128 MB)</text>
+    <circle cx="551" cy="211" r="2" fill="#10b981"/>
+    <text x="559" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Core 2: Reads Row Group 2 (Bytes 128 MB - 256 MB)</text>
+    <circle cx="551" cy="227" r="2" fill="#10b981"/>
+    <text x="559" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Core 80: Reads Row Group 80 (Bytes 9.87 GB - 10 GB)</text>
+    <circle cx="551" cy="243" r="2" fill="#10b981"/>
+    <text x="559" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">All 80 cores read independent byte ranges concurrently!</text>
+  
+    <rect x="535" y="270" width="400" height="95" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="296" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Result: Maximum Linear Scaling</text>
+    <text x="735.0" y="312" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Execution Time Metrics</text>
+    <rect x="849" y="280" width="80" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="889.0" y="292" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">80X FASTER</text>
+    <circle cx="551" cy="325" r="2" fill="#10b981"/>
+    <text x="559" y="328" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Total Processing Time: 90 SECONDS</text>
+    <circle cx="551" cy="341" r="2" fill="#10b981"/>
+    <text x="559" y="344" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cluster utilization: 100% (80 cores fully saturated)</text>
+    <circle cx="551" cy="357" r="2" fill="#10b981"/>
+    <text x="559" y="360" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero inter-thread contention or IO bottleneck</text>
+
+</svg>

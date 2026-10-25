@@ -1,0 +1,23 @@
+direction: right
+title: Spark Executor Memory Breakdown
+
+TotalHeap: Total JVM Heap (16 GB) {
+  style.stroke: "#334155"
+
+  Reserved: Reserved Memory (300MB fixed)
+  UserMem: User Memory (25% = ~3.9GB) {
+    Desc: Custom UDFs, non-Tungsten objects, maps
+  }
+
+  UnifiedPool: Spark Memory Pool (75% = ~11.8GB) {
+    style.stroke: "#38BDF8"
+    Storage: Storage Memory (50% = ~5.9GB) {
+      Cached: Cached DataFrames & Broadcasts
+    }
+    Execution: Execution Memory (50% = ~5.9GB) {
+      Shuffle: Shuffle, Join & Sort Buffers
+    }
+
+    Storage <-> Execution: Dynamic Borrowing (Execution has eviction priority!)
+  }
+}

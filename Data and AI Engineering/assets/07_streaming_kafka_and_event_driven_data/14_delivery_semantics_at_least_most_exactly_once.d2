@@ -1,0 +1,35 @@
+direction: right
+title: End-to-End Delivery Semantics: At-Most-Once, At-Least-Once, Exactly-Once
+
+atmost: "At-Most-Once (Data Loss Possible)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  commit_first: "1. Commit Offset FIRST"
+  crash1: "2. Crash during DB write!"
+  loss: "3. Recovered worker skips messages (DATA LOST!)"
+
+  commit_first -> crash1 -> loss
+}
+
+atleast: "At-Least-Once (Duplicates Possible)" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  write_first: "1. Write to Sink FIRST"
+  crash2: "2. Crash before offset commit!"
+  dup: "3. Recovered worker replays (DUPLICATES!)"
+
+  write_first -> crash2 -> dup
+}
+
+exactly: "Exactly-Once (EOS Gold Standard)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  idem: "1. Idempotent Producer (PID + Seq)"
+  tx: "2. Kafka Transactional Commits (2PC)"
+  sink: "3. Idempotent Sink (Delta Lake MERGE)"
+
+  idem -> tx -> sink
+}

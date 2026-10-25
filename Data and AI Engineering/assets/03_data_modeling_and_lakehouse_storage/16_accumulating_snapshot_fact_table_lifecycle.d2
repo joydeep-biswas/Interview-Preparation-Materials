@@ -1,0 +1,32 @@
+direction: right
+title: Accumulating Snapshot Fact Table: Order Milestone Pipeline
+
+m1: 1. ORDER_PLACED {
+  date: "order_date_sk: 20261025"
+  status: "PLACED"
+}
+
+m2: 2. ORDER_ALLOCATED {
+  date: "allocated_date_sk: 20261025"
+  status: "ALLOCATED"
+}
+
+m3: 3. WAREHOUSE_PICKED {
+  date: "picked_date_sk: 20261026"
+  status: "PICKED"
+}
+
+m4: 4. DISPATCHED {
+  date: "shipped_date_sk: 20261026"
+  status: "SHIPPED"
+}
+
+m5: 5. DELIVERED {
+  date: "delivery_date_sk: 20261028"
+  status: "DELIVERED"
+}
+
+m1 -> m2: "Allocation lag"
+m2 -> m3: "Picking lag"
+m3 -> m4: "Transit lag"
+m4 -> m5: "Final delivery lag"

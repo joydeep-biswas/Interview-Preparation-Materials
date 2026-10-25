@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Log-Based Change Data Capture (CDC) Architecture</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Debezium &amp; Kafka Connect Streaming WAL Commit Logs into Lakehouse Bronze Tables</text>
+  
+  
+    <rect x="30" y="115" width="170" height="170" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="115.0" y="141" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. OLTP App</text>
+    <text x="115.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Transactional Client</text>
+    <circle cx="46" cy="170" r="2" fill="#3b82f6"/>
+    <text x="54" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Executes SQL:</text>
+    <circle cx="46" cy="186" r="2" fill="#3b82f6"/>
+    <text x="54" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">UPDATE orders</text>
+    <circle cx="46" cy="202" r="2" fill="#3b82f6"/>
+    <text x="54" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">SET status = 'SHIPPED'</text>
+    <circle cx="46" cy="218" r="2" fill="#3b82f6"/>
+    <text x="54" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">WHERE id = 501;</text>
+    <circle cx="46" cy="234" r="2" fill="#3b82f6"/>
+    <text x="54" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Transaction commits cleanly</text>
+
+  
+    <rect x="220" y="115" width="180" height="170" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="310.0" y="141" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. PostgreSQL DB</text>
+    <text x="310.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Core RDBMS Engine</text>
+    <circle cx="236" cy="170" r="2" fill="#3b82f6"/>
+    <text x="244" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Appends commit record</text>
+    <circle cx="236" cy="186" r="2" fill="#3b82f6"/>
+    <text x="244" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">to Write-Ahead Log (WAL)</text>
+    <circle cx="236" cy="202" r="2" fill="#3b82f6"/>
+    <text x="244" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">LSN: 0/16B2D40</text>
+    <circle cx="236" cy="218" r="2" fill="#3b82f6"/>
+    <text x="244" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Maintains logical replication</text>
+    <circle cx="236" cy="234" r="2" fill="#3b82f6"/>
+    <text x="244" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">slot on disk</text>
+
+  
+    <rect x="420" y="115" width="240" height="170" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="540.0" y="141" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. Debezium Engine</text>
+    <text x="540.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Kafka Connect Worker</text>
+    <circle cx="436" cy="170" r="2" fill="#8b5cf6"/>
+    <text x="444" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reads WAL via replication slot</text>
+    <circle cx="436" cy="186" r="2" fill="#8b5cf6"/>
+    <text x="444" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero database table query overhead!</text>
+    <circle cx="436" cy="202" r="2" fill="#8b5cf6"/>
+    <text x="444" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Captures INSERT / UPDATE / DELETE</text>
+    <circle cx="436" cy="218" r="2" fill="#8b5cf6"/>
+    <text x="444" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Builds JSON/Avro event envelope</text>
+    <circle cx="436" cy="234" r="2" fill="#8b5cf6"/>
+    <text x="444" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Includes full before &amp; after image</text>
+
+  
+    <rect x="680" y="115" width="130" height="170" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="745.0" y="141" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">4. Kafka Topic</text>
+    <text x="745.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">db.orders</text>
+    <circle cx="696" cy="170" r="2" fill="#f59e0b"/>
+    <text x="704" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Key: id=501</text>
+    <circle cx="696" cy="186" r="2" fill="#f59e0b"/>
+    <text x="704" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Payload: Envelope</text>
+    <circle cx="696" cy="202" r="2" fill="#f59e0b"/>
+    <text x="704" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Strict ordering</text>
+    <circle cx="696" cy="218" r="2" fill="#f59e0b"/>
+    <text x="704" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">per partition</text>
+  
+    <rect x="830" y="115" width="120" height="170" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="890.0" y="141" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">5. Lakehouse</text>
+    <text x="890.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Bronze Lake</text>
+    <circle cx="846" cy="170" r="2" fill="#10b981"/>
+    <text x="854" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Delta Lake</text>
+    <circle cx="846" cy="186" r="2" fill="#10b981"/>
+    <text x="854" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Apache Iceberg</text>
+    <circle cx="846" cy="202" r="2" fill="#10b981"/>
+    <text x="854" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">MERGE into</text>
+    <circle cx="846" cy="218" r="2" fill="#10b981"/>
+    <text x="854" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Silver mart</text>
+
+  
+    <line x1="200" y1="200" x2="220" y2="200" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <line x1="400" y1="200" x2="420" y2="200" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="410.0" y="192.0" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Read WAL</text>
+  
+    <line x1="660" y1="200" x2="680" y2="200" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  
+    <line x1="810" y1="200" x2="830" y2="200" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  
+    <rect x="30" y="310" width="920" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="490.0" y="336" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Log-Based CDC Invariant: Zero Performance Degradation on Production Database</text>
+    <text x="490.0" y="352" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Why Log-Based CDC Supercedes Inefficient Query-Based Polling (WHERE updated_at &gt; t)</text>
+    <circle cx="46" cy="365" r="2" fill="#10b981"/>
+    <text x="54" y="368" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Query polling triggers heavy table scans, consumes database CPU/locks, and completely misses hard DELETE operations.</text>
+    <circle cx="46" cy="381" r="2" fill="#10b981"/>
+    <text x="54" y="384" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Debezium reads the append-only binary transaction log directly off disk, consuming zero database locks and capturing 100% of deletes with sub-second latency!</text>
+
+</svg>

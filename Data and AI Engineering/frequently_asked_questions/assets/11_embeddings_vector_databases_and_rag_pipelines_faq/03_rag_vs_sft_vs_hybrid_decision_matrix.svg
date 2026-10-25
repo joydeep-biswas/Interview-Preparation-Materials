@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Decision Root -->
+  <rect x="250" y="20" width="460" height="60" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="480" y="45" class="title-txt" text-anchor="middle">What is your primary engineering objective?</text>
+  <text x="480" y="65" class="sub-txt" text-anchor="middle">Architectural Comparison &amp; Selection Decision Matrix</text>
+
+  <!-- Connectors Left, Center, Right -->
+  <path d="M 330 80 L 175 80 Q 160 80 160 95 L 160 140" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="180" y="85" width="130" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="245" y="98" class="edge-txt" text-anchor="middle" fill="#10B981">Dynamic Knowledge</text>
+
+  <path d="M 480 80 L 480 140" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+  <rect x="490" y="85" width="110" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="545" y="98" class="edge-txt" text-anchor="middle" fill="#8B5CF6">Behavior &amp; Syntax</text>
+
+  <path d="M 630 80 L 785 80 Q 800 80 800 95 L 800 140" fill="none" stroke="#EC4899" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <rect x="650" y="85" width="130" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="715" y="98" class="edge-txt" text-anchor="middle" fill="#EC4899">Both Dynamic &amp; Syntax</text>
+
+  <!-- Left: RAG Option -->
+  <rect x="30" y="140" width="260" height="180" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="160" y="166" class="title-txt" text-anchor="middle" fill="#A7F3D0">Retrieval-Augmented Gen (RAG)</text>
+  <text x="42" y="195" class="body-txt" text-anchor="start">• Zero training compute or time</text>
+  <text x="42" y="215" class="body-txt" text-anchor="start">• Real-time updates &amp; instant deletes</text>
+  <text x="42" y="235" class="body-txt" text-anchor="start">• Strict citation provenance &amp; ACLs</text>
+  <text x="42" y="255" class="mono-txt" text-anchor="start">Ideal for: Policies, manuals, facts</text>
+  <text x="42" y="285" class="badge-txt" fill="#A7F3D0">✓ Instant Knowledge Freshness</text>
+
+  <!-- Center: SFT Option -->
+  <rect x="350" y="140" width="260" height="180" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="480" y="166" class="title-txt" text-anchor="middle" fill="#C4B5FD">Supervised Fine-Tuning (SFT / LoRA)</text>
+  <text x="362" y="195" class="body-txt" text-anchor="start">• Enforce specialized output schema (JSON)</text>
+  <text x="362" y="215" class="body-txt" text-anchor="start">• Teach niche nomenclature (ICD-10)</text>
+  <text x="362" y="235" class="body-txt" text-anchor="start">• Low inference latency (no retrieval)</text>
+  <text x="362" y="255" class="mono-txt" text-anchor="start">Ideal for: Style, format &amp; tone</text>
+  <text x="362" y="285" class="badge-txt" fill="#C4B5FD">✓ Zero Retrieval Overhead</text>
+
+  <!-- Right: Hybrid Option -->
+  <rect x="670" y="140" width="260" height="180" rx="10" ry="10" fill="#111827" stroke="#EC4899" stroke-width="1.5"/>
+  <text x="800" y="166" class="title-txt" text-anchor="middle" fill="#FBCFE8">Hybrid (SFT + RAG Pipeline)</text>
+  <text x="682" y="195" class="body-txt" text-anchor="start">• Fine-tune compact 8B model to</text>
+  <text x="682" y="215" class="body-txt" text-anchor="start">  master tool calling &amp; synthesis</text>
+  <text x="682" y="235" class="body-txt" text-anchor="start">• Feed dynamic retrieval contexts</text>
+  <text x="682" y="255" class="mono-txt" text-anchor="start">Ideal for: Autonomous edge agents</text>
+  <text x="682" y="285" class="badge-txt" fill="#FBCFE8">✓ Enterprise Best Practice</text>
+</svg>

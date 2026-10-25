@@ -1,0 +1,50 @@
+direction: right
+title: Kimball Star Schema: Central Fact & Conformed Dimensions
+
+fact_sales: FACT_SALES {
+  shape: sql_table
+  sales_fact_id: bigint [pk]
+  date_sk: int [fk]
+  customer_sk: int [fk]
+  product_sk: int [fk]
+  store_sk: int [fk]
+  promo_sk: int [fk]
+  quantity_sold: int
+  net_amount: decimal
+}
+
+dim_customer: DIM_CUSTOMER {
+  shape: sql_table
+  customer_sk: int [pk]
+  customer_name: varchar
+}
+
+dim_date: DIM_DATE {
+  shape: sql_table
+  date_sk: int [pk]
+  full_date: date
+}
+
+dim_product: DIM_PRODUCT {
+  shape: sql_table
+  product_sk: int [pk]
+  product_name: varchar
+}
+
+dim_store: DIM_STORE {
+  shape: sql_table
+  store_sk: int [pk]
+  store_name: varchar
+}
+
+dim_promotion: DIM_PROMOTION {
+  shape: sql_table
+  promo_sk: int [pk]
+  promo_name: varchar
+}
+
+dim_customer -> fact_sales: "filters (customer_sk)"
+dim_date -> fact_sales: "filters (date_sk)"
+dim_product -> fact_sales: "filters (product_sk)"
+dim_store -> fact_sales: "filters (store_sk)"
+dim_promotion -> fact_sales: "filters (promo_sk)"

@@ -1,0 +1,25 @@
+direction: right
+title: "ManyToMany Decomposition: Why Direct @ManyToMany is an Anti-Pattern"
+
+antipattern: "Direct @ManyToMany Anti-Pattern" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+  s: "Student"
+  j: "Hidden Join Table
+student_courses"
+  c: "Course"
+  s -> j -> c
+}
+
+bestpractice: "Enterprise Pattern: Explicit Join Entity" {
+  style.fill: "#062e3b"
+  style.stroke: "#10b981"
+  student: "StudentEntity (1)"
+  enrollment: "EnrollmentEntity (N)
+@EmbeddedId EnrollmentId
+enrolledAt, grade, status"
+  course: "CourseEntity (1)"
+
+  student <-> enrollment: "@OneToMany / @ManyToOne"
+  enrollment <-> course: "@ManyToOne / @OneToMany"
+}

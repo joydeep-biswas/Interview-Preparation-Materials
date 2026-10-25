@@ -1,0 +1,26 @@
+direction: right
+title: PostgreSQL MVCC Internals: In-Heap Tuple Versioning
+
+pg_mvcc: PostgreSQL In-Heap Tuple Versioning (ctid Tracking) {
+  v1: Tuple Version 1 (ctid: 1, 1) {
+    xmin: "100"
+    xmax: "105"
+    data: "Name: 'Alice', Balance: $500"
+    style.stroke: "#ef4444"
+  }
+  v2: Tuple Version 2 (ctid: 1, 2) {
+    xmin: "105"
+    xmax: "0 (Active)"
+    data: "Name: 'Alice', Balance: $400"
+    style.stroke: "#10b981"
+  }
+  v1 -> v2: "Updated by Tx 105 (ctid pointer)"
+}
+
+snapshot: Transaction Snapshot Visibility (Tx 102) {
+  tx102: Transaction 102 Snapshot {
+    rule: "Reads Version 1 because xmin 100 < 102 and xmax 105 is active"
+  }
+}
+
+snapshot.tx102 -> pg_mvcc.v1: "Reads Version 1"

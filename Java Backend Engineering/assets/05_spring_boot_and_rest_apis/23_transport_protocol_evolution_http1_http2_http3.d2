@@ -1,0 +1,34 @@
+direction: right
+title: Transport Protocol Evolution: HTTP/1.1 vs. HTTP/2 vs. HTTP/3 (QUIC)
+
+h1: "HTTP/1.1 (1997)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  text: "Text-based framing"
+  hol: "Head-of-Line blocking (1 req/socket)"
+  headers: "Uncompressed redundant headers"
+}
+
+h2: "HTTP/2 (2015)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  bin: "Binary framing (HEADERS & DATA)"
+  mux: "Multiplexing over 1 TCP connection"
+  hpack: "HPACK header compression"
+  tcp_hol: "Still suffers TCP packet drop stall"
+}
+
+h3: "HTTP/3 (2022+)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  quic: "QUIC transport over UDP"
+  zero_hol: "ZERO Head-of-Line blocking!"
+  rtt: "0-RTT connection resumption"
+  roam: "Seamless mobile Wi-Fi <-> 5G roaming"
+}
+
+h1 -> h2: "Binary Multiplexing"
+h2 -> h3: "QUIC / UDP Transport"

@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-b27" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-a27" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p27" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-g27" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">Multi-Table Join Aggregation &amp; Distinct Diversity Filtering</text>
+
+  <!-- Left: Inputs -->
+  <rect x="30" y="60" width="220" height="75" class="card card-blue"/>
+  <text x="140" y="85" class="card-title" fill="#93C5FD">orders</text>
+  <text x="45" y="110" class="card-body">(order_id, customer_id, date)</text>
+
+  <rect x="30" y="150" width="220" height="75" class="card card-blue"/>
+  <text x="140" y="175" class="card-title" fill="#93C5FD">order_items</text>
+  <text x="45" y="200" class="card-body">(order_id, product_id, total)</text>
+
+  <rect x="30" y="240" width="220" height="75" class="card card-blue"/>
+  <text x="140" y="265" class="card-title" fill="#93C5FD">products</text>
+  <text x="45" y="290" class="card-body">(product_id, category_id)</text>
+
+  <!-- Col 2: Join Node -->
+  <rect x="310" y="115" width="220" height="145" class="card card-amber"/>
+  <text x="420" y="142" class="card-title" fill="#FDE68A">Relational Joins</text>
+  <text x="325" y="167" class="card-body">• Hash Join on PK/FK keys</text>
+  <text x="325" y="187" class="card-body">• GROUP BY customer_id</text>
+  <text x="325" y="207" class="card-body">• SUM(total) as revenue</text>
+  <text x="325" y="227" class="card-body">• Aggregates category counts</text>
+
+  <!-- Col 3: Diversity Gate -->
+  <rect x="580" y="115" width="200" height="145" class="card card-purple"/>
+  <text x="680" y="142" class="card-title" fill="#D8B4FE">Diversity Filter</text>
+  <text x="595" y="167" class="card-body">• COUNT(DISTINCT cat) &gt;= 3</text>
+  <text x="595" y="187" class="card-body">• Eliminates single-item</text>
+  <text x="595" y="207" class="card-body">  resellers</text>
+  <text x="595" y="227" class="card-body" fill="#34D399">• Preserves true diversity</text>
+
+  <!-- Col 4: Ranking & Top 3 -->
+  <rect x="830" y="115" width="200" height="145" class="card card-green"/>
+  <text x="930" y="142" class="card-title" fill="#6EE7B7">DENSE_RANK() Top 3</text>
+  <text x="845" y="167" class="card-body">• PARTITION BY month</text>
+  <text x="845" y="187" class="card-body">• ORDER BY revenue DESC</text>
+  <text x="845" y="207" class="card-body" fill="#34D399">• WHERE rank &lt;= 3</text>
+  <text x="845" y="227" class="card-body">• Clean final result</text>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 250 97 C 280 97, 290 155, 296 155 L 310 155" class="edge edge-blue" marker-end="url(#arr-b27)"/>
+  <path fill="none" d="M 250 187 L 310 187" class="edge edge-blue" marker-end="url(#arr-b27)"/>
+  <path fill="none" d="M 250 277 C 280 277, 290 220, 296 220 L 310 220" class="edge edge-blue" marker-end="url(#arr-b27)"/>
+
+  <path fill="none" d="M 530 187 L 580 187" class="edge edge-purple" marker-end="url(#arr-p27)"/>
+  <path fill="none" d="M 780 187 L 830 187" class="edge edge-green" marker-end="url(#arr-g27)"/>
+</svg>

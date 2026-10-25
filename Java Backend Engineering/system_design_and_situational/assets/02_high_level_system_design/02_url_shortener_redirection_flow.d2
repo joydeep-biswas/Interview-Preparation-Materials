@@ -1,0 +1,49 @@
+direction: right
+
+client: "1. Client Request" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  req: "GET /7aB9xQ"
+  gw: "Edge API Gateway"
+}
+
+cache: "2. Redis Cache L1/L2" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  lookup: "O(1) Memory Lookup"
+}
+
+db: "3. Distributed DB" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  query: "CockroachDB / ScyllaDB Fallback"
+  populate: "Populate Redis Cache"
+}
+
+response: "4. Response & Analytics" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  redirect: "Return HTTP 302 Redirect"
+  kafka: "Async Kafka Click Analytics"
+}
+
+client -> cache: "Lookup Short Key" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+cache -> response: "Cache Hit (95%)" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+cache -> db: "Cache Miss (5%)" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+db -> response: "Write Cache & Return 302" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

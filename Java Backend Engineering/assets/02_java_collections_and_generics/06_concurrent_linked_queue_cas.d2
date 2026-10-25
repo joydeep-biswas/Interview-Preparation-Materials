@@ -1,0 +1,31 @@
+direction: down
+title: ConcurrentLinkedQueue Lock-Free CAS Enqueue Algorithm
+
+State: Queue Structure {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  head: "head -> Sentinel Node (0x1000)"
+  n1: "Node 1 (0x2000, item: 'A')"
+  tail: "tail -> Node 2 (0x3000, item: 'B', next: null)"
+  newNode: "New Node (0x4000, item: 'C', next: null)"
+}
+
+Step1: 1. Read Tail & Verify next == null {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  desc: "Read t = tail. If t.next != null, tail is lagging; help advance it."
+}
+
+Step2: 2. CAS Link: t.casNext(null, newNode) {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  desc: "Atomic CAS links newNode into queue. If fails, retry loop."
+}
+
+Step3: 3. CAS Advance Tail: casTail(t, newNode) {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  desc: "Advance tail pointer to newNode. Benign failure tolerant."
+}
+
+State -> Step1 -> Step2 -> Step3

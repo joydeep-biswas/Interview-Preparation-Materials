@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- User Alert -->
+  <rect x="25" y="30" width="220" height="60" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="135" y="55" class="title-txt" text-anchor="middle" fill="#FECACA">User Reports Incorrect Answer</text>
+  <text x="135" y="73" class="sub-txt" text-anchor="middle">Trace audit initiated</text>
+
+  <path d="M 245 60 L 295 60" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+  <!-- Trace Inspection -->
+  <rect x="295" y="30" width="220" height="60" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="405" y="55" class="title-txt" text-anchor="middle">Inspect OpenTelemetry Trace</text>
+  <text x="405" y="73" class="sub-txt" text-anchor="middle">Extract injected context &amp; prompt</text>
+
+  <path d="M 515 60 L 565 60" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Diagnostic Diamond -->
+  <polygon points="665,25 765,60 665,95 565,60" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="665" y="55" class="title-txt" text-anchor="middle">Context Contains</text>
+  <text x="665" y="72" class="sub-txt" text-anchor="middle">Ground Truth?</text>
+
+  <!-- Branch NO: Retrieval Defect -->
+  <path d="M 665 95 L 665 125 Q 665 135 650 135 L 260 135 Q 245 135 245 150 L 245 180" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <rect x="370" y="123" width="130" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="435" y="136" class="edge-txt" text-anchor="middle" fill="#EF4444">NO: Fact Missing</text>
+
+  <rect x="40" y="180" width="410" height="150" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="245" y="206" class="title-txt" text-anchor="middle" fill="#FECACA">🔴 RETRIEVAL DEFECT (Recall = 0.0)</text>
+  <text x="55" y="232" class="body-txt" text-anchor="start">• <tspan font-weight="700">Semantic Gap:</tspan> Query keywords missed by pure vector search</text>
+  <text x="55" y="252" class="body-txt" text-anchor="start">• <tspan font-weight="700">Chunk Fragmentation:</tspan> Boundary split crucial sentence</text>
+  <text x="55" y="272" class="body-txt" text-anchor="start">• <tspan font-weight="700">Top-K Too Small:</tspan> K=3 missed relevant chunk at rank 4</text>
+  <text x="55" y="292" class="body-txt" text-anchor="start">• <tspan font-weight="700">Reranker Pruned:</tspan> Cross-encoder threshold set too high</text>
+
+  <!-- Branch YES: Generation Defect -->
+  <path d="M 765 60 L 815 60 Q 830 60 830 75 L 830 180" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+  <rect x="780" y="48" width="100" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="830" y="61" class="edge-txt" text-anchor="middle" fill="#8B5CF6">YES: Fact Present</text>
+
+  <rect x="510" y="180" width="410" height="150" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="715" y="206" class="title-txt" text-anchor="middle" fill="#C4B5FD">🔴 GENERATION DEFECT (Faithfulness &lt; 1.0)</text>
+  <text x="525" y="232" class="body-txt" text-anchor="start">• <tspan font-weight="700">Lost in the Middle:</tspan> Context &gt; 8k tokens distracted the LLM</text>
+  <text x="525" y="252" class="body-txt" text-anchor="start">• <tspan font-weight="700">Conflicting Information:</tspan> Two retrieved chunks contradicted</text>
+  <text x="525" y="272" class="body-txt" text-anchor="start">• <tspan font-weight="700">Parametric Override:</tspan> LLM pre-training weights overrode context</text>
+  <text x="525" y="292" class="body-txt" text-anchor="start">• <tspan font-weight="700">Prompting Failure:</tspan> Lacked directive: 'Answer ONLY from context'</text>
+</svg>

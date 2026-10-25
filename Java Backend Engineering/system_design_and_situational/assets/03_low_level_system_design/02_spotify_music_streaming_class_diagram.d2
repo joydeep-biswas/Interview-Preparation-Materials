@@ -1,0 +1,67 @@
+direction: right
+
+player: "MusicPlayer (Context)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  state: "- currentState : PlaybackState"
+  queue: "- currentQueue : Playlist"
+  methods: "+ play()\n+ pause()\n+ next()\n+ setState(PlaybackState state)"
+}
+
+state_interface: "<<interface>> PlaybackState" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  methods: "+ play(MusicPlayer player)\n+ pause(MusicPlayer player)\n+ next(MusicPlayer player)"
+}
+
+playing: "PlayingState" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 1.5
+  desc: "+ play() (noop)\n+ pause() -> PausedState\n+ next() -> next track"
+}
+
+paused: "PausedState" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 1.5
+  desc: "+ play() -> PlayingState\n+ pause() (noop)\n+ next() -> next track"
+}
+
+stopped: "StoppedState" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 1.5
+  desc: "+ play() -> PlayingState\n+ pause() (noop)\n+ next() (noop)"
+}
+
+domain: "Playlist & Track" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  playlist: "Playlist: - tracks : List<Track>"
+  track: "Track: - id, - title, - durationSec"
+}
+
+player -> state_interface: "delegates to" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+state_interface -> playing: "implements" {
+  style.stroke: "#10B981"
+  style.stroke-dash: 4
+}
+state_interface -> paused: "implements" {
+  style.stroke: "#F59E0B"
+  style.stroke-dash: 4
+}
+state_interface -> stopped: "implements" {
+  style.stroke: "#EF4444"
+  style.stroke-dash: 4
+}
+player -> domain: "maintains queue" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

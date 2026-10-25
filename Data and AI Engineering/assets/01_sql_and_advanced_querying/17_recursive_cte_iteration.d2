@@ -1,0 +1,23 @@
+# Recursive CTEs: Fixed-Point Relational Iteration & Cycle Guard
+direction: right
+
+s0: "Step 0: Anchor Member\n• Evaluates base case\n• Seeds working table W0" {
+  style.stroke: "#3B82F6"
+}
+
+s1: "Step N: Recursive Member\n• Joins base table with W_N\n• Generates next generation W_N+1" {
+  style.stroke: "#F59E0B"
+}
+
+s2: "Step 2: Cycle Guard\n• Checks child = ANY(visited_path)\n• Aborts infinite graph cycles" {
+  style.stroke: "#8B5CF6"
+}
+
+s3: "Step 3: Fixed-Point Check\n• If W_N+1 is empty (Ø): HALT\n• Else: Append to R & Loop Back" {
+  style.stroke: "#10B981"
+}
+
+s0 -> s1: "Seeds W0"
+s1 -> s2: "Candidate W_N+1"
+s2 -> s3: "Cycle Safe"
+s3 -> s1: "Loop back with W_N+1"

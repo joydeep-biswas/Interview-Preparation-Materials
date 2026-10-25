@@ -64,35 +64,9 @@ When two tables are **pre-bucketed on the join key with identical (or multiple) 
 2. Spark executes the join **locally on worker nodes without any network data transfer**.
 3. Partitioning only prunes file scans; it does not align keys across worker nodes, meaning partition-filtered tables still incur a 100% network shuffle during joins.
 
-```mermaid
-flowchart TD
-    subgraph WithoutBucketing ["Standard Join: Network Shuffle Required"]
-        T1["Table A (Workers 1..4)"] --> Shuffle["Massive Network Shuffle<br/>(High I/O & Network Latency)"]
-        T2["Table B (Workers 1..4)"] --> Shuffle
-        Shuffle --> Join["Distributed Join Output"]
-    end
+![Distributed Join Shuffle vs Bucketed Zero Shuffle](assets/04_database_internals_and_distributed_systems_faq/01_distributed_join_shuffle_vs_bucketed_zero_shuffle.svg)
 
-    subgraph WithBucketing ["Pre-Bucketed Join: ZERO Shuffle"]
-        B1["Bucket 1 of A + Bucket 1 of B"] --> W1["Worker 1 (Local Join)"]
-        B2["Bucket 2 of A + Bucket 2 of B"] --> W2["Worker 2 (Local Join)"]
-        B3["Bucket 3 of A + Bucket 3 of B"] --> W3["Worker 3 (Local Join)"]
-        W1 & W2 & W3 --> LocalJoin["Fast Consolidated Output"]
-    end
-
-    style WithoutBucketing fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style WithBucketing fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style T1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style T2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Shuffle fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Join fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style B1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style B2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style B3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style W1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style W2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style W3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style LocalJoin fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/01_distributed_join_shuffle_vs_bucketed_zero_shuffle.d2](assets/04_database_internals_and_distributed_systems_faq/01_distributed_join_shuffle_vs_bucketed_zero_shuffle.d2)
 
 ---
 
@@ -116,25 +90,9 @@ Consistent Hashing maps both **nodes (servers)** and **keys** to points on a 360
 2. **Adding a node:** Only keys located between the new node and its counter-clockwise neighbor are moved. All other nodes remain untouched ($O(K/N)$ keys remapped).
 3. **Removing a node:** Only keys previously belonging to that node move to the next clockwise node.
 
-```mermaid
-flowchart TD
-    subgraph HashRing ["360° Consistent Hash Ring Continuum"]
-        N1["Node A (Angle 0°)"] --> K1["Key 1 (Angle 45°) -> Stored in Node B"]
-        K1 --> N2["Node B (Angle 90°)"]
-        N2 --> K2["Key 2 (Angle 150°) -> Stored in Node C"]
-        K2 --> N3["Node C (Angle 210°)"]
-        N3 --> K3["Key 3 (Angle 320°) -> Stored in Node A"]
-        K3 --> N1
-    end
+![Consistent Hashing Ring Node Key Distribution](assets/04_database_internals_and_distributed_systems_faq/02_consistent_hashing_ring_node_key_distribution.svg)
 
-    style HashRing fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style N1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style N2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style N3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style K1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style K2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style K3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/02_consistent_hashing_ring_node_key_distribution.d2](assets/04_database_internals_and_distributed_systems_faq/02_consistent_hashing_ring_node_key_distribution.d2)
 
 #### The Role of Virtual Nodes (V-Nodes)
 - **Problem:** With few physical nodes, keys distribute unevenly across the ring (hotspots).
@@ -173,32 +131,9 @@ flowchart TD
   - *Example:* For word count, instead of sending `("spark", 1)` 1,000 times across the network, the Combiner aggregates locally to `("spark", 1000)` and sends a single record over the network.
 
 #### Limitations of MapReduce Addressed by Spark
-```mermaid
-flowchart LR
-    subgraph MapReduceFlow ["MapReduce: Disk-Bound Pipeline"]
-        M1["Job 1 Map"] --> D1["Spill to Disk"]
-        D1 --> R1["Job 1 Reduce"] --> D2["Write to HDFS (Disk)"]
-        D2 --> M2["Job 2 Map"] --> D3["Spill to Disk"]
-        D3 --> R2["Job 2 Reduce"]
-    end
+![MapReduce Disk Spill vs Spark In Memory DAG](assets/04_database_internals_and_distributed_systems_faq/03_mapreduce_disk_spill_vs_spark_in_memory_dag.svg)
 
-    subgraph SparkFlow ["Spark: In-Memory DAG Pipeline"]
-        S1["Stage 1 (Pipeline in RAM)"] --> SM["In-Memory Shuffle"] --> S2["Stage 2 (Pipeline in RAM)"]
-    end
-
-    style MapReduceFlow fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style SparkFlow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style M1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style D1 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style R1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style D2 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style M2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style D3 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style R2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style S1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SM fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/03_mapreduce_disk_spill_vs_spark_in_memory_dag.d2](assets/04_database_internals_and_distributed_systems_faq/03_mapreduce_disk_spill_vs_spark_in_memory_dag.d2)
 
 | Dimension | Hadoop MapReduce | Apache Spark |
 | :--- | :--- | :--- |
@@ -263,22 +198,9 @@ LOCATION 'abfss://curated@datalakeprod.dfs.core.windows.net/customers/';
 **Question:** You are asked to ingest and transform 100GB of CSV files daily in Synapse. What is your approach?
 
 #### Ingesting & Transforming 100GB CSV Files Daily in Synapse (Q6)
-```mermaid
-flowchart LR
-    subgraph SynapseIngestion ["Synapse 100GB Daily CSV Parallel Ingestion Pipeline"]
-        A[("100GB CSV Files in ADLS Gen2")] --> B["Synapse COPY INTO Command<br/>(Parallelized high-speed bulk ingestion)"]
-        B --> C[("Staging Table<br/>(Round-Robin Heap)")]
-        C --> D["CTAS Transformation<br/>(Clustered Columnstore + Hash Distributed)"]
-        D --> E[("Production Dedicated Fact Table<br/>(CCI Hash Key)")]
-    end
+![Azure Synapse Parallel CSV Ingestion Pipeline](assets/04_database_internals_and_distributed_systems_faq/04_azure_synapse_parallel_csv_ingestion_pipeline.svg)
 
-    style SynapseIngestion fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style A fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style C fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style D fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style E fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/04_azure_synapse_parallel_csv_ingestion_pipeline.d2](assets/04_database_internals_and_distributed_systems_faq/04_azure_synapse_parallel_csv_ingestion_pipeline.d2)
 
 1. **Ingest via `COPY INTO`:** Never use row-by-row `INSERT`. Use `COPY INTO` with parallel file splits.
 2. **Staging Table Design:** Create a staging table with **Round-Robin** distribution and Heap storage to maximize write throughput.
@@ -403,20 +325,9 @@ Egress charges between cloud providers cost \$0.08–\$0.09 per GB.
 **Question:** Explain an end-to-end AWS Glue ETL pipeline you have worked on (validation & cleaning using PySpark in Glue).
 
 #### AWS Glue PySpark ETL Pipeline Architecture (Q13)
-```mermaid
-flowchart LR
-    subgraph GlueETL ["AWS Glue Serverless ETL Pipeline Architecture"]
-        S3_Raw[("S3 Raw Landing Zone<br/>(JSON / CSV)")] --> GlueJob["AWS Glue PySpark Job<br/>(DPUs: Worker Type G.1X)<br/>(Schema Validation, Job Bookmarks for State, Quality Assertion)"]
-        GlueJob --> S3_Clean[("S3 Curated Parquet<br/>(Partitioned by Date)")]
-        GlueJob --> GlueCatalog["AWS Glue Data Catalog<br/>(Crawler / Metastore Sync)"]
-    end
+![AWS Glue Serverless ETL Pipeline Architecture](assets/04_database_internals_and_distributed_systems_faq/05_aws_glue_serverless_etl_pipeline_architecture.svg)
 
-    style GlueETL fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style S3_Raw fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style GlueJob fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S3_Clean fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style GlueCatalog fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/05_aws_glue_serverless_etl_pipeline_architecture.d2](assets/04_database_internals_and_distributed_systems_faq/05_aws_glue_serverless_etl_pipeline_architecture.d2)
 
 ```python
 import sys
@@ -533,20 +444,9 @@ AWS Lambda provides a minimal standard execution environment. To deploy external
 **Question:** Explain how you would build a Medallion Architecture (Bronze-Silver-Gold) in Databricks / Data Lakehouse to process daily sales data.
 
 #### Architectural Blueprint: Multi-Hop Medallion Pipeline
-```mermaid
-flowchart LR
-    subgraph MedallionSales ["Lakehouse Medallion Architecture (Daily Sales Ingestion)"]
-        Source["Daily Sales Feed<br/>(POS, Web, ERP)"] --> Bronze[("Bronze: Raw Ingestion<br/>(Append-only Delta, Raw JSON/CSV preserved, Audit columns added)")]
-        Bronze --> Silver[("Silver: Cleansed & Curated<br/>(Deduplicated on transaction_id, Schema enforced & validated, Enriched with Customer SKs)")]
-        Silver --> Gold[("Gold: Business Aggregates<br/>(Star Schema / Fact Tables, Daily Store & Category Sales, Optimized for BI & ML)")]
-    end
+![Lakehouse Medallion Sales Ingestion Pipeline](assets/04_database_internals_and_distributed_systems_faq/06_lakehouse_medallion_sales_ingestion_pipeline.svg)
 
-    style MedallionSales fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Source fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Bronze fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Silver fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Gold fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/06_lakehouse_medallion_sales_ingestion_pipeline.d2](assets/04_database_internals_and_distributed_systems_faq/06_lakehouse_medallion_sales_ingestion_pipeline.d2)
 
 #### Production PySpark Implementation
 ```python
@@ -618,36 +518,9 @@ Both Change Data Capture (CDC) and Change Data Tracking (CDT) capture relational
    - **Use Case:** Periodic batch ETL micro-batches where only the latest state of mutated records is extracted via an inner join back to the base table.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Transactions ["Source Database DML Operations"]
-        T1["Row 101 INSERT: Balance = $100"]
-        T2["Row 101 UPDATE: Balance = $150"]
-        T3["Row 101 UPDATE: Balance = $200"]
-    end
+![CDC Transaction Log vs Change Tracking CDT](assets/04_database_internals_and_distributed_systems_faq/07_cdc_transaction_log_vs_change_tracking_cdt.svg)
 
-    subgraph CDC_Engine ["Log-Based CDC (Debezium / SQL Server CDC)"]
-        WAL["Database Transaction Log / WAL"]
-        CaptureProc["Async Log Reader Process"]
-        CDCTables["<b>CDC Change Tables / Kafka Topic</b><br/>Event 1: INSERT val=$100<br/>Event 2: UPDATE before=$100, after=$150<br/>Event 3: UPDATE before=$150, after=$200"]
-        WAL --> CaptureProc --> CDCTables
-    end
-
-    subgraph CDT_Engine ["Change Tracking / CDT (Lightweight Sync)"]
-        CTTable["<b>sys.change_tracking_tables</b><br/>Row 101: Operation='U', Version=42<br/>(No historical intermediate states)"]
-        BaseJoin["ETL extracts latest current row from base table: $200"]
-        CTTable --> BaseJoin
-    end
-
-    Transactions --> WAL
-    Transactions --> CTTable
-
-    style Transactions fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#93c5fd
-    style CDC_Engine fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CDT_Engine fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style CDCTables fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style CTTable fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/07_cdc_transaction_log_vs_change_tracking_cdt.d2](assets/04_database_internals_and_distributed_systems_faq/07_cdc_transaction_log_vs_change_tracking_cdt.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -708,30 +581,9 @@ While both services store unstructured and columnar objects in the cloud at low 
    - **Fine-Grained Security:** POSIX-compliant Access Control Lists (ACLs) mapped to Azure Active Directory / Entra ID users, groups, and service principals.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph FlatBlob ["Flat Blob Storage (No Hierarchical Namespace)"]
-        F1["Virtual Prefix: 'raw/orders/file_01.parquet'"]
-        F2["Virtual Prefix: 'raw/orders/file_02.parquet'"]
-        FRename["Rename Directory 'raw' to 'archive':<br/>Must issue 100,000 HTTP Copy + Delete calls!<br/>O(N) Time -> Takes 45 Minutes, Highly Unstable"]
-        F1 --> FRename
-        F2 --> FRename
-    end
+![Flat Blob Storage vs Hierarchical Namespace HNS](assets/04_database_internals_and_distributed_systems_faq/08_flat_blob_storage_vs_hierarchical_namespace_hns.svg)
 
-    subgraph HNS_DataLake ["Data Lake Storage (Hierarchical Namespace HNS Enabled)"]
-        D1["📁 Directory Node: /raw/orders"]
-        D2["📄 file_01.parquet"]
-        D3["📄 file_02.parquet"]
-        D1 --> D2
-        D1 --> D3
-        HRename["Rename Directory /raw to /archive:<br/>Atomic Inode Pointer Update in Metadata<br/>O(1) Time -> Takes 12 Milliseconds!"]
-        D1 --> HRename
-    end
-
-    style FlatBlob fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style HNS_DataLake fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style HRename fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/08_flat_blob_storage_vs_hierarchical_namespace_hns.d2](assets/04_database_internals_and_distributed_systems_faq/08_flat_blob_storage_vs_hierarchical_namespace_hns.d2)
 
 #### Production Comparison Matrix
 | Architectural Feature | Flat Object / Blob Storage | Data Lake Storage (ADLS Gen2 / HNS) |
@@ -796,31 +648,9 @@ If the pipeline is synchronously coupled via REST APIs or synchronous RPCs, the 
 To achieve a **$99.95\%$ SLA** despite $99.9\%$ dependencies, the architecture must transition from synchronous coupling to **asynchronous, resilient decoupling**.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph SynchronousFail ["Tightly Coupled Synchronous Chain: Availability = 99.50%"]
-        S1["Service 1 (99.9%)"] --> S2["Service 2 (99.9%)"]
-        S2 --> S3["Service 3 (99.9%)"]
-        S3 --> S4["Service 4 (99.9%)"]
-        S4 --> S5["Service 5 (99.9%)"]
-        S5 --> Pipe1["Downstream Pipeline Blocked on ANY Failure"]
-    end
+![Synchronous Cascade Failure vs Resilient Circuit Breaker](assets/04_database_internals_and_distributed_systems_faq/09_synchronous_cascade_failure_vs_resilient_circuit_breaker.svg)
 
-    subgraph DecoupledResilient ["Decoupled Asynchronous Architecture: Availability > 99.95%"]
-        Q["Distributed Broker (Kafka / Event Hubs) with Local Replay Log"]
-        DLQ["Dead-Letter Queue (DLQ) for Poison Events"]
-        Circuit["Circuit Breaker with Exponential Backoff & Jitter"]
-        FallBack["Cached Fallback Snapshot / Shadow Dimension Cache"]
-        Pipe2["Downstream Stream Processor (Spark / Flink) Continues Uninterrupted"]
-        Q --> Circuit --> Pipe2
-        Circuit -- "Timeout/503" --> FallBack --> Pipe2
-        Circuit -- "Persistent Failure" --> DLQ
-    end
-
-    style SynchronousFail fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style DecoupledResilient fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Pipe2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/09_synchronous_cascade_failure_vs_resilient_circuit_breaker.d2](assets/04_database_internals_and_distributed_systems_faq/09_synchronous_cascade_failure_vs_resilient_circuit_breaker.d2)
 
 #### Production Architectural Playbook to Exceed 99.95% SLA
 1. **Asynchronous Buffer Queues (Event Buffering):** Replace direct REST calls with durable message brokers (Kafka / SQS / Event Hubs). If an upstream service crashes for 2 hours, incoming data buffers in the queue, allowing the pipeline to catch up seamlessly once the service recovers without losing records.
@@ -845,20 +675,9 @@ Under the hood:
 3. **The `ECONNRESET` Collision:** The application believes the socket is still open. When the worker attempts to send a query down the socket, the NAT gateway receives packets for an untracked session, cannot route them, and replies with a TCP `RST` (Reset) packet, triggering `Connection reset by peer`.
 
 #### Visual Flow
-```mermaid
-sequenceDiagram
-    autonumber
-    participant App as 💻 Ingestion App (HikariCP / HTTP Pool)
-    participant NAT as 🛡️ Cloud NAT Gateway / Firewall (Idle Limit: 350s)
-    participant DB as 🗄️ Downstream Database / REST API
+![Cloud NAT Idle Timeout TCP Reset Drop](assets/04_database_internals_and_distributed_systems_faq/10_cloud_nat_idle_timeout_tcp_reset_drop.svg)
 
-    App->>DB: Handshake & Query 1 Complete
-    Note over App,DB: Pipeline pauses processing for 400 seconds (No traffic)
-    Note over NAT: 350s Timer Expires -> Silently Drops TCP State from Translation Table!
-    App->>NAT: Reuses idle pooled socket -> Sends Query 2
-    NAT-->>App: TCP RST (Connection Reset: Unrecognized Packet!)
-    App-->>App: Crash: SocketException: Connection reset by peer!
-```
+*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/10_cloud_nat_idle_timeout_tcp_reset_drop.d2](assets/04_database_internals_and_distributed_systems_faq/10_cloud_nat_idle_timeout_tcp_reset_drop.d2)
 
 #### Production Implementation / Diagnostic Playbook
 ```python

@@ -1,0 +1,27 @@
+direction: right
+title: Dead Letter Queues (DLQ) & Quarantine Routing
+
+stream: Stream Ingestion & Validation {
+  raw: Raw Ingested Stream (JSON)
+  validate: Validation Rules (Valid JSON? order_id != NULL? amount >= 0?) {
+    shape: diamond
+  }
+  raw -> validate
+}
+
+paths: Split Processing Paths {
+  silver: Silver Production Table (Clean data committed)
+  enrich: Quarantine Enrichment (Attach raw bytes, error, stack trace)
+}
+
+quarantine: Dead Letter Queue (DLQ) & Operations {
+  dlq_table: Dead Letter Quarantine Table (bronze.quarantine_orders)
+  alert: PagerDuty Alert (Trigger if DLQ Rate > 1%)
+  reprocessor: Developer Remediation (Fix bug & replay DLQ)
+  dlq_table -> alert
+  dlq_table -> reprocessor
+}
+
+stream.validate -> paths.silver: "Valid Records"
+stream.validate -> paths.enrich: "Malformed Records"
+paths.enrich -> quarantine.dlq_table

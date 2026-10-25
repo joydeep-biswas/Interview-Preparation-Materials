@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827", stroke: "#3B82F6" } }
+}
+
+Draft: "Draft Model (8B SLM)" { class: box }
+Target: "Target Model (70B LLM)" { class: box }
+Emitted: "Verified Tokens Stream" { class: box }
+
+Draft -> Target: "Generates K=4 candidates\n[' artificial', ' intelligence', ...]"
+Target -> Target: "Single forward pass\nEvaluates all 4 at once"
+Target -> Emitted: "Emits 3 accepted + 1 resampled\n2.8x Speedup!"

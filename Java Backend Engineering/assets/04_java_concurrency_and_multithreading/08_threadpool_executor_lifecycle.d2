@@ -1,0 +1,34 @@
+direction: right
+title: ThreadPoolExecutor Architecture & Task Execution Lifecycle
+
+Stage1: Stage 1 Core Threads {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  check: "active < corePoolSize"
+  action: "Spawns new core worker thread"
+}
+
+Stage2: Stage 2 Queue Buffering {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  check: "queue.offer(task) == true"
+  action: "Buffers in BlockingQueue"
+}
+
+Stage3: Stage 3 Max Pool Surge {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  check: "queue full && active < maximumPoolSize"
+  action: "Spawns temporary surge worker"
+}
+
+Stage4: Stage 4 Rejection Policy {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  check: "queue full && active == maximumPoolSize"
+  action: "AbortPolicy, CallerRunsPolicy, DiscardPolicy"
+}
+
+Stage1 -> Stage2: Core pool saturated { style.stroke: "#F59E0B" }
+Stage2 -> Stage3: Queue buffer full { style.stroke: "#10B981" }
+Stage3 -> Stage4: Max pool saturated { style.stroke: "#EF4444" }

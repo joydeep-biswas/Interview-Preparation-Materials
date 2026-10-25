@@ -6,34 +6,9 @@ A comprehensive, production-grade guide to real-world interview scenarios and op
 
 ## Architectural Overview: High-Scale Reliability & Observability Pipeline
 
-```mermaid
-flowchart TD
-    subgraph Linux_Kernel ["1. Linux OS & Network Socket Subsystem"]
-        NIC["Physical Network Interface"] --> RingBuffer["Kernel RX Ring Buffer"]
-        RingBuffer --> SYNQueue["SYN Backlog Queue (tcp_max_syn_backlog)"]
-        SYNQueue --> AcceptQueue["Accept Listen Queue (somaxconn)"]
-        AcceptQueue --> Epoll["Epoll Wait System Call (Netty Event Loop)"]
-    end
+![Linux Kernel Network Socket Subsystem to Service Runtime](assets/13_linux_networking_and_distributed_reliability_faq/01_linux_kernel_network_socket_subsystem_to_runtime.svg)
 
-    subgraph Service_Runtime ["2. Enterprise Service Runtime & Context"]
-        Epoll --> Workers["Worker Threads / Virtual Threads"]
-        Workers --> MDC["Logback MDC Context (TraceId, SpanId, TenantId)"]
-        Workers --> Metrics["Micrometer Metrics (Prometheus MeterRegistry)"]
-    end
-
-    subgraph Observability_Plane ["3. Telemetry Ingestion & SRE Alerting"]
-        MDC --> FluentBit["FluentBit DaemonSet (JSON Log Shipping)"]
-        Metrics --> Prometheus["Prometheus Server (TSDB Alert Rules)"]
-        Workers -.->|Async Profiler| FlameGraph["Non-Safepoint Flamegraphs (CPU/Alloc)"]
-    end
-
-    Linux_Kernel --> Service_Runtime
-    Service_Runtime --> Observability_Plane
-
-    style Linux_Kernel fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Service_Runtime fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Observability_Plane fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/13_linux_networking_and_distributed_reliability_faq/01_linux_kernel_network_socket_subsystem_to_runtime.d2](assets/13_linux_networking_and_distributed_reliability_faq/01_linux_kernel_network_socket_subsystem_to_runtime.d2)
 
 ---
 
@@ -209,37 +184,9 @@ $$\text{Latency}_{\text{Total}} = T_{\text{Ingress/Network}} + T_{\text{Containe
 Production attribution is achieved deterministically through **Distributed Tracing (OpenTelemetry / Micrometer Tracing)** using W3C TraceContext standards (`traceparent` header).
 
 #### Visual Flow
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Client as Mobile / Web Client
-    participant Gateway as API Gateway (NGINX/Envoy)
-    participant Tomcat as Spring Boot (Tomcat Queue)
-    participant Service as OrderService (Java Code)
-    participant Hikari as HikariCP Connection Pool
-    participant DB as PostgreSQL Database
-    participant External as Downstream Payment API
+![Distributed Latency Breakdown: 5,439ms End-to-End Trace Triage](assets/13_linux_networking_and_distributed_reliability_faq/02_distributed_latency_breakdown_distributed_tracing.svg)
 
-    Client->>Gateway: HTTP POST /api/v1/orders (traceparent: 00-4bf92f3577...)
-    Note over Gateway: Ingress Network Latency (12ms)
-    Gateway->>Tomcat: Proxy Forward to Port 8080
-    Note over Tomcat: Thread Pool Starvation: Request waits in Accept Queue (2,100ms)
-    Tomcat->>Service: DispatcherServlet -> OrderController.createOrder()
-    Note over Service: Java CPU / Validation (4ms)
-    Service->>Hikari: getConnection()
-    Note over Hikari: Pool Depletion: Blocked waiting for free JDBC lease (1,800ms)
-    Hikari-->>Service: Return Active JDBC Connection
-    Service->>DB: SELECT * FROM inventory WHERE sku = ? FOR UPDATE
-    DB-->>Service: Row Scan Result (15ms)
-    Service->>External: POST /v1/charges (RestTemplate/WebClient)
-    Note over External: Slow downstream response / No timeout (1,500ms)
-    External-->>Service: 200 OK (Payment Authorized)
-    Service->>DB: INSERT INTO orders VALUES (...)
-    DB-->>Service: Commit OK (8ms)
-    Service-->>Tomcat: HTTP 201 Created Response Payload
-    Tomcat-->>Gateway: Upstream Response
-    Gateway-->>Client: Total Round Trip: 5,439ms
-```
+*D2 Source:* [assets/13_linux_networking_and_distributed_reliability_faq/02_distributed_latency_breakdown_distributed_tracing.d2](assets/13_linux_networking_and_distributed_reliability_faq/02_distributed_latency_breakdown_distributed_tracing.d2)
 
 #### Production Implementation / Code Solution
 ```java

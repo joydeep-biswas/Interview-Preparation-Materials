@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Databricks Universal Format (UniForm) Architecture</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Single physical Parquet storage layer simultaneously queryable via Delta Lake, Apache Iceberg, and Apache Hudi</text>
+<rect x="330" y="85" width="380" height="65" rx="8" fill="#0b1329" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="520" y="110" fill="#38BDF8" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Lake Write Engine (Databricks / Spark)</text>
+<text x="520" y="130" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Single write path: Writes new commit with UniForm enabled</text>
+<line x1="520" y1="150" x2="520" y2="175" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<rect x="30" y="180" width="300" height="95" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="180" y="203" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Lake Metadata Layer</text>
+<rect x="100" y="212" width="160" height="16" rx="8" fill="#1d4ed8"/><text x="180" y="223" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">_delta_log/000001.json</text>
+<text x="45" y="245" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Native commit log &amp; checkpoints</text>
+<text x="45" y="261" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Primary transaction driver for table updates</text>
+<rect x="370" y="180" width="300" height="95" rx="8" fill="#062e3d" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="520" y="203" fill="#22D3EE" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Apache Iceberg Metadata Layer</text>
+<rect x="440" y="212" width="160" height="16" rx="8" fill="#0891b2"/><text x="520" y="223" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">metadata/v1.metadata.json</text>
+<text x="385" y="245" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Auto-generated manifests &amp; manifest-lists</text>
+<text x="385" y="261" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Asynchronous metadata sync upon commit</text>
+<rect x="710" y="180" width="300" height="95" rx="8" fill="#18182f" stroke="#c084fc" stroke-width="1.5"/>
+<text x="860" y="203" fill="#C084FC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Apache Hudi Metadata Layer</text>
+<rect x="780" y="212" width="160" height="16" rx="8" fill="#6d28d9"/><text x="860" y="223" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">.hoodie/ Commit Timeline</text>
+<text x="725" y="245" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Auto-generated Hudi timeline metadata</text>
+<text x="725" y="261" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Compatible with AWS EMR &amp; Hudi readers</text>
+<rect x="160" y="305" width="720" height="80" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<text x="520" y="328" fill="#6EE7B7" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Single Physical Parquet Storage Layer (0% Data Duplication!)</text>
+<text x="520" y="348" fill="#D1FAE5" font-size="11" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">S3 / Azure ADLS / Google Cloud Storage: part-00001.parquet, part-00002.parquet...</text>
+<text x="520" y="368" fill="#A7F3D0" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">All 3 metadata formats point to the exact same physical byte offsets &amp; files on disk</text>
+<line x1="180" y1="275" x2="180" y2="305" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="520" y1="275" x2="520" y2="305" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#arr-c)"/>
+<line x1="860" y1="275" x2="860" y2="305" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<rect x="30" y="415" width="300" height="100" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="180" y="437" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Lake Readers</text>
+<text x="45" y="458" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Databricks SQL Warehouses</text>
+<text x="45" y="475" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Apache Spark Clusters</text>
+<text x="45" y="492" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Reads directly via _delta_log/</text>
+<rect x="370" y="415" width="300" height="100" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1"/>
+<text x="520" y="437" fill="#22D3EE" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Iceberg Query Ecosystem</text>
+<text x="385" y="458" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Snowflake (Iceberg Foreign Tables)</text>
+<text x="385" y="475" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Google BigQuery &amp; Starburst / Trino</text>
+<text x="385" y="492" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Reads directly via Iceberg metadata.json</text>
+<rect x="710" y="415" width="300" height="100" rx="8" fill="#1e293b" stroke="#c084fc" stroke-width="1"/>
+<text x="860" y="437" fill="#C084FC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Hudi Query Ecosystem</text>
+<text x="725" y="458" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• AWS EMR &amp; Athena (Hudi engine)</text>
+<text x="725" y="475" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Apache Flink &amp; Presto Hudi readers</text>
+<text x="725" y="492" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Reads directly via .hoodie/ commits</text>
+<line x1="180" y1="385" x2="180" y2="415" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="520" y1="385" x2="520" y2="415" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#arr-c)"/>
+<line x1="860" y1="385" x2="860" y2="415" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+</svg>

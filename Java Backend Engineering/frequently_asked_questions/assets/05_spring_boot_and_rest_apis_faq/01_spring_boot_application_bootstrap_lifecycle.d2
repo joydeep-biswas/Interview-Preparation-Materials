@@ -1,0 +1,33 @@
+direction: right
+
+env: "1. Environment Prep" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  run: "SpringApplication.run()"
+  props: "Load application.yml & profiles"
+}
+
+context: "2. Context Creation" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  instantiate: "AnnotationConfigServletWebServerContext"
+  post_processor: "ConfigurationClassPostProcessor scans beans"
+}
+
+refresh: "3. refresh() & Beans" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  tomcat: "onRefresh() starts Tomcat / Web Server"
+  singletons: "Instantiate & proxy all singleton beans"
+}
+
+ready: "4. Application Ready" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  runners: "Execute ApplicationRunner / CommandLineRunner"
+  event: "ApplicationReadyEvent -> Readiness UP"
+}
+
+env -> context: "Environment ready"
+context -> refresh: "Bean definitions registered"
+refresh -> ready: "Context active"

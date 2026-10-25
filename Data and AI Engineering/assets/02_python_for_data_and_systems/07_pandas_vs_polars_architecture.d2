@@ -1,0 +1,12 @@
+# Pandas vs Polars Architecture
+direction: right
+
+pandas: "Pandas (Python/NumPy)\n• Array of PyObject* pointers\n• Eager evaluation (copy on write)\n• Single-threaded (GIL bound)\n• High memory overhead (5x-10x)" {
+  style.stroke: "#F59E0B"
+}
+
+polars: "Polars (Rust/Arrow Core)\n• Contiguous Arrow columnar buffers\n• Lazy query optimization\n• Multi-threaded (Rayon engine)\n• SIMD vectorized speed (10x-30x)" {
+  style.stroke: "#10B981"
+}
+
+pandas -> polars: "Modern Lakehouse Migration"

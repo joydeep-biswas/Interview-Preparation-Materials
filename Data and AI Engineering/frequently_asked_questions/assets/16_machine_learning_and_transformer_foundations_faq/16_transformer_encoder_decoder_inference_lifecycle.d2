@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827", stroke: "#3B82F6" } }
+}
+
+User: "User / Prompt" { class: box }
+Tok: "Tokenizer (BPE)" { class: box }
+Emb: "Embedding Matrix" { class: box }
+Block: "32 Transformer Blocks\nRMSNorm + GQA + SwiGLU" { class: box }
+Head: "LM Head Projection" { class: box }
+Sampler: "Sampler (Softmax/Top-p)" { class: box }
+
+User -> Tok: "Text Prompt"
+Tok -> Emb: "Token IDs"
+Emb -> Block: "Activations [1, 5, 4096]"
+Block -> Head: "Normalized Last Vector"
+Head -> Sampler: "Logits [1, 128256]"
+Sampler -> User: "Emits ' Paris'"

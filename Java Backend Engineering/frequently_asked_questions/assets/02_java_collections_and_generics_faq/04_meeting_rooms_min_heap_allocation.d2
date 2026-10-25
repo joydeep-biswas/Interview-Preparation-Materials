@@ -1,0 +1,24 @@
+direction: right
+
+sorted: "1. Sorted Intervals" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  order: "Sorted by start time"
+}
+
+heap: "2. Min-Heap End Times" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  rule: "If start >= heap.peek(): reuse room (poll)"
+  alloc: "Else allocate new room"
+}
+
+verdict: "3. Optimal Capacity" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  peak: "Peak heap size = min rooms needed"
+  complexity: "O(N log N) time | O(K) space"
+}
+
+sorted -> heap: "Stream meetings"
+heap -> verdict: "Peak concurrency"

@@ -1,0 +1,38 @@
+classes: {
+  transient_state: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  pending_state: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  persistent_state: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2 } }
+  detached_state: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2 } }
+  deleted_state: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2 } }
+}
+
+init: "" { shape: circle }
+
+transient: "1. Transient\nCustomer(name='Alice')\nPure heap object, no DB identity" {
+  class: transient_state
+}
+
+pending: "2. Pending\nRegistered in Session\nNo SQL emitted yet" {
+  class: pending_state
+}
+
+persistent: "3. Persistent\nRow exists in DB\nPK populated & Identity Map tracked" {
+  class: persistent_state
+}
+
+detached: "4. Detached\nsession.close() / expunge()\nNo Session link (Lazy loads fail)" {
+  class: detached_state
+}
+
+deleted: "5. Deleted\nsession.delete()\nRow removed on commit" {
+  class: deleted_state
+}
+
+done: "" { shape: double-circle }
+
+init -> transient: "instantiate"
+transient -> pending: "session.add(cust)"
+pending -> persistent: "session.flush() / commit()"
+persistent -> detached: "session.close()"
+persistent -> deleted: "session.delete(cust)"
+deleted -> done: "session.commit()"

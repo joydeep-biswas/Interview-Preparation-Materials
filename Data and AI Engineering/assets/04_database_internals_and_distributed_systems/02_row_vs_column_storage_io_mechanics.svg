@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Row-Oriented vs. Column-Oriented Physical Storage Mechanics</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Comparing Full Disk Page Overhead with Columnar File Pruning and Dense Vector Scans</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#260b0b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#fca5a5" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Row Store (OLTP) - High I/O Overhead</text>
+  
+    <rect x="45" y="140" width="400" height="60" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="166" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Disk Page 1: (Header + Row 1 + Row 2)</text>
+    
+    <circle cx="61" cy="183" r="2" fill="#ef4444"/>
+    <text x="69" y="186" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Bytes: [ID, IP, User, Date, DwellTime, Country, Session, Device...]</text>
+  
+    <rect x="45" y="215" width="400" height="60" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="241" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Disk Page 2: (Header + Row 3 + Row 4)</text>
+    
+    <circle cx="61" cy="258" r="2" fill="#ef4444"/>
+    <text x="69" y="261" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Bytes: [ID, IP, User, Date, DwellTime, Country, Session, Device...]</text>
+  
+    <rect x="45" y="290" width="400" height="80" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="316" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">I/O Invariant: Severe Disk Bandwidth Bottleneck</text>
+    <text x="245.0" y="332" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">OLTP Row Scan</text>
+    <rect x="366" y="300" width="73" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="402.5" y="312" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">I/O BOUND</text>
+    <circle cx="61" cy="345" r="2" fill="#ef4444"/>
+    <text x="69" y="348" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Query: SELECT AVG(dwell_time) FROM page_views WHERE date = '2026-10-01'</text>
+    <circle cx="61" cy="361" r="2" fill="#ef4444"/>
+    <text x="69" y="364" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Must read 100% of all byte columns into RAM just to discard 90% of them!</text>
+    <circle cx="61" cy="377" r="2" fill="#ef4444"/>
+    <text x="69" y="380" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Inefficient CPU cache utilization due to interleaved wide attributes.</text>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Column Store (OLAP) - Columnar Pruning</text>
+  
+    <rect x="535" y="140" width="400" height="60" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Column File: 'date'</text>
+    <text x="735.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Contiguous Array with Min/Max</text>
+    <circle cx="551" cy="195" r="2" fill="#10b981"/>
+    <text x="559" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Pruning: Skips unneeded files if 2026-10-01 outside [min, max]</text>
+  
+    <rect x="535" y="215" width="400" height="60" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="241" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Column File: 'dwell_time'</text>
+    <text x="735.0" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Dense Contiguous Float Array</text>
+    <circle cx="551" cy="270" r="2" fill="#10b981"/>
+    <text x="559" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Pure numerical array: [12.4, 5.1, 88.0, 4.3, 102.1...] (SIMD ready)</text>
+  
+    <rect x="535" y="290" width="400" height="80" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="316" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">I/O Invariant: 90%+ Reduction &amp; Extreme Compression</text>
+    <text x="735.0" y="332" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">OLAP Vector Scan</text>
+    <rect x="870" y="300" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="899.5" y="312" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">OPTIMAL</text>
+    <circle cx="551" cy="345" r="2" fill="#10b981"/>
+    <text x="559" y="348" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scans ONLY the 2 queried columns; completely ignores all 40 other columns!</text>
+    <circle cx="551" cy="361" r="2" fill="#10b981"/>
+    <text x="559" y="364" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">High Run-Length / Dictionary compression on identical column types.</text>
+    <circle cx="551" cy="377" r="2" fill="#10b981"/>
+    <text x="559" y="380" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Enables vectorized SIMD instruction processing in modern CPU registers.</text>
+
+</svg>

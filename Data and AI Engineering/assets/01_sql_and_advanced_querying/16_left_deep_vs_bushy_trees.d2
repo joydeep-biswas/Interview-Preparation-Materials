@@ -1,0 +1,12 @@
+# Left-Deep vs Bushy Trees
+direction: right
+
+left: "Left-Deep Tree (Sequential)" {
+  style.stroke: "#3B82F6"
+  desc: "Right child always base table\n• 1 active hash table in RAM\n• Pipelined; OLTP standard"
+}
+
+bushy: "Bushy Tree (Parallel Subtrees)" {
+  style.stroke: "#8B5CF6"
+  desc: "(A ⋈ B) ⋈ (C ⋈ D)\n• Parallel multi-core execution\n• Faster latency; higher RAM usage"
+}

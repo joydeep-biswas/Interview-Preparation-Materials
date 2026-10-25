@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" width="1080" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">System Design: Stripe Payment Processing &amp; Idempotent Webhook Architecture</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Double-Entry Accounting Ledgers, Distributed Redis Locking, and Cryptographic HMAC-SHA256 Webhook Verification</text>
+<rect x="40" y="110" width="220" height="320" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="125" width="140" height="20" rx="10" fill="#1e3a8a"/><text x="125" y="138" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. CLIENT SUBMIT</text>
+<text x="150" y="165" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Checkout Client</text>
+<text x="55" y="195" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">POST /api/v1/checkout</text>
+<text x="55" y="215" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Headers:</text>
+<text x="55" y="232" fill="#FDE68A" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Idempotency-Key: ord-8102</text>
+<text x="55" y="250" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Payment-Token: tok_visa</text>
+<text x="55" y="285" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client retries automatically</text>
+<text x="55" y="305" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">if network drops</text>
+<rect x="290" y="110" width="240" height="320" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+<rect x="305" y="125" width="180" height="20" rx="10" fill="#78350f"/><text x="395" y="138" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. LEDGER AUTHORIZATION</text>
+<text x="410" y="165" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Payment Service</text>
+<text x="305" y="195" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Acquire Redis Lease Lock</text>
+<text x="315" y="212" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SET 'lock:ord-8102' NX EX 30</text>
+<text x="305" y="235" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Double-Entry Ledger Hold:</text>
+<text x="315" y="252" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Debit: Customer Receivable ($100)</text>
+<text x="315" y="268" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Credit: Escrow Pending ($100)</text>
+<text x="305" y="295" fill="#38BDF8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. Invokes Stripe Intent API</text>
+<rect x="560" y="110" width="230" height="320" rx="8" fill="#083344" stroke="#06b6d4" stroke-width="2"/>
+<rect x="575" y="125" width="160" height="20" rx="10" fill="#0891b2"/><text x="655" y="138" fill="#ECFEFF" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. STRIPE GATEWAY</text>
+<text x="675" y="165" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stripe Payments Cloud</text>
+<text x="575" y="195" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Card Network Authorization</text>
+<text x="575" y="215" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• 3D Secure Verification</text>
+<text x="575" y="235" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Captures funds from issuer</text>
+<text x="575" y="265" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Dispatches Webhook Event:</text>
+<text x="585" y="282" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">payment_intent.succeeded</text>
+<text x="585" y="300" fill="#FBBF24" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Header: Stripe-Signature (HMAC)</text>
+<rect x="820" y="110" width="220" height="320" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
+<rect x="835" y="125" width="180" height="20" rx="10" fill="#047857"/><text x="925" y="138" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. WEBHOOK SETTLEMENT</text>
+<text x="930" y="165" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Webhook Listener</text>
+<text x="835" y="195" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Verify HMAC-SHA256 Sig</text>
+<text x="845" y="212" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Webhook.constructEvent()</text>
+<text x="835" y="235" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Idempotency Check:</text>
+<text x="845" y="252" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Ignore if event_id already logged</text>
+<text x="835" y="275" fill="#6EE7B7" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. Final Settlement Journal:</text>
+<text x="845" y="292" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Debit: Cash/Stripe Account</text>
+<text x="845" y="308" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Credit: Customer Receivable</text>
+<text x="835" y="335" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Returns 200 OK to Stripe</text>
+<line x1="260" y1="260" x2="290" y2="260" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="530" y1="260" x2="560" y2="260" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<line x1="790" y1="260" x2="820" y2="260" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="40" y="455" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="478" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Financial Engineering Invariant: Double-Entry Immutable Ledgers</text>
+<text x="65" y="498" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Never update a balance column directly (UPDATE accounts SET balance = balance + 100). Balances must be derived sums of immutable journal entries.</text>
+<text x="65" y="515" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Every transaction must satisfy: Total Debits == Total Credits. Discrepancies trigger instant automated circuit breaking.</text>
+</svg>

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kubernetes Liveness &amp; Readiness Probes (AvailabilityState Model)</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Container health governance: Differentiating container deadlock crashes from temporary traffic unreadiness</text>
+<rect x="30" y="85" width="270" height="410" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="165" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kubernetes Kubelet Node Agent</text>
+<rect x="85" y="122" width="160" height="18" rx="9" fill="#1d4ed8"/><text x="165" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Pod Health Controller</text>
+<rect x="45" y="155" width="240" height="95" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Health Polling Loop</text>
+<text x="55" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Polls Pod HTTP port every 10s:</text>
+<text x="55" y="214" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• GET /actuator/health/liveness</text>
+<text x="55" y="230" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• GET /actuator/health/readiness</text>
+<rect x="45" y="265" width="240" height="105" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="55" y="288" fill="#CBD5E1" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Spring Boot 2.3+ Integration</text>
+<text x="55" y="308" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Automatically activated when</text>
+<text x="55" y="324" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">running in a Kubernetes container</text>
+<text x="55" y="340" fill="#FBBF24" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Exposes AvailabilityChangeEvent</text>
+<text x="55" y="354" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">and LivenessState / ReadinessState</text>
+<rect x="45" y="385" width="240" height="95" rx="8" fill="#0b2a4a" stroke="#38bdf8" stroke-width="1"/>
+<text x="165" y="407" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Probe Separation Rule</text>
+<text x="165" y="427" fill="#F87171" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">NEVER check database in Liveness!</text>
+<text x="165" y="443" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">If DB is down, liveness restarts all pods,</text>
+<text x="165" y="457" fill="#FCA5A5" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">causing a cascading restart death spiral!</text>
+<rect x="330" y="85" width="680" height="195" rx="8" fill="#1a1116" stroke="#ef4444" stroke-width="1.5"/>
+<text x="670" y="112" fill="#FCA5A5" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Liveness Probe: /actuator/health/liveness (LivenessState)</text>
+<rect x="570" y="122" width="200" height="18" rx="9" fill="#991b1b"/><text x="670" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Action: KILL &amp; RESTART POD</text>
+<rect x="350" y="150" width="640" height="115" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="365" y="172" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Semantic Meaning: Is the internal JVM state corrupted or deadlocked?</text>
+<text x="365" y="192" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• State: LivenessState.CORRECT (HTTP 200) vs LivenessState.BROKEN (HTTP 503)</text>
+<text x="365" y="210" fill="#F87171" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Trigger: Severe deadlock, JVM fatal OOM, unrecoverable corrupted internal state.</text>
+<text x="365" y="228" fill="#FCA5A5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Kubelet Enforcement: Kills the Linux container immediately and spins up a brand new Pod!</text>
+<text x="365" y="244" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• If failure persists, Pod enters CrashLoopBackOff.</text>
+<rect x="330" y="300" width="680" height="195" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="670" y="325" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Readiness Probe: /actuator/health/readiness (ReadinessState)</text>
+<rect x="570" y="335" width="200" height="18" rx="9" fill="#047857"/><text x="670" y="347" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Action: ROUTE / DETACH TRAFFIC</text>
+<rect x="350" y="365" width="640" height="115" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="365" y="387" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Semantic Meaning: Is the container currently able to handle customer requests?</text>
+<text x="365" y="407" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• State: ReadinessState.ACCEPTING_TRAFFIC (200) vs REFUSING_TRAFFIC (503)</text>
+<text x="365" y="425" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Checks: Warming caches, active DB connection pool capacity, Liquibase migration.</text>
+<text x="365" y="443" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Kubelet Enforcement: Does NOT restart container! Removes Pod IP from Service Endpoints.</text>
+<text x="365" y="459" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Traffic pauses until container heals or recovers, then traffic seamlessly resumes!</text>
+<line x1="300" y1="180" x2="350" y2="180" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<line x1="300" y1="395" x2="350" y2="395" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

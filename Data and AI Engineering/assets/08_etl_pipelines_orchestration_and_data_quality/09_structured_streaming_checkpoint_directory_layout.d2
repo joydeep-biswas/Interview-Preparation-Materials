@@ -1,0 +1,16 @@
+direction: down
+title: Structured Streaming Checkpoint Directory Layout
+
+root: s3://lakehouse/checkpoints/orders/ {
+  offsets: offsets/ (JSON start/end offsets per micro-batch)
+  commits: commits/ (Batch success marker files)
+  meta: metadata (Unique query run UUID)
+  sources: sources/ (Configured streaming source states)
+  state: state/ (RocksDB / HDFS state provider files) {
+    op: 0/ (Operator ID) {
+      part: 0/ (Partition ID) {
+        delta: 1.delta (RocksDB SST files)
+      }
+    }
+  }
+}

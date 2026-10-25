@@ -1,0 +1,19 @@
+# SQL Execution Lifecycle: Window Functions in WHERE
+direction: right
+
+s1: "Stage 1: FROM/JOIN"
+s2: "Stage 2: WHERE
+❌ Cannot access Window results!" {
+  style.stroke: "#EF4444"
+}
+s3: "Stage 3: GROUP BY"
+s4: "Stage 4: WINDOW
+✓ Window funcs computed here!" {
+  style.stroke: "#10B981"
+}
+s5: "Stage 5: SELECT"
+
+s1 -> s2 -> s3 -> s4 -> s5
+s4 -> s2: "❌ Backward reference impossible!" {
+  style.stroke: "#EF4444"
+}

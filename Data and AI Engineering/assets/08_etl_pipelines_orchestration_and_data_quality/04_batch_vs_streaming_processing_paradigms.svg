@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Batch vs. Streaming Processing Paradigms</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Comparing High-Throughput Bounded Jobs with Continuous Low-Latency Unbounded Streams</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Batch Processing (Bounded Datasets)</text>
+  
+    <rect x="45" y="135" width="400" height="65" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. Data Accumulates over 24 Hours</text>
+    <text x="245.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">[00:00:00 - 23:59:59]</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Data lands cold on cloud object storage (S3 / ADLS)</text>
+  
+    <rect x="45" y="210" width="400" height="65" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="236" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. Scheduled Cron Trigger</text>
+    <text x="245.0" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Nightly Run at 02:00 AM</text>
+    <circle cx="61" cy="265" r="2" fill="#3b82f6"/>
+    <text x="69" y="268" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Spins up ephemeral multi-node Spark cluster</text>
+  
+    <rect x="45" y="285" width="400" height="80" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="311" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. High-Throughput Execution &amp; Teardown</text>
+    <text x="245.0" y="327" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Latency: Hours | Cost: Highly Optimized</text>
+    <rect x="394" y="295" width="45" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="416.5" y="307" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">BATCH</text>
+    <circle cx="61" cy="340" r="2" fill="#3b82f6"/>
+    <text x="69" y="343" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Processes full 100 GB in parallel; writes partitioned table.</text>
+    <circle cx="61" cy="356" r="2" fill="#3b82f6"/>
+    <text x="69" y="359" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cluster tears down immediately after completion (0 idle cost).</text>
+
+  
+    <line x1="245" y1="200" x2="245" y2="210" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <line x1="245" y1="275" x2="245" y2="285" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Streaming Processing (Unbounded Continuous Stream)</text>
+  
+    <rect x="535" y="135" width="400" height="65" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. Continuous Event Ingress</text>
+    <text x="735.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Kafka / Event Hubs Commit Log</text>
+    <circle cx="551" cy="190" r="2" fill="#10b981"/>
+    <text x="559" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Events land every millisecond: IoT sensors, clicks, orders</text>
+  
+    <rect x="535" y="210" width="400" height="65" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="236" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. Always-On Streaming Worker</text>
+    <text x="735.0" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Apache Flink / Spark Streaming</text>
+    <circle cx="551" cy="265" r="2" fill="#10b981"/>
+    <text x="559" y="268" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Maintains stateful sliding window aggregations in RAM</text>
+  
+    <rect x="535" y="285" width="400" height="80" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="311" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. Sub-Second Real-Time Alerting</text>
+    <text x="735.0" y="327" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Latency: &amp;lt;500ms | Cost: Continuous Cluster</text>
+    <rect x="856" y="295" width="73" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="892.5" y="307" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">STREAMING</text>
+    <circle cx="551" cy="340" r="2" fill="#10b981"/>
+    <text x="559" y="343" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Detects fraud &amp; anomalies in real time; emits alerts instantly.</text>
+    <circle cx="551" cy="356" r="2" fill="#10b981"/>
+    <text x="559" y="359" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Requires 24/7 provisioned infrastructure and state checkpointing.</text>
+
+  
+    <line x1="735" y1="200" x2="735" y2="210" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <line x1="735" y1="275" x2="735" y2="285" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+</svg>

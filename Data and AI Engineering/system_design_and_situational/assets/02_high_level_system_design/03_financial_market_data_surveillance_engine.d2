@@ -1,0 +1,47 @@
+direction: right
+
+venues: "1. Heterogeneous Venues" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  lse: "LSE: FIX 4.4 Protocol (UTC)"
+  euronext: "Euronext: ITCH / OUCH Binary"
+  ptp: "PTP IEEE 1588 Nanosecond Tagging"
+}
+
+normalization: "2. Normalization & Spine" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  dto: "Canonical Tick DTO Normalizer"
+  kafka: "Kafka Topic: market.ticks (Key: Symbol)"
+}
+
+flink_cep: "3. Apache Flink CEP Engine" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  patterns: "Spoofing, Layering & Wash Trade Detectors"
+  windows: "500ms Sliding Windows with RocksDB State"
+}
+
+compliance: "4. Compliance & Tick Store" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  alerts: "Sub-Millisecond Alert Dispatch"
+  clickhouse: "ClickHouse Nanosecond Tick Archive"
+}
+
+venues -> normalization: "Kernel-Bypass Ingress" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+normalization -> flink_cep: "Partitioned Stream" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+flink_cep -> compliance: "Real-Time Detection & Persist" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

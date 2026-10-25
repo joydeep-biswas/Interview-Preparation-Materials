@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  doc: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  bad: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  good: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+page: "Multi-Column Page Layout" {
+  c1: "Column 1:\nIn this study we prove that linear attention" { class: doc }
+  c2: "Column 2:\nHowever, prior work failed to converge" { class: doc }
+}
+
+naive: "Naive Y-Coordinate Sorting\n(Garbled Output)" {
+  bad_text: "Line 1: In this study we prove However, prior work\nLine 2: that linear attention failed to converge" { class: bad }
+}
+
+layout_aware: "LayoutLM / Vision Bounding Box\n(Reading Order Graph)" {
+  b1: "Block 1: In this study we prove that linear attention" { class: good }
+  b2: "Block 2: However, prior work failed to converge" { class: good }
+
+  b1 -> b2: "Natural Reading Order"
+}
+
+page -> naive: "Naive Y-Sort"
+page -> layout_aware: "Bounding Box Segmentation"

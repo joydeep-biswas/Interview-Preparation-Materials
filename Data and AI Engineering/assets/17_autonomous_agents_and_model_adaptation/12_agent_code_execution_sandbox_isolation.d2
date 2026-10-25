@@ -1,0 +1,16 @@
+classes: {
+  host_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  docker_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  gvisor_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  microvm_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+host: "Host Linux Kernel (Bare-Metal)" { class: host_box }
+
+docker: "1. Standard Docker Container\nShared host kernel\nRisk: Kernel exploit compromises host" { class: docker_box }
+gvisor: "2. Google gVisor (runsc)\nUser-space syscall virtualization in Go\nEliminates direct host kernel interaction" { class: gvisor_box }
+microvm: "3. E2B Firecracker MicroVM\nHardware-isolated Linux MicroVM (KVM)\nDedicated guest kernel, ephemeral rootfs" { class: microvm_box }
+
+host -> docker: "Direct syscalls (Insecure)"
+host -> gvisor: "Virtualized syscalls"
+host -> microvm: "Hardware virtualization boundary"

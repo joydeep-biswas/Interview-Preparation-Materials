@@ -1,0 +1,26 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+compute: "AWS Compute Continuum for Java Backend Services" {
+  ec2: "Amazon EC2 (IaaS)\nFull OS & Kernel Tuning, Monoliths & Stateful" { class: box; style.stroke: "#F59E0B" }
+  fargate: "Amazon ECS Fargate (CaaS)\nDockerized Microservices, 24/7 Steady APIs & Daemons" { class: box; style.stroke: "#06B6D4" }
+  lambda: "AWS Lambda (FaaS)\nSnapStart / GraalVM, Event-Driven & Scale-to-Zero" { class: box; style.stroke: "#EC4899" }
+}
+
+observability: "Enterprise AWS Observability Pipeline" {
+  alb: "Application Load Balancer\nGenerates X-Amzn-Trace-Id header" { class: box; style.stroke: "#3B82F6" }
+  app: "Spring Boot App Runtime\nOTel Filter + Micrometer + SLF4J MDC" { class: box; style.stroke: "#8B5CF6" }
+  
+  cw_metrics: "Amazon CloudWatch Metrics\nZero-Overhead EMF Extractor" { class: box; style.stroke: "#10B981" }
+  cw_logs: "CloudWatch Logs Insights\nStructured JSON with trace context" { class: box; style.stroke: "#10B981" }
+  xray: "AWS X-Ray Distributed Traces\nService Map & Subsegment Timing" { class: box; style.stroke: "#10B981" }
+
+  alb -> app
+  app -> cw_metrics: "Async STDOUT (EMF)"
+  app -> cw_logs: "Fluent Bit / FireLens"
+  app -> xray: "AWS OTel UDP / Daemon"
+}
+
+compute.fargate -> observability.alb: "Traffic Routing"

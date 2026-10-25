@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 260" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Container -->
+  <rect x="30" y="25" width="900" height="210" rx="14" ry="14" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="50" y="52" class="title-txt" fill="#C084FC">ADF Dynamic Metadata-Driven Ingestion Architecture (100+ Tables)</text>
+
+  <!-- Step 1: Control Table -->
+  <rect x="50" y="80" width="180" height="130" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="140" y="105" class="title-txt" text-anchor="middle">SQL Control Table</text>
+  <text x="62" y="130" class="mono-txt" text-anchor="start">etl_control_metadata</text>
+  <text x="62" y="150" class="body-txt" text-anchor="start">• table_name, schema</text>
+  <text x="62" y="170" class="body-txt" text-anchor="start">• target_adls_path</text>
+  <text x="62" y="190" class="body-txt" text-anchor="start">• is_active = 1</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 230 145 L 270 145" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- Step 2: Lookup Activity -->
+  <rect x="270" y="80" width="180" height="130" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="360" y="105" class="title-txt" text-anchor="middle">1. ADF Lookup Activity</text>
+  <text x="282" y="130" class="mono-txt" text-anchor="start">SELECT * FROM meta</text>
+  <text x="282" y="150" class="body-txt" text-anchor="start">• Queries active tables</text>
+  <text x="282" y="170" class="body-txt" text-anchor="start">• Outputs JSON array</text>
+  <text x="282" y="190" class="mono-txt" text-anchor="start">@activity().output.value</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 450 145 L 490 145" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Step 3: ForEach Activity -->
+  <rect x="490" y="80" width="180" height="130" rx="10" ry="10" fill="#111827" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="580" y="105" class="title-txt" text-anchor="middle">2. ADF ForEach Activity</text>
+  <text x="502" y="130" class="body-txt" text-anchor="start">• Parallel batch loop</text>
+  <text x="502" y="150" class="body-txt" text-anchor="start">• Concurrency: up to 50</text>
+  <text x="502" y="170" class="mono-txt" text-anchor="start">@item().source_table</text>
+  <text x="502" y="190" class="mono-txt" text-anchor="start">@item().adls_path</text>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 670 145 L 710 145" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Step 4: Copy + Databricks -->
+  <rect x="710" y="80" width="200" height="130" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="810" y="105" class="title-txt" text-anchor="middle">3. Copy &amp; Transform</text>
+  <text x="722" y="130" class="body-txt" text-anchor="start">• Dynamic Copy Activity</text>
+  <text x="722" y="150" class="mono-txt" text-anchor="start">  SQL Server → ADLS</text>
+  <text x="722" y="170" class="body-txt" text-anchor="start">• Databricks Notebook</text>
+  <text x="722" y="190" class="mono-txt" text-anchor="start">  Silver / Gold Delta</text>
+</svg>

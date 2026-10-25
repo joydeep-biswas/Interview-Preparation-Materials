@@ -1,0 +1,34 @@
+direction: right
+
+core_pool: "1. Core Pool Check" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  rule: "If count < corePoolSize -> Spawn worker thread"
+  full: "If full -> Route to workQueue"
+}
+
+work_queue: "2. Queue Capacity" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  rule: "If queue not full -> workQueue.offer(task)"
+  full: "If queue full -> Route to maximumPoolSize"
+}
+
+max_pool: "3. Max Pool Check" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  rule: "If count < maxPoolSize -> Spawn burst worker"
+  full: "If max pool reached -> Trigger Rejection"
+}
+
+rejection: "4. RejectedExecutionHandler" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  caller_runs: "CallerRunsPolicy: Calling thread executes (backpressure)"
+  abort: "AbortPolicy: Throws RejectedExecutionException"
+  discard: "DiscardOldestPolicy / DiscardPolicy"
+}
+
+core_pool -> work_queue: "Core full"
+work_queue -> max_pool: "Queue full"
+max_pool -> rejection: "Pool exhausted"

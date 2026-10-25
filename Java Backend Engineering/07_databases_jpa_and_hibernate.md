@@ -6,52 +6,66 @@ A comprehensive, production-grade guide to relational database architecture, SQL
 
 ## Architectural Overview: Enterprise Database Engine & Storage Architecture
 
-```mermaid
-flowchart TD
-    subgraph Client_Connection_Pool["1. Client Connection Tier (HikariCP)"]
-        JavaApp["Spring Boot Applications (Worker Threads)"] --> Hikari["HikariCP Connection Pool<br/>(ConcurrentBag, FastList, Pre-allocated TCP Sockets)"]
-    end
+![Enterprise Database Engine & Storage Architecture](assets/07_databases_jpa_and_hibernate/01_database_engine_and_persistence_architecture.svg)
 
-    subgraph Query_Processing_Engine["2. Relational Query Processing Engine (PostgreSQL / MySQL)"]
-        Hikari --> Parser["SQL Parser & Lexer<br/>(Generates Abstract Syntax Tree)"]
-        Parser --> Rewriter["Query Rewriter & View Expander"]
-        Rewriter --> Optimizer["Cost-Based Optimizer (CBO)<br/>(Evaluates Index Scans vs Seq Scans, Hash vs Merge Joins)"]
-        Optimizer --> Executor["Execution Engine (Volcano Iterator Model)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph Storage_Engine_Memory["3. Storage Engine: In-Memory Buffers"]
-        Executor <--> SharedBuffers["Buffer Pool / Shared Buffers (SRAM/DRAM)<br/>(Clock Sweep / LRU Page Cache)"]
-        Executor --> WALBuffer["WAL Buffer (Write-Ahead Log In-Memory Buffer)"]
-    end
+```d2
+direction: right
+title: Enterprise Database Engine & Persistence Architecture
 
-    subgraph Persistent_Disk["4. Persistent Disk Storage (NVMe SSD)"]
-        WALBuffer -->|"Synchronous fsync() on COMMIT"| WALDisk[("Write-Ahead Log (WAL / Redo Log)<br/>Guarantees ACID Durability")]
-        SharedBuffers -.->|"Async Checkpointer / Dirty Page Flush"| TableHeap[("Table Heap Data Pages (8KB Blocks)<br/>B+Tree, GIN, BRIN Index Pages")]
-    end
+pool: "1. Client & Pool (HikariCP)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
 
-    subgraph Replication_Topology["5. Distributed Replication Engine"]
-        WALDisk -->|"Streaming Replication (TCP)"| Replica1[("Read Replica 1 (Reporting)")]
-        WALDisk -->|"Streaming Replication (TCP)"| Replica2[("Read Replica 2 (Analytics)")]
-    end
+  app: "Spring Boot Apps"
+  hikari: "HikariCP Pool (ConcurrentBag)"
+}
 
-    style Client_Connection_Pool fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Query_Processing_Engine fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Storage_Engine_Memory fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Persistent_Disk fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Replication_Topology fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style JavaApp fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Hikari fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Parser fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Rewriter fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Optimizer fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Executor fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style SharedBuffers fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style WALBuffer fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style WALDisk fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style TableHeap fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style Replica1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Replica2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+engine: "2. Query Processing Engine" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+
+  parser: "SQL Parser & AST"
+  cbo: "Cost-Based Optimizer"
+  exec: "Volcano Iterator Executor"
+
+  parser -> cbo -> exec
+}
+
+memory: "3. Storage Memory Buffers" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  buffers: "Shared Buffer Pool (8KB Pages)"
+  wal_buf: "WAL Buffer (RAM)"
+}
+
+disk: "4. Persistent NVMe Storage" {
+  style.fill: "#1e1e38"
+  style.stroke: "#8b5cf6"
+
+  wal_disk: "WAL Log Disk (fsync on COMMIT)"
+  heap: "Table Heap Files (Async Checkpoint)"
+}
+
+replicas: "5. Read Replicas (Streaming)" {
+  style.fill: "#0b1329"
+  style.stroke: "#38bdf8"
+
+  r1: "Replica 1 (Reporting)"
+  r2: "Replica 2 (Analytics)"
+}
+
+pool.hikari -> engine.parser
+engine.exec -> memory.buffers
+memory.wal_buf -> disk.wal_disk: "fsync() on COMMIT"
+memory.buffers -> disk.heap: "Async Checkpoint"
+disk.wal_disk -> replicas.r1: "Streaming WAL"
+disk.wal_disk -> replicas.r2: "Streaming WAL"
 ```
+</details>
 
 ---
 
@@ -179,20 +193,51 @@ Invented by Edgar F. Codd at IBM in 1970, the **Relational Model** organizes dat
 
 Normalization is the systematic process of organizing relational schemas to eliminate **data redundancy** and prevent **modification anomalies**:
 
-```mermaid
-flowchart TD
-    UNF["Unnormalized Form (UNF)<br/>(Repeating groups, comma-separated strings)"]
-    -->|"Eliminate repeating groups; enforce atomic scalar values"| N1["1st Normal Form (1NF)<br/>(Atomic columns, Primary Key identified)"]
-    -->|"Remove partial dependencies on composite primary key"| N2["2nd Normal Form (2NF)<br/>(Non-key columns depend on the WHOLE primary key)"]
-    -->|"Remove transitive dependencies (non-key depending on non-key)"| N3["3rd Normal Form (3NF)<br/>(Columns depend on Nothing But The Key)"]
-    -->|"Ensure every determinant is a candidate key"| BCNF["Boyce-Codd Normal Form (BCNF)"]
+![Database Normalization Pipeline: 1NF to BCNF](assets/07_databases_jpa_and_hibernate/02_database_normalization_pipeline_1nf_to_bcnf.svg)
 
-    style UNF fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style N1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style N2 fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style N3 fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style BCNF fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#c084fc
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: Database Normalization Pipeline: 1NF to BCNF Theory
+
+unf: "UNF (Unnormalized Form)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+  flaws: "Repeating groups & comma-separated strings\n(Update/Delete Anomalies)"
+}
+
+n1: "1st Normal Form (1NF)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+  rule: "Atomic scalar values & Primary Key identified"
+}
+
+n2: "2nd Normal Form (2NF)" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+  rule: "1NF + Remove partial dependencies on composite PK"
+}
+
+n3: "3rd Normal Form (3NF)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+  rule: "2NF + Remove transitive dependencies (Nothing But The Key)"
+}
+
+bcnf: "Boyce-Codd Normal Form (BCNF)" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+  rule: "Every determinant X in X -> Y must be a Candidate Key"
+}
+
+unf -> n1: "Eliminate repeating groups"
+n1 -> n2: "Remove partial PK dependencies"
+n2 -> n3: "Remove transitive dependencies"
+n3 -> bcnf: "Enforce superkey determinants"
 ```
+</details>
 
 #### The Three Destructive Anomalies of Unnormalized Data:
 1. **Insertion Anomaly**: You cannot record a customer until they place an order, or you cannot record a new product until someone purchases it.
@@ -313,40 +358,51 @@ While 3NF guarantees write consistency, querying a customer order summary in 3NF
 
 A pervasive beginner trap is writing an SQL query according to its visual syntax. The database parser executes clauses in a completely different, strict logical order:
 
-```mermaid
-flowchart TD
-    subgraph Phase1 ["Phase 1: Table Resolution & Row Filtering"]
-        direction LR
-        S1["<b>1. FROM & JOIN</b><br/>Builds Cartesian products & applies ON"] --> S2["<b>2. WHERE</b><br/>Filters individual base rows"]
-    end
+![SQL Logical Order of Execution Pipeline](assets/07_databases_jpa_and_hibernate/03_sql_logical_order_of_execution.svg)
 
-    subgraph Phase2 ["Phase 2: Aggregation & Group Filtering"]
-        direction LR
-        S3["<b>3. GROUP BY</b><br/>Aggregates rows into buckets"] --> S4["<b>4. HAVING</b><br/>Filters aggregated bucket groups"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph Phase3 ["Phase 3: Projection, Windowing & Pagination"]
-        direction LR
-        S5["<b>5. SELECT & OVER()</b><br/>Computes projections & windows"] --> S6["<b>6. DISTINCT</b><br/>Eliminates duplicate tuples"]
-        S6 --> S7["<b>7. ORDER BY</b><br/>Sorts output rows"]
-        S7 --> S8["<b>8. LIMIT / OFFSET</b><br/>Paginates final result set"]
-    end
+```d2
+direction: right
+title: The Exact Logical SQL Order of Execution with Clause Dependencies
 
-    Phase1 --> Phase2
-    Phase2 --> Phase3
+s1: "Stage 1: Tables & Base Filter" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
 
-    style Phase1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Phase2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Phase3 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style S1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style S2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style S3 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style S4 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style S5 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style S6 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style S7 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style S8 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
+  from_join: "1. FROM & JOIN (Cartesian + ON)"
+  where: "2. WHERE (Base row filtering; NO aliases!)"
+
+  from_join -> where
+}
+
+s2: "Stage 2: Bucketing & Group Filter" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  groupby: "3. GROUP BY (Bucket aggregation)"
+  having: "4. HAVING (Filter aggregate buckets)"
+
+  groupby -> having
+}
+
+s3: "Stage 3: Projection & Egress" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+
+  select: "5. SELECT & OVER() (Aliases generated)"
+  distinct: "6. DISTINCT (Deduplicate rows)"
+  orderby: "7. ORDER BY (Sorts rows; can use aliases!)"
+  limit: "8. LIMIT / OFFSET (Pagination)"
+
+  select -> distinct -> orderby -> limit
+}
+
+s1.where -> s2.groupby
+s2.having -> s3.select
 ```
+</details>
 
 #### Detailed Query Trace:
 Consider this analytical query:
@@ -383,29 +439,40 @@ LIMIT 5;
 
 ### 2.1 Comprehensive JOIN Taxonomy & Visual Guide
 
-```mermaid
-flowchart LR
-    subgraph InnerJoin ["INNER JOIN"]
-        A1["Table A"] <-->|"Returns matching rows only"| B1["Table B"]
-    end
+![SQL JOIN Taxonomy & Venn Mechanics](assets/07_databases_jpa_and_hibernate/04_sql_join_taxonomy_venn_mechanics.svg)
 
-    subgraph LeftJoin ["LEFT OUTER JOIN"]
-        A2["Table A (All Rows)"] -->|"Returns all A + matching B (NULL if no match)"| B2["Table B"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph FullJoin ["FULL OUTER JOIN"]
-        A3["Table A"] <-->|"Returns all rows from both tables"| B3["Table B"]
-    end
+```d2
+direction: right
+title: Relational JOIN Taxonomy & Relational Algebra Mechanics
 
-    subgraph CrossJoin ["CROSS JOIN (Cartesian)"]
-        A4["Table A (N rows)"] x--x|"N * M combinations"| B4["Table B (M rows)"]
-    end
+inner: "1. INNER JOIN (A ∩ B)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+  rule: "Matching rows only; unmatched rows excluded"
+}
 
-    style InnerJoin fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style LeftJoin fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FullJoin fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style CrossJoin fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
+left: "2. LEFT OUTER JOIN (All A + Matching B)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+  rule: "Preserves Table A; NULL for missing B rows"
+}
+
+full: "3. FULL OUTER JOIN (A ∪ B)" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+  rule: "All rows from both tables; NULL on missing sides"
+}
+
+cross: "4. CROSS JOIN (Cartesian A × B)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+  rule: "Every row paired with every row (N × M tuples)"
+}
 ```
+</details>
 
 ---
 
@@ -796,26 +863,35 @@ FROM sales_records;
 
 Relational databases organize persistent storage into fixed-size disk blocks called **Pages** (8KB in PostgreSQL, 16KB in MySQL InnoDB):
 
-```mermaid
-flowchart TD
-    subgraph PageLayout ["Internal 8KB Database Page Layout (Slotted Page Architecture)"]
-        direction TB
-        Header["Page Header (24 bytes: LSN, checksum, free space offsets)"]
-        ItemIds["ItemId Array / Line Pointers (Grows Downwards: Ptr 1, Ptr 2, Ptr 3...)"]
-        FreeSpace["Free Space Gap (Hole for future row allocations)"]
-        Tuples["Tuple Storage (Grows Upwards: Row 3, Row 2, Row 1...)"]
-    end
+![Physical 8KB Slotted Page Storage Layout](assets/07_databases_jpa_and_hibernate/05_slotted_page_storage_layout_8kb.svg)
 
-    Header --> ItemIds
-    ItemIds --> FreeSpace
-    FreeSpace --> Tuples
+<details>
+<summary>View D2 Source</summary>
 
-    style PageLayout fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Header fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ItemIds fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style FreeSpace fill:#334155,stroke:#94a3b8,stroke-width:1px,color:#cbd5e1
-    style Tuples fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
+```d2
+direction: down
+title: Internal 8KB Database Page Anatomy: Slotted Page Architecture
+
+page: "Internal 8KB Database Page (8192 Bytes)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  header: "Page Header (24 bytes: LSN, checksum, free space offsets)"
+  ptrs: "Line Pointers / ItemIds (Grows Downwards from offset 24)"
+  free: "Free Space Gap (Hole for future row allocations)"
+  tuples: "Tuple Storage (Grows Upwards from 8192 byte boundary)"
+
+  header -> ptrs -> free -> tuples
+}
+
+immutable_tid: "Tuples can move inside page without breaking external ItemPointer!" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+page.tuples -> immutable_tid
 ```
+</details>
 
 * **Slotted Page Design**: The `ItemId` array grows downwards from the top, while raw row byte tuples grow upwards from the bottom. An external pointer (e.g. from an index) points to `(page_number, item_offset)`. When a row is updated, it can move inside the page without changing its external index pointer!
 * **TOAST (The Oversized-Attribute Storage Technique)**: Database pages cannot span multiple physical blocks. When a column value (`TEXT`, `JSONB`) exceeds $\sim 2\text{KB}$, the engine compresses it. If it still exceeds the threshold, it is moved out-of-line into a dedicated auxiliary TOAST table, storing only an 18-byte pointer in the main page.
@@ -826,25 +902,30 @@ flowchart TD
 
 Relational databases achieve ACID persistence while maintaining high write throughput using **Write-Ahead Logging (WAL)**:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant App as Spring Boot Application
-    participant Engine as Query Engine (Executor)
-    participant BufferPool as Buffer Pool (Shared Buffers RAM)
-    participant WAL as Write-Ahead Log (WAL Disk)
-    participant Disk as Table Data Files (NVMe SSD)
+![Write-Ahead Logging (WAL) Durability Sequence](assets/07_databases_jpa_and_hibernate/06_wal_redo_log_acid_durability_sequence.svg)
 
-    App->>Engine: UPDATE accounts SET balance = balance + 50 WHERE id = 101
-    Engine->>BufferPool: Modifies data page in RAM (Page is marked "DIRTY")
-    Engine->>WAL: Writes change record to WAL Buffer
-    App->>Engine: COMMIT TRANSACTION
-    Engine->>WAL: Synchronous fsync() flushes WAL buffer to physical disk!
-    Engine-->>App: Commit Acknowledged (Transaction is DURABLE!)
-    Note over BufferPool,Disk: Table Data file on disk is STILL UNCHANGED!
-    Note over BufferPool,Disk: Background Checkpointer periodically flushes dirty pages to disk asynchronously.
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: down
+title: Write-Ahead Logging (WAL / Redo Log): How Durability is Guaranteed
+
+app: "Spring Boot App"
+engine: "Query Engine"
+buf: "Buffer Pool (RAM)"
+wal: "WAL Disk (NVMe)"
+heap: "Data Heap Disk"
+
+app -> engine: "1. UPDATE accounts SET balance = balance + 50"
+engine -> buf: "2. Modifies page in RAM (Marked DIRTY)"
+engine -> wal: "3. Writes redo record to WAL buffer"
+app -> engine: "4. COMMIT TRANSACTION"
+engine -> wal: "5. Synchronous fsync() flushes WAL to disk!"
+engine -> app: "6. Commit ACK (DURABLE!)"
+buf -> heap: "7. Async Checkpointer flushes dirty pages later"
 ```
+</details>
 
 * **The WAL Principle**: Sequential disk writes are up to $100\times$ faster than random page writes. The database appends transaction logs sequentially to WAL and acknowledges commits immediately. If the server loses power, on reboot the engine replays the WAL to recover all unwritten dirty pages!
 
@@ -913,56 +994,83 @@ Database engines therefore implement **Transaction Isolation Levels**—tunable 
 #### Step-by-Step Concurrent Execution Timelines
 
 ##### 1. Non-Repeatable Read (Fuzzy Read) Anomaly under Read Committed:
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor S1 as Session 1 (Tx 101: Read Committed)
-    participant DB as PostgreSQL Database
-    actor S2 as Session 2 (Tx 102)
+![Isolation Anomaly: Non-Repeatable Read (Fuzzy Read)](assets/07_databases_jpa_and_hibernate/07_isolation_non_repeatable_read_anomaly.svg)
 
-    S1->>DB: BEGIN;
-    S1->>DB: SELECT balance FROM accounts WHERE id = 1;
-    DB-->>S1: Returns 100.00 (Statement Snapshot 1)
+<details>
+<summary>View D2 Source</summary>
 
-    S2->>DB: BEGIN;
-    S2->>DB: UPDATE accounts SET balance = 150.00 WHERE id = 1;
-    S2->>DB: COMMIT; (Changes permanently written to disk)
+```d2
+direction: right
+title: "Isolation Anomaly: Non-Repeatable Read (Fuzzy Read)"
 
-    S1->>DB: SELECT balance FROM accounts WHERE id = 1;
-    DB-->>S1: Returns 150.00 (Statement Snapshot 2 - Fuzzy Read within same transaction!)
-    S1->>DB: COMMIT;
+session1: "Session 1 (Tx 101: Read Committed)" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+  q1: "1. BEGIN & SELECT balance"
+  q2: "3. Repeated SELECT balance"
+}
+
+db: "PostgreSQL Database Engine" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+  snap1: "Snapshot 1 -> returns $100.00"
+  commit: "Tx 102 committed: balance=$150.00"
+  snap2: "Snapshot 2 -> returns $150.00 (Fuzzy Read Anomaly!)"
+}
+
+session2: "Session 2 (Tx 102)" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+  upd: "2. UPDATE balance=150 & COMMIT"
+}
+
+session1.q1 -> db.snap1: "Read $100.00"
+session2.upd -> db.commit: "Commit $150.00"
+session1.q2 -> db.snap2: "Read $150.00 (Value mutated mid-transaction!)"
 ```
+</details>
 * **Why it happens in Read Committed**: Every single SQL statement takes a **fresh snapshot** of the database at the instant the statement begins. Because Tx 102 committed between statement 1 and statement 2, statement 2 sees the new value.
 * **How Repeatable Read solves it**: The transaction takes a **single snapshot at the beginning of the transaction**, maintaining that identical point-in-time view across all subsequent queries.
 
 ##### 2. The Write Skew Anomaly under Repeatable Read:
 Write Skew occurs when two concurrent transactions read overlapping data, verify a shared business rule, make disjoint writes, and commit—violating the rule globally:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Alice as Dr. Alice (Session 1: Repeatable Read)
-    actor Bob as Dr. Bob (Session 2: Repeatable Read)
-    participant DB as Hospital RDBMS (Rule: At least 1 doctor on-call!)
+![Isolation Anomaly: Write Skew Under Repeatable Read](assets/07_databases_jpa_and_hibernate/08_isolation_write_skew_anomaly.svg)
 
-    Note over DB: Initial State: Alice on_call=true, Bob on_call=true (Count = 2)
+<details>
+<summary>View D2 Source</summary>
 
-    Alice->>DB: 1. SELECT COUNT(*) FROM doctors WHERE on_call = true;
-    DB-->>Alice: Count is 2 (Safe to request leave!)
+```d2
+direction: right
+title: "Isolation Anomaly: Write Skew Under Repeatable Read"
 
-    Bob->>DB: 2. SELECT COUNT(*) FROM doctors WHERE on_call = true;
-    DB-->>Bob: Count is 2 (Safe to request leave!)
+alice: "Dr. Alice (Tx 1: Repeatable Read)" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+  read: "1. Read Count=2 (Safe)"
+  write: "3. Set Alice=off & Commit"
+}
 
-    Alice->>DB: 3. UPDATE doctors SET on_call = false WHERE name = 'Alice';
-    Bob->>DB: 4. UPDATE doctors SET on_call = false WHERE name = 'Bob';
+db: "Hospital Database Engine" {
+  style.fill: "#0f172a"
+  style.stroke: "#ef4444"
+  inv: "Invariant: Count >= 1"
+  violation: "CRITICAL: Count = 0 (Write Skew Anomaly!)"
+}
 
-    Alice->>DB: 5. COMMIT; (Success! Alice's row committed)
-    Bob->>DB: 6. COMMIT; (Success! Bob's row committed - no lock conflict!)
+bob: "Dr. Bob (Tx 2: Repeatable Read)" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+  read: "2. Read Count=2 (Safe)"
+  write: "4. Set Bob=off & Commit"
+}
 
-    Note over DB: CATASTROPHIC VIOLATION: Zero doctors left on call!
+alice.read -> db.inv: "Sees 2 on call"
+bob.read -> db.inv: "Sees 2 on call"
+alice.write -> db.violation: "Commits (No row conflict)"
+bob.write -> db.violation: "Commits (No row conflict)"
 ```
+</details>
 
 * **Why Repeatable Read permits Write Skew**: Neither transaction updated the same row (Alice modified row 1; Bob modified row 2), so row locks never collided!
 * **Production Defenses**:
@@ -983,31 +1091,46 @@ In PostgreSQL, every table row (tuple) on disk includes a 23-byte header contain
 * **`t_ctid`**: Tuple ID pointing to the current physical block and offset of this tuple (or the newer version if updated).
 * **`t_infomask`**: Bit flags indicating whether `xmin`/`xmax` are committed or aborted.
 
-```mermaid
-flowchart LR
-    subgraph PageBlock ["PostgreSQL 8KB Physical Heap Page Block"]
-        direction TB
-        subgraph Tuple1 ["Tuple 1 (Dead Row Version 1)"]
-            T1_H["Header: xmin=100 · xmax=105 · ctid=(0,2)"]
-            T1_D["Data: 'Alice', balance=100.00"]
-            T1_H --- T1_D
-        end
-        subgraph Tuple2 ["Tuple 2 (Live Row Version 2)"]
-            T2_H["Header: xmin=105 · xmax=0 · ctid=(0,2)"]
-            T2_D["Data: 'Alice', balance=150.00"]
-            T2_H --- T2_D
-        end
-        Tuple1 -->|"ctid pointer chain"| Tuple2
-    end
+![PostgreSQL MVCC: Physical Heap Tuple Versioning & HOT Chain](assets/07_databases_jpa_and_hibernate/09_postgres_mvcc_heap_tuple_versioning.svg)
 
-    style PageBlock fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Tuple1 fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Tuple2 fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style T1_H fill:#1f2937,stroke:#ef4444,stroke-width:1px,color:#fff
-    style T1_D fill:#1f2937,stroke:#ef4444,stroke-width:1px,color:#fff
-    style T2_H fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style T2_D fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "PostgreSQL MVCC: Physical Heap Tuple Versioning & HOT Chain"
+
+page: "PostgreSQL 8KB Heap Page (Block 0)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+
+  t1: "Tuple 1 (Dead Row Version)
+xmin=100 | xmax=105
+t_ctid=(0, 2)
+balance=100.00" {
+    style.fill: "#7f1d1d"
+    style.stroke: "#ef4444"
+  }
+
+  t2: "Tuple 2 (Live Row Version)
+xmin=105 | xmax=0
+t_ctid=(0, 2)
+balance=150.00" {
+    style.fill: "#064e3b"
+    style.stroke: "#10b981"
+  }
+
+  t1 -> t2: "t_ctid HOT chain pointer"
+}
+
+index: "B+Tree Index on id=1" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+
+index -> page.t1: "Points to Tuple 1 ItemId"
 ```
+</details>
 
 | Physical Tuple Slot | Low-Level Header (`xmin` / `xmax` / `ctid`) | Tuple Status | Visibility Under Active Transactions |
 | :--- | :--- | :---: | :--- |
@@ -1052,45 +1175,77 @@ MySQL InnoDB uses an entirely different architecture centered around the **Undo 
 
 The **B+Tree** is the universal indexing data structure for relational databases:
 
-```mermaid
-flowchart TD
-    subgraph RootTier ["Level 0: Root Page"]
-        Root["<b>Root Page (8KB Block)</b><br/>Keys: [100, 200]"]
-    end
+![B+Tree Index Anatomy: Branching Factor & Leaf Page Doubly-Linked List](assets/07_databases_jpa_and_hibernate/10_btree_index_anatomy_branching_leaf_pages.svg)
 
-    subgraph BranchTier ["Level 1: Branch Pages"]
-        direction LR
-        Branch1["<b>Branch Page A</b><br/>Keys: [20, 50]"]
-        Branch2["<b>Branch Page B</b><br/>Keys: [120, 160]"]
-        Branch3["<b>Branch Page C</b><br/>Keys: [220, 270]"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph LeafTier ["Level 2: Leaf Pages (Doubly-Linked Data Blocks)"]
-        direction LR
-        Leaf1["<b>Leaf Page 1</b><br/>Keys: 1..19"]
-        Leaf2["<b>Leaf Page 2</b><br/>Keys: 20..49"]
-        Leaf3["<b>Leaf Page 3</b><br/>Keys: 120..159"]
-        Leaf4["<b>Leaf Page 4</b><br/>Keys: 220..269"]
-    end
+```d2
+direction: down
+title: "B+Tree Index Anatomy: Branching Factor & Doubly-Linked Leaves"
 
-    Root --> BranchTier
-    Branch1 --> Leaf1 & Leaf2
-    Branch2 --> Leaf3
-    Branch3 --> Leaf4
-    Leaf1 <-->|"Double Link"| Leaf2 <-->|"Double Link"| Leaf3 <-->|"Double Link"| Leaf4
+root: "Root Page (Level 0)
+[ 100 | 200 ]" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
 
-    style RootTier fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BranchTier fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style LeafTier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Root fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Branch1 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Branch2 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Branch3 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Leaf1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Leaf2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Leaf3 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Leaf4 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
+branch1: "Branch Page A
+[ 30 | 70 ]" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+branch2: "Branch Page B
+[ 130 | 170 ]" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+branch3: "Branch Page C
+[ 230 | 270 ]" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+leaf1: "Leaf 1 (1..29)
+-> Heap (0, 1)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+leaf2: "Leaf 2 (30..69)
+-> Heap (1, 1)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+leaf3: "Leaf 3 (100..129)
+-> Heap (2, 1)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+leaf4: "Leaf 4 (200..229)
+-> Heap (3, 1)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+root -> branch1: "< 100"
+root -> branch2: "100..199"
+root -> branch3: ">= 200"
+
+branch1 -> leaf1
+branch1 -> leaf2
+branch2 -> leaf3
+branch3 -> leaf4
+
+leaf1 <-> leaf2: "Doubly Linked"
+leaf2 <-> leaf3: "Doubly Linked"
+leaf3 <-> leaf4: "Doubly Linked"
 ```
+</details>
 
 #### Why B+Trees Outperform Standard Binary Trees:
 1. **High Branching Factor (Fanout)**: Each 8KB database page holds hundreds of keys (branching factor $\sim 200$). A B+Tree of height 3 can index $200^3 = 8,000,000\text{ rows}$, requiring at most **3 disk I/O operations** to find any row!
@@ -1178,23 +1333,54 @@ Execution Time: 0.058 ms
 
 #### The 4 Core Scan Types Deconstructed
 
-```mermaid
-flowchart TD
-    subgraph ScanDecisions ["How the CBO Chooses a Scan Strategy"]
-        direction TB
-        Q["Incoming WHERE filter"] --> Selectivity{"Selectivity (% of table matched)"}
-        Selectivity -->|"> 15-20% of rows"| SeqScan["1. Sequential Scan<br/>(Reads every 8KB block sequentially)"]
-        Selectivity -->|"< 1-5% of rows"| IndexScan["2. Index Scan<br/>(Traverses B+Tree -> Heap lookup)"]
-        Selectivity -->|"5-15% of rows"| BitmapScan["3. Bitmap Index Scan + Heap Scan<br/>(Builds bitmap in RAM to batch disk reads)"]
-        Selectivity -->|"All requested cols in index"| IndexOnly["4. Index-Only Scan<br/>(Zero heap access using Visibility Map!)"]
-    end
+![Database Access Paths: Cost-Based Optimizer Scan Decision Matrix](assets/07_databases_jpa_and_hibernate/11_index_scan_types_seq_index_bitmap_indexonly.svg)
 
-    style ScanDecisions fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SeqScan fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style IndexScan fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style BitmapScan fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style IndexOnly fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Database Access Paths: Cost-Based Optimizer Scan Decision Matrix"
+
+cbo: "CBO Query Planner" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+seq: "1. Sequential Scan
+> 15-20% selectivity
+Sequential 8KB Heap Reads" {
+  style.fill: "#7f1d1d"
+  style.stroke: "#ef4444"
+}
+
+idx: "2. Index Scan
+< 1-5% selectivity
+B+Tree -> Random Heap I/O" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+bm: "3. Bitmap Index Scan
+5-15% selectivity
+Memory Bitmap Batches Disk Reads" {
+  style.fill: "#451a03"
+  style.stroke: "#f59e0b"
+}
+
+idxonly: "4. Index-Only Scan
+Covering Index + Visibility Map
+Zero Heap Access!" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+cbo -> seq: "> 20% rows"
+cbo -> idx: "< 5% rows"
+cbo -> bm: "5-15% rows or OR clauses"
+cbo -> idxonly: "All cols in index"
 ```
+</details>
 
 ##### 1. Sequential Scan (`Seq Scan`)
 Reads every single 8KB block of the table heap from start to finish. Outstanding for small tables ($< 1,000$ rows) or queries returning $>25\%$ of the table, but disastrous on 50-million-row tables.
@@ -1394,18 +1580,48 @@ Renaming or splitting columns on production tables with millions of rows cannot 
 
 The **Expand-Contract (Parallel Run) Pattern** achieves zero-downtime database evolution across 4 distinct deployment phases:
 
-```mermaid
-flowchart TD
-    Phase1["Phase 1: Expand<br/>Add new column 'full_name' as nullable.<br/>Create DB trigger to dual-write from 'name' to 'full_name'."]
-    --> Phase2["Phase 2: Backfill<br/>Run asynchronous non-blocking batch worker to copy historical data."]
-    --> Phase3["Phase 3: Switch Reads<br/>Deploy new application code reading exclusively from 'full_name'."]
-    --> Phase4["Phase 4: Contract<br/>Drop database sync trigger & drop legacy 'name' column cleanly!"]
+![Zero-Downtime Database Refactoring: Expand-Contract Pattern](assets/07_databases_jpa_and_hibernate/12_zero_downtime_database_refactoring_expand_contract.svg)
 
-    style Phase1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Phase2 fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#6ee7b7
-    style Phase3 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Phase4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Zero-Downtime Database Refactoring: The Expand-Contract Pattern"
+
+p1: "Phase 1: Expand
+Add nullable 'full_name'
+Dual-write trigger/app logic" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+p2: "Phase 2: Backfill
+Async throttled batch worker
+Copies legacy data in chunks" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+
+p3: "Phase 3: Switch Reads
+Deploy app reading 'full_name'
+Writes still dual-write" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+
+p4: "Phase 4: Contract
+Remove dual-write logic
+Drop legacy 'name' column" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+p1 -> p2: "Schema Expanded"
+p2 -> p3: "100% Backfilled"
+p3 -> p4: "Verified in Prod"
 ```
+</details>
 
 #### Complete Step-by-Step Production Migration Scripts
 
@@ -1714,25 +1930,54 @@ WHERE idx_scan = 0;
 * **Root Cause**:
   PostgreSQL utilizes a 32-bit unsigned integer for Transaction IDs (XIDs), providing $\approx 4.29 \text{ billion}$ unique transactions. To handle infinite time, PostgreSQL treats XIDs circularly modulo $2^{31}$ ($\approx 2.14 \text{ billion}$). Any XID within the past $2.14 \text{ billion}$ transactions is in the "past" (visible); anything ahead is in the "future" (invisible).
   
-```mermaid
-flowchart LR
-    subgraph XIDSpace ["Circular 32-bit Modulo 2^31 Transaction Horizon"]
-        direction LR
-        Past["Past Horizon (Visible to Snapshot)<br/>2.14 Billion Transactions in Past<br/>Tuples committed with xmin < Current XID"]
-        Current["Current XID (Active Transaction)<br/>Reference Epoch Point"]
-        Future["Future Horizon (Invisible to Snapshot)<br/>2.14 Billion Transactions Ahead<br/>Tuples with xmin > Current XID"]
-        Frozen["VACUUM FREEZE<br/>Converts xmin to FrozenXID (2)<br/>Eternally committed in all snapshots"]
+![PostgreSQL Transaction ID (XID) Wraparound & VACUUM FREEZE](assets/07_databases_jpa_and_hibernate/13_postgres_xid_wraparound_autovacuum_freeze.svg)
 
-        Past --> Current --> Future
-        Frozen -.->|Anchors Old Tuples| Past
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style XIDSpace fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Past fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Current fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Future fill:#1e293b,stroke:#64748b,stroke-width:2px,color:#94a3b8
-    style Frozen fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
+```d2
+direction: right
+title: "PostgreSQL Transaction ID (XID) Wraparound & VACUUM FREEZE"
+
+horizon: "Circular 32-Bit Transaction Space (4.29B XIDs)" {
+  style.fill: "#0b101d"
+  style.stroke: "#3b82f6"
+
+  past: "Past Horizon
+2.14 Billion XIDs
+Visible to Snapshots" {
+    style.fill: "#064e3b"
+    style.stroke: "#10b981"
+  }
+
+  current: "Current XID
+Active Epoch
+Advances with writes" {
+    style.fill: "#7f1d1d"
+    style.stroke: "#ef4444"
+  }
+
+  future: "Future Horizon
+2.14 Billion XIDs
+Invisible to Snapshots" {
+    style.fill: "#1e293b"
+    style.stroke: "#64748b"
+  }
+
+  past -> current
+  current -> future
+}
+
+freeze: "VACUUM FREEZE
+Converts xmin -> FrozenXID (2)
+Eternally visible in all pasts!" {
+  style.fill: "#78350f"
+  style.stroke: "#f59e0b"
+}
+
+freeze -> horizon.past: "Anchors ancient tuples permanently"
 ```
+</details>
 
   To prevent older transactions from wrapping around into the "future" and disappearing, `VACUUM FREEZE` marks row tuples with a special `FrozenTransactionId` (value 2), signaling they are eternally committed. If autovacuum cannot keep up (due to aggressive vacuum throttling, long-running transactions holding oldest XID back, or orphaned replication slots), the database approaches the $2\text{ billion}$ limit. At 10 million transactions remaining, PostgreSQL refuses all writes to preserve data integrity.
 * **Diagnostic Query**:
@@ -1836,31 +2081,46 @@ Relational databases and object-oriented programming languages are built upon fu
 * **Object Model (Java)**: Based on software engineering principles: encapsulation, state, polymorphism, inheritance, and directional pointer associations.
 * **Relational Model (SQL)**: Based on relational algebra and set theory: relations (tables), tuples (rows), attributes (columns), primary keys, and foreign keys.
 
-```mermaid
-flowchart LR
-    subgraph JavaDomain ["Java Object Domain Model"]
-        direction TB
-        UserObj["User Object<br/>(id: UUID, addresses: List&lt;Address&gt, account: SavingsAccount extends Account)"]
-    end
+![The Object-Relational Impedance Mismatch in Enterprise Systems](assets/07_databases_jpa_and_hibernate/14_object_relational_impedance_mismatch.svg)
 
-    subgraph RelationalDB ["Relational Database (SQL)"]
-        direction TB
-        UserTable["users Table<br/>(id, name)"]
-        AddressTable["addresses Table<br/>(id, user_id FK, street)"]
-        AccountTable["accounts Table<br/>(id, user_id FK, discriminator, interest_rate)"]
-        UserTable --> AddressTable
-        UserTable --> AccountTable
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    JavaDomain <-->|"Object-Relational Impedance Mismatch (Bridged by JPA/Hibernate ORM)"| RelationalDB
+```d2
+direction: right
+title: "The Object-Relational Impedance Mismatch in Enterprise Systems"
 
-    style JavaDomain fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RelationalDB fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style UserObj fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style UserTable fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style AddressTable fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style AccountTable fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+java: "Java OOP Domain Model" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+  obj: "User Object
+UUID id
+Address address (Value Object)
+List<Order> orders
+SavingsAccount (Polymorphism)"
+}
+
+orm: "JPA / Hibernate ORM Bridge" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+  map: "@Embeddable Address
+@Inheritance SINGLE_TABLE
+@OneToMany(mappedBy)
+L1 Identity Map & Dirty Checking"
+}
+
+sql: "Relational Database (SQL)" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+  tables: "users (id, name, street, city)
+accounts (id, dtype, interest_rate, user_id FK)
+orders (id, user_id FK, total)"
+}
+
+java <-> orm: "Translates object graph"
+orm <-> sql: "Generates SQL queries & updates"
 ```
+</details>
 
 #### The Five Primary Impedance Mismatch Dimensions:
 1. **Granularity Problem**: A domain model often possesses complex value objects (e.g. `Money` consisting of an amount and currency, or `Coordinates` with latitude and longitude). In a relational table, there are no composite data types; everything must be flattened into primitive columns (`money_amount`, `money_currency`).
@@ -2064,23 +2324,53 @@ Opening a physical database connection requires TCP handshakes, TLS parameter ne
 
 **HikariCP** maintains a pool of pre-allocated, healthy physical connections:
 
-```mermaid
-flowchart TD
-    subgraph AppPoolInteraction ["HikariCP Fast-Path Connection Pool"]
-        Thread["Application Thread calls dataSource.getConnection()"]
-        --> FastPath{"Fast-Path: Thread-Local Cache Check"}
-        FastPath -- Hit --> AcquireFast["Borrow Connection from Thread-Local Array (Zero Lock Contention: ~500ns)"]
-        FastPath -- Miss --> LockFreePool["Lock-Free ConcurrentBag (CAS Array Scanning)"]
-        LockFreePool --> AcquireBag["Borrow Connection from Shared Pool"]
-        LockFreePool -- Exhausted --> WaitQueue["SynchronousQueue / HandOffQueue (Blocks up to connectionTimeout)"]
-    end
+![HikariCP Fast-Path Connection Pool Architecture](assets/07_databases_jpa_and_hibernate/15_hikaricp_connection_pool_fast_path.svg)
 
-    style AppPoolInteraction fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FastPath fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style AcquireFast fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style LockFreePool fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style WaitQueue fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: down
+title: "HikariCP Fast-Path Connection Pool Architecture"
+
+req: "Thread calls dataSource.getConnection()" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+fp: "Tier 1: Fast-Path Thread-Local
+threadLocal.get() -> FastList" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+hit: "Fast-Path Borrow Success!
+Zero lock contention (~500ns)
+Direct return to thread" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+bag: "Tier 2: Lock-Free ConcurrentBag
+CAS Array Scanning
+compareAndSet(NOT_IN_USE, IN_USE)" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+
+exhaust: "Tier 3: HandOffQueue Wait
+Thread parks up to connectionTimeout (30s)
+Throws SQLTransientConnectionException" {
+  style.fill: "#450a0a"
+  style.stroke: "#ef4444"
+}
+
+req -> fp
+fp -> hit: "Cache Hit (>95%)"
+fp -> bag: "Cache Miss"
+bag -> exhaust: "Pool Empty"
 ```
+</details>
 
 #### The Connection Pool Sizing Formula (Brett Wooldridge):
 A pervasive beginner fallacy is configuring large connection pools (`maximum-pool-size=100`). In relational databases, database connections compete for physical CPU cores, RAM, and disk spindle I/O. As connection count increases beyond hardware capacity, the database spends $90\%$ of its CPU cycles context-switching between competing threads rather than executing queries!
@@ -2129,38 +2419,50 @@ The **Persistence Context** is an in-memory cache managed by `EntityManager`. It
 
 ### 8.3 The 4 Entity Lifecycle States: Transient, Managed, Detached, Removed
 
-```mermaid
-stateDiagram-v2
-    classDef transient fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    classDef managed fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#ffffff
-    classDef detached fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#ffffff
-    classDef removed fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#ffffff
+![JPA & Hibernate Entity Lifecycle State Transitions](assets/07_databases_jpa_and_hibernate/16_hibernate_entity_lifecycle_states.svg)
 
-    [*] --> TRANSIENT: new Product() (No DB identity, untracked)
+<details>
+<summary>View D2 Source</summary>
 
-    TRANSIENT --> MANAGED: em.persist(product)
-    
-    state MANAGED {
-        [*] --> InIdentityMap: L1 Cache Identity Map
-        InIdentityMap --> DirtyChecked: Field mutated (Automatic change tracking)
-        DirtyChecked --> InIdentityMap: Flushed to DB
-    }
+```d2
+direction: right
+title: "JPA & Hibernate Entity Lifecycle State Transitions"
 
-    MANAGED --> DETACHED: em.detach() / em.clear() / @Transactional boundary ends
-    DETACHED --> MANAGED: em.merge(product)
+transient: "1. TRANSIENT
+new Product()
+No DB Identity, Untracked" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
 
-    MANAGED --> REMOVED: em.remove(product)
-    REMOVED --> MANAGED: em.persist(product)
+managed: "2. MANAGED (Persistent)
+In Persistence Context
+Auto Dirty Checking Active" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
 
-    MANAGED --> DatabaseRow: Transaction commit / flush (SQL INSERT / UPDATE)
-    REMOVED --> DatabaseDeleted: Transaction commit / flush (SQL DELETE)
-    DatabaseDeleted --> [*]
+detached: "3. DETACHED
+Session closed / em.detach()
+LazyInitializationException trap" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
 
-    class TRANSIENT transient
-    class MANAGED managed
-    class DETACHED detached
-    class REMOVED removed
+removed: "4. REMOVED
+Scheduled for SQL DELETE
+em.remove(entity)" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+}
+
+transient -> managed: "em.persist()"
+managed -> detached: "em.detach() / clear()"
+detached -> managed: "em.merge()"
+managed -> removed: "em.remove()"
+removed -> managed: "em.persist() (resurrect)"
 ```
+</details>
 
 1. **Transient (New)**:
    * Created using standard Java `new` operator (`Product p = new Product()`).
@@ -2224,32 +2526,51 @@ public class EntityLifecycleDemoService {
 
 How does Hibernate know an entity was modified without explicit save calls?
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant App as Application Service
-    participant PC as Persistence Context (L1 Cache)
-    participant ActionQueue as Hibernate ActionQueue
-    participant DB as Relational Database
+![Hibernate Automatic Dirty Checking & Flush Synchronization](assets/07_databases_jpa_and_hibernate/17_hibernate_dirty_checking_and_flush_sync.svg)
 
-    App->>PC: em.find(Order.class, 101L)
-    PC->>DB: SELECT * FROM orders WHERE id = 101
-    DB-->>PC: Returns row (status = 'PENDING', total = 100)
-    Note over PC: Creates Entity Object AND a baseline snapshot array: ['PENDING', 100]
-    PC-->>App: Returns managed Order instance
+<details>
+<summary>View D2 Source</summary>
 
-    App->>App: order.setStatus(OrderStatus.CONFIRMED)
-    Note over App: Code mutates object in memory. NO repository.save() called!
+```d2
+direction: right
+title: "Hibernate Automatic Dirty Checking & Flush Synchronization"
 
-    App->>PC: Transaction boundary finishes -> commit()
-    Note over PC: Flush Phase: Compares current fields against baseline snapshot!
-    Note over PC: 'CONFIRMED' != 'PENDING' -> Field is DIRTY!
-    PC->>ActionQueue: Schedules EntityUpdateAction
-    ActionQueue->>DB: UPDATE orders SET status = 'CONFIRMED' WHERE id = 101
-    DB-->>ActionQueue: 1 row updated
-    ActionQueue->>DB: COMMIT TRANSACTION
+app: "Application Service" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+  find: "em.find(101L)"
+  mutate: "order.setStatus(CONFIRMED)"
+  commit: "commit() / flush()"
+}
+
+pc: "Persistence Context (L1)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+  snap: "LoadedState: ['PENDING', 100]"
+  diff: "Diff: 'CONFIRMED' != 'PENDING' -> DIRTY!"
+}
+
+aq: "ActionQueue" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+  sched: "Schedules EntityUpdateAction"
+}
+
+db: "PostgreSQL Database" {
+  style.fill: "#0f172a"
+  style.stroke: "#06b6d4"
+  sql: "UPDATE orders SET status='CONFIRMED' WHERE id=101"
+}
+
+app.find -> pc: "Lookup"
+pc -> db: "SELECT"
+db -> pc: "Row loaded"
+pc.snap -> app.mutate: "Managed instance"
+app.commit -> pc.diff: "Trigger flush"
+pc.diff -> aq.sched: "Enqueue"
+aq.sched -> db.sql: "Execute SQL"
 ```
+</details>
 
 > [!IMPORTANT]
 > **Production Standard**: Calling `repository.save(entity)` on an already managed entity inside a `@Transactional` method is redundant and indicates a misunderstanding of JPA dirty checking.
@@ -2258,18 +2579,51 @@ sequenceDiagram
 
 ### 8.6 First-Level (L1) Cache vs Second-Level (L2) Cache Architecture
 
-```mermaid
-flowchart TD
-    App["Application Service Method"]
-    --> L1["First-Level (L1) Cache<br/>(Scope: Single EntityManager / Transaction | Always Enabled)"]
-    L1 -->|Cache Miss| L2["Second-Level (L2) Cache<br/>(Scope: Application / Cluster via Redis or Ehcache | Disabled by Default)"]
-    L2 -->|Cache Miss| DB[("Relational Database")]
+![Hibernate Caching Architecture: L1 Session Cache vs L2 Distributed Cache](assets/07_databases_jpa_and_hibernate/18_first_level_cache_vs_second_level_cache.svg)
 
-    style App fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style L1 fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style L2 fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#c084fc
-    style DB fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Hibernate Caching Architecture: L1 Session Cache vs L2 Distributed Cache"
+
+app: "Application Service Method" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+l1: "First-Level (L1) Cache
+Scope: EntityManager / Session
+Always Enabled | Thread-Bound
+Live Object References" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+}
+
+l2: "Second-Level (L2) Cache
+Scope: SessionFactory / Cluster
+Optional (Redis / Ehcache)
+Disassembled Hydrated State" {
+  style.fill: "#1a102f"
+  style.stroke: "#8b5cf6"
+}
+
+db: "Relational Database
+Scope: Disk Storage
+PostgreSQL 8KB Heap Blocks
+ACID Source of Truth" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+
+app -> l1: "1. Query"
+l1 -> l2: "2. L1 Miss"
+l2 -> db: "3. L2 Miss"
+db -> l2: "4. Populates L2"
+l2 -> l1: "5. Populates L1"
 ```
+</details>
 
 | Dimension | First-Level (L1) Cache | Second-Level (L2) Cache |
 | :--- | :--- | :--- |
@@ -2376,16 +2730,45 @@ public class CustomerEntity {
 
 ### 9.2 Relationship Mappings: `@OneToOne`, `@ManyToOne`, `@OneToMany`, `@ManyToMany`
 
-```mermaid
-flowchart LR
-    Customer["CustomerEntity (1)"]
-    <-->|"@OneToMany(mappedBy='customer') / @ManyToOne"| Order["OrderEntity (N)"]
-    Order <-->|"@OneToMany(mappedBy='order') / @ManyToOne"| Item["OrderItemEntity (N)"]
+![JPA Relationship Mappings & Fetch Strategies](assets/07_databases_jpa_and_hibernate/19_jpa_relationship_mappings_cardinality.svg)
 
-    style Customer fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Order fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Item fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "JPA Relationship Mappings & Fetch Strategies"
+
+customer: "CustomerEntity (1)
+Inverse Side
+@OneToMany(mappedBy='customer')
+orders: List<OrderEntity>" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+order: "OrderEntity (N)
+Owning Side of Customer FK
+@ManyToOne(fetch=LAZY)
+@JoinColumn(name='customer_id')
+customer: CustomerEntity" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+
+item: "OrderItemEntity (N)
+Owning Side of Order FK
+@ManyToOne(fetch=LAZY)
+@JoinColumn(name='order_id')
+order: OrderEntity" {
+  style.fill: "#0f172a"
+  style.stroke: "#f59e0b"
+}
+
+customer <-> order: "1:N Bidirectional"
+order <-> item: "1:N Bidirectional"
 ```
+</details>
 
 ---
 
@@ -2454,16 +2837,39 @@ Using a direct `@ManyToMany` annotation between `Student` and `Course` creates a
 * **Why this fails in production**: Real business applications always require metadata on the relationship itself (e.g., `enrolledAt`, `grade`, `paymentStatus`, `status`). Direct `@ManyToMany` cannot accommodate extra columns.
 * **The Production Standard**: Decompose `@ManyToMany` into an explicit intermediate entity (`EnrollmentEntity`) mapped via two `@ManyToOne` relationships:
 
-```mermaid
-flowchart LR
-    Student["StudentEntity (1)"]
-    <-->|"@OneToMany / @ManyToOne"| Enrollment["EnrollmentEntity (N)<br/>(enrolledAt, grade, status)"]
-    Enrollment <-->|"@ManyToOne / @OneToMany"| Course["CourseEntity (1)"]
+![ManyToMany Decomposition: Why Direct @ManyToMany is an Anti-Pattern](assets/07_databases_jpa_and_hibernate/20_many_to_many_decomposition_join_entity.svg)
 
-    style Student fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Enrollment fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Course fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "ManyToMany Decomposition: Why Direct @ManyToMany is an Anti-Pattern"
+
+antipattern: "Direct @ManyToMany Anti-Pattern" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+  s: "Student"
+  j: "Hidden Join Table
+student_courses"
+  c: "Course"
+  s -> j -> c
+}
+
+bestpractice: "Enterprise Pattern: Explicit Join Entity" {
+  style.fill: "#062e3b"
+  style.stroke: "#10b981"
+  student: "StudentEntity (1)"
+  enrollment: "EnrollmentEntity (N)
+@EmbeddedId EnrollmentId
+enrolledAt, grade, status"
+  course: "CourseEntity (1)"
+
+  student <-> enrollment: "@OneToMany / @ManyToOne"
+  enrollment <-> course: "@ManyToOne / @OneToMany"
+}
 ```
+</details>
 
 ---
 
@@ -2747,20 +3153,57 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
 ### 12.2 Spring AOP Transaction Interception Architecture
 
-```mermaid
-flowchart TD
-    Caller["External Controller / Service"]
-    --> Proxy["Spring AOP Transaction Proxy"]
-    Proxy --> TxMgr["PlatformTransactionManager<br/>(Acquires DB Connection from HikariCP, sets autocommit = false)"]
-    TxMgr --> TargetMethod["Service Method Body"]
-    TargetMethod -->|Success| Commit["Commit DB Transaction & Recycle Connection"]
-    TargetMethod -->|Exception| Rollback["Rollback DB Transaction & Recycle Connection"]
+![Spring AOP Transaction Interceptor Architecture](assets/07_databases_jpa_and_hibernate/21_spring_transaction_interceptor_architecture.svg)
 
-    style Caller fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Proxy fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style TxMgr fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style TargetMethod fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Spring AOP Transaction Interceptor Architecture"
+
+caller: "External Caller
+Controller / Listener" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+proxy: "CGLIB Proxy
+OrderService$$SpringCGLIB
+Inspects @Transactional" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+
+interceptor: "TransactionInterceptor
+invokeWithinTransaction()
+Manages advice chain" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+txmgr: "PlatformTransactionManager
+Acquires DB Connection
+Binds to ThreadLocal" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+target: "Target Service Method
+OrderService.placeOrder()
+Executes Business Logic" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+caller -> proxy: "1. Calls placeOrder()"
+proxy -> interceptor: "2. Delegates to AOP Advice"
+interceptor -> txmgr: "3. Begin Tx / Get Conn"
+txmgr -> target: "4. Execute Target Method"
+target -> interceptor: "5. Return / Throw"
+interceptor -> txmgr: "6. Commit or Rollback"
 ```
+</details>
 
 ---
 
@@ -2894,59 +3337,90 @@ A lethal hazard in high-concurrency Spring backends occurs when `REQUIRES_NEW` i
 
 ##### Scenario A: `REQUIRED` calling `REQUIRES_NEW`:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Caller as Client / Controller
-    participant SvcA as ServiceA.methodA() [@Transactional(REQUIRED)]
-    participant Pool as HikariCP Connection Pool
-    participant Audit as AuditService.log() [@Transactional(REQUIRES_NEW)]
-    participant DB as Database Engine
+![Spring Transaction Propagation: REQUIRED vs REQUIRES_NEW](assets/07_databases_jpa_and_hibernate/22_transaction_propagation_required_vs_requires_new.svg)
 
-    Caller->>SvcA: Invokes methodA()
-    SvcA->>Pool: Borrows Connection #1 (Tx 1 Started)
-    SvcA->>DB: INSERT INTO orders ... (Pending in Tx 1)
+<details>
+<summary>View D2 Source</summary>
 
-    SvcA->>Audit: Invokes log()
-    Note over SvcA,Audit: Suspend Tx 1 & Connection #1
-    Audit->>Pool: Borrows Connection #2 (Tx 2 Started)
-    Audit->>DB: INSERT INTO audit_logs ...
-    Audit->>Pool: Commits Tx 2 & Returns Connection #2 to Pool
+```d2
+direction: right
+title: "Spring Transaction Propagation: REQUIRED vs REQUIRES_NEW"
 
-    Note over SvcA: Resume Tx 1 & Connection #1
-    SvcA-->>Caller: Throws RuntimeException!
-    SvcA->>Pool: Rollback Tx 1 & Returns Connection #1 to Pool
-    Note over DB: Orders insert is undone, but audit_log remains safely committed!
+svcA: "ServiceA (REQUIRED)
+Tx 1 Scope" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+pool: "HikariCP Pool" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+audit: "AuditService (REQUIRES_NEW)
+Tx 2 Scope" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+db: "PostgreSQL Database" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+
+svcA -> pool: "1. Borrows Conn 1 (Tx 1)"
+svcA -> db: "2. INSERT orders (Tx 1)"
+svcA -> audit: "3. Invokes log() [Suspends Tx 1]"
+audit -> pool: "4. Borrows Conn 2 (Tx 2) [DEADLOCK RISK!]"
+audit -> db: "5. INSERT audit_log"
+audit -> pool: "6. Commit Tx 2 & release Conn 2"
+svcA -> pool: "7. Rollback Tx 1 on Exception & release Conn 1"
 ```
+</details>
 
 ##### Scenario B: `REQUIRED` calling `NESTED` (JDBC Savepoints):
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor BatchJob as Batch Job Runner
-    participant BatchSvc as BatchOrderService [@Transactional(REQUIRED)]
-    participant Pool as HikariCP Connection Pool
-    participant DB as Database (JDBC Connection #1)
+![Spring Transaction Propagation: REQUIRED vs NESTED (Savepoints)](assets/07_databases_jpa_and_hibernate/23_transaction_propagation_required_vs_nested.svg)
 
-    BatchJob->>BatchSvc: processBatch(100 Orders)
-    BatchSvc->>Pool: Borrows Connection #1 (Tx 1 Started)
-    
-    loop For each Order item in Batch
-        BatchSvc->>DB: SAVEPOINT item_savepoint_N
-        alt Successful Processing
-            BatchSvc->>DB: INSERT INTO order_items ...
-        else Item Validation / Processing Failure
-            BatchSvc->>DB: ROLLBACK TO SAVEPOINT item_savepoint_N
-            Note over BatchSvc,DB: Only failed item reverted; outer Tx 1 remains healthy!
-        end
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    BatchSvc->>Pool: COMMIT Tx 1 & Returns Connection #1
-    Note over DB: All valid order items committed atomically!
+```d2
+direction: right
+title: "Spring Transaction Propagation: REQUIRED vs NESTED (Savepoints)"
+
+runner: "Batch Job Runner" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+svc: "BatchOrderService (REQUIRED)
+Uses 1 Physical Connection" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+
+pool: "HikariCP Pool" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+db: "Database Engine
+JDBC Savepoints" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+runner -> svc: "1. processBatch()"
+svc -> pool: "2. Borrows Conn 1"
+svc -> db: "3. SAVEPOINT item_1"
+svc -> db: "4. INSERT item 1 (Success)"
+svc -> db: "5. SAVEPOINT item_2"
+svc -> db: "6. ROLLBACK TO SAVEPOINT item_2 (Failed)"
+svc -> db: "7. COMMIT Tx 1"
+svc -> pool: "8. Return Conn 1"
 ```
+</details>
 
 #### Programmatic Transaction Management with `TransactionTemplate`:
 When declarative `@Transactional` annotations cause proxy self-invocation issues or when fine-grained transaction scopes are required (avoiding holding database connections across slow third-party API calls):
@@ -3059,22 +3533,47 @@ A **Lost Update** occurs when two concurrent transactions read the same record, 
 
 Optimistic locking assumes conflicts are rare. It uses a version column without holding database locks:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant T1 as Thread 1 (User A)
-    participant T2 as Thread 2 (User B)
-    participant DB as PostgreSQL DB
+![Optimistic Locking (@Version) & Automated Spring Retry Pattern](assets/07_databases_jpa_and_hibernate/24_optimistic_locking_version_and_retry.svg)
 
-    T1->>DB: Read Account (Balance=$100, version=1)
-    T2->>DB: Read Account (Balance=$100, version=1)
-    T1->>DB: UPDATE account SET balance=$150, version=2 WHERE id=1 AND version=1
-    Note over DB: Success! 1 row updated. Version is now 2.
-    T2->>DB: UPDATE account SET balance=$80, version=2 WHERE id=1 AND version=1
-    Note over DB: Conflict! 0 rows updated because version is no longer 1!
-    DB-->>T2: Throws OptimisticLockException!
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Optimistic Locking (@Version) & Automated Spring Retry Pattern"
+
+t1: "Thread 1 (User A)" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+  read: "1. Read Account (v1)"
+  upd: "3. UPDATE ... WHERE id=1 AND version=1"
+}
+
+db: "PostgreSQL Database
+accounts table" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+  state1: "id=1, balance=150, version=2"
+  state2: "0 rows matched for version=1!"
+}
+
+t2: "Thread 2 (User B)
+@Retryable" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+  read: "2. Read Account (v1)"
+  upd: "4. UPDATE ... WHERE id=1 AND version=1"
+  retry: "5. Catches OptimisticLockException
+Re-reads v2 & succeeds on retry!"
+}
+
+t1.read -> db
+t2.read -> db
+t1.upd -> db.state1: "Success (1 row updated)"
+t2.upd -> db.state2: "Conflict (0 rows updated)"
+db.state2 -> t2.retry: "OptimisticLockException"
 ```
+</details>
 
 ```java
 @Entity

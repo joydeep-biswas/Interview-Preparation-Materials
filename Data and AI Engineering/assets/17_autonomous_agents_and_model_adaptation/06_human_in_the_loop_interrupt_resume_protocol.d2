@@ -1,0 +1,15 @@
+classes: {
+  agent_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  db_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  human_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+agent: "Agent Execution Core" { class: agent_box }
+checkpoint: "PostgreSQL Checkpointer" { class: db_box }
+human: "Human Operations Engineer" { class: human_box }
+
+agent -> checkpoint: "1. Reaches Ring 2 action -> Snapshot state & interrupt"
+checkpoint -> human: "2. Emits Slack approval card"
+checkpoint -> checkpoint: "SUSPENDED (Zero CPU/memory consumed)"
+human -> checkpoint: "3. Approves with verified arguments"
+checkpoint -> agent: "4. Resume execution from checkpoint"

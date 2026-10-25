@@ -1,0 +1,16 @@
+direction: right
+title: Race Condition & Lost Update Concurrency Anomaly
+
+T1: Thread 1
+Memory: Shared Heap (count = 0)
+T2: Thread 2
+
+Memory -> T1: 1. Reads count = 0 (r1 = 0) { style.stroke: "#3B82F6" }
+Memory -> T2: 2. Reads count = 0 (r2 = 0, Stale!) { style.stroke: "#8B5CF6" }
+T1 -> Memory: 3. Writes count = 1 { style.stroke: "#3B82F6" }
+T2 -> Memory: 4. Overwrites count = 1 (Lost update!) { style.stroke: "#EF4444" }
+
+Anomaly: Lost Update Anomaly {
+  desc: "2 increments executed, but final value is 1 instead of 2!"
+  fix: "AtomicInteger.incrementAndGet(), synchronized, or ReentrantLock"
+}

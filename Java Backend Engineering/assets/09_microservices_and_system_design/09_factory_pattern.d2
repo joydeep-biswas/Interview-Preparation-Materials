@@ -1,0 +1,41 @@
+direction: down
+title: "Factory Method & Abstract Factory: Decoupled Object Creation"
+
+client: "NotificationService" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+factory: "NotificationFactory
++create(channel): Notification" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+iface: "Notification <<interface>>
++send(recipient, message)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+email: "EmailNotification
+SendGrid SMTP" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+sms: "SmsNotification
+Twilio SMS API" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+push: "PushNotification
+Firebase Cloud Messaging" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+
+client -> factory: "1. Requests notification"
+factory -> iface: "2. Produces instance"
+iface <- email: "implements"
+iface <- sms: "implements"
+iface <- push: "implements"

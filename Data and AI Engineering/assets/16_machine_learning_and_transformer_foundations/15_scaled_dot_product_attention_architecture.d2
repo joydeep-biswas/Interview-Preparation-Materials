@@ -1,0 +1,25 @@
+classes: {
+  tensor_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  op_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  scale_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  mask_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  act_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+q: "Query Tensor Q\n[B, Heads, S, d_k]" { class: tensor_box }
+k: "Key Tensor K\n[B, Heads, S, d_k]" { class: tensor_box }
+v: "Value Tensor V\n[B, Heads, S, d_v]" { class: tensor_box }
+
+matmul1: "MatMul: Q * K^T\nRaw Affinities [S, S]" { class: op_box }
+scale: "Scale by 1/sqrt(d_k)\nPrevents variance explosion" { class: scale_box }
+mask: "Causal Mask (Optional)\nUpper triangle = -inf" { class: mask_box }
+softmax: "Softmax\nProbability matrix A" { class: act_box }
+matmul2: "MatMul: A * V\nWeighted sum of Values" { class: op_box }
+out: "Context Output Tensor\n[B, Heads, S, d_v]" { class: act_box }
+
+q -> matmul1
+k -> matmul1
+matmul1 -> scale -> mask -> softmax
+softmax -> matmul2
+v -> matmul2
+matmul2 -> out

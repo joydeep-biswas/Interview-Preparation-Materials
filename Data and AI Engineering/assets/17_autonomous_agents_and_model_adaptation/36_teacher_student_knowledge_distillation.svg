@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 460" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0d1527"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Node Surface Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142e2b"/>
+      <stop offset="100%" stop-color="#091d1a"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d2212"/>
+      <stop offset="100%" stop-color="#181308"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#261b3d"/>
+      <stop offset="100%" stop-color="#130c24"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b181e"/>
+      <stop offset="100%" stop-color="#1f090d"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112d38"/>
+      <stop offset="100%" stop-color="#071920"/>
+    </linearGradient>
+
+    <!-- Matched Arrow Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base Dark Card Background -->
+  <rect width="1000" height="460" rx="12" fill="url(#bg)"/>
+  <rect width="1000" height="460" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Centered Header Section -->
+  <g id="header-group">
+    <text x="500" y="32" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.3">Teacher-Student Distillation &amp; Dark Knowledge Transfer</text>
+    <text x="500" y="52" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Transferring Inter-Class Logit Probabilities from 405B Frontier Models to 8B Deployment Models</text>
+  </g>
+
+  <!-- Diagram Inner Content -->
+  
+  <!-- Top: Input Prompt -->
+  <rect x="360" y="85" width="280" height="50" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="115" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">Input Training Prompt x</text>
+
+  <!-- Diverging Arrows to Teacher &amp; Student -->
+  <path d="M 430.0 135.0 L 430.0 144.0 C 430.0 155.2, 260.0 155.2, 260.0 166.5 L 260.0 180.0" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#arr-p)"/>
+  <path d="M 570.0 135.0 L 570.0 144.0 C 570.0 155.2, 740.0 155.2, 740.0 166.5 L 740.0 180.0" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Left: Teacher Model (405B) -->
+  <rect x="60" y="180" width="400" height="110" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="80" y="195" width="130" height="22" rx="4" fill="#9333ea"/>
+  <text x="145" y="210" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">Teacher (405B)</text>
+  <text x="80" y="238" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="600">Massive Frontier Reasoning Model</text>
+  <text x="80" y="258" fill="#cbd5e1" font-family="sans-serif" font-size="11">Produces Soft Logit Probabilities (with Temperature T &gt; 1):</text>
+  <text x="80" y="276" fill="#c084fc" font-family="monospace" font-size="11">q_i = exp(z_i / T) / Σ exp(z_j / T)</text>
+
+  <!-- Right: Student Model (8B) -->
+  <rect x="540" y="180" width="400" height="110" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="560" y="195" width="120" height="22" rx="4" fill="#059669"/>
+  <text x="620" y="210" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">Student (8B)</text>
+  <text x="560" y="238" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="600">Lightweight High-Throughput Model</text>
+  <text x="560" y="258" fill="#cbd5e1" font-family="sans-serif" font-size="11">Produces Student Softened Logits:</text>
+  <text x="560" y="276" fill="#34d399" font-family="monospace" font-size="11">p_i = exp(v_i / T) / Σ exp(v_j / T)</text>
+
+  <!-- Converging Arrows to KL Loss -->
+  <path d="M 260 290 L 260 330 L 430 330" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#arr-p)"/>
+  <path d="M 740 290 L 740 330 L 570 330" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Stage 3: KL Divergence Loss -->
+  <rect x="300" y="315" width="400" height="70" rx="8" fill="url(#card-red)" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="340" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="13" font-weight="700">Kullback-Leibler (KL) Divergence Loss</text>
+  <text x="500" y="360" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="11">L_KD = T² · KL( q || p ) = T² · Σ q_i log( q_i / p_i )</text>
+  <text x="500" y="376" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10">Aligns student token probability distributions to teacher</text>
+
+  <!-- Bottom Explanatory Banner -->
+  <rect x="60" y="400" width="880" height="42" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="500" y="425" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="11"><tspan fill="#34d399" font-weight="700">Dark Knowledge:</tspan> Teacher assigns 1e-4 probability to near-synonyms vs 1e-9 to nonsensical tokens, imparting structured semantic topology.</text>
+
+</svg>

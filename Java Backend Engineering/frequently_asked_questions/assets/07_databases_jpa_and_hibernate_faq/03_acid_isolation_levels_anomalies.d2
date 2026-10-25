@@ -1,0 +1,10 @@
+direction: down
+
+matrix: "SQL Isolation Levels & Concurrency Anomalies" {
+  style.fill: "#111827"
+  style.stroke: "#1F2937"
+  read_uncommitted: "READ UNCOMMITTED: Dirty Reads, Non-Repeatable Reads, Phantoms possible"
+  read_committed: "READ COMMITTED: Prevents Dirty Reads. Non-Repeatable & Phantoms possible (Postgres default)"
+  repeatable_read: "REPEATABLE READ: Prevents Dirty & Non-Repeatable Reads (MySQL InnoDB default)"
+  serializable: "SERIALIZABLE: Complete isolation, prevents all anomalies"
+}

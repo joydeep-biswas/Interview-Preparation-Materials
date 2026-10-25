@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Step 1: Input Projections -->
+  <rect x="25" y="40" width="200" height="220" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="40" y="66" class="title-txt" fill="#93C5FD">1. Linear Projections</text>
+  <text x="35" y="95" class="body-txt">Input: Tensor X [N, d_model]</text>
+  <rect x="35" y="110" width="180" height="35" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="45" y="132" class="mono-txt" text-anchor="start">Q = X * W_q  [N, d_k]</text>
+  <rect x="35" y="155" width="180" height="35" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="45" y="177" class="mono-txt" text-anchor="start">K = X * W_k  [N, d_k]</text>
+  <rect x="35" y="200" width="180" height="35" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="45" y="222" class="mono-txt" text-anchor="start">V = X * W_v  [N, d_v]</text>
+
+  <path d="M 225 150 L 265 150" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Step 2: Dot Product Scores -->
+  <rect x="265" y="40" width="210" height="220" rx="10" ry="10" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="280" y="66" class="title-txt" fill="#C4B5FD">2. Compatibility Scores</text>
+  <rect x="275" y="85" width="190" height="50" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="285" y="106" class="title-txt" text-anchor="start">Dot Product: Q * K^T</text>
+  <text x="285" y="124" class="mono-txt" text-anchor="start">Raw Score Matrix [N, N]</text>
+  <rect x="275" y="150" width="190" height="50" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="285" y="171" class="title-txt" text-anchor="start">Scale by sqrt(d_k)</text>
+  <text x="285" y="189" class="sub-txt" text-anchor="start">Prevents softmax saturation</text>
+  <text x="275" y="225" class="body-txt">• Masked if causal</text>
+
+  <path d="M 475 150 L 515 150" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- Step 3: Softmax Probabilities -->
+  <rect x="515" y="40" width="200" height="220" rx="10" ry="10" fill="#0D1526" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="530" y="66" class="title-txt" fill="#FDE68A">3. Attention Weights</text>
+  <rect x="525" y="85" width="180" height="60" rx="6" ry="6" fill="#111827" stroke="#F59E0B" stroke-width="1"/>
+  <text x="535" y="108" class="title-txt" text-anchor="start">Softmax Row-wise</text>
+  <text x="535" y="126" class="mono-txt" text-anchor="start">A = softmax(S)</text>
+  <text x="535" y="138" class="sub-txt" text-anchor="start">Rows sum to 1.0</text>
+  <text x="525" y="175" class="body-txt">• Token i attention to token j</text>
+  <text x="525" y="225" class="badge-txt" fill="#F59E0B">Dynamic Routing</text>
+
+  <path d="M 715 150 L 755 150" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Step 4: Value Weighted Sum -->
+  <rect x="755" y="40" width="180" height="220" rx="10" ry="10" fill="#0D1F1C" stroke="#10B981" stroke-width="1.5"/>
+  <text x="770" y="66" class="title-txt" fill="#6EE7B7">4. Value Synthesis</text>
+  <rect x="765" y="85" width="160" height="60" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1"/>
+  <text x="775" y="108" class="title-txt" text-anchor="start" fill="#A7F3D0">Output: A * V</text>
+  <text x="775" y="126" class="mono-txt" text-anchor="start">Tensor [N, d_v]</text>
+  <text x="765" y="175" class="body-txt">• Contextualized representations</text>
+  <text x="765" y="225" class="badge-txt" fill="#10B981">✓ Saturated Signal</text>
+</svg>

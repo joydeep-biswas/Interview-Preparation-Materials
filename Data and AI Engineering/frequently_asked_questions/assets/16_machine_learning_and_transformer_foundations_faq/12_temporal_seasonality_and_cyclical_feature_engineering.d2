@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  analysis_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  solution_box: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+Analysis: "Step 1: Temporal Slice Profiling" {
+  class: analysis_box
+  Split: "Segment: Mon-Fri vs Sat-Sun" { class: card_dark }
+  Compare: "Compare error rates per day" { class: card_dark }
+  Split -> Compare
+}
+
+Solution: "Step 2: Cyclical Features & CV" {
+  class: solution_box
+  Cyclic: "Encode sin/cos cyclical features" { class: card_dark }
+  CV: "TimeSeriesSplit Cross-Validation" { class: card_dark }
+  Cyclic -> CV
+}
+
+Analysis -> Solution

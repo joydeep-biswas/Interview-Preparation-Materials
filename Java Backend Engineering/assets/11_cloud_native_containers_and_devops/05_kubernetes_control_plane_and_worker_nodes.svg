@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 580" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1240" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1240" height="580" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="620" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Kubernetes Cluster Architecture: Control Plane &amp; Worker Node Subsystems</text>
+  <text x="620" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">kube-apiserver Gateway, etcd Consensus, Scheduler &amp; Controller Managers vs Kubelet, kube-proxy, CRI containerd &amp; Pods</text>
+  <line x1="40" y1="68" x2="1200" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Left Side: Control Plane (Master Node) -->
+  <rect x="40" y="100" width="460" height="420" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="40" y="100" width="460" height="30" rx="8" fill="#4C1D95"/>
+  <text x="270" y="120" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">Kubernetes Control Plane (Master Node)</text>
+
+  <!-- kube-apiserver -->
+  <rect x="60" y="145" width="420" height="75" rx="6" fill="#0F172A" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="270" y="170" font-size="11" font-weight="700" fill="#C084FC" text-anchor="middle">kube-apiserver (Central REST API Gateway)</text>
+  <text x="75" y="192" font-size="9" fill="#CBD5E1">&#x2022; Only component that talks directly to etcd</text>
+  <text x="75" y="208" font-size="9" fill="#CBD5E1">&#x2022; Handles Authentication, Authorization (RBAC) &amp; Admission Controllers</text>
+
+  <!-- etcd v3 -->
+  <rect x="60" y="240" width="420" height="75" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="270" y="265" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">etcd v3 (Distributed Key-Value Store)</text>
+  <text x="75" y="288" font-size="9" fill="#CBD5E1">&#x2022; Raft consensus; holds entire desired cluster state</text>
+  <text x="75" y="304" font-size="9" fill="#34D399">&#x2714; High availability via 3 or 5 node odd-numbered quorum</text>
+
+  <path fill="none" d="M 270 220 L 270 240" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+
+  <!-- Scheduler &amp; Controller Managers -->
+  <rect x="60" y="335" width="200" height="165" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="160" y="360" font-size="10" font-weight="700" fill="#F8FAFC" text-anchor="middle">kube-scheduler</text>
+  <text x="75" y="385" font-size="8" fill="#CBD5E1">&#x2022; Matches Pending pods</text>
+  <text x="75" y="400" font-size="8" fill="#CBD5E1">  to healthy worker nodes</text>
+  <text x="75" y="420" font-size="8" fill="#CBD5E1">&#x2022; Evaluates:</text>
+  <text x="85" y="437" font-size="8" fill="#94A3B8">- Node resources</text>
+  <text x="85" y="452" font-size="8" fill="#94A3B8">- Taints / Tolerations</text>
+  <text x="85" y="467" font-size="8" fill="#94A3B8">- Pod anti-affinity</text>
+
+  <rect x="280" y="335" width="200" height="165" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="380" y="360" font-size="10" font-weight="700" fill="#F8FAFC" text-anchor="middle">kube-controller-mgr</text>
+  <text x="295" y="385" font-size="8" fill="#CBD5E1">&#x2022; Reconciliation loops:</text>
+  <text x="305" y="402" font-size="8" fill="#94A3B8">- DeploymentController</text>
+  <text x="305" y="417" font-size="8" fill="#94A3B8">- ReplicaSetController</text>
+  <text x="305" y="432" font-size="8" fill="#94A3B8">- NodeLifecycleController</text>
+  <text x="305" y="447" font-size="8" fill="#94A3B8">- EndpointSliceController</text>
+  <text x="295" y="472" font-size="8" fill="#34D399">&#x2714; Enforces desired state</text>
+
+  <path fill="none" d="M 160 335 L 160 220" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr-p)"/>
+  <path fill="none" d="M 380 335 L 380 220" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr-p)"/>
+
+  <!-- Right Side: Worker Nodes -->
+  <rect x="540" y="100" width="660" height="420" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="540" y="100" width="660" height="30" rx="8" fill="#064E3B"/>
+  <text x="870" y="120" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">Worker Nodes (Kubelet, Kube-Proxy &amp; Workload Pods)</text>
+
+  <!-- Worker Node 1 -->
+  <rect x="560" y="145" width="300" height="355" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="710" y="170" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Worker Node 1</text>
+
+  <rect x="575" y="185" width="270" height="50" rx="4" fill="#1E293B" stroke="#10B981"/>
+  <text x="585" y="205" font-size="9" font-weight="700" fill="#34D399">kubelet Agent:</text>
+  <text x="585" y="222" font-size="8" fill="#CBD5E1">Communicates with apiserver; drives CRI/CNI/CSI</text>
+
+  <rect x="575" y="245" width="270" height="45" rx="4" fill="#1E293B" stroke="#38BDF8"/>
+  <text x="585" y="265" font-size="9" font-weight="700" fill="#7DD3FC">kube-proxy:</text>
+  <text x="585" y="280" font-size="8" fill="#CBD5E1">Programs iptables / IPVS rules for ClusterIP routing</text>
+
+  <rect x="575" y="300" width="270" height="40" rx="4" fill="#1E293B" stroke="#334155"/>
+  <text x="585" y="323" font-size="8" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">CRI: containerd runtime</text>
+
+  <rect x="575" y="350" width="270" height="60" rx="4" fill="#06201B" stroke="#10B981"/>
+  <text x="585" y="370" font-size="9" font-weight="700" fill="#6EE7B7">Pod: order-service-pod-1</text>
+  <text x="585" y="387" font-size="8" fill="#CBD5E1">IP: 10.244.1.12 | Port 8080</text>
+  <text x="585" y="401" font-size="8" fill="#A7F3D0">Java 21 JRE + App container</text>
+
+  <rect x="575" y="420" width="270" height="65" rx="4" fill="#06201B" stroke="#10B981"/>
+  <text x="585" y="440" font-size="9" font-weight="700" fill="#6EE7B7">Pod: auth-service-pod-1</text>
+  <text x="585" y="457" font-size="8" fill="#CBD5E1">IP: 10.244.1.18 | Port 8081</text>
+  <text x="585" y="471" font-size="8" fill="#A7F3D0">Java 21 JRE + App container</text>
+
+  <!-- Worker Node 2 -->
+  <rect x="880" y="145" width="300" height="355" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="1030" y="170" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Worker Node 2</text>
+
+  <rect x="895" y="185" width="270" height="50" rx="4" fill="#1E293B" stroke="#10B981"/>
+  <text x="905" y="205" font-size="9" font-weight="700" fill="#34D399">kubelet Agent:</text>
+  <text x="905" y="222" font-size="8" fill="#CBD5E1">Monitors pod health; executes liveness probes</text>
+
+  <rect x="895" y="245" width="270" height="45" rx="4" fill="#1E293B" stroke="#38BDF8"/>
+  <text x="905" y="265" font-size="9" font-weight="700" fill="#7DD3FC">kube-proxy:</text>
+  <text x="905" y="280" font-size="8" fill="#CBD5E1">Maintains cross-node packet forwarding</text>
+
+  <rect x="895" y="300" width="270" height="40" rx="4" fill="#1E293B" stroke="#334155"/>
+  <text x="905" y="323" font-size="8" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">CRI: containerd runtime</text>
+
+  <rect x="895" y="350" width="270" height="60" rx="4" fill="#06201B" stroke="#10B981"/>
+  <text x="905" y="370" font-size="9" font-weight="700" fill="#6EE7B7">Pod: order-service-pod-2</text>
+  <text x="905" y="387" font-size="8" fill="#CBD5E1">IP: 10.244.2.22 | Port 8080</text>
+  <text x="905" y="401" font-size="8" fill="#A7F3D0">Replica 2 (Cross-AZ resiliency)</text>
+
+  <rect x="895" y="420" width="270" height="65" rx="4" fill="#06201B" stroke="#10B981"/>
+  <text x="905" y="440" font-size="9" font-weight="700" fill="#6EE7B7">Pod: payment-service-pod-1</text>
+  <text x="905" y="457" font-size="8" fill="#CBD5E1">IP: 10.244.2.35 | Port 8082</text>
+  <text x="905" y="471" font-size="8" fill="#A7F3D0">Java 21 JRE + App container</text>
+
+  <!-- Connectors between Control Plane and Nodes -->
+  <path fill="none" d="M 480.0 170.0 L 490.0 170.0 C 518.0 170.0, 518.0 200.0, 546.0 200.0 L 560.0 200.0" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+  <path fill="none" d="M 480.0 185.0 L 490.0 185.0 C 678.0 185.0, 678.0 200.0, 866.0 200.0 L 880.0 200.0" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr-p)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="535" width="1160" height="30" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="620" y="555" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Single Point of Access: Worker nodes never contact etcd directly. All requests pass through kube-apiserver with mutual TLS (mTLS) authentication.</text>
+</svg>

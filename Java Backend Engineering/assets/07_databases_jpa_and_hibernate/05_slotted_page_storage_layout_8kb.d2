@@ -1,0 +1,21 @@
+direction: down
+title: Internal 8KB Database Page Anatomy: Slotted Page Architecture
+
+page: "Internal 8KB Database Page (8192 Bytes)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  header: "Page Header (24 bytes: LSN, checksum, free space offsets)"
+  ptrs: "Line Pointers / ItemIds (Grows Downwards from offset 24)"
+  free: "Free Space Gap (Hole for future row allocations)"
+  tuples: "Tuple Storage (Grows Upwards from 8192 byte boundary)"
+
+  header -> ptrs -> free -> tuples
+}
+
+immutable_tid: "Tuples can move inside page without breaking external ItemPointer!" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+page.tuples -> immutable_tid

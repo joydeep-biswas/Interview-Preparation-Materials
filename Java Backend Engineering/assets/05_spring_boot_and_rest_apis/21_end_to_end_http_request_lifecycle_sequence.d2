@@ -1,0 +1,20 @@
+direction: down
+title: End-to-End Spring Boot HTTP Request Lifecycle Sequence
+
+client: "HTTP Client"
+filter: "FilterChain (CORS, Trace)"
+ds: "DispatcherServlet"
+adapter: "HandlerAdapter"
+controller: "OrderController"
+jackson: "Jackson Converter"
+
+client -> filter: "1. POST /api/orders (JSON)"
+filter -> ds: "2. doFilter()"
+ds -> adapter: "3. handle(request)"
+adapter -> jackson: "4. read(JSON -> DTO)"
+jackson -> adapter: "5. Validated DTO"
+adapter -> controller: "6. createOrder(dto)"
+controller -> adapter: "7. ResponseEntity.created(dto)"
+adapter -> jackson: "8. write(JSON bytes)"
+adapter -> ds: "9. afterCompletion()"
+ds -> client: "10. HTTP 201 Created + JSON"

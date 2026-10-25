@@ -1,0 +1,21 @@
+direction: right
+title: Java Stream Pipeline Lazy Evaluation & Sink Chaining Architecture
+
+Stage1: Stage 1 Pipeline Declaration (Lazy) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  source: "orders.stream() [Spliterator]"
+  f1: ".filter(Order::isPaid) [Stateless Sink]"
+  m1: ".map(Order::getTotal) [Stateless Sink]"
+  lazy: "Zero computation occurs until terminal operation!"
+}
+
+Stage2: Stage 2 Terminal Evaluation (Eager) {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  terminal: ".collect(Collectors.toList()) triggers pipeline"
+  fusion: "Loop Fusion: Each item passes horizontally through filter -> map -> collect"
+  efficiency: "No intermediate collections allocated; single pass over data"
+}
+
+Stage1 -> Stage2: Terminal op triggers execution

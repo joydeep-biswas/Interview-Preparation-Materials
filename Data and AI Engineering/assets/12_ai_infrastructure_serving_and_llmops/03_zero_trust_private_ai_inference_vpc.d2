@@ -1,0 +1,28 @@
+direction: right
+classes: {
+  vpc: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  endpoint: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  cloud: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  kms: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+corp_vpc: "Customer Private VPC (10.0.0.0/16)" {
+  app: "Application Pod (Private Subnet)" { class: vpc }
+  eni: "PrivateLink VPC Endpoint (ENI: 10.0.4.15)" { class: endpoint }
+
+  app -> eni: "Internal TLS 1.3"
+}
+
+bedrock_plane: "AWS Managed Bedrock Model Plane" {
+  nlb: "Network Load Balancer" { class: cloud }
+  workers: "Bedrock Model Workers (H100)" { class: cloud }
+
+  nlb -> workers
+}
+
+vault: "Security Vault" {
+  cmek: "Customer-Managed Key (CMEK HSM)" { class: kms }
+}
+
+corp_vpc.eni -> bedrock_plane.nlb: "Hyperplane Fiber Bus"
+vault.cmek -> bedrock_plane.workers: "Encrypt in Flight & Rest"

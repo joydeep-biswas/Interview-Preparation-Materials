@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Architecture Contrast: Distributed Monolith vs Autonomous Microservices</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Worst of both worlds (tight coupling, shared DB) vs Autonomous bounded contexts (event-driven, isolated DB)</text>
+
+  <!-- Left: Distributed Monolith Anti-Pattern -->
+  <g transform="translate(40, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="230" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">Anti-Pattern: The Distributed Monolith</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="70" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#FCA5A5">1. Shared Central Database</text>
+      <text x="15" y="38" class="card-body">Services all connect to SAME Oracle/Postgres DB.</text>
+      <text x="15" y="52" class="card-body" font-size="11" fill="#FCA5A5">Schema changes break all services; DB is single bottleneck &amp; SPOF!</text>
+
+      <rect x="0" y="80" width="420" height="80" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+      <text x="15" y="100" class="badge" fill="#F87171">2. Deep Synchronous HTTP Chains</text>
+      <text x="15" y="118" class="card-body">A -&gt; B -&gt; C -&gt; D -&gt; E (Tight temporal coupling).</text>
+      <text x="15" y="134" class="card-body">Latency is additive (50ms * 5 = 250ms). If service D fails, A fails!</text>
+      <text x="15" y="148" class="badge" fill="#FCA5A5">Multiplicative availability collapse: 0.99^5 = 95% uptime!</text>
+
+      <rect x="0" y="170" width="420" height="75" rx="6" ry="6" fill="#0F172A" stroke="#EF4444"/>
+      <text x="15" y="190" class="badge" fill="#FCA5A5">3. Co-Dependent Lock-Step Deployments</text>
+      <text x="15" y="210" class="card-body">Teams cannot deploy independently; require massive multi-service weekend</text>
+      <text x="15" y="226" class="card-body" font-size="11">deployments. All the operational overhead of microservices, none of the agility!</text>
+    </g>
+
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#450A0A"/>
+    <text x="210" y="328" class="badge" fill="#FCA5A5" text-anchor="middle">Worst of Both Worlds: Extreme complexity with zero deployment independence</text>
+  </g>
+
+  <!-- Right: Truly Autonomous Microservices -->
+  <g transform="translate(560, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="230" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">Autonomous Microservices (Domain Driven)</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="70" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+      <text x="15" y="20" class="badge" fill="#34D399">1. Strict Database-per-Service</text>
+      <text x="15" y="38" class="card-body">Each service owns private database. Zero cross-service SQL joins.</text>
+      <text x="15" y="52" class="badge" fill="#A7F3D0">Teams evolve schemas and optimize storage technology independently!</text>
+
+      <rect x="0" y="80" width="420" height="80" rx="6" ry="6" fill="#1E293B" stroke="#10B981"/>
+      <text x="15" y="100" class="badge" fill="#A7F3D0">2. Event-Driven Asynchronous Choreography</text>
+      <text x="15" y="118" class="card-body">Services communicate via Kafka / Event Bus. Loose temporal coupling.</text>
+      <text x="15" y="134" class="card-body" font-size="11">If Inventory Service is down, Order Service still completes orders safely!</text>
+      <text x="15" y="148" class="badge" fill="#34D399">Individual service failures do NOT cause cascading global outages.</text>
+
+      <rect x="0" y="170" width="420" height="75" rx="6" ry="6" fill="#0F172A" stroke="#10B981"/>
+      <text x="15" y="190" class="badge" fill="#34D399">3. Independent CI/CD Deployments</text>
+      <text x="15" y="210" class="card-body">Deploy 50 times a day with backward-compatible API contracts.</text>
+      <text x="15" y="226" class="card-body" font-size="11">Canary rollouts &amp; fast rollbacks per isolated microservice.</text>
+    </g>
+
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#064E3B"/>
+    <text x="210" y="328" class="badge" fill="#A7F3D0" text-anchor="middle">True Agility &amp; Resilience: High developer velocity with isolated blast radius</text>
+  </g>
+</svg>

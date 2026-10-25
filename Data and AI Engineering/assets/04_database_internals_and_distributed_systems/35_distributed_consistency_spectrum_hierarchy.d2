@@ -1,0 +1,34 @@
+direction: right
+title: Distributed Consistency Spectrum Hierarchy
+
+c1: 1. Strict Linearizability {
+  examples: "Google Spanner TrueTime, etcd"
+  desc: "Global real-time clock order; zero stale reads"
+  style.stroke: "#ef4444"
+}
+
+c2: 2. Sequential Consistency {
+  examples: "Apache ZooKeeper, Raft replicated log"
+  desc: "Operations executed in identical sequence across nodes"
+}
+
+c3: 3. Causal Consistency {
+  examples: "Git commit history, Cosmos DB Causal"
+  desc: "Causally related writes preserved in order"
+}
+
+c4: 4. Read Committed {
+  examples: "PostgreSQL, Oracle Database"
+  desc: "Zero dirty reads; queries only read committed rows"
+}
+
+c5: 5. Eventual Consistency {
+  examples: "Apache Cassandra, Amazon DynamoDB, AWS S3"
+  desc: "Replicas converge over time; sub-millisecond writes"
+  style.stroke: "#10b981"
+}
+
+c1 -> c2: "Relax real-time"
+c2 -> c3: "Relax total order"
+c3 -> c4: "Relax causal graph"
+c4 -> c5: "Relax transactional view"

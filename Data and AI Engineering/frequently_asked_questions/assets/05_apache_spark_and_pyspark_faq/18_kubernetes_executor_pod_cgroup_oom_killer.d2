@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+pod: "Kubernetes Executor Pod (cgroup Limit = 10 GB)" {
+  class: box
+  style.stroke: "#3B82F6"
+  heap: "JVM Heap: 6 GB (Configured 7 GB)\nActive Heap: 4.2 GB (Only 60% Used!)\nSpark UI reports: HEALTHY" {
+    style.stroke: "#10B981"
+  }
+  offheap: "Off-Heap / Native (Configured: 1 GB)\nPySpark / Arrow Worker: 2.5 GB!\nNetty Buffers: 1.2 GB\nMetaspace: 0.8 GB\nTotal Off-Heap: 4.5 GB (EXCEEDS 1 GB!)" {
+    style.stroke: "#EF4444"
+  }
+}
+
+killer: "Linux Kernel OOM Killer\nContainer exceeds cgroup memory\nTerminates Pod -> Exit Code 137" {
+  class: box
+  style.stroke: "#EF4444"
+}
+
+pod -> killer: "cgroup memory.limit_in_bytes exceeded"

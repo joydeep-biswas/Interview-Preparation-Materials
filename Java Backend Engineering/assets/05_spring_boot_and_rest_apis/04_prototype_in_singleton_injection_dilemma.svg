@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Prototype-in-Singleton Injection Dilemma &amp; Solutions</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Why @Scope('prototype') beans injected into @Scope('singleton') beans freeze, and how to fix with ObjectProvider / @Lookup</text>
+<rect x="30" y="85" width="460" height="410" rx="8" fill="#1a1116" stroke="#ef4444" stroke-width="1.5"/>
+<text x="260" y="112" fill="#FCA5A5" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Trap: Prototype-in-Singleton Stale Instance</text>
+<rect x="170" y="122" width="180" height="18" rx="9" fill="#991b1b"/><text x="260" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">State Leakage &amp; Thread Safety Bug</text>
+<rect x="50" y="155" width="420" height="80" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
+<text x="65" y="178" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">AuthenticationService (Singleton)</text>
+<text x="65" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Injected ONCE at application boot time</text>
+<text x="65" y="214" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Field: private final TokenGenerator tokenGen;</text>
+<rect x="50" y="255" width="420" height="75" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="65" y="278" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">TokenGenerator Instance #1 (FROZEN FOREVER!)</text>
+<text x="65" y="298" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• @Scope('prototype') declaration is completely ignored!</text>
+<text x="65" y="314" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• All future HTTP requests share the exact same instance #1!</text>
+<rect x="50" y="350" width="130" height="60" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="115" y="375" fill="#FBBF24" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Request 1</text>
+<text x="115" y="395" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Uses Instance #1</text>
+<rect x="195" y="350" width="130" height="60" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="260" y="375" fill="#FBBF24" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Request 2</text>
+<text x="260" y="395" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Uses Instance #1</text>
+<rect x="340" y="350" width="130" height="60" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="405" y="375" fill="#FBBF24" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Request 3</text>
+<text x="405" y="395" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Uses Instance #1</text>
+<rect x="50" y="425" width="420" height="55" rx="8" fill="#2d1215" stroke="#dc2626" stroke-width="1"/>
+<text x="260" y="447" fill="#F87171" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Disaster: Concurrent threads mutate state on instance #1!</text>
+<text x="260" y="465" fill="#FCA5A5" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tokens leak across distinct authenticated customer sessions!</text>
+<line x1="260" y1="235" x2="260" y2="255" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<rect x="550" y="85" width="460" height="410" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="780" y="112" fill="#6EE7B7" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Solution: Dynamic On-Demand Resolution</text>
+<rect x="690" y="122" width="180" height="18" rx="9" fill="#047857"/><text x="780" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ObjectProvider or @Lookup</text>
+<rect x="570" y="155" width="420" height="80" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1"/>
+<text x="585" y="178" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">AuthenticationService (Singleton)</text>
+<text x="585" y="198" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Injects: ObjectProvider&amp;lt;TokenGenerator&amp;gt; provider;</text>
+<text x="585" y="214" fill="#A7F3D0" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Every request calls: provider.getObject() dynamically</text>
+<rect x="570" y="245" width="420" height="45" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="780" y="265" fill="#38BDF8" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ObjectProvider&amp;lt;TokenGenerator&amp;gt; / CGLIB @Lookup Method</text>
+<text x="780" y="280" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Requests brand new prototype bean from ApplicationContext per invocation</text>
+<rect x="570" y="305" width="130" height="85" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="635" y="325" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Request 1</text>
+<text x="635" y="345" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">TokenGen #1</text>
+<text x="635" y="362" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Fresh State</text>
+<text x="635" y="376" fill="#6EE7B7" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Isolated GC</text>
+<rect x="715" y="305" width="130" height="85" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="780" y="325" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Request 2</text>
+<text x="780" y="345" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">TokenGen #2</text>
+<text x="780" y="362" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Fresh State</text>
+<text x="780" y="376" fill="#6EE7B7" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Isolated GC</text>
+<rect x="860" y="305" width="130" height="85" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="925" y="325" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Request 3</text>
+<text x="925" y="345" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">TokenGen #3</text>
+<text x="925" y="362" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Fresh State</text>
+<text x="925" y="376" fill="#6EE7B7" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Isolated GC</text>
+<rect x="570" y="405" width="420" height="75" rx="8" fill="#0f2e28" stroke="#059669" stroke-width="1"/>
+<text x="780" y="425" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Guaranteed Thread Safety &amp; Scope Fidelity</text>
+<text x="585" y="445" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ 100% thread-isolated memory: no shared mutable instance state</text>
+<text x="585" y="461" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Alternative: @Scope(value='prototype', proxyMode=TARGET_CLASS)</text>
+<line x1="780" y1="235" x2="780" y2="245" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="635" y1="290" x2="635" y2="305" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="780" y1="290" x2="780" y2="305" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="925" y1="290" x2="925" y2="305" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

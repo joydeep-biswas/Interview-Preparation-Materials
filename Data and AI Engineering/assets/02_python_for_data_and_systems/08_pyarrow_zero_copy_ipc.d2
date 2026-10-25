@@ -1,0 +1,11 @@
+# PyArrow: Zero-Copy Memory Sharing IPC
+direction: right
+
+disk: "Parquet on NVMe SSD"
+arrow: "Shared PyArrow Table in RAM\n• Arrow RecordBatch (0x7FFF0042)\n• Standardized columnar memory"
+polars: "Polars Engine\n• pl.from_arrow()\n• Zero-copy pointer bind"
+duckdb: "DuckDB SQL\n• Direct buffer scan\n• Zero-copy SQL execution"
+
+disk -> arrow: "mmap()"
+arrow -> polars: "Arrow C Data Interface"
+arrow -> duckdb: "Arrow C Data Interface"

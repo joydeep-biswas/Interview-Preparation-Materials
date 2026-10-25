@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .card-purple { stroke: #8B5CF6; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+      .edge-purple { stroke: #8B5CF6; }
+    </style>
+    <marker id="arr-a5py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g5py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-p5py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="32" class="title-text">Core Python Data Structure Normalization Pipeline</text>
+
+  <!-- Left: Raw Payloads -->
+  <rect x="30" y="125" width="200" height="110" class="card card-blue"/>
+  <text x="130" y="152" class="card-title" fill="#93C5FD">Raw JSON Payloads</text>
+  <text x="45" y="177" class="card-body">• Heterogeneous dicts</text>
+  <text x="45" y="197" class="card-body">• Nested array objects</text>
+  <text x="45" y="217" class="card-body">• Unstructured strings</text>
+
+  <!-- Center Col: 3 Specialized Handlers -->
+  <rect x="290" y="55" width="340" height="75" class="card card-amber"/>
+  <text x="460" y="80" class="card-title" fill="#FDE68A">1. String Operations</text>
+  <text x="305" y="105" class="card-body">• Anagram grouping, byte encode &amp; regex parsing</text>
+
+  <rect x="290" y="145" width="340" height="75" class="card card-green"/>
+  <text x="460" y="170" class="card-title" fill="#6EE7B7">2. List Manipulations</text>
+  <text x="305" y="195" class="card-body">• Batch chunk slicing, sliding window &amp; transpose</text>
+
+  <rect x="290" y="235" width="340" height="75" class="card card-purple"/>
+  <text x="460" y="260" class="card-title" fill="#D8B4FE">3. Dictionary Operations</text>
+  <text x="305" y="285" class="card-body">• Inverted indexes, defaultdict &amp; deep recursive merge</text>
+
+  <!-- Right: Clean Tabular -->
+  <rect x="690" y="125" width="240" height="110" class="card card-green"/>
+  <text x="810" y="152" class="card-title" fill="#6EE7B7">Clean Tabular Records</text>
+  <text x="705" y="177" class="card-body" fill="#34D399">• Normalized schema</text>
+  <text x="705" y="197" class="card-body">• High data quality</text>
+  <text x="705" y="217" class="card-body" fill="#34D399">• Ready for Parquet / DB</text>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 230 180 C 255 180, 265 92, 276 92 L 290 92" class="edge edge-amber" marker-end="url(#arr-a5py)"/>
+  <path fill="none" d="M 230 180 L 290 180" class="edge edge-green" marker-end="url(#arr-g5py)"/>
+  <path fill="none" d="M 230 180 C 255 180, 265 272, 276 272 L 290 272" class="edge edge-purple" marker-end="url(#arr-p5py)"/>
+
+  <path fill="none" d="M 630 92 C 655 92, 665 180, 676 180 L 690 180" class="edge edge-green" marker-end="url(#arr-g5py)"/>
+  <path fill="none" d="M 630 180 L 690 180" class="edge edge-green" marker-end="url(#arr-g5py)"/>
+  <path fill="none" d="M 630 272 C 655 272, 665 180, 676 180 L 690 180" class="edge edge-green" marker-end="url(#arr-g5py)"/>
+</svg>

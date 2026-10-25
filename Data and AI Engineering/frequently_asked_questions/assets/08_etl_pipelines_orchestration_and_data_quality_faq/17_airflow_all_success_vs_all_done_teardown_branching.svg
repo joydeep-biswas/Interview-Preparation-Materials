@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 330" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Left: Happy Path Container -->
+  <rect x="25" y="25" width="430" height="280" rx="12" ry="12" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="45" y="52" class="title-txt" fill="#6EE7B7">Normal Execution (ALL_SUCCESS)</text>
+
+  <rect x="45" y="70" width="390" height="55" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="60" y="93" class="title-txt" text-anchor="start">Task 1: Extract &amp; Stage</text>
+  <text x="60" y="110" class="sub-txt" text-anchor="start">Retries: 3, Retry Delay: 2 min</text>
+
+  <path d="M 240 125 L 240 145" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <rect x="45" y="145" width="390" height="55" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="60" y="168" class="title-txt" text-anchor="start">Task 2: Transform &amp; Validate</text>
+  <text x="60" y="185" class="sub-txt" text-anchor="start">trigger_rule = 'all_success' (default)</text>
+
+  <path d="M 240 200 L 240 220" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <rect x="45" y="220" width="390" height="55" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="60" y="243" class="title-txt" text-anchor="start" fill="#A7F3D0">Task 3: Promote to Production</text>
+  <text x="60" y="260" class="badge-txt" fill="#10B981">✓ All Upstream Tasks Succeeded</text>
+
+  <!-- Right: Failure & Teardown Branching Container -->
+  <rect x="485" y="25" width="450" height="280" rx="12" ry="12" fill="#0D1526" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="505" y="52" class="title-txt" fill="#FCA5A5">Failure &amp; Teardown (ALL_DONE / ONE_FAILED)</text>
+
+  <rect x="505" y="70" width="410" height="55" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="520" y="93" class="title-txt" text-anchor="start" fill="#F87171">Task 1: Fails After Retries Exhausted</text>
+  <text x="520" y="110" class="sub-txt" text-anchor="start">Upstream failure blocks ALL_SUCCESS downstream</text>
+
+  <!-- Fork to Alert (One Failed) and Teardown (All Done) -->
+  <path d="M 710 125 L 710 135 Q 710 145 620 145 L 620 160" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <path d="M 710 125 L 710 135 Q 710 145 800 145 L 800 160" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <rect x="505" y="160" width="195" height="90" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="602" y="185" class="title-txt" text-anchor="middle" fill="#EF4444">PagerDuty Alert</text>
+  <text x="515" y="208" class="mono-txt" text-anchor="start">trigger_rule='one_failed'</text>
+  <text x="515" y="228" class="body-txt" text-anchor="start">• Fires immediately</text>
+
+  <rect x="720" y="160" width="195" height="90" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="817" y="185" class="title-txt" text-anchor="middle" fill="#C084FC">Cluster Teardown</text>
+  <text x="730" y="208" class="mono-txt" text-anchor="start">trigger_rule='all_done'</text>
+  <text x="730" y="228" class="body-txt" text-anchor="start">• Guaranteed cleanup</text>
+  <text x="730" y="244" class="body-txt" text-anchor="start">• Prevents idle costs</text>
+</svg>

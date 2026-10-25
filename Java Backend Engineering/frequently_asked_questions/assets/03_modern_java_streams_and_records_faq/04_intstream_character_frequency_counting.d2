@@ -1,0 +1,27 @@
+direction: right
+
+source: "1. IntStream Source" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  str: "'swiss'.chars() -> IntStream"
+  box: "mapToObj(c -> (char)c)"
+}
+
+freq_map: "2. LinkedHashMap Counts" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  collect: "groupingBy(c, LinkedHashMap::new, counting())"
+  table: "'s': 3 | 'w': 1 | 'i': 1"
+  order: "LinkedHashMap preserves insertion order"
+}
+
+find: "3. findFirst() Non-Repeating" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  filter: "filter(entry -> entry.getValue() == 1)"
+  result: "Optional.of('w') short-circuits"
+  complexity: "O(N) Time | O(Sigma) Space"
+}
+
+source -> freq_map: "Stream chars"
+freq_map -> find: "Scan ordered entries"

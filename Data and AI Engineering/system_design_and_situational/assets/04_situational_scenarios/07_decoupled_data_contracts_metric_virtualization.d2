@@ -1,0 +1,34 @@
+direction: right
+
+bronze: "Layer 1: Immutable Audit (Bronze)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  raw: "Raw Append-Only Events (Kafka / S3)"
+  contract: "Strict Data Contract (No filters applied)"
+}
+
+silver: "Layer 2: Standard Entities (Silver)" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  entities: "Deduplicated Conformed Entities (SCD 2)"
+  geo: "Standardized H3 Hex & UTC Time"
+}
+
+gold: "Layer 3: Virtualized Semantics (Gold)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  dbt: "dbt Semantic Models & Dynamic Views"
+  bi: "BI Dashboards & Executive ML Sinks"
+}
+
+bronze -> silver: "Conform & Deduplicate" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}
+silver -> gold: "Semantic Virtualization" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

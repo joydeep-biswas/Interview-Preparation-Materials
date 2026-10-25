@@ -1,0 +1,19 @@
+direction: right
+title: Dutch National Flag 3-Way Partitioning Invariant
+
+R1: "Region 1 (All 0s)\n[0 .. low-1]" {
+  style.stroke: "#38BDF8"
+}
+R2: "Region 2 (All 1s)\n[low .. mid-1]" {
+  style.stroke: "#34D399"
+}
+R3: "Region 3 (Unexamined)\n[mid .. high]" {
+  style.stroke: "#FBBF24"
+}
+R4: "Region 4 (All 2s)\n[high+1 .. n-1]" {
+  style.stroke: "#C084FC"
+}
+
+R1 -> R2: "low boundary"
+R2 -> R3: "mid scan pointer"
+R3 -> R4: "high boundary"

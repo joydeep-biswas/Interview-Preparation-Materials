@@ -1,0 +1,34 @@
+direction: right
+title: Spark Execution Hierarchy: App to Task
+
+App: 1. Spark Application {
+  style.stroke: "#38BDF8"
+  Job0: Job 0: count()
+  Job1: Job 1: write.parquet()
+  Job2: Job 2: collect()
+}
+
+Job: 2. Job 1 Decomposition {
+  style.stroke: "#FBBF24"
+  Stage0: Stage 0: Scan & Filter (200 Partitions)
+  Stage1: Stage 1: Aggregate & Save (200 Partitions)
+  Stage0 -> Stage1: Shuffle Exchange Barrier
+}
+
+Stage: 3. Stage 0 TaskSet {
+  style.stroke: "#C084FC"
+  TaskSet: TaskSet (200 Tasks scheduled by locality)
+}
+
+Tasks: 4. Tasks on CPU Slots {
+  style.stroke: "#34D399"
+  T0: Task 0 (Partition 0)
+  T1: Task 1 (Partition 1)
+  T2: Task 2 (Partition 2)
+  TN: ... Task 199 (Partition 199)
+}
+
+App.Job1 -> Job.Stage0: Action triggers execution { style.stroke: "#FBBF24" }
+Job.Stage0 -> Stage.TaskSet: Compiles TaskSet { style.stroke: "#C084FC" }
+Stage.TaskSet -> Tasks.T0: Dispatches to CPU slot { style.stroke: "#34D399" }
+Stage.TaskSet -> Tasks.T1: Dispatches to CPU slot { style.stroke: "#34D399" }

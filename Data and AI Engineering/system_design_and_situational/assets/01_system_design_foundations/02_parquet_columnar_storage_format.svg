@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="500" y="32" class="title" font-size="19" text-anchor="middle">Apache Parquet: Columnar Storage Format &amp; Binary Anatomy</text>
+  <text x="500" y="52" class="subtitle" text-anchor="middle">Detailed layout of Row Groups, Column Chunks, Dictionary/Data Pages, and Footer Metadata</text>
+
+  <!-- Left: File Architecture Stack -->
+  <g transform="translate(40, 75)">
+    <rect width="360" height="345" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="360" height="32" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="180" y="21" class="card-title" fill="#93C5FD" text-anchor="middle">Parquet File Structural Hierarchy</text>
+    
+    <!-- Magic Header -->
+    <rect x="20" y="44" width="320" height="28" rx="6" ry="6" fill="#1E293B" stroke="#60A5FA"/>
+    <text x="180" y="62" class="card-body" font-weight="700" fill="#93C5FD" text-anchor="middle">4-byte Magic Header: "PAR1"</text>
+
+    <!-- Row Group 1 -->
+    <rect x="20" y="80" width="320" height="85" rx="6" ry="6" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="180" y="98" class="card-body" font-weight="700" fill="#A7F3D0" text-anchor="middle">Row Group 1 (~128MB - 512MB)</text>
+    <rect x="30" y="106" width="90" height="48" rx="4" ry="4" fill="#064E3B"/>
+    <text x="75" y="125" class="badge" fill="#6EE7B7" text-anchor="middle">Col A Chunk</text>
+    <text x="75" y="143" class="badge" fill="#A7F3D0" text-anchor="middle">Data Pages</text>
+    
+    <rect x="135" y="106" width="90" height="48" rx="4" ry="4" fill="#064E3B"/>
+    <text x="180" y="125" class="badge" fill="#6EE7B7" text-anchor="middle">Col B Chunk</text>
+    <text x="180" y="143" class="badge" fill="#A7F3D0" text-anchor="middle">Dict + Pages</text>
+
+    <rect x="240" y="106" width="90" height="48" rx="4" ry="4" fill="#064E3B"/>
+    <text x="285" y="125" class="badge" fill="#6EE7B7" text-anchor="middle">Col C Chunk</text>
+    <text x="285" y="143" class="badge" fill="#A7F3D0" text-anchor="middle">Snappy/ZSTD</text>
+
+    <!-- Row Group 2 -->
+    <rect x="20" y="173" width="320" height="38" rx="6" ry="6" fill="#1E293B" stroke="#6B7280"/>
+    <text x="180" y="197" class="card-body" fill="#9CA3AF" text-anchor="middle">Row Group 2 (Subsequent Data Partition)</text>
+
+    <!-- File Metadata Footer -->
+    <rect x="20" y="219" width="320" height="68" rx="6" ry="6" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="180" y="238" class="card-body" font-weight="700" fill="#FDE68A" text-anchor="middle">File Metadata Footer (Thrift Compact)</text>
+    <text x="30" y="258" class="card-body">• Column Chunk Offsets &amp; Codecs</text>
+    <text x="30" y="276" class="card-body">• Min/Max Stats (Zone Maps) &amp; Schema</text>
+
+    <!-- Footer Length + End Magic -->
+    <rect x="20" y="295" width="320" height="32" rx="6" ry="6" fill="#1E293B" stroke="#EC4899"/>
+    <text x="180" y="315" class="card-body" font-weight="700" fill="#F472B6" text-anchor="middle">4-byte Length + Magic: "PAR1"</text>
+  </g>
+
+  <!-- Right: Column Chunk & Data Page Internals -->
+  <g transform="translate(440, 75)">
+    <rect width="520" height="345" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="520" height="32" rx="10" ry="10" fill="#064E3B"/>
+    <text x="260" y="21" class="card-title" fill="#A7F3D0" text-anchor="middle">Deep Dive: Column Chunk &amp; Data Page Mechanics</text>
+
+    <!-- Column Chunk Container -->
+    <g transform="translate(20, 44)">
+      <rect width="480" height="135" rx="8" ry="8" fill="#1E293B" stroke="#34D399"/>
+      <text x="240" y="22" class="card-body" font-weight="700" fill="#6EE7B7" text-anchor="middle">Column Chunk (Continuous 1MB Page Blocks)</text>
+      
+      <rect x="15" y="34" width="135" height="85" rx="6" ry="6" fill="#0F172A" stroke="#3B82F6"/>
+      <text x="82" y="52" class="badge" fill="#93C5FD" text-anchor="middle">Dictionary Page</text>
+      <text x="25" y="72" class="card-body">• Unique tokens</text>
+      <text x="25" y="90" class="card-body">• Bit-pack index</text>
+      <text x="25" y="108" class="card-body">• Low cardinality</text>
+
+      <rect x="165" y="34" width="145" height="85" rx="6" ry="6" fill="#0F172A" stroke="#10B981"/>
+      <text x="237" y="52" class="badge" fill="#A7F3D0" text-anchor="middle">Data Page (v1 / v2)</text>
+      <text x="175" y="72" class="card-body">• Definition levels (NULLs)</text>
+      <text x="175" y="90" class="card-body">• Repetition levels (Lists)</text>
+      <text x="175" y="108" class="card-body">• Compressed values</text>
+
+      <rect x="325" y="34" width="140" height="85" rx="6" ry="6" fill="#0F172A" stroke="#F59E0B"/>
+      <text x="395" y="52" class="badge" fill="#FDE68A" text-anchor="middle">Page Header</text>
+      <text x="335" y="72" class="card-body">• Uncompressed size</text>
+      <text x="335" y="90" class="card-body">• Compressed size</text>
+      <text x="335" y="108" class="card-body">• Page statistics</text>
+    </g>
+
+    <!-- Pruning & Scan Optimizations -->
+    <g transform="translate(20, 190)">
+      <rect width="480" height="135" rx="8" ry="8" fill="#1E293B" stroke="#F59E0B"/>
+      <text x="240" y="22" class="card-body" font-weight="700" fill="#FDE68A" text-anchor="middle">Engine Scan Optimization: Predicate Pushdown</text>
+      
+      <rect x="15" y="34" width="215" height="85" rx="6" ry="6" fill="#0F172A" stroke="#EF4444"/>
+      <text x="122" y="52" class="badge" fill="#FCA5A5" text-anchor="middle">1. Row Group Skipping</text>
+      <text x="25" y="72" class="card-body">• Reads footer stats first</text>
+      <text x="25" y="90" class="card-body">• If min/max misses WHERE</text>
+      <text x="25" y="108" class="card-body">• Skips entire 256MB I/O!</text>
+
+      <rect x="250" y="34" width="215" height="85" rx="6" ry="6" fill="#0F172A" stroke="#8B5CF6"/>
+      <text x="357" y="52" class="badge" fill="#DDD6FE" text-anchor="middle">2. Vectorized SIMD Decode</text>
+      <text x="260" y="72" class="card-body">• Column projection reads only</text>
+      <text x="260" y="90" class="card-body">• CPU caches 1000s of rows</text>
+      <text x="260" y="108" class="card-body">• SIMD batch decompression</text>
+    </g>
+  </g>
+
+  <!-- Connective Runway from Row Group to Deep Dive -->
+  <path d="M 360 200 L 400 200 L 400 145 L 428 145 L 440 145" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <path d="M 360 330 L 400 330 L 400 330 L 428 330 L 440 330" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+</svg>

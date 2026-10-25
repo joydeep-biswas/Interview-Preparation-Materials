@@ -1,0 +1,35 @@
+direction: right
+
+app_tx: "1. App Local ACID Tx" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  orders: "INSERT INTO orders (Business data)"
+  outbox: "INSERT INTO outbox (Event payload)"
+  atomic: "Both commit in 1 local ACID transaction"
+}
+
+wal: "2. DB Write-Ahead Log" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  wal_log: "Postgres WAL records transaction"
+  replication: "Logical replication slot streams changes"
+}
+
+debezium: "3. Debezium CDC Connector" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  cdc: "Tails WAL replication stream"
+  publish: "Produces event to Kafka topic"
+  no_polling: "Zero polling DB queries"
+}
+
+kafka: "4. Kafka & Consumers" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  topic: "Topic: order.events"
+  consumers: "Payment, Inventory, Notification services"
+}
+
+app_tx -> wal: "DB commit"
+wal -> debezium: "Stream WAL changes"
+debezium -> kafka: "Produce event"

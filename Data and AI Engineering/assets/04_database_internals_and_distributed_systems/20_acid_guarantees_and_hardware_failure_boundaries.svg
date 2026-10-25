@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="440" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ACID Guarantees &amp; Physical Hardware Failure Boundaries</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Mapping Atomicity, Consistency, Isolation, and Durability to Volatile RAM vs. Disk</text>
+  
+  
+    <rect x="30" y="95" width="920" height="130" rx="10" fill="#260b0b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#fca5a5" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">VOLATILE BOUNDARY (Lost on Kernel Panic / Power Failure / Crash)</text>
+  
+    <rect x="45" y="125" width="260" height="85" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="175.0" y="151" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Active Transactions</text>
+    <text x="175.0" y="167" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Volatile CPU / Private Workspace</text>
+    <circle cx="61" cy="180" r="2" fill="#ef4444"/>
+    <text x="69" y="183" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Uncommitted dirty state</text>
+    <circle cx="61" cy="196" r="2" fill="#ef4444"/>
+    <text x="69" y="199" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Transaction undo log pointers</text>
+    <circle cx="61" cy="212" r="2" fill="#ef4444"/>
+    <text x="69" y="215" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Lost instantly on power cut</text>
+  
+    <rect x="330" y="125" width="300" height="85" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="480.0" y="151" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Lock Manager &amp; In-Memory MVCC</text>
+    <text x="480.0" y="167" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Enforces ISOLATION &amp; CONSISTENCY</text>
+    <rect x="551" y="135" width="73" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="587.5" y="147" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ISOLATION</text>
+    <circle cx="346" cy="180" r="2" fill="#3b82f6"/>
+    <text x="354" y="183" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">2PL row locks, shared/exclusive table latches</text>
+    <circle cx="346" cy="196" r="2" fill="#3b82f6"/>
+    <text x="354" y="199" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Schema constraints &amp; active snapshot lists</text>
+  
+    <rect x="655" y="125" width="280" height="85" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="795.0" y="151" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Buffer Pool &amp; WAL Buffer</text>
+    <text x="795.0" y="167" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Volatile RAM Frame Cache</text>
+    <circle cx="671" cy="180" r="2" fill="#f59e0b"/>
+    <text x="679" y="183" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Dirty pages waiting for checkpointer flush</text>
+    <circle cx="671" cy="196" r="2" fill="#f59e0b"/>
+    <text x="679" y="199" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sequential redo records in WAL buffer</text>
+
+  
+    <rect x="30" y="240" width="920" height="30" rx="8" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="266" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PHYSICAL HARDWARE FAILURE BARRIER: POSIX fsync() / Non-Volatile Battery-Backed Flush</text>
+    
+
+  
+    <rect x="30" y="285" width="920" height="135" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="46" y="307" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">NON-VOLATILE PERSISTENCE DOMAIN (Survives Sudden Power Loss)</text>
+  
+    <rect x="45" y="315" width="430" height="90" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="260.0" y="341" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Write-Ahead Log (WAL Redo Log)</text>
+    <text x="260.0" y="357" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Enforces ATOMICITY &amp; DURABILITY</text>
+    <rect x="389" y="325" width="80" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="429.0" y="337" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DURABILITY</text>
+    <circle cx="61" cy="370" r="2" fill="#10b981"/>
+    <text x="69" y="373" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Append-only sequential disk log on NVMe SSD</text>
+    <circle cx="61" cy="386" r="2" fill="#10b981"/>
+    <text x="69" y="389" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Flushed via fsync() BEFORE transaction commit ACK!</text>
+    <circle cx="61" cy="402" r="2" fill="#10b981"/>
+    <text x="69" y="405" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">ARIES recovery uses WAL to REDO committed &amp; UNDO uncommitted</text>
+  
+    <rect x="500" y="315" width="435" height="90" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="717.5" y="341" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Table Heap &amp; B+ Tree Index Disk Files</text>
+    <text x="717.5" y="357" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Periodic Checkpoint Storage</text>
+    <rect x="849" y="325" width="80" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="889.0" y="337" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">HEAP FILES</text>
+    <circle cx="516" cy="370" r="2" fill="#10b981"/>
+    <text x="524" y="373" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">8KB Slotted pages lazily flushed by background checkpointer</text>
+    <circle cx="516" cy="386" r="2" fill="#10b981"/>
+    <text x="524" y="389" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero durability loss if checkpointer lags (WAL replays lost state)</text>
+
+</svg>

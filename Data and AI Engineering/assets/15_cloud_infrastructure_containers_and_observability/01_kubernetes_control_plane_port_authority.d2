@@ -1,0 +1,29 @@
+classes: {
+  control_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  worker_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+control: "The Port Authority (Control Plane)" {
+  apiserver: "Harbor Front Desk (kube-apiserver)\nManifest submission & mTLS gateway" { class: control_box }
+  etcd: "Master Port Ledger (etcd)\nConsistent distributed key-value store" { class: control_box }
+  scheduler: "Berth Dispatcher (kube-scheduler)\nNode placement & filtering engine" { class: control_box }
+  controllers: "Auditing Board (kube-controller-manager)\nDesired vs actual reconciliation" { class: control_box }
+
+  apiserver <-> etcd
+  apiserver <-> scheduler
+  apiserver <-> controllers
+}
+
+workers: "The Cargo Fleet (Worker Nodes)" {
+  kubelet: "Ship Captain (kubelet)\nNode supervisor agent" { class: worker_box }
+  runtime: "Hydraulic Crane (containerd / runc)\nImage pulling & cgroup setup" { class: worker_box }
+  proxy: "Traffic Police (kube-proxy / CNI)\nService IP routing & eBPF" { class: worker_box }
+  pods: "Cargo Containers (Pods)\nIsolated execution namespaces" { class: worker_box }
+
+  kubelet -> runtime -> pods
+  kubelet -> proxy
+}
+
+control.apiserver -> workers.kubelet: "mTLS Commands & Specs" {
+  style: { stroke: "#fbbf24"; stroke-width: 2 }
+}

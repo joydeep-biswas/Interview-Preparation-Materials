@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 390" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="390" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Foreign Keys &amp; Referential Integrity: ON DELETE CASCADE Mechanics</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Propagating Parent Row Deletions Downstream to Guarantee Consistency</text>
+  
+  
+    <rect x="40" y="120" width="240" height="140" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="160.0" y="146" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Parent: crm.accounts</text>
+    <text x="160.0" y="162" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Primary Key Owner</text>
+    <rect x="222" y="130" width="52" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="248.0" y="142" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PARENT</text>
+    <circle cx="56" cy="175" r="2" fill="#3b82f6"/>
+    <text x="64" y="178" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">account_id = 501 [PK]</text>
+    <circle cx="56" cy="191" r="2" fill="#3b82f6"/>
+    <text x="64" y="194" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">company_name = 'Acme Corp'</text>
+    <circle cx="56" cy="207" r="2" fill="#3b82f6"/>
+    <text x="64" y="210" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">billing_tier = 'ENTERPRISE'</text>
+    <circle cx="56" cy="223" r="2" fill="#3b82f6"/>
+    <text x="64" y="226" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">status = 'ACTIVE'</text>
+
+  
+    <rect x="380" y="100" width="240" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="500.0" y="126" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Child 1: crm.contacts</text>
+    <text x="500.0" y="142" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Foreign Key Reference</text>
+    <rect x="569" y="110" width="45" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="591.5" y="122" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CHILD</text>
+    <circle cx="396" cy="155" r="2" fill="#10b981"/>
+    <text x="404" y="158" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">contact_id = 1 [PK]</text>
+    <circle cx="396" cy="171" r="2" fill="#10b981"/>
+    <text x="404" y="174" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">account_id = 501 [FK]</text>
+    <circle cx="396" cy="187" r="2" fill="#10b981"/>
+    <text x="404" y="190" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">name = 'Alice Smith'</text>
+
+  
+    <rect x="380" y="205" width="240" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="500.0" y="231" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Child 2: crm.contacts</text>
+    <text x="500.0" y="247" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Foreign Key Reference</text>
+    <rect x="569" y="215" width="45" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="591.5" y="227" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CHILD</text>
+    <circle cx="396" cy="260" r="2" fill="#10b981"/>
+    <text x="404" y="263" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">contact_id = 2 [PK]</text>
+    <circle cx="396" cy="276" r="2" fill="#10b981"/>
+    <text x="404" y="279" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">account_id = 501 [FK]</text>
+    <circle cx="396" cy="292" r="2" fill="#10b981"/>
+    <text x="404" y="295" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">name = 'Bob Jones'</text>
+
+  
+    <rect x="710" y="120" width="230" height="170" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="825.0" y="146" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Action: ON DELETE CASCADE</text>
+    <text x="825.0" y="162" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Referential Integrity Engine</text>
+    <rect x="875" y="130" width="59" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="904.5" y="142" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CASCADE</text>
+    <circle cx="726" cy="175" r="2" fill="#ef4444"/>
+    <text x="734" y="178" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Query executes:</text>
+    <circle cx="726" cy="191" r="2" fill="#ef4444"/>
+    <text x="734" y="194" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">DELETE FROM crm.accounts</text>
+    <circle cx="726" cy="207" r="2" fill="#ef4444"/>
+    <text x="734" y="210" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">WHERE account_id = 501;</text>
+    <circle cx="726" cy="223" r="2" fill="#ef4444"/>
+    <text x="734" y="226" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Engine checks FK definitions.</text>
+    <circle cx="726" cy="239" r="2" fill="#ef4444"/>
+    <text x="734" y="242" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">CASCADE automatically deletes</text>
+    <circle cx="726" cy="255" r="2" fill="#ef4444"/>
+    <text x="734" y="258" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Child 1 &amp; Child 2 atomically!</text>
+    <circle cx="726" cy="271" r="2" fill="#ef4444"/>
+    <text x="734" y="274" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero orphan records remain.</text>
+
+  
+    <line x1="280" y1="145" x2="380" y2="145" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="330.0" y="137.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">FK: account_id</text>
+  
+    <line x1="280" y1="225" x2="380" y2="225" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="330.0" y="217.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">FK: account_id</text>
+  
+    <line x1="620" y1="190" x2="710" y2="190" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)" stroke-dasharray="4,4"/><text x="665.0" y="182" fill="#ef4444" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Trigger Cascade</text>
+
+</svg>

@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+scan: "1. Sequential Matrix Scan\nInspect cell (r, c)" { class: box; style.stroke: "#3B82F6" }
+gate: "Is Land Cell?\ngrid[r][c] == '1'?" { class: box; style.stroke: "#F59E0B" }
+found: "Increment Island Count\nisland_count += 1" { class: box; style.stroke: "#10B981" }
+
+flood: "2. BFS Flood Fill\nQueue.append((r, c)) & mutate grid[r][c] = '0'\nExplore 4 Cardinal Neighbors (N, S, E, W)\nSink all contiguous land cells" {
+  class: box
+  style.stroke: "#10B981"
+}
+
+next_cell: "Advance to next coordinate\n(r, c + 1)" { class: box; style.stroke: "#64748B" }
+
+scan -> gate
+gate -> found: "Yes ('1')"
+found -> flood
+flood -> next_cell: "Queue Empty"
+gate -> next_cell: "No ('0')"

@@ -6,44 +6,9 @@ A comprehensive, production-grade guide answering real-world large-scale distrib
 
 ## Architectural Overview: High-Scale Distributed Platform Reference Model
 
-```mermaid
-flowchart TD
-    subgraph EdgeLayer ["1. Edge & Ingress Layer (Traffic Routing & Security)"]
-        direction LR
-        Clients["Clients<br/>(Mobile / Web / IoT)"] --> DNS["Route53 / Anycast DNS<br/>Geo-DNS Routing"]
-        DNS --> CDN["Edge CDN PoPs<br/>(Static Assets & Caching)"]
-        CDN --> APIGateway["API Gateway & Envoy<br/>(Rate Limiting & Auth)"]
-    end
+![High-Scale Distributed Platform: Reference Architecture Model](assets/02_high_level_system_design/01_high_scale_distributed_platform_reference_model.svg)
 
-    subgraph ServiceMesh ["2. Core Microservices & Event Streaming"]
-        direction LR
-        APIGateway --> SvcCluster["Stateless Service Mesh<br/>(Auto-Scaling Pods)"]
-        SvcCluster --> Kafka["Kafka Event Bus<br/>(Partitioned Log Buffer)"]
-        SvcCluster --> Cache["Distributed Cache<br/>(Redis Cluster / Memcached)"]
-    end
-
-    subgraph StorageLayer ["3. Distributed Persistence & Analytics"]
-        direction LR
-        SvcCluster --> PrimaryDB[("Primary Database<br/>(PostgreSQL / Spanner / Cassandra)")]
-        Kafka --> Lakehouse[("Lakehouse / Cold Storage<br/>(Delta Lake / S3 / GCS)")]
-    end
-
-    APIGateway --> SvcCluster
-    Cache --> PrimaryDB
-
-    style EdgeLayer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ServiceMesh fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style StorageLayer fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Clients fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DNS fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CDN fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style APIGateway fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SvcCluster fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Kafka fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Cache fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style PrimaryDB fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Lakehouse fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/02_high_level_system_design/01_high_scale_distributed_platform_reference_model.d2](assets/02_high_level_system_design/01_high_scale_distributed_platform_reference_model.d2)
 
 ---
 
@@ -104,26 +69,9 @@ flowchart TD
 
 #### Visual Flow
 
-```mermaid
-flowchart LR
-    Client["Client Request<br/>GET /7aB9xQ"] --> Ingress["Edge Gateway"]
-    Ingress --> Cache{"Redis Cache<br/>O(1) Memory Lookup"}
-    
-    Cache -->|"Cache Hit (95%)"| RedirectFast["Return 302 Redirect<br/>(&lt; 5ms Latency)"]
-    Cache -->|"Cache Miss (5%)"| DB[("Distributed DB<br/>Postgres / ScyllaDB")]
-    
-    DB --> WriteCache["Populate Redis Cache"]
-    WriteCache --> RedirectFast
-    RedirectFast --> Kafka["Kafka Event Bus<br/>Async Click Analytics"]
+![URL Shortener: Sub-5ms Read Redirection Architecture](assets/02_high_level_system_design/02_url_shortener_redirection_flow.svg)
 
-    style Client fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Ingress fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Cache fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RedirectFast fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style DB fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style WriteCache fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Kafka fill:#1e293b,stroke:#ec4899,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/02_high_level_system_design/02_url_shortener_redirection_flow.d2](assets/02_high_level_system_design/02_url_shortener_redirection_flow.d2)
 
 #### Production Base62 Conversion Implementation (Java)
 ```java
@@ -160,34 +108,9 @@ public class Base62Encoder {
 **Question:** *How do you design a URL Shortener operating active-active across US-East, EU-West, and AP-South with zero cross-region write lock contention?*
 
 #### Multi-Region Architectural Blueprint
-```mermaid
-flowchart TD
-    subgraph GlobalIngress ["Global Edge Layer (Anycast DNS / Cloudflare)"]
-        UserUS["US Client"] --> GeoDNS["Geo-DNS Routing"]
-        UserEU["EU Client"] --> GeoDNS
-        UserAP["APAC Client"] --> GeoDNS
-    end
+![URL Shortener: Multi-Region Active-Active Architecture](assets/02_high_level_system_design/03_url_shortener_multiregion_architecture.svg)
 
-    subgraph RegionUS ["Region 1: US-East (Active)"]
-        direction TB
-        AppUS["App Cluster US<br/>(KGS Range: 00..31)"] --> RedisUS["Redis L1 Cache US"]
-        AppUS --> DB_US[("Spanner / CockroachDB Node US")]
-    end
-
-    subgraph RegionEU ["Region 2: EU-West (Active)"]
-        direction TB
-        AppEU["App Cluster EU<br/>(KGS Range: 32..63)"] --> RedisEU["Redis L1 Cache EU"]
-        AppEU --> DB_EU[("Spanner / CockroachDB Node EU")]
-    end
-
-    GeoDNS -->|"Lowest Latency"| AppUS
-    GeoDNS -->|"Lowest Latency"| AppEU
-    DB_US <-->|"Asynchronous Multi-Master Sync"| DB_EU
-
-    style GlobalIngress fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RegionUS fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style RegionEU fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/02_high_level_system_design/03_url_shortener_multiregion_architecture.d2](assets/02_high_level_system_design/03_url_shortener_multiregion_architecture.d2)
 
 1. **Partitioned ID Space Across Regions (Zero Cross-Region Coordination):**
    - Avoid cross-region distributed locks for ID generation. Pre-assign distinct **Datacenter IDs** in Snowflake generators:
@@ -290,19 +213,9 @@ public class SlidingWindowRateLimiter {
 **Question:** *How would you design a Distributed ID Generator?*
 
 #### 64-bit Bitwise Layout
-```mermaid
-flowchart LR
-    Sign["1 Bit<br/>Sign (0)"] --- Time["41 Bits<br/>Timestamp (ms epoch)<br/>~69 Years Life"]
-    Time --- DataCenter["5 Bits<br/>Datacenter ID<br/>(32 Centers)"]
-    DataCenter --- Worker["5 Bits<br/>Worker ID<br/>(32 Nodes)"]
-    Worker --- Seq["12 Bits<br/>Sequence Number<br/>(4,096 IDs/ms/node)"]
+![Twitter Snowflake: 64-Bit Globally Unique ID Layout](assets/02_high_level_system_design/04_twitter_snowflake_64bit_layout.svg)
 
-    style Sign fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style Time fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DataCenter fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Worker fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Seq fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/02_high_level_system_design/04_twitter_snowflake_64bit_layout.d2](assets/02_high_level_system_design/04_twitter_snowflake_64bit_layout.d2)
 
 #### Production Snowflake Implementation (Java)
 ```java
@@ -408,36 +321,9 @@ public class SnowflakeIdGenerator {
 **Question:** *Design a distributed Notification System.*
 
 #### Architecture Blueprint
-```mermaid
-flowchart TD
-    subgraph Ingestion ["1. Event Ingestion"]
-        direction LR
-        Services["Ordering / Billing / Auth"] --> API["Notification Ingestion API<br/>(Validates payload & Idempotency Key)"]
-        API --> Kafka["Kafka Notification Topic<br/>(Partitioned by user_id)"]
-    end
+![Distributed Notification Service: High-Scale Fanout Architecture](assets/02_high_level_system_design/05_distributed_notification_service_architecture.svg)
 
-    subgraph Processing ["2. Fanout & Priority Workers"]
-        direction LR
-        Kafka --> Workers["Notification Worker Cluster<br/>(User Preferences & Rate Limits)"]
-        Workers --> HighQ["P0 Priority Queue<br/>(OTP, Fraud Alerts)"]
-        Workers --> LowQ["P1/P2 Priority Queue<br/>(Marketing, Newsletters)"]
-    end
-
-    subgraph Gateways ["3. Third-Party Gateway Dispatch"]
-        direction LR
-        HighQ --> APNs["Apple APNs / Google FCM<br/>(Mobile Push)"]
-        HighQ --> SMS["Twilio / Infobip<br/>(SMS Gateways)"]
-        LowQ --> Email["SendGrid / Amazon SES<br/>(Email Gateways)"]
-        APNs --> Circuit["Circuit Breaker & DLQ<br/>(Retry on 5xx)"]
-    end
-
-    Ingestion --> Processing
-    Processing --> Gateways
-
-    style Ingestion fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Processing fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Gateways fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_high_level_system_design/05_distributed_notification_service_architecture.d2](assets/02_high_level_system_design/05_distributed_notification_service_architecture.d2)
 
 ---
 
@@ -467,48 +353,9 @@ flowchart TD
 - *What happens if a payment stays in PENDING state for hours?*
 
 #### End-to-End Architectural Blueprint (50,000 TPS)
-```mermaid
-flowchart TD
-    Client["Client / Mobile App<br/>(Header: Idempotency-Key: UUIDv4)"] --> APIGW["API Gateway & Envoy Rate Limiter<br/>(Token Bucket + Distributed WAF)"]
-    
-    subgraph IngressTier ["1. Ingress & Fast Idempotency Gatekeeper"]
-        APIGW --> RedisIdemp{"Redis Cluster<br/>SET payment_key NX EX 120"}
-        RedisIdemp -->|"Key Exists (In-Flight)"| Reject409["Return 409 Conflict<br/>(Request already processing)"]
-        RedisIdemp -->|"Key Cached (Completed)"| ReturnCached["Return Cached 200 OK Response"]
-    end
+![Payment Gateway: 50,000 TPS Idempotent Processing Flow](assets/02_high_level_system_design/06_payment_gateway_idempotent_processing_flow.svg)
 
-    subgraph CorePayment ["2. Transactional Core & Outbox Engine"]
-        RedisIdemp -->|"Key Set (New Request)"| PaymentSvc["Payment Ingestion Service"]
-        PaymentSvc --> DB_Ledger[("PostgreSQL / CockroachDB<br/>Payments Table: UNIQUE(idempotency_key)<br/>Double-Entry Ledger + Outbox Table")]
-        DB_Ledger --> Debezium["Debezium CDC (WAL Reader)"]
-    end
-
-    subgraph EventBackplane ["3. Partitioned Kafka Backplane"]
-        Debezium --> Kafka["Apache Kafka<br/>Topic: payment-events<br/>Partition Key = account_id / merchant_id"]
-    end
-
-    subgraph OrchestratorSaga ["4. Payment Saga Orchestrator"]
-        Kafka --> SagaWorker["Payment Orchestrator Worker"]
-        SagaWorker --> StateCheck{"Check Payment State<br/>in Local DB"}
-        StateCheck -->|"INITIATED"| GatewayQuery{"Query Gateway First<br/>GET /charges?idemp_key=..."}
-        GatewayQuery -->|"Charge Exists"| SettleDB["Update DB to SETTLED"]
-        GatewayQuery -->|"Not Found"| CallGateway["Charge External Gateway<br/>(Visa / Stripe / Banking Switch)"]
-    end
-
-    subgraph RecoveryTier ["5. Failure Recovery & Reconciliation"]
-        CallGateway -->|Timeout / Network Drop| MarkPending["Transition to GATEWAY_PENDING"]
-        ReconCron["Reconciliation Cron Worker<br/>(Runs every 5 mins)"] --> ScanPending["Scan Old PENDING Records"]
-        ScanPending --> BankFiles["Ingest Gateway Clearing Files<br/>(BAI2 / MT940 / Settlement API)"]
-        BankFiles --> AutoResolve["Auto-Reconcile or Compensate"]
-    end
-
-    style Client fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style IngressTier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style CorePayment fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style EventBackplane fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style OrchestratorSaga fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style RecoveryTier fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-```
+*D2 Source:* [assets/02_high_level_system_design/06_payment_gateway_idempotent_processing_flow.d2](assets/02_high_level_system_design/06_payment_gateway_idempotent_processing_flow.d2)
 
 ---
 
@@ -586,25 +433,9 @@ Payments enter extended `PENDING` state due to network dropouts, asynchronous 3D
 **Question:** *Design an E-commerce Checkout System.*
 
 #### The 2-Tier Inventory Reservation Architecture
-```mermaid
-flowchart TD
-    Request["Checkout Request<br/>(User buys Item #42)"] --> Redis{"Redis In-Memory Stock<br/>Atomic DECR Script"}
-    
-    Redis -->|"Stock &gt;= 0 (Success)"| Reserve["Create Temporary Reservation<br/>(15-Minute Expiration TTL)"]
-    Redis -->|"Stock &lt; 0 (Sold Out)"| FailFast["Atomic INCR (Revert)<br/>Return 'Out of Stock' (Immediate 200)"]
+![E-Commerce Flash Sale: 2-Tier Inventory Reservation Architecture](assets/02_high_level_system_design/07_ecommerce_flash_sale_two_tier_inventory_reservation.svg)
 
-    Reserve --> Kafka["Publish to Order Queue<br/>(Kafka)"]
-    Kafka --> PaymentSvc["Process Payment Asynchronously"]
-    PaymentSvc --> Complete{"Payment Succeeded?"}
-
-    Complete -->|"YES"| ConfirmDB[("Postgres Ledger<br/>Permanently Commit Order")]
-    Complete -->|"NO / Expired"| Release["Release Redis Stock<br/>Atomic INCR by 1"]
-
-    style Request fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Redis fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Reserve fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style FailFast fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/02_high_level_system_design/07_ecommerce_flash_sale_two_tier_inventory_reservation.d2](assets/02_high_level_system_design/07_ecommerce_flash_sale_two_tier_inventory_reservation.d2)
 
 ---
 
@@ -627,30 +458,9 @@ flowchart TD
 **Question:** *Design the Uber Eats homepage displaying open restaurants, delivery ETAs, surge pricing, and promotional banners tailored to user location.*
 
 #### Architecture Blueprint
-```mermaid
-flowchart TD
-    UserApp["Mobile App (Sends lat, lon)"] --> APIGW["API Gateway"]
-    APIGW --> HomeSvc["Homepage Aggregator Service"]
+![Distributed Rate Limiter: Redis Sliding Window Architecture](assets/02_high_level_system_design/08_distributed_rate_limiter_sliding_window_architecture.svg)
 
-    subgraph SpatialLookup ["Geospatial & Status Tier"]
-        HomeSvc --> H3Index["H3 Hexagon Lookup<br/>(Find Active Restaurants in User Cell)"]
-        H3Index --> RedisStatus["Redis Cluster<br/>(Restaurant isOpen, currentPrepTime)"]
-    end
-
-    subgraph PolyglotStores ["Polyglot Storage Tier"]
-        direction TB
-        RelationalDB[("PostgreSQL / Aurora<br/>(Financial Ledger, Tax Rules, Orders)")]
-        DocumentDB[("MongoDB / DynamoDB<br/>(Hierarchical Restaurant Menus, Modifiers)")]
-        SearchEngine[("Elasticsearch<br/>(Cuisine, Dish Search & Filters)")]
-    end
-
-    HomeSvc --> DocumentDB
-    HomeSvc --> SearchEngine
-
-    style UserApp fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SpatialLookup fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style PolyglotStores fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/02_high_level_system_design/08_distributed_rate_limiter_sliding_window_architecture.d2](assets/02_high_level_system_design/08_distributed_rate_limiter_sliding_window_architecture.d2)
 
 #### SQL vs. NoSQL Trade-Off Analysis for Uber Eats
 1. **Relational / SQL (PostgreSQL):** Used for **Order Placements, Payment Ledgers, and Merchant Billing** where strict ACID transactions, foreign keys, and zero phantom reads are mathematically required.
@@ -766,32 +576,9 @@ The comparison matrix below contrasts the architectural topology, computational 
 **Question:** *Design a generic, fault-tolerant workflow system capable of orchestrating long-running state machines across distributed microservices.*
 
 #### Architecture Blueprint
-```mermaid
-flowchart TD
-    Client["Client App / API"] --> Gateway["Workflow API Gateway"]
-    Gateway --> Orchestrator["Workflow Orchestrator<br/>(State Transition Engine)"]
-    
-    subgraph StorageEngine ["Event-Sourced State Store"]
-        Orchestrator --> EventHistory[("Workflow Execution History<br/>(Append-Only Event Sourced Log)")]
-        Orchestrator --> StateDB[("Active State DB<br/>(PostgreSQL / Spanner)")]
-    end
+![Distributed Real-Time Chat: Netty WebSocket & Cassandra Architecture](assets/02_high_level_system_design/09_whatsapp_distributed_chat_architecture.svg)
 
-    subgraph TaskQueues ["Task Distribution Tier"]
-        Orchestrator --> Dispatcher["Task Dispatcher"]
-        Dispatcher --> Q1["Queue: OrderProcessing"]
-        Dispatcher --> Q2["Queue: PaymentProcessing"]
-        Dispatcher --> Q3["Queue: InventoryReservation"]
-    end
-
-    Q1 --> Worker1["Activity Worker 1"]
-    Q2 --> Worker2["Activity Worker 2"]
-    Q3 --> Worker3["Activity Worker 3"]
-    Worker1 -.->|"Task Completed Event"| Orchestrator
-
-    style Client fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StorageEngine fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style TaskQueues fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_high_level_system_design/09_whatsapp_distributed_chat_architecture.d2](assets/02_high_level_system_design/09_whatsapp_distributed_chat_architecture.d2)
 
 1. **State Machine Definition (JSON/YAML DSL):** Workflows are defined as declarative JSON state machines specifying states, tasks, transitions, retry policies, and compensating error handlers (Sagas).
 2. **Durable Execution & Event Sourcing:**
@@ -827,22 +614,9 @@ In a graph with $V = 10^9$ users and average degree $d = 500$:
   This reduces search space by **8 orders of magnitude**!
 
 #### High-Scale Architecture
-```mermaid
-flowchart LR
-    subgraph Frontiers ["Bidirectional Search Engine"]
-        UserA["Source: User A"] --> ForwardQ["Forward BFS Frontier<br/>Level 1 -> 2 -> 3"]
-        UserB["Target: User B"] --> BackwardQ["Backward BFS Frontier<br/>Level 1 -> 2 -> 3"]
-        ForwardQ <-->|"Intersection Detection in Redis"| MeetInMiddle{"Intersection Found?<br/>Set Intersection"}
-    end
+![Ride-Sharing: High-Scale Geospatial Matching Engine (Uber / Lyft)](assets/02_high_level_system_design/10_ride_sharing_geospatial_matching_engine.svg)
 
-    subgraph DistributedGraphStore ["Graph Storage Cluster"]
-        MeetInMiddle --> Cache["Redis Adjacency Cache<br/>(user_id -> RoaringBitmap of friends)"]
-        Cache --> GraphDB[("Neo4j / TAO Distributed Graph<br/>(Sharded by user_id)")]
-    end
-
-    style Frontiers fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DistributedGraphStore fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_high_level_system_design/10_ride_sharing_geospatial_matching_engine.d2](assets/02_high_level_system_design/10_ride_sharing_geospatial_matching_engine.d2)
 
 1. **Storage: Roaring Bitmaps in In-Memory Cache (Facebook TAO Pattern):**
    - Each user's friend list is stored as a compressed **Roaring Bitmap** in an in-memory Redis/Memcached cluster.
@@ -873,32 +647,9 @@ flowchart LR
 
 #### The Timeout Dilemma & Two-Phase Settlement Protocol
 In distributed payment settlement across heterogeneous banking networks, network timeouts are inevitable:
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Client as Payer App
-    participant SenderBank as Sending Bank (Core)
-    participant Switch as Central Clearing Switch (Pay.UK)
-    participant RecvBank as Receiving Bank (Core)
+![Payment Timeout Dilemma: Two-Phase Reconciliation Protocol](assets/02_high_level_system_design/11_payment_timeout_dilemma_two_phase_settlement.svg)
 
-    Client->>SenderBank: 1. POST /payments (Idempotency Key, Amount, SortCode, AccNo)
-    SenderBank->>SenderBank: 2. Lock & Hold Funds (PENDING_OUTBOUND)
-    SenderBank->>Switch: 3. Dispatch ISO 20022 pacs.008 (Payment Message)
-    Switch->>RecvBank: 4. Forward pacs.008
-    Note over Switch,RecvBank: Network Timeout / Receiving Bank Hangs!
-    RecvBank-->>Switch: [TIMEOUT - No response in 5000ms]
-    Switch-->>SenderBank: [TIMEOUT - Status UNCERTAIN]
-    Note over SenderBank: Core Question: Did receiver credit the money or not?
-    SenderBank->>Switch: 5. Polling Status Query (pacs.028 Payment Status Request)
-    Switch->>RecvBank: 6. Verify Settlement Status
-    alt RecvBank Confirms Credited
-        Switch-->>SenderBank: pacs.002 (ACCEPTED)
-        SenderBank->>SenderBank: Commit Ledger (PENDING -> SETTLED)
-    else RecvBank Confirms Not Credited / Aborted
-        Switch-->>SenderBank: pacs.002 (REJECTED)
-        SenderBank->>SenderBank: Compensating Reversal (Release Hold -> REFUNDED)
-    end
-```
+*D2 Source:* [assets/02_high_level_system_design/11_payment_timeout_dilemma_two_phase_settlement.d2](assets/02_high_level_system_design/11_payment_timeout_dilemma_two_phase_settlement.d2)
 
 #### Core Architecture & Mechanics
 1. **Three-State Ledger Locking (Never Debit Immediately):**
@@ -929,38 +680,9 @@ sequenceDiagram
 
 #### Architectural Blueprint
 
-```mermaid
-flowchart TD
-    subgraph Ingress ["1. Ingress & Card Switch Layer (< 15ms)"]
-        POS["POS Terminal / Merchant Swipe"] --> Switch["Payment Switch (ISO 8583)"]
-        Switch --> FraudGateway["Fraud Detection Gateway (Netty / Java 21)"]
-    end
+![Real-Time Fraud Detection Gateway: Sub-50ms Scoring Architecture](assets/02_high_level_system_design/12_realtime_fraud_detection_gateway_architecture.svg)
 
-    subgraph FeatureStore ["2. Ultra-Low-Latency Online Feature Store (< 20ms)"]
-        FraudGateway -->|"Pipelined MGET"| RedisCluster["Redis Enterprise Cluster<br/>(Sliding Count, Velocity, Geohash)"]
-        FraudGateway -->|"Lookup Travel Flags"| TravelStore["In-Memory Travel Notice Cache"]
-    end
-
-    subgraph InferenceEngine ["3. Low-Latency ML Scoring (< 30ms)"]
-        FraudGateway --> Scorer["Inference Worker Pool<br/>(ONNX Runtime / JNI Tree Ensembles)"]
-        Scorer --> RiskDecision{"Risk Score<br/>Calculation"}
-    end
-
-    subgraph Fallback_Async ["4. Fallback & Async Event Streaming"]
-        FraudGateway -.->|"Exceeds 70ms Deadline"| FallbackRule["Degraded Rule-Based Engine"]
-        FraudGateway -->|"Async Publish"| KafkaLog["Kafka: card-swipes-event-stream"]
-        KafkaLog --> HeavyGraph["Async Graph Analytics & Model Retraining"]
-    end
-
-    RiskDecision -->|"Score < 0.3"| Approve["APPROVE (< 65ms Total)"]
-    RiskDecision -->|"0.3 <= Score < 0.75"| StepUp["STEP-UP AUTH (3DS / Push OTP)"]
-    RiskDecision -->|"Score >= 0.75"| Decline["DECLINE / BLOCK"]
-
-    style Ingress fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FeatureStore fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style InferenceEngine fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Fallback_Async fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/02_high_level_system_design/12_realtime_fraud_detection_gateway_architecture.d2](assets/02_high_level_system_design/12_realtime_fraud_detection_gateway_architecture.d2)
 
 #### Core Mechanics & Features
 1. **Budget Allocation (100ms Hard Budget):**
@@ -985,34 +707,9 @@ flowchart TD
 **Question:** *Design an Open Banking API platform where third-party apps request account data with customer consent. How do you enforce per-customer consent and revoke access instantly across every service?*
 
 #### Architectural Walkthrough
-```mermaid
-flowchart TD
-    subgraph ThirdParty ["1. Third-Party Provider (TPP)"]
-        TPP["Authorized FinTech App"] -->|"mTLS + Signed JWT<br/>GET /accounts"| EdgeGateway["Envoy API Gateway"]
-    end
+![Open Banking API: Edge Token & Consent Validation Architecture](assets/02_high_level_system_design/13_open_banking_consent_and_token_validation.svg)
 
-    subgraph EdgeAuth ["2. Edge Token & Consent Validation (< 2ms)"]
-        EdgeGateway -->|"1. Validate Signature"| Crypto["RS256 / EdDSA Public Key"]
-        EdgeGateway -->|"2. Check Local Revocation"| LocalBloom["Local In-Memory Revocation Filter<br/>(Bloom Filter + Caffeine Cache)"]
-    end
-
-    subgraph ConsentControl ["3. Central Consent & Invalidation Engine"]
-        Customer["Payer Mobile App"] -->|"Revoke Consent"| ConsentService["Consent Management Service"]
-        ConsentService --> DB[(Consent PostgreSQL DB)]
-        ConsentService -->|"Broadcast Event"| RedisPubSub["Redis Pub/Sub / Kafka"]
-        RedisPubSub -->|"Instant Push"| EdgeGateway
-    end
-
-    subgraph ResourceServices ["4. Downstream Banking Microservices"]
-        EdgeGateway -->|"Forward Authorized Request"| AccountService["Account & Balance Microservice"]
-        EdgeGateway -->|"Forward Authorized Request"| TxnService["Transaction History Microservice"]
-    end
-
-    style ThirdParty fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style EdgeAuth fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style ConsentControl fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ResourceServices fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/02_high_level_system_design/13_open_banking_consent_and_token_validation.d2](assets/02_high_level_system_design/13_open_banking_consent_and_token_validation.d2)
 
 #### Core Mechanics
 1. **Granular Consent Metadata in FAPI Token:**
@@ -1031,40 +728,9 @@ flowchart TD
 
 #### 4-Phase Migration Roadmap (Strangler Fig Architecture)
 
-```mermaid
-flowchart TD
-    subgraph Phase1 ["Phase 1: CDC Shadow Replication"]
-        MF1["Legacy Mainframe (IBM DB2)"] -->|"DB2 Log Reader"| Debezium["Debezium / Q-Replication CDC"]
-        Debezium --> Kafka1["Kafka: account-cdc-events"]
-        Kafka1 --> IngestionWorker["Shadow Sync Consumer"]
-        IngestionWorker --> NewDB1[(New Cloud Microservice DB)]
-    end
+![Mainframe Modernization: Strangler Fig 4-Phase Migration Roadmap](assets/02_high_level_system_design/14_mainframe_strangler_fig_migration_roadmap.svg)
 
-    subgraph Phase2 ["Phase 2: Dual-Run & Continuous Reconciliation"]
-        Gateway["Smart Routing API Gateway"] -->|"Read/Write (Source of Truth)"| MF2["Legacy Mainframe"]
-        MF2 -.->|"Async Replicate"| NewDB2[(New Microservice DB)]
-        Reconciler["Continuous Reconciliation Engine"] <-->|"Compare Ledger Checksums"| MF2
-        Reconciler <-->|"Compare Ledger Checksums"| NewDB2
-    end
-
-    subgraph Phase3 ["Phase 3: Canary Read Cutover"]
-        Gateway -->|"Writes -> Mainframe"| MF2
-        Gateway -->|"1% -> 10% -> 100% Reads"| Microservice["New Account Microservice"]
-        Microservice --> NewDB2
-    end
-
-    subgraph Phase4 ["Phase 4: Write Cutover with Reverse CDC"]
-        Gateway -->|"Writes -> Microservice (New Source of Truth)"| Microservice
-        Microservice -->|"Reverse CDC"| KafkaReverse["Kafka: reverse-sync"]
-        KafkaReverse --> SyncBack["Mainframe Sync Worker"]
-        SyncBack -->|"Backup Updates"| MF2
-    end
-
-    style Phase1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Phase2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Phase3 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Phase4 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/02_high_level_system_design/14_mainframe_strangler_fig_migration_roadmap.d2](assets/02_high_level_system_design/14_mainframe_strangler_fig_migration_roadmap.d2)
 
 #### Core Mechanics & Consistency Guarantees
 1. **Phase 1: Initial Bulk Load + CDC Stream:**

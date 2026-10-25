@@ -1,0 +1,39 @@
+direction: down
+title: "HikariCP Fast-Path Connection Pool Architecture"
+
+req: "Thread calls dataSource.getConnection()" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+fp: "Tier 1: Fast-Path Thread-Local
+threadLocal.get() -> FastList" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+hit: "Fast-Path Borrow Success!
+Zero lock contention (~500ns)
+Direct return to thread" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+bag: "Tier 2: Lock-Free ConcurrentBag
+CAS Array Scanning
+compareAndSet(NOT_IN_USE, IN_USE)" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+
+exhaust: "Tier 3: HandOffQueue Wait
+Thread parks up to connectionTimeout (30s)
+Throws SQLTransientConnectionException" {
+  style.fill: "#450a0a"
+  style.stroke: "#ef4444"
+}
+
+req -> fp
+fp -> hit: "Cache Hit (>95%)"
+fp -> bag: "Cache Miss"
+bag -> exhaust: "Pool Empty"

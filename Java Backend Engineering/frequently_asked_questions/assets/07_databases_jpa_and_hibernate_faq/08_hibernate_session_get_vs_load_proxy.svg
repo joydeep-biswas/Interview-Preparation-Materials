@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Hibernate Entity Loading: session.get() vs session.load()</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Eager database query execution vs lazy bytecode CGLIB proxy initialization</text>
+
+  <!-- Left: session.get() / em.find() -->
+  <g transform="translate(40, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="230" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">session.get(Order.class, 101) / em.find()</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="60" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#93C5FD">1. Immediate Eager Query</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">SELECT * FROM orders WHERE id = 101;</text>
+      <text x="15" y="52" class="card-body" font-size="11" fill="#93C5FD">Fires SQL immediately if not already in Persistence Context</text>
+
+      <rect x="0" y="70" width="420" height="75" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+      <text x="15" y="90" class="badge" fill="#A7F3D0">2. Return Real Entity Object</text>
+      <text x="15" y="108" class="card-body">• Instantiates genuine Order instance directly</text>
+      <text x="15" y="124" class="card-body">• All database columns populated into fields</text>
+      <text x="15" y="138" class="badge" fill="#34D399">• Returns fully initialized entity</text>
+
+      <rect x="0" y="155" width="420" height="70" rx="6" ry="6" fill="#1E293B" stroke="#3B82F6"/>
+      <text x="15" y="175" class="badge" fill="#60A5FA">3. If Record Does Not Exist in DB</text>
+      <text x="15" y="195" class="card-body" font-family="monospace">returns NULL;</text>
+      <text x="15" y="211" class="card-body" font-size="11">Safe null return; easy to verify with if (order == null)</text>
+    </g>
+
+    <rect x="20" y="295" width="420" height="55" rx="6" ry="6" fill="#0F172A"/>
+    <text x="210" y="318" class="badge" fill="#93C5FD" text-anchor="middle">Best Practice Recommendation</text>
+    <text x="210" y="334" class="card-body" font-size="11" text-anchor="middle">Use when you need to inspect entity data or verify existence</text>
+  </g>
+
+  <!-- Right: session.load() / em.getReference() -->
+  <g transform="translate(560, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#92400E"/>
+    <text x="230" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">session.load(Order.class, 101) / em.getReference()</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="60" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#FDE68A">1. Zero Immediate SQL Fired</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">// NO SQL EXECUTED HERE!</text>
+      <text x="15" y="52" class="card-body" font-size="11" fill="#FDE68A">Returns lightweight synthetic proxy without querying DB</text>
+
+      <rect x="0" y="70" width="420" height="75" rx="6" ry="6" fill="#451A03" stroke="#F59E0B"/>
+      <text x="15" y="90" class="badge" fill="#FDE68A">2. Returns ByteBuddy / CGLIB Proxy</text>
+      <text x="15" y="108" class="card-body" font-family="monospace">Order$HibernateProxy$xyz</text>
+      <text x="15" y="124" class="card-body">• Contains ONLY the ID (101)</text>
+      <text x="15" y="138" class="badge" fill="#FCD34D">• Calling order.getId() does NOT hit DB!</text>
+
+      <rect x="0" y="155" width="420" height="70" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+      <text x="15" y="175" class="badge" fill="#F87171">3. Lazy Trigger &amp; Exception Danger</text>
+      <text x="15" y="195" class="card-body">• Calling order.getAmount() triggers SQL query</text>
+      <text x="15" y="211" class="badge" fill="#FCA5A5">• If ID not in DB: Throws ObjectNotFoundException!</text>
+    </g>
+
+    <rect x="20" y="295" width="420" height="55" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="210" y="318" class="badge" fill="#A7F3D0" text-anchor="middle">Optimal Foreign Key Assignment</text>
+    <text x="210" y="334" class="card-body" font-size="11" text-anchor="middle">Assigning foreign key item.setOrder(orderRef) avoids loading order from DB!</text>
+  </g>
+</svg>

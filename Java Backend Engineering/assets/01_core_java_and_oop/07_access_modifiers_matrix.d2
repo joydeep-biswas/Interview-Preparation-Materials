@@ -1,0 +1,39 @@
+direction: right
+title: Java Access Modifier Visibility & Encapsulation Boundaries
+
+PackageA: Package com.enterprise.order {
+  style.fill: "#0B132B"
+  style.stroke: "#1D4ED8"
+  
+  OrderClass: public class Order {
+    m1: "+ public checkout() [Everywhere]"
+    m2: "# protected audit() [Package + Subclasses]"
+    m3: "~ default calculateTax() [Package only]"
+    m4: "- private orderId [Class body only]"
+  }
+  
+  OrderService: class OrderService {
+    desc: "Same package peer; can access default, protected, public"
+  }
+}
+
+PackageB: Package com.enterprise.billing {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  
+  BillingAudit: public class BillingAudit extends Order {
+    desc: "Subclass in external package; can access protected & public"
+  }
+  
+  ExternalClient: public class ExternalClient {
+    desc: "Unrelated external class; can access ONLY public"
+  }
+}
+
+PackageA.OrderService -> PackageA.OrderClass: Same package access
+PackageB.BillingAudit -> PackageA.OrderClass: extends Order (Protected + Public) {
+  style.stroke: "#10B981"
+}
+PackageB.ExternalClient -> PackageA.OrderClass: Public API only {
+  style.stroke: "#EF4444"
+}

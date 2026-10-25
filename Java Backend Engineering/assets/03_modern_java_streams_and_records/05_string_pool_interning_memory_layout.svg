@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1200" height="540" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Java String Constant Pool &amp; Memory Layout Architecture</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Literal Allocation vs. 'new String()' Heap Allocation vs. 'intern()' Canonicalization</text>
+
+  <!-- Column 1: Thread Stack Frame -->
+  <rect x="50" y="95" width="310" height="340" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="95" width="310" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="205" y="116" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Thread Stack References</text>
+
+  <!-- s1 -->
+  <rect x="70" y="140" width="270" height="55" rx="4" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="85" y="162" font-size="11" font-family="'JetBrains Mono', monospace" fill="#60A5FA">String s1 = "Java";</text>
+  <text x="85" y="180" font-size="10" fill="#94A3B8">Literal: Points to String Pool (0x7fa810)</text>
+
+  <!-- s2 -->
+  <rect x="70" y="210" width="270" height="55" rx="4" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="85" y="232" font-size="11" font-family="'JetBrains Mono', monospace" fill="#60A5FA">String s2 = "Java";</text>
+  <text x="85" y="250" font-size="10" fill="#34D399">Same Literal: Reuses 0x7fa810!</text>
+
+  <!-- s3 -->
+  <rect x="70" y="280" width="270" height="55" rx="4" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="85" y="302" font-size="11" font-family="'JetBrains Mono', monospace" fill="#FBBF24">String s3 = new String("Java");</text>
+  <text x="85" y="320" font-size="10" fill="#F87171">Heap Object: Points to 0x7fa820</text>
+
+  <!-- s4 -->
+  <rect x="70" y="350" width="270" height="65" rx="4" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="85" y="372" font-size="11" font-family="'JetBrains Mono', monospace" fill="#34D399">String s4 = s3.intern();</text>
+  <text x="85" y="392" font-size="10" fill="#CBD5E1">intern(): Fetches canonical reference</text>
+  <text x="85" y="406" font-size="9" fill="#A7F3D0">Points back to String Pool (0x7fa810)!</text>
+
+  <!-- Column 2: String Constant Pool -->
+  <rect x="400" y="95" width="380" height="340" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
+  <rect x="400" y="95" width="380" height="30" rx="8" fill="#064E3B"/>
+  <text x="590" y="116" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">String Constant Pool (Native StringTable in Heap)</text>
+
+  <!-- Canonical Instance -->
+  <rect x="420" y="145" width="340" height="150" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="2"/>
+  <text x="590" y="170" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">Canonical String Instance at 0x7fa810</text>
+  
+  <rect x="435" y="185" width="310" height="30" rx="3" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="445" y="205" font-size="10" fill="#CBD5E1">Object Header (12B with Compressed OOPs)</text>
+
+  <rect x="435" y="222" width="310" height="60" rx="3" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+  <text x="445" y="242" font-size="11" font-family="'JetBrains Mono', monospace" fill="#34D399">byte[] value = {'J', 'a', 'v', 'a'};</text>
+  <text x="445" y="260" font-size="10" fill="#A7F3D0">coder = 0 (LATIN-1: 1 byte per character!)</text>
+  <text x="445" y="274" font-size="9" fill="#94A3B8">hash = 2301506 (Cached immutably)</text>
+
+  <rect x="420" y="310" width="340" height="105" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="435" y="332" font-size="11" font-weight="700" fill="#F8FAFC">String Pool Properties:</text>
+  <text x="435" y="352" font-size="10" fill="#CBD5E1">&#x2022; Hashtable with fixed number of buckets</text>
+  <text x="435" y="370" font-size="10" fill="#CBD5E1">&#x2022; Configurable via <tspan font-family="'JetBrains Mono', monospace">-XX:StringTableSize</tspan></text>
+  <text x="435" y="388" font-size="10" fill="#CBD5E1">&#x2022; Resides in main Java Heap (collected if unreferenced)</text>
+  <text x="435" y="405" font-size="9" fill="#34D399">&#x2714; String literals are deduplicated automatically</text>
+
+  <!-- Column 3: Regular Heap Space -->
+  <rect x="820" y="95" width="330" height="340" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="820" y="95" width="330" height="30" rx="8" fill="#78350F"/>
+  <text x="985" y="116" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Regular JVM Heap Space</text>
+
+  <!-- Heap Instance for new String() -->
+  <rect x="840" y="145" width="290" height="150" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="985" y="170" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle">Distinct Heap Instance at 0x7fa820</text>
+
+  <rect x="855" y="185" width="260" height="30" rx="3" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="865" y="205" font-size="10" fill="#CBD5E1">Object Header (12B with Compressed OOPs)</text>
+
+  <rect x="855" y="222" width="260" height="60" rx="3" fill="#1E293B" stroke="#F59E0B" stroke-width="1"/>
+  <text x="865" y="242" font-size="11" font-family="'JetBrains Mono', monospace" fill="#FBBF24">byte[] value -&gt; {'J', 'a', 'v', 'a'}</text>
+  <text x="865" y="260" font-size="10" fill="#CBD5E1">coder = 0 (LATIN-1)</text>
+  <text x="865" y="274" font-size="9" fill="#F87171">Distinct memory wrapper!</text>
+
+  <rect x="840" y="310" width="290" height="105" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="855" y="332" font-size="11" font-weight="700" fill="#F87171">Antipattern: new String("...")</text>
+  <text x="855" y="355" font-size="10" fill="#CBD5E1">Creates redundant duplicate object wrapper on</text>
+  <text x="855" y="373" font-size="10" fill="#CBD5E1">Heap when literal already exists in pool!</text>
+  <text x="855" y="395" font-size="10" fill="#F87171">&#x2718; Wastes 24-32 bytes per instance</text>
+
+  <!-- Bottom Comparison Card -->
+  <rect x="50" y="455" width="1100" height="65" rx="6" fill="#0B132B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="70" y="480" font-size="11" font-weight="700" fill="#38BDF8">Identity (==) vs. Equality (equals):</text>
+  <text x="70" y="503" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">s1 == s2: <tspan fill="#34D399" font-weight="700">true</tspan> (same pool ptr 0x7fa810)  |  s1 == s3: <tspan fill="#F87171" font-weight="700">false</tspan> (0x7fa810 != 0x7fa820)  |  s1.equals(s3): <tspan fill="#34D399" font-weight="700">true</tspan> (content)  |  s1 == s4: <tspan fill="#34D399" font-weight="700">true</tspan> (intern)</text>
+
+  <!-- Connectors -->
+  <path fill="none" d="M 340 167 L 420 167" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <path fill="none" d="M 340.0 237.0 L 350.0 237.0 C 378.0 237.0, 378.0 185.0, 406.0 185.0 L 420.0 185.0" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <path fill="none" d="M 340.0 307.0 L 350.0 307.0 C 588.0 307.0, 588.0 220.0, 826.0 220.0 L 840.0 220.0" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <path fill="none" d="M 340.0 380.0 L 350.0 380.0 C 378.0 380.0, 378.0 220.0, 406.0 220.0 L 420.0 220.0" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

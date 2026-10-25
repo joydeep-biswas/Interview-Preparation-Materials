@@ -1,0 +1,24 @@
+direction: right
+classes: {
+  lake: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  shortcuts: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  spark: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  sql: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  pbi: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+onelake: "Microsoft OneLake (Unified Multi-Tenant Delta Lake)" {
+  store: "Lakehouse Store\n(Tables/ Parquet & Files/ Raw)" { class: lake }
+  shortcuts: "OneLake Shortcuts (Zero-Copy)\n(Pointers to AWS S3, GCS, ADLS)" { class: shortcuts }
+}
+
+engines: "Multi-Engine Analytical Compute" {
+  spark: "Synapse Data Engineering\n(Apache Spark Runtime)" { class: spark }
+  dwh: "Synapse Data Warehouse\n(Distributed T-SQL MPP)" { class: sql }
+  pbi: "Power BI Direct Lake\n(Direct VertiPaq memory-mapped read)" { class: pbi }
+}
+
+onelake.store -> engines.spark: "Read/Write Delta"
+onelake.store -> engines.dwh: "Native T-SQL"
+onelake.store -> engines.pbi: "Zero-Copy Parquet Scan"
+onelake.shortcuts -> engines.spark: "Cross-Cloud Query"

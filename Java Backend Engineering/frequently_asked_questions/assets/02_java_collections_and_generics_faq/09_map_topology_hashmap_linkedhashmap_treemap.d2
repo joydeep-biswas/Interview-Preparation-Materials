@@ -1,0 +1,28 @@
+direction: right
+
+hashmap: "1. HashMap (Unordered)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  topology: "Bucket array + Singly-linked list / Tree"
+  order: "No ordering guaranteed"
+  complexity: "O(1) average lookup/put"
+}
+
+linkedhashmap: "2. LinkedHashMap (Ordered / LRU)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  topology: "Bucket array + Global doubly-linked list"
+  order: "Insertion order or LRU access order"
+  complexity: "O(1) average lookup/put"
+}
+
+treemap: "3. TreeMap (Sorted NavigableMap)" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  topology: "Self-balancing Red-Black binary search tree"
+  order: "Sorted by key (Comparable or Comparator)"
+  complexity: "O(log N) guaranteed lookup/put"
+}
+
+hashmap -> linkedhashmap: "Adds doubly-linked order"
+linkedhashmap -> treemap: "Replaced by sorted BST"

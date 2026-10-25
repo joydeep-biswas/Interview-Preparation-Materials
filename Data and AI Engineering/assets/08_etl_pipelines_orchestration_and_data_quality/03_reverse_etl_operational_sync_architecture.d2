@@ -1,0 +1,25 @@
+direction: right
+title: Reverse ETL: Operationalizing Warehouse Analytics
+
+analytical: Analytical Data Plane {
+  warehouse: Cloud Data Warehouse (Snowflake / BigQuery / Databricks)
+  marts: Gold Business Marts (Customer LTV, Churn Score)
+  warehouse -> marts
+}
+
+engine: Reverse ETL Sync Engine {
+  diff: Change Detection (Hash Diff Check)
+  limiter: Token Bucket Rate Limiter (SaaS Protection)
+  diff -> limiter: "Changed Rows Only"
+}
+
+operational: Operational SaaS Plane {
+  sfdc: Salesforce CRM (High-LTV lead priority)
+  hubspot: HubSpot Marketing (Churn re-engagement)
+  zendesk: Zendesk Support (VIP ticket routing)
+}
+
+analytical.marts -> engine.diff: "Read gold models"
+engine.limiter -> operational.sfdc: "PATCH /Contact"
+engine.limiter -> operational.hubspot: "Update contact"
+engine.limiter -> operational.zendesk: "Set priority"

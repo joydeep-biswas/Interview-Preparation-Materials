@@ -1,0 +1,37 @@
+direction: right
+title: The Exact Logical SQL Order of Execution with Clause Dependencies
+
+s1: "Stage 1: Tables & Base Filter" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  from_join: "1. FROM & JOIN (Cartesian + ON)"
+  where: "2. WHERE (Base row filtering; NO aliases!)"
+
+  from_join -> where
+}
+
+s2: "Stage 2: Bucketing & Group Filter" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  groupby: "3. GROUP BY (Bucket aggregation)"
+  having: "4. HAVING (Filter aggregate buckets)"
+
+  groupby -> having
+}
+
+s3: "Stage 3: Projection & Egress" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+
+  select: "5. SELECT & OVER() (Aliases generated)"
+  distinct: "6. DISTINCT (Deduplicate rows)"
+  orderby: "7. ORDER BY (Sorts rows; can use aliases!)"
+  limit: "8. LIMIT / OFFSET (Pagination)"
+
+  select -> distinct -> orderby -> limit
+}
+
+s1.where -> s2.groupby
+s2.having -> s3.select

@@ -1,0 +1,30 @@
+direction: right
+title: "Adapter Pattern: Bridging Incompatible Interfaces"
+
+client: "CheckoutService" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+target: "PaymentGateway <<interface>>
++charge(customerId, cents)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+adapter: "LegacyBankingAdapter
+Converts cents -> dollars
+Formats SOAP XML" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+adaptee: "LegacySoapBankingClient
++submitDebitTransaction(acc, dollars)" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+}
+
+client -> target: "1. Calls clean API"
+adapter -> target: "implements"
+adapter -> adaptee: "2. Translates to SOAP"

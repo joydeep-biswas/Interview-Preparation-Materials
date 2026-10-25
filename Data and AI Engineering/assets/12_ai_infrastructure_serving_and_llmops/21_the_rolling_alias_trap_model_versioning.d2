@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  danger: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  safe: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+trap: "The Rolling Alias Trap" {
+  alias: "Floating Alias: 'gpt-4o'\n(Silently switched by vendor!)" { class: danger }
+  snap_may: "May 2024: Passed evals" { class: safe }
+  snap_aug: "Aug 2024: System prompt changed" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  outage: "Production Outage!\nJSON schema validation fails" { class: danger }
+
+  alias -> snap_may
+  alias -> snap_aug
+  snap_aug -> outage
+}
+
+best_practice: "Best Practice: Immutable Pinning" {
+  pinned: "Pinned Tag: 'gpt-4o-2024-08-06'\n(100% frozen behavior)" { class: safe }
+  eval: "Run CI/CD benchmark before upgrade" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+
+  pinned -> eval
+}

@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+alert: "🚨 Query Latency Alert\np99 Latency &gt; 8,000ms" { class: box; style.stroke: "#EF4444" }
+plan: "1. EXPLAIN (ANALYZE, BUFFERS)\nInspect actual execution time & buffer hits" { class: box; style.stroke: "#3B82F6" }
+
+check_scan: "Sequential Scan on Large Table?" { class: box; style.stroke: "#F59E0B" }
+fix1: "Fix 1: CREATE INDEX CONCURRENTLY\nIndex predicate / join columns" { class: box; style.stroke: "#10B981" }
+
+check_stats: "Stale Statistics / Misestimates?" { class: box; style.stroke: "#F59E0B" }
+fix2: "Fix 2: Run ANALYZE\nRefresh correlation histograms" { class: box; style.stroke: "#10B981" }
+fix3: "Fix 3: Query Rewrite\nEliminate correlated subqueries & redundant CTEs" { class: box; style.stroke: "#F59E0B" }
+
+alert -> plan -> check_scan
+check_scan -> fix1: "Yes (Missing Index)"
+check_scan -> check_stats: "No (Index Used)"
+check_stats -> fix2: "Yes (Outdated Stats)"
+check_stats -> fix3: "No (Operator Plan)"

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-green { stroke: #10B981; }
+      .card-amber { stroke: #F59E0B; }
+      .card-purple { stroke: #8B5CF6; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-green { stroke: #10B981; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-purple { stroke: #8B5CF6; }
+    </style>
+    <marker id="arr-g1py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a1py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p1py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">Processing a 10GB File in Python: Memory Optimization Matrix</text>
+
+  <!-- Left: Source File -->
+  <rect x="30" y="160" width="220" height="150" class="card card-blue"/>
+  <text x="140" y="190" class="card-title" fill="#93C5FD">10 GB Raw Data File</text>
+  <text x="45" y="215" class="card-body">• Exceeds container RAM</text>
+  <text x="45" y="235" class="card-body">• Naive pd.read_csv()</text>
+  <text x="45" y="255" class="card-body" fill="#EF4444">  triggers OOM killer</text>
+  <text x="45" y="275" class="card-body">• Requires stream strategy</text>
+
+  <!-- Strategies -->
+  <rect x="330" y="55" width="690" height="70" class="card card-green"/>
+  <text x="675" y="80" class="card-title" fill="#6EE7B7">Strategy 1: Python Native Streaming (Generators / csv.reader)</text>
+  <text x="345" y="103" class="card-body" fill="#34D399">• Constant O(1) Memory footprint (~10 KB buffer) | Perfect for ETL row transforms</text>
+
+  <rect x="330" y="135" width="690" height="70" class="card card-green"/>
+  <text x="675" y="160" class="card-title" fill="#6EE7B7">Strategy 2: Batch Chunking (chunksize=100_000)</text>
+  <text x="345" y="183" class="card-body">• Iterates over TextFileReader | Constant RAM envelope per batch | Aggregates in chunks</text>
+
+  <rect x="330" y="215" width="690" height="70" class="card card-amber"/>
+  <text x="675" y="240" class="card-title" fill="#FDE68A">Strategy 3: Downcasting &amp; Category Types</text>
+  <text x="345" y="263" class="card-body">• int64 -&gt; int16, float64 -&gt; float32, object -&gt; category | 60% to 80% RAM reduction</text>
+
+  <rect x="330" y="295" width="690" height="70" class="card card-purple"/>
+  <text x="675" y="320" class="card-title" fill="#D8B4FE">Strategy 4: Column Projection (usecols)</text>
+  <text x="345" y="343" class="card-body">• Discard unprojected columns before parsing string tokens | Massive allocation savings</text>
+
+  <rect x="330" y="375" width="690" height="70" class="card card-green"/>
+  <text x="675" y="400" class="card-title" fill="#6EE7B7">Strategy 5: Out-of-Core Modern Engines (Polars / PyArrow)</text>
+  <text x="345" y="423" class="card-body" fill="#34D399">• Multi-threaded Rust execution | Query optimization engine | Zero Python GIL locks</text>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 250 235 C 285 235, 295 90, 316 90 L 330 90" class="edge edge-green" marker-end="url(#arr-g1py)"/>
+  <path fill="none" d="M 250 235 C 285 235, 295 170, 316 170 L 330 170" class="edge edge-green" marker-end="url(#arr-g1py)"/>
+  <path fill="none" d="M 250 235 C 285 235, 295 250, 316 250 L 330 250" class="edge edge-amber" marker-end="url(#arr-a1py)"/>
+  <path fill="none" d="M 250 235 C 285 235, 295 330, 316 330 L 330 330" class="edge edge-purple" marker-end="url(#arr-p1py)"/>
+  <path fill="none" d="M 250 235 C 285 235, 295 410, 316 410 L 330 410" class="edge edge-green" marker-end="url(#arr-g1py)"/>
+</svg>

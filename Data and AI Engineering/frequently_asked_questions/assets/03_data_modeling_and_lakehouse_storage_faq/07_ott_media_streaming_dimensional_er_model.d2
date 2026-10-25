@@ -1,0 +1,17 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+dim_user: "dim_user\nuser_sk (PK)\ncountry_code, subscription_tier" { class: box; style.stroke: "#10B981" }
+dim_content: "dim_content\ncontent_sk (PK)\ntitle, genre, duration_sec" { class: box; style.stroke: "#10B981" }
+dim_device: "dim_device\ndevice_sk (PK)\ndevice_type, os, app_version" { class: box; style.stroke: "#10B981" }
+
+fact: "fact_watch_event (Fact Table)\nevent_id (PK)\nuser_sk (FK), content_sk (FK), device_sk (FK)\nwatch_duration_sec, bitrate_kbps, buffer_count" {
+  class: box
+  style.stroke: "#3B82F6"
+}
+
+dim_user -> fact: "streams"
+dim_content -> fact: "consumed in"
+dim_device -> fact: "played on"

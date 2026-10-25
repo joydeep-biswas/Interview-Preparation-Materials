@@ -1,0 +1,32 @@
+direction: right
+title: Database Storage Engine & Memory Hierarchy Architecture
+
+client: 1. Client & Parser Tier {
+  sql: SQL Client Query Execution
+  parser: Parser & AST Analyzer
+  sql -> parser: "SQL String"
+}
+
+optimizer: 2. Query Optimizer Tier {
+  rewriter: Query Rewriter (Predicate Pushdown)
+  cbo: Cost-Based Optimizer (CBO)
+  executor: Execution Engine (Volcano / SIMD)
+  rewriter -> cbo -> executor
+}
+
+buffer_pool: 3. In-Memory Buffer Pool {
+  bpm: Buffer Pool Manager (8KB Pages, Clock Sweep)
+  wal_buffer: WAL Ring Buffer (LSN Tracking)
+  lock_mgr: Lock & Latch Manager (2PL Concurrency)
+}
+
+disk: 4. Disk Storage Subsystem {
+  heap: Table Heap Files (Slotted Pages)
+  wal: WAL Redo Logs (Append-Only fsync)
+  indexes: Secondary Indexes (B+ Tree)
+}
+
+client.parser -> optimizer.rewriter: "AST"
+optimizer.executor -> buffer_pool.bpm: "Request Page"
+buffer_pool.bpm -> disk.heap: "Checkpointer Flush"
+buffer_pool.wal_buffer -> disk.wal: "Synchronous fsync"

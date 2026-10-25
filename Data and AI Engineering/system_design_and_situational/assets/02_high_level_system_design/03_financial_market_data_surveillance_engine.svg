@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 400" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="550" y="32" class="title" font-size="19" text-anchor="middle">Financial Market Data Surveillance &amp; Real-Time CEP Engine</text>
+  <text x="550" y="52" class="subtitle" text-anchor="middle">Sub-millisecond ITCH/FIX ingestion, PTP hardware time normalization, Flink CEP sliding windows, and compliance alerting</text>
+
+  <!-- Venue Ingress -->
+  <g transform="translate(30, 75)">
+    <rect width="230" height="290" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="115" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">1. Heterogeneous Venues</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#60A5FA">• Exchange Protocols:</text>
+    <text x="24" y="78" class="card-body">  - LSE (FIX 4.4 Protocol, UTC)</text>
+    <text x="24" y="98" class="card-body">  - Euronext (ITCH/OUCH Binary)</text>
+    <text x="24" y="118" class="card-body">  - Dark Pools / ATS (JSON stream)</text>
+    <text x="16" y="146" class="card-body" font-weight="600" fill="#60A5FA">• Hardware Ingress:</text>
+    <text x="24" y="166" class="card-body">  - Kernel-bypass Solarflare NICs</text>
+    <text x="24" y="186" class="card-body">  - PTP IEEE 1588 nanosecond</text>
+    <text x="24" y="206" class="card-body">    hardware timestamp tagging</text>
+    <text x="24" y="226" class="card-body">  - Zero GC Off-Heap ring buffer</text>
+    <rect x="16" y="254" width="198" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="115" y="269" class="badge" fill="#93C5FD" text-anchor="middle">High-Frequency Tick Feeds</text>
+  </g>
+
+  <!-- Normalization & Kafka -->
+  <g transform="translate(290, 75)">
+    <rect width="230" height="290" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <text x="115" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Normalization &amp; Spine</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• Normalization Engine:</text>
+    <text x="24" y="78" class="card-body">  - Unified Canonical Tick DTO</text>
+    <text x="24" y="98" class="card-body">  - Instrument, Venue, Bid, Ask,</text>
+    <text x="24" y="118" class="card-body">    Size, PTP_Epoch_Nanos</text>
+    <text x="16" y="146" class="card-body" font-weight="600" fill="#34D399">• Kafka Topic: market.ticks</text>
+    <text x="24" y="166" class="card-body">  - Partitioned by Symbol (e.g. AAPL)</text>
+    <text x="24" y="186" class="card-body">  - Guarantees order per ticker</text>
+    <text x="24" y="206" class="card-body">  - Low latency zero-copy produce</text>
+    <rect x="16" y="254" width="198" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="115" y="269" class="badge" fill="#A7F3D0" text-anchor="middle">Low-Latency Event Spine</text>
+  </g>
+
+  <!-- Flink CEP Engine -->
+  <g transform="translate(550, 75)">
+    <rect width="245" height="290" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="245" height="34" rx="10" ry="10" fill="#78350F"/>
+    <text x="122" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">3. Apache Flink CEP Engine</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#FBBF24">• Sliding Window Detectors:</text>
+    <text x="24" y="78" class="card-body">  - 500ms sliding windows</text>
+    <text x="24" y="98" class="card-body">  - Order-to-Cancel ratio &gt; 95%</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#FBBF24">• Regulatory Patterns:</text>
+    <text x="24" y="146" class="card-body">  - Spoofing &amp; Layering checks</text>
+    <text x="24" y="166" class="card-body">  - Wash Trading (same entity buy/sell)</text>
+    <text x="24" y="186" class="card-body">  - Momentum Ignition alerts</text>
+    <text x="16" y="214" class="card-body" font-weight="600" fill="#FBBF24">• RocksDB State Storage:</text>
+    <text x="24" y="234" class="card-body">  - Watermark-aligned out-of-order</text>
+    <rect x="16" y="254" width="213" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="122" y="269" class="badge" fill="#FDE68A" text-anchor="middle">Stateful Stream Processing</text>
+  </g>
+
+  <!-- Output: Alerts & ClickHouse -->
+  <g transform="translate(825, 75)">
+    <rect width="245" height="290" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="245" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <text x="122" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Compliance &amp; Tick Store</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• Immediate Compliance Desk:</text>
+    <text x="24" y="78" class="card-body">  - Sub-millisecond alert dispatch</text>
+    <text x="24" y="98" class="card-body">  - Automatic trade freeze / throttle</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#A78BFA">• ClickHouse Tick Archive:</text>
+    <text x="24" y="146" class="card-body">  - Nanosecond level depth store</text>
+    <text x="24" y="166" class="card-body">  - Columnar compression (Gorilla/ZSTD)</text>
+    <text x="24" y="186" class="card-body">  - SEC / FINRA forensic audit replay</text>
+    <text x="16" y="214" class="card-body" font-weight="600" fill="#A78BFA">• Real-Time Heatmaps:</text>
+    <text x="24" y="234" class="card-body">  - WebSocket dashboard stream</text>
+    <rect x="16" y="254" width="213" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="122" y="269" class="badge" fill="#DDD6FE" text-anchor="middle">Surveillance &amp; Forensics</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 260 220 L 278 220 L 290 220" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <path d="M 520 220 L 538 220 L 550 220" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+  <path d="M 795 220 L 813 220 L 825 220" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arrow-purple)"/>
+</svg>

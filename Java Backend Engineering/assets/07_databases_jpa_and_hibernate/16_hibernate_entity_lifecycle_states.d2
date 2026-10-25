@@ -1,0 +1,36 @@
+direction: right
+title: "JPA & Hibernate Entity Lifecycle State Transitions"
+
+transient: "1. TRANSIENT
+new Product()
+No DB Identity, Untracked" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+managed: "2. MANAGED (Persistent)
+In Persistence Context
+Auto Dirty Checking Active" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+detached: "3. DETACHED
+Session closed / em.detach()
+LazyInitializationException trap" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+
+removed: "4. REMOVED
+Scheduled for SQL DELETE
+em.remove(entity)" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+}
+
+transient -> managed: "em.persist()"
+managed -> detached: "em.detach() / clear()"
+detached -> managed: "em.merge()"
+managed -> removed: "em.remove()"
+removed -> managed: "em.persist() (resurrect)"

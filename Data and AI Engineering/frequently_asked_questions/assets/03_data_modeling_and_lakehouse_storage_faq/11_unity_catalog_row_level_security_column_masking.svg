@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 300" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-green { stroke: #10B981; }
+      .edge-blue { stroke: #3B82F6; }
+    </style>
+    <marker id="arr-p11lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-g11lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-b11lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">Fine-Grained Governance: Row-Level Security &amp; Dynamic Column Masking</text>
+
+  <!-- Left: Ingress Query -->
+  <rect x="25" y="85" width="200" height="120" class="card card-blue"/>
+  <text x="125" y="112" class="card-title" fill="#93C5FD">Client SQL Query</text>
+  <text x="40" y="137" class="card-body" font-family="monospace">SELECT * FROM customers</text>
+  <text x="40" y="157" class="card-body">• Analyst session identity</text>
+  <text x="40" y="177" class="card-body">• Ingress through SQL warehouse</text>
+
+  <!-- Center: Unity Catalog -->
+  <rect x="265" y="85" width="220" height="120" class="card card-purple"/>
+  <text x="375" y="112" class="card-title" fill="#D8B4FE">Unity Catalog Engine</text>
+  <text x="280" y="137" class="card-body">• Evaluates user groups &amp; roles</text>
+  <text x="280" y="157" class="card-body">• Injects automated filters</text>
+  <text x="280" y="177" class="card-body">• Transparent to end user</text>
+
+  <!-- Policy Handlers -->
+  <rect x="525" y="55" width="280" height="85" class="card card-green"/>
+  <text x="665" y="80" class="card-title" fill="#6EE7B7">Row-Level Security (RLS)</text>
+  <text x="540" y="105" class="card-body" fill="#34D399">• WHERE market = session_user_market()</text>
+  <text x="540" y="125" class="card-body">• Restricts cross-tenant data leaks</text>
+
+  <rect x="525" y="160" width="280" height="95" class="card card-green"/>
+  <text x="665" y="185" class="card-title" fill="#6EE7B7">Dynamic Column Masking (DDM)</text>
+  <text x="540" y="210" class="card-body">• IF IS_MEMBER('pii_admin') THEN email</text>
+  <text x="540" y="230" class="card-body" fill="#EF4444">• ELSE sha256(email) (Masked Hash)</text>
+
+  <!-- Right: Storage -->
+  <rect x="845" y="85" width="190" height="120" class="card card-blue"/>
+  <text x="940" y="112" class="card-title" fill="#93C5FD">Encrypted Parquet</text>
+  <text x="860" y="137" class="card-body">• Underlying Delta table</text>
+  <text x="860" y="157" class="card-body">• S3 / ADLS storage</text>
+  <text x="860" y="177" class="card-body" fill="#34D399">• Zero unmasked leaks</text>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 225 145 L 265 145" class="edge edge-purple" marker-end="url(#arr-p11lk)"/>
+
+  <!-- UC to RLS: exit 485,145 -> curve -> enter 525,97 with runway dx>=14 -->
+  <path fill="none" d="M 485 145 C 500 145, 505 97, 511 97 L 525 97" class="edge edge-green" marker-end="url(#arr-g11lk)"/>
+
+  <!-- UC to DDM: exit 485,145 -> curve -> enter 525,207 with runway dx>=14 -->
+  <path fill="none" d="M 485 145 C 500 145, 505 207, 511 207 L 525 207" class="edge edge-green" marker-end="url(#arr-g11lk)"/>
+
+  <!-- Policies to Storage -->
+  <path fill="none" d="M 805 97 C 820 97, 825 145, 831 145 L 845 145" class="edge edge-blue" marker-end="url(#arr-b11lk)"/>
+  <path fill="none" d="M 805 207 C 820 207, 825 145, 831 145 L 845 145" class="edge edge-blue" marker-end="url(#arr-b11lk)"/>
+</svg>

@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 1.5; rx: 8 } }
+}
+
+lock: "Lock Service (TTL: 30s)" { class: card; style.stroke: "#F59E0B" }
+wa: "Worker A (Spark)\nToken: 42" { class: card; style.stroke: "#3B82F6" }
+wb: "Worker B (Spark)\nToken: 43" { class: card; style.stroke: "#10B981" }
+storage: "Storage Engine\nFencing Token Guard" { class: card; style.stroke: "#8B5CF6" }
+
+wa -> lock: "Acquire Lock (Token 42, TTL 30s)"
+wa -> wa: "💥 Full GC Pause (40 Seconds!)"
+lock -> lock: "Lease Expires at 30s"
+wb -> lock: "Acquire Lock (Token 43, TTL 30s)"
+wb -> storage: "Commit with Token 43 -> SUCCESS"
+wa -> storage: "Attempts Commit with Stale Token 42 -> REJECTED"

@@ -1,0 +1,23 @@
+direction: right
+title: Delta Lake Deletion Vectors vs Copy-on-Write (COW)
+
+cow: "Traditional Copy-on-Write (COW)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  orig: "Original 500MB Parquet\n(1,000,000 Rows)"
+  rewrite: "Rewritten 500MB Parquet!\n(999,999 surviving rows)"
+  orig -> rewrite: "Delete Row #42\n(Full Rewrite!)"
+}
+
+dv: "Modern Deletion Vectors (DV)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  base: "Base 500MB Parquet\n(100% Untouched!)"
+  vector: "Tiny Deletion Vector (.dv)\n(2KB Roaring Bitmap: bit 42 tombstone)"
+  reader: "Photon / Spark Reader\n(Applies bitmask on read, skips row 42)"
+
+  base -> reader: "Direct Scan"
+  vector -> reader: "Bitmask Filter"
+}

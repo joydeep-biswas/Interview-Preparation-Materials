@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  s1: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  s2: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  s3: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  s4: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+}
+
+step1: "Step 1: Scope & Sizing
+Functional/Non-Functional SLAs
+Token budgets & security perimeters" { class: s1 }
+step2: "Step 2: Component Topology
+Ingress, caching, dynamic routing
+Decoupled serving vs ingestion" { class: s2 }
+step3: "Step 3: Subsystem Mechanics
+Hybrid RAG, Pregel state graphs
+Context compaction & sandboxes" { class: s3 }
+step4: "Step 4: Operational Resilience
+GPU capacity, circuit breakers
+Tracing & incident runbooks" { class: s4 }
+
+step1 -> step2 -> step3 -> step4

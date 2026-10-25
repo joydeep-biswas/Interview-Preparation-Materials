@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Forward Pass -->
+  <rect x="30" y="40" width="900" height="80" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="50" y="65" class="title-txt" fill="#93C5FD">Forward Pass: Input x → z1 → a1 → z2 → a2 → ... → Loss L</text>
+  <text x="50" y="90" class="body-txt">• Each linear layer computes z_l = W_l * a_{l-1} + b_l, followed by activation a_l = sigma(z_l)</text>
+  <text x="50" y="106" class="mono-txt">Tensor shapes preserved across computational graph</text>
+
+  <!-- Backward Pass Chain Rule -->
+  <rect x="30" y="145" width="900" height="125" rx="10" ry="10" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="50" y="170" class="title-txt" fill="#C4B5FD">Backward Pass: Chain Rule Multiplication &amp; Vanishing Gradient Dynamics</text>
+  <text x="50" y="195" class="mono-txt">dL/dW_1 = (dL/da_L) * (da_L/dz_L) * (dz_L/da_{L-1}) * ... * (dz_1/dW_1)</text>
+  <text x="50" y="220" class="body-txt">• <tspan fill="#EF4444" font-weight="700">Vanishing Gradient:</tspan> Sigmoid derivative max is 0.25. Multiplying 0.25^20 ≈ 1e-12 → Early layers stop learning!</text>
+  <text x="50" y="240" class="body-txt">• <tspan fill="#10B981" font-weight="700">Modern Fixes:</tspan> ReLU / GELU activations, Residual Skip Connections (Identity gradient path dL/dx + dF/dx), LayerNorm</text>
+</svg>

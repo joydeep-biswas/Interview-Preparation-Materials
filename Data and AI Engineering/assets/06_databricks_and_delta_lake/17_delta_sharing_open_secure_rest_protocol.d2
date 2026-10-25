@@ -1,0 +1,39 @@
+direction: right
+title: Delta Sharing Open & Secure Protocol Architecture
+
+provider: "Data Provider (Unity Catalog)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  uc: "Unity Catalog Metastore\n(Share ACLs, table grants)"
+  storage: "Cloud Object Storage (S3/ADLS/GCS)\n(Underlying Parquet Data Files)"
+}
+
+protocol: "Delta Sharing REST Protocol" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+
+  auth: "1. Client Auth & REST Query\n(Bearer token verification)"
+  check: "2. Permission & Snapshot Evaluation"
+  urls: "3. Issue Pre-Signed Cloud URLs\n(Short-lived AWS S3 / Azure SAS URLs)"
+}
+
+consumers: "Heterogeneous Recipient Clients" {
+  style.fill: "#18182f"
+  style.stroke: "#c084fc"
+
+  pandas: "Python Pandas / Polars"
+  bi: "PowerBI / Tableau / Excel"
+  spark: "External Spark Cluster (AWS/GCP)"
+  duckdb: "DuckDB / Rust / Go Apps"
+}
+
+provider.uc -> protocol.auth: "Configure Grants"
+protocol.auth -> protocol.check
+protocol.check -> protocol.urls
+protocol.urls -> consumers.pandas: "Pre-signed URLs"
+protocol.urls -> consumers.bi
+protocol.urls -> consumers.spark
+protocol.urls -> consumers.duckdb
+
+provider.storage -> consumers.spark: "Direct Parallel Parquet Download (Zero Proxy!)"

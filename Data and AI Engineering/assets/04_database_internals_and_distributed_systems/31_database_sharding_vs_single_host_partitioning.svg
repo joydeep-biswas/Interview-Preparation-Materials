@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Database Sharding vs. Single-Host Partitioning Topologies</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Single-Engine Table Division vs. Multi-Server Distributed Sharding</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Single-Host Partitioning (PostgreSQL Declarative)</text>
+  
+    <rect x="45" y="140" width="400" height="75" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="166" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Parent Table: fact_orders</text>
+    <text x="245.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Single Database Instance (IP: 192.168.1.50)</text>
+    <circle cx="61" cy="195" r="2" fill="#3b82f6"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Logical table exposed to applications: orders</text>
+    <circle cx="61" cy="211" r="2" fill="#3b82f6"/>
+    <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Engine automatically routes tuples to child tables based on partition key</text>
+  
+    <rect x="45" y="230" width="195" height="80" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="142.5" y="256" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">orders_2026_q1.dat</text>
+    <text x="142.5" y="272" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">File on Disk</text>
+    <circle cx="61" cy="285" r="2" fill="#3b82f6"/>
+    <text x="69" y="288" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Local disk storage</text>
+    <circle cx="61" cy="301" r="2" fill="#3b82f6"/>
+    <text x="69" y="304" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">OS filesystem file</text>
+  
+    <rect x="250" y="230" width="195" height="80" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="347.5" y="256" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">orders_2026_q2.dat</text>
+    <text x="347.5" y="272" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">File on Disk</text>
+    <circle cx="266" cy="285" r="2" fill="#3b82f6"/>
+    <text x="274" y="288" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Local disk storage</text>
+    <circle cx="266" cy="301" r="2" fill="#3b82f6"/>
+    <text x="274" y="304" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">OS filesystem file</text>
+  <text x="245" y="345" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle">All partitions share same CPU, RAM, and disk controller!</text>
+
+  
+    <path d="M 245.0 215.0 L 245.0 218.8 Q 245.0 222.5 241.2 222.5 L 145.8 222.5 Q 142.0 222.5 142.0 226.2 L 142.0 230.0" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <path d="M 245.0 215.0 L 245.0 218.8 Q 245.0 222.5 248.8 222.5 L 343.2 222.5 Q 347.0 222.5 347.0 226.2 L 347.0 230.0" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Distributed Sharding (Multi-Server Cluster)</text>
+  
+    <rect x="535" y="135" width="400" height="65" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="735.0" y="161" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Query Shard Router (Vitess / Citus / Mongos)</text>
+    <text x="735.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cluster Gateway</text>
+    <circle cx="551" cy="190" r="2" fill="#f59e0b"/>
+    <text x="559" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Hash router: Evaluates hash(customer_id) % num_shards</text>
+  
+    <rect x="535" y="215" width="125" height="105" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="597.5" y="241" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Shard 1</text>
+    <text x="597.5" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">IP: 10.0.1.10</text>
+    <circle cx="551" cy="270" r="2" fill="#10b981"/>
+    <text x="559" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Range [0..33]</text>
+    <circle cx="551" cy="286" r="2" fill="#10b981"/>
+    <text x="559" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Dedicated CPU</text>
+    <circle cx="551" cy="302" r="2" fill="#10b981"/>
+    <text x="559" y="305" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">&amp;amp; NVMe array</text>
+  
+    <rect x="670" y="215" width="125" height="105" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="732.5" y="241" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Shard 2</text>
+    <text x="732.5" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">IP: 10.0.1.11</text>
+    <circle cx="686" cy="270" r="2" fill="#10b981"/>
+    <text x="694" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Range [34..66]</text>
+    <circle cx="686" cy="286" r="2" fill="#10b981"/>
+    <text x="694" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Dedicated CPU</text>
+    <circle cx="686" cy="302" r="2" fill="#10b981"/>
+    <text x="694" y="305" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">&amp;amp; NVMe array</text>
+  
+    <rect x="805" y="215" width="130" height="105" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="870.0" y="241" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Shard 3</text>
+    <text x="870.0" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">IP: 10.0.1.12</text>
+    <circle cx="821" cy="270" r="2" fill="#10b981"/>
+    <text x="829" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Range [67..100]</text>
+    <circle cx="821" cy="286" r="2" fill="#10b981"/>
+    <text x="829" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Dedicated CPU</text>
+    <circle cx="821" cy="302" r="2" fill="#10b981"/>
+    <text x="829" y="305" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">&amp;amp; NVMe array</text>
+  <text x="735" y="345" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle">Independent physical hardware nodes with separate IOPS budgets!</text>
+
+  
+    <path d="M 735.0 200.0 L 735.0 203.8 Q 735.0 207.5 731.2 207.5 L 600.8 207.5 Q 597.0 207.5 597.0 211.2 L 597.0 215.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <path d="M 735.0 200.0 L 735.0 206.0 C 735.0 211.0, 732.0 202.0, 732.0 207.0 L 732.0 215.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <path d="M 735.0 200.0 L 735.0 203.8 Q 735.0 207.5 738.8 207.5 L 866.2 207.5 Q 870.0 207.5 870.0 211.2 L 870.0 215.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+</svg>

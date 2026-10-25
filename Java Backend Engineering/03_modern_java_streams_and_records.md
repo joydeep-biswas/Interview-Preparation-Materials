@@ -6,34 +6,9 @@ A comprehensive guide covering Java functional programming paradigms, Stream API
 
 ## Architectural Overview: Modern Java Language & Functional Pipeline Architecture
 
-```mermaid
-flowchart LR
-    subgraph DataModeling ["Modern Type System (Java 16 - 21+)"]
-        Records["Records<br/>(Immutable data carriers, compact constructors)"]
-        Sealed["Sealed Hierarchies<br/>(Exhaustive domain modeling: permits)"]
-        PatternMatching["Pattern Matching<br/>(Record patterns, switch deconstruction)"]
-    end
+![Modern Java Language & Functional Pipeline Architecture](assets/03_modern_java_streams_and_records/01_modern_java_type_system_and_streams.svg)
 
-    subgraph FunctionalPipeline ["Functional Processing & Stream Pipeline Engine"]
-        direction LR
-        Source["Stream Source<br/>(Collection, Supplier, Generator)"]
-        Intermediate["Intermediate Operations (Lazy)<br/>(filter, map, flatMap, peek -> Sink Chaining)"]
-        Terminal["Terminal Operation (Eager Evaluation)<br/>(collect, reduce, forEach, findFirst)"]
-    end
-
-    Records --> PatternMatching
-    Sealed --> PatternMatching
-    Source --> Intermediate --> Terminal
-
-    style DataModeling fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FunctionalPipeline fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Records fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Sealed fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style PatternMatching fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Source fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Intermediate fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Terminal fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`01_modern_java_type_system_and_streams.d2`](assets/03_modern_java_streams_and_records/01_modern_java_type_system_and_streams.d2)*
 
 ---
 
@@ -321,18 +296,9 @@ public class LambdaDemo {
 A Functional Interface is an interface that contains **exactly one abstract method (Single Abstract Method - SAM)**. It can contain any number of `default` or `static` methods. The `@FunctionalInterface` annotation informs the compiler to enforce this rule.
 
 #### Visual Diagram
-```mermaid
-classDiagram
-    direction TB
-    class CryptoTransformer~T, R~ {
-        <<interface>>
-        <<@FunctionalInterface>>
-        +transform(T rawInput)* R
-        +logTransformation() void
-        +identity()$ CryptoTransformer
-    }
-    note for CryptoTransformer "SAM Constraint: Exactly 1 abstract method\nDefault & static methods do not violate contract"
-```
+![Single Abstract Method (SAM) Contract & Functional Interfaces](assets/03_modern_java_streams_and_records/02_functional_interface_sam_contract.svg)
+
+*D2 Source: [`02_functional_interface_sam_contract.d2`](assets/03_modern_java_streams_and_records/02_functional_interface_sam_contract.d2)*
 
 #### Working Code Example
 ```java
@@ -440,29 +406,9 @@ In Java 8+, the Streams API (`java.util.stream.Stream`) introduced a functional 
 | **Internal vs External** | External iteration (`for-each`) | Internal iteration managed by JVM runtime |
 
 #### Visual Pipeline Architecture
-```mermaid
-flowchart TD
-    subgraph Stage1 ["Stage 1: Stream Source & Intermediate Operations (Lazy)"]
-        direction LR
-        Source["Data Source<br/>(List&lt;Order&gt;)"] --> F1["filter()<br/>(o -> o.isPaid())"] --> M1["map()<br/>(Order::getTotal)"] --> S1["sorted()<br/>(Natural order)"]
-    end
+![Java Stream Pipeline Lazy Evaluation & Sink Chaining Architecture](assets/03_modern_java_streams_and_records/03_stream_pipeline_lazy_sink_chaining.svg)
 
-    subgraph Stage2 ["Stage 2: Terminal Operation & Materialization"]
-        direction LR
-        T1["Terminal: collect()<br/>(Collectors.toList())"] --> Result["Materialized Result<br/>(List&lt;Double&gt;)"]
-    end
-
-    Stage1 --> Stage2
-
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Stage2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Source fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style F1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style M1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style T1 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Result fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`03_stream_pipeline_lazy_sink_chaining.d2`](assets/03_modern_java_streams_and_records/03_stream_pipeline_lazy_sink_chaining.d2)*
 
 **Primary Source Reference**: [GeeksforGeeks - Stream in Java](https://www.geeksforgeeks.org/stream-in-java/)
 
@@ -607,45 +553,9 @@ public class CollectorsAdvancedDemo {
 #### Definition & Mechanism
 Parallel streams decompose tasks across multiple CPU cores using the **ForkJoinPool.commonPool()**. Elements are recursively split into chunks (via `Spliterator`), processed independently, and merged.
 
-```mermaid
-flowchart TD
-    Task["<b>Parallel Stream Dataset</b><br/>10,000,000 records"]
+![Parallel Stream Execution: Fork-Join Spliterator & Work-Stealing](assets/03_modern_java_streams_and_records/04_parallel_stream_fork_join_spliterator.svg)
 
-    subgraph ForkPhase ["Fork Phase: Recursive Spliterator Task Decomposition"]
-        direction LR
-        Fork1["<b>Splitter 1</b><br/>Left: 5M | Right: 5M"] --> Fork2["<b>Splitter 2</b><br/>Sub-chunks down to threshold"]
-    end
-
-    subgraph ExecutionPhase ["Execution Phase: ForkJoinPool Worker Threads"]
-        direction LR
-        Worker1["<b>Worker 1</b><br/>Process Chunk A"]
-        Worker2["<b>Worker 2</b><br/>Process Chunk B"]
-        Worker3["<b>Worker 3</b><br/>Process Chunk C"]
-        Worker4["<b>Worker 4</b><br/>Process Chunk D"]
-    end
-
-    subgraph JoinPhase ["Join Phase: Recursive Reduction"]
-        direction LR
-        Join1["<b>Binary Merge</b><br/>Combine partial results"] --> FinalResult["<b>Final Aggregate Result</b><br/>Emitted to caller"]
-    end
-
-    Task --> ForkPhase
-    ForkPhase --> ExecutionPhase
-    ExecutionPhase --> JoinPhase
-
-    style Task fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style ForkPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ExecutionPhase fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style JoinPhase fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Fork1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Fork2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Worker1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Worker2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Worker3 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Worker4 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Join1 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style FinalResult fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source: [`04_parallel_stream_fork_join_spliterator.d2`](assets/03_modern_java_streams_and_records/04_parallel_stream_fork_join_spliterator.d2)*
 
 #### When to Use vs Avoid
 - **Use When**: The dataset is massive ($N \times Q > 10,000$, where $N$ is element count and $Q$ is work per element), operations are CPU-bound and computationally intensive, and elements are independent.
@@ -866,35 +776,9 @@ public class OptionalDemo {
 `java.lang.String` objects in Java are **immutable**—once created, their character sequence cannot be changed. The JVM optimizes string storage using the **String Constant Pool (SCP)**, a specialized memory area located inside the Heap.
 
 #### Visual Memory Layout: Literal vs `new String()`
-```mermaid
-flowchart TD
-    subgraph StackFrame["Stack References"]
-        s1["s1 = 'Java'"]
-        s2["s2 = 'Java'"]
-        s3["s3 = new String('Java')"]
-    end
+![Java String Constant Pool & Memory Layout Architecture](assets/03_modern_java_streams_and_records/05_string_pool_interning_memory_layout.svg)
 
-    subgraph HeapMemory["JVM Heap Memory"]
-        subgraph StringPool["String Constant Pool (SCP)"]
-            PoolObj["String Object: 'Java'"]
-        end
-        NonPoolObj["Distinct Heap Object: 'Java'"]
-    end
-
-    s1 --> PoolObj
-    s2 --> PoolObj
-    s3 --> NonPoolObj
-
-    style StackFrame fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style HeapMemory fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style StringPool fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style s1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style s2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style s3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style PoolObj fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style NonPoolObj fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-```
+*D2 Source: [`05_string_pool_interning_memory_layout.d2`](assets/03_modern_java_streams_and_records/05_string_pool_interning_memory_layout.d2)*
 
 #### Why Strings are Immutable
 1. **Security**: Strings store database credentials, file paths, and network URLs. Immutability prevents malicious tampering.
@@ -1020,56 +904,9 @@ public final class ImmutableUserProfile {
 ### Exception Hierarchy
 
 #### Visual Hierarchy
-```mermaid
-flowchart TD
-    subgraph RootThrowable ["Root Throwable Class"]
-        ThrowableNode["java.lang.Throwable<br/>(Base class for all errors and exceptions in Java)"]
-    end
+![Java Throwable & Exception Class Hierarchy](assets/03_modern_java_streams_and_records/06_throwable_exception_hierarchy.svg)
 
-    subgraph FatalErrors ["Unchecked System Errors (JVM Fatal)"]
-        ErrorNode["java.lang.Error<br/>(Severe hardware/JVM faults, out of application control)"]
-        OOMNode["OutOfMemoryError<br/>(Heap / Metaspace exhausted)"]
-        StackNode["StackOverflowError<br/>(Thread call stack frames exceeded)"]
-    end
-
-    subgraph CheckedBranch ["Checked Exceptions (Compile-Time Enforced)"]
-        ExceptionNode["java.lang.Exception<br/>(Recoverable operational conditions, explicit throws/catch)"]
-        IONode["java.io.IOException<br/>(Network socket, file system I/O failures)"]
-        SqlNode["java.sql.SQLException<br/>(RDBMS database query, deadlock or connection failure)"]
-    end
-
-    subgraph UncheckedBranch ["Unchecked Exceptions (Runtime Bugs)"]
-        RuntimeExceptionNode["java.lang.RuntimeException<br/>(Programming defects and precondition violations)"]
-        NpeNode["NullPointerException<br/>(Dereferencing null pointer address)"]
-        IaeNode["IllegalArgumentException<br/>(Caller passed invalid method arguments)"]
-    end
-
-    ThrowableNode --> ErrorNode
-    ThrowableNode --> ExceptionNode
-    ErrorNode --> OOMNode
-    ErrorNode --> StackNode
-    ExceptionNode --> IONode
-    ExceptionNode --> SqlNode
-    ExceptionNode --> RuntimeExceptionNode
-    RuntimeExceptionNode --> NpeNode
-    RuntimeExceptionNode --> IaeNode
-
-    style RootThrowable fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FatalErrors fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style CheckedBranch fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style UncheckedBranch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style ThrowableNode fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ErrorNode fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style OOMNode fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style StackNode fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style ExceptionNode fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style IONode fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SqlNode fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RuntimeExceptionNode fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style NpeNode fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style IaeNode fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`06_throwable_exception_hierarchy.d2`](assets/03_modern_java_streams_and_records/06_throwable_exception_hierarchy.d2)*
 
 **Primary Source Reference**: [GeeksforGeeks - Exceptions in Java](https://www.geeksforgeeks.org/exceptions-in-java/)
 
@@ -1224,33 +1061,9 @@ public class MultiCatchDemo {
 When an exception is thrown inside a method, if not caught locally, it drops down the method call stack to the previous calling method. This unwinding continues until an appropriate `catch` handler is encountered or it reaches the JVM `main()` thread entry point, terminating the thread.
 
 #### Visual Call Stack Unwinding
-```mermaid
-flowchart TD
-    subgraph CallStackFlow ["Call Invocation (Frame Push)"]
-        direction LR
-        M1["<b>main()</b><br/>Stack Frame 1"] -->|"Calls"| M2["<b>processOrder()</b><br/>Stack Frame 2"]
-        M2 -->|"Calls"| M3["<b>calculateTax()</b><br/>Stack Frame 3"]
-    end
+![JVM Call Stack Unwinding & Exception Propagation Mechanics](assets/03_modern_java_streams_and_records/07_call_stack_unwinding_exception_flow.svg)
 
-    subgraph ExceptionUnwindFlow ["Exception Propagation (Frame Pop)"]
-        direction LR
-        Exc["<b>ArithmeticException</b><br/>Division by zero in calculateTax"]
-        M2_Pop["<b>Pop Frame 2</b><br/>Uncaught in processOrder()"]
-        M1_Catch["<b>Catch Handler</b><br/>main() try-catch handles error"]
-        Exc -.->|"Uncaught"| M2_Pop -.->|"Uncaught"| M1_Catch
-    end
-
-    M3 -->|"Throws"| Exc
-
-    style CallStackFlow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ExceptionUnwindFlow fill:#1e1e2e,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style M1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style M2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style M3 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Exc fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style M2_Pop fill:#1e293b,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style M1_Catch fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source: [`07_call_stack_unwinding_exception_flow.d2`](assets/03_modern_java_streams_and_records/07_call_stack_unwinding_exception_flow.d2)*
 
 **Primary Source Reference**: [GeeksforGeeks - Exception Propagation in Java](https://www.geeksforgeeks.org/exception-propagation-in-java/)
 
@@ -1316,40 +1129,9 @@ Traditional Java error handling relies on throwing exceptions. However, throwing
 
 **Railway-Oriented Programming (ROP)** treats execution as a two-track railway: a **Success Track** and a **Failure Track**. Operations transform the success value or automatically bypass subsequent steps if a failure occurs.
 
-```mermaid
-flowchart TD
-    subgraph SuccessTrack ["Success Track (Happy Path Pipeline)"]
-        direction LR
-        Input["Input Request<br/>(Order Command)"] --> Step1["Step 1: Validate Payload<br/>(Check Schema & Rules)"]
-        Step1 --> Step2["Step 2: Charge Payment<br/>(Execute Payment Gateway)"]
-        Step2 --> Step3["Step 3: Emit Order Event<br/>(Publish to Kafka)"]
-        Step3 --> Output["Final Success Output<br/>(201 Created Response)"]
-    end
+![Functional Error Handling & Railway-Oriented Programming (ROP)](assets/03_modern_java_streams_and_records/08_railway_oriented_programming_functional_error.svg)
 
-    subgraph FailureTrack ["Failure Track (Short-Circuit Domain Egress)"]
-        direction LR
-        Fail1["Payload Validation Error<br/>(HTTP 400 Bad Request)"]
-        Fail2["Payment Charge Error<br/>(HTTP 422 Unprocessable)"]
-        FailTerminal["Short-Circuit Error Delivered<br/>(Bypasses All Downstream Steps)"]
-        Fail1 --> FailTerminal
-        Fail2 --> FailTerminal
-    end
-
-    Step1 -.->|"On Validation Failure"| Fail1
-    Step2 -.->|"On Gateway Decline"| Fail2
-
-    style SuccessTrack fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style FailureTrack fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-
-    style Input fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Step1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Step2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Step3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Output fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Fail1 fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style Fail2 fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style FailTerminal fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-```
+*D2 Source: [`08_railway_oriented_programming_functional_error.d2`](assets/03_modern_java_streams_and_records/08_railway_oriented_programming_functional_error.d2)*
 
 #### Production Code: The `Result<T, E>` Monad via Sealed Interfaces
 ```java

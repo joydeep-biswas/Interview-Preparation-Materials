@@ -1,0 +1,24 @@
+direction: right
+classes: {
+  head_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  cpu_box: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  gpu_box: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  redis_box: { style: { fill: "#111827", stroke: "#F59E0B" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+HeadNode: "Ray Head Node Pod" {
+  class: head_box
+  GCS: "Global Control Store (GCS)" { class: card_dark }
+  Dash: "Dashboard & API Server" { class: card_dark }
+  Autoscaler: "Ray Cluster Autoscaler" { class: card_dark }
+  GCS -> Dash -> Autoscaler
+}
+
+CPUGroup: "CPU Worker Fleet\nData preprocessing & Plasma store" { class: cpu_box }
+GPUGroup: "GPU Worker Fleet\nvLLM & Tensor Parallelism" { class: gpu_box }
+GCSBackup: "External GCS Backup\nRestores state on head crash" { class: redis_box }
+
+HeadNode.Autoscaler -> CPUGroup
+HeadNode.Autoscaler -> GPUGroup
+HeadNode.GCS -> GCSBackup: "Persist State"

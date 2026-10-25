@@ -1,0 +1,14 @@
+direction: right
+classes: {
+  healthy: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  overfit: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+training_step_400: "Step 400 (Optimal Checkpoint)
+Lowest validation loss reached
+Save adapter checkpoint here" { class: healthy }
+training_step_800: "Step 800 (Overfitting Zone)
+Train loss continues dropping (0.72)
+Validation loss surges to 2.30" { class: overfit }
+
+training_step_400 -> training_step_800: "Continued training beyond convergence"

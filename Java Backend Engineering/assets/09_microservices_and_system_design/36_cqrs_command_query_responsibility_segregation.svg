@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" width="1080" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CQRS (Command Query Responsibility Segregation) Architecture</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Decoupling Write-Optimized Normalized Relational Databases from Read-Optimized Search Views</text>
+<rect x="390" y="95" width="300" height="60" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="540" y="119" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client (Web / Mobile SPA)</text>
+<text x="540" y="139" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POST /orders (Mutations) | GET /orders (Queries)</text>
+<rect x="50" y="195" width="300" height="220" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="2"/>
+<rect x="65" y="210" width="200" height="20" rx="10" fill="#1e3a8a"/><text x="165" y="223" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">COMMAND SIDE (Writes)</text>
+<text x="200" y="250" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Order Command Service</text>
+<text x="70" y="275" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Validates rich domain invariants</text>
+<text x="70" y="293" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Executes unit-of-work state changes</text>
+<rect x="70" y="315" width="260" height="75" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="200" y="337" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL Database</text>
+<text x="200" y="355" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3NF Normalized Relational Tables</text>
+<text x="200" y="370" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Optimized for ACID write throughput</text>
+<rect x="390" y="220" width="300" height="170" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="405" y="235" width="220" height="20" rx="10" fill="#78350f"/><text x="515" y="248" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ASYNCHRONOUS PROJECTION</text>
+<text x="540" y="275" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Stream / CDC Worker</text>
+<text x="410" y="300" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Captures OrderUpdatedEvent</text>
+<text x="410" y="318" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Denormalizes customer + order + item</text>
+<text x="410" y="336" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Hydrates read-optimized JSON documents</text>
+<text x="410" y="360" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Eventual Consistency: ~50-200ms lag</text>
+<rect x="730" y="195" width="300" height="220" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
+<rect x="745" y="210" width="180" height="20" rx="10" fill="#047857"/><text x="835" y="223" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">QUERY SIDE (Reads)</text>
+<text x="880" y="250" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Order Query Service</text>
+<text x="750" y="275" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Zero JOINs required at runtime!</text>
+<text x="750" y="293" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Serves high-QPS paginated searches</text>
+<rect x="750" y="315" width="260" height="75" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="880" y="337" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Elasticsearch / Redis Views</text>
+<text x="880" y="355" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Denormalized Flat JSON Views</text>
+<text x="880" y="370" fill="#34D399" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Sub-millisecond read latency</text>
+<path d="M 390 125 L 200 125 L 200 195" stroke="#38BDF8" stroke-width="2" fill="none" marker-end="url(#arr-b)"/>
+<path d="M 350.0 350.0 L 358.0 350.0 C 368.0 350.0, 368.0 320.0, 378.0 320.0 L 390.0 320.0" fill="none" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<path d="M 690.0 320.0 L 698.0 320.0 C 708.0 320.0, 708.0 350.0, 718.0 350.0 L 730.0 350.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<path d="M 690 125 L 880 125 L 880 195" stroke="#34D399" stroke-width="2" fill="none" marker-end="url(#arr-g)"/>
+<rect x="40" y="445" width="1000" height="95" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="470" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">When to Adopt CQRS vs The Read-Your-Own-Writes Dilemma:</text>
+<text x="65" y="490" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cost: Do NOT adopt CQRS for simple CRUD applications. It introduces eventual consistency lag and double-storage infrastructure.</text>
+<text x="65" y="506" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Read-Your-Own-Writes: When a user places an order, immediately redirect them to a confirmation screen showing the POST response payload,</text>
+<text x="65" y="522" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  preventing them from seeing a stale query view before the Kafka projector finishes sync.</text>
+</svg>

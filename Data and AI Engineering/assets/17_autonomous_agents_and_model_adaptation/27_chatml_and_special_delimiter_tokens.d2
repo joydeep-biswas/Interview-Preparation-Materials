@@ -1,0 +1,15 @@
+direction: down
+classes: {
+  sys_card: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  usr_card: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  ast_card: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+}
+
+sys: "<|im_start|>system
+You are a financial extraction specialist.<|im_end|>" { class: sys_card }
+usr: "<|im_start|>user
+Extract the EBITDA from this paragraph...<|im_end|>" { class: usr_card }
+ast: "<|im_start|>assistant
+{"ebitda_usd": 42000000}<|im_end|>" { class: ast_card }
+
+sys -> usr -> ast

@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1200" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1200" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="600" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">HotSpot Tiered Compilation Architecture: Interpreter -&gt; C1 -&gt; C2</text>
+  <text x="600" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Zero-Latency Startup via Interpreter -&gt; Fast Profiling via C1 Client -&gt; Peak Machine Code via C2 Server Compiler</text>
+  <line x1="40" y1="68" x2="1160" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Tier 0: Interpreter -->
+  <rect x="40" y="105" width="260" height="360" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="40" y="105" width="260" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="170" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">Tier 0: Bytecode Interpreter</text>
+
+  <rect x="55" y="150" width="230" height="110" rx="6" fill="#0F172A" stroke="#0284C7"/>
+  <text x="170" y="172" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">Instant Startup Execution</text>
+  <text x="65" y="195" font-size="8" fill="#CBD5E1">&#x2022; Interprets bytecodes immediately</text>
+  <text x="65" y="213" font-size="8" fill="#34D399">&#x2714; Zero compilation latency / pause</text>
+  <text x="65" y="233" font-size="8" fill="#CBD5E1">&#x2022; Slow execution speed (~20x slower than C)</text>
+
+  <rect x="55" y="275" width="230" height="175" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="65" y="300" font-size="10" font-weight="700" fill="#F8FAFC">Profiling Instrumentation:</text>
+  <text x="65" y="322" font-size="8" fill="#CBD5E1">&#x2022; Method invocation counters</text>
+  <text x="65" y="340" font-size="8" fill="#CBD5E1">&#x2022; Backedge loop iteration counters</text>
+  <text x="65" y="365" font-size="8" font-weight="700" fill="#FBBF24">Warm-Up Trigger:</text>
+  <text x="65" y="383" font-size="8" fill="#FDE68A">When invocations &gt; CompileThreshold,</text>
+  <text x="65" y="398" font-size="8" fill="#FDE68A">method is flagged for C1 compilation</text>
+
+  <!-- Connectors Tier 0 -> Tier 1 -->
+  <path fill="none" d="M 300 220 L 340 220" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <text x="320" y="210" font-size="7" fill="#38BDF8" text-anchor="middle">Warm</text>
+
+  <!-- Tier 1-3: C1 Client Compiler -->
+  <rect x="340" y="105" width="260" height="360" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="340" y="105" width="260" height="30" rx="8" fill="#78350F"/>
+  <text x="470" y="125" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">Tier 1-3: C1 Client Compiler</text>
+
+  <rect x="355" y="150" width="230" height="110" rx="6" fill="#0F172A" stroke="#F59E0B"/>
+  <text x="470" y="172" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">Fast Native Code Translation</text>
+  <text x="365" y="195" font-size="8" fill="#CBD5E1">&#x2022; Lightweight optimizations</text>
+  <text x="365" y="213" font-size="8" fill="#CBD5E1">&#x2022; Generates native machine code fast</text>
+  <text x="365" y="233" font-size="8" fill="#34D399">&#x2714; 5x - 10x faster than Interpreter</text>
+
+  <rect x="355" y="275" width="230" height="175" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="365" y="300" font-size="10" font-weight="700" fill="#F8FAFC">MDO Profiling (Tier 3):</text>
+  <text x="365" y="322" font-size="8" fill="#CBD5E1">&#x2022; Injects MethodDataObjects (MDO)</text>
+  <text x="365" y="340" font-size="8" fill="#CBD5E1">&#x2022; Collects Branch Probabilities (if/else)</text>
+  <text x="365" y="358" font-size="8" fill="#CBD5E1">&#x2022; Monomorphic vs Megamorphic callsites</text>
+  <text x="365" y="380" font-size="8" font-weight="700" fill="#FBBF24">Hot Path Trigger:</text>
+  <text x="365" y="398" font-size="8" fill="#FDE68A">Peak method invocations schedule</text>
+  <text x="365" y="413" font-size="8" fill="#FDE68A">aggressive C2 compilation!</text>
+
+  <!-- Connectors Tier 1 -> Tier 4 -->
+  <path fill="none" d="M 600 220 L 640 220" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <text x="620" y="210" font-size="7" fill="#FBBF24" text-anchor="middle">Hot</text>
+
+  <!-- Tier 4: C2 Server Compiler -->
+  <rect x="640" y="105" width="270" height="360" rx="8" fill="#06201B" stroke="#10B981" stroke-width="2"/>
+  <rect x="640" y="105" width="270" height="30" rx="8" fill="#047857"/>
+  <text x="775" y="125" font-size="11" font-weight="700" fill="#A7F3D0" text-anchor="middle">&#x2714; Tier 4: C2 Server Compiler</text>
+
+  <rect x="655" y="150" width="240" height="110" rx="6" fill="#0F172A" stroke="#10B981"/>
+  <text x="775" y="172" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Heavy Peak Optimizations</text>
+  <text x="665" y="195" font-size="8" fill="#CBD5E1">&#x2022; Takes longer to compile</text>
+  <text x="665" y="213" font-size="8" fill="#CBD5E1">&#x2022; Yields maximum execution speed</text>
+  <text x="665" y="233" font-size="8" fill="#34D399">&#x2714; Comparable to optimized C++</text>
+
+  <rect x="655" y="275" width="240" height="175" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="665" y="300" font-size="10" font-weight="700" fill="#F8FAFC">C2 Advanced Transforms:</text>
+  <text x="665" y="322" font-size="8" font-weight="700" fill="#34D399">1. Escape Analysis (EA):</text>
+  <text x="675" y="338" font-size="7" fill="#CBD5E1">Scalar replacement; allocates on stack/registers!</text>
+  <text x="665" y="358" font-size="8" font-weight="700" fill="#34D399">2. Aggressive Inlining:</text>
+  <text x="675" y="374" font-size="7" fill="#CBD5E1">Eliminates method call overhead &amp; stack frames</text>
+  <text x="665" y="394" font-size="8" font-weight="700" fill="#34D399">3. Loop Vectorization &amp; SIMD:</text>
+  <text x="675" y="410" font-size="7" fill="#CBD5E1">Executes vector instructions on AVX-512 registers</text>
+
+  <!-- Code Cache Output -->
+  <rect x="940" y="105" width="220" height="360" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="940" y="105" width="220" height="30" rx="8" fill="#4C1D95"/>
+  <text x="1050" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">Code Cache (Native RAM)</text>
+
+  <rect x="955" y="150" width="190" height="140" rx="6" fill="#0F172A" stroke="#8B5CF6"/>
+  <text x="1050" y="172" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">Native Assembly Binaries</text>
+  <text x="965" y="195" font-size="8" fill="#CBD5E1">&#x2022; Direct x86-64 / ARM64</text>
+  <text x="965" y="210" font-size="8" fill="#CBD5E1">  machine code in RAM</text>
+  <text x="965" y="230" font-size="8" fill="#34D399">&#x2714; CPU executes directly</text>
+  <text x="965" y="248" font-size="8" fill="#CBD5E1">&#x2022; Max size: -XX:ReservedCodeCacheSize</text>
+
+  <rect x="955" y="305" width="190" height="145" rx="6" fill="#1C1917" stroke="#EF4444"/>
+  <text x="1050" y="328" font-size="9" font-weight="700" fill="#F87171" text-anchor="middle">&#x26A0; Deoptimization &amp; Traps</text>
+  <text x="965" y="350" font-size="8" fill="#CBD5E1">&#x2022; If assumptions invalidated</text>
+  <text x="965" y="365" font-size="8" fill="#CBD5E1">  (e.g. new subclass loaded),</text>
+  <text x="965" y="382" font-size="8" fill="#FCA5A5">  C2 code is DEOPTIMIZED!</text>
+  <text x="965" y="405" font-size="8" fill="#FDE68A">&#x2022; Execution falls back to</text>
+  <text x="965" y="420" font-size="8" fill="#FDE68A">  Interpreter safely.</text>
+
+  <!-- Connectors C2 to Code Cache -->
+  <path fill="none" d="M 910 220 L 955 220" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="475" width="1120" height="30" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="600" y="495" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Tiered Compilation Invariant: Java combines the instant responsiveness of an interpreter with the extreme raw performance of an optimizing compiler through real-time profiling feedback.</text>
+</svg>

@@ -1,0 +1,40 @@
+direction: right
+title: "PostgreSQL Transaction ID (XID) Wraparound & VACUUM FREEZE"
+
+horizon: "Circular 32-Bit Transaction Space (4.29B XIDs)" {
+  style.fill: "#0b101d"
+  style.stroke: "#3b82f6"
+
+  past: "Past Horizon
+2.14 Billion XIDs
+Visible to Snapshots" {
+    style.fill: "#064e3b"
+    style.stroke: "#10b981"
+  }
+
+  current: "Current XID
+Active Epoch
+Advances with writes" {
+    style.fill: "#7f1d1d"
+    style.stroke: "#ef4444"
+  }
+
+  future: "Future Horizon
+2.14 Billion XIDs
+Invisible to Snapshots" {
+    style.fill: "#1e293b"
+    style.stroke: "#64748b"
+  }
+
+  past -> current
+  current -> future
+}
+
+freeze: "VACUUM FREEZE
+Converts xmin -> FrozenXID (2)
+Eternally visible in all pasts!" {
+  style.fill: "#78350f"
+  style.stroke: "#f59e0b"
+}
+
+freeze -> horizon.past: "Anchors ancient tuples permanently"

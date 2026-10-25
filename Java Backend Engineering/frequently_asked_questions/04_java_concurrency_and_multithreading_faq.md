@@ -6,36 +6,9 @@ A comprehensive guide answering all 17 questions on the Java Memory Model (JMM),
 
 ## Architectural Overview: Java Memory Model (JMM) & Thread Caches
 
-```mermaid
-flowchart TD
-    subgraph CPUCore1["CPU Core 1"]
-        Reg1["Registers & L1/L2 Cache"]
-        T1["Thread 1 Stack"]
-    end
+![Java Memory Model & Hardware Cache Coherence](assets/04_java_concurrency_and_multithreading_faq/01_java_memory_model_hardware_cache_coherence.svg)
 
-    subgraph CPUCore2["CPU Core 2"]
-        Reg2["Registers & L1/L2 Cache"]
-        T2["Thread 2 Stack"]
-    end
-
-    subgraph MainMemory["Main RAM / Shared JVM Heap"]
-        VolatileVar["volatile / Atomic Variable<br/>(Cache Coherent, Memory Barrier Flushed)"]
-        SharedVar["Standard Shared Variable<br/>(Stale Cache Line Hazard)"]
-    end
-
-    T1 --> Reg1
-    T2 --> Reg2
-    Reg1 <-->|"Memory Barrier / lock cmpxchg"| VolatileVar
-    Reg2 <-->|"Memory Barrier / lock cmpxchg"| VolatileVar
-    Reg1 -.->|"Delayed Write-Back"| SharedVar
-    Reg2 -.->|"Stale Read"| SharedVar
-
-    style CPUCore1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CPUCore2 fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style MainMemory fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style VolatileVar fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style SharedVar fill:#3b0764,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/01_java_memory_model_hardware_cache_coherence.d2](assets/04_java_concurrency_and_multithreading_faq/01_java_memory_model_hardware_cache_coherence.d2)
 
 ---
 
@@ -176,43 +149,9 @@ Concurrent modification on `HashMap` causes lost updates, data corruption, and (
 *(Grouped together: Thread Pool Architecture and Diagnostics)*  
 **Topic Covered:** `ThreadPoolExecutor` Mechanics & Failure Modes  
 
-```mermaid
-flowchart TD
-    subgraph Stage1 ["Stage 1: Core Worker Allocation"]
-        direction LR
-        Task["Incoming Task"] --> CoreCheck{"Workers < corePoolSize?"}
-        CoreCheck -->|Yes| SpawnCore["Spawn Core Thread<br/>(Execute Immediately)"]
-    end
+![ThreadPoolExecutor Task Submission Lifecycle](assets/04_java_concurrency_and_multithreading_faq/02_threadpoolexecutor_task_submission_lifecycle.svg)
 
-    subgraph Stage2 ["Stage 2: Queue Buffering"]
-        direction LR
-        QueueCheck{"workQueue Full?"}
-        QueueCheck -->|No| Enqueue["Enqueue in BlockingQueue<br/>(Wait for Idle Core)"]
-    end
-
-    subgraph Stage3 ["Stage 3: Max Worker Overflow & Rejection"]
-        direction LR
-        MaxCheck{"Workers < maxPoolSize?"}
-        MaxCheck -->|Yes| SpawnMax["Spawn Max Worker<br/>(Handle Surge)"]
-        MaxCheck -->|No| Reject["Trigger RejectedExecutionHandler<br/>(Abort / CallerRuns)"]
-    end
-
-    CoreCheck -->|No| QueueCheck
-    QueueCheck -->|Yes| MaxCheck
-
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Stage2 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Stage3 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style Task fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CoreCheck fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#c4b5fd
-    style SpawnCore fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style QueueCheck fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fde68a
-    style Enqueue fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style MaxCheck fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#c4b5fd
-    style SpawnMax fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Reject fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/02_threadpoolexecutor_task_submission_lifecycle.d2](assets/04_java_concurrency_and_multithreading_faq/02_threadpoolexecutor_task_submission_lifecycle.d2)
 
 - **Requests waiting unexpectedly:** `Executors.newFixedThreadPool()` uses an unbounded `LinkedBlockingQueue`. The pool never scales beyond `corePoolSize`; tasks accumulate in memory while threads block on external I/O. Use a bounded queue with `CallerRunsPolicy`.
 - **Silent task failures:** Exceptions inside `executor.submit()` are captured inside the `Future` and only thrown if `future.get()` is invoked. Wrap tasks in `try-catch` blocks logging errors.
@@ -255,29 +194,9 @@ All parallel streams share the single global `ForkJoinPool.commonPool()`. If tas
 #### Architectural Overview
 A standard enterprise orchestration pattern requires querying two independent microservices concurrently (API 1 and API 2) to eliminate cumulative network latency, performing local processing or invoking a third dependent service synchronously (API 3), and finally joining the async results to build the composite response:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Caller as Client Request
-    participant Svc as Gateway Service
-    participant API1 as Service 1 (Async)
-    participant API2 as Service 2 (Async)
-    participant API3 as Service 3 (Sync)
+![JVM Thread State Machine & Lifecycle Transitions](assets/04_java_concurrency_and_multithreading_faq/03_thread_state_machine_transitions.svg)
 
-    Caller->>Svc: Process Aggregate Request
-    par Parallel Non-Blocking Dispatch
-        Svc->>API1: CompletableFuture.supplyAsync(callAPI1)
-        Svc->>API2: CompletableFuture.supplyAsync(callAPI2)
-    end
-    Note over Svc,API3: Main thread proceeds synchronously
-    Svc->>API3: Call API 3 Synchronously
-    API3-->>Svc: Return API 3 Result
-    Note over Svc: CompletableFuture.allOf(f1, f2).join()
-    API1-->>Svc: Return API 1 Result
-    API2-->>Svc: Return API 2 Result
-    Svc-->>Caller: Return Combined Aggregate DTO
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/03_thread_state_machine_transitions.d2](assets/04_java_concurrency_and_multithreading_faq/03_thread_state_machine_transitions.d2)
 
 #### Production Code
 ```java
@@ -419,35 +338,9 @@ Mutual exclusion locks like `ReentrantLock` enforce exclusive access regardless 
 Under continuous high-throughput read workloads, the read lock is constantly held by overlapping readers, preventing waiting writers from acquiring the write lock indefinitely (Writer Starvation). Configuring fairness (`new ReentrantReadWriteLock(true)`) mitigates starvation at the cost of throughput. In ultra-high-throughput systems, Java 8 `StampedLock` is preferred due to its lock-free optimistic read capability (`tryOptimisticRead()`).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph LockComparison ["Lock Acquisition Concurrency"]
-        direction TB
-        RL["ReentrantLock (Exclusive Only)<br/>Readers serialize: R1 -> R2 -> R3 -> W1"]
-        RWL["ReentrantReadWriteLock (Shared / Exclusive)<br/>Readers run concurrently: [R1 + R2 + R3] -> W1"]
-    end
+![Lock Mechanisms: synchronized vs ReentrantLock (AQS)](assets/04_java_concurrency_and_multithreading_faq/04_synchronized_vs_reentrantlock_mechanics.svg)
 
-    subgraph DowngradeFlow ["Atomic Lock Downgrading Lifecycle"]
-        WAcq["1. writeLock.lock()<br/>(Exclusive Mutation)"] --> Modify["2. Mutate Shared State"]
-        Modify --> RAcq["3. readLock.lock()<br/>(Acquire Read Lock while holding Write Lock)"]
-        RAcq --> WRel["4. writeLock.unlock()<br/>(Downgraded! Other readers can now join)"]
-        WRel --> ReadState["5. Safely Read State with Shared Protection"]
-        ReadState --> RRel["6. readLock.unlock()"]
-    end
-
-    LockComparison --> DowngradeFlow
-
-    style LockComparison fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DowngradeFlow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style RL fill:#1e293b,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style RWL fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style WAcq fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Modify fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style RAcq fill:#1e3a8a,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style WRel fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff
-    style ReadState fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style RRel fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/04_synchronized_vs_reentrantlock_mechanics.d2](assets/04_java_concurrency_and_multithreading_faq/04_synchronized_vs_reentrantlock_mechanics.d2)
 
 #### Production Implementation / Code Solution
 ```java
@@ -628,38 +521,9 @@ top -H -p <pid>  # Find top thread OS PID, convert to Hex: printf "0x%x\n" <thre
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph CPUCores ["Multi-Core CPU Hardware Architecture"]
-        direction LR
-        Core1["CPU Core 1<br/>Thread A Cache"]
-        Core2["CPU Core 2<br/>Thread B Cache"]
-        L3Cache["Shared L3 Cache / Main RAM<br/>volatile int counter = 10;"]
-    end
+![CPU False Sharing & Cache Line Padding (@Contended)](assets/04_java_concurrency_and_multithreading_faq/05_false_sharing_cache_line_padding.svg)
 
-    subgraph LostUpdateRace ["The 3-Step Read-Modify-Write Race Condition"]
-        direction TB
-        Step1["1. Thread A & B both read counter = 10 into CPU Registers"]
-        Step2["2. Thread A increments register to 11 and writes back to RAM"]
-        Step3["3. Thread B increments its register to 11 and writes back to RAM!"]
-        Result["Final Counter: 11 (Expected: 12) -> ONE UPDATE IS PERMANENTLY LOST!"]
-        Step1 --> Step2 --> Step3 --> Result
-    end
-
-    Core1 -.->|"Bus Read/Write"| L3Cache
-    Core2 -.->|"Bus Read/Write"| L3Cache
-    L3Cache ==> LostUpdateRace
-
-    style CPUCores fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LostUpdateRace fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Core1 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Core2 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style L3Cache fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Step1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style Step2 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style Step3 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style Result fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/05_false_sharing_cache_line_padding.d2](assets/04_java_concurrency_and_multithreading_faq/05_false_sharing_cache_line_padding.d2)
 
 Why `volatile` Fails for `count++`:
 1. `count++` is decomposed into **3 discrete bytecode instructions**:
@@ -734,36 +598,9 @@ public final class VolatileLostUpdateBenchmark {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph CommonPoolCollapse ["The Fatal Anti-Pattern: ForkJoinPool.commonPool()"]
-        direction TB
-        CP_Task1["Task 1: Blocking REST API Call (takes 4s)"]
-        CP_Task2["Task 2: Blocking Database Read (takes 2s)"]
-        CP_Parallel["Parallel Stream Filter (Blocked!)"]
-        CP_Event["System Health Check (Blocked!)"]
-        
-        CommonPool["ForkJoinPool.commonPool()<br/>Worker Threads: Runtime.availableProcessors() - 1"]
-        CP_Task1 --> CommonPool
-        CP_Task2 --> CommonPool
-        CP_Parallel -.->|"Starved! No available workers"| CommonPool
-        CP_Event -.->|"Starved! Healthcheck fails"| CommonPool
-    end
+![ForkJoinPool.commonPool() Saturation & Starvation Hazard](assets/04_java_concurrency_and_multithreading_faq/06_forkjoinpool_commonpool_saturation_hazard.svg)
 
-    subgraph BulkheadIsolation ["Production Architecture: Bulkhead Thread Pools"]
-        direction TB
-        RestTask["Rest Client Calls"] --> RestPool["RestPool: ThreadPoolExecutor<br/>core=32, max=64 (I/O Bound)"]
-        DbTask["Database Queries"] --> DbPool["DbPool: ThreadPoolExecutor<br/>core=16, max=32 (I/O Bound)"]
-        ComputeTask["CPU Computation"] --> CommonPoolIsolated["commonPool (CPU Bound Only)"]
-    end
-
-    style CommonPoolCollapse fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style BulkheadIsolation fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style CommonPool fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style RestPool fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style DbPool fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style CommonPoolIsolated fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/06_forkjoinpool_commonpool_saturation_hazard.d2](assets/04_java_concurrency_and_multithreading_faq/06_forkjoinpool_commonpool_saturation_hazard.d2)
 
 CommonPool Specifications & Failure Mode:
 1. **Default Thread Count:** `Runtime.getRuntime().availableProcessors() - 1`. On an 8-core cloud VM/container, the pool contains only **7 worker threads**.
@@ -841,47 +678,9 @@ public final class ProductionAsyncOrchestrator {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph Strategy1 ["1. Optimistic Locking (Read State & CAS Version)"]
-        direction TB
-        OptRead["Read Account balance & version = 5"] --> OptCalc["Verify balance >= debit; new_version = 6"]
-        OptCalc --> OptCommit["UPDATE accounts SET balance = ?, version = 6<br/>WHERE id = ? AND version = 5;"]
-        OptCommit --> OptCheck{"Rows Updated == 1?"}
-        OptCheck -->|"Yes"| OptSuccess["Success"]
-        OptCheck -->|"No (Collision)"| OptRetry["Exponential Backoff Retry"]
-    end
+![Concurrency Control: Optimistic vs Pessimistic Locking](assets/04_java_concurrency_and_multithreading_faq/07_optimistic_vs_pessimistic_locking_concurrency.svg)
 
-    subgraph Strategy2 ["2. Pessimistic Locking (Exclusive Row Mutex)"]
-        direction TB
-        PessLock["SELECT * FROM accounts WHERE id = ? FOR UPDATE;"]
-        PessExec["Lock Held in RDBMS Engine; All Other Txns Blocked"]
-        PessCommit["UPDATE accounts SET balance = ?; COMMIT; Lock Released"]
-        PessLock --> PessExec --> PessCommit
-    end
-
-    subgraph Strategy3 ["3. Single-Threaded Partitioned Actor / Ring Buffer"]
-        direction TB
-        KafkaKey["Incoming Events Partitioned by account_id<br/>(Kafka / LMAX Disruptor)"]
-        Actor["Single Worker Thread per Account<br/>Zero Locks, Zero Context Switches (100k+ TPS)"]
-        KafkaKey --> Actor
-    end
-
-    style Strategy1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Strategy2 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Strategy3 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style OptRead fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style OptCalc fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style OptCommit fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style OptCheck fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style OptSuccess fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style OptRetry fill:#7f1d1d,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style PessLock fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style PessExec fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style PessCommit fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style KafkaKey fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Actor fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/07_optimistic_vs_pessimistic_locking_concurrency.d2](assets/04_java_concurrency_and_multithreading_faq/07_optimistic_vs_pessimistic_locking_concurrency.d2)
 
 Architectural Trade-Off Analysis:
 

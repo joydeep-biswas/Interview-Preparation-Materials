@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  trad: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  llm: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+traditional: "Traditional MLOps (Model-Centric)" {
+  feat: "1. Feature Store (Feast)" { class: trad }
+  train: "2. Full Model Retraining" { class: trad }
+  export: "3. Export Weights (.onnx)" { class: trad }
+
+  feat -> train -> export
+}
+
+modern: "Modern LLMOps (Context-Centric)" {
+  base: "1. Foundation Model (Frozen Weights)" { class: llm }
+  ctx: "2. Context Engineering & RAG" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  gateway: "3. AI Gateway & Distributed Tracing" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+
+  base -> ctx -> gateway
+}

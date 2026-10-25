@@ -1,0 +1,14 @@
+direction: right
+title: GitOps Declarative Delivery via ArgoCD
+
+Dev: Developer (git push)
+Git: Git Repository (Declarative Manifests)
+
+K8s: Target Kubernetes Cluster {
+  argo: ArgoCD Controller
+  live: Live Cluster Workloads (Pods & Services)
+  argo -> live: Auto-sync & drift reconciliation
+}
+
+Dev -> Git: Pull Request { style.stroke: "#38BDF8" }
+Git -> K8s.argo: Webhook trigger { style.stroke: "#38BDF8" }

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-p18" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-a18" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g18" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="32" class="title-text">Sessionization: Inactivity Gap Detection &amp; Cumulative SUM</text>
+
+  <!-- Step 1 -->
+  <rect x="30" y="65" width="200" height="120" class="card card-blue"/>
+  <text x="130" y="92" class="card-title" fill="#93C5FD">1. Clickstream</text>
+  <text x="45" y="117" class="card-body">• E1: 10:00 AM</text>
+  <text x="45" y="137" class="card-body">• E2: 10:15 AM</text>
+  <text x="45" y="157" class="card-body">• E3: 11:00 AM</text>
+
+  <!-- Step 2 -->
+  <rect x="260" y="65" width="200" height="120" class="card card-purple"/>
+  <text x="360" y="92" class="card-title" fill="#D8B4FE">2. Inactivity Gap</text>
+  <text x="275" y="117" class="card-body">• E1: NULL (Start)</text>
+  <text x="275" y="137" class="card-body">• E2: 15 min (&lt; 30m)</text>
+  <text x="275" y="157" class="card-body" fill="#FDE68A">• E3: 45 min (&gt; 30m)</text>
+
+  <!-- Step 3 -->
+  <rect x="490" y="65" width="200" height="120" class="card card-amber"/>
+  <text x="590" y="92" class="card-title" fill="#FDE68A">3. Session Flag</text>
+  <text x="505" y="117" class="card-body" fill="#34D399">• E1: Flag = 1</text>
+  <text x="505" y="137" class="card-body">• E2: Flag = 0</text>
+  <text x="505" y="157" class="card-body" fill="#34D399">• E3: Flag = 1</text>
+
+  <!-- Step 4 -->
+  <rect x="720" y="65" width="210" height="120" class="card card-green"/>
+  <text x="825" y="92" class="card-title" fill="#6EE7B7">4. SUM() OVER ()</text>
+  <text x="735" y="117" class="card-body" fill="#34D399">• E1 -> Session 1</text>
+  <text x="735" y="137" class="card-body" fill="#34D399">• E2 -> Session 1</text>
+  <text x="735" y="157" class="card-body" fill="#60A5FA">• E3 -> Session 2</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 230 125 L 260 125" class="edge edge-purple" marker-end="url(#arr-p18)"/>
+  <path fill="none" d="M 460 125 L 490 125" class="edge edge-amber" marker-end="url(#arr-a18)"/>
+  <path fill="none" d="M 690 125 L 720 125" class="edge edge-green" marker-end="url(#arr-g18)"/>
+</svg>

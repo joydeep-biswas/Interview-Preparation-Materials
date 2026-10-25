@@ -1,0 +1,30 @@
+direction: right
+
+insert: "1. map.put(userKey, data)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  hash: "hashCode = 100 -> Bucket 4"
+}
+
+mutate: "2. userKey.setName('Bob')" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  hash: "hashCode changes to 520!"
+}
+
+lookup: "3. map.get(userKey)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  hash: "Looks in Bucket 8 -> Returns NULL!"
+}
+
+leak: "4. Permanent Memory Leak" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  zombie: "Entry remains pinned in Bucket 4 forever"
+  remedy: "Use Immutable Keys (Records, Strings)"
+}
+
+insert -> mutate: "Key mutated"
+mutate -> lookup: "Lookup fails"
+lookup -> leak: "Memory leak"

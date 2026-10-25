@@ -1,0 +1,24 @@
+direction: right
+classes: {
+  box_red: { style: { fill: "#111827"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+sync_fail: "Synchronous Cascade: Availability = 99.50%" {
+  class: box_red
+  s1: "Svc 1 (99.9%)" -> s2: "Svc 2 (99.9%)" -> s3: "Svc 3 (99.9%)" -> s4: "Svc 4 (99.9%)" -> s5: "Svc 5 (99.9%)"
+  blocked: "Downstream Pipeline Blocked on ANY Failure"
+  s5 -> blocked
+}
+
+resilient: "Decoupled Asynchronous: Availability > 99.95%" {
+  class: box_green
+  q: "Distributed Broker (Kafka)"
+  cb: "Circuit Breaker + Backoff"
+  fb: "Fallback Snapshot Cache"
+  dlq: "Dead-Letter Queue (DLQ)"
+  proc: "Stream Processor Continues Uninterrupted"
+  q -> cb -> proc
+  cb -> fb -> proc
+  cb -> dlq
+}

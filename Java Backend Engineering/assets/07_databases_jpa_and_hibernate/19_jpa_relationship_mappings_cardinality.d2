@@ -1,0 +1,31 @@
+direction: right
+title: "JPA Relationship Mappings & Fetch Strategies"
+
+customer: "CustomerEntity (1)
+Inverse Side
+@OneToMany(mappedBy='customer')
+orders: List<OrderEntity>" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+order: "OrderEntity (N)
+Owning Side of Customer FK
+@ManyToOne(fetch=LAZY)
+@JoinColumn(name='customer_id')
+customer: CustomerEntity" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+
+item: "OrderItemEntity (N)
+Owning Side of Order FK
+@ManyToOne(fetch=LAZY)
+@JoinColumn(name='order_id')
+order: OrderEntity" {
+  style.fill: "#0f172a"
+  style.stroke: "#f59e0b"
+}
+
+customer <-> order: "1:N Bidirectional"
+order <-> item: "1:N Bidirectional"

@@ -6,53 +6,9 @@ A comprehensive guide answering all 20 questions on authentication vs authorizat
 
 ## Architectural Overview: Spring Security Internal Request Flow
 
-```mermaid
-flowchart LR
-    subgraph ServletBridge ["1. Servlet Ingress & Bridge"]
-        direction TB
-        Req["Incoming HTTP Request"] --> DelegatingProxy["DelegatingFilterProxy"]
-        DelegatingProxy --> FilterChainProxy["FilterChainProxy"]
-    end
+![Spring Security Filter Chain Architecture](assets/06_security_and_cryptography_faq/01_spring_security_filter_chain_architecture.svg)
 
-    subgraph FilterChain ["2. SecurityFilterChain Sequence"]
-        direction TB
-        CorsFilter["CorsFilter"] --> CsrfFilter["CsrfFilter"]
-        CsrfFilter --> JwtFilter["Custom JwtAuthFilter"]
-        JwtFilter --> UserPassFilter["UsernamePasswordAuthFilter"]
-        UserPassFilter --> FilterSecurity["AuthorizationFilter<br/>(Access Decision)"]
-    end
-
-    subgraph AuthSubsystem ["3. Auth Subsystem & Endpoint"]
-        direction TB
-        AuthManager["AuthenticationManager"] --> AuthProvider["AuthenticationProvider"]
-        AuthProvider --> UserDetails["UserDetailsService"]
-        AuthProvider --> SecContext["SecurityContextHolder<br/>(Set Authentication)"]
-        FilterSecurity -->|"Authorized"| Controller["Target @RestController"]
-    end
-
-    FilterChainProxy -->|"Dispatches request"| CorsFilter
-    JwtFilter -->|"Extracts Bearer Token"| AuthManager
-
-    style ServletBridge fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FilterChain fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style AuthSubsystem fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style Req fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DelegatingProxy fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#67e8f9
-    style FilterChainProxy fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
-
-    style CorsFilter fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CsrfFilter fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style JwtFilter fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style UserPassFilter fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style FilterSecurity fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-
-    style AuthManager fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style AuthProvider fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style UserDetails fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SecContext fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Controller fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/06_security_and_cryptography_faq/01_spring_security_filter_chain_architecture.d2](assets/06_security_and_cryptography_faq/01_spring_security_filter_chain_architecture.d2)
 
 ---
 
@@ -234,19 +190,9 @@ When an authenticated request enters an API Gateway, the gateway validates the e
 1. **Token Relay Interceptor**: Configure a `RequestInterceptor` that extracts the `Bearer <token>` from the incoming `SecurityContextHolder` / `ServletRequestAttributes` and sets it on the outgoing request `Authorization` header.
 2. **Decentralized Verification via JWKS**: Downstream services verify the JWT signature locally using the Identity Provider's public key JSON Web Key Set (`/.well-known/jwks.json`), caching public keys in memory to avoid remote network latency per request.
 
-```mermaid
-flowchart LR
-    Client["Client Request (Bearer JWT)"] --> Gateway["API Gateway (Edge AuthN)"]
-    Gateway --> SvcA["Microservice A"]
-    SvcA -->|"Feign RequestInterceptor (Relay Token)"| SvcB["Microservice B"]
-    SvcB <-->|"Local Signature Check (Cached JWKS)"| Keycloak[("IdP / Keycloak / Entra ID")]
+![JWT Edge Authentication & Microservices Identity Propagation](assets/06_security_and_cryptography_faq/02_jwt_edge_authentication_microservices_propagation.svg)
 
-    style Client fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Gateway fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style SvcA fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SvcB fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Keycloak fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/06_security_and_cryptography_faq/02_jwt_edge_authentication_microservices_propagation.d2](assets/06_security_and_cryptography_faq/02_jwt_edge_authentication_microservices_propagation.d2)
 
 ```java
 @Configuration

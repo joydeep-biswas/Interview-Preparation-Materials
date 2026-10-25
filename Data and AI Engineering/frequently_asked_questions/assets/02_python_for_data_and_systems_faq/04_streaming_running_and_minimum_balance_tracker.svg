@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 260" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-a4py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g4py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="32" class="title-text">Streaming Ingestion &amp; O(1) Minimum Balance Tracking</text>
+
+  <!-- Left: Number Stream -->
+  <rect x="30" y="75" width="220" height="135" class="card card-blue"/>
+  <text x="140" y="102" class="card-title" fill="#93C5FD">Number Event Stream</text>
+  <text x="45" y="127" class="card-body">• Sequence: [-10, 20, 5, -30, 40]</text>
+  <text x="45" y="147" class="card-body">• Infinite unbounded stream</text>
+  <text x="45" y="167" class="card-body">• Memory capacity: O(1)</text>
+  <text x="45" y="187" class="card-body">• Single-pass processing</text>
+
+  <!-- Center: Tracker -->
+  <rect x="300" y="75" width="260" height="135" class="card card-amber"/>
+  <text x="430" y="102" class="card-title" fill="#FDE68A">Streaming Tracker</text>
+  <text x="315" y="127" class="card-body" font-family="monospace">running_sum += val</text>
+  <text x="315" y="147" class="card-body" font-family="monospace">min_bal = min(min_bal, sum)</text>
+  <text x="315" y="172" class="card-body">• Current Sum = +25</text>
+  <text x="315" y="192" class="card-body" fill="#34D399">• Minimum Historical = -15</text>
+
+  <!-- Right Top: Query 1 -->
+  <rect x="620" y="65" width="300" height="70" class="card card-green"/>
+  <text x="770" y="90" class="card-title" fill="#6EE7B7">get_current_balance() -&gt; +25</text>
+  <text x="635" y="113" class="card-body" fill="#34D399">• O(1) Instantaneous return | Zero recomputation</text>
+
+  <!-- Right Bottom: Query 2 -->
+  <rect x="620" y="150" width="300" height="70" class="card card-green"/>
+  <text x="770" y="175" class="card-title" fill="#6EE7B7">get_min_balance() -&gt; -15</text>
+  <text x="635" y="198" class="card-body" fill="#34D399">• O(1) Instantaneous return | Tracking lowest point</text>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 250 142 L 300 142" class="edge edge-amber" marker-end="url(#arr-a4py)"/>
+
+  <path fill="none" d="M 560 142 C 585 142, 595 100, 606 100 L 620 100" class="edge edge-green" marker-end="url(#arr-g4py)"/>
+  <path fill="none" d="M 560 142 C 585 142, 595 185, 606 185 L 620 185" class="edge edge-green" marker-end="url(#arr-g4py)"/>
+</svg>

@@ -1,0 +1,20 @@
+direction: right
+
+get: "session.get() / em.find()" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  sql: "Fires SELECT immediately"
+  entity: "Returns genuine initialized entity"
+  missing: "Returns null if record absent"
+}
+
+load: "session.load() / em.getReference()" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  sql: "ZERO immediate SQL fired"
+  proxy: "Returns CGLIB/ByteBuddy synthetic proxy"
+  lazy: "Queries DB on field access (Throws ObjectNotFoundException if missing)"
+  perf: "Ideal for foreign key references"
+}
+
+get -> load: "Eager entity vs Lazy proxy"

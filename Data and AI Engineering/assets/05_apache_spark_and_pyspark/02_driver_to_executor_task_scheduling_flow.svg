@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Driver to Executor Task Scheduling &amp; Container Lifecycle</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">How the Driver coordinates container provisioning via Cluster Manager and streams serialized tasks to slots</text>
+
+  <!-- Column 1: Driver Lifecycle -->
+  <rect x="40" y="85" width="310" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="310" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="195" y="108" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">DRIVER NODE COORDINATOR</text>
+
+  <!-- Step 1: SparkContext Init -->
+  <rect x="55" y="135" width="280" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="157" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">1. SparkContext / Session Init</text>
+  <text x="70" y="174" font-size="10" fill="#94A3B8" text-anchor="start">• Inits SchedulerBackend &amp; TaskScheduler</text>
+  <text x="70" y="189" font-size="10" fill="#94A3B8" text-anchor="start">• Negotiates executor core/RAM count</text>
+
+  <!-- Step 2: DAG Scheduler -->
+  <rect x="55" y="215" width="280" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="237" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">2. DAG Scheduler (Stages)</text>
+  <text x="70" y="254" font-size="10" fill="#94A3B8" text-anchor="start">• Breaks logical execution into Stages</text>
+  <text x="70" y="269" font-size="10" fill="#94A3B8" text-anchor="start">• Submits TaskSets (1 task per partition)</text>
+
+  <!-- Step 3: Task Scheduler -->
+  <rect x="55" y="295" width="280" height="85" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="70" y="317" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">3. TaskSchedulerImpl</text>
+  <text x="70" y="334" font-size="10" fill="#CBD5E1" text-anchor="start">• Matches tasks to locality (PROCESS_LOCAL,</text>
+  <text x="70" y="349" font-size="10" fill="#CBD5E1" text-anchor="start">  NODE_LOCAL, RACK_LOCAL, ANY)</text>
+  <text x="70" y="366" font-size="10" fill="#34D399" text-anchor="start">• Serializes task bytecode + closure</text>
+
+  <!-- Connectors within Driver -->
+  <line x1="195" y1="200" x2="195" y2="215" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <line x1="195" y1="280" x2="195" y2="295" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- Column 2: Cluster Manager -->
+  <rect x="380" y="85" width="280" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="380" y="85" width="280" height="36" rx="8" fill="#3B0764" fill-opacity="0.8" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="520" y="108" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle">CLUSTER MANAGER (K8S / YARN)</text>
+
+  <!-- Resource Negotiation -->
+  <rect x="395" y="135" width="250" height="100" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="410" y="157" font-size="11" font-weight="700" fill="#C084FC" text-anchor="start">Resource Master (K8s API / RM)</text>
+  <text x="410" y="177" font-size="10" fill="#CBD5E1" text-anchor="start">• Receives request for N executors</text>
+  <text x="410" y="194" font-size="10" fill="#CBD5E1" text-anchor="start">• Schedules Pods / YARN containers</text>
+  <text x="410" y="211" font-size="10" fill="#93C5FD" text-anchor="start">• Assigns CPU cores &amp; Memory limits</text>
+
+  <!-- Node Daemon -->
+  <rect x="395" y="255" width="250" height="100" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="410" y="277" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="start">Host Node Agent (Kubelet / NM)</text>
+  <text x="410" y="297" font-size="10" fill="#CBD5E1" text-anchor="start">• Launches JVM executor container</text>
+  <text x="410" y="314" font-size="10" fill="#CBD5E1" text-anchor="start">• Configures network namespaces</text>
+  <text x="410" y="331" font-size="10" fill="#FDE68A" text-anchor="start">• Attaches local SSD volume mounts</text>
+
+  <!-- Link RM -> Node Agent -->
+  <line x1="520" y1="235" x2="520" y2="255" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+  <!-- Link Driver -> Cluster Manager -->
+  <path d="M 335 167 L 395 167" fill="none" stroke="#C084FC" stroke-width="2" marker-end="url(#arr-p)"/>
+  <text x="365" y="158" font-size="8.5" fill="#C084FC" text-anchor="middle">Allocate</text>
+
+  <!-- Column 3: Worker Node &amp; Executor Pods -->
+  <rect x="690" y="85" width="390" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="690" y="85" width="390" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="885" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">WORKER HOST &amp; EXECUTOR JVM</text>
+
+  <!-- Container Box -->
+  <rect x="705" y="135" width="360" height="235" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="720" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">CoarseGrainedExecutorBackend (JVM)</text>
+
+  <!-- Registration Step -->
+  <rect x="720" y="170" width="330" height="42" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="735" y="188" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="start">Executor Registration with Driver</text>
+  <text x="735" y="202" font-size="9" fill="#94A3B8" text-anchor="start">Sends RPC: RegisterExecutor(id, cores, host, port)</text>
+
+  <!-- Parallel Slots -->
+  <rect x="720" y="225" width="100" height="60" rx="4" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="770" y="247" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Slot 1 (Core)</text>
+  <text x="770" y="265" font-size="9" fill="#94A3B8" text-anchor="middle">Task Runner 1</text>
+
+  <rect x="835" y="225" width="100" height="60" rx="4" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="885" y="247" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Slot 2 (Core)</text>
+  <text x="885" y="265" font-size="9" fill="#94A3B8" text-anchor="middle">Task Runner 2</text>
+
+  <rect x="950" y="225" width="100" height="60" rx="4" fill="#0F172A" stroke="#FBBF24" stroke-width="1"/>
+  <text x="1000" y="247" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">BlockManager</text>
+  <text x="1000" y="265" font-size="9" fill="#CBD5E1" text-anchor="middle">Disk/Net Spill</text>
+
+  <text x="720" y="315" font-size="9.5" fill="#CBD5E1" text-anchor="start">• TaskRunner deserializes task closure and runs bytecode.</text>
+  <text x="720" y="332" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Heartbeat (every 10s) keeps executor alive with Driver.</text>
+  <text x="720" y="349" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">• Results streamed back via StatusUpdate RPC.</text>
+
+  <!-- Link Node Agent -> Launch Executor -->
+  <path d="M 645 305 L 653 305 C 675 305, 675 250, 693 250 L 705 250" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+  <!-- Link TaskScheduler -> Executor Slots -->
+  <path d="M 335 340 L 345 340 C 450 430, 640 270, 706 270 L 720 270" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="525" y="415" font-size="9" font-weight="600" fill="#34D399" text-anchor="middle">Direct Task Launch RPC (LaunchTask)</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="468" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="484" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Scheduling Invariant: The Cluster Manager provisions hardware containers, but the Driver communicates directly with Executor JVMs via Netty RPC to dispatch tasks.</text>
+</svg>

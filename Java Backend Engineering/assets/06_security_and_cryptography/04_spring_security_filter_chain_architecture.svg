@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1200" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1200" height="560" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="600" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Spring Security 6 Servlet Filter Pipeline Architecture</text>
+  <text x="600" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Incoming Request -&gt; DelegatingFilterProxy -&gt; FilterChainProxy -&gt; Ordered SecurityFilterChain Pipeline -&gt; DispatcherServlet</text>
+  <line x1="40" y1="68" x2="1160" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Top: Servlet Container Gateway -->
+  <rect x="50" y="100" width="300" height="90" rx="6" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <text x="200" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">Tomcat Servlet Container</text>
+  <text x="70" y="150" font-size="10" font-weight="700" fill="#CBD5E1">DelegatingFilterProxy</text>
+  <text x="70" y="170" font-size="9" fill="#94A3B8">Servlet Filter; bridges Tomcat to Spring context</text>
+
+  <rect x="440" y="100" width="320" height="90" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="600" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">Spring ApplicationContext Bean</text>
+  <text x="460" y="150" font-size="10" font-weight="700" fill="#34D399">FilterChainProxy (Bean name: springSecurityFilterChain)</text>
+  <text x="460" y="170" font-size="9" fill="#94A3B8">Central orchestrator; matches request URI to registered SecurityFilterChains</text>
+
+  <!-- Connector from Tomcat to Spring Proxy -->
+  <path fill="none" d="M 350 145 L 440 145" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <text x="395" y="137" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle">Delegates</text>
+
+  <!-- Middle: Security Filter Chain Ordered Box -->
+  <rect x="50" y="220" width="1100" height="195" rx="8" fill="#0F172A" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="50" y="220" width="1100" height="30" rx="8" fill="#3B0764"/>
+  <text x="600" y="240" font-size="12" font-weight="700" fill="#E9D5FF" text-anchor="middle">SecurityFilterChain: Strict Execution Order (Prior to DispatcherServlet)</text>
+
+  <!-- Filter 1 -->
+  <rect x="70" y="265" width="180" height="130" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="160" y="290" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">1. CorsFilter</text>
+  <text x="80" y="315" font-size="9" fill="#CBD5E1">&#x2022; Validates Origin header</text>
+  <text x="80" y="333" font-size="9" fill="#CBD5E1">&#x2022; Handles pre-flight</text>
+  <text x="80" y="350" font-size="8" font-family="'JetBrains Mono', monospace" fill="#94A3B8">OPTIONS requests</text>
+  <text x="80" y="375" font-size="8" fill="#34D399">&#x2714; Passes valid cross-origins</text>
+
+  <!-- Filter 2 -->
+  <rect x="290" y="265" width="180" height="130" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="380" y="290" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">2. CsrfFilter</text>
+  <text x="300" y="315" font-size="9" fill="#CBD5E1">&#x2022; Validates Anti-CSRF token</text>
+  <text x="300" y="333" font-size="9" fill="#CBD5E1">&#x2022; Skips safe GET/HEAD</text>
+  <text x="300" y="350" font-size="8" fill="#94A3B8">Disabled for stateless</text>
+  <text x="300" y="375" font-size="8" fill="#FDE68A">Bearer token auth</text>
+
+  <!-- Filter 3 -->
+  <rect x="510" y="265" width="200" height="130" rx="6" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="610" y="290" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">3. BearerTokenAuthFilter</text>
+  <text x="520" y="315" font-size="9" fill="#CBD5E1">&#x2022; Parses <tspan font-family="'JetBrains Mono', monospace">Authorization: Bearer</tspan></text>
+  <text x="520" y="333" font-size="9" fill="#CBD5E1">&#x2022; Decodes &amp; verifies JWT</text>
+  <text x="520" y="350" font-size="9" fill="#CBD5E1">&#x2022; Populates SecurityContext</text>
+  <text x="520" y="375" font-size="8" fill="#34D399">&#x2714; Establishes Principal</text>
+
+  <!-- Filter 4 -->
+  <rect x="750" y="265" width="180" height="130" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="840" y="290" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">4. ExceptionTransFilter</text>
+  <text x="760" y="315" font-size="9" fill="#CBD5E1">&#x2022; Catches AuthN/AuthZ errs</text>
+  <text x="760" y="333" font-size="9" fill="#CBD5E1">&#x2022; 401 via AuthEntryPoint</text>
+  <text x="760" y="350" font-size="9" fill="#CBD5E1">&#x2022; 403 via AccessDeniedHdlr</text>
+  <text x="760" y="375" font-size="8" fill="#CBD5E1">Prevents stack trace leaks</text>
+
+  <!-- Filter 5 -->
+  <rect x="970" y="265" width="160" height="130" rx="6" fill="#1E293B" stroke="#0284C7"/>
+  <text x="1050" y="290" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">5. AuthorizationFilter</text>
+  <text x="980" y="315" font-size="9" fill="#CBD5E1">&#x2022; Evaluates RBAC rules</text>
+  <text x="980" y="333" font-size="9" fill="#CBD5E1">&#x2022; Checks Authorities</text>
+  <text x="980" y="350" font-size="8" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">hasRole('ADMIN')</text>
+  <text x="980" y="375" font-size="8" fill="#F87171">Throws AccessDenied</text>
+
+  <!-- Inter-filter connect arrows -->
+  <path fill="none" d="M 250 330 L 290 330" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr-s)"/>
+  <path fill="none" d="M 470 330 L 510 330" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr-s)"/>
+  <path fill="none" d="M 710 330 L 750 330" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr-s)"/>
+  <path fill="none" d="M 930 330 L 970 330" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr-s)"/>
+
+  <!-- DispatcherServlet (Spring MVC) -->
+  <rect x="850" y="100" width="300" height="90" rx="6" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="1000" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">Spring MVC Web Layer</text>
+  <text x="870" y="150" font-size="10" font-weight="700" fill="#C084FC">DispatcherServlet</text>
+  <text x="870" y="170" font-size="9" fill="#94A3B8">Dispatches to @RestController methods ONLY after passing all filters!</text>
+
+  <!-- Connector from FilterChainProxy to Chain, and Chain to Dispatcher -->
+  <path fill="none" d="M 600 190 L 600 220" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path fill="none" d="M 1050 265 L 1050 190" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <text x="1055" y="210" font-size="9" font-weight="700" fill="#38BDF8">All passed</text>
+
+  <!-- Bottom Invariant Banner -->
+  <rect x="50" y="445" width="1100" height="40" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="600" y="470" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Architecture Invariant: Spring Security operates at the low-level Servlet Filter boundary, isolating the entire Spring MVC Controller ecosystem from unauthorized traffic.</text>
+</svg>

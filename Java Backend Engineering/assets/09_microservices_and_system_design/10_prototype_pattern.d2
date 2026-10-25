@@ -1,0 +1,25 @@
+direction: right
+title: "Prototype Pattern: Efficient Cloning of Pre-Warmed Complex States"
+
+proto: "Prototype<T> <<interface>>
++copy(): T" {
+  style.fill: "#0f172a"
+  style.stroke: "#8b5cf6"
+}
+
+concrete: "ReportConfiguration
+Pre-warmed in memory (1.5s load)
+Implements deep defensive copy()" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+}
+
+tenantA: "Tenant A Clone (~50µs)
+Forks baseline state
+Zero DB latency" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+concrete -> proto: "implements"
+concrete -> tenantA: "calls .copy() to fork"

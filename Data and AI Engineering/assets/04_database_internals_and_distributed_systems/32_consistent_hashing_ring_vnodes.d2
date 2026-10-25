@@ -1,0 +1,20 @@
+direction: right
+title: Consistent Hashing Ring & Virtual Nodes (V-Nodes)
+
+ring: Consistent Hashing Ring (0 to 2^32 - 1) {
+  node_a: Server A (Token: 1,000,000)
+  node_b: Server B (Token: 2,000,000)
+  node_c: Server C (Token: 3,500,000)
+  k1: Key 'user_8412' (Hash: 1.45M)
+  k2: Key 'user_9911' (Hash: 2.80M)
+
+  k1 -> node_b: "Walk Clockwise"
+  k2 -> node_c: "Walk Clockwise"
+}
+
+vnodes: Virtual Nodes (V-Nodes: 256 per node) {
+  benefit1: "Eliminates token range hotspots"
+  benefit2: "Adding/removing node migrates exactly 1/N keys"
+}
+
+ring -> vnodes: "V-Node Enhancement"

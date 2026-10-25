@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 390" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="550" y="32" class="title" font-size="19" text-anchor="middle">URL Shortener: Multi-Region Active-Active Architecture</text>
+  <text x="550" y="52" class="subtitle" text-anchor="middle">Anycast Geo-DNS routing, partitioned Key Generation Service (KGS), and multi-region CockroachDB Raft consensus</text>
+
+  <!-- Global Edge Anycast -->
+  <g transform="translate(30, 75)">
+    <rect width="210" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="210" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="105" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">Global Edge Ingress</text>
+    <text x="16" y="60" class="card-body" font-weight="600" fill="#60A5FA">• Anycast BGP Routing:</text>
+    <text x="24" y="80" class="card-body">  - Routes clients to nearest PoP</text>
+    <text x="24" y="100" class="card-body">  - Sub-10ms network ingress</text>
+    <text x="16" y="130" class="card-body" font-weight="600" fill="#60A5FA">• Geo-DNS Partitions:</text>
+    <text x="24" y="150" class="card-body">  - North America -&gt; US-East</text>
+    <text x="24" y="170" class="card-body">  - Europe -&gt; EU-Central</text>
+    <text x="24" y="190" class="card-body">  - Asia Pacific -&gt; APAC</text>
+    <rect x="16" y="244" width="178" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="105" y="259" class="badge" fill="#93C5FD" text-anchor="middle">Anycast Geo-Routing</text>
+  </g>
+
+  <!-- Region 1: US-East -->
+  <g transform="translate(275, 75)">
+    <rect width="250" height="280" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="250" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <text x="125" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">Region 1: US-East (Active)</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• App Cluster US:</text>
+    <text x="24" y="78" class="card-body">  - Key Gen Service (KGS)</text>
+    <text x="24" y="98" class="card-body">  - Pre-allocated Range: 00..31</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#34D399">• Redis L1 Cache US:</text>
+    <text x="24" y="146" class="card-body">  - Local sub-millisecond reads</text>
+    <text x="16" y="174" class="card-body" font-weight="600" fill="#34D399">• CockroachDB Node 1:</text>
+    <text x="24" y="194" class="card-body">  - Raft Range Replica Leaseholder</text>
+    <rect x="16" y="244" width="218" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="125" y="259" class="badge" fill="#A7F3D0" text-anchor="middle">Independent KGS Partition</text>
+  </g>
+
+  <!-- Region 2: EU-Central -->
+  <g transform="translate(555, 75)">
+    <rect width="250" height="280" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="250" height="34" rx="10" ry="10" fill="#78350F"/>
+    <text x="125" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">Region 2: EU-Central (Active)</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#FBBF24">• App Cluster EU:</text>
+    <text x="24" y="78" class="card-body">  - Key Gen Service (KGS)</text>
+    <text x="24" y="98" class="card-body">  - Pre-allocated Range: 32..63</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#FBBF24">• Redis L1 Cache EU:</text>
+    <text x="24" y="146" class="card-body">  - GDPR localized caching</text>
+    <text x="16" y="174" class="card-body" font-weight="600" fill="#FBBF24">• CockroachDB Node 2:</text>
+    <text x="24" y="194" class="card-body">  - Raft Range Follower / Peer</text>
+    <rect x="16" y="244" width="218" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="125" y="259" class="badge" fill="#FDE68A" text-anchor="middle">Zero Collisions via Sharded KGS</text>
+  </g>
+
+  <!-- Region 3: APAC -->
+  <g transform="translate(835, 75)">
+    <rect width="235" height="280" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="235" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <text x="117" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">Region 3: APAC (Active)</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• App Cluster APAC:</text>
+    <text x="24" y="78" class="card-body">  - Key Gen Service (KGS)</text>
+    <text x="24" y="98" class="card-body">  - Pre-allocated Range: 64..95</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#A78BFA">• Redis L1 Cache APAC:</text>
+    <text x="24" y="146" class="card-body">  - Local read performance</text>
+    <text x="16" y="174" class="card-body" font-weight="600" fill="#A78BFA">• CockroachDB Node 3:</text>
+    <text x="24" y="194" class="card-body">  - Raft Range Follower / Peer</text>
+    <rect x="16" y="244" width="203" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="117" y="259" class="badge" fill="#DDD6FE" text-anchor="middle">CockroachDB Raft Consensus</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 240 150 L 263 150 L 275 150" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <path d="M 240 215 L 260 215 Q 267 215 267 225 L 267 250 Q 267 260 290 260 L 530 260 Q 550 260 550 250 L 550 215 L 555 215" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+  <path d="M 525 215 L 543 215 L 555 215" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+  <path d="M 805 215 L 823 215 L 835 215" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arrow-purple)"/>
+</svg>

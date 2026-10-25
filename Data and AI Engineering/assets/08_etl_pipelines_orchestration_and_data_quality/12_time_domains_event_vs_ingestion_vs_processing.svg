@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">The Three Time Domains in Stream Processing</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Event Time vs. Ingestion Time vs. Processing Time and Network Delay Skew</text>
+  
+  
+    <rect x="30" y="115" width="280" height="210" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="170.0" y="141" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. EVENT TIME</text>
+    <text x="170.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">When Real-World Event Occurred</text>
+    <rect x="224" y="125" width="80" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="264.0" y="137" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">EVENT TIME</text>
+    <circle cx="46" cy="170" r="2" fill="#3b82f6"/>
+    <text x="54" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Timestamp: 10:14:02 AM</text>
+    <circle cx="46" cy="186" r="2" fill="#3b82f6"/>
+    <text x="54" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Generated on client phone / IoT sensor</text>
+    <circle cx="46" cy="202" r="2" fill="#3b82f6"/>
+    <text x="54" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Embedded in JSON payload: event_timestamp</text>
+    <circle cx="46" cy="218" r="2" fill="#3b82f6"/>
+    <text x="54" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">CRITICAL for accurate business analytics!</text>
+    <circle cx="46" cy="234" r="2" fill="#3b82f6"/>
+    <text x="54" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Only time domain that reflects true reality</text>
+    <circle cx="46" cy="250" r="2" fill="#3b82f6"/>
+    <text x="54" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Tolerates offline mode (e.g. subway tunnel)</text>
+
+  
+    <rect x="350" y="115" width="280" height="210" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="490.0" y="141" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. INGESTION TIME</text>
+    <text x="490.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">When Broker Received Event</text>
+    <rect x="516" y="125" width="108" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="570.0" y="137" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">INGESTION TIME</text>
+    <circle cx="366" cy="170" r="2" fill="#f59e0b"/>
+    <text x="374" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Timestamp: 10:45:00 AM (31 min delay!)</text>
+    <circle cx="366" cy="186" r="2" fill="#f59e0b"/>
+    <text x="374" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Recorded by Kafka Broker on topic append</text>
+    <circle cx="366" cy="202" r="2" fill="#f59e0b"/>
+    <text x="374" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reflects network latency, backpressure,</text>
+    <circle cx="366" cy="218" r="2" fill="#f59e0b"/>
+    <text x="374" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">and mobile offline reconnect sync</text>
+    <circle cx="366" cy="234" r="2" fill="#f59e0b"/>
+    <text x="374" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Monotonically increasing per partition</text>
+    <circle cx="366" cy="250" r="2" fill="#f59e0b"/>
+    <text x="374" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Independent of client device clock skew</text>
+
+  
+    <rect x="670" y="115" width="280" height="210" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="810.0" y="141" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. PROCESSING TIME</text>
+    <text x="810.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">When Engine Evaluates Window</text>
+    <rect x="829" y="125" width="115" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="886.5" y="137" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PROCESSING TIME</text>
+    <circle cx="686" cy="170" r="2" fill="#10b981"/>
+    <text x="694" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Timestamp: 10:45:03 AM</text>
+    <circle cx="686" cy="186" r="2" fill="#10b981"/>
+    <text x="694" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Clock time on Spark / Flink worker node</text>
+    <circle cx="686" cy="202" r="2" fill="#10b981"/>
+    <text x="694" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Easiest to implement (System.currentTimeMillis())</text>
+    <circle cx="686" cy="218" r="2" fill="#10b981"/>
+    <text x="694" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">FATAL FLAW: Non-deterministic!</text>
+    <circle cx="686" cy="234" r="2" fill="#10b981"/>
+    <text x="694" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Re-running same data tomorrow yields completely</text>
+    <circle cx="686" cy="250" r="2" fill="#10b981"/>
+    <text x="694" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">different window aggregations!</text>
+    <circle cx="686" cy="266" r="2" fill="#10b981"/>
+    <text x="694" y="269" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Never use for financial or regulatory metrics!</text>
+
+  
+    <line x1="310" y1="220" x2="350" y2="220" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="330.0" y="212.0" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Network Delay / Offline</text>
+  
+    <line x1="630" y1="220" x2="670" y2="220" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="650.0" y="212.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Consumer Fetch</text>
+
+  <text x="490" y="365" fill="#cbd5e1" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Event Time is the ONLY time domain that guarantees repeatable, deterministic window calculations across re-runs!</text>
+
+</svg>

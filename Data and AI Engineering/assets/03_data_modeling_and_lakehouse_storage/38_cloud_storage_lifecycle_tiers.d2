@@ -1,0 +1,26 @@
+direction: right
+title: Cloud Storage Lifecycle Tiers & Data Archival Economics
+
+hot: 1. Hot Tier {
+  storage: "$0.020/GB/month, Free Retrieval"
+  use: "Active Lakehouse Data & Frequent BI Scans"
+}
+
+cool: 2. Cool Tier {
+  storage: "$0.010/GB/month, $0.01/GB Retrieval"
+  use: "Monthly Reports & Quarterly Audits"
+}
+
+cold: 3. Cold Tier {
+  storage: "$0.004/GB/month, $0.03/GB Retrieval"
+  use: "90-Day Disaster Recovery Backups"
+}
+
+archive: 4. Archive / Glacier {
+  storage: "$0.001/GB/month, 5-hour retrieval delay"
+  use: "7-Year Legal & Regulatory Compliance"
+}
+
+hot -> cool: "30 Days Inactive"
+cool -> cold: "90 Days Inactive"
+cold -> archive: "365 Days Inactive"

@@ -1,0 +1,19 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+before: "Before: Metadata Pointers" {
+  p1: "Partition 5 Meta (Staging)\nPointer to physical data" { class: box; style.stroke: "#F59E0B" }
+  data: "Physical Storage Pages\n(100 GB Parquet / Extents)" { class: box; style.stroke: "#3B82F6" }
+  p2: "Partition 5 Meta (Fact Table)\nCurrently empty pointer" { class: box; style.stroke: "#F59E0B" }
+  
+  p1 -> data
+}
+
+after: "After: Pointer Switch (0.01s Execution)" {
+  p1_after: "Partition 5 Meta (Staging)\nNow empty (ready for next batch)" { class: box; style.stroke: "#10B981" }
+  p2_after: "Partition 5 Meta (Fact Table)\nDirect pointer to physical data" { class: box; style.stroke: "#10B981" }
+
+  p2_after -> data: "Zero Data Copy Switch"
+}

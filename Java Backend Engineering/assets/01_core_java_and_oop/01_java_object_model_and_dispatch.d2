@@ -1,0 +1,64 @@
+direction: right
+title: JVM Object Model & Dynamic Method Dispatch Architecture
+
+ThreadStack: Thread Stack (Stack Frame) {
+  style.fill: "#0B132B"
+  style.stroke: "#1E3A8A"
+  
+  RefVar: Object Reference Variable {
+    name: "Order order"
+    type: "4B Compressed OOP / 8B Raw"
+    target: "0x7fa81000"
+  }
+  
+  Locals: Primitive Locals {
+    orderId: "int 42"
+    active: "boolean true"
+  }
+}
+
+JVMHeap: JVM Heap Space (Object Instance at 0x7fa81000) {
+  style.fill: "#0B132B"
+  style.stroke: "#0369A1"
+  
+  ObjectHeader: 64-bit Object Header (12B/16B) {
+    MarkWord: "Mark Word (8B): Hashcode | GC Age | Lock Bits"
+    KlassWord: "Klass Word (4B/8B): Narrow pointer to Metaspace"
+  }
+  
+  InstanceFields: Instance Fields Payload {
+    primitives: "timestamp (8B), amount (8B)"
+    references: "orderId (4B OOP), items (4B OOP)"
+  }
+  
+  Padding: Alignment Padding (0-7 Bytes)
+}
+
+Metaspace: Metaspace (Native Memory) {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  
+  InstanceKlass: Order.class {
+    super: "java.lang.Object"
+    constants: "Constant Pool Cache & Offsets"
+  }
+  
+  VTable: Virtual Method Table (vtable) {
+    m0: "[0] toString() -> Object"
+    m1: "[1] hashCode() -> Object"
+    m2: "[2] checkout() -> Order.checkout"
+    m3: "[3] calculate() -> Order.calculate"
+  }
+}
+
+ThreadStack.RefVar -> JVMHeap.ObjectHeader: Points to Heap Base Address {
+  style.stroke: "#3B82F6"
+}
+
+JVMHeap.ObjectHeader.KlassWord -> Metaspace.InstanceKlass: Klass Pointer {
+  style.stroke: "#06B6D4"
+}
+
+Metaspace.InstanceKlass -> Metaspace.VTable: Contains Method Offsets {
+  style.stroke: "#10B981"
+}

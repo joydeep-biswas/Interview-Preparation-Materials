@@ -6,47 +6,9 @@ A unified, comprehensive, production-grade guide to the Databricks Lakehouse Pla
 
 ## Architectural Overview: High-Level Platform & Lakehouse Architecture
 
-```mermaid
-flowchart TD
-    subgraph ControlPlane ["Databricks Managed Control Plane"]
-        direction TD
-        UI["Workspace Web UI & IDEs"]
-        JobMgr["Workflows & Cluster Manager"]
-        CatalogServ["Unity Catalog Metadata Service"]
-    end
+![Databricks Control Plane vs Data Plane Architecture (Classic)](assets/06_databricks_and_delta_lake/01_databricks_control_vs_data_plane_classic.svg)
 
-    subgraph DataPlane ["Data Plane: Customer Cloud VPC / VNet"]
-        direction TB
-        Driver["Driver Node - Photon / JVM"]
-        W1["Worker 1 - Task Execution"]
-        W2["Worker 2 - Task Execution"]
-        Driver <--> W1
-        Driver <--> W2
-    end
-
-    subgraph CloudObjectStorage ["Cloud Object Storage: ADLS Gen2 / S3 / GCS"]
-        direction LR
-        DeltaTable[("Delta Lake Storage<br/>Parquet Data Files + _delta_log/")]
-        Checkpoints["Checkpoints .parquet & .json"]
-        DeltaTable --- Checkpoints
-    end
-
-    ControlPlane <--> |"Secure Cluster Connectivity (No Public IPs)"| DataPlane
-    DataPlane <--> |"Read / Write Direct Access"| CloudObjectStorage
-
-    style ControlPlane fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DataPlane fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style CloudObjectStorage fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-
-    style UI fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style JobMgr fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CatalogServ fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Driver fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style W1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style W2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DeltaTable fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Checkpoints fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/01_databricks_control_vs_data_plane_classic.d2](assets/06_databricks_and_delta_lake/01_databricks_control_vs_data_plane_classic.d2)*
 
 ---
 
@@ -174,51 +136,9 @@ Databricks separates its architecture into two distinct administrative planes:
 - **Data Plane (Classic):** Hosted inside the **Customer's Cloud Account** (AWS VPC, Azure Subscription, or GCP Project). Clusters of virtual machines process the actual data; data never leaves the customer's network boundary.
 - **Serverless Data Plane:** Managed elastically inside Databricks compute accounts with secure PrivateLink isolation to customer cloud storage.
 
-```mermaid
-flowchart TD
-    subgraph ControlPlane ["Databricks Control Plane (Databricks Cloud Tenant)"]
-        direction TD
-        UI["Web UI & Notebook Server"]
-        WorkflowEng["Orchestration Engine (Workflows)"]
-        ClusterCoord["Cluster Management Daemon"]
-        UCMeta["Unity Catalog Metastore Service"]
-    end
+![Databricks Serverless Compute Network Architecture](assets/06_databricks_and_delta_lake/02_serverless_compute_network_architecture.svg)
 
-    subgraph SecureNetwork ["Secure Transit"]
-        direction TB
-        Tunnel["Relay / PrivateLink Tunnel<br/>(No Public Inbound Ports)"]
-    end
-
-    subgraph CustomerDataPlane ["Customer Data Plane (Customer VPC / VNet)"]
-        direction TB
-        subgraph Cluster1 ["Active Spark Cluster"]
-            direction TB
-            DriverVM["Driver Node"]
-            WorkerVM1["Worker Node 1"]
-            WorkerVM2["Worker Node 2"]
-        end
-        Storage[(Customer Cloud Storage: S3 / ADLS Gen2)]
-        DriverVM & WorkerVM1 & WorkerVM2 <-->|Read / Write Parquet & Delta| Storage
-    end
-
-    ControlPlane <-->|Secure gRPC Instructions| Tunnel
-    Tunnel <-->|Manage VM Lifecycle| CustomerDataPlane
-
-    style ControlPlane fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SecureNetwork fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style CustomerDataPlane fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style Cluster1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#86efac
-
-    style UI fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style WorkflowEng fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ClusterCoord fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style UCMeta fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Tunnel fill:#182234,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style DriverVM fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style WorkerVM1 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style WorkerVM2 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Storage fill:#182234,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/02_serverless_compute_network_architecture.d2](assets/06_databricks_and_delta_lake/02_serverless_compute_network_architecture.d2)*
 
 #### Security Implications & Plane Comparison Matrix
 Customer data remains entirely within the customer's own cloud perimeter, adhering to strict enterprise data sovereignty and compliance requirements (HIPAA, PCI-DSS, SOC2).
@@ -314,28 +234,9 @@ Databricks decouples compute from storage, allowing compute clusters to spin up 
 - **All-Purpose Compute (Interactive):** Shared clusters created via the UI/API for collaborative development, data exploration, and ad-hoc notebook execution. Remains running until manually stopped or idle timeout fires. **Billed at higher DBU (Databricks Unit) rates**.
 - **Job Compute (Automated):** Dedicated clusters launched automatically by the Databricks Workflow scheduler to execute a specific job or task. Spins up when the job starts and terminates immediately upon task completion. **Billed at a significantly discounted DBU rate (~50% cheaper)**.
 
-```mermaid
-flowchart LR
-    subgraph AllPurposeCompute ["All-Purpose Compute (Interactive Development)"]
-        direction LR
-        Dev["Engineer Developing in Notebook"] -->|Interactive Queries| AllPurpose["All-Purpose Cluster<br/>(Higher DBU Cost, Persistent)"]
-    end
+![Databricks Compute Comparison: All-Purpose vs Jobs vs SQL Warehouses](assets/06_databricks_and_delta_lake/03_all_purpose_vs_job_vs_sql_warehouses.svg)
 
-    subgraph JobComputeCluster ["Job Compute (Automated Production)"]
-        direction LR
-        Scheduler["Automated Workflow (2:00 AM)"] -->|Spin up on trigger| JobCompute["Job Cluster<br/>(50% Cheaper DBU, Auto-Terminates)"]
-        JobCompute -->|Finish Task| Destroy["Cluster Destroyed Immediately"]
-    end
-
-    style AllPurposeCompute fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style JobComputeCluster fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style Dev fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style AllPurpose fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Scheduler fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style JobCompute fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Destroy fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/03_all_purpose_vs_job_vs_sql_warehouses.d2](assets/06_databricks_and_delta_lake/03_all_purpose_vs_job_vs_sql_warehouses.d2)*
 
 #### Cost Optimization Rule
 **Never run production workloads on All-Purpose clusters.** Always execute automated production pipelines using Job clusters to cut compute bills in half.
@@ -422,19 +323,9 @@ Cluster logs capture Driver and Worker `log4j`, `stdout`, and `stderr` streams, 
 #### Definition
 Photon is Databricks' ultra-fast, native, vectorized query engine written completely in **C++** (rather than Java/Scala). It is 100% compatible with Apache Spark APIs, executing physical relational operators (joins, aggregations, scans) using modern CPU SIMD instruction sets.
 
-```mermaid
-flowchart TD
-    SparkAPI["PySpark / Spark SQL Query"] --> Catalyst["Catalyst Optimizer"]
-    Catalyst --> Decision{"Is Photon Engine Enabled?"}
-    Decision -- Yes --> PhotonEngine["Photon Engine (Native C++ SIMD Execution, Zero JVM GC)"]
-    Decision -- No --> ClassicSpark["Classic JVM Bytecode Execution (Tungsten)"]
+![Databricks Photon Engine: Native Vectorized C++ Execution](assets/06_databricks_and_delta_lake/04_photon_vectorized_engine_cpp_execution.svg)
 
-    style SparkAPI fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Catalyst fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Decision fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style PhotonEngine fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ClassicSpark fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/04_photon_vectorized_engine_cpp_execution.d2](assets/06_databricks_and_delta_lake/04_photon_vectorized_engine_cpp_execution.d2)*
 
 #### Performance Gains
 Delivers 2x to 5x faster query performance on analytical SQL workloads, especially for high-cardinality aggregations and string transformations.
@@ -454,27 +345,9 @@ An **Instance Pool** maintains a set of pre-acquired, idle virtual machines runn
 - When an automated job or interactive user launches a cluster attached to the pool, VMs are allocated in **under 30 seconds**.
 - When clusters finish or scale down, VMs return to the warm pool rather than terminating.
 
-```mermaid
-flowchart TD
-    subgraph WarmPool ["Databricks Instance Pool (Pre-Warmed VMs in Cloud Account)"]
-        direction LR
-        IdleVM1["Pre-Warmed VM 1<br/>(DBR Pre-Cached)"] --- IdleVM2["Pre-Warmed VM 2<br/>(DBR Pre-Cached)"] --- IdleVM3["Pre-Warmed VM 3<br/>(DBR Pre-Cached)"]
-    end
+![Databricks Instance Pools: Cluster Warm-Start Architecture](assets/06_databricks_and_delta_lake/05_instance_pools_cluster_warm_start.svg)
 
-    subgraph TriggerJob ["Databricks Job Compute Fleet"]
-        direction LR
-        JobCluster["Active Job Cluster<br/>(Acquires Pre-Warmed VMs in <30s)"]
-    end
-
-    IdleVM1 & IdleVM2 & IdleVM3 -->|"Instant Allocation (<30s)"| JobCluster
-
-    style WarmPool fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style TriggerJob fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style IdleVM1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style IdleVM2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style IdleVM3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style JobCluster fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/05_instance_pools_cluster_warm_start.d2](assets/06_databricks_and_delta_lake/05_instance_pools_cluster_warm_start.d2)*
 
 #### Pool Configuration Parameters:
 - **`min_idle_instances`:** Minimum number of idle VMs kept warm in the cloud account (costs cloud VM infrastructure, but incurs 0 Databricks DBUs while idle).
@@ -502,19 +375,9 @@ flowchart TD
 #### Definition
 Databricks Workflows is a fully managed, enterprise-grade data orchestration service that coordinates complex DAGs of dependent tasks across notebooks, SQL queries, dbt models, Python scripts, and Delta Live Tables pipelines.
 
-```mermaid
-flowchart LR
-    Ingest["Task 1: Ingest Bronze<br/>(Notebook)"] --> Cleanse["Task 2: Cleanse Silver<br/>(Python Script)"]
-    Cleanse --> GoldSales["Task 3: Build Gold Sales<br/>(SQL Query)"]
-    Cleanse --> GoldML["Task 4: ML Feature Pipeline<br/>(Python)"]
-    GoldSales & GoldML --> Notify["Task 5: Send Success Webhook"]
+![Databricks Workflows: Multi-Task DAG Orchestration](assets/06_databricks_and_delta_lake/06_databricks_workflows_multitask_dag.svg)
 
-    style Ingest fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Cleanse fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style GoldSales fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style GoldML fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Notify fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/06_databricks_workflows_multitask_dag.d2](assets/06_databricks_and_delta_lake/06_databricks_workflows_multitask_dag.d2)*
 
 #### References
 - [Databricks Documentation: Workflows](https://docs.databricks.com/en/workflows/index.html)
@@ -600,17 +463,9 @@ Integrated alerts that push automated status updates (Job Started, Succeeded, Fa
 #### Definition
 Delta Live Tables (DLT) is a declarative ETL framework for building reliable, maintainable, and testable data pipelines on the Lakehouse. Developers write SQL or Python transformations; the DLT runtime automatically constructs the execution DAG, handles state management, manages cluster autoscaling, and enforces data quality.
 
-```mermaid
-flowchart LR
-    RawStream[Raw Event Files] -->|"@dlt.table streaming"| BronzeTable[(Bronze DLT Table)]
-    BronzeTable -->|"@dlt.table with Expectations"| SilverTable[(Silver DLT Table)]
-    SilverTable -->|"@dlt.table Gold Aggregation"| GoldTable[(Gold Business Mart)]
+![Delta Live Tables (DLT) Streaming Pipeline & Data Expectations](assets/06_databricks_and_delta_lake/07_delta_live_tables_dlt_pipeline_expectations.svg)
 
-    style RawStream fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style BronzeTable fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SilverTable fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style GoldTable fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/07_delta_live_tables_dlt_pipeline_expectations.d2](assets/06_databricks_and_delta_lake/07_delta_live_tables_dlt_pipeline_expectations.d2)*
 
 #### Code Example (Declarative Python DLT Pipeline)
 ```python
@@ -706,41 +561,9 @@ dlt.apply_changes(
 2. **Lakeflow Pipelines (Declarative Transformations):** The next evolution of Delta Live Tables (DLT). Enables data engineers to declare transformations using SQL and Python with automated pipeline DAG execution, out-of-the-box incremental processing, state management, and real-time schema evolution.
 3. **Lakeflow Jobs (Automated Orchestration):** Serverless orchestration engine providing automated failure recovery, health triage, task-level execution tracing, and intelligent data pipeline SLA alerting.
 
-```mermaid
-flowchart TD
-    subgraph Sources ["Upstream Sources"]
-        DB["OLTP Databases<br/>(Postgres, Oracle, SQL Server)"]
-        SaaS["Enterprise SaaS<br/>(Salesforce, Workday)"]
-    end
+![Lakehouse Medallion Architecture: Bronze, Silver, Gold](assets/06_databricks_and_delta_lake/08_medallion_architecture_bronze_silver_gold.svg)
 
-    subgraph LakeflowPlatform ["Databricks Lakeflow Platform"]
-        Connect["1. Lakeflow Connect<br/>(Serverless Ingestion & CDC)"]
-        Pipelines["2. Lakeflow Pipelines (DLT)<br/>(Declarative Bronze/Silver/Gold)"]
-        Jobs["3. Lakeflow Jobs<br/>(Intelligent Orchestration & SLAs)"]
-        Connect --> Pipelines
-        Jobs -.->|Orchestrates & Monitors| Pipelines
-    end
-
-    subgraph LakehouseStorage ["Unity Catalog Lakehouse"]
-        Bronze[("Bronze Delta Tables")]
-        Silver[("Silver Curated Tables")]
-        Gold[("Gold Semantic Models")]
-        Bronze --> Silver --> Gold
-    end
-
-    Pipelines --> LakehouseStorage
-    Sources --> Connect
-
-    style Sources fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-    style LakeflowPlatform fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Connect fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Pipelines fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Jobs fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style LakehouseStorage fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Bronze fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Silver fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Gold fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/08_medallion_architecture_bronze_silver_gold.d2](assets/06_databricks_and_delta_lake/08_medallion_architecture_bronze_silver_gold.d2)*
 
 #### Code Example: Declarative Lakeflow Pipeline with Data Quality & CDC
 ```python
@@ -841,19 +664,9 @@ The REST API exposes programmatic endpoints to control every facet of the Databr
 #### Definition
 Databricks Asset Bundles (DABs) is the modern Infrastructure-as-Code (IaC) standard for packaging, testing, and deploying complex Databricks projects (Jobs, DLT pipelines, ML models, notebooks) across multi-stage environments (`dev`, `staging`, `prod`) using declarative YAML configurations.
 
-```mermaid
-flowchart LR
-    Dev["Developer Code Repo<br/>(databricks.yml)"] --> BundleVal["databricks bundle validate"]
-    BundleVal --> DeployDev["databricks bundle deploy -t dev"]
-    DeployDev --> GitHubCI["GitHub Actions CI/CD Pipeline"]
-    GitHubCI --> DeployProd["databricks bundle deploy -t prod<br/>(Deploys Workflows as Service Principal)"]
+![Databricks Asset Bundles (DAB) CI/CD Deployment Flow](assets/06_databricks_and_delta_lake/09_databricks_asset_bundles_dab_cicd.svg)
 
-    style Dev fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style BundleVal fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DeployDev fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style GitHubCI fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DeployProd fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/09_databricks_asset_bundles_dab_cicd.d2](assets/06_databricks_and_delta_lake/09_databricks_asset_bundles_dab_cicd.d2)*
 
 #### Code Example (`databricks.yml` Bundle Configuration)
 ```yaml
@@ -934,48 +747,9 @@ resource "databricks_grant" "analyst_access" {
 Unity Catalog organizes all data assets into an intuitive, hierarchical 3-level namespace:
 $$	ext{Catalog} \longrightarrow 	ext{Schema (Database)} \longrightarrow 	ext{Table / View / Volume}$$
 
-```mermaid
-flowchart TD
-    subgraph GovernanceRoot ["Unity Catalog Governance Root"]
-        Metastore["<b>Unity Catalog Metastore</b><br/>(Cross-Workspace Central Metastore)"]
-    end
+![Unity Catalog Three-Level Namespace & Governance Hierarchy](assets/06_databricks_and_delta_lake/10_unity_catalog_three_level_namespace.svg)
 
-    subgraph Catalogs ["Catalogs (Namespaces)"]
-        direction LR
-        CatDev["<b>dev_catalog</b><br/>(Sandbox / Non-Prod)"]
-        CatProd["<b>prod_catalog</b><br/>(Governed Production)"]
-    end
-
-    subgraph Schemas ["Schemas / Databases"]
-        direction LR
-        SchSales["<b>sales_schema</b>"]
-        SchHR["<b>hr_schema</b>"]
-    end
-
-    subgraph DataAssets ["Securable Assets"]
-        direction LR
-        TblOrders[("<b>fact_orders</b><br/>(Managed Table)")]
-        VolLanding[("<b>/Volumes/raw_landing</b><br/>(Unstructured Volume)")]
-        ViewVIP[("<b>vw_vip_customers</b><br/>(Dynamic View)")]
-    end
-
-    Metastore --> CatDev & CatProd
-    CatProd --> SchSales & SchHR
-    SchSales --> TblOrders & VolLanding & ViewVIP
-
-    style GovernanceRoot fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Catalogs fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Schemas fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style DataAssets fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Metastore fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CatDev fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style CatProd fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style SchSales fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style SchHR fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style TblOrders fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style VolLanding fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style ViewVIP fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/10_unity_catalog_three_level_namespace.d2](assets/06_databricks_and_delta_lake/10_unity_catalog_three_level_namespace.d2)*
 
 #### References
 - [Databricks Documentation: Unity Catalog Overview](https://docs.databricks.com/en/data-governance/unity-catalog/index.html)
@@ -1255,38 +1029,9 @@ Delta Lake stores tabular datasets as a combination of **immutable Apache Parque
 
 $$	ext{Delta Table} = 	ext{Parquet Data Files} + 	ext{Transaction Log (\_delta\_log/)}$$
 
-```mermaid
-flowchart TD
-    subgraph DeltaTableDirectory ["Delta Lake Table Directory (/lakehouse/sales_orders/)"]
-        subgraph DeltaLogDir ["_delta_log/ (The Single Source of Truth)"]
-            direction LR
-            Commit0["00000000000000000000.json (Initial Create & Adds)"]
-            Commit1["00000000000000000001.json (Append 2 Files)"]
-            Commit2["00000000000000000002.json (Remove 1 File, Add 1 File)"]
-            Check10["00000000000000000010.checkpoint.parquet"]
-            
-            Commit0 --> Commit1 --> Commit2 -.-> Check10
-        end
+![Delta Lake ACID Transaction Log & Parquet Layout](assets/06_databricks_and_delta_lake/11_delta_lake_transaction_log_parquet_layout.svg)
 
-        subgraph ParquetFiles ["Physical Parquet Data Files (Object Storage)"]
-            F1["part-0001.snappy.parquet (Active)"]
-            F2["part-0002.snappy.parquet (Active)"]
-            F3["part-0003.snappy.parquet (Marked REMOVED in Commit 2)"]
-        end
-    end
-
-    style DeltaTableDirectory fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style DeltaLogDir fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ParquetFiles fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-
-    style Commit0 fill:#182234,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Commit1 fill:#182234,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Commit2 fill:#182234,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Check10 fill:#182234,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style F1 fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style F2 fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style F3 fill:#182234,stroke:#94a3b8,stroke-width:1.5px,stroke-dasharray: 4 4,color:#94a3b8
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/11_delta_lake_transaction_log_parquet_layout.d2](assets/06_databricks_and_delta_lake/11_delta_lake_transaction_log_parquet_layout.d2)*
 
 #### Why Parquet Alone is Insufficient
 Raw Parquet files on cloud storage lack atomicity: if an append job writing 50 Parquet files fails on file 42, the table is left corrupted with partial data. In Delta Lake, reader engines query the `_delta_log` first. If a commit failed, the orphaned files are never listed in the log and are completely ignored by readers.
@@ -1347,42 +1092,9 @@ As thousands of commits accumulate, reading thousands of individual JSON files t
 
 Every **10 commits**, Delta automatically triggers a **Checkpoint**: it aggregates the cumulative state of all prior commits into a single, compact `checkpoint.parquet` file. Subsequent queries only need to read the latest checkpoint Parquet file plus any subsequent JSON commits ($<10$ files).
 
-```mermaid
-flowchart TD
-    subgraph HistoricalLog ["Historical Delta Log Commits"]
-        direction LR
-        C0["0.json"] --> C1["1.json"] --> C9["9.json"]
-    end
+![Delta Lake Time Travel & Commit Snapshot Timeline](assets/06_databricks_and_delta_lake/12_delta_time_travel_commit_history.svg)
 
-    subgraph StateCheckpoint ["Consolidated State Checkpoint"]
-        Check10["<b>10.checkpoint.parquet</b><br/>(Consolidated Table State at Commit 10)"]
-    end
-
-    subgraph RecentCommits ["Active Delta Commits"]
-        direction LR
-        C11["11.json"] --> C12["12.json"]
-    end
-
-    subgraph QueryEngineResolution ["Engine Fast-State Resolution"]
-        QueryEngine["<b>Query Engine Reader</b>"]
-    end
-
-    HistoricalLog --> Check10 --> RecentCommits
-    QueryEngine -->|Instant State Resolution| Check10
-    QueryEngine -->|Replay Incremental Deltas| C11 & C12
-
-    style HistoricalLog fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StateCheckpoint fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style RecentCommits fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style QueryEngineResolution fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style C0 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style C1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style C9 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Check10 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style C11 fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style C12 fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style QueryEngine fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/12_delta_time_travel_commit_history.d2](assets/06_databricks_and_delta_lake/12_delta_time_travel_commit_history.d2)*
 
 ---
 
@@ -1399,37 +1111,9 @@ Delta Lake uses **Optimistic Concurrency Control (OCC)** to manage concurrent tr
    - If changes do not overlap (e.g., updating separate partitions), Delta automatically **replays and re-commits** Transaction A as `000007.json`.
    - If updates conflict on the exact same row/file, Transaction A aborts with a `ConcurrentModificationException`.
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    box rgba(49, 46, 129, 0.5) Concurrent Writers
-        participant Tx1 as Transaction 1
-        participant Tx2 as Transaction 2
-    end
-    box rgba(6, 78, 59, 0.5) Storage Engine
-        participant Log as Delta Transaction Log (_delta_log/)
-    end
+![Delta Lake Optimistic Concurrency Control (OCC) & Conflict Resolution](assets/06_databricks_and_delta_lake/13_optimistic_concurrency_control_conflict_resolution.svg)
 
-    Tx1->>Log: 1. Read snapshot at version 5
-    Tx2->>Log: 2. Read snapshot at version 5
-    Note over Tx1,Tx2: Both compute writes in private staging memory
-
-    Tx2->>Log: 3. Commit 000006.json (Atomic Put)
-    Log-->>Tx2: 200 OK (Tx 2 wins version 6!)
-
-    Tx1->>Log: 4. Attempt Commit 000006.json
-    Log-->>Tx1: 409 Conflict (000006.json already exists!)
-
-    alt Mutually Exclusive Partitions (No Overlap)
-        Tx1->>Log: 5. Re-read version 6 & replay operations
-        Tx1->>Log: 6. Commit as 000007.json
-        Log-->>Tx1: 200 OK (Auto-rebase successful!)
-    else Overlapping Target Files (Conflict)
-        Note over Tx1: Abort transaction
-        Tx1-->>Tx1: Throw ConcurrentModificationException
-    end
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/13_optimistic_concurrency_control_conflict_resolution.d2](assets/06_databricks_and_delta_lake/13_optimistic_concurrency_control_conflict_resolution.d2)*
 
 #### References
 - [Databricks: Concurrency Control in Delta Lake](https://docs.databricks.com/en/optimizations/concurrency-control.html)
@@ -1613,29 +1297,9 @@ Traditionally, deleting or updating a single row inside a 500MB Parquet file req
 
 **Deletion Vectors (DVs)** revolutionize this: Delta writes a tiny bit-array file (a few bytes) that lists the exact row offsets that have been deleted. Reader engines read the original Parquet file and simply mask out rows marked in the Deletion Vector. **100x faster updates and deletes.**
 
-```mermaid
-flowchart LR
-    subgraph TraditionalCOW ["Traditional Copy-On-Write (Slow)"]
-        direction LR
-        OldP["Old 500MB Parquet (1M Rows)"] -->|Delete 1 Row| Rewrite["Rewrite Entire NEW 500MB Parquet!"]
-    end
+![Delta Lake Deletion Vectors vs Copy-on-Write (COW)](assets/06_databricks_and_delta_lake/14_delta_merge_copy_on_write_vs_deletion_vectors.svg)
 
-    subgraph DeletionVectors ["Deletion Vectors (Fast Soft-Delete)"]
-        BaseP["Base 500MB Parquet File (Untouched!)"]
-        DVFile["Tiny Deletion Vector (1KB Bit-Mask: Row #42 is DELETED)"]
-        
-        BaseP & DVFile --> Reader["Reader Engine combines stream: Row #42 skipped instantly!"]
-    end
-
-    style TraditionalCOW fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style DeletionVectors fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style OldP fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Rewrite fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style BaseP fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DVFile fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Reader fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/14_delta_merge_copy_on_write_vs_deletion_vectors.d2](assets/06_databricks_and_delta_lake/14_delta_merge_copy_on_write_vs_deletion_vectors.d2)*
 
 #### References
 - [Databricks Documentation: Deletion Vectors](https://docs.databricks.com/en/delta/deletion-vectors.html)
@@ -1655,15 +1319,9 @@ flowchart LR
 #### Definition
 Change Data Feed (CDF) records row-level change events (insert, update-preimage, update-postimage, delete) committed to a Delta table, turning the Delta table into an automated streaming CDC source for downstream pipelines.
 
-```mermaid
-flowchart LR
-    SourceDelta[(Silver Delta Table with CDF Enabled)] -->|"table_changes() stream"| CDFStream[CDF Stream: _change_type]
-    CDFStream -->|insert / update / delete| DownstreamApp[Gold Business Mart / Kafka]
+![Delta Lake Change Data Feed (CDF) Architecture](assets/06_databricks_and_delta_lake/15_change_data_feed_cdf_streaming_cdc.svg)
 
-    style SourceDelta fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CDFStream fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DownstreamApp fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/15_change_data_feed_cdf_streaming_cdc.d2](assets/06_databricks_and_delta_lake/15_change_data_feed_cdf_streaming_cdc.d2)*
 
 #### Enabling and Querying CDF
 ```sql
@@ -1698,17 +1356,9 @@ Enterprises operating in cloud environments face potential regional outages, ran
 - **Shallow Clone (Zero-Copy Clone):** Copies **only the transaction log metadata**. The new table references the original data files in place. Creation is instantaneous ($O(1)$) and costs zero storage. Ideal for ephemeral developer testing, feature engineering sandboxes, and staging validation.
 - **Deep Clone (Disaster Recovery & Backup):** Copies both the transaction log metadata and the **actual underlying physical Parquet files** to the target destination. Fully independent table with isolated storage. Subsequent runs execute **incrementally**, copying only new or updated files since the previous sync.
 
-```mermaid
-flowchart TD
-    SourceTable[("Primary Region: lakehouse.fact_orders\n(10 TB Active Production Table)")]
-    
-    SourceTable -->|"Incremental Deep Clone (DR Replication)"| DeepTarget[("Secondary DR Region: dr_lakehouse.fact_orders\n(10 TB Independent Isolated Replica)")]
-    SourceTable -->|"Shallow Clone (Zero-Copy Metadata)"| ShallowTarget[("Dev Sandbox: sandbox.orders_dev_test\n(0 Bytes Copied, Instant Test Environment)")]
+![Delta Lake Clones: Shallow vs Deep Clone Mechanics](assets/06_databricks_and_delta_lake/16_delta_lake_clones_shallow_vs_deep.svg)
 
-    style SourceTable fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DeepTarget fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ShallowTarget fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/16_delta_lake_clones_shallow_vs_deep.d2](assets/06_databricks_and_delta_lake/16_delta_lake_clones_shallow_vs_deep.d2)*
 
 #### Code Example
 ```sql
@@ -1756,19 +1406,9 @@ Once a file is vacuumed, **you can no longer time-travel back to versions that r
 #### Definition
 Delta Sharing is the industry's first open, secure REST protocol for data sharing. It enables an organization to share live Delta tables, views, and ML models with external partners or clients using **any compute platform** (Pandas, PowerBI, Presto, Apache Spark) without copying or moving data.
 
-```mermaid
-flowchart LR
-    ShareServer["Data Provider (Unity Catalog Metastore)"] -->|Delta Sharing REST Protocol| RecipientAuth["Token Authentication"]
-    RecipientAuth --> Consumer1["Python Pandas Script"]
-    RecipientAuth --> Consumer2["PowerBI Dashboard"]
-    RecipientAuth --> Consumer3["Apache Spark Cluster on AWS"]
+![Delta Sharing Open & Secure Protocol Architecture](assets/06_databricks_and_delta_lake/17_delta_sharing_open_secure_rest_protocol.svg)
 
-    style ShareServer fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style RecipientAuth fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Consumer1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Consumer2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Consumer3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/17_delta_sharing_open_secure_rest_protocol.d2](assets/06_databricks_and_delta_lake/17_delta_sharing_open_secure_rest_protocol.d2)*
 
 #### References
 - [Delta Sharing Official Open Source Project](https://delta.io/sharing/)
@@ -1804,20 +1444,9 @@ When registering a Delta table in Unity Catalog or Hive Metastore, engineers cho
 #### Definition
 Universal Format (UniForm) allows Delta Lake tables to be read as if they were **Apache Iceberg** or **Apache Hudi** tables without duplicating data. Delta automatically generates Iceberg and Hudi metadata files alongside the standard `_delta_log`, allowing engines like Snowflake, BigQuery, and Athena to query Delta tables natively using their built-in Iceberg readers.
 
-```mermaid
-flowchart TD
-    ParquetFiles[("Single Underlying Parquet Data Files (0% Storage Duplication!)")]
-    
-    DeltaLog["_delta_log/ (Delta Lake Readers: Databricks / Spark)"]
-    IcebergMeta["metadata/ (Iceberg Readers: Snowflake / BigQuery / Starburst)"]
-    
-    DeltaLog --> ParquetFiles
-    IcebergMeta --> ParquetFiles
+![Databricks Universal Format (UniForm) Architecture](assets/06_databricks_and_delta_lake/18_unifrom_delta_iceberg_hudi_metadata_layer.svg)
 
-    style ParquetFiles fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DeltaLog fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style IcebergMeta fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/06_databricks_and_delta_lake/18_unifrom_delta_iceberg_hudi_metadata_layer.d2](assets/06_databricks_and_delta_lake/18_unifrom_delta_iceberg_hudi_metadata_layer.d2)*
 
 ```sql
 -- Creating a Delta table readable by Iceberg engines

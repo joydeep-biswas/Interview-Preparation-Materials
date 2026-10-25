@@ -1,0 +1,39 @@
+direction: right
+
+stack: "Stack Frame Variables" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  s1: "s1 = 'Java' (Literal)"
+  s2: "s2 = 'Java' (Literal)"
+  s3: "s3 = new String('Java')"
+}
+
+pool: "String Intern Pool (Inside Heap)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  canonical: "Canonical Pooled String: 'Java'"
+}
+
+heap_obj: "Regular Heap Object" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  fresh: "Distinct String Instance: 'Java'"
+}
+
+assertions: "Comparison Assertions" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  c1: "s1 == s2 : TRUE (Same Address)"
+  c2: "s1 == s3 : FALSE (Different Address)"
+  c3: "s1.equals(s3) : TRUE (Same Value)"
+}
+
+stack.s1 -> pool.canonical
+stack.s2 -> pool.canonical
+stack.s3 -> heap_obj.fresh
+pool -> assertions
+heap_obj -> assertions

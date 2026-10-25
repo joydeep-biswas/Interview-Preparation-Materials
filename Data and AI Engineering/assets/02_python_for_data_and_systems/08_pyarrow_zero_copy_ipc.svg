@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="420" viewBox="0 0 1080 420">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1080" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">PyArrow: Zero-Copy Memory Sharing &amp; Parquet Inter-Process Communication</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Apache Arrow C Data Interface: Sharing identical physical RAM buffers across Polars, DuckDB, and Python without copying</text>
+
+  <!-- Step 1: Parquet File on Disk (w=260, x=35, y=95) -->
+  <g transform="translate(35, 95)">
+    <rect width="260" height="295" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
+    <text x="130" y="26" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">1. Parquet File on Disk</text>
+
+    <rect x="15" y="45" width="230" height="90" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
+    <text x="125" y="70" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle">NVMe SSD Storage</text>
+    <text x="25" y="92" font-size="10" fill="#94A3B8" text-anchor="start">• Snappy/ZSTD compressed</text>
+    <text x="25" y="108" font-size="10" fill="#94A3B8" text-anchor="start">• Column chunk row groups</text>
+    <text x="25" y="122" font-size="10" fill="#60A5FA" text-anchor="start">• Embedded footer metadata</text>
+
+    <text x="20" y="165" font-size="11" fill="#93C5FD" font-weight="600" text-anchor="start">Memory Map Operation:</text>
+    <text x="20" y="185" font-size="10" fill="#94A3B8" text-anchor="start">• OS mmap() maps disk file</text>
+    <text x="20" y="200" font-size="10" fill="#94A3B8" text-anchor="start">  directly into virtual address</text>
+    <text x="20" y="215" font-size="10" fill="#94A3B8" text-anchor="start">  space without userspace copy</text>
+    <text x="20" y="245" font-size="10" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ Instantaneous file open</text>
+  </g>
+
+  <!-- Arrow 1 to 2 (Runway gap: 295 to 375 = 80px) -->
+  <path d="M 295 210 L 368 210" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+  <rect x="305" y="175" width="60" height="22" rx="4" fill="#1E293B" stroke="#10B981" stroke-width="1.2"/>
+  <text x="335" y="190" font-size="10" fill="#A7F3D0" font-weight="700" text-anchor="middle">mmap()</text>
+
+  <!-- Step 2: Shared PyArrow Table in RAM (w=320, x=375, y=95) -->
+  <g transform="translate(375, 95)">
+    <rect width="320" height="295" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <text x="160" y="26" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. Shared Arrow Table in RAM</text>
+
+    <rect x="15" y="45" width="290" height="100" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+    <text x="160" y="70" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">Apache Arrow RecordBatch (Off-Heap)</text>
+    <rect x="25" y="80" width="270" height="22" rx="3" fill="#0F172A" stroke="#10B981"/>
+    <text x="160" y="95" font-size="10" fill="#6EE7B7" class="code" text-anchor="middle">RAM Buffer Address: 0x7FFF0042</text>
+    <text x="25" y="125" font-size="10" fill="#A7F3D0" text-anchor="start">• Standardized columnar IPC format</text>
+    <text x="25" y="139" font-size="10" fill="#A7F3D0" text-anchor="start">• Immutable, contiguous array buffers</text>
+
+    <text x="20" y="175" font-size="11" fill="#6EE7B7" font-weight="600" text-anchor="start">Arrow C Data Interface:</text>
+    <text x="20" y="195" font-size="10" fill="#A7F3D0" text-anchor="start">• Passes 2 C struct pointers only:</text>
+    <text x="20" y="210" font-size="10" fill="#FFFFFF" class="code" text-anchor="start">  ArrowSchema* &amp; ArrowArray*</text>
+    <text x="20" y="235" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="start">✓ ZERO Data Duplication!</text>
+  </g>
+
+  <!-- Connectors from Arrow to Polars &amp; DuckDB (Runway gap: 695 to 765 = 70px) -->
+  <path d="M 695 170 L 758 170" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <path d="M 695 280 L 758 280" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+
+  <!-- Step 3: Zero-Copy Consumers (w=300, x=765, y=95) -->
+  <g transform="translate(765, 95)">
+    <rect width="300" height="295" rx="8" fill="#1A102F" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="150" y="26" font-size="13" font-weight="700" fill="#DDD6FE" text-anchor="middle">3. Zero-Copy Consumer Engines</text>
+
+    <!-- Polars Consumer -->
+    <rect x="15" y="45" width="270" height="105" rx="6" fill="#451A03" stroke="#F59E0B" stroke-width="1.2"/>
+    <text x="150" y="68" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">Polars Engine</text>
+    <text x="25" y="88" font-size="10" fill="#FDE68A" class="code" text-anchor="start">pl.from_arrow(table)</text>
+    <text x="25" y="106" font-size="10" fill="#FDE68A" text-anchor="start">• Reuses pointer 0x7FFF0042</text>
+    <text x="25" y="122" font-size="10" fill="#FDE68A" text-anchor="start">• Zero memory copy; instant query</text>
+    <text x="25" y="138" font-size="9" fill="#A7F3D0" text-anchor="start">Time: 0.0001s (O(1) pointer bind)</text>
+
+    <!-- DuckDB Consumer -->
+    <rect x="15" y="165" width="270" height="110" rx="6" fill="#2E1065" stroke="#8B5CF6" stroke-width="1.2"/>
+    <text x="150" y="188" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">DuckDB SQL Engine</text>
+    <text x="25" y="208" font-size="10" fill="#DDD6FE" class="code" text-anchor="start">SELECT * FROM arrow_table</text>
+    <text x="25" y="226" font-size="10" fill="#DDD6FE" text-anchor="start">• Directly scans Arrow buffer chunks</text>
+    <text x="25" y="242" font-size="10" fill="#DDD6FE" text-anchor="start">• Parallel SIMD vector execution</text>
+    <text x="25" y="258" font-size="9" fill="#6EE7B7" text-anchor="start">Memory overhead: 0 Bytes copied</text>
+  </g>
+</svg>

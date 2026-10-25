@@ -1,0 +1,34 @@
+direction: right
+title: Driver to Executor Task Scheduling Flow
+
+Driver: Driver Coordinator {
+  style.stroke: "#38BDF8"
+  Init: SparkSession / SparkContext
+  DAG: DAG Scheduler (Stage Creation)
+  TaskSched: Task Scheduler (Locality Matching)
+
+  Init -> DAG -> TaskSched
+}
+
+ClusterMgr: Cluster Manager {
+  style.stroke: "#C084FC"
+  K8s: Kubernetes / YARN Resource Manager
+  NodeAgent: Kubelet / NodeManager
+  K8s -> NodeAgent: Launches Container
+}
+
+Worker: Worker Node & Executor {
+  style.stroke: "#34D399"
+  Backend: CoarseGrainedExecutorBackend
+  Slot1: Task Slot 1
+  Slot2: Task Slot 2
+  BlockMgr: BlockManager
+
+  Backend -> Slot1
+  Backend -> Slot2
+}
+
+Driver.Init -> ClusterMgr.K8s: 1. Request Executor Containers { style.stroke: "#C084FC" }
+ClusterMgr.NodeAgent -> Worker.Backend: 2. Spawns JVM Process { style.stroke: "#FBBF24" }
+Worker.Backend -> Driver.TaskSched: 3. RegisterExecutor RPC { style.stroke: "#38BDF8" }
+Driver.TaskSched -> Worker.Slot1: 4. LaunchTask RPC { style.stroke: "#34D399" }

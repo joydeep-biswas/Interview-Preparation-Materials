@@ -1,0 +1,26 @@
+direction: right
+title: Kafka Metadata Architecture: Legacy ZooKeeper vs. Modern KRaft
+
+zk: "Legacy ZooKeeper Architecture" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  ensemble: "External ZooKeeper Ensemble (3-5 nodes)\n(ZAB consensus, watch trees)"
+  ctrl_zk: "Active Controller Broker\n(Full tree reload on failover)"
+  brokers_zk: "Data Brokers (Broker 1, 2, 3)"
+
+  ensemble -> ctrl_zk: "Watch updates"
+  ctrl_zk -> brokers_zk: "Heavy RPCs"
+}
+
+kraft: "Modern KRaft Architecture (KIP-500)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  quorum: "KRaft Controller Quorum\n(Raft Leader & Followers)"
+  metalist: "@metadata Replicated Topic\n(Immutable event log)"
+  brokers_k: "Data Brokers (Broker 1, 2, 3)\n(Local in-memory metadata replica)"
+
+  quorum -> metalist: "Commit metadata"
+  metalist -> brokers_k: "Event streaming"
+}

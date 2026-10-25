@@ -1,0 +1,24 @@
+direction: right
+title: Databricks Auto Loader (cloudFiles) Execution Architecture
+
+storage: Cloud Storage Bucket (S3 / ADLS) {
+  files: "s3://landing/incoming/*.json"
+}
+
+queue: Cloud Event Queue (AWS SQS / Event Grid) {
+  events: "Buffered s3:ObjectCreated events"
+}
+
+autoloader: Databricks Auto Loader (cloudFiles) {
+  engine: "spark.readStream.format('cloudFiles')"
+  features: "Schema inference, schema evolution, O(1) queue discovery"
+}
+
+bronze: Bronze Delta Lake Table {
+  table: "bronze.raw_events"
+  column: "_rescued_data (Captures unexpected schema drift)"
+}
+
+storage -> queue: "File Upload Notification"
+queue -> autoloader: "Consume File URI Events"
+autoloader -> bronze: "Append Incremental Micro-Batches"

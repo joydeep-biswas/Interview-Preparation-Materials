@@ -128,46 +128,9 @@ A comprehensive, production-grade guide answering real-time and advanced SQL int
 While SQL queries are written starting with `SELECT`, the database management system (RDBMS) evaluates clauses in a strictly defined logical pipeline. Understanding this lifecycle is critical because it dictates column alias visibility, filtering efficiency, and aggregation scoping.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Stage1 ["Stage 1: Source & Ingestion Filtering"]
-        direction LR
-        S1["1. FROM & JOINs<br/>Identify source tables, Cartesian combinations & ON filters"] --> S2["2. WHERE<br/>Filter raw rows prior to grouping (prune scan volume)"]
-    end
+![SQL Logical Query Processing Stages](assets/01_sql_and_advanced_querying_faq/01_sql_logical_query_processing_stages.svg)
 
-    subgraph Stage2 ["Stage 2: Grouping & Aggregation"]
-        direction LR
-        S3["3. GROUP BY<br/>Bucket rows into discrete aggregate groups"] --> S4["4. HAVING<br/>Filter aggregated group metrics (post-grouping prune)"]
-    end
-
-    subgraph Stage3 ["Stage 3: Projection & Sets"]
-        direction LR
-        S5["5. SELECT<br/>Evaluate expressions, scalar math & aliases"] --> S6["6. DISTINCT<br/>Hash/sort deduplication across projected columns"] --> S7["7. UNION / INTERSECT / EXCEPT<br/>Combine rowsets from distinct subqueries"]
-    end
-
-    subgraph Stage4 ["Stage 4: Ordering & Limiting"]
-        direction LR
-        S8["8. ORDER BY<br/>Sort final unified result set (aliases accessible)"] --> S9["9. LIMIT / OFFSET / FETCH<br/>Restrict output cardinality for client"]
-    end
-
-    S2 --> S3
-    S4 --> S5
-    S7 --> S8
-
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Stage2 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Stage3 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Stage4 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S4 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S5 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style S6 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style S7 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style S8 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S9 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/01_sql_logical_query_processing_stages.d2](assets/01_sql_and_advanced_querying_faq/01_sql_logical_query_processing_stages.d2)
 
 #### Engineering Implications
 1. **Alias Invisibility in WHERE:** `WHERE total_amount > 100` fails if `total_amount` is defined in `SELECT` as `SELECT (qty * price) AS total_amount`. The `WHERE` clause executes at Step 2, long before `SELECT` creates the alias at Step 5.
@@ -237,22 +200,9 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY mv_customer_order_summary;
 **Question:** A query is running for 30 minutes instead of 2 minutes. How would you troubleshoot it?
 
 #### Systematic Troubleshooting Playbook (The 5-Step Diagnostic Protocol)
-```mermaid
-flowchart TD
-    subgraph DiagnosticPipeline ["5-Step SQL Performance Diagnostic Protocol"]
-        A["Step 1: Inspect Execution Plan<br/>(EXPLAIN ANALYZE / SET STATISTICS IO)"] --> B["Step 2: Check System Concurrency<br/>(Locks, Blocker sessions, TempDB / Spill)"]
-        B --> C["Step 3: Analyze Cardinality & Statistics<br/>(Outdated stats, Cartesian explodes, Skew)"]
-        C --> D["Step 4: Join Order & Physical Operator Review<br/>(Nested Loop vs Hash Join vs Merge Join)"]
-        D --> E["Step 5: Apply Targeted Remediation<br/>(Index, Query Rewrite, or Data Model Changes)"]
-    end
+![5-Step SQL Performance Diagnostic Protocol](assets/01_sql_and_advanced_querying_faq/02_sql_performance_diagnostic_protocol.svg)
 
-    style DiagnosticPipeline fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style A fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style C fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style D fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style E fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/02_sql_performance_diagnostic_protocol.d2](assets/01_sql_and_advanced_querying_faq/02_sql_performance_diagnostic_protocol.d2)
 
 ---
 
@@ -779,18 +729,9 @@ HAVING
 - `LAG(col, offset, default)`: Accesses data from a previous row at a specified physical offset prior to the current row.
 - `LEAD(col, offset, default)`: Accesses data from a subsequent row at a specified offset ahead of the current row.
 
-```mermaid
-flowchart LR
-    subgraph WindowOffsets ["Window Analytical Offsets: LAG vs LEAD"]
-        R1["Row N-1 (Previous Month)"] -->|LAG(amount, 1)| R2["Row N (Current Month)"]
-        R2 -->|LEAD(amount, 1)| R3["Row N+1 (Next Month)"]
-    end
+![Window Analytical Offsets: LAG vs LEAD Execution](assets/01_sql_and_advanced_querying_faq/03_window_analytical_offsets_lag_vs_lead.svg)
 
-    style WindowOffsets fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style R1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style R2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style R3 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/03_window_analytical_offsets_lag_vs_lead.d2](assets/01_sql_and_advanced_querying_faq/03_window_analytical_offsets_lag_vs_lead.d2)
 
 ```sql
 WITH monthly_customer_spend AS (
@@ -1007,19 +948,9 @@ WHERE o.order_id IS NULL;
 #### Question 28: Recursive CTEs & MAXRECURSION
 Recursive CTEs traverse hierarchical trees or graph relationships. Runaway recursion occurs if data contains cyclic loops (e.g., A reports to B, B reports to A).
 
-```mermaid
-flowchart LR
-    subgraph CyclicRecursion ["Cyclic Graph Loop Hazard (Runaway Recursion)"]
-        A["Employee A"] --> B["Manager B"]
-        B --> C["Manager C"]
-        C -.->|Cycle Loop Bug!| A
-    end
+![Cyclic Graph Loop Hazard: Runaway Recursion Prevention](assets/01_sql_and_advanced_querying_faq/04_cyclic_graph_loop_hazard_runaway_recursion.svg)
 
-    style CyclicRecursion fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style A fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style C fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/04_cyclic_graph_loop_hazard_runaway_recursion.d2](assets/01_sql_and_advanced_querying_faq/04_cyclic_graph_loop_hazard_runaway_recursion.d2)
 
 #### Production Query: Organizational Hierarchy with Cycle Detection & MAXRECURSION
 ```sql
@@ -1118,28 +1049,9 @@ Partition switching does **not** perform physical I/O or copy data blocks across
 1. The database engine simply updates the pointer in the system catalog metadata (`sys.allocation_units`).
 2. The data pages allocated to the source partition are re-assigned to the target table's partition metadata.
 
-```mermaid
-flowchart LR
-    subgraph BeforeSwitch ["Before: Metadata Pointers"]
-        P1["Partition 5 Meta (Staging)"] --> PageGroup["Physical Storage Pages (100 GB Data)"]
-        P2["Partition 5 Meta (Fact Table)"] --> Empty["Empty Partition"]
-    end
-    
-    subgraph AfterSwitch ["After: Pointer Reassignment (0.01 sec)"]
-        P1_after["Partition 5 Meta (Staging)"] --> Empty_after["Empty Partition"]
-        P2_after["Partition 5 Meta (Fact Table)"] --> PageGroup
-    end
+![Metadata Partition Switching: Zero-Copy Pointer Reassignment](assets/01_sql_and_advanced_querying_faq/05_metadata_partition_switching_zero_copy.svg)
 
-    style BeforeSwitch fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style AfterSwitch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style P1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style PageGroup fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style P2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Empty fill:#1e293b,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style P1_after fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Empty_after fill:#1e293b,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style P2_after fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/05_metadata_partition_switching_zero_copy.d2](assets/01_sql_and_advanced_querying_faq/05_metadata_partition_switching_zero_copy.d2)
 
 #### Strict Prerequisites for Partition Switching
 - Both source and target tables must exist on the exact same filegroup.
@@ -1165,42 +1077,9 @@ flowchart LR
   3. Unmatched rows from the right table ($B - A$).
 - **Union of Left Anti-Join + Right Anti-Join:** Returns **only the symmetric difference** ($(A - B) \cup (B - A)$). It strictly **excludes** all matching rows!
 
-```mermaid
-flowchart TD
-    subgraph FullOuterExec ["Step 1: FULL OUTER JOIN Evaluation"]
-        direction TB
-        A1["Unmatched Left: (A - B)<br/>(Left Row + NULL Right)"]
-        A2["Matched Center: (A ∩ B)<br/>(Left Row + Right Row)"]
-        A3["Unmatched Right: (B - A)<br/>(NULL Left + Right Row)"]
-    end
+![FULL OUTER JOIN Evaluation & Symmetric Difference](assets/01_sql_and_advanced_querying_faq/06_full_outer_join_evaluation_mechanics.svg)
 
-    FilterGate{"Exclusion Filter Gate<br/>WHERE a.id IS NULL<br/>OR b.id IS NULL"}
-    
-    subgraph AntiJoinUnion ["Step 2: Emitted Symmetric Difference (A △ B)"]
-        direction TB
-        B1["Left Anti-Join Partition (A - B)"]
-        B2["Right Anti-Join Partition (B - A)"]
-    end
-    
-    DiscardSink["Pruned Stream<br/>(Matched Intersection A ∩ B)"]
-
-    A1 -->|"Passes Filter"| FilterGate
-    A2 -->|"Evaluated by Filter"| FilterGate
-    A3 -->|"Passes Filter"| FilterGate
-    
-    FilterGate -->|"Satisfies NULL Condition"| AntiJoinUnion
-    FilterGate -->|"Fails NULL Condition (Both Keys Non-Null)"| DiscardSink
-
-    style FullOuterExec fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AntiJoinUnion fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style DiscardSink fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style FilterGate fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style A1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style A2 fill:#1f2937,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style A3 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style B1 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style B2 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/06_full_outer_join_evaluation_mechanics.d2](assets/01_sql_and_advanced_querying_faq/06_full_outer_join_evaluation_mechanics.d2)
 
 ##### Relational Pattern Comparison: Symmetric Difference
 
@@ -1549,12 +1428,9 @@ ORDER BY rating_drop ASC;
 - Find users who booked a ride more than once within a 10-minute window. Compare self-join vs window function approaches.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    A["Booking 1: 14:00:00"] -->|Window LAG diff = 4 min| B["Booking 2: 14:04:00 (Flagged!)"]
-    B -->|Window LAG diff = 20 min| C["Booking 3: 14:24:00 (Normal)"]
-    style B fill:#ef4444,stroke:#fff,stroke-width:2px,color:#fff
-```
+![Fraud Detection: Temporal LAG Proximity Flagging](assets/01_sql_and_advanced_querying_faq/07_fraud_detection_window_lag_proximity_flagging.svg)
+
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/07_fraud_detection_window_lag_proximity_flagging.d2](assets/01_sql_and_advanced_querying_faq/07_fraud_detection_window_lag_proximity_flagging.d2)
 
 #### Production Implementation: Method 1 – Window LAG (Recommended: O(N log N))
 ```sql
@@ -2007,44 +1883,9 @@ ORDER BY account_id, transaction_timestamp, transaction_id;
 - Write a recursive SQL query to analyze hierarchical employee data, showing each employee's management chain, organizational depth, and root executive.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph CTE1 ["CTE: RunningTotalsByDept"]
-        direction TB
-        E1["Employee: Alice | Dept: 10 | Sal: 5000"]
-        E2["Employee: Bob   | Dept: 10 | Sal: 6000"]
-        E3["Employee: Carol | Dept: 20 | Sal: 7000"]
-    end
+![CTE Materialization & Window Frame Aggregation](assets/01_sql_and_advanced_querying_faq/08_cte_materialization_and_window_aggregation.svg)
 
-    subgraph WindowCalc ["Window Processing (OVER PARTITION BY dept ORDER BY sal)"]
-        direction TB
-        W1["Alice: Dept 10 | Running Total: 5000"]
-        W2["Bob:   Dept 10 | Running Total: 11000"]
-        W3["Carol: Dept 20 | Running Total: 7000"]
-    end
-
-    subgraph FinalFilter ["Outer Query Filter (WHERE RunningTotal <= 10000)"]
-        direction TB
-        F1["Alice: Dept 10 | Keep"]
-        F2["Bob:   Dept 10 | DISCARDED (Exceeds 10k)"]
-        F3["Carol: Dept 20 | Keep"]
-    end
-
-    CTE1 --> WindowCalc --> FinalFilter
-
-    style CTE1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style WindowCalc fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style FinalFilter fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style E1 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style E2 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style E3 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style W1 fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style W2 fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style W3 fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style F1 fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style F2 fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style F3 fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/08_cte_materialization_and_window_aggregation.d2](assets/01_sql_and_advanced_querying_faq/08_cte_materialization_and_window_aggregation.d2)
 
 #### Production Implementation
 ```sql
@@ -2192,18 +2033,9 @@ Given the dataset: `[100, 90, 90, 80]`
 Relational projections restrict output attributes (columns) while filter predicates (`WHERE`) restrict row cardinality. When executing DML mutations (`UPDATE`), databases acquire exclusive row-level or page-level locks. Updating a subset of rows based on joined foreign keys requires atomic transaction scoping to prevent lock escalation and deadlocks.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    Scan["Employees Table Scan"] --> Predicate{"department = 'Finance' / 'IT'?"}
-    Predicate -->|Finance| Select["SELECT name, salary (Projection)"]
-    Predicate -->|IT| Update["UPDATE salary = salary * 1.10 (Exclusive Lock)"]
-    Predicate -->|Other| Bypass["Bypass Row"]
+![Predicate Pushdown & Branching Execution Flow](assets/01_sql_and_advanced_querying_faq/09_predicate_pushdown_and_filtering_mechanics.svg)
 
-    style Scan fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Predicate fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Select fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Update fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/09_predicate_pushdown_and_filtering_mechanics.d2](assets/01_sql_and_advanced_querying_faq/09_predicate_pushdown_and_filtering_mechanics.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2243,17 +2075,9 @@ WHERE department_id IN (
 Deduplicating emails is a classic LeetCode (Problem 182) and enterprise CRM sanitation task. Finding duplicates uses `GROUP BY email HAVING COUNT(*) > 1`. Removing duplicates while retaining the lowest `id` uses an anti-join or self-join `DELETE`.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    Raw["Person Records (id, email)"] --> HashGroup["Hash Aggregate on Email"]
-    HashGroup --> Filter{"COUNT(id) > 1?"}
-    Filter -->|Yes| Duplicates["Project Duplicate Emails"]
-    Filter -->|No| Unique["Discard Unique"]
+![Duplicate Email Detection: Hash Aggregate & HAVING Filter](assets/01_sql_and_advanced_querying_faq/10_duplicate_email_detection_hash_aggregation.svg)
 
-    style Raw fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style HashGroup fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Duplicates fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/10_duplicate_email_detection_hash_aggregation.d2](assets/01_sql_and_advanced_querying_faq/10_duplicate_email_detection_hash_aggregation.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2289,16 +2113,9 @@ Finding the $N$-th highest value requires handling two critical edge cases:
 2. **No Second Highest Value:** If the table contains only 1 employee (or empty), the query must deterministically return `NULL`, not an empty rowset.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    Salaries["All Salaries: [100k, 100k, 90k, 80k]"] --> Distinct["DISTINCT Salaries: [100k, 90k, 80k]"]
-    Distinct --> Rank["Filter Salary < MAX(salary)"]
-    Rank --> Result["Return MAX -> 90k (or NULL if none)"]
+![Nth Highest Salary: Deduplication & Offset Retrieval](assets/01_sql_and_advanced_querying_faq/11_nth_highest_salary_dense_rank_mechanics.svg)
 
-    style Salaries fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Distinct fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Result fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/11_nth_highest_salary_dense_rank_mechanics.d2](assets/01_sql_and_advanced_querying_faq/11_nth_highest_salary_dense_rank_mechanics.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2333,18 +2150,9 @@ WHERE salary < (SELECT MAX(salary) FROM Employee);
 An adjacency list hierarchy stores the relationship directly on the employee row via `manager_id -> employee_id`. Evaluating relative compensation between an employee and their direct manager requires a self-join (`e.manager_id = m.id`).
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    E["Employee Table (e)<br/>id=1, salary=80k, manager_id=2"] --> Join["Self-Join on e.manager_id = m.id"]
-    M["Employee Table (m)<br/>id=2, salary=70k"] --> Join
-    Join --> Compare{"e.salary > m.salary?<br/>80k > 70k?"}
-    Compare -->|True| Out["Employee: ID 1 (Flagged!)"]
+![Self-Join: Employee vs Manager Salary Evaluation](assets/01_sql_and_advanced_querying_faq/12_self_join_employee_manager_hierarchy.svg)
 
-    style E fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style M fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Compare fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Out fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/12_self_join_employee_manager_hierarchy.d2](assets/01_sql_and_advanced_querying_faq/12_self_join_employee_manager_hierarchy.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2372,18 +2180,9 @@ WHERE e.salary > m.salary;
 Leaderboards that rank entities on average performance metrics (driver ratings, merchant review scores) must enforce **minimum sample size thresholds** (`HAVING COUNT(*) >= 100`) to prevent low-volume statistical anomalies (e.g., a driver with only 1 trip rated 5.0 stars ranking higher than an veteran driver with 5,000 trips rated 4.98 stars).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    Trips["Raw Trips Table"] --> Group["GROUP BY driver_id"]
-    Group --> Filter{"Trip Count > 100?"}
-    Filter -->|Yes| Compute["Compute AVG(rating) & DENSE_RANK()"]
-    Filter -->|No| Discard["Discard (Sample too small)"]
-    Compute --> Top3["Filter rank <= 3"]
+![Aggregation Pipeline: GROUP BY, HAVING Gate & Window Ranking](assets/01_sql_and_advanced_querying_faq/13_aggregation_group_by_having_filter_pipeline.svg)
 
-    style Trips fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Filter fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Top3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/13_aggregation_group_by_having_filter_pipeline.d2](assets/01_sql_and_advanced_querying_faq/13_aggregation_group_by_having_filter_pipeline.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2436,17 +2235,9 @@ ORDER BY rating_rank ASC, total_trips DESC;
 When distributed streams or operational CDC pipelines emit duplicate records for the same entity, the data warehouse must deduplicate records deterministically. Using `ROW_NUMBER() OVER (PARTITION BY entity_id ORDER BY updated_date DESC)` guarantees that exactly one record (the latest state) is retained.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    Rows["Customer Rows: (ID=101, v1 at 10:00), (ID=101, v2 at 10:05)"] --> Win["ROW_NUMBER() OVER (PARTITION BY ID ORDER BY Timestamp DESC)"]
-    Win --> Assign["v2 -> row_num = 1 (LATEST)<br/>v1 -> row_num = 2 (STALE)"]
-    Assign --> Filter["WHERE row_num = 1"]
-    Filter --> Out["Clean Output: Exactly 1 Winner per Customer"]
+![ROW_NUMBER() Window Partition Deduplication](assets/01_sql_and_advanced_querying_faq/14_row_number_deduplication_window_partition.svg)
 
-    style Rows fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Win fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Out fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/14_row_number_deduplication_window_partition.d2](assets/01_sql_and_advanced_querying_faq/14_row_number_deduplication_window_partition.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2490,16 +2281,9 @@ Unlike `GROUP BY` (which collapses rows into a single summary tuple), **Window F
 $$\text{Syntax: } \text{FUNCTION}() \text{ OVER } (\text{PARTITION BY } C_1 \text{ ORDER BY } C_2 \text{ [FRAME]})$$
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    RawRows["Transaction Rows<br/>(Cust A, Cust A, Cust B)"] --> WindowEngine["Window Partitioning Engine<br/>Partition: Cust A | Partition: Cust B"]
-    WindowEngine --> Evaluator["Calculate RANK() inside each partition"]
-    Evaluator --> Projected["Projected Output<br/>(Retains all original rows + rank column)"]
+![Window Partitioning & Framing Mechanics](assets/01_sql_and_advanced_querying_faq/15_window_frame_range_between_unbounded_preceding.svg)
 
-    style RawRows fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style WindowEngine fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Projected fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/15_window_frame_range_between_unbounded_preceding.d2](assets/01_sql_and_advanced_querying_faq/15_window_frame_range_between_unbounded_preceding.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2540,16 +2324,9 @@ ORDER BY customer_id, transaction_size_rank;
 Detecting churn or dormancy requires finding entities in a primary table (`Customers`) that have zero matching records in an event table (`Transactions`) within a specified temporal range.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    Cust["Customers Table (10M Customers)"] --> AntiJoin{"Has Transaction in Last 90 Days?"}
-    AntiJoin -->|No: Left Anti-Join Hit| Dormant["Dormant Customers (Target Result)"]
-    AntiJoin -->|Yes| Active["Active Customers (Filtered Out)"]
+![Anti-Join Mechanics: NOT EXISTS vs LEFT JOIN / IS NULL](assets/01_sql_and_advanced_querying_faq/16_anti_join_not_exists_vs_left_join_null.svg)
 
-    style Cust fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style AntiJoin fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Dormant fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/16_anti_join_not_exists_vs_left_join_null.d2](assets/01_sql_and_advanced_querying_faq/16_anti_join_not_exists_vs_left_join_null.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2599,20 +2376,9 @@ WHERE t.transaction_id IS NULL;
 Analyzing consecutive activity periods requires converting exact order timestamps into discrete year-month buckets, deduplicating within each month, and detecting whether adjacent buckets have a difference of exactly 1 month. This is achieved using `LAG()` or the classic **Gaps-and-Islands** technique (`date_trunc('month', ...) - DENSE_RANK() * INTERVAL '1 month'`).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    Orders["Raw Orders (order_date)"] --> Trunc["1. Deduplicate & Truncate to Month: YYYY-MM"]
-    Trunc --> LagStep["2. LAG(order_month) OVER (PARTITION BY customer_id ORDER BY order_month)"]
-    LagStep --> Diff{"Diff between Month and Prev Month == 1 Month?"}
-    Diff -->|Yes| Streak["Consecutive Month Buyer"]
-    Diff -->|No| Break["Streak Broken"]
+![Retention Cohort Analysis: Monthly LAG & Gap Detection](assets/01_sql_and_advanced_querying_faq/17_retention_cohort_analysis_monthly_activity.svg)
 
-    style Orders fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Trunc fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style LagStep fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Streak fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Break fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/17_retention_cohort_analysis_monthly_activity.d2](assets/01_sql_and_advanced_querying_faq/17_retention_cohort_analysis_monthly_activity.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2665,18 +2431,9 @@ In clickstream telemetry, web events do not carry explicit session IDs. A "sessi
 4. Count distinct sessions per user, and calculate the global or cohort average.
 
 #### Visual Flow
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant U as User Clickstream
-    participant W as LAG Window Frame
-    participant S as Cumulative Session ID
-    U->>W: Event 1 (10:00 AM) -> LAG = NULL -> New Session Flag = 1
-    U->>W: Event 2 (10:15 AM) -> Gap = 15m (<30m) -> Flag = 0
-    U->>W: Event 3 (11:00 AM) -> Gap = 45m (>30m) -> New Session Flag = 1
-    W->>S: SUM(Flag) OVER (ORDER BY time) -> Session 1, Session 1, Session 2
-```
+![Sessionization: Inactivity Gap Detection & Cumulative SUM](assets/01_sql_and_advanced_querying_faq/18_sessionization_window_lag_gap_detection.svg)
+
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/18_sessionization_window_lag_gap_detection.d2](assets/01_sql_and_advanced_querying_faq/18_sessionization_window_lag_gap_detection.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2898,33 +2655,9 @@ $$|A 	imes B| = |A| 	imes |B|$$
    The query returns exactly **0 rows (an empty result set)**. It does **not** return 20 rows with NULLs for Table A (which only occurs in a `RIGHT OUTER JOIN`).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph NonEmpty ["Case 1: Table A (10 Rows) x Table B (20 Rows)"]
-        A1["Table A: 10 Tuples"]
-        B1["Table B: 20 Tuples"]
-        Cross1["Cartesian Join Engine: A x B"]
-        Out1["Result: 10 x 20 = 200 Rows Materialized"]
-        A1 --> Cross1
-        B1 --> Cross1
-        Cross1 --> Out1
-    end
+![Cross Join Cartesian Product Blast Radius](assets/01_sql_and_advanced_querying_faq/19_cross_join_cartesian_product_blast_radius.svg)
 
-    subgraph EmptyA ["Case 2: Table A (0 Rows) x Table B (20 Rows)"]
-        A2["Table A: Empty Set (0 Tuples)"]
-        B2["Table B: 20 Tuples"]
-        Cross2["Cartesian Join Engine: A x B"]
-        Out2["Result: 0 x 20 = 0 Rows (Empty Result Set)"]
-        A2 --> Cross2
-        B2 --> Cross2
-        Cross2 --> Out2
-    end
-
-    style NonEmpty fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style EmptyA fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Out1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Out2 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/19_cross_join_cartesian_product_blast_radius.d2](assets/01_sql_and_advanced_querying_faq/19_cross_join_cartesian_product_blast_radius.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2985,25 +2718,9 @@ To calculate a true chronological 7-day moving average when dates are sparse:
    *(Note: This averages only the recorded days within the 7-day calendar window; if missing days should contribute $0, a date spine is strictly required).*
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Problem ["Naive ROWS Window: Missing Oct 2, Oct 3, Oct 4"]
-        R1["Oct 1: $100"]
-        R2["Oct 5: $200 (Takes prev 6 physical rows: covers Sep 24 to Oct 5 = 12 Days! INCORRECT)"]
-    end
+![Rolling 7-Day Window: Sparse Date Spining & Framing](assets/01_sql_and_advanced_querying_faq/20_rolling_7day_revenue_window_range_vs_rows.svg)
 
-    subgraph SolutionSpine ["Date Spine Ingestion Engine"]
-        D1["dim_date Spine: Oct 1, Oct 2, Oct 3, Oct 4, Oct 5, Oct 6, Oct 7"]
-        L1["LEFT JOIN daily_sales ON date_key"]
-        I1["COALESCE(sales, 0.00): Oct 2 -> $0, Oct 3 -> $0, Oct 4 -> $0"]
-        W1["Physical Window: ROWS BETWEEN 6 PRECEDING AND CURRENT ROW<br/>Strict 7 Calendar Days Guaranteed!"]
-        D1 --> L1 --> I1 --> W1
-    end
-
-    style Problem fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style SolutionSpine fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style W1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/20_rolling_7day_revenue_window_range_vs_rows.d2](assets/01_sql_and_advanced_querying_faq/20_rolling_7day_revenue_window_range_vs_rows.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -3077,33 +2794,9 @@ In HR systems, CRM histories, and asset tracking, status changes are recorded as
 Using `ROW_NUMBER()` guarantees exactly one winning record per employee even if two promotions share the identical date (using `change_id` as the tie-breaker), avoiding duplicate rows that occur with `RANK()`.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph RawAudit ["Raw Employee History Table"]
-        E1["Emp 101 | Junior Analyst | 2021-06-01 | change_id 1"]
-        E2["Emp 101 | Senior Analyst | 2023-01-15 | change_id 14"]
-        E3["Emp 101 | Lead Engineer  | 2024-05-10 | change_id 42"]
-        E4["Emp 102 | Associate Data | 2023-09-01 | change_id 22"]
-    end
+![SCD Type 2 Effective Date Interval Audit](assets/01_sql_and_advanced_querying_faq/21_scd_type2_effective_date_interval_audit.svg)
 
-    subgraph Windowing ["ROW_NUMBER() OVER (PARTITION BY emp_id ORDER BY date DESC, change_id DESC)"]
-        W1["Emp 101: Lead Engineer (2024-05-10) -> rn = 1"]
-        W2["Emp 101: Senior Analyst (2023-01-15) -> rn = 2"]
-        W3["Emp 101: Junior Analyst (2021-06-01) -> rn = 3"]
-        W4["Emp 102: Associate Data (2023-09-01) -> rn = 1"]
-    end
-
-    subgraph FinalFilter ["Filter: WHERE rn = 1"]
-        F1["Emp 101 -> Lead Engineer"]
-        F2["Emp 102 -> Associate Data"]
-    end
-
-    RawAudit --> Windowing --> FinalFilter
-
-    style RawAudit fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#93c5fd
-    style Windowing fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FinalFilter fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/21_scd_type2_effective_date_interval_audit.d2](assets/01_sql_and_advanced_querying_faq/21_scd_type2_effective_date_interval_audit.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -3158,35 +2851,9 @@ When an incident is reported, the Senior Data Engineer must execute a structured
 4. **Session Variable / Connection Pool Leakage:** In connection poolers (e.g. PgBouncer), session-level tenant variables (`SET LOCAL app.current_tenant = 'BU1'`) can bleed into subsequent queries if connections are returned to the pool without running `DISCARD ALL` or `RESET ALL`.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph QueryAnalysis ["1. Query Analysis & Execution Inspection"]
-        Alert["🚨 <b>Query Latency Alert</b><br/>p99 Latency > 8,000ms"] --> Step1["<b>1. EXPLAIN (ANALYZE, BUFFERS)</b><br/>Inspect real execution plan & buffer cache hits"]
-        Step1 --> CheckScan{"Sequential Scan on Large Table?"}
-    end
+![Query Latency Spill to Disk Troubleshooting](assets/01_sql_and_advanced_querying_faq/22_query_latency_spill_to_disk_troubleshooting.svg)
 
-    subgraph RemediationStrategies ["2. Remediation Strategy"]
-        Fix1["<b>Fix 1: CREATE INDEX CONCURRENTLY</b><br/>Add index on filter/join predicate columns"]
-        CheckStats{"Stale Statistics / Row Misestimate?"}
-        Fix2["<b>Fix 2: Run ANALYZE</b><br/>Refresh statistics & correlation histograms"]
-        Fix3["<b>Fix 3: Query Rewrite</b><br/>Eliminate correlated subqueries & redundant CTE scans"]
-
-        CheckScan -- "Yes (Missing Index)" --> Fix1
-        CheckScan -- "No (Index Used)" --> CheckStats
-        CheckStats -- "Yes" --> Fix2
-        CheckStats -- "No" --> Fix3
-    end
-
-    style QueryAnalysis fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RemediationStrategies fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Alert fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Step1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CheckScan fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style CheckStats fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Fix1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Fix2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Fix3 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/22_query_latency_spill_to_disk_troubleshooting.d2](assets/01_sql_and_advanced_querying_faq/22_query_latency_spill_to_disk_troubleshooting.d2)
 
 #### Production Implementation / Diagnostic Playbook
 ```sql
@@ -3246,24 +2913,9 @@ CREATE POLICY tenant_isolation_policy ON fact_orders
   - In Apache Spark / Trino: Incurs a wide shuffle boundary across all executor nodes to co-locate identical rows on the same reducer before deduplication.
 
 #### Physical Execution Cost Comparison
-```mermaid
-flowchart TD
-    subgraph UnionAllFlow ["UNION ALL (Streaming Append)"]
-        A1["Query 1 Output (10M rows)"] --> StreamConcat["Stream Concatenator"]
-        B1["Query 2 Output (10M rows)"] --> StreamConcat
-        StreamConcat --> Result1["Output (20M rows) - Sub-second, O(1) Memory"]
-    end
+![UNION ALL vs UNION DISTINCT Memory Overhead](assets/01_sql_and_advanced_querying_faq/23_union_all_vs_union_distinct_memory_overhead.svg)
 
-    subgraph UnionFlow ["UNION (Hash Deduplication)"]
-        A2["Query 1 Output (10M rows)"] --> ShuffleBuffer["Wide Shuffle / Hash Table"]
-        B2["Query 2 Output (10M rows)"] --> ShuffleBuffer
-        ShuffleBuffer --> DiskSpill["Memory Exhaustion -> TempDB / Disk Spill"]
-        DiskSpill --> Result2["Output (18M rows) - High CPU & Disk I/O"]
-    end
-
-    style UnionAllFlow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style UnionFlow fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/23_union_all_vs_union_distinct_memory_overhead.d2](assets/01_sql_and_advanced_querying_faq/23_union_all_vs_union_distinct_memory_overhead.d2)
 
 #### Production Rule of Thumb
 Always default to **`UNION ALL`** unless duplicate elimination across streams is explicitly mandated by business logic and the source tables are known to share overlapping records. If the two inputs originate from disjoint partitions (e.g., `orders_2024` and `orders_2025`), using `UNION` wastes enormous CPU and memory cycles checking for duplicates that physically cannot exist.
@@ -3401,33 +3053,9 @@ When extracting top $N$ ranked entities (e.g. salaries, revenue tiers), three wi
 - `RANK()`: Assigns identical ranks to ties but **skips subsequent numbers** ($1, 1, 3$). If two employees tie for second place (\$120k), the ranking is ($1, 2, 2, 4$), entirely omitting rank 3!
 - **`DENSE_RANK()` (Production Standard):** Assigns identical ranks to duplicate values **without skipping ranks** ($1, 2, 2, 3$). This guarantees that the top 3 distinct compensation levels in each department are accurately captured.
 
-```mermaid
-flowchart LR
-    subgraph DataRows ["Employee Salaries in Engineering"]
-        direction TB
-        E1["Alice: $150k"]
-        E2["Bob: $120k"]
-        E3["Charlie: $120k"]
-        E4["David: $100k"]
-        E5["Eve: $90k"]
-    end
+![Ranking Functions: ROW_NUMBER vs RANK vs DENSE_RANK](assets/01_sql_and_advanced_querying_faq/24_rank_vs_dense_rank_vs_row_number_comparison.svg)
 
-    subgraph DenseRankOut ["DENSE_RANK() Result"]
-        direction TB
-        R1["Alice -> Rank 1"]
-        R2["Bob -> Rank 2"]
-        R3["Charlie -> Rank 2"]
-        R4["David -> Rank 3 (Captured!)"]
-    end
-
-    E1 --> R1
-    E2 --> R2
-    E3 --> R3
-    E4 --> R4
-
-    style DataRows fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DenseRankOut fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/24_rank_vs_dense_rank_vs_row_number_comparison.d2](assets/01_sql_and_advanced_querying_faq/24_rank_vs_dense_rank_vs_row_number_comparison.d2)
 
 #### Production Query Implementation
 
@@ -3537,33 +3165,9 @@ WITH raw_events AS MATERIALIZED ( -- Forces physical temporary materialization
 **Question:** *How would you optimize a SQL query joining a 2-billion row fact table with 5 dimension tables (e.g., date, store, customer, product, promotion)?*
 
 #### Architectural Blueprint: Star Join Optimization
-```mermaid
-flowchart TD
-    subgraph QueryIngress ["Star Schema Analytical Query"]
-        Dim1["dim_store (Region = 'WEST')"]
-        Dim2["dim_date (Quarter = 'Q4')"]
-        Dim3["dim_product (Category = 'ELECTRONICS')"]
-        FactTable[("fact_sales<br/>(2 Billion Rows / 500 GB)")]
-    end
+![Star Schema Analytical Query Optimization: BHJ & Bitmap Index](assets/01_sql_and_advanced_querying_faq/25_star_schema_broadcast_hash_join_execution.svg)
 
-    subgraph OptimizationTechniques ["Engine Optimization Mechanisms"]
-        direction TB
-        BHJ["1. Broadcast Hash Join (BHJ)<br/>Replicate small filtered dims to all workers"]
-        BitmapInt["2. Star Join Bitmap Index Intersection<br/>Intersect dim foreign-key bitmaps on fact table"]
-        JoinElim["3. Snowflake Join Elimination<br/>Prune unprojected dimension tables"]
-    end
-
-    Dim1 --> BHJ
-    Dim2 --> BHJ
-    Dim3 --> BHJ
-    BHJ --> FactTable
-    FactTable --> BitmapInt
-    BitmapInt --> AggResult["Fast Analytical Aggregate Result<br/>(Execution drops from 45 min to 18 sec)"]
-
-    style QueryIngress fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style OptimizationTechniques fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style AggResult fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/25_star_schema_broadcast_hash_join_execution.d2](assets/01_sql_and_advanced_querying_faq/25_star_schema_broadcast_hash_join_execution.d2)
 
 #### The 5 Production Tuning Rules for Fact-Dimension Joins:
 1. **Broadcast Hash Join (BHJ) vs Shuffle Hash Join:**
@@ -3603,30 +3207,9 @@ To identify islands without iterative procedural loops, we use the **Cumulative 
 4. Group by `(dasher_id, island_id)` to count consecutive orders, filter for the longest streak per Dasher, and rank Dashers.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph RawDeliveries ["Raw Dasher Delivery Stream"]
-        D1["Deliv 1: Rating 4.9 -> Valid (0)"]
-        D2["Deliv 2: Rating 5.0 -> Valid (0)"]
-        D3["Deliv 3: Rating 4.7 -> BREACH! (1)"]
-        D4["Deliv 4: Rating 4.9 -> Valid (0)"]
-        D5["Deliv 5: Rating 5.0 -> Valid (0)"]
-        D6["Deliv 6: Rating 4.8 -> Valid (0)"]
-    end
+![Gaps & Islands: Longest Consecutive Streak Identification](assets/01_sql_and_advanced_querying_faq/26_running_metric_cumulative_window_averages.svg)
 
-    subgraph IslandPartitioning ["Cumulative Sum Gap Detection"]
-        I1["Island 0 (Streak = 2): Deliv 1, 2"]
-        Gap["Gap Boundary: Deliv 3 (Excluded from count)"]
-        I2["Island 1 (Streak = 3): Deliv 4, 5, 6"]
-    end
-
-    RawDeliveries --> IslandPartitioning
-    IslandPartitioning --> Winner["Aggregated Winner:<br/>Dasher Max Streak = 3 Deliveries"]
-
-    style RawDeliveries fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style IslandPartitioning fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Winner fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/26_running_metric_cumulative_window_averages.d2](assets/01_sql_and_advanced_querying_faq/26_running_metric_cumulative_window_averages.d2)
 
 #### Production SQL Solution (PostgreSQL / Snowflake / Databricks / BigQuery)
 ```sql
@@ -3717,26 +3300,9 @@ This query tests:
 4. Dense ranking over partitioned monthly time buckets to handle potential revenue ties fairly.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    Orders["orders<br/>(order_id, customer_id, order_date)"] --> JoinTables
-    Items["order_items<br/>(order_id, product_id, line_total)"] --> JoinTables
-    Products["products<br/>(product_id, category_id)"] --> JoinTables
+![Multi-Table Join Aggregation & Distinct Diversity Filtering](assets/01_sql_and_advanced_querying_faq/27_multi_table_join_order_optimization_tree.svg)
 
-    JoinTables["Multi-Table Relational Join<br/>GROUP BY customer_id, order_month"]
-    JoinTables --> DiversityFilter{"Filter:<br/>COUNT(DISTINCT category_id) >= 3"}
-
-    DiversityFilter -->|No: < 3 Categories| DropReseller["Pruned: Single-Category Buyer"]
-    DiversityFilter -->|Yes: >= 3 Categories| WinRank["DENSE_RANK() OVER<br/>(PARTITION BY order_month ORDER BY revenue DESC)"]
-
-    WinRank --> Top3["Top 3 Customers per Month Output"]
-
-    style Orders fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Items fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Products fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DiversityFilter fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Top3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/27_multi_table_join_order_optimization_tree.d2](assets/01_sql_and_advanced_querying_faq/27_multi_table_join_order_optimization_tree.d2)
 
 #### Production SQL Solution (PostgreSQL / Snowflake / BigQuery / Databricks)
 ```sql
@@ -3808,26 +3374,9 @@ Pipeline success (`status: SUCCEEDED`) only guarantees execution completion with
 4. **NULL Value Poisoning:** `SUM(amount)` ignoring NULLs while raw record counters assume complete attribution, or unbalanced currency conversion joins producing NULL totals.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph MetricAlert ["Production Anomaly: 18% Discrepancy Detected"]
-        A1["Dashboard Revenue: $1,180,000<br/>Source Transaction Ledger: $1,000,000"]
-    end
+![Revenue Discrepancy & Cartesian Fan-Out Reconciliation](assets/01_sql_and_advanced_querying_faq/28_revenue_discrepancy_event_loss_reconciliation.svg)
 
-    subgraph DiagnosticTriage ["4-Step Diagnostic SQL Runbook"]
-        D1["Step 1: Record Count Reconciliation<br/>COUNT(*) and COUNT(DISTINCT order_id)"]
-        D2["Step 2: Join Fan-Out Detection<br/>Check for duplicate primary keys in joined dims"]
-        D3["Step 3: Temporal Alignment Audit<br/>Reconcile UTC vs Business Timezone boundaries"]
-        D4["Step 4: Status Mutation & Watermark Lag<br/>Audit records with updated_at > created_at"]
-    end
-
-    A1 --> DiagnosticTriage
-    D1 --> Found["Root Cause Isolated:<br/>dim_merchant had duplicate active rows, causing 1.18x multiplier on orders!"]
-
-    style MetricAlert fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style DiagnosticTriage fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Found fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_sql_and_advanced_querying_faq/28_revenue_discrepancy_event_loss_reconciliation.d2](assets/01_sql_and_advanced_querying_faq/28_revenue_discrepancy_event_loss_reconciliation.d2)
 
 #### The Production Diagnostic SQL Runbook
 

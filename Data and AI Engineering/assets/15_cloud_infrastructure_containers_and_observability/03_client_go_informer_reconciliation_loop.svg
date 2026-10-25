@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 400" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+    </marker>
+    <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Background -->
+  <rect width="980" height="400" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g id="header">
+    <text x="490" y="36" fill="#f8fafc" font-size="18" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Client-Go SharedInformer Architecture &amp; Controller Reconciliation Loop</text>
+    <text x="490" y="58" fill="#94a3b8" font-size="12" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Reflector HTTP/2 Watch Stream, DeltaFIFO Queue, Thread-Safe Indexer, and Rate-Limiting WorkQueue</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g id="diagram-elements">
+    
+    <rect x="30" y="95" width="290" height="275" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,4"/>
+<text x="175" y="115" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">1. API Server Watch &amp; Reflector</text>
+<text x="175" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Cluster State Ingestion Stream</text>
+    <rect x="45" y="145" width="260" height="60" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="175" y="167" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">kube-apiserver</text>
+<text x="57" y="187" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Cluster State Authority</text>
+<text x="57" y="205" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">HTTP/2 Long-Lived Watch Stream</text>
+    <rect x="45" y="215" width="260" height="60" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="175" y="237" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Reflector (ListerWatcher)</text>
+<text x="57" y="257" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Executes initial LIST on startup</text>
+<text x="57" y="275" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Continuously WATCHes resource updates</text>
+    <rect x="45" y="285" width="260" height="65" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="175" y="307" fill="#fde68a" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">DeltaFIFO Queue</text>
+<text x="57" y="327" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Ordered buffer of state transitions</text>
+<text x="57" y="345" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Operations: Added, Updated, Deleted, Sync</text>
+
+    <rect x="350" y="95" width="280" height="275" rx="8" fill="#0f172a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,4"/>
+<text x="490" y="115" fill="#4ade80" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">2. Local Cache &amp; WorkQueue</text>
+<text x="490" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Decoupled Processing Tier</text>
+    <rect x="365" y="145" width="250" height="95" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+<text x="490" y="167" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Local Indexer Cache</text>
+<text x="377" y="187" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Thread-safe in-memory cache</text>
+<text x="377" y="205" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Prevents pounding kube-apiserver</text>
+<text x="377" y="223" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Allows instant key queries (Lister)</text>
+<text x="377" y="241" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Updated directly from DeltaFIFO</text>
+    <rect x="365" y="255" width="250" height="95" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+<text x="490" y="277" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Rate-Limiting WorkQueue</text>
+<text x="377" y="297" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Stores namespace/name keys only</text>
+<text x="377" y="315" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Deduplicates pending events</text>
+<text x="377" y="333" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Exponential backoff on failure</text>
+<text x="377" y="351" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Worker thread pull model</text>
+
+    <rect x="660" y="95" width="290" height="275" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4"/>
+<text x="805" y="115" fill="#f87171" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">3. Controller Reconciliation</text>
+<text x="805" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Desired vs Actual State Convergence</text>
+    <rect x="675" y="145" width="260" height="205" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+<text x="805" y="167" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Reconcile() Control Loop</text>
+<text x="687" y="187" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">1. Dequeues key from WorkQueue</text>
+<text x="687" y="205" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">2. Fetches current object from Indexer</text>
+<text x="687" y="223" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">3. Inspects actual state (cluster/cloud)</text>
+<text x="687" y="241" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">4. Computes semantic diff (Desired - Actual)</text>
+<text x="687" y="259" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">5. Executes corrective mutations via API</text>
+<text x="687" y="277" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">6. Calls Forget(key) or RequeueAfter()</text>
+<text x="687" y="295" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Guarantees eventual consistency</text>
+
+    <line x1="175" y1="205" x2="175" y2="215" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+    <line x1="175" y1="275" x2="175" y2="285" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+    <polyline points="305,317 330,317 330,192 365,192" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="330" y="180" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Update Cache</text>
+    <polyline points="305,317 330,317 330,302 365,302" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<text x="335" y="290" fill="#c084fc" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Enqueue Key</text>
+
+    <line x1="615" y1="302" x2="675" y2="302" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<text x="645" y="292" fill="#c084fc" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Worker Dequeue</text>
+    <polyline points="805,145 805,120 175,120 175,145" fill="none" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<text x="490" y="110" fill="#f87171" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Mutations (HTTP POST/PATCH)</text>
+
+  </g>
+</svg>

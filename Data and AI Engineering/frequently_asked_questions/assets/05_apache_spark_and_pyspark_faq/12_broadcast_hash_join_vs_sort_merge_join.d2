@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  box_red: { style: { fill: "#111827"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+smj: "Sort-Merge Join (Without Broadcast)" {
+  class: box_red
+  f1: "2 TB Fact Table" -> s1: "Shuffle 2 TB Network"
+  d1: "200 MB Dimension" -> s2: "Shuffle 200 MB Network"
+  s1 -> merge: "Executors Disk Sort & Merge"
+  s2 -> merge
+}
+
+bhj: "Broadcast Hash Join (OPTIMAL)" {
+  class: box_green
+  d2: "200 MB Dimension Table" -> drv: "Driver Deserializes (P2P Torrent)"
+  drv -> e1: "Executor 1 (In-Memory Hash)"
+  drv -> e2: "Executor 2 (In-Memory Hash)"
+  f2: "2 TB Fact Table (Streamed Locally)" -> fast: "Local Map-Side Hash Join\nZERO Fact Table Shuffle!"
+  e1 -> fast
+  e2 -> fast
+}

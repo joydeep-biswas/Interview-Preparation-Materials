@@ -1,0 +1,30 @@
+direction: right
+title: The Four Core Cryptographic Primitives
+
+Sym: 1. Symmetric Encryption (AES-256-GCM) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  key: "Single shared secret key K"
+  use: "Data at rest (DB), high-speed bulk TLS channel"
+}
+
+Asym: 2. Asymmetric Key Pairs (RSA / ECC) {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  keys: "Public key (encrypt/verify) + Private key (decrypt/sign)"
+  use: "TLS handshake, JWT RS256, X.509 digital certificates"
+}
+
+Hash: 3. Cryptographic Hash (SHA-256) {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  property: "One-way irreversible 256-bit fixed digest"
+  use: "File checksums, Git commit SHA, content addressing"
+}
+
+Hmac: 4. HMAC Authentication (HMAC-SHA256) {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  property: "Message + shared secret -> tamper-proof MAC tag"
+  use: "Webhook verification (Stripe/GitHub), JWT HS256"
+}

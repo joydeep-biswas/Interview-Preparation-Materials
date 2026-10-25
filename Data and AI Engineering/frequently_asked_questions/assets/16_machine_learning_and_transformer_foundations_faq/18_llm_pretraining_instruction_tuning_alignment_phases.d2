@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  pre_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  sft_box: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  align_box: { style: { fill: "#0D1F1C", stroke: "#10B981" } }
+}
+
+PreTrain: "Phase 1: Pre-Training\n15T tokens, next-token loss\nBase Foundation Model" { class: pre_box }
+SFT: "Phase 2: Instruction Tuning\n100k curated dialogues\nConversational format" { class: sft_box }
+Align: "Phase 3: Alignment (DPO/RLHF)\nPreference pairs\nSafe production model" { class: align_box }
+
+PreTrain -> SFT -> Align

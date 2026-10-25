@@ -1,0 +1,35 @@
+direction: down
+title: HotSpot 64-bit Java Object Memory Layout & Lock States
+
+Header: Object Header (12 Bytes with +UseCompressedClassPointers / 16 Bytes Raw) {
+  style.fill: "#0B132B"
+  style.stroke: "#1D4ED8"
+  
+  MarkWord: Mark Word (64 bits / 8 Bytes) {
+    unlocked: "Unlocked (01): HashCode (31b) | Age (4b) | Lock: 01"
+    biased: "Biased (01): ThreadID (54b) | Epoch (2b) | Lock: 01"
+    thin: "Lightweight (00): Pointer to BasicObjectLock on Stack"
+    fat: "Heavyweight (10): Pointer to ObjectMonitor inflated mutex"
+    gc: "GC Marked (11): Forwarding pointer during compaction"
+  }
+  
+  KlassWord: Klass Word (32b / 64b) {
+    compressed: "Compressed: 32 bits (4B narrow pointer) -> Metaspace"
+    uncompressed: "Raw: 64 bits (8B direct pointer) -> Metaspace"
+  }
+}
+
+InstanceData: Instance Fields Data {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  order: "Field Reordering: long/double (8B) -> int/float (4B) -> short/char (2B) -> byte/bool (1B) -> OOPs (4B)"
+  rule: "Superclass fields precede subclass fields; reordering eliminates internal gaps"
+}
+
+Padding: Alignment Padding (0 to 7 Bytes) {
+  style.fill: "#0B132B"
+  style.stroke: "#475569"
+  rule: "Rounds total object byte count up to exact multiple of 8 bytes (64 bits)"
+}
+
+Header -> InstanceData -> Padding

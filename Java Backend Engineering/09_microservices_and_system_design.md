@@ -6,55 +6,54 @@ A comprehensive, production-grade guide to GoF design patterns, SOLID principles
 
 ## Architectural Overview: Enterprise Design Patterns Architecture
 
-```mermaid
-flowchart TD
-    subgraph Client_Boundary["1. Ingress & API Contract Layer"]
-        Client["HTTP Client / Single Page App"] -->|"JSON / HTTPS"| Controller["Spring RestController"]
-        Controller -->|"MapStruct (Mapper Pattern)"| DTO["Data Transfer Object (DTO)"]
-    end
+![01 Enterprise Design Patterns Architecture](assets/09_microservices_and_system_design/01_enterprise_design_patterns_architecture.svg)
 
-    subgraph Service_Domain["2. Business Logic & Behavioral Coordination"]
-        Controller -->|"Delegates via Facade"| ServiceFacade["OrderServiceFacade (Facade Pattern)"]
-        ServiceFacade --> StrategyChooser{"Strategy Pattern<br/>Map&lt;String, PaymentStrategy&gt;"}
-        StrategyChooser -->|"CC"| StripeStrategy["StripePaymentStrategy"]
-        StrategyChooser -->|"UPI"| UpiStrategy["UpiPaymentStrategy"]
-        StrategyChooser -->|"Wire"| BankStrategy["BankTransferStrategy"]
-        
-        ServiceFacade --> TemplateMethod["OrderFulfillmentTemplate<br/>(Template Method Pattern)"]
-        TemplateMethod --> DomainModel["Order Aggregate Root<br/>(Value Objects & State Pattern)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph Data_Events["3. Persistence & Event Boundary"]
-        DomainModel --> SpecExecutor["JpaSpecificationExecutor<br/>(Specification Pattern)"]
-        SpecExecutor --> Repository["OrderRepository<br/>(Repository Pattern)"]
-        Repository --> DB[(PostgreSQL Database)]
-        
-        DomainModel -.->|"Domain Events"| EventPublisher["ApplicationEventPublisher<br/>(Observer Pattern)"]
-        EventPublisher --> AuditListener["@EventListener AuditLogging"]
-        EventPublisher --> KafkaProducer["Outbox Pattern -> Kafka Producer"]
-    end
+```d2
+direction: down
+title: "Enterprise Design Patterns Architecture: End-to-End Orchestration"
 
-    style Client_Boundary fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Service_Domain fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Data_Events fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
+ingress: "1. Ingress & API Contract Layer" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
 
-    style Client fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Controller fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DTO fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ServiceFacade fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style StrategyChooser fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style StripeStrategy fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style UpiStrategy fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style BankStrategy fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style TemplateMethod fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style DomainModel fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SpecExecutor fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Repository fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style DB fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style EventPublisher fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style AuditListener fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style KafkaProducer fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
+  client: "HTTP Client"
+  controller: "Spring RestController"
+  mapper: "MapStruct DTO Mapper"
+
+  client -> controller -> mapper
+}
+
+domain: "2. Business Logic & Coordination" {
+  style.fill: "#1a140b"
+  style.stroke: "#f59e0b"
+
+  facade: "OrderServiceFacade"
+  strategy: "Strategy Pattern
+Map<String, PaymentStrategy>"
+  template: "OrderFulfillmentTemplate
+& Aggregate Root"
+
+  facade -> strategy -> template
+}
+
+persistence: "3. Persistence & Event Boundary" {
+  style.fill: "#062533"
+  style.stroke: "#06b6d4"
+
+  repo: "OrderRepository"
+  db: "PostgreSQL Database"
+  events: "EventPublisher (Observer & Outbox)"
+
+  events -> db -> repo
+}
+
+ingress.controller -> domain.facade: "Delegates"
+domain.template -> persistence.events: "Emits Domain Events"
 ```
+</details>
 
 ---
 
@@ -143,40 +142,49 @@ flowchart TD
 ### 1.1 Single Responsibility Principle (SRP)
 > **Definition**: A class should have one, and only one, reason to change. It must encapsulate a single, well-defined business responsibility.
 
-```mermaid
-classDiagram
-    direction LR
-    class OrderProcessor {
-        -OrderValidator validator
-        -OrderRepository orderRepository
-        -PaymentGatewayClient paymentGatewayClient
-        -NotificationService notificationService
-        +processOrder(OrderRequest request) OrderResponse
-    }
-    class OrderValidator {
-        +validate(OrderRequest request) void
-    }
-    class OrderRepository {
-        +save(OrderEntity entity) OrderEntity
-    }
-    class PaymentGatewayClient {
-        +charge(String token, BigDecimal amount) PaymentReceipt
-    }
-    class NotificationService {
-        +sendReceipt(String email, PaymentReceipt receipt) void
-    }
+![02 Single Responsibility Principle Srp](assets/09_microservices_and_system_design/02_single_responsibility_principle_srp.svg)
 
-    OrderProcessor --> OrderValidator : validates
-    OrderProcessor --> OrderRepository : persists
-    OrderProcessor --> PaymentGatewayClient : charges
-    OrderProcessor --> NotificationService : notifies
+<details>
+<summary>View D2 Source</summary>
 
-    style OrderProcessor fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#ffffff
-    style OrderValidator fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    style OrderRepository fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#ffffff
-    style PaymentGatewayClient fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#ffffff
-    style NotificationService fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#ffffff
+```d2
+direction: down
+title: "Single Responsibility Principle (SRP): Cohesive Decomposition"
+
+processor: "OrderProcessor
+Single Responsibility: Orchestration
+processOrder(request)" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+val: "OrderValidator
+Validation rules" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+repo: "OrderRepository
+Persistence rules" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+pay: "PaymentGatewayClient
+Stripe API integration" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+notif: "NotificationService
+Customer receipts" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+
+processor -> val: "1. validates"
+processor -> repo: "2. saves"
+processor -> pay: "3. charges"
+processor -> notif: "4. notifies"
 ```
+</details>
 
 #### Anti-Pattern: The "God Class"
 In monolithic Spring controllers or services, developers frequently bundle HTTP serialization, business validation, SQL database persistence, and email notification into a single class:
@@ -231,38 +239,50 @@ public class OrderProcessor {
 ### 1.2 Open/Closed Principle (OCP)
 > **Definition**: Software artifacts should be **open for extension**, but **closed for modification**. You should be able to introduce new functionality without altering existing, tested code.
 
-```mermaid
-classDiagram
-    direction TB
-    class PaymentExecutionService {
-        -Map~String, PaymentStrategy~ strategies
-        +executePayment(String type, BigDecimal amount) PaymentReceipt
-    }
-    class PaymentStrategy {
-        <<interface>>
-        +pay(BigDecimal amount) PaymentReceipt
-    }
-    class CreditCardPaymentStrategy {
-        +pay(BigDecimal amount) PaymentReceipt
-    }
-    class UpiPaymentStrategy {
-        +pay(BigDecimal amount) PaymentReceipt
-    }
-    class CryptoPaymentStrategy {
-        +pay(BigDecimal amount) PaymentReceipt
-    }
+![03 Open Closed Principle Ocp](assets/09_microservices_and_system_design/03_open_closed_principle_ocp.svg)
 
-    PaymentExecutionService --> PaymentStrategy : delegates to
-    PaymentStrategy <|.. CreditCardPaymentStrategy : implements
-    PaymentStrategy <|.. UpiPaymentStrategy : implements
-    PaymentStrategy <|.. CryptoPaymentStrategy : implements (extended without modifying client)
+<details>
+<summary>View D2 Source</summary>
 
-    style PaymentExecutionService fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#ffffff
-    style PaymentStrategy fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ffffff
-    style CreditCardPaymentStrategy fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    style UpiPaymentStrategy fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    style CryptoPaymentStrategy fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#ffffff
+```d2
+direction: down
+title: "Open/Closed Principle (OCP): Extensible Strategy Architecture"
+
+service: "PaymentExecutionService
+Closed for modification
+Map<String, PaymentStrategy>" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+strategy: "PaymentStrategy <<interface>>
++pay(amount): PaymentReceipt" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+cc: "CreditCardPaymentStrategy
+@Component('CREDIT_CARD')" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+upi: "UpiPaymentStrategy
+@Component('UPI')" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+crypto: "CryptoPaymentStrategy
+NEW EXTENSION: Zero code change!" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+service -> strategy: "Depends on abstraction"
+strategy <- cc: "implements"
+strategy <- upi: "implements"
+strategy <- crypto: "implements"
 ```
+</details>
 
 #### Anti-Pattern: Fragile `switch` Statements
 ```java
@@ -373,42 +393,49 @@ public class AuditLogRepository implements ReadOnlyRepository<AuditLog> {
 ### 1.4 Interface Segregation Principle (ISP)
 > **Definition**: Clients should not be forced to depend upon interfaces that they do not use. Prefer small, highly cohesive interfaces over large "fat" interfaces.
 
-```mermaid
-classDiagram
-    direction TB
-    class HttpRequestHandler {
-        <<interface>>
-        +handleRequest(HttpServletRequest req) void
-    }
-    class KafkaMessageListener {
-        <<interface>>
-        +onMessage(ConsumerRecord record) void
-    }
-    class BatchReportGenerator {
-        <<interface>>
-        +generateReport() void
-    }
-    class WebApiController {
-        +handleRequest(HttpServletRequest req) void
-    }
-    class StreamEventConsumer {
-        +onMessage(ConsumerRecord record) void
-    }
-    class NightlyReportingJob {
-        +generateReport() void
-    }
+![04 Interface Segregation Principle Isp](assets/09_microservices_and_system_design/04_interface_segregation_principle_isp.svg)
 
-    HttpRequestHandler <|.. WebApiController : implements
-    KafkaMessageListener <|.. StreamEventConsumer : implements
-    BatchReportGenerator <|.. NightlyReportingJob : implements
+<details>
+<summary>View D2 Source</summary>
 
-    style HttpRequestHandler fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ffffff
-    style KafkaMessageListener fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ffffff
-    style BatchReportGenerator fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ffffff
-    style WebApiController fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    style StreamEventConsumer fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    style NightlyReportingJob fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
+```d2
+direction: right
+title: "Interface Segregation Principle (ISP): Granular Single-Purpose Contracts"
+
+http: "HttpRequestHandler <<interface>>
++handleRequest(req)" {
+  style.fill: "#1e3a8a"
+  style.stroke: "#3b82f6"
+}
+ctrl: "WebApiController" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+ctrl -> http: "implements"
+
+kafka: "KafkaMessageListener <<interface>>
++onMessage(record)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+consumer: "StreamEventConsumer" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+consumer -> kafka: "implements"
+
+batch: "BatchReportGenerator <<interface>>
++generateReport()" {
+  style.fill: "#78350f"
+  style.stroke: "#f59e0b"
+}
+job: "NightlyReportingJob" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+job -> batch: "implements"
 ```
+</details>
 
 #### Production Solution: Cohesive Role Interfaces
 ```java
@@ -430,31 +457,40 @@ public interface BatchReportGenerator {
 ### 1.5 Dependency Inversion Principle (DIP)
 > **Definition**: High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details; details should depend on abstractions.
 
-```mermaid
-classDiagram
-    direction TB
-    class AccountService {
-        -AccountPersistencePort persistencePort
-        +transfer(AccountId from, AccountId to, Money amount) void
-    }
-    class AccountPersistencePort {
-        <<interface>>
-        +load(AccountId id) Account
-        +save(Account account) void
-    }
-    class JpaAccountAdapter {
-        -SpringDataJpaAccountRepository springDataRepo
-        +load(AccountId id) Account
-        +save(Account account) void
-    }
+![05 Dependency Inversion Principle Dip](assets/09_microservices_and_system_design/05_dependency_inversion_principle_dip.svg)
 
-    AccountService --> AccountPersistencePort : depends on domain port abstraction
-    AccountPersistencePort <|.. JpaAccountAdapter : implements (infrastructure adapter depends on port)
+<details>
+<summary>View D2 Source</summary>
 
-    style AccountService fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#ffffff
-    style AccountPersistencePort fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ffffff
-    style JpaAccountAdapter fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
+```d2
+direction: right
+title: "Dependency Inversion Principle (DIP): Inverting Domain-to-Database Control"
+
+service: "AccountService
+High-Level Domain
+Contains transfer() logic" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+port: "AccountPersistencePort <<interface>>
+Domain Port Abstraction
+load(id), save(account)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+adapter: "JpaAccountAdapter
+Low-Level Infrastructure
+Spring Data JPA + PostgreSQL" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+service -> port: "Calls abstraction"
+adapter -> port: "Implements (Dependency inverts inward!)"
 ```
+</details>
 
 #### Production Implementation in Spring Boot:
 ```java
@@ -520,34 +556,39 @@ Software engineering principles serve as critical design heuristics that balance
 
 > **The Fragile Base Class Problem**: Deep inheritance hierarchies couple subclasses intimately to the private implementation details of parent classes. When a parent class changes, subclasses break unexpectedly.
 
-```mermaid
-classDiagram
-    direction TB
-    class Set~E~ {
-        <<interface>>
-        +add(E e) boolean
-        +addAll(Collection~E~ c) boolean
-    }
-    class InstrumentedSet~E~ {
-        -Set~E~ delegate
-        -int addCount
-        +add(E e) boolean
-        +addAll(Collection~E~ c) boolean
-        +getAddCount() int
-    }
-    class HashSet~E~ {
-        +add(E e) boolean
-        +addAll(Collection~E~ c) boolean
-    }
+![06 Composition Over Inheritance](assets/09_microservices_and_system_design/06_composition_over_inheritance.svg)
 
-    Set <|.. InstrumentedSet : implements interface
-    InstrumentedSet o-- Set : composes delegate (forwards calls)
-    Set <|.. HashSet : implements interface
+<details>
+<summary>View D2 Source</summary>
 
-    style Set fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ffffff
-    style InstrumentedSet fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#ffffff
-    style HashSet fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
+```d2
+direction: right
+title: "Favor Composition Over Inheritance: Eliminating Fragile Base Class Traps"
+
+trap: "Fragile Inheritance Anti-Pattern" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+  hashset: "HashSet<E>"
+  sub: "InstrumentedHashSet<E>
+extends HashSet
+addAll() double-counts items!"
+  hashset <- sub: "extends (breaks encapsulation)"
+}
+
+clean: "Composition & Forwarding Pattern" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+  iface: "Set<E> <<interface>>"
+  wrapper: "InstrumentedSet<E>
+composes Set delegate
+100% bug-free & polymorphic"
+  impl: "HashSet / TreeSet"
+
+  iface <- wrapper: "implements"
+  wrapper -> impl: "composes delegate"
+}
 ```
+</details>
 
 #### Production Code: The Forwarding / Decorator Idiom
 ```java
@@ -610,31 +651,37 @@ String zipcode = order.getDeliveryZipcode();
 
 ### 2.4 Separation of Concerns (SoC) & Clean Layered Architecture
 
-```mermaid
-flowchart TD
-    subgraph Layer1["Web / Controller Layer"]
-        Ctrl["@RestController"] -->|"Validates Request & Unmarshals"| DTO1["Request DTO"]
-    end
-    subgraph Layer2["Application / Service Layer"]
-        Ctrl -->|"Calls Orchestration"| Svc["@Service (Transaction Boundary)"]
-        Svc -->|"Executes Use Cases & Coordinates Repositories"| Domain["Domain Entities / Value Objects"]
-    end
-    subgraph Layer3["Infrastructure / Persistence Layer"]
-        Svc -->|"Calls Persistence"| Repo["@Repository (Spring Data JPA)"]
-        Repo -->|"Executes SQL Queries"| DB[(Database)]
-    end
+![07 Separation Of Concerns Layered Architecture](assets/09_microservices_and_system_design/07_separation_of_concerns_layered_architecture.svg)
 
-    style Layer1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Layer2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Layer3 fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
+<details>
+<summary>View D2 Source</summary>
 
-    style Ctrl fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DTO1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Svc fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Domain fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Repo fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style DB fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
+```d2
+direction: down
+title: "Separation of Concerns (SoC) & Clean Layered Architecture"
+
+web: "1. Web / Presentation Layer
+@RestController | DTO Validation | RFC 7807" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+}
+
+svc: "2. Application & Domain Layer
+@Service (Tx Boundary) | Domain Entities | Events" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+repo: "3. Infrastructure & Persistence Layer
+@Repository | Hibernate L1 Cache | Database" {
+  style.fill: "#1a140b"
+  style.stroke: "#f59e0b"
+}
+
+web -> svc: "Calls use case"
+svc -> repo: "Calls persistence"
 ```
+</details>
 
 ---
 
@@ -646,24 +693,39 @@ flowchart TD
 * **Purpose**: Constructs complex objects step-by-step, separating construction from representation. Crucial for creating **immutable** objects with multiple optional parameters.
 * **Spring / Java Idioms**: Lombok `@Builder`, `ProcessBuilder`, `UriComponentsBuilder`, `HttpRequest.newBuilder()`.
 
-```mermaid
-flowchart TD
-    subgraph BuilderFlow ["Builder Pattern Architecture"]
-        direction TB
-        Client["Client / Caller<br/>(Configures parameters fluently)"]
-        Builder["UserSecurityProfile.Builder<br/>(Mutable accumulator, fluent setters)"]
-        Product["UserSecurityProfile<br/>(Immutable domain record/entity)"]
+![08 Builder Pattern](assets/09_microservices_and_system_design/08_builder_pattern.svg)
 
-        Client -->|"1. new Builder().userId(...).email(...)"| Builder
-        Builder -->|"2. Invokes .build() with validations"| Product
-        Product -.->|"Instantiated via private constructor"| Builder
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style BuilderFlow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Client fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style Builder fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Product fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+direction: right
+title: "Builder Pattern: Fluent Construction of Complex Immutable Objects"
+
+client: "Client / Caller
+Calls .builder().userId().build()" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+builder: "UserSecurityProfile.Builder
+Mutable accumulator
+Validates invariants in .build()" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+product: "UserSecurityProfile
+Immutable Domain Entity
+Private constructor | Thread-safe" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+client -> builder: "1. Sets parameters fluently"
+builder -> product: "2. Instantiates validated product"
 ```
+</details>
 
 ```java
 public final class UserSecurityProfile {
@@ -709,21 +771,55 @@ public final class UserSecurityProfile {
   * **Abstract Factory**: Provides an interface for creating families of related or dependent objects without specifying their concrete classes.
 * **Spring Usage**: `BeanFactory`, `FactoryBean<T>`, `ConnectionFactory`.
 
-```mermaid
-flowchart TD
-    Client["NotificationService"] --> Factory["NotificationFactory"]
-    Factory -->|"creates based on channel"| Interface["Notification Interface"]
-    Interface -.->|implements| Email["EmailNotification"]
-    Interface -.->|implements| SMS["SmsNotification"]
-    Interface -.->|implements| Push["PushNotification"]
+![09 Factory Pattern](assets/09_microservices_and_system_design/09_factory_pattern.svg)
 
-    style Client fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Factory fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Interface fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Email fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SMS fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Push fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: down
+title: "Factory Method & Abstract Factory: Decoupled Object Creation"
+
+client: "NotificationService" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+factory: "NotificationFactory
++create(channel): Notification" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+iface: "Notification <<interface>>
++send(recipient, message)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+email: "EmailNotification
+SendGrid SMTP" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+sms: "SmsNotification
+Twilio SMS API" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+push: "PushNotification
+Firebase Cloud Messaging" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+
+client -> factory: "1. Requests notification"
+factory -> iface: "2. Produces instance"
+iface <- email: "implements"
+iface <- sms: "implements"
+iface <- push: "implements"
 ```
+</details>
 
 ```java
 // Notification Factory Method
@@ -807,24 +903,39 @@ public enum ConnectionPoolManager {
 * **Purpose**: Creates new objects by copying an existing instance (prototyping) rather than constructing new ones from scratch. Highly effective when object instantiation is computationally heavy (e.g. database parsing, complex graph loading).
 * **Spring Usage**: Spring Bean Prototype Scope (`@Scope("prototype")`).
 
-```mermaid
-flowchart LR
-    subgraph PrototypeFlow ["Prototype Pattern Architecture"]
-        direction LR
-        ProtoInterface["Prototype&lt;T&gt;<br/>(Defines copy() contract)"]
-        ConcreteProto["ReportConfiguration<br/>(Implements copy(): deep/defensive clone)"]
-        ClientApp["Report Engine Client<br/>(Clones baseline config for tenants)"]
+![10 Prototype Pattern](assets/09_microservices_and_system_design/10_prototype_pattern.svg)
 
-        ConcreteProto -.->|"Implements"| ProtoInterface
-        ClientApp -->|"1. Fetches pre-warmed prototype"| ConcreteProto
-        ClientApp -->|"2. Calls .copy() to fork state"| ConcreteProto
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style PrototypeFlow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ProtoInterface fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style ConcreteProto fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ClientApp fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+direction: right
+title: "Prototype Pattern: Efficient Cloning of Pre-Warmed Complex States"
+
+proto: "Prototype<T> <<interface>>
++copy(): T" {
+  style.fill: "#0f172a"
+  style.stroke: "#8b5cf6"
+}
+
+concrete: "ReportConfiguration
+Pre-warmed in memory (1.5s load)
+Implements deep defensive copy()" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+}
+
+tenantA: "Tenant A Clone (~50µs)
+Forks baseline state
+Zero DB latency" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+concrete -> proto: "implements"
+concrete -> tenantA: "calls .copy() to fork"
 ```
+</details>
 
 ```java
 public interface Prototype<T> {
@@ -868,17 +979,44 @@ public class ReportConfiguration implements Prototype<ReportConfiguration> {
 * **Purpose**: Converts the interface of a class into another interface that clients expect. Allows incompatible classes to work together.
 * **Spring Usage**: `HandlerAdapter` in Spring MVC, `JpaVendorAdapter`.
 
-```mermaid
-flowchart LR
-    Client["CheckoutService"] --> Target["PaymentGateway Interface<br/>charge(customerId, cents)"]
-    Target -.->|implemented by| Adapter["LegacyBankingAdapter"]
-    Adapter -->|"adapts / translates call"| Adaptee["LegacySoapBankingClient<br/>submitDebitTransaction(accNum, dollars)"]
+![11 Adapter Pattern](assets/09_microservices_and_system_design/11_adapter_pattern.svg)
 
-    style Client fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Target fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Adapter fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Adaptee fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Adapter Pattern: Bridging Incompatible Interfaces"
+
+client: "CheckoutService" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+target: "PaymentGateway <<interface>>
++charge(customerId, cents)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+adapter: "LegacyBankingAdapter
+Converts cents -> dollars
+Formats SOAP XML" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+adaptee: "LegacySoapBankingClient
++submitDebitTransaction(acc, dollars)" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+}
+
+client -> target: "1. Calls clean API"
+adapter -> target: "implements"
+adapter -> adaptee: "2. Translates to SOAP"
 ```
+</details>
 
 ```java
 // Target interface expected by modern backend
@@ -915,18 +1053,44 @@ public class LegacyBankingAdapter implements PaymentGateway {
 * **Purpose**: Attaches additional responsibilities to an object dynamically without subclassing.
 * **JDK / Spring Usage**: `BufferedReader(new InputStreamReader(System.in))`, Spring `HttpServletRequestWrapper`.
 
-```mermaid
-flowchart LR
-    Client["MessageService"] --> Interface["MessagePublisher Interface"]
-    Interface -.-> Base["KafkaMessagePublisher (Core Impl)"]
-    Interface -.-> Dec["EncryptedMessagePublisherDecorator (Adds AES-256)"]
-    Dec -->|"wraps & delegates to"| Base
+![12 Decorator Pattern](assets/09_microservices_and_system_design/12_decorator_pattern.svg)
 
-    style Client fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Interface fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Base fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Dec fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Decorator Pattern: Dynamic Transparent Behavior Augmentation"
+
+client: "MessageService" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+iface: "MessagePublisher <<interface>>
++publish(topic, payload)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+dec: "EncryptedMessageDecorator
+Adds AES-256 GCM
+Wraps delegate publisher" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+base: "KafkaMessagePublisher
+Core KafkaTemplate sender" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+client -> iface: "1. Publishes"
+dec -> iface: "implements"
+dec -> base: "2. Wraps & forwards encrypted payload"
 ```
+</details>
 
 ```java
 public interface MessagePublisher {
@@ -964,18 +1128,48 @@ public class EncryptedMessagePublisherDecorator implements MessagePublisher {
 * **Purpose**: Provides a surrogate or placeholder for another object to control access, perform lazy loading, add transaction boundaries, or log execution metrics.
 * **Spring Usage**: Spring AOP dynamically wraps beans in proxies for `@Transactional`, `@Async`, and `@Cacheable`.
 
-```mermaid
-flowchart LR
-    Caller["Client / Caller"] --> Proxy["Spring AOP Proxy<br/>(TransactionInterceptor)"]
-    Proxy -->|"1. Transaction.begin()"| TX["JDBC Transaction Manager"]
-    Proxy -->|"2. Invokes Target"| RealBean["Real Service Bean<br/>(OrderService.process())"]
-    Proxy -->|"3. Transaction.commit()"| TX
+![13 Proxy Pattern Jdk Vs Cglib](assets/09_microservices_and_system_design/13_proxy_pattern_jdk_vs_cglib.svg)
 
-    style Caller fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Proxy fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style TX fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style RealBean fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Proxy Pattern: JDK Dynamic Proxy vs CGLIB Subclass Proxy"
+
+caller: "Client / Controller
+Calls orderService.placeOrder()" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+proxy: "Spring AOP Proxy
+TransactionInterceptor
+Wraps target in begin/commit" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+tx: "PlatformTransactionManager
+Acquires connection
+Sets autocommit=false" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+target: "OrderServiceImpl
+Target Bean
+Pure business logic" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+caller -> proxy: "1. Invokes proxy"
+proxy -> tx: "2. Begin Tx"
+proxy -> target: "3. Invokes real bean"
+proxy -> tx: "4. Commit Tx"
 ```
+</details>
 
 * **JDK Dynamic Proxy**: Requires target class to implement an interface. Employs `java.lang.reflect.Proxy` and `InvocationHandler`.
 * **CGLIB Proxy**: Generates bytecode subclasses of target classes at runtime. Used when classes do not implement interfaces or when `proxyTargetClass = true`.
@@ -986,21 +1180,56 @@ flowchart LR
 * **Purpose**: Provides a simplified, higher-level interface to a complex library, subsystem, or cluster of classes.
 * **Spring Usage**: `JdbcTemplate`, `KafkaTemplate`, `RestTemplate`.
 
-```mermaid
-flowchart TD
-    Client["OrderController"] --> Facade["OrderFulfillmentFacade"]
-    Facade --> Sub1["InventoryService.reserveStock()"]
-    Facade --> Sub2["PaymentService.charge()"]
-    Facade --> Sub3["ShippingService.createShipment()"]
-    Facade --> Sub4["NotificationService.sendEmail()"]
+![14 Facade Pattern](assets/09_microservices_and_system_design/14_facade_pattern.svg)
 
-    style Client fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Facade fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Sub1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Sub2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Sub3 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Sub4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: down
+title: "Facade Pattern: Simplified Coordinated Subsystem Entry Point"
+
+client: "OrderController
+Calls fulfillOrder()" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+facade: "OrderFulfillmentFacade
+Coordinates 4 subsystems
+Handles errors & rollbacks" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+s1: "InventoryService
+reserveStock()" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+s2: "PaymentService
+charge()" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+s3: "ShippingService
+createShipment()" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+s4: "NotificationService
+sendConfirmation()" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+
+client -> facade: "1. Fulfill Order"
+facade -> s1: "2. Reserve stock"
+facade -> s2: "3. Charge card"
+facade -> s3: "4. Create shipment"
+facade -> s4: "5. Send email"
 ```
+</details>
 
 ```java
 @Component
@@ -1027,24 +1256,40 @@ public class OrderFulfillmentFacade {
 * **Purpose**: Composes objects into tree structures to represent part-whole hierarchies. Enables clients to treat individual leaf objects and compositions of objects uniformly.
 * **Enterprise Usage**: Hierarchical permission trees (Roles containing Sub-roles and Privileges), product catalog categories, and nested organization units.
 
-```mermaid
-flowchart TD
-    subgraph CompositeStructure ["Composite Pattern Hierarchy"]
-        direction TB
-        Component["PermissionComponent<br/>(Interface: checkAccess(action))"]
-        Leaf["LeafPrivilege<br/>(Atomic privilege: 'READ_INVOICE')"]
-        Composite["CompositeRole<br/>(Aggregates List&lt;PermissionComponent&gt;)"]
+![15 Composite Pattern](assets/09_microservices_and_system_design/15_composite_pattern.svg)
 
-        Leaf -.->|"Implements"| Component
-        Composite -.->|"Implements"| Component
-        Composite -->|"Recursively delegates checkAccess()"| Component
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style CompositeStructure fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Component fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Leaf fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Composite fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
+```d2
+direction: down
+title: "Composite Pattern: Recursive Tree Hierarchies with Uniform Contracts"
+
+iface: "PermissionComponent <<interface>>
++checkAccess(action): boolean" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+leaf: "LeafPrivilege
+Atomic permission
+'READ_INVOICE'" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+composite: "CompositeRole
+Aggregates List<PermissionComponent>
+Evaluates anyMatch() recursively" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+iface <- leaf: "implements"
+iface <- composite: "implements"
+composite -> iface: "contains children recursively"
 ```
+</details>
 
 ```java
 public interface PermissionComponent {
@@ -1095,42 +1340,50 @@ public class CompositeRole implements PermissionComponent {
 * **Purpose**: Defines a family of algorithms, encapsulates each one, and makes them interchangeable at runtime.
 * **Spring Idiom**: Injecting `Map<String, StrategyInterface>` directly into services for dynamic algorithmic dispatch.
 
-```mermaid
-classDiagram
-    direction TB
-    class TaxCalculationService {
-        -Map~String, TaxStrategy~ strategyMap
-        +calculate(String country, BigDecimal subtotal) BigDecimal
-    }
-    class TaxStrategy {
-        <<interface>>
-        +getCountryCode() String
-        +calculateTax(BigDecimal subtotal) BigDecimal
-    }
-    class UsSalesTaxStrategy {
-        +getCountryCode() String
-        +calculateTax(BigDecimal subtotal) BigDecimal
-    }
-    class EuVatTaxStrategy {
-        +getCountryCode() String
-        +calculateTax(BigDecimal subtotal) BigDecimal
-    }
-    class IndiaGstTaxStrategy {
-        +getCountryCode() String
-        +calculateTax(BigDecimal subtotal) BigDecimal
-    }
+![16 Strategy Pattern](assets/09_microservices_and_system_design/16_strategy_pattern.svg)
 
-    TaxCalculationService --> TaxStrategy : dynamic map dispatch
-    TaxStrategy <|.. UsSalesTaxStrategy : implements
-    TaxStrategy <|.. EuVatTaxStrategy : implements
-    TaxStrategy <|.. IndiaGstTaxStrategy : implements
+<details>
+<summary>View D2 Source</summary>
 
-    style TaxCalculationService fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#ffffff
-    style TaxStrategy fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ffffff
-    style UsSalesTaxStrategy fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    style EuVatTaxStrategy fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    style IndiaGstTaxStrategy fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
+```d2
+direction: down
+title: "Strategy Pattern: Encapsulated Swappable Tax Calculation Algorithms"
+
+context: "TaxCalculationService
+Map<String, TaxStrategy>" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+strategy: "TaxStrategy <<interface>>
++getCountryCode()
++calculateTax(amt)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+us: "UsSalesTaxStrategy
+@Component('US')" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+eu: "EuVatTaxStrategy
+@Component('EU')" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+in: "IndiaGstTaxStrategy
+@Component('IN')" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+context -> strategy: "1. Delegates calculation"
+strategy <- us: "implements"
+strategy <- eu: "implements"
+strategy <- in: "implements"
 ```
+</details>
 
 ```java
 public interface TaxStrategy {
@@ -1172,32 +1425,41 @@ public class TaxCalculationEngine {
 * **Purpose**: Defines the skeleton of an algorithm in an abstract base class, deferring specific steps to subclasses without altering algorithm structure.
 * **Spring Usage**: `AbstractPlatformTransactionManager`, `JdbcTemplate.execute()`.
 
-```mermaid
-flowchart TD
-    Template["DataIngestionPipeline (Template Base Class)"]
+![17 Template Method Pattern](assets/09_microservices_and_system_design/17_template_method_pattern.svg)
 
-    subgraph Stage1 ["Stage 1: Read, Validate & Transform"]
-        direction LR
-        Step1["1. readData()<br/>[abstract method]"] --> Step2["2. validateData()<br/>[abstract method]"] --> Step3["3. transform()<br/>[abstract method]"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph Stage2 ["Stage 2: Persistence & Lifecycle Hooks"]
-        direction LR
-        Step4["4. persist()<br/>[abstract method]"] --> Step5["5. afterIngestionHook()<br/>[optional concrete hook]"]
-    end
+```d2
+direction: down
+title: "Template Method Pattern: Invariant Workflow Skeleton with Concrete Hooks"
 
-    Template --> Stage1
-    Stage1 --> Stage2
+base: "DataIngestionPipeline <<abstract>>
+public final void process() {
+  read(); validate(); transform(); save(); hook();
+}" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
 
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Stage2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Template fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Step1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Step2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Step3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Step4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Step5 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+csv: "CsvDataIngestionPipeline
+Overrides read() with Commons CSV
+Overrides transform() for rows" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+json: "JsonDataIngestionPipeline
+Overrides read() with Jackson
+Overrides validate() with JSON Schema" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+base <- csv: "extends (Hollywood principle)"
+base <- json: "extends (Hollywood principle)"
 ```
+</details>
 
 ```java
 public abstract class DataIngestionPipeline {
@@ -1228,19 +1490,52 @@ public abstract class DataIngestionPipeline {
 * **Purpose**: Passes requests along a chain of handlers. Upon receiving a request, each handler either processes it or passes it to the next handler in the chain.
 * **Spring Usage**: `SecurityFilterChain`, `javax.servlet.Filter`.
 
-```mermaid
-flowchart LR
-    Req["Incoming Order Request"] --> Filter1["BlacklistCheckFilter"]
-    Filter1 -->|"Passes"| Filter2["CreditLimitCheckFilter"]
-    Filter2 -->|"Passes"| Filter3["FraudDetectionFilter"]
-    Filter3 -->|"Passes"| Core["OrderExecutionService"]
+![18 Chain Of Responsibility Pattern](assets/09_microservices_and_system_design/18_chain_of_responsibility_pattern.svg)
 
-    style Req fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Filter1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Filter2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Filter3 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Core fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Chain of Responsibility Pattern: Sequential Decoupled Pipeline"
+
+req: "OrderRequest
+user_id=42
+amount=$12.5k" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+f1: "1. BlacklistFilter
+OFAC sanction check" {
+  style.fill: "#1e293b"
+  style.stroke: "#ef4444"
+}
+
+f2: "2. CreditLimitFilter
+Exposure threshold check" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+
+f3: "3. FraudDetectionFilter
+ML fraud scoring < 0.8" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+
+core: "4. OrderExecutionService
+Persists order to DB" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+req -> f1: "Enters chain"
+f1 -> f2: "Passes"
+f2 -> f3: "Passes"
+f3 -> core: "Passes (Completes)"
 ```
+</details>
 
 ```java
 public interface OrderValidationFilter {
@@ -1282,19 +1577,49 @@ public class CreditLimitCheckFilter implements OrderValidationFilter {
 * **Purpose**: Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified automatically.
 * **Spring Usage**: `ApplicationEventPublisher`, `@EventListener`, Spring Application Events.
 
-```mermaid
-flowchart TD
-    Publisher["OrderService"] -->|"publishEvent(OrderPlacedEvent)"| EventBus["Spring Event Bus (ApplicationEventPublisher)"]
-    EventBus -->|"Async Notify"| Listener1["InventoryListener (@EventListener)"]
-    EventBus -->|"Async Notify"| Listener2["NotificationListener (@EventListener)"]
-    EventBus -->|"Async Notify"| Listener3["AnalyticsKafkaListener (@EventListener)"]
+![19 Observer Pattern](assets/09_microservices_and_system_design/19_observer_pattern.svg)
 
-    style Publisher fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style EventBus fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Listener1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Listener2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Listener3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: down
+title: "Observer Pattern: Asynchronous Event-Driven Decoupling"
+
+pub: "OrderService
+publishEvent(OrderPlacedEvent)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+bus: "Spring Event Bus
+ApplicationEventPublisher" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+l1: "InventoryListener
+@TransactionalEventListener(AFTER_COMMIT)" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+l2: "NotificationListener
+@Async @EventListener (Background thread)" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+l3: "AnalyticsKafkaListener
+Streams event to Kafka cluster" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+pub -> bus: "1. Publishes event"
+bus -> l1: "2. Dispatches"
+bus -> l2: "2. Dispatches"
+bus -> l3: "2. Dispatches"
 ```
+</details>
 
 ```java
 // 1. Immutable Domain Event
@@ -1328,40 +1653,57 @@ public class InventoryOrderListener {
 ### 5.5 State Pattern
 * **Purpose**: Allows an object to alter its behavior when its internal state changes. Replaces giant, brittle `switch` and `if-else` state transition trees with dedicated state objects.
 
-```mermaid
-flowchart TD
-    subgraph InitialOrder ["Order Placement"]
-        Pending["PENDING_PAYMENT<br/>(Awaiting payment confirmation)"]
-    end
+![20 State Pattern](assets/09_microservices_and_system_design/20_state_pattern.svg)
 
-    subgraph FulfillmentFlow ["Fulfillment & Delivery"]
-        Paid["PAID<br/>(Funds captured, awaiting packaging)"]
-        Shipped["SHIPPED<br/>(In transit via logistics provider)"]
-        Delivered["DELIVERED<br/>(Order completed successfully)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph TerminalExceptions ["Cancellations & Refunds"]
-        Cancelled["CANCELLED<br/>(Order aborted before payment)"]
-        Refunded["REFUNDED<br/>(Payment reversed, stock replenished)"]
-    end
+```d2
+direction: right
+title: "State Pattern: Finite State Machine & Validated State Transitions"
 
-    Pending -->|"context.pay()"| Paid
-    Pending -->|"context.cancel()"| Cancelled
-    Paid -->|"context.ship()"| Shipped
-    Paid -->|"context.refund()"| Refunded
-    Shipped -->|"context.deliver()"| Delivered
+pending: "1. PENDING_PAYMENT
+Awaiting payment" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+paid: "2. PAID
+Funds captured" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+shipped: "3. SHIPPED
+In transit with carrier" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+delivered: "4. DELIVERED
+Customer received" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
 
-    style InitialOrder fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FulfillmentFlow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style TerminalExceptions fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
+cancelled: "CANCELLED
+Releases stock" {
+  style.fill: "#450a0a"
+  style.stroke: "#ef4444"
+}
+refunded: "REFUNDED
+Reverses payment" {
+  style.fill: "#78350f"
+  style.stroke: "#f59e0b"
+}
 
-    style Pending fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Paid fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Shipped fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Delivered fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Cancelled fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Refunded fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
+pending -> paid: "pay()"
+paid -> shipped: "ship()"
+shipped -> delivered: "deliver()"
+
+pending -> cancelled: "cancel()"
+paid -> cancelled: "cancel()"
+paid -> refunded: "refund()"
+shipped -> refunded: "refund()"
 ```
+</details>
 
 ```java
 public interface OrderState {
@@ -1414,17 +1756,47 @@ public class PaidState implements OrderState {
 * **Purpose**: Encapsulates a request as an object, thereby letting you parameterize clients with different requests, queue or log requests, and support undoable operations.
 * **Enterprise Usage**: Transactional outbox pattern, batch execution engines, undo/redo state management in event sourcing.
 
-```mermaid
-flowchart LR
-    Client["OrderActionService"] --> Command["CreateOrderCommand (Command Object)"]
-    Command --> Invoker["CommandExecutor / Queue"]
-    Invoker -->|"execute() / undo()"| Receiver["OrderDatabaseReceiver"]
+![21 Command Pattern](assets/09_microservices_and_system_design/21_command_pattern.svg)
 
-    style Client fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Command fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Invoker fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Receiver fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Command Pattern: Encapsulated Request Objects with Undo/Redo & Queuing"
+
+client: "OrderActionService
+Creates CreateOrderCommand" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+cmd: "CreateOrderCommand <<interface>>
++execute()
++undo()" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+invoker: "CommandExecutorQueue
+Queues & triggers execute()
+Handles undo() on failure" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+receiver: "OrderDatabaseReceiver
+insertOrderRow()
+deleteOrderRow()" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+client -> cmd: "1. Instantiates"
+cmd -> invoker: "2. Submitted to"
+invoker -> receiver: "3. Dispatches execute() / undo()"
 ```
+</details>
 
 ```java
 public interface Command {
@@ -1552,44 +1924,42 @@ List<OrderEntity> results = orderRepository.findAll(
 
 Hexagonal Architecture (Alistair Cockburn) and Clean Architecture (Robert C. Martin) place pure domain business logic at the core, decoupling it completely from frameworks, databases, message brokers, and user interfaces.
 
-```mermaid
-flowchart TD
-    subgraph DrivingAdapters ["Inbound / Driving Adapters (Input Triggers)"]
-        WebCtrl["REST Controller<br/>(Spring Web / GraphQL)"]
-        KafkaConsumer["Kafka Event Consumer<br/>(Spring Kafka)"]
-    end
+![22 Clean And Hexagonal Architecture](assets/09_microservices_and_system_design/22_clean_and_hexagonal_architecture.svg)
 
-    subgraph ApplicationCore ["Application & Domain Core (Pure Java)"]
-        direction TB
-        InboundPort["Inbound Port (Use Case Interface)<br/>PlaceOrderUseCase"]
-        DomainService["Domain Entity & Aggregates<br/>Order, Money, LineItem"]
-        OutboundPort["Outbound Port (Driven Interface)<br/>OrderRepositoryPort, PaymentGatewayPort"]
-        
-        InboundPort --> DomainService
-        DomainService --> OutboundPort
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph DrivenAdapters ["Outbound / Driven Adapters (Infrastructure)"]
-        JpaRepo["PostgreSQL Database<br/>(Spring Data JPA Adapter)"]
-        StripeGateway["Stripe Payment Gateway<br/>(HTTP REST Adapter)"]
-    end
+```d2
+direction: right
+title: "Clean & Hexagonal Architecture (Ports and Adapters)"
 
-    WebCtrl --> InboundPort
-    KafkaConsumer --> InboundPort
-    OutboundPort -.-> JpaRepo
-    OutboundPort -.-> StripeGateway
+driving: "Inbound Driving Adapters
+REST Controller
+Kafka Consumer" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+}
 
-    style DrivingAdapters fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ApplicationCore fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style DrivenAdapters fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style WebCtrl fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style KafkaConsumer fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style InboundPort fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DomainService fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style OutboundPort fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style JpaRepo fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style StripeGateway fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
+core: "Application Core (Pure Java)
+PlaceOrderUseCase (Inbound Port)
+Order Aggregate Root
+OrderPersistencePort (Outbound Port)" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+driven: "Outbound Driven Adapters
+JpaPostgresAdapter
+StripePaymentAdapter
+KafkaOutboxProducer" {
+  style.fill: "#1a140b"
+  style.stroke: "#f59e0b"
+}
+
+driving -> core: "1. Calls Inbound Port"
+driven -> core: "2. Implements Outbound Port (Dependency Inverts Inward!)"
 ```
+</details>
 
 #### Production Code: Clean Architecture Dependency Inversion
 ```java
@@ -1675,37 +2045,47 @@ public class ArchitectureInvariantsTest {
 
 A Monolithic architecture unifies the entire application codebase, data models, and business logic into a single deployable artifact (JAR/WAR). A Microservices architecture decomposes the enterprise domain into a distributed collection of independently deployable, loosely coupled, polyglot services organized around business capabilities.
 
-```mermaid
-flowchart LR
-    subgraph Monolith["Monolithic Architecture"]
-        direction LR
-        M_UI["Web Client / UI"] --> M_App["Unified Monolithic Process (User, Order, Payment, Catalog)"]
-        M_App --> M_DB[("Single Monolithic Central Database")]
-    end
+![23 Monolith Vs Microservices Architecture](assets/09_microservices_and_system_design/23_monolith_vs_microservices_architecture.svg)
 
-    subgraph Microservices["Microservices Architecture"]
-        direction LR
-        MS_UI["Web Client / UI"] --> MS_GW["API Gateway (L7 Router)"]
-        MS_GW --> S1["User Service"] --> DB1[("User DB")]
-        MS_GW --> S2["Order Service"] --> DB2[("Order DB")]
-        MS_GW --> S3["Payment Service"] --> DB3[("Payment DB")]
-        S2 -.->|"Domain Events (Kafka)"| S3
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style Monolith fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Microservices fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
+```d2
+direction: right
+title: "Monolithic vs Microservices Architecture Deep-Dive"
 
-    style M_UI fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style M_App fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style M_DB fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style MS_UI fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style MS_GW fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DB1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DB2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DB3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+monolith: "Monolithic Architecture" {
+  style.fill: "#0f172a"
+  style.stroke: "#ef4444"
+
+  app: "Unified JVM Monolith
+User, Order, Payment, Catalog"
+  db: "Central Monolithic DB
+Shared Tables & Relational FKs"
+  app -> db: "ACID transactions"
+}
+
+microservices: "Microservices Architecture" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+
+  gw: "API Gateway
+L7 Routing & Auth"
+  u_svc: "User Service
+Postgres DB"
+  o_svc: "Order Service
+Postgres DB"
+  p_svc: "Payment Service
+MongoDB"
+
+  gw -> u_svc
+  gw -> o_svc
+  gw -> p_svc
+}
+
+monolith -> microservices: "Decomposes into isolated services"
 ```
+</details>
 
 #### Multi-Dimensional Architectural Comparison
 
@@ -1724,28 +2104,43 @@ flowchart LR
 
 Decomposing a system improperly results in a **Distributed Monolith** (all the network latency and deployment complexity of microservices with none of the autonomy).
 
-```mermaid
-flowchart LR
-    subgraph Strategic_DDD["Domain-Driven Design: Strategic Decomposition"]
-        Domain["Enterprise E-Commerce Domain"] --> BC1["Bounded Context: Order Processing"]
-        Domain --> BC2["Bounded Context: Payment & Invoicing"]
-        Domain --> BC3["Bounded Context: Inventory & Warehouse"]
-        
-        BC1 -.->|Customer Entity: Shipping Address, Items| Svc1["Order Microservice"]
-        BC2 -.->|Customer Entity: Credit Card, Billing Info| Svc2["Payment Microservice"]
-        BC3 -.->|Item Entity: SKU, Bin Location, Weight| Svc3["Inventory Microservice"]
-    end
+![24 Ddd Bounded Contexts Subdomains](assets/09_microservices_and_system_design/24_ddd_bounded_contexts_subdomains.svg)
 
-    style Strategic_DDD fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
+<details>
+<summary>View D2 Source</summary>
 
-    style Domain fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style BC1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style BC2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style BC3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Svc1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Svc2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Svc3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+```d2
+direction: right
+title: "Domain-Driven Design (DDD): Strategic Decomposition & Bounded Contexts"
+
+order: "Order Processing Context (Core)
+Customer = 'Purchaser'
+OrderAggregate
+OrderCreatedEvent" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+payment: "Payment & Billing Context
+Customer = 'Payer'
+PaymentTransaction
+PaymentAuthorizedEvent" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+inventory: "Inventory & Warehouse Context
+Customer = 'Consignee'
+StockAllocation
+StockReservedEvent" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+order -> payment: "Async Events (Customer/Supplier)"
+order -> inventory: "Async Events (Customer/Supplier)"
 ```
+</details>
 
 1. **Strategic DDD & Bounded Contexts**:
    - A **Bounded Context** defines the explicit boundary within which a domain model applies.
@@ -1772,32 +2167,44 @@ In an enterprise microservices architecture, **no service is permitted to query 
 
 The API Gateway is the single public entry point for all external clients (mobile, browser, third-party partners):
 
-```mermaid
-flowchart TD
-    ClientTraffic["Client Requests (HTTPS)"] --> APIGW["API Gateway (Spring Cloud Gateway / Envoy)"]
-    
-    subgraph CrossCuttingConcerns["Cross-Cutting Concerns Offloading"]
-        AuthN["1. TLS Termination & JWT Validation"]
-        RateLimit["2. Distributed Rate Limiting (Token Bucket)"]
-        WAF["3. Request Sanitization & Header Normalization"]
-        Routing["4. Dynamic Path & Canary Routing"]
-    end
+![25 Api Gateway Routing Security Offloading](assets/09_microservices_and_system_design/25_api_gateway_routing_security_offloading.svg)
 
-    APIGW --- CrossCuttingConcerns
-    APIGW -->|/api/v1/orders| SvcA["Order Service (ClusterIP: 8080)"]
-    APIGW -->|/api/v1/users| SvcB["User Service (ClusterIP: 8081)"]
+<details>
+<summary>View D2 Source</summary>
 
-    style CrossCuttingConcerns fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
+```d2
+direction: right
+title: "API Gateway Architecture: Routing & Security Offloading"
 
-    style ClientTraffic fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style APIGW fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style AuthN fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style RateLimit fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style WAF fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Routing fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SvcA fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SvcB fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+client: "Public Clients
+Web, Mobile, B2B" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+gw: "API Gateway
+Spring Cloud Gateway / Envoy" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+
+  tls: "1. TLS Termination"
+  jwt: "2. JWT Authentication"
+  rate: "3. Redis Rate Limiting"
+  route: "4. L7 Path Routing"
+
+  tls -> jwt -> rate -> route
+}
+
+services: "Internal Services
+Order, Payment, User" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+client -> gw: "HTTPS / 443"
+gw -> services: "Plain HTTP / mTLS"
 ```
+</details>
 
 #### Layer 4 (L4) vs Layer 7 (L7) Load Balancing
 
@@ -1823,33 +2230,41 @@ flowchart TD
 
 In containerized clouds (Kubernetes), microservice instances have dynamic, ephemeral IP addresses.
 
-```mermaid
-flowchart TD
-    subgraph ClientSide["Client-Side Discovery (e.g. Netflix Eureka / Ribbon)"]
-        direction TB
-        C1["Client Microservice"] -->|1. Query Service Registry| Registry["Eureka / Consul Registry"]
-        Registry -- 2. Return list of IP:Port instances --> C1
-        C1 -->|3. Client executes Load Balancing algorithm| Target1["Order-Svc Instance 2 (10.0.1.5)"]
-    end
+![26 Service Discovery Client Vs Server Side](assets/09_microservices_and_system_design/26_service_discovery_client_vs_server_side.svg)
 
-    subgraph ServerSide["Server-Side Discovery (e.g. Kubernetes Services / AWS ALB)"]
-        direction TB
-        C2["Client Microservice"] -->|1. HTTP Request: http://order-service| Router["Internal Router / K8s CoreDNS / kube-proxy"]
-        Router <--> K8sControl["K8s API / Endpoints"]
-        Router -->|2. Proxy Request| Target2["Order-Svc Instance 1 (10.244.1.8)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style ClientSide fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ServerSide fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
+```d2
+direction: right
+title: "Service Discovery: Client-Side vs Server-Side Architecture"
 
-    style C1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Registry fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Target1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style C2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Router fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style K8sControl fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Target2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
+client_side: "Client-Side Discovery (Eureka)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+
+  c_client: "Client App"
+  eureka: "Eureka Registry"
+  targets: "Service Instances (Direct Hop)"
+
+  c_client -> eureka: "1. Query registry"
+  eureka -> c_client: "2. Return IPs"
+  c_client -> targets: "3. Direct RPC"
+}
+
+server_side: "Server-Side Discovery (Kubernetes)" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+
+  s_client: "Client App"
+  k8s_svc: "K8s Service / Virtual IP"
+  pods: "Pods (Endpoints)"
+
+  s_client -> k8s_svc: "1. Calls DNS hostname"
+  k8s_svc -> pods: "2. Proxies to Pod"
+}
 ```
+</details>
 
 - **Client-Side Discovery**: The client microservice queries the registry directly, caches healthy instance IPs locally, and uses client-side load balancing algorithms (Round Robin, Weighted Response Time) to pick a target node. *Downside*: Tight coupling to registry client library in every programming language.
 - **Server-Side Discovery (Cloud-Native Standard)**: The client makes a call to a stable DNS name (`http://order-service`). An intermediate router (Kubernetes `kube-proxy` or Cloud Load Balancer) resolves the name and proxies the request to healthy instances. *Benefit*: Complete language independence.
@@ -1860,26 +2275,40 @@ flowchart TD
 
 A Service Mesh is a dedicated infrastructure layer that handles service-to-service communication transparently:
 
-```mermaid
-flowchart LR
-    subgraph Pod1["Pod: Order Service"]
-        App1["Spring Boot App 1"] <-->|"Localhost (Plain HTTP)"| Envoy1["Envoy Sidecar Proxy 1"]
-    end
+![27 Service Mesh Istio Sidecar Mtls](assets/09_microservices_and_system_design/27_service_mesh_istio_sidecar_mtls.svg)
 
-    subgraph Pod2["Pod: Payment Service"]
-        Envoy2["Envoy Sidecar Proxy 2"] <-->|"Localhost (Plain HTTP)"| App2["Spring Boot App 2"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    Envoy1 <===>|"Zero-Trust Mutual TLS (mTLS) Tunnel + Distributed Tracing"| Envoy2
+```d2
+direction: right
+title: "Service Mesh Architecture: Istio & Envoy Sidecar Proxies"
 
-    style Pod1 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Pod2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
+pod1: "Pod: Order Service" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
 
-    style App1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Envoy1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Envoy2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style App2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+  app1: "Spring Boot App
+Plain HTTP Call"
+  envoy1: "Envoy Sidecar
+SPIFFE Identity & Encryptor"
+  app1 -> envoy1: "Localhost (Loopback)"
+}
+
+pod2: "Pod: Payment Service" {
+  style.fill: "#1a140b"
+  style.stroke: "#f59e0b"
+
+  envoy2: "Envoy Sidecar
+Terminates mTLS & AuthPolicy"
+  app2: "Spring Boot App
+Receives Plain HTTP"
+  envoy2 -> app2: "Localhost (Loopback)"
+}
+
+pod1.envoy1 -> pod2.envoy2: "Zero-Trust mTLS Tunnel (Mutual Auth)"
 ```
+</details>
 
 1. **Sidecar Pattern**: An **Envoy proxy** runs alongside each application container inside the same Kubernetes Pod, intercepting all ingress and egress network traffic.
 2. **Zero-Trust Security via mTLS**: Envoy automatically encrypts all service-to-service communication with mutual TLS and validates cryptographic identities (SPIFFE/SPIRE certificates) without modifying application code.
@@ -1891,28 +2320,46 @@ flowchart LR
 
 In a distributed microservices call chain, a single incoming user transaction touches dozens of services. Without distributed tracing, isolating the root cause of high latency or failures is impossible.
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor User as User Browser
-    participant GW as API Gateway
-    participant Order as Order Service
-    participant Pay as Payment Service
-    participant DB as PostgreSQL
+![28 Distributed Tracing W3C Traceparent Opentelemetry](assets/09_microservices_and_system_design/28_distributed_tracing_w3c_traceparent_opentelemetry.svg)
 
-    User->>GW: HTTP POST /api/orders (Generates TraceId: 4bf92f3577b34da6)
-    Note over GW: SpanId: 00f067aa0ba902b7
-    GW->>Order: HTTP POST with header traceparent: 00-4bf92f3577b34da6-00f067aa0ba902b7-01
-    Note over Order: New Child SpanId: 5fb397be34745a4b
-    Order->>Pay: HTTP POST with header traceparent: 00-4bf92f3577b34da6-5fb397be34745a4b-01
-    Note over Pay: New Child SpanId: b2e2b34a6a28723c
-    Pay->>DB: JDBC executeUpdate()
-    DB-->>Pay: Query Result (5ms)
-    Pay-->>Order: 200 OK (25ms)
-    Order-->>GW: 200 OK (80ms)
-    GW-->>User: 200 OK (110ms Total Trace Duration)
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Distributed Tracing: W3C TraceContext & OpenTelemetry Propagation"
+
+user: "User Client" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+gw: "API Gateway
+TraceID: 4bf92f
+Span: 00f067" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+order: "Order Service
+TraceID: 4bf92f
+Span: e4a781" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+pay: "Payment Service
+TraceID: 4bf92f
+Span: 7c92b1" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+
+user -> gw: "1. POST /orders"
+gw -> order: "2. traceparent: 00-4bf92f-00f067-01"
+order -> pay: "3. traceparent: 00-4bf92f-e4a781-01"
+pay -> order: "4. 200 OK (45ms)"
+order -> gw: "5. 200 OK (115ms)"
+gw -> user: "6. 200 OK (165ms)"
 ```
+</details>
 
 #### W3C `traceparent` Header Format Explained
 The industry standard W3C `traceparent` header follows the syntax:
@@ -1933,50 +2380,59 @@ In modern multi-platform architectures, mobile apps, desktop browsers, and publi
 
 Having a single monolithic API Gateway cater to all clients forces complex conditionals into the gateway, causing organizational friction. The **Backend for Frontend (BFF)** pattern introduces dedicated gateway tiers for each client category:
 
-```mermaid
-flowchart TD
-    subgraph Clients["Diverse Client Platforms"]
-        WebClient["Desktop Web Browser (React)"]
-        MobileClient["Mobile Apps (iOS / Android)"]
-        PartnerClient["Partner B2B Integration"]
-    end
+![29 Backend For Frontend Bff Edge Routing](assets/09_microservices_and_system_design/29_backend_for_frontend_bff_edge_routing.svg)
 
-    subgraph BFF_Tier["Backend For Frontend (BFF) Gateway Layer"]
-        WebBFF["Web BFF Service<br/>(Node.js / Spring WebFlux)"]
-        MobileBFF["Mobile BFF Service<br/>(Payload Aggregation & Trimming)"]
-        PartnerBFF["Partner BFF Service<br/>(Strict Rate Limiting & Auditing)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph Microservices_Core["Internal Microservices Core Mesh"]
-        OrderSvc["Order Service<br/>(High-speed gRPC)"]
-        CatalogSvc["Catalog Service<br/>(High-speed gRPC)"]
-        BillingSvc["Billing Service<br/>(High-speed gRPC)"]
-    end
+```d2
+direction: down
+title: "Backend for Frontend (BFF) Pattern & Edge Routing Architecture"
 
-    WebClient --> WebBFF
-    MobileClient --> MobileBFF
-    PartnerClient --> PartnerBFF
+web_c: "Desktop Web (React)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+mob_c: "Mobile (iOS/Android)" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+b2b_c: "B2B Partners" {
+  style.fill: "#0f172a"
+  style.stroke: "#f59e0b"
+}
 
-    WebBFF <-->|gRPC / Protobuf| OrderSvc
-    WebBFF <-->|gRPC / Protobuf| CatalogSvc
-    MobileBFF <-->|gRPC / Protobuf| OrderSvc
-    MobileBFF <-->|gRPC / Protobuf| CatalogSvc
-    PartnerBFF <-->|gRPC / Protobuf| BillingSvc
+web_bff: "Web BFF Service
+Dense payloads & SSR" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+mob_bff: "Mobile BFF Service
+Compact payloads & batching" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+b2b_bff: "Partner BFF Service
+API keys & rate limiting" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
 
-    style Clients fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BFF_Tier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Microservices_Core fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
+svcs: "Downstream Services
+Catalog, Order, User, Payment" {
+  style.fill: "#0f172a"
+  style.stroke: "#06b6d4"
+}
 
-    style WebClient fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style MobileClient fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style PartnerClient fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style WebBFF fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style MobileBFF fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style PartnerBFF fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style OrderSvc fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CatalogSvc fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style BillingSvc fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+web_c -> web_bff
+mob_c -> mob_bff
+b2b_c -> b2b_bff
+
+web_bff -> svcs
+mob_bff -> svcs
+b2b_bff -> svcs
 ```
+</details>
 
 > [!TIP]
 > **Inter-Service Protocol Harmony**: While public clients talk **REST / JSON** or GraphQL to their respective BFFs over the internet, the BFFs communicate with internal downstream microservices over **multiplexed, low-latency gRPC** (see [05. Spring Framework, Spring Boot & REST APIs - Section 16: REST vs gRPC](05_spring_boot_and_rest_apis.md#16-api-communication-paradigms-rest-vs-rpc-vs-grpc--protocol-buffers)).
@@ -1996,37 +2452,43 @@ flowchart TD
 
 The Circuit Breaker pattern prevents an application from repeatedly executing an operation that is failing, preventing cascading thread pool exhaustion across microservices:
 
-```mermaid
-stateDiagram-v2
-    classDef operational fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#ffffff
-    classDef tripped fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#ffffff
-    classDef trial fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#ffffff
+![30 Circuit Breaker Resilience4J State Machine](assets/09_microservices_and_system_design/30_circuit_breaker_resilience4j_state_machine.svg)
 
-    [*] --> CLOSED
-    
-    CLOSED --> OPEN: Failure rate exceeds threshold (e.g. > 50% in sliding window)
-    note right of CLOSED
-        Normal operation. Remote calls allowed.
-        Metrics recorded in sliding window.
-    end note
+<details>
+<summary>View D2 Source</summary>
 
-    OPEN --> HALF_OPEN: Cooldown duration expires (e.g. wait 15s)
-    note right of OPEN
-        Tripped state. Immediate fail-fast.
-        No network call; returns fallback response.
-    end note
+```d2
+direction: right
+title: "Circuit Breaker Pattern: Resilience4j Finite State Machine"
 
-    HALF_OPEN --> CLOSED: Trial calls succeed >= threshold
-    HALF_OPEN --> OPEN: Trial call fails
-    note right of HALF_OPEN
-        Probing state. Permits limited trial requests
-        to test remote dependency health.
-    end note
+closed: "1. CLOSED (Normal)
+Requests pass downstream
+Tracks failure rate in sliding window" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
 
-    class CLOSED operational
-    class OPEN tripped
-    class HALF_OPEN trial
+open: "2. OPEN (Tripped)
+Zero downstream calls
+Fast-fails in 0ms
+Wait duration: 10s" {
+  style.fill: "#450a0a"
+  style.stroke: "#ef4444"
+}
+
+half_open: "3. HALF_OPEN (Trial)
+Allows 10 probe calls
+Tests if service healed" {
+  style.fill: "#78350f"
+  style.stroke: "#f59e0b"
+}
+
+closed -> open: "Failure rate > 50%"
+open -> half_open: "Wait timer (10s) expires"
+half_open -> closed: "Trial calls succeed"
+half_open -> open: "Trial call fails"
 ```
+</details>
 
 1. **`CLOSED`**: Requests flow normally. The circuit tracks call outcomes in a sliding window (e.g., last 100 calls). If the failure rate exceeds the configured threshold (e.g., 50%), the circuit transitions to `OPEN`.
 2. **`OPEN`**: Requests are blocked immediately without invoking the remote service. Calls fail fast, returning an instant fallback response to preserve caller thread pools.
@@ -2104,36 +2566,48 @@ The Bulkhead pattern isolates computing resources into independent compartments 
 
 In distributed networks, timeouts can leave callers uncertain whether a request succeeded. An **Idempotency Key** ensures that repeating an API call produces the exact same result without executing the business logic twice:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    box rgba(15, 23, 42, 0.8) Client Perimeter
-        actor Client
-    end
-    box rgba(30, 41, 59, 0.8) Ingress Tier
-        participant GW as API Gateway / App
-    end
-    box rgba(6, 78, 59, 0.5) State & Cache
-        participant Redis as Redis Cluster
-    end
-    box rgba(30, 58, 138, 0.5) Persistence Tier
-        participant DB as PostgreSQL Database
-    end
+![31 Api Idempotency Redis Deduplication](assets/09_microservices_and_system_design/31_api_idempotency_redis_deduplication.svg)
 
-    Client->>GW: POST /api/v1/payments (Header: Idempotency-Key: pay-9281)
-    GW->>Redis: Check key "idempotency:pay-9281"
-    alt Key Exists (Previously Completed)
-        Redis-->>GW: Return Cached Response JSON
-        GW-->>Client: 200 OK (Original Payment Response - Zero Re-charge!)
-    else Key Does Not Exist
-        GW->>Redis: Acquire Lock: "lock:idempotency:pay-9281" (TTL: 15s)
-        GW->>DB: Execute Payment Transaction & Deduct Balance
-        GW->>Redis: Store Response JSON under "idempotency:pay-9281" (TTL: 24h)
-        GW->>Redis: Release Distributed Lock
-        GW-->>Client: 201 Created (Payment Processed)
-    end
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "API Idempotency & Distributed Deduplication via Redis Lease Locks"
+
+client: "Client App" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+gw: "Idempotency Interceptor
+Spring HandlerInterceptor" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+redis: "Redis Cluster
+Atomic SETNX & Cache" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+db: "PostgreSQL Database
+ACID Order Storage" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+client -> gw: "1. POST (Idempotency-Key: uuid-101)"
+gw -> redis: "2. SETNX uuid-101 IN_PROGRESS"
+redis -> gw: "Lock acquired"
+gw -> db: "3. INSERT order (9042)"
+gw -> redis: "4. Cache {orderId: 9042}"
+gw -> client: "5. 201 Created"
+
+client -> gw: "6. RETRY with same uuid-101"
+gw -> redis: "7. GET uuid-101"
+redis -> gw: "Cached {orderId: 9042}"
+gw -> client: "8. 200 OK from Cache (No DB hit!)"
 ```
+</details>
 
 > [!NOTE]
 > For the complete Spring Boot HTTP Servlet Filter implementation with request payload SHA-256 collision detection (`409 Conflict`), and RFC standard header specifications, see [05. Spring Framework, Spring Boot & REST APIs - Section 11: Production API Idempotency Architecture](05_spring_boot_and_rest_apis.md#11-production-api-idempotency-architecture).
@@ -2178,45 +2652,48 @@ To coordinate state mutations across distinct data stores, architectures choose 
 
 ### 11.2 Saga Choreography vs Saga Orchestration
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    box rgba(15, 23, 42, 0.8) Client Perimeter
-        actor Client
-    end
-    box rgba(30, 41, 59, 0.8) Coordination Tier
-        participant Orch as Order Saga Orchestrator
-    end
-    box rgba(49, 46, 129, 0.5) Microservices
-        participant Pay as Payment Service
-        participant Inv as Inventory Service
-    end
+![32 Saga Choreography Vs Orchestration](assets/09_microservices_and_system_design/32_saga_choreography_vs_orchestration.svg)
 
-    Client->>Orch: Submit Order (items, payment)
-    activate Orch
-    Orch->>Pay: 1. Command: ProcessPayment(amount)
-    activate Pay
-    Pay-->>Orch: PaymentAuthorized(txId)
-    deactivate Pay
+<details>
+<summary>View D2 Source</summary>
 
-    Orch->>Inv: 2. Command: ReserveInventory(items)
-    activate Inv
-    alt Inventory Available (Happy Path)
-        Inv-->>Orch: InventoryReserved()
-        deactivate Inv
-        Orch-->>Client: 201 Created (Order Complete)
-    else Out of Stock (Failure Branch)
-        Inv-->>Orch: OutOfStockError()
-        Note over Orch,Pay: Trigger Compensating Transaction
-        Orch->>Pay: 3. Compensate: RefundPayment(txId)
-        activate Pay
-        Pay-->>Orch: PaymentRefunded()
-        deactivate Pay
-        Orch-->>Client: 409 Conflict (Order Cancelled & Refunded)
-    end
-    deactivate Orch
+```d2
+direction: down
+title: "Saga Pattern: Choreography vs Orchestration Architecture"
+
+choreography: "1. Saga Choreography (Decentralized Events)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  o1: "Order Service"
+  p1: "Payment Service"
+  i1: "Inventory Service"
+  s1: "Shipping Service"
+
+  o1 -> p1: "OrderCreated"
+  p1 -> i1: "PaymentCharged"
+  i1 -> s1: "StockReserved"
+}
+
+orchestration: "2. Saga Orchestration (Centralized State Machine)" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+
+  orch: "OrderSagaOrchestrator
+Tracks state in SagaLog" {
+    style.fill: "#111827"
+    style.stroke: "#f59e0b"
+  }
+  p2: "Payment Service"
+  i2: "Inventory Service"
+  s2: "Shipping Service"
+
+  orch -> p2: "Command: Charge"
+  orch -> i2: "Command: Reserve"
+  orch -> s2: "Command: Ship"
+}
 ```
+</details>
 
 ---
 
@@ -2224,23 +2701,62 @@ sequenceDiagram
 
 A production-grade Saga Orchestrator cannot simply rely on in-memory procedural calls; if the orchestrator pod crashes midway through a transaction, uncompensated distributed state will be orphaned indefinitely. A resilient orchestrator must persist its execution state machine to durable storage at each step boundary.
 
-```mermaid
-stateDiagram-v2
-    [*] --> SAGA_STARTED: Client Submits Order
-    SAGA_STARTED --> ORDER_PENDING: 1. Create Pending Order
-    ORDER_PENDING --> PAYMENT_AUTHORIZED: 2. Authorize Payment
-    ORDER_PENDING --> ORDER_FAILED: Order Creation Fails
+![33 Production Saga Orchestrator State Machine](assets/09_microservices_and_system_design/33_production_saga_orchestrator_state_machine.svg)
 
-    PAYMENT_AUTHORIZED --> INVENTORY_RESERVED: 3. Reserve Stock
-    PAYMENT_AUTHORIZED --> COMPENSATING_PAYMENT: Stock Out / Fail
-    
-    COMPENSATING_PAYMENT --> PAYMENT_REFUNDED: Refund Customer
-    PAYMENT_REFUNDED --> COMPENSATING_ORDER: Cancel Pending Order
-    COMPENSATING_ORDER --> SAGA_FAILED: Terminal Failure State
+<details>
+<summary>View D2 Source</summary>
 
-    INVENTORY_RESERVED --> ORDER_COMPLETED: 4. Finalize Order
-    ORDER_COMPLETED --> SAGA_SUCCESS: Terminal Success State
+```d2
+direction: right
+title: "Production Saga Orchestrator: State Machine & Compensation Rollback"
+
+s1: "1. SAGA_STARTED" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+s2: "2. ORDER_PENDING" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+s3: "3. PAYMENT_AUTHORIZED" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+s4: "4. INVENTORY_RESERVED" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+s5: "5. SAGA_COMPLETED" {
+  style.fill: "#064e3b"
+  style.stroke: "#34d399"
+}
+
+c1: "COMPENSATING_PAYMENT
+Refunds Stripe auth" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+}
+c2: "COMPENSATING_ORDER
+Cancels Order" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+}
+c3: "SAGA_FAILED
+Consistent baseline" {
+  style.fill: "#450a0a"
+  style.stroke: "#ef4444"
+}
+
+s1 -> s2: "createOrder()"
+s2 -> s3: "chargePayment()"
+s3 -> s4: "reserveStock()"
+s4 -> s5: "dispatchOrder()"
+
+s4 -> c1: "Stock Out Error!"
+c1 -> c2: "Payment refunded"
+c2 -> c3: "Order cancelled (Clean)"
 ```
+</details>
 
 #### Production Saga Schema DDL (PostgreSQL)
 
@@ -2429,24 +2945,47 @@ public class ResilientOrderSagaOrchestrator {
 
 The **Dual-Write Problem** is one of the most dangerous anti-patterns in distributed systems. It occurs when an application writes to a database and publishes to a message broker (e.g. Kafka) in two separate operations:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Client as Customer Client
-    participant App as Order Microservice
-    participant DB as PostgreSQL Database
-    participant Kafka as Apache Kafka Cluster
-    participant Downstream as Payment & Shipping Services
+![34 Transactional Outbox Debezium Cdc Sequence](assets/09_microservices_and_system_design/34_transactional_outbox_debezium_cdc_sequence.svg)
 
-    Client->>App: POST /api/v1/orders
-    App->>DB: 1. INSERT INTO orders ... (Committed locally)
-    DB-->>App: OK (Row persisted in DB)
+<details>
+<summary>View D2 Source</summary>
 
-    App--xKafka: 2. kafkaProducer.send(OrderCreatedEvent)
-    Note over App,Kafka: Network Timeout / Broker Crash / JVM Kill!
-    Note over Downstream: Downstream never receives event! Fatal data inconsistency!
+```d2
+direction: right
+title: "Transactional Outbox Pattern: Debezium CDC Sequence"
+
+client: "Customer Client" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+svc: "Order Service" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+db: "PostgreSQL Database
+ACID Boundary
+orders + outbox" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+deb: "Debezium CDC
+Reads pg_wal log" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+kfk: "Kafka Cluster
+'orders.events'" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+client -> svc: "1. POST /orders"
+svc -> db: "2. Atomic Dual-Write (1 Tx)"
+svc -> client: "3. 201 Created (15ms)"
+db -> deb: "4. WAL Log Mining"
+deb -> kfk: "5. Streams event to Kafka"
 ```
+</details>
 
 If we flip the order and publish to Kafka first, a database constraint violation will leave downstream services processing a phantom order that doesn't exist.
 
@@ -2454,44 +2993,45 @@ If we flip the order and publish to Kafka first, a database constraint violation
 
 Instead of publishing directly to Kafka, the application writes both the business entity (`orders`) and an outbox event record (`outbox_events`) into the **same database within a single local ACID transaction**. A dedicated Change Data Capture (CDC) agent (Debezium) monitors the database's Write-Ahead Log (WAL) and streams events to Kafka with at-least-once delivery guarantees.
 
-```mermaid
-flowchart LR
-    subgraph Microservice["Order Microservice"]
-        App["Order Application Service"]
-    end
+![35 Transactional Outbox Pattern Architecture](assets/09_microservices_and_system_design/35_transactional_outbox_pattern_architecture.svg)
 
-    subgraph RelationalDB["PostgreSQL Database (ACID Boundary)"]
-        App -->|"1. Single ACID Transaction (INSERT)"| OrdersTable["orders table"]
-        App -->|"1. Single ACID Transaction (INSERT)"| OutboxTable["outbox_events table"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph CDC_Pipeline["Zero-Overhead CDC Engine"]
-        PostgresWAL["PostgreSQL Write-Ahead Log (WAL)"]
-        Debezium["Debezium CDC Connector (pgoutput)"]
-        PostgresWAL --> Debezium
-        Debezium -->|2. Reliable Stream Publish| KafkaTopic["Kafka Topic: 'order-events'"]
-    end
+```d2
+direction: right
+title: "Transactional Outbox Pattern: Architectural Component Layout"
 
-    OrdersTable -.-> PostgresWAL
-    OutboxTable -.-> PostgresWAL
+app: "Order Microservice
+Single ACID Transaction" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
 
-    subgraph Downstream_Tiers["Downstream Microservices"]
-        KafkaTopic -->|"3. At-Least-Once Consumption"| PaymentConsumer["Payment Microservice<br/>(Idempotent Deduplication)"]
-    end
+db: "PostgreSQL Database
+ACID Boundary" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
 
-    style Microservice fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style RelationalDB fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style CDC_Pipeline fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Downstream_Tiers fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
+  orders: "orders table"
+  outbox: "outbox_events table"
+}
 
-    style App fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style OrdersTable fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style OutboxTable fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style PostgresWAL fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Debezium fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style KafkaTopic fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style PaymentConsumer fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+cdc: "Debezium CDC Pipeline" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+
+  deb: "Debezium Log Miner
+Reads pg_wal directly"
+  kfk: "Kafka: 'orders.events'
+Partition Key: orderId"
+  deb -> kfk: "Streams"
+}
+
+app -> db: "Atomic Dual-Write"
+db -> cdc.deb: "WAL mining"
 ```
+</details>
 
 #### Production PostgreSQL Outbox DDL & Sharding-Friendly Design
 
@@ -2656,36 +3196,47 @@ public class IdempotentPaymentConsumer {
 
 ### 11.5 CQRS (Command Query Responsibility Segregation) Architecture
 
-```mermaid
-flowchart TD
-    Client["Client Browser / Mobile"]
-    
-    subgraph Write_Side["Command Side (Writes / State Mutations)"]
-        Client -->|HTTP POST /orders| CmdService["Order Command Service"]
-        CmdService --> WriteDB[("PostgreSQL (Normalized ACID Tables)")]
-    end
+![36 Cqrs Command Query Responsibility Segregation](assets/09_microservices_and_system_design/36_cqrs_command_query_responsibility_segregation.svg)
 
-    subgraph Sync_Engine["Asynchronous Synchronization"]
-        WriteDB -->|CDC / Kafka Event Stream| SyncWorker["Sync / Projection Consumer"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph Read_Side["Query Side (High-Speed Reads)"]
-        SyncWorker --> ReadDB[("Elasticsearch / Read Replica (Denormalized)")]
-        Client -->|HTTP GET /orders/search| QueryService["Order Query Service"]
-        QueryService --> ReadDB
-    end
+```d2
+direction: right
+title: "CQRS Architecture"
 
-    style Write_Side fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Sync_Engine fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Read_Side fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
+client: "Client App" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
 
-    style Client fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style CmdService fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style WriteDB fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SyncWorker fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ReadDB fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style QueryService fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+cmd: "Command Side (Writes)
+OrderCommandService
+PostgreSQL 3NF Tables" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+}
+
+sync: "Sync Projection
+Kafka Stream / Debezium
+Denormalizes into JSON" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+query: "Query Side (Reads)
+OrderQueryService
+Elasticsearch Flat Views" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+client -> cmd: "POST /orders (Mutations)"
+cmd -> sync: "CDC Event Stream"
+sync -> query: "Hydrates Read Views"
+client -> query: "GET /orders (Fast Reads)"
 ```
+</details>
 
 ---
 
@@ -2725,24 +3276,49 @@ The Strangler Fig pattern migrates legacy monoliths safely without risky "big ba
 
 ### 12.1 The CAP Theorem & PACELC Theorem Deep-Dive
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'quadrant1Fill': '#1e293b', 'quadrant2Fill': '#0f172a', 'quadrant3Fill': '#1e293b', 'quadrant4Fill': '#0f172a', 'quadrantPointFill': '#3b82f6', 'quadrantPointTextFill': '#ffffff', 'quadrantTitleFill': '#ffffff', 'quadrantAxisTextFill': '#93c5fd', 'quadrantInternalBorderStrokeFill': '#334155', 'quadrantExternalBorderStrokeFill': '#475569' }}}%%
-quadrantChart
-    title CAP & PACELC Trade-Off Landscape Under Network Partition
-    x-axis "Low Consistency (Eventual)" --> "Strong Consistency (Linearizable)"
-    y-axis "High Latency (Pessimistic Quorum)" --> "Ultra-Low Latency (Local AP Reads)"
-    quadrant-1 "AP Systems (High Availability & Speed)"
-    quadrant-2 "Rare Theoretical Island"
-    quadrant-3 "CP Systems (Strict Consistency & Linearizable)"
-    quadrant-4 "Tunable Quorum Datastores"
-    "Apache Cassandra": [0.22, 0.88]
-    "AWS DynamoDB (Eventual)": [0.25, 0.84]
-    "Apache Kafka (acks=1)": [0.35, 0.78]
-    "Google Cloud Spanner": [0.92, 0.22]
-    "PostgreSQL (2PC Multi-Master)": [0.88, 0.28]
-    "etcd / Raft Consensus": [0.90, 0.35]
-    "MongoDB (Primary Read)": [0.75, 0.45]
+![37 Cap Vs Pacelc Theorem Quadrant](assets/09_microservices_and_system_design/37_cap_vs_pacelc_theorem_quadrant.svg)
+
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "The CAP & PACELC Theorems: Consistency Trade-Off Matrix"
+
+cp: "CP / PC/EC
+Consistency First
+Spanner, HBase, ZooKeeper
+Rejects writes if no quorum" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+}
+
+ap: "AP / PA/EL
+Availability First
+Cassandra, DynamoDB
+Accepts writes & resolves later (LWW)" {
+  style.fill: "#1a140b"
+  style.stroke: "#f59e0b"
+}
+
+ca: "CA (Single-Node)
+Standalone PostgreSQL/MySQL
+Strict ACID locally; no partition resilience" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+tunable: "Tunable Consistency
+Kafka, MongoDB, Cassandra
+Tune acks=all (CP) vs acks=1 (AP)" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+cp <-> ap: "Partition trade-off"
+ca <-> tunable: "Deployment trade-off"
 ```
+</details>
 
 #### PACELC Real-World Database Classification Matrix
 
@@ -2779,15 +3355,42 @@ Consensus algorithms guarantee that a cluster of distributed nodes agree on a se
 
 ### 12.4 Distributed Unique ID Generation: Twitter Snowflake Algorithm
 
-```mermaid
-flowchart LR
-    Sign["1 Bit<br/>Sign (0)"] --- Time["41 Bits<br/>Timestamp (ms)"] --- Worker["10 Bits<br/>Worker ID (0-1023)"] --- Seq["12 Bits<br/>Sequence (0-4095)"]
+![38 Distributed Snowflake Id Generation](assets/09_microservices_and_system_design/38_distributed_snowflake_id_generation.svg)
 
-    style Sign fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Time fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Worker fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Seq fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: "Distributed Unique ID Generation: Twitter Snowflake Architecture"
+
+sign: "1 Bit
+Sign (0)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+time: "41 Bits
+Timestamp (ms)
+69.7 Years Lifespan" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+node: "10 Bits
+Worker Node ID
+1,024 Nodes" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+seq: "12 Bits
+Sequence Number
+4,096 IDs / ms / node" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+sign -> time -> node -> seq: "Bitwise OR Assembly into 64-bit Long"
 ```
+</details>
 
 #### Production Java Twitter Snowflake ID Implementation
 
@@ -2865,40 +3468,38 @@ Consistent Hashing maps both servers and data keys onto a continuous logical rin
 - Adding a server only redistributes keys between the new node and its counter-clockwise predecessor ($\approx K/N$ keys).
 - **Virtual Nodes (Vnodes)**: To avoid data skew caused by non-uniform server placement, each physical node is replicated $V$ times (e.g., 100 virtual positions) around the ring.
 
-```mermaid
-flowchart TD
-    Ring["<b>Consistent Hash Ring</b><br/>Address space: [0 to 2^32 - 1]"]
+![39 Consistent Hashing Ring Virtual Nodes](assets/09_microservices_and_system_design/39_consistent_hashing_ring_virtual_nodes.svg)
 
-    subgraph NodeDistribution ["Virtual Node Interleaving (Mitigates Skew)"]
-        direction LR
-        subgraph Server1VNodes ["Node 1 Virtual Nodes"]
-            S1_V1["<b>Node 1 (vnode 1)</b><br/>Token: 0x1A2B"]
-            S1_V2["<b>Node 1 (vnode 2)</b><br/>Token: 0x7F4A"]
-        end
-        subgraph Server2VNodes ["Node 2 Virtual Nodes"]
-            S2_V1["<b>Node 2 (vnode 1)</b><br/>Token: 0x3C8D"]
-            S2_V2["<b>Node 2 (vnode 2)</b><br/>Token: 0x9B1E"]
-        end
-        subgraph Server3VNodes ["Node 3 Virtual Nodes"]
-            S3_V1["<b>Node 3 (vnode 1)</b><br/>Token: 0x5E6F"]
-            S3_V2["<b>Node 3 (vnode 2)</b><br/>Token: 0xD4A3"]
-        end
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    Ring --> NodeDistribution
+```d2
+direction: right
+title: "Consistent Hashing Ring & Virtual Nodes (Vnodes)"
 
-    style Ring fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style NodeDistribution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Server1VNodes fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#93c5fd
-    style Server2VNodes fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#6ee7b7
-    style Server3VNodes fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fde68a
-    style S1_V1 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style S1_V2 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style S2_V1 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style S2_V2 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style S3_V1 fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style S3_V2 fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
+ring: "Consistent Hash Ring [0 .. 2^32-1]" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+
+  s1_v1: "Node 1 (vnode 1)"
+  s2_v1: "Node 2 (vnode 1)"
+  s3_v1: "Node 3 (vnode 1)"
+  s1_v2: "Node 1 (vnode 2)"
+
+  s1_v1 -> s2_v1 -> s3_v1 -> s1_v2 -> s1_v1: "Clockwise Token Ring"
+}
+
+mechanics: "Virtual Node Mechanics" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+
+  formula: "Keys Moved = K / (N + 1)
+Traditional modulo moves 100% of keys!"
+  routing: "TreeMap.ceilingEntry(hash)
+O(log M) Clockwise Lookup"
+}
 ```
+</details>
 
 #### Production Java Consistent Hashing Ring Implementation:
 ```java
@@ -2977,32 +3578,50 @@ In a leaderless system with Replication Factor $N$:
 
 $$\mathbf{R + W > N}$$
 
-```mermaid
-flowchart TD
-    subgraph Replicas["Replication Group (N = 5 nodes)"]
-        N1["Node 1 (v2)"]
-        N2["Node 2 (v2)"]
-        N3["Node 3 (v2 - Overlap!)"]
-        N4["Node 4 (v1)"]
-        N5["Node 5 (v1)"]
-    end
+![40 Quorum Consistency Sloppy Vs Strict](assets/09_microservices_and_system_design/40_quorum_consistency_sloppy_vs_strict.svg)
 
-    Writer["Write Client (W = 3)"] --> N1 & N2 & N3
-    Reader["Read Client (R = 3)"] --> N3 & N4 & N5
+<details>
+<summary>View D2 Source</summary>
 
-    Note["R + W = 6 > 5: Node 3 is in both sets, guaranteeing latest data is read!"]
+```d2
+direction: right
+title: "The Quorum Consistency Guarantee: Strict Quorums & The Overlap Principle"
 
-    style Replicas fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
+writer: "Write Client (W = 3)
+Writes latest version v2" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
 
-    style N1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style N2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style N3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style N4 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style N5 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Writer fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Reader fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Note fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+group: "Replication Group (N = 5)" {
+  style.fill: "#0f172a"
+  style.stroke: "#334155"
+
+  n1: "Node 1 (v2)"
+  n2: "Node 2 (v2)"
+  n3: "Node 3 (v2 - OVERLAP!)" {
+    style.fill: "#78350f"
+    style.stroke: "#f59e0b"
+  }
+  n4: "Node 4 (v1)"
+  n5: "Node 5 (v1)"
+}
+
+reader: "Read Client (R = 3)
+Reads from Nodes 3, 4, 5" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+writer -> group.n1
+writer -> group.n2
+writer -> group.n3
+
+reader -> group.n3: "Reads v2"
+reader -> group.n4: "Reads v1"
+reader -> group.n5: "Reads v1"
 ```
+</details>
 
 - When $R + W > N$, the read set and write set must overlap in at least **one node**, ensuring the reader always retrieves the latest write timestamp/version vector.
 - **Sloppy Quorum & Hinted Handoff**: If network partitions prevent reaching $W$ designated nodes, the cluster accepts writes on temporary fallback nodes ("hinted handoff"), replay-syncing when the partition heals.
@@ -3052,45 +3671,48 @@ A URL shortener accepts long URLs (e.g. `https://example.com/products/electronic
 
 #### 13.1.2 End-to-End Architecture
 
-```mermaid
-flowchart TD
-    Client["Client Browser / Mobile"] --> CDN["Cloudflare Global CDN<br/>(Edge Cache: 301 Permanent Redirects)"]
-    CDN -->|Cache Miss| ALB["Application Load Balancer"]
-    ALB --> Gateway["Spring Cloud Gateway / Envoy"]
-    
-    subgraph AppCluster["Stateless URL Shortener Fleet"]
-        Gateway --> Svc1["Shortener Service Pod 1"]
-        Gateway --> Svc2["Shortener Service Pod 2"]
-    end
+![41 System Design Url Shortener Architecture](assets/09_microservices_and_system_design/41_system_design_url_shortener_architecture.svg)
 
-    subgraph CacheTier["Dual-Layer Caching & Filtering"]
-        Svc1 & Svc2 <--> BloomFilter[("Redis Bloom Filter<br/>(Guards Against Non-Existent Keys)")]
-        Svc1 & Svc2 <--> RedisCluster[("Redis Cluster (L2 Cache)<br/>(LRU Eviction Policy)")]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph StorageTier["Distributed Persistence"]
-        Svc1 & Svc2 <--> DBCluster[("PostgreSQL Cluster<br/>(Hash-Partitioned by short_code)")]
-    end
+```d2
+direction: right
+title: "System Design: Highly Scalable URL Shortener Architecture (TinyURL)"
 
-    subgraph AnalyticsAsync["Async Click Tracking Pipeline"]
-        Svc1 & Svc2 -.->|Async Event| Kafka["Kafka Topic: 'url-click-events'"]
-        Kafka --> Flink["Apache Flink Stream Processor"]
-        Flink --> ClickHouse[("ClickHouse OLAP Analytics DB")]
-    end
+edge: "1. Edge Ingress
+Cloudflare CDN (301 Cache)
+ALB Load Balancer" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
 
-    style Client fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style CDN fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ALB fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Gateway fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Svc1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Svc2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style BloomFilter fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RedisCluster fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style DBCluster fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Kafka fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Flink fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style ClickHouse fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
+pod: "2. Shortener Fleet
+Base62 Encoding (62^7 URLs)
+Zookeeper Range Allocator" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+redis: "3. Redis LRU Cache
+Key: short_key -> long_url
+Sub-ms Latency" {
+  style.fill: "#1a140b"
+  style.stroke: "#f59e0b"
+}
+
+db: "4. PostgreSQL / DynamoDB
+Partitioned B+Tree Table
+O(log N) Miss Lookup" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+edge -> pod: "Cache Miss"
+pod -> redis: "Cache Lookup"
+redis -> db: "DB Fallback"
 ```
+</details>
 
 #### 13.1.3 Base62 Encoding vs MD5 Hashing
 
@@ -3400,61 +4022,55 @@ An enterprise notification engine delivers SMS, Email, and Mobile Push Notificat
 3. **Vendor Redundancy & Automatic Failover**: If Twilio returns 5xx errors or throttles, transparently fail over to AWS SNS.
 4. **Deduplication**: Prevent sending duplicate messages within a 5-minute sliding window (e.g. client double-clicks checkout).
 
-```mermaid
-flowchart TD
-    subgraph IngressTier["1. Ingress & Deduplication"]
-        Caller["Upstream Microservices"] --> API["Notification Gateway"]
-        API <--> DedupCache[("Redis Dedup Cache<br/>(Key: Hash of userId+msg, TTL: 5m)")]
-    end
+![42 System Design Uber Geohash Dispatch Architecture](assets/09_microservices_and_system_design/42_system_design_uber_geohash_dispatch_architecture.svg)
 
-    subgraph KafkaPriorityMesh["2. Priority Event Streaming"]
-        API -->|High Priority| FastQueue["Kafka: 'notif-otp-urgent'<br/>(16 Partitions)"]
-        API -->|Normal Priority| BulkQueue["Kafka: 'notif-marketing-bulk'<br/>(4 Partitions)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph WorkerFleet["3. Worker Fleet with Circuit Breaker"]
-        FastQueue --> UrgentWorkers["Urgent Worker Fleet (Auto-scaled)"]
-        BulkQueue --> BulkWorkers["Bulk Worker Fleet (Rate-Capped)"]
-    end
+```d2
+direction: right
+title: "System Design: Real-Time Priority Notification & Dispatch Mesh"
 
-    subgraph Providers["4. Third-Party Vendor Redundancy"]
-        UrgentWorkers & BulkWorkers --> Twilio["Primary SMS: Twilio"]
-        Twilio -.->|Failover on 5xx| AWSSNS["Fallback SMS: AWS SNS"]
+ingress: "1. Ingress & Deduplication
+Notification Gateway
+Redis Dedup (5m TTL)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
 
-        UrgentWorkers & BulkWorkers --> SendGrid["Primary Email: SendGrid"]
-        SendGrid -.->|Failover on 5xx| AWSSES["Fallback Email: AWS SES"]
+kafka: "2. Priority Kafka Mesh" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
 
-        UrgentWorkers & BulkWorkers --> FCM["Push: Google FCM / Apple APNs"]
-    end
+  otp: "High: 'notif-otp-urgent'
+SLA < 1.5s" {
+    style.fill: "#450a0a"
+    style.stroke: "#ef4444"
+  }
+  order: "Medium: 'notif-order-status'
+SLA < 30s" {
+    style.fill: "#083344"
+    style.stroke: "#06b6d4"
+  }
+  bulk: "Bulk: 'notif-promotions'
+Throttled" {
+    style.fill: "#1e1b4b"
+    style.stroke: "#8b5cf6"
+  }
+}
 
-    subgraph DLQ_And_Audit["5. Audit & Dead Letter Queue (DLQ)"]
-        UrgentWorkers & BulkWorkers -->|Failed after 3 retries| DLQ["Kafka: 'notif-dlq'"]
-        DLQ --> AlertEngine["SRE PagerDuty Alert Engine"]
-        UrgentWorkers & BulkWorkers --> AuditDB[("Cassandra / ScyllaDB Notification Log")]
-    end
+dispatch: "3. Channel Vendor Dispatch
+APNs / FCM (Push)
+Twilio / SNS (SMS)
+SendGrid (Email)" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
 
-    style IngressTier fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style KafkaPriorityMesh fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style WorkerFleet fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Providers fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style DLQ_And_Audit fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-
-    style Caller fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style API fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DedupCache fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style FastQueue fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style BulkQueue fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style UrgentWorkers fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style BulkWorkers fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style Twilio fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style AWSSNS fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style SendGrid fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style AWSSES fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style FCM fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style DLQ fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style AlertEngine fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style AuditDB fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
+ingress -> kafka: "Routes by Priority"
+kafka -> dispatch: "Consumes & Dispatches"
 ```
+</details>
 
 #### 13.3.2 Resilient Multi-Provider Dispatcher with Circuit Breaker
 
@@ -3549,52 +4165,48 @@ CREATE INDEX idx_ledger_account_time ON ledger_lines (account_id, created_at);
 
 #### 13.4.3 Payment State Machine & Asynchronous Webhook Architecture
 
-```mermaid
-flowchart TD
-    subgraph ClientPerimeter ["1. Client Submission"]
-        Checkout["Client Submits Checkout<br/>(Idempotency-Key: 'ord-8102-pay')"]
-    end
+![43 System Design Stripe Payment Webhook Architecture](assets/09_microservices_and_system_design/43_system_design_stripe_payment_webhook_architecture.svg)
 
-    subgraph LedgerReservation ["2. Double-Entry Authorization"]
-        LockAcquired["Acquire Redis Distributed Lock"]
-        LedgerHold["INSERT PENDING Journal Entry<br/>(Debit: Customer Receivable, Credit: Escrow Pending)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph PSPGateway ["3. Payment Service Provider (Stripe / Adyen)"]
-        PSPRequest["Dispatch REST API to PSP"]
-        PSPOutcome{"PSP Synchronous Response"}
-    end
+```d2
+direction: right
+title: "System Design: Stripe Payment Processing & Idempotent Webhook Architecture"
 
-    subgraph WebhookAndSettlement ["4. Asynchronous Settlement & Webhooks"]
-        WebhookReceived["PSP Sends Webhook: 'payment_intent.succeeded'"]
-        HMACVerified["Verify HMAC-SHA256 Signature"]
-        LedgerSettled["Finalize Ledger Entry<br/>(Debit: PSP Cash, Credit: Merchant Payable)"]
-    end
+client: "1. Client Submission
+Idempotency-Key: ord-8102" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
 
-    Checkout --> LockAcquired
-    LockAcquired --> LedgerHold
-    LedgerHold --> PSPRequest
-    PSPRequest --> PSPOutcome
-    PSPOutcome -->|Success / Pending| WebhookReceived
-    PSPOutcome -->|Immediate Decline| Reversal["Compensate: Release Ledger Hold"]
-    WebhookReceived --> HMACVerified
-    HMACVerified --> LedgerSettled
+svc: "2. Payment Service
+Redis Lock + Ledger Hold
+Debit: Receivable | Credit: Escrow" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
 
-    style ClientPerimeter fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LedgerReservation fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style PSPGateway fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style WebhookAndSettlement fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
+stripe: "3. Stripe Cloud
+Authorizes card
+Emits payment_intent.succeeded" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
 
-    style Checkout fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style LockAcquired fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style LedgerHold fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style PSPRequest fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style PSPOutcome fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style WebhookReceived fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style HMACVerified fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style LedgerSettled fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Reversal fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
+webhook: "4. Webhook Receiver
+Verifies HMAC-SHA256 signature
+Posts Final Settlement Journal" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+client -> svc: "1. Checkout"
+svc -> stripe: "2. Create PaymentIntent"
+stripe -> webhook: "3. Webhook (Signature verified)"
+webhook -> svc: "4. Settles Ledger"
 ```
+</details>
 
 #### 13.4.4 Automated Reconciliation Engine
 
@@ -3633,44 +4245,41 @@ For a long position (Sell Trailing Stop):
 
 #### 13.5.2 Architectural Overview: In-Memory Order Book & Tick Ingestion
 
-```mermaid
-flowchart TD
-    subgraph MarketData ["1. High-Frequency Market Ingress"]
-        ExchangeFeed["Exchange Multicast / WebSocket Feed<br/>(5,000+ ticks/sec)"] --> IngressWorker["Market Ingress Gateway<br/>(Disruptor RingBuffer / Zero-GC)"]
-    end
+![44 System Design Stock Exchange Matching Engine Architecture](assets/09_microservices_and_system_design/44_system_design_stock_exchange_matching_engine_architecture.svg)
 
-    subgraph MemoryEngine ["2. In-Memory Trailing Stop Engine"]
-        IngressWorker --> PriceDispatcher{"Symbol Dispatcher<br/>(Thread per Ticker)"}
-        PriceDispatcher --> SkipListMap["ConcurrentSkipListMap<br/>(Key: TriggerPrice, Value: OrderSet)<br/>O(log N + K) Range Retrieval"]
-        PriceDispatcher --> PeakTracker["Off-Heap / Redis State<br/>(P_peak & P_trigger Atomic State)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph PersistenceLayer ["3. Asynchronous Write-Behind & Log Mesh"]
-        PeakTracker -.->|Async Batch Flush| KafkaWAL["Kafka Commit Log<br/>(Order Lifecycle & State Transitions)"]
-        KafkaWAL --> RocksDBState["Embedded RocksDB Snapshot<br/>(Fast Local Recovery State)"]
-    end
+```d2
+direction: right
+title: "System Design: High-Frequency Stock Exchange Matching Engine Architecture"
 
-    subgraph ExecutionPlane ["4. Order Dispatch & Exchange Gateway"]
-        SkipListMap -->|headMap(P_tick) Triggered| OrderRouter["Execution Router<br/>(Circuit Breaker + Rate Limiter)"]
-        OrderRouter --> ExchangeGateway["Exchange Order Gateway<br/>(FIX / REST API)"]
-        ExchangeGateway -->|Failure / Rejection| DeadLetter["Dead-Letter & Aggressive Fallback<br/>(Market Sweep / Trader Alert)"]
-    end
+ingress: "1. Ingress & RingBuffer
+Kernel Bypass 10GbE
+LMAX Disruptor (Zero-GC)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
 
-    style MarketData fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MemoryEngine fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style PersistenceLayer fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ExecutionPlane fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#f472b6
+engine: "2. Matching Engine (Single-Threaded)
+Pinned to CPU core
+B+Tree Order Book (Bids vs Asks)
+Price-Time Priority (< 400ns)" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
 
-    style ExchangeFeed fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style IngressWorker fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style SkipListMap fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style PeakTracker fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style KafkaWAL fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RocksDBState fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style OrderRouter fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style ExchangeGateway fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style DeadLetter fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
+settlement: "3. Settlement & Multicast
+UDP Multicast Market Data
+NVMe Persistence WAL" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+ingress -> engine: "Disruptor RingBuffer"
+engine -> settlement: "Matched Trades"
 ```
+</details>
 
 #### 13.5.3 Engineering Trade-Offs & Subsystem Mechanics
 

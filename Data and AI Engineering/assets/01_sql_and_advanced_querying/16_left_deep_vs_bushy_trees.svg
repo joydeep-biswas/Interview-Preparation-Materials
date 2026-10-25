@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="380" viewBox="0 0 1040 380">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1040" height="380" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Left-Deep vs. Bushy Join Execution Trees</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">CBO Join Topologies: Sequential pipelined memory constraints vs. multi-core parallel subtrees</text>
+
+  <!-- Left: Left-Deep Tree -->
+  <g transform="translate(30, 80)">
+    <rect width="475" height="260" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
+    <text x="237" y="28" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">Left-Deep Join Tree (Sequential Pipeline)</text>
+
+    <rect x="15" y="45" width="445" height="195" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
+    <text x="237" y="68" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Classic System-R CBO Topology</text>
+
+    <!-- Visual Tree Graphic -->
+    <rect x="35" y="85" width="180" height="24" fill="#0F172A" stroke="#3B82F6"/>
+    <text x="125" y="101" font-size="10" fill="#93C5FD" text-anchor="middle">Join 3: [Intermediate 2] ⋈ D</text>
+
+    <rect x="55" y="115" width="160" height="24" fill="#0F172A" stroke="#3B82F6"/>
+    <text x="135" y="131" font-size="10" fill="#93C5FD" text-anchor="middle">Join 2: [Intermediate 1] ⋈ C</text>
+
+    <rect x="75" y="145" width="140" height="24" fill="#0F172A" stroke="#3B82F6"/>
+    <text x="145" y="161" font-size="10" fill="#93C5FD" text-anchor="middle">Join 1: Table A ⋈ Table B</text>
+
+    <text x="240" y="100" font-size="11" fill="#94A3B8" text-anchor="start">• Right child is ALWAYS a base table</text>
+    <text x="240" y="120" font-size="11" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ Only ONE hash table in RAM at a time!</text>
+    <text x="240" y="140" font-size="11" fill="#94A3B8" text-anchor="start">• Streaming pipelined evaluation</text>
+    <text x="240" y="160" font-size="11" fill="#94A3B8" text-anchor="start">• Standard in OLTP engines (PostgreSQL)</text>
+    <text x="240" y="180" font-size="10" fill="#FCA5A5" text-anchor="start">Limit: Cannot parallelize across subtrees</text>
+  </g>
+
+  <!-- Right: Bushy Tree -->
+  <g transform="translate(535, 80)">
+    <rect width="475" height="260" rx="8" fill="#1A102F" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="237" y="28" font-size="13" font-weight="700" fill="#DDD6FE" text-anchor="middle">Bushy Join Tree (Parallel Subtrees)</text>
+
+    <rect x="15" y="45" width="445" height="195" rx="6" fill="#2E1065" stroke="#8B5CF6" stroke-width="1.2"/>
+    <text x="237" y="68" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Advanced Distributed OLAP Topology</text>
+
+    <!-- Visual Tree Graphic -->
+    <rect x="150" y="85" width="175" height="24" fill="#0F172A" stroke="#8B5CF6"/>
+    <text x="237" y="101" font-size="10" fill="#DDD6FE" text-anchor="middle">Final Join: [Sub 1] ⋈ [Sub 2]</text>
+
+    <rect x="35" y="125" width="130" height="24" fill="#0F172A" stroke="#10B981"/>
+    <text x="100" y="141" font-size="10" fill="#A7F3D0" text-anchor="middle">Subtree 1: A ⋈ B</text>
+
+    <rect x="310" y="125" width="130" height="24" fill="#0F172A" stroke="#F59E0B"/>
+    <text x="375" y="141" font-size="10" fill="#FDE68A" text-anchor="middle">Subtree 2: C ⋈ D</text>
+
+    <path d="M 100 125 L 200 110" fill="none" stroke="#10B981" stroke-width="1.5"/>
+    <path d="M 375 125 L 275 110" fill="none" stroke="#F59E0B" stroke-width="1.5"/>
+
+    <text x="35" y="175" font-size="11" fill="#C4B5FD" text-anchor="start">• Subtree 1 and Subtree 2 execute IN PARALLEL on separate cores</text>
+    <text x="35" y="193" font-size="11" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ Massive latency reduction on multi-node distributed clusters</text>
+    <text x="35" y="211" font-size="11" fill="#FCA5A5" text-anchor="start">⚠️ Trade-off: Requires multiple hash tables concurrently in RAM</text>
+  </g>
+</svg>

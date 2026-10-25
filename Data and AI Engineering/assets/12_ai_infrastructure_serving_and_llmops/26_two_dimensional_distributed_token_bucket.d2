@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  inp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  rpm: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  tpm: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  gate: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+req: "Incoming API Call\n(Tenant ABC, 1500 tokens)" { class: inp }
+rpm_b: "1. RPM Bucket\nCapacity: 100 req\nRefill: 100 req/min" { class: rpm }
+tpm_b: "2. TPM Bucket\nCapacity: 200k tokens\nRefill: 200k tok/min" { class: tpm }
+decision: "Decision Gate\nBoth Pass -> 200 OK\nAny Empty -> 429 Limit" { class: gate }
+
+req -> rpm_b: "Acquire 1 req"
+rpm_b -> tpm_b: "Acquire 1500 tokens"
+tpm_b -> decision: "Atomic Result"

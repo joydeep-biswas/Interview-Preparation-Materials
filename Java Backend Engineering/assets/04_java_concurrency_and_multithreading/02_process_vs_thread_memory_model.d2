@@ -1,0 +1,26 @@
+direction: right
+title: Operating System Process vs. Thread Memory Model
+
+OSProcess: OS Process (Dedicated Address Space) {
+  style.fill: "#0B132B"
+  style.stroke: "#1D4ED8"
+  isolation: "Hardware MMU isolation; private virtual address space"
+  ipc: "IPC required: Sockets, pipes, shared memory (serialization overhead)"
+}
+
+ThreadModel: Intra-Process Thread Model {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  
+  Heap: Shared Process Heap & Metaspace {
+    desc: "Shared directly by all threads; zero serialization"
+  }
+  
+  T1: Thread 1 (Private Stack & PC)
+  T2: Thread 2 (Private Stack & PC)
+  
+  T1 -> Heap: Direct pointer access
+  T2 -> Heap: Concurrent memory contention
+}
+
+OSProcess -> ThreadModel: Process contains one or more threads

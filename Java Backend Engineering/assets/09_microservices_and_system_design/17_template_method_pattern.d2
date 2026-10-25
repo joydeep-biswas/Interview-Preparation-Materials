@@ -1,0 +1,27 @@
+direction: down
+title: "Template Method Pattern: Invariant Workflow Skeleton with Concrete Hooks"
+
+base: "DataIngestionPipeline <<abstract>>
+public final void process() {
+  read(); validate(); transform(); save(); hook();
+}" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+csv: "CsvDataIngestionPipeline
+Overrides read() with Commons CSV
+Overrides transform() for rows" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+json: "JsonDataIngestionPipeline
+Overrides read() with Jackson
+Overrides validate() with JSON Schema" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+base <- csv: "extends (Hollywood principle)"
+base <- json: "extends (Hollywood principle)"

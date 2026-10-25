@@ -6,69 +6,61 @@ A comprehensive, production-grade guide to unstructured document ingestion, OCR 
 
 ## Architectural Overview: Enterprise AI Document Ingestion & Preparation Pipeline
 
-```mermaid
-flowchart TD
-    subgraph Ingestion_Gateways ["1. Raw Unstructured Ingestion Layer"]
-        direction LR
-        PDFs["PDF Documents / Scans<br/>(SEC 10-K, Medical Records, Legal MSAs)"]
-        HTML["Web Scraping & Wikis<br/>(DOM Trees, Markdown, XML)"]
-        AudioTranscripts["Audio & Video Streams<br/>(Whisper Transcripts, Diarization)"]
-    end
+![End To End Unstructured Ai Data Pipeline](assets/10_document_processing_and_data_preparation_for_ai/01_end_to_end_unstructured_ai_data_pipeline.svg)
 
-    subgraph Parsing_Engine ["2. Document Layout & Visual Structure Extraction"]
-        direction TB
-        Classifier{"Document Triage<br/>Native Digital or Scanned Raster?"}
-        NativeParse["Native Stream Parser<br/>(PyMuPDF / pdfminer.six)"]
-        LayoutModel["Visual Layout & OCR Engine<br/>(LayoutLMv3 / PaddleOCR / ColPali)"]
-        TableExtractor["Table Structural Analyzer<br/>(Table Transformer TATR / pdfplumber)"]
-        MarkdownCanonical["Canonical Markdown Representation<br/>(Preserves H1/H2/H3, tables, breadcrumbs)"]
-        
-        Classifier -->|Digital Stream| NativeParse
-        Classifier -->|Scanned / Complex Layout| LayoutModel
-        NativeParse --> TableExtractor
-        LayoutModel --> TableExtractor
-        TableExtractor --> MarkdownCanonical
-    end
+<details>
+<summary>D2 Source</summary>
 
-    subgraph Chunking_Strategy ["3. Advanced Chunking & Token Budgeting"]
-        direction TB
-        Router{"Chunking Strategy Router"}
-        Fixed["Fixed-Size + Overlap<br/>(Homogenous Text)"]
-        Recursive["Recursive Character Splitter<br/>(Paragraphs -> Sentences -> Words)"]
-        Hierarchical["Hierarchical Parent-Child<br/>(150-token child -> 1500-token parent)"]
-        Semantic["Semantic Inflection Chunking<br/>(Embedding Cosine Distance Inflection)"]
-        TokenAlign["Token Budget Enforcer (tiktoken cl100k_base)<br/>(Strict token boundaries & overlap)"]
-        
-        MarkdownCanonical --> Router
-        Router --> Fixed
-        Router --> Recursive
-        Router --> Hierarchical
-        Router --> Semantic
-        Fixed --> TokenAlign
-        Recursive --> TokenAlign
-        Hierarchical --> TokenAlign
-        Semantic --> TokenAlign
-    end
+```d2
+direction: right
+classes: {
+  ing: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  parse: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  chunk: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  sink: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
 
-    subgraph Enrichment_Deduplication ["4. Metadata Enrichment, Deduplication & Storage"]
-        direction TB
-        MinHash["MinHash LSH Deduplication Engine<br/>(k-Shingling -> MinHash Signatures -> Banding)"]
-        Breadcrumb["Context Injection & Breadcrumbs<br/>(Document Title, Section Path, Timestamp)"]
-        VectorSink[("Production Vector Store & Document Store<br/>(Dense Vectors + Child-Parent Links)")]
-        
-        TokenAlign --> MinHash --> Breadcrumb --> VectorSink
-    end
+gateways: "1. Ingestion Gateways" {
+  pdf: "PDFs / Scans" { class: ing }
+  html: "Web & Wikis" { class: ing }
+  audio: "Audio Transcripts" { class: ing }
+}
 
-    Ingestion_Gateways --> Parsing_Engine
-    Parsing_Engine --> Chunking_Strategy
-    Chunking_Strategy --> Enrichment_Deduplication
+parsing: "2. Layout Parsing Engine" {
+  native: "Native Stream Parser\n(PyMuPDF)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  ocr: "Visual OCR & Layout\n(LayoutLMv3 / ColPali)" { class: parse }
+  table: "Table Transformer (TATR)" { class: parse }
+  md: "Canonical Markdown" { class: sink }
 
-    style Ingestion_Gateways fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Parsing_Engine fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Chunking_Strategy fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Enrichment_Deduplication fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style VectorSink fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
+  native -> table
+  ocr -> table
+  table -> md
+}
+
+chunking: "3. Advanced Chunking Strategy" {
+  rec: "Recursive Character" { class: chunk }
+  hier: "Parent-Child (Hierarchical)" { class: chunk }
+  sem: "Semantic Inflection" { class: chunk }
+  enforce: "Token Budget Enforcer\n(cl100k_base)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+
+  rec -> enforce
+  hier -> enforce
+  sem -> enforce
+}
+
+enrichment: "4. Deduplication & Storage" {
+  minhash: "MinHash LSH Deduplication" { class: parse }
+  meta: "Breadcrumb Injection" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  vdb: "Vector Store & Doc Store\n(Dense Vectors + Hierarchy)" { class: sink }
+
+  minhash -> meta -> vdb
+}
+
+gateways.pdf -> parsing.native
+parsing.md -> chunking.rec
+chunking.enforce -> enrichment.minhash
 ```
+</details>
 
 ---
 
@@ -125,36 +117,40 @@ A PDF file consists of four primary binary structural layers:
 3. **Cross-Reference Table (`xref`):** A byte-offset directory allowing random access to any indirect object within the file without scanning the entire file sequentially.
 4. **Trailer:** Points to the root catalog object and gives the byte offset of the start of the `xref` table.
 
-```mermaid
-flowchart TD
-    subgraph PDF_Binary_Structure ["Physical PDF Binary Architecture"]
-        Header["%PDF-1.7 (Magic Bytes Header)"]
-        Body["Body Objects (Indirect Objects: /Catalog, /Pages, /Page)"]
-        ContentStream["Content Streams (PostScript Painting Operators: BT, ET, Tm, Tj)"]
-        XREF["XREF Table (Direct Byte-Offset Index to Every Object)"]
-        Trailer["Trailer (Root Pointer & Offset to XREF)"]
-        
-        Header --> Body
-        Body --> ContentStream
-        ContentStream --> XREF
-        XREF --> Trailer
-    end
+![Pdf Binary Structure And Postscript Painting](assets/10_document_processing_and_data_preparation_for_ai/02_pdf_binary_structure_and_postscript_painting.svg)
 
-    subgraph PostScript_Instructions ["Decompressed Text Painting Stream"]
-        BT["BT (Begin Text Block)"]
-        Font["/F1 12.0 Tf (Set Font /F1 to 12pt)"]
-        Matrix["1 0 0 1 72 712 Tm (Set Text Coordinate Matrix to x=72, y=712)"]
-        Paint["[(Quarterly) 10 (Earnings) -5 (Report)] TJ (Paint Character Glyphs)"]
-        ET["ET (End Text Block)"]
-        
-        BT --> Font --> Matrix --> Paint --> ET
-    end
+<details>
+<summary>D2 Source</summary>
 
-    Body -.-> PostScript_Instructions
+```d2
+direction: right
+classes: {
+  pdf: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  post: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
 
-    style PDF_Binary_Structure fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PostScript_Instructions fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
+binary: "Physical PDF Binary Architecture" {
+  header: "%PDF-1.7 (Magic Bytes Header)" { class: pdf }
+  body: "Body Objects (/Catalog, /Pages, /Page)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  stream: "Content Streams (PostScript Painting Operators)" { class: post }
+  xref: "XREF Table & Trailer (Byte Offset Index)" { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+
+  header -> body -> stream -> xref
+}
+
+painting: "Decompressed Text Painting Stream" {
+  bt: "BT (Begin Text)" { class: post }
+  tf: "/F1 12.0 Tf (Set Font)" { class: post }
+  tm: "1 0 0 1 72 712 Tm (Position x=72, y=712)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  tj: "[(Quarterly) 10 (Earnings)] TJ (Paint Glyphs)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  et: "ET (End Text)" { class: post }
+
+  bt -> tf -> tm -> tj -> et
+}
+
+binary.stream -> painting.bt: "Decompressed Stream"
 ```
+</details>
 
 ### 1.2 Font Dictionaries, Glyphs & ToUnicode CMap Corruption
 
@@ -190,33 +186,39 @@ Standard open-source text extractors read PDF text streams sequentially by Y-coo
   > *"Transformer architectures have because they eliminate multi-head self-attention revolutionized natural language recurrence in favor of mechanisms..."*
 - The resulting text is semantically destroyed. When vectorized, the embedding model captures syntactic noise, causing complete retrieval failure in downstream RAG systems.
 
-```mermaid
-flowchart LR
-    subgraph MultiColumnPage ["Multi-Column Page Layout"]
-        direction TB
-        C1L1["Col 1, Line 1: In this study we prove"]
-        C1L2["Col 1, Line 2: that linear attention"]
-        C2L1["Col 2, Line 1: However, prior work"]
-        C2L2["Col 2, Line 2: failed to converge"]
-    end
+![Multicolumn Pdf Layout Reading Order Extraction](assets/10_document_processing_and_data_preparation_for_ai/03_multicolumn_pdf_layout_reading_order_extraction.svg)
 
-    subgraph NaiveExtraction ["Naive Y-Coordinate Stream Extraction"]
-        N1["Line 1: In this study we prove However, prior work"]
-        N2["Line 2: that linear attention failed to converge"]
-    end
+<details>
+<summary>D2 Source</summary>
 
-    subgraph LayoutAwareExtraction ["LayoutLM / Bounding-Box Aware Extraction"]
-        L1["Block 1: In this study we prove that linear attention"]
-        L2["Block 2: However, prior work failed to converge"]
-    end
+```d2
+direction: right
+classes: {
+  doc: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  bad: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  good: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
 
-    MultiColumnPage -->|Naive Y-Sort| NaiveExtraction
-    MultiColumnPage -->|Bounding Box Column Segmentation| LayoutAwareExtraction
+page: "Multi-Column Page Layout" {
+  c1: "Column 1:\nIn this study we prove that linear attention" { class: doc }
+  c2: "Column 2:\nHowever, prior work failed to converge" { class: doc }
+}
 
-    style MultiColumnPage fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style NaiveExtraction fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style LayoutAwareExtraction fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
+naive: "Naive Y-Coordinate Sorting\n(Garbled Output)" {
+  bad_text: "Line 1: In this study we prove However, prior work\nLine 2: that linear attention failed to converge" { class: bad }
+}
+
+layout_aware: "LayoutLM / Vision Bounding Box\n(Reading Order Graph)" {
+  b1: "Block 1: In this study we prove that linear attention" { class: good }
+  b2: "Block 2: However, prior work failed to converge" { class: good }
+
+  b1 -> b2: "Natural Reading Order"
+}
+
+page -> naive: "Naive Y-Sort"
+page -> layout_aware: "Bounding Box Segmentation"
 ```
+</details>
 
 ### 2.2 Deep Learning Layout Models: LayoutLMv1–v3 vs Donut vs Nougat
 
@@ -292,22 +294,30 @@ Chunking is the single most critical hyperparameter in RAG retrieval pipelines. 
 1. **Chunk Fragmentation:** The chunk is too small; definitions are separated from their context.
 2. **Context Dilution:** The chunk is too large; the relevant fact is drowned in irrelevant noise, reducing embedding cosine similarity.
 
-```mermaid
-flowchart TD
-    subgraph Strategies ["Comparison of 5 Core Chunking Paradigms"]
-        Fixed["1. Fixed-Size Token Chunking<br/>(Arbitrary token boundaries + overlap)"]
-        Recursive["2. Recursive Character Splitting<br/>(Paragraphs -> Lines -> Spaces)"]
-        Structural["3. Document-Structure-Aware<br/>(Markdown H1/H2/H3 Breadcrumb Injection)"]
-        Semantic["4. Semantic Embedding Inflection<br/>(Split on sentence cosine similarity drop)"]
-        Hierarchical["5. Parent-Child Multi-Vector<br/>(Child vector matches query -> Parent context returned)"]
-    end
+![Five Core Chunking Paradigms Comparison](assets/10_document_processing_and_data_preparation_for_ai/04_five_core_chunking_paradigms_comparison.svg)
 
-    style Fixed fill:#1e293b,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Recursive fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Structural fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Semantic fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Hierarchical fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#a7f3d0
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  fixed: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  rec: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  struct: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  sem: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  hier: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+c1: "1. Fixed-Size Token\n(Arbitrary boundaries)" { class: fixed }
+c2: "2. Recursive Character\n(Paragraphs -> Lines)" { class: rec }
+c3: "3. Structure-Aware\n(Breadcrumb Injection)" { class: struct }
+c4: "4. Semantic Inflection\n(Cosine drop split)" { class: sem }
+c5: "5. Parent-Child Multi-Vector\n(High Precision + Full Context)" { class: hier }
+
+c1 -> c2 -> c3 -> c4 -> c5
 ```
+</details>
 
 ### 4.1 Fixed-Size Token Chunking with Sliding Overlap
 - **Mechanics:** Slices the token stream into fixed blocks (e.g. 512 tokens) with a sliding overlap window (e.g. 50 tokens or 10%).
@@ -407,29 +417,35 @@ Locality-Sensitive Hashing partitions MinHash signature vectors to detect candid
 - Divide the $M$ signature hashes into $b$ bands of $r$ rows each ($M = b \cdot r$).
 - Hash each band of $r$ integers into a hash bucket. Two documents are candidate duplicates if they collide in **at least one band**.
 
-```mermaid
-flowchart LR
-    subgraph SignatureMatrix ["MinHash Signature Vector (M = 128 hashes)"]
-        direction TB
-        B1["Band 1 (Rows 1 to r)"]
-        B2["Band 2 (Rows r+1 to 2r)"]
-        BDots["..."]
-        Bb["Band b (Rows (b-1)r+1 to M)"]
-    end
+![Minhash Lsh Banding And Candidate Collisions](assets/10_document_processing_and_data_preparation_for_ai/05_minhash_lsh_banding_and_candidate_collisions.svg)
 
-    subgraph HashBuckets ["LSH Hash Buckets (Candidate Collision Pools)"]
-        H1["Bucket Table 1"]
-        H2["Bucket Table 2"]
-        Hb["Bucket Table b"]
-    end
+<details>
+<summary>D2 Source</summary>
 
-    B1 -->|Hash r integers| H1
-    B2 -->|Hash r integers| H2
-    Bb -->|Hash r integers| Hb
+```d2
+direction: right
+classes: {
+  sig: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  bucket: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
 
-    style SignatureMatrix fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style HashBuckets fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
+matrix: "MinHash Signature Vector (M = 128 hashes)" {
+  b1: "Band 1 (Rows 1 to r)" { class: sig }
+  b2: "Band 2 (Rows r+1 to 2r)" { class: sig }
+  bb: "Band b (Rows (b-1)r+1 to M)" { class: sig }
+}
+
+buckets: "LSH Hash Buckets (Candidate Collision Tables)" {
+  h1: "Bucket Table 1\n(Hash of Band 1)" { class: bucket }
+  h2: "Bucket Table 2\n(Hash of Band 2)" { class: bucket }
+  hb: "Bucket Table b\n(Hash of Band b)" { class: bucket }
+}
+
+matrix.b1 -> buckets.h1: "Hash r integers"
+matrix.b2 -> buckets.h2: "Hash r integers"
+matrix.bb -> buckets.hb: "Hash r integers"
 ```
+</details>
 
 #### Mathematical S-Curve Derivation
 Let Jaccard similarity between two documents be $s$:

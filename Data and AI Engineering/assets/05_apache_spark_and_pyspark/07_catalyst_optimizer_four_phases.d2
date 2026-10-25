@@ -1,0 +1,35 @@
+direction: right
+title: Catalyst Optimizer Four Execution Phases
+
+P1: 1. Analysis & Catalog {
+  style.stroke: "#38BDF8"
+  Unresolved: Unresolved Logical Plan (AST)
+  Catalog: Catalog / Metastore Schema Resolution
+  Resolved: Resolved Logical Plan
+  Unresolved -> Catalog -> Resolved
+}
+
+P2: 2. Logical Optimization {
+  style.stroke: "#FBBF24"
+  Rules: Rule Engine (Pushdown, Pruning, Folding)
+  OptLogical: Optimized Logical Plan
+  Rules -> OptLogical
+}
+
+P3: 3. Physical Planning & CBO {
+  style.stroke: "#C084FC"
+  CBO: Cost-Based Optimizer (Table Stats & Join Strategy)
+  PhysPlan: Selected Physical SparkPlan
+  CBO -> PhysPlan
+}
+
+P4: 4. Whole-Stage CodeGen {
+  style.stroke: "#34D399"
+  Janino: Janino Compiler (Single Flattened Java Loop)
+  Exec: Tungsten Worker Execution
+  Janino -> Exec
+}
+
+P1.Resolved -> P2.Rules: AST Type-Checked { style.stroke: "#34D399" }
+P2.OptLogical -> P3.CBO: Relational Plan { style.stroke: "#34D399" }
+P3.PhysPlan -> P4.Janino: Physical Plan { style.stroke: "#34D399" }

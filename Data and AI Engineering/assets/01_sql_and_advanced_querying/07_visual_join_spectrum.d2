@@ -1,0 +1,8 @@
+# The Visual Join Spectrum
+direction: right
+
+inner: "INNER JOIN\n• Strict intersection A ∩ B\n• Drops non-matching rows"
+left: "LEFT OUTER JOIN\n• Preserves all A rows\n• Pads missing B with NULL"
+right: "RIGHT OUTER JOIN\n• Preserves all B rows\n• Pads missing A with NULL"
+full: "FULL OUTER JOIN\n• Complete union A ∪ B\n• Pads either side with NULL"
+cross: "CROSS JOIN\n• Cartesian product |A| × |B|\n• No predicate; row explosion"

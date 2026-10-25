@@ -80,24 +80,9 @@ A comprehensive, production-grade guide answering Python and core programming in
 A standard Python process attempting to execute `pd.read_csv("10gb_file.csv")` on a machine with 8GB or 16GB of RAM causes an immediate operating system crash (`MemoryError` or Linux Out-Of-Memory OOM Killer). In memory, Pandas DataFrames often consume **2× to 3× the raw CSV file size on disk** due to Python object overhead and string boxing.
 
 #### Core Optimization Strategies
-```mermaid
-flowchart TD
-    subgraph LargeFile10GB ["Processing a 10GB File in Python: Memory Optimization Matrix"]
-        A["Processing a 10GB File"] --> B["Strategy 1: Native Streaming (Generators / csv.reader)<br/>Memory: O(1) row buffer (~10 KB)"]
-        A --> C["Strategy 2: Pandas Chunksize<br/>Process batch-by-batch (chunksize=100_000)"]
-        A --> D["Strategy 3: Downcasting & Category Types<br/>int64 -> int16, float64 -> float32, object -> category"]
-        A --> E["Strategy 4: Column Projection (usecols)<br/>Discard unneeded columns before parsing"]
-        A --> F["Strategy 5: Out-of-Core / Modern Engines<br/>Polars Streaming Engine or PyArrow Datasets"]
-    end
+![Large File Memory Optimization Matrix](assets/02_python_for_data_and_systems_faq/01_large_file_memory_optimization_matrix.svg)
 
-    style LargeFile10GB fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style A fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style C fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style D fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style E fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style F fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/01_large_file_memory_optimization_matrix.d2](assets/02_python_for_data_and_systems_faq/01_large_file_memory_optimization_matrix.d2)
 
 #### Production Implementation: Chunked Filtering with Pandas (Q1)
 ```python
@@ -440,21 +425,9 @@ In Python, `*args` and `**kwargs` allow a function to accept an arbitrary, unspe
 - `*args` (Non-Keyword Arguments): Packs positional arguments into a **tuple**.
 - `**kwargs` (Keyword Arguments): Packs named key-value arguments into a **dictionary**.
 
-```mermaid
-flowchart TD
-    Call["Function Invocation:<br/><code>my_func('bronze', 100, cluster='prod', retries=3)</code>"]
-    
-    Call -->|"Positional Arguments"| Args["(args (Tuple); <code>('bronze', 100)</code>)"]
-    Call -->|"Keyword Arguments"| Kwargs["(*kwargs (Dict); <code>{'cluster': 'prod', 'retries': 3}</code>)"]
+![Python Argument Unpacking Mechanics: *args vs **kwargs](assets/02_python_for_data_and_systems_faq/02_python_args_kwargs_unpacking_mechanics.svg)
 
-    classDef inv fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#f8fafc;
-    classDef tupleNode fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
-    classDef dictNode fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#f8fafc;
-
-    class Call inv;
-    class Args tupleNode;
-    class Kwargs dictNode;
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/02_python_args_kwargs_unpacking_mechanics.d2](assets/02_python_for_data_and_systems_faq/02_python_args_kwargs_unpacking_mechanics.d2)
 
 #### Production Data Engineering Pipeline Pattern
 In production frameworks, `*args` and `**kwargs` allow creating generic orchestration wrappers and pluggable hook systems:
@@ -510,26 +483,9 @@ During nightly ingestion from a vendor third-party webhook, records can contain 
 2. Malformed records are caught, enriched with metadata (error trace, timestamp, raw payload), and diverted to a Dead-Letter storage path for debugging.
 3. System resources (database connections, file handles) are deterministically closed in `finally`.
 
-```mermaid
-flowchart TD
-    subgraph DLQFlow ["Enterprise Dead-Letter Queue (DLQ) Defensive Exception Architecture"]
-        A["Incoming Raw Payloads"] --> B["Iterate Records"]
-        B --> C{"try: Parse & Validate"}
-        C -->|Success| D["Append to Valid Batch<br/>(Write to Primary Table)"]
-        C -->|Exception| E["catch DataQualityError<br/>Enrich with Error Stack"]
-        E --> F["Append to Quarantine Batch<br/>(Dead-Letter Queue S3/ADLS)"]
-        D & F --> G["finally: Flush Buffers & Log Metrics"]
-    end
+![Enterprise Dead-Letter Queue (DLQ) Defensive Exception Architecture](assets/02_python_for_data_and_systems_faq/03_dead_letter_queue_defensive_exception_pipeline.svg)
 
-    style DLQFlow fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style A fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style C fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style D fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style E fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style F fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style G fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/03_dead_letter_queue_defensive_exception_pipeline.d2](assets/02_python_for_data_and_systems_faq/03_dead_letter_queue_defensive_exception_pipeline.d2)
 
 #### Production Implementation
 ```python
@@ -698,26 +654,9 @@ To maintain the median dynamically:
   2. Balancing condition: `len(small) == len(large)` (even elements) OR `len(small) == len(large) + 1` (odd elements).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph StreamTracking ["Streaming Event Ingestion & Balance Tracking"]
-        direction LR
-        Num["<b>Incoming Number Stream</b><br/>[-10, 20, 5, -30, 40, ...]"] --> Balance["<b>Streaming Balance Tracker</b><br/>Running Sum = +25 | Min Balance = -15"]
-    end
+![Streaming Ingestion & O(1) Minimum Balance Tracking](assets/02_python_for_data_and_systems_faq/04_streaming_running_and_minimum_balance_tracker.svg)
 
-    subgraph ConstantQueries ["O(1) Instant Query Evaluation"]
-        direction LR
-        Balance --> R1["<b>Query 1: Running Balance</b><br/>O(1) Lookup: +25"]
-        Balance --> R2["<b>Query 2: Minimum Balance</b><br/>O(1) Lookup: -15"]
-    end
-
-    style StreamTracking fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ConstantQueries fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Num fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Balance fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style R1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style R2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/04_streaming_running_and_minimum_balance_tracker.d2](assets/02_python_for_data_and_systems_faq/04_streaming_running_and_minimum_balance_tracker.d2)
 
 #### Production Implementation
 ```python
@@ -1338,19 +1277,9 @@ print(f"Min: {min_res}, Max: {max_res}")  # Min: -12, Max: 102
 Data engineering transformations frequently involve sanitizing raw string payloads, pivoting and chunking lists of records, and aggregating nested JSON dictionaries into indexed lookup structures.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    Raw["Raw Payloads"] --> S["1. String: Anagram Grouping & Compression"]
-    Raw --> L["2. List: Batch Chunking & Matrix Transpose"]
-    Raw --> D["3. Dict: Inverted Index & Deep Recursive Merge"]
-    S & L & D --> Clean["Clean Normalized Tabular Records"]
+![Core Python Data Structure Normalization Pipeline](assets/02_python_for_data_and_systems_faq/05_core_python_data_structures_normalization_flow.svg)
 
-    style Raw fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style L fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style D fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Clean fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/05_core_python_data_structures_normalization_flow.d2](assets/02_python_for_data_and_systems_faq/05_core_python_data_structures_normalization_flow.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1493,34 +1422,9 @@ print("Duplicates with Counts:", duplicates)
 #### Definition & Core Concepts
 In CPython, a `list` is implemented as an array of pointers (`PyListObject`). To avoid allocating memory on every item addition, CPython uses an **over-allocation formula** ($allocated \approx size + (size \gg 3) + 6$).
 
-```mermaid
-flowchart TD
-    subgraph ListPlus ["1. Concatenation: list_c = list_a + list_b (Out-of-Place)"]
-        direction TB
-        AllocC["Allocate Brand New PyListObject<br/>Buffer Capacity = Exactly (N + K)"]
-        CopyA["Memcpy Pointers from list_a (N Items)"]
-        CopyB["Memcpy Pointers from list_b (K Items)"]
-        AllocC --> CopyA --> CopyB
-    end
+![List Concatenation (+) vs Extend In-Place Memory Allocation](assets/02_python_for_data_and_systems_faq/06_list_plus_concatenation_vs_extend_memory_realloc.svg)
 
-    subgraph ListExtend ["2. In-Place Extension: list_a.extend(list_b)"]
-        direction TB
-        CheckCap{"Buffer Capacity Available?<br/>allocated >= (N + K)?"}
-        ReallocA["list_resize() Geometrically:<br/>Capacity ~ (N+K) + ((N+K) >> 3) + 6"]
-        CopyElements["Memmove Pointers from list_b<br/>directly into list_a contiguous array"]
-        CheckCap -->|"No (Buffer Exhausted)"| ReallocA --> CopyElements
-        CheckCap -->|"Yes (Spare Capacity)"| CopyElements
-    end
-
-    style ListPlus fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style ListExtend fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style AllocC fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style CopyA fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style CopyB fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style CheckCap fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style ReallocA fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style CopyElements fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/06_list_plus_concatenation_vs_extend_memory_realloc.d2](assets/02_python_for_data_and_systems_faq/06_list_plus_concatenation_vs_extend_memory_realloc.d2)
 
 #### List Expansion & Mutation Engineering Reference Matrix
 
@@ -1666,19 +1570,9 @@ When analyzing multi-gigabyte or terabyte server logs:
 4. **Bounded Aggregation**: Track table names in `collections.Counter` (table names are finite strings, consuming $<10\text{MB}$ total memory even for billions of log lines).
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    DiskLog["100 GB Server Log<br/>/var/log/query_audit.log"] --> Stream["1. Line Generator<br/>Buffering: 64 KB in RAM"]
-    Stream --> Regex["2. Precompiled Regex<br/>(Extracts FROM/JOIN/INTO/UPDATE)"]
-    Regex --> HashCounter["3. collections.Counter<br/>Fixed RAM Footprint (<10 MB)"]
-    HashCounter --> TopK["4. most_common(10)<br/>Heap-based Top K Output"]
+![Streaming Log Extraction: Generator, Precompiled Regex & Top-K Heap](assets/02_python_for_data_and_systems_faq/07_streaming_generator_log_regex_topk_heap.svg)
 
-    style DiskLog fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-    style Stream fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Regex fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style HashCounter fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style TopK fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/07_streaming_generator_log_regex_topk_heap.d2](assets/02_python_for_data_and_systems_faq/07_streaming_generator_log_regex_topk_heap.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1738,36 +1632,9 @@ Two intervals $[start_A, end_A]$ and $[start_B, end_B]$ overlap if and only if $
 Under the hood, CPython uses Timsort ($O(N \log N)$ worst-case, adaptive stable merge/insertion sort) when calling `intervals.sort(key=lambda x: x[0])`. Once sorted, merging is completed in a single $O(N)$ linear pass.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Raw ["1. Raw Unsorted Intervals"]
-        R1["[1, 3]"]
-        R2["[8, 10]"]
-        R3["[2, 6]"]
-        R4["[15, 18]"]
-    end
+![Merge Overlapping Intervals: Timsort & Single-Pass Scan](assets/02_python_for_data_and_systems_faq/08_merge_overlapping_intervals_timsort_linear_scan.svg)
 
-    subgraph Sorted ["2. Timsort by Start Key O(N log N)"]
-        S1["[1, 3]"] --> S2["[2, 6]"] --> S3["[8, 10]"] --> S4["[15, 18]"]
-    end
-
-    subgraph Merging ["3. Linear Scan & Boundary Comparison"]
-        M1["Compare [1, 3] & [2, 6]: 2 <= 3 -> Merge to [1, max(3,6)] = [1, 6]"]
-        M2["Compare [1, 6] & [8, 10]: 8 > 6 -> Disjoint -> Emit [1, 6], Start [8, 10]"]
-        M3["Compare [8, 10] & [15, 18]: 15 > 10 -> Disjoint -> Emit [8, 10], Emit [15, 18]"]
-    end
-
-    subgraph Output ["4. Consolidated Output"]
-        O1["[[1, 6], [8, 10], [15, 18]]"]
-    end
-
-    Raw --> Sorted --> Merging --> Output
-
-    style Raw fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#93c5fd
-    style Sorted fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Merging fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-    style Output fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/08_merge_overlapping_intervals_timsort_linear_scan.d2](assets/02_python_for_data_and_systems_faq/08_merge_overlapping_intervals_timsort_linear_scan.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1823,26 +1690,9 @@ As the `right` pointer traverses forward:
 3. Calculate the candidate length $(right - left + 1)$ and update the maximum.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph SlidingWindow ["Dynamic Window Traversal: s = 'p w w k e w'"]
-        W1["Window [0..0]: 'p' -> Max = 1<br/>Map: {'p': 0}"]
-        W2["Window [0..1]: 'p w' -> Max = 2<br/>Map: {'p': 0, 'w': 1}"]
-        W3["Window [2..2]: Duplicate 'w' at idx 1 >= left(0)<br/>Jump left to 1+1=2. Substring: 'w' -> Max = 2"]
-        W4["Window [2..3]: 'w k' -> Max = 2<br/>Map: {'w': 2, 'k': 3}"]
-        W5["Window [2..4]: 'w k e' -> Max = 3<br/>Map: {'w': 2, 'k': 3, 'e': 4}"]
-        W6["Window [3..5]: Duplicate 'w' at idx 2 >= left(2)<br/>Jump left to 2+1=3. Substring: 'k e w' -> Max = 3"]
-        W1 --> W2 --> W3 --> W4 --> W5 --> W6
-    end
+![Sliding Window: Longest Substring Without Repeating Characters](assets/02_python_for_data_and_systems_faq/09_sliding_window_longest_substring_without_repeating.svg)
 
-    style SlidingWindow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style W1 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style W2 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style W3 fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style W4 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style W5 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style W6 fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/09_sliding_window_longest_substring_without_repeating.d2](assets/02_python_for_data_and_systems_faq/09_sliding_window_longest_substring_without_repeating.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1903,32 +1753,9 @@ def length_of_longest_substring(s: str) -> int:
      - Prune duplicate elements eagerly from the queue head ($O(1)$ amortized eviction).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph StreamInput ["Event Stream & Frequency Counter"]
-        direction LR
-        Stream["<b>Stream Event</b><br/>'a' &rarr; 'b' &rarr; 'a' &rarr; 'c'"] --> Ingest{"Inspect Counter & Queue"}
-    end
+![First Unique Character: FIFO Queue State Transitions & Stale Eviction](assets/02_python_for_data_and_systems_faq/10_first_unique_character_stream_queue_eviction.svg)
 
-    subgraph QueueState ["FIFO Queue State Transitions"]
-        direction LR
-        Ingest -->|Event 'a' count=1| Q1["Queue: ['a']<br/>First Unique: 'a'"]
-        Ingest -->|Event 'b' count=1| Q2["Queue: ['a', 'b']<br/>First Unique: 'a'"]
-        Ingest -->|Event 'a' count=2| Evict["Queue Head 'a' count > 1<br/>Pop Left!"]
-        Evict --> Q3["Queue: ['b']<br/>First Unique: 'b'"]
-        Ingest -->|Event 'c' count=1| Q4["Queue: ['b', 'c']<br/>First Unique: 'b'"]
-    end
-
-    style StreamInput fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style QueueState fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Stream fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Ingest fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Q1 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style Q2 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style Evict fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Q3 fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Q4 fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/10_first_unique_character_stream_queue_eviction.d2](assets/02_python_for_data_and_systems_faq/10_first_unique_character_stream_queue_eviction.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2018,27 +1845,9 @@ Floyd's Cycle-Finding Algorithm (Tortoise and Hare) uses two pointers moving at 
 If no cycle exists, `fast` reaches `None` ($O(N)$ termination). If a cycle of length $C$ exists, each step decreases the relative distance between `fast` and `slow` by 1 node modulo $C$. `fast` is mathematically guaranteed to lap and collide with `slow` in $\le N$ steps, requiring strictly $O(1)$ memory.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    subgraph ListWithCycle ["Linked List Topology with Loop: (3) -> (2) -> (0) -> (-4) -> back to (2)"]
-        N1["Node 3"] --> N2["Node 2"]
-        N2 --> N3["Node 0"]
-        N3 --> N4["Node -4"]
-        N4 -->|"Cycle Edge"| N2
-    end
+![Floyd's Tortoise & Hare: Cycle Detection via Pointer Collision](assets/02_python_for_data_and_systems_faq/11_linked_list_cycle_detection_floyd_tortoise_hare.svg)
 
-    subgraph Collision ["Floyd's Two Pointers"]
-        P1["Step 0: slow=3, fast=3"]
-        P2["Step 1: slow=2, fast=0"]
-        P3["Step 2: slow=0, fast=2"]
-        P4["Step 3: slow=-4, fast=-4 (COLLISION!) -> Cycle Confirmed"]
-        P1 --> P2 --> P3 --> P4
-    end
-
-    style ListWithCycle fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Collision fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style N4 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/11_linked_list_cycle_detection_floyd_tortoise_hare.d2](assets/02_python_for_data_and_systems_faq/11_linked_list_cycle_detection_floyd_tortoise_hare.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2096,31 +1905,9 @@ When a `'1'` is discovered during a linear grid scan:
 3. Sink/mark visited land by mutating the cell to `'0'` (in-place) or tracking in a visited bitmask to avoid infinite loops and duplicate counts.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph GridScan ["1. Sequential Scan of 2D Matrix"]
-        Cell["Inspect (r, c)"]
-        IsLand{"Cell == '1'?"}
-        Cell --> IsLand
-        IsLand -- "No" --> NextCell["Advance to next coordinate"]
-        IsLand -- "Yes" --> FoundIsland["Increment island_count += 1"]
-    end
+![Number of Islands: 2D Grid BFS Flood Fill Traversal](assets/02_python_for_data_and_systems_faq/12_number_of_islands_bfs_flood_fill_grid_traversal.svg)
 
-    subgraph FloodFill ["2. BFS Flood Fill Traversal"]
-        FoundIsland --> Enqueue["Queue.append((r, c)) & mutate grid[r][c] = '0'"]
-        Enqueue --> PopQ["Pop (curr_r, curr_c)"]
-        PopQ --> Check4["Explore 4 Cardinal Neighbors: North, South, East, West"]
-        Check4 --> Sink["If Neighbor == '1': mutate to '0' & Queue.append()"]
-        Sink --> HasMore{"Queue Empty?"}
-        HasMore -- "No" --> PopQ
-        HasMore -- "Yes" --> NextCell
-    end
-
-    style GridScan fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FloodFill fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style FoundIsland fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Sink fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/12_number_of_islands_bfs_flood_fill_grid_traversal.d2](assets/02_python_for_data_and_systems_faq/12_number_of_islands_bfs_flood_fill_grid_traversal.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2183,34 +1970,9 @@ Three distinct architectural approaches exist:
 3. **Bucket Sort ($O(N)$ linear time):** Group keys into an array of buckets where `bucket[freq]` stores a list of elements with that exact count. Traverse buckets in reverse order from $N$ down to 1.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Stream ["Input: nums = [1, 1, 1, 2, 2, 3], k = 2"]
-        Freq["1. Frequency Map: {1: 3, 2: 2, 3: 1}"]
-    end
+![Top-K Frequent Elements: Min-Heap O(N log K) vs Bucket Sort O(N)](assets/02_python_for_data_and_systems_faq/13_top_k_frequent_elements_min_heap_vs_bucket_sort.svg)
 
-    subgraph MinHeapMethod ["Method A: Min-Heap of Size K = 2 O(N log K)"]
-        H1["Push (3, 1) -> Heap: [(3, 1)]"]
-        H2["Push (2, 2) -> Heap: [(2, 2), (3, 1)]"]
-        H3["Push (1, 3) -> Heap exceeds K=2 -> heappop() discards (1, 3)"]
-        H4["Heap holds: [2, 1] (Top 2 items)"]
-        H1 --> H2 --> H3 --> H4
-    end
-
-    subgraph BucketMethod ["Method B: Bucket Sort O(N) Linear Time"]
-        B1["Index 1: [3]"]
-        B2["Index 2: [2]"]
-        B3["Index 3: [1]"]
-        Scan["Traverse reverse: Take from Index 3 -> [1], then Index 2 -> [2] -> Result: [1, 2]"]
-    end
-
-    Freq --> MinHeapMethod
-    Freq --> BucketMethod
-
-    style Stream fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MinHeapMethod fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-    style BucketMethod fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/13_top_k_frequent_elements_min_heap_vs_bucket_sort.d2](assets/02_python_for_data_and_systems_faq/13_top_k_frequent_elements_min_heap_vs_bucket_sort.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2278,28 +2040,9 @@ Under the hood in CPython (PEP 468 & PEP 509):
 2. Passing the view into `set(d.values())` constructs a hash table of unique elements, computing the hash of each value and inserting into a dynamic table with open addressing and perturbation probing.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph SourceDict ["Dictionary Source & Memory View"]
-        direction LR
-        Dict["<b>Source dict</b><br/>{'u1': 'US', 'u2': 'IN', 'u3': 'US', 'u4': 'UK'}"] --> ValuesView["<b>1. d.values()</b><br/>O(1) memory view generator"]
-    end
+![Dictionary Values View: Zero-Copy Set Deduplication](assets/02_python_for_data_and_systems_faq/14_dictionary_values_view_set_deduplication.svg)
 
-    subgraph SetConstruction ["Set Deduplication & Output"]
-        direction LR
-        ValuesView --> HashLookup{"<b>2. set() Construction</b>"}
-        HashLookup --> S3["<b>Set Storage</b><br/>{'US', 'IN', 'UK'}"]
-        S3 --> Output["<b>Unique Values</b><br/>['US', 'IN', 'UK']"]
-    end
-
-    style SourceDict fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SetConstruction fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Dict fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ValuesView fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style HashLookup fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style S3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Output fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/14_dictionary_values_view_set_deduplication.d2](assets/02_python_for_data_and_systems_faq/14_dictionary_values_view_set_deduplication.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2528,23 +2271,9 @@ def sieve_of_eratosthenes(limit: int) -> List[int]:
 **Question:** *Write a complete Python script to read, transform, and load data into a relational database. How do you handle schema validation errors, malformed rows, and batching?*
 
 #### Architectural Blueprint
-```mermaid
-flowchart LR
-    Source["Raw CSV / JSON File"] --> StreamGen["Streaming Generator<br/>(csv.DictReader, 10,000 chunk buffer)"]
-    StreamGen --> Cleanse["Data Cleaning & Type Casting<br/>(Trim, Nullify, Format Dates)"]
-    Cleanse --> Validate{"Pydantic v2<br/>Schema Validation"}
-    
-    Validate -->|Valid Record| BatchBuffer["Batch Accumulator<br/>(size = 1,000)"]
-    Validate -->|Invalid Record| DLQ["Dead Letter Queue (DLQ)<br/>bad_records.jsonl"]
-    
-    BatchBuffer -->|"Buffer Full"| DB[(Target Relational DB<br/>PostgreSQL / SQLite<br/>SQLAlchemy 2.0 Bulk Upsert)]
+![Enterprise ETL Pipeline: Streaming Pydantic v2 Validation & DLQ Routing](assets/02_python_for_data_and_systems_faq/15_enterprise_etl_pydantic_validation_dlq_upsert.svg)
 
-    style Source fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Validate fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style BatchBuffer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style DLQ fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style DB fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/15_enterprise_etl_pydantic_validation_dlq_upsert.d2](assets/02_python_for_data_and_systems_faq/15_enterprise_etl_pydantic_validation_dlq_upsert.d2)
 
 #### Production Python Implementation
 ```python
@@ -2687,32 +2416,9 @@ To process millions of orders with minimal memory:
 3. **Tuple Materialization:** Convert the aggregated state dictionary into the final tuple representation.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph IngressStream ["Ingress Stream of Order Tuples"]
-        T1["(101, 'm_1', 'DELIVERED', 1700000100)"]
-        T2["(102, 'm_2', 'CANCELLED', 1700000150)"]
-        T3["(103, 'm_1', 'DELIVERED', 1700000050)"]
-        T4["(104, 'm_3', 'PENDING', 1700000200)"]
-    end
+![Streaming Ingestion: Generator Filter & Single-Pass Hash Aggregation](assets/02_python_for_data_and_systems_faq/16_order_stream_filtering_and_single_pass_hash_agg.svg)
 
-    subgraph GeneratorFilter ["Generator Stream Filter (Zero Memory)"]
-        F1["status == 'DELIVERED'"]
-    end
-
-    subgraph HashAggregation ["Single-Pass Dictionary Hash Table: O(M) Space"]
-        M1["'m_1': count = 2, min_ts = 1700000050"]
-    end
-
-    IngressStream --> GeneratorFilter
-    GeneratorFilter -->|Drop 102 & 104| HashAggregation
-    HashAggregation --> Result["Output: [('m_1', 2, 1700000050)]"]
-
-    style IngressStream fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style GeneratorFilter fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style HashAggregation fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Result fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/16_order_stream_filtering_and_single_pass_hash_agg.d2](assets/02_python_for_data_and_systems_faq/16_order_stream_filtering_and_single_pass_hash_agg.d2)
 
 #### Production Python Implementation
 ```python
@@ -2806,29 +2512,9 @@ The optimal solution is the **Sweep-Line Algorithm**:
 4. Traverse the sorted events with a running accumulator, recording the global peak.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Intervals ["Raw Order Intervals"]
-        O1["Order 1: [10, 30]"]
-        O2["Order 2: [20, 40]"]
-        O3["Order 3: [25, 35]"]
-    end
+![Interval Sweep-Line: Peak Concurrent Fleet Sizing](assets/02_python_for_data_and_systems_faq/17_meeting_rooms_sweep_line_peak_concurrency.svg)
 
-    subgraph SweepLine ["Chronological Event Timeline"]
-        E1["t=10: +1 (Active: 1)"] --> E2["t=20: +1 (Active: 2)"]
-        E2 --> E3["t=25: +1 (Active: 3) <-- PEAK CONCURRENCY!"]
-        E3 --> E4["t=30: -1 (Active: 2)"]
-        E4 --> E5["t=35: -1 (Active: 1)"]
-        E5 --> E6["t=40: -1 (Active: 0)"]
-    end
-
-    Intervals --> SweepLine
-    SweepLine --> Result["Global Peak Active = 3 Deliveries<br/>Peak Interval Window = [25, 30]"]
-
-    style Intervals fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SweepLine fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Result fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/17_meeting_rooms_sweep_line_peak_concurrency.d2](assets/02_python_for_data_and_systems_faq/17_meeting_rooms_sweep_line_peak_concurrency.d2)
 
 #### Production Python Implementation
 ```python
@@ -2924,24 +2610,9 @@ The **Subtractive Principle** dictates that whenever a symbol of smaller value p
 $$\text{Value}(s[i]) = \begin{cases} - \text{ROMAN}[s[i]], & \text{if } \text{ROMAN}[s[i]] < \text{ROMAN}[s[i+1]] \\ + \text{ROMAN}[s[i]], & \text{otherwise} \end{cases}$$
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    subgraph ParseStream ["Parsing 'MCMXCIV' (1994)"]
-        direction TB
-        S1["'M' (1000) >= 'C' (100) -> +1000"]
-        S2["'C' (100) < 'M' (1000)  -> -100  (Subtractive CM)"]
-        S3["'M' (1000) >= 'X' (10)  -> +1000"]
-        S4["'X' (10) < 'C' (100)   -> -10   (Subtractive XC)"]
-        S5["'C' (100) >= 'I' (1)   -> +100"]
-        S6["'I' (1) < 'V' (5)      -> -1    (Subtractive IV)"]
-        S7["'V' (5) (Last Char)    -> +5"]
-    end
+![Roman to Integer: Subtractive Lookahead Parsing](assets/02_python_for_data_and_systems_faq/18_roman_to_integer_subtractive_lookahead_parsing.svg)
 
-    ParseStream --> Compute["Total = 1000 - 100 + 1000 - 10 + 100 - 1 + 5 = 1994"]
-
-    style ParseStream fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Compute fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_python_for_data_and_systems_faq/18_roman_to_integer_subtractive_lookahead_parsing.d2](assets/02_python_for_data_and_systems_faq/18_roman_to_integer_subtractive_lookahead_parsing.d2)
 
 #### Production Python Implementation
 ```python

@@ -1,0 +1,29 @@
+direction: right
+title: Java String Constant Pool & Memory Layout Architecture
+
+Stack: Thread Stack References {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  s1: "s1 = 'Java' (Pool ptr: 0x7fa810)"
+  s2: "s2 = 'Java' (Pool ptr: 0x7fa810)"
+  s3: "s3 = new String('Java') (Heap ptr: 0x7fa820)"
+  s4: "s4 = s3.intern() (Pool ptr: 0x7fa810)"
+}
+
+Pool: String Constant Pool {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  canonical: "Canonical String at 0x7fa810: byte[] {'J','a','v','a'}"
+  compact: "coder = 0 (LATIN-1: 1 byte per char)"
+}
+
+Heap: Regular Heap Space {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  duplicate: "Distinct String at 0x7fa820: Redundant wrapper"
+}
+
+Stack.s1 -> Pool.canonical
+Stack.s2 -> Pool.canonical
+Stack.s3 -> Heap.duplicate
+Stack.s4 -> Pool.canonical

@@ -442,31 +442,39 @@ To master `asyncio`, you must distinguish between the three core primitives:
 | **`asyncio.Future`** | Low-level event notification primitive | **Passive**: A placeholder bridge between callback protocols and coroutines | `PENDING` $\to$ `FINISHED` or `CANCELLED` | Resolves when an external thread/callback calls `future.set_result()` or `set_exception()` |
 | **`asyncio.Task`** | Concrete subclass of `asyncio.Future` | **Active**: Wraps a coroutine and registers it directly on the event loop ready queue | Drives state transitions (`RUNNING`, `SUSPENDED`) | Drives coroutine forward by invoking `coroutine.send(None)` on each iteration of the event loop |
 
-```mermaid
-stateDiagram-v2
-    classDef transient fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    classDef running fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#ffffff
-    classDef waiting fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#ffffff
-    classDef terminated fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#ffffff
-    classDef errored fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#ffffff
+![AsyncIO Task Lifecycle State Machine](assets/13_python_backend_and_api_development/01_asyncio_task_lifecycle_state_machine.svg)
 
-    [*] --> PENDING: asyncio.create_task()
-    PENDING --> RUNNING: Event loop schedules task
-    RUNNING --> SUSPENDED: await non_blocking_call()
-    SUSPENDED --> RUNNING: epoll / kqueue signals FD ready
-    RUNNING --> FINISHED: Coroutine returns result
-    RUNNING --> CANCELLED: task.cancel() invoked
-    RUNNING --> ERRORED: Unhandled exception raised
-    FINISHED --> [*]
-    CANCELLED --> [*]
-    ERRORED --> [*]
+<details>
+<summary>View D2 Source</summary>
 
-    class PENDING transient
-    class RUNNING running
-    class SUSPENDED waiting
-    class FINISHED terminated
-    class CANCELLED,ERRORED errored
+```d2
+direction: right
+classes: {
+  pend: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  run: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  wait: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  term: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  err: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+}
+
+pending: "PENDING\n(asyncio.create_task)" { class: pend }
+running: "RUNNING\n(Executing on CPU)" { class: run }
+suspended: "SUSPENDED\n(await I/O socket)" { class: wait }
+
+finished: "FINISHED (Result returned)" { class: term }
+cancelled: "CANCELLED (task.cancel)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+errored: "ERRORED (Exception raised)" { class: err }
+
+pending -> running: "Event loop tick"
+running -> suspended: "await non_blocking"
+suspended -> running: "epoll FD ready"
+
+running -> finished: "Return"
+running -> cancelled: "Cancel"
+running -> errored: "Exception"
+
 ```
+</details>
 
 ---
 
@@ -1184,35 +1192,33 @@ def create_app(config_override: Mapping[str, Any] | None = None) -> Flask:
 
 Flask relies on two distinct stacked context layers:
 
-```mermaid
-flowchart TD
-    subgraph AC["1. ApplicationContext (Bound via app.app_context())"]
-        AC_Desc["Represents the running application instance"]
-        subgraph AC_Proxies["Context Proxies"]
-            CA["current_app<br/>(Config, Logger, Extension Singletons)"]
-            G["g<br/>(Request-scoped global namespace, e.g., DB session)"]
-        end
-    end
+![Flask Application and Request Contexts Hierarchy](assets/13_python_backend_and_api_development/02_flask_application_and_request_contexts.svg)
 
-    subgraph RC["2. RequestContext (Bound via app.request_context(environ))"]
-        RC_Desc["Represents a single incoming HTTP request (auto-pushes ApplicationContext)"]
-        subgraph RC_Proxies["Request Proxies"]
-            REQ["request<br/>(Query params, JSON body, Headers, Cookies, Files)"]
-            SESS["session<br/>(Cryptographically signed client-side cookie dict)"]
-        end
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    RC -->|"Pushes / Encloses"| AC
+```d2
+direction: right
+classes: {
+  app_c: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  req_c: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  proxy: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
 
-    style AC fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#f8fafc
-    style RC fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#f8fafc
-    style AC_Desc fill:#0f172a,stroke:#64748b,color:#cbd5e1
-    style RC_Desc fill:#0f172a,stroke:#64748b,color:#cbd5e1
-    style CA fill:#0f172a,stroke:#3b82f6,color:#f8fafc
-    style G fill:#0f172a,stroke:#3b82f6,color:#f8fafc
-    style REQ fill:#0f172a,stroke:#10b981,color:#f8fafc
-    style SESS fill:#0f172a,stroke:#10b981,color:#f8fafc
+app_context: "1. ApplicationContext (Bound via app.app_context())" {
+  c_app: "current_app\n(Config, Logger, Extensions)" { class: proxy }
+  g_obj: "g\n(Request global namespace)" { class: proxy }
+}
+
+req_context: "2. RequestContext (Bound via app.request_context())" {
+  req: "request\n(Query params, JSON body, Headers)" { class: req_c }
+  sess: "session\n(Signed cookie dict)" { class: req_c }
+}
+
+req_context -> app_context: "Pushes & Encloses"
+
 ```
+</details>
 
 | Context Layer | Activation Scope | Lifecycle / Binding | Global Proxies Exposed |
 | :--- | :--- | :--- | :--- |
@@ -1293,37 +1299,41 @@ FastAPI is **not** a web framework built from scratch. It is an architectural or
 1. **Starlette**: High-performance ASGI toolkit providing routing, middleware, WebSockets, background tasks, and CORS.
 2. **Pydantic**: High-performance validation and serialization engine.
 
-```mermaid
-flowchart TD
-    Req(["<b>Incoming ASGI Request</b><br/>(scope, receive, send)"])
+![FastAPI ASGI Lifecycle &amp; Pydantic V2 Request Pipeline](assets/13_python_backend_and_api_development/03_fastapi_asgi_lifecycle_and_pydantic_flow.svg)
 
-    subgraph IngressPhase ["Phase 1: Ingress Routing, Middleware & Dependency Resolution"]
-        direction LR
-        M["<b>Starlette Middleware</b><br/>CORS, GZip, Tracing, Auth"] --> R["<b>Starlette Radix Trie</b><br/>Route matching & path params"]
-        R --> D["<b>FastAPI Route Handler</b><br/>Dependency Injection via Depends"]
-        D --> PV["<b>Pydantic V2 Core</b><br/>Request validation & coercion"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph ExecutionPhase ["Phase 2: Controller Execution & Response Serialization"]
-        direction LR
-        EP["<b>Endpoint Controller</b><br/>Execute async/sync logic"] --> PS["<b>Pydantic V2 Core</b><br/>Response model validation"]
-        PS --> Res(["<b>Outgoing ASGI Response</b><br/>Status, headers, JSON body"])
-    end
+```d2
+direction: right
+classes: {
+  mid: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  route: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  di: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  val: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  exec: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
 
-    Req --> IngressPhase
-    PV -->|"Validated Input Schema"| ExecutionPhase
+phase1: "Phase 1: Ingress Routing & Dependency Resolution" {
+  m: "Starlette Middleware\n(CORS, Auth, Tracing)" { class: mid }
+  r: "Radix Trie Router\n(Path parameter matching)" { class: route }
+  d: "Dependency Injection\n(FastAPI Depends)" { class: di }
+  pv: "Pydantic V2 Core\n(Request validation)" { class: val }
 
-    style Req fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style IngressPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ExecutionPhase fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style M fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#f8fafc
-    style R fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#f8fafc
-    style D fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#f8fafc
-    style PV fill:#1e293b,stroke:#ec4899,stroke-width:1.5px,color:#f8fafc
-    style EP fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#f8fafc
-    style PS fill:#1e293b,stroke:#ec4899,stroke-width:1.5px,color:#f8fafc
-    style Res fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
+  m -> r -> d -> pv
+}
+
+phase2: "Phase 2: Execution & Response Egress" {
+  ep: "Endpoint Controller (async def)" { class: exec }
+  ps: "Pydantic V2 Serialization & ASGI Send" { class: exec }
+
+  ep -> ps
+}
+
+phase1.pv -> phase2.ep: "Validated Input Model"
+
 ```
+</details>
 
 ---
 
@@ -1487,26 +1497,35 @@ async def websocket_notifications_endpoint(websocket: WebSocket, user_id: str):
 FastAPI features one of the most sophisticated **Dependency Injection (DI)** engines in the Python ecosystem (`fastapi.Depends`).
 When an endpoint is invoked, FastAPI builds a **Directed Acyclic Graph (DAG)** of all dependencies, sub-dependencies, and security scopes:
 
-```mermaid
-flowchart TD
-    Route["GET /orders/{id}"]
-    AuthDep["get_current_active_user<br/>(Extracts JWT, verifies claims)"]
-    DBDep["get_async_db_session<br/>(Acquires DB connection from pool)"]
-    ConfigDep["get_app_settings<br/>(Reads singleton config)"]
-    PermDep["verify_tenant_access<br/>(Validates tenant ID)"]
+![FastAPI Dependency Injection DAG Resolution](assets/13_python_backend_and_api_development/04_fastapi_dependency_injection_dag.svg)
 
-    Route --> AuthDep
-    Route --> DBDep
-    AuthDep --> ConfigDep
-    AuthDep --> PermDep
-    PermDep --> DBDep
+<details>
+<summary>View D2 Source</summary>
 
-    style Route fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style AuthDep fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style DBDep fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ConfigDep fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style PermDep fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  route: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  auth: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  db: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  perm: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  cfg: { fill: "#1e293b"; stroke: "#64748b"; color: "#94a3b8" }
+}
+
+route: "GET /orders/{id}" { class: route }
+auth_dep: "get_current_active_user\n(Validates JWT)" { class: auth }
+db_dep: "get_async_db_session\n(Connection Pool)" { class: db }
+perm_dep: "verify_tenant_access\n(Checks Tenant ID)" { class: perm }
+cfg_dep: "get_app_settings\n(Singleton Config)" { class: cfg }
+
+route -> auth_dep
+route -> db_dep
+auth_dep -> cfg_dep
+auth_dep -> perm_dep
+perm_dep -> db_dep: "Reuses cached session!"
+
 ```
+</details>
 
 ---
 
@@ -1836,25 +1855,34 @@ print(update_data) # Outputs: {"bio": "New Bio"}
 
 In enterprise deployments, you run **Gunicorn as the master process supervisor** managing multiple **Uvicorn worker processes**:
 
-```mermaid
-flowchart TD
-    GunicornMaster["Gunicorn Master Daemon<br/>(Monitors PIDs, handles OS signals: SIGHUP, SIGTERM)"]
-    UvicornWorker1["Worker 1 (UvicornWorker - PID 101)<br/>uvloop + httptools"]
-    UvicornWorker2["Worker 2 (UvicornWorker - PID 102)<br/>uvloop + httptools"]
-    UvicornWorker3["Worker 3 (UvicornWorker - PID 103)<br/>uvloop + httptools"]
-    UvicornWorker4["Worker 4 (UvicornWorker - PID 104)<br/>uvloop + httptools"]
+![Gunicorn Master &amp; Uvicorn Worker Process Architecture](assets/13_python_backend_and_api_development/05_gunicorn_uvicorn_process_model.svg)
 
-    GunicornMaster -->|"Forks & supervises"| UvicornWorker1
-    GunicornMaster -->|"Forks & supervises"| UvicornWorker2
-    GunicornMaster -->|"Forks & supervises"| UvicornWorker3
-    GunicornMaster -->|"Forks & supervises"| UvicornWorker4
+<details>
+<summary>View D2 Source</summary>
 
-    style GunicornMaster fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style UvicornWorker1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style UvicornWorker2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style UvicornWorker3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style UvicornWorker4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  master: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  worker: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+gunicorn: "Gunicorn Master Daemon\n(Signal handling SIGHUP/SIGTERM\nSupervises PIDs)" { class: master }
+
+workers: "Supervised Uvicorn Workers" {
+  w1: "Worker 1 (UvicornWorker - PID 101)" { class: worker }
+  w2: "Worker 2 (UvicornWorker - PID 102)" { class: worker }
+  w3: "Worker 3 (UvicornWorker - PID 103)" { class: worker }
+  w4: "Worker 4 (UvicornWorker - PID 104)" { class: worker }
+}
+
+gunicorn -> workers.w1: "Forks & Monitors"
+gunicorn -> workers.w2: "Forks & Monitors"
+gunicorn -> workers.w3: "Forks & Monitors"
+gunicorn -> workers.w4: "Forks & Monitors"
+
 ```
+</details>
 
 ---
 
@@ -2121,19 +2149,30 @@ async def resilient_get_partner_data(client: httpx.AsyncClient, url: str) -> dic
 When a downstream microservice is suffering a major outage, continuously hammering it with retries will worsen the outage and waste local resources.
 The **Circuit Breaker** pattern protects both the caller and the callee by failing fast when an upstream dependency is unhealthy.
 
-```mermaid
-stateDiagram-v2
-    [*] --> CLOSED
-    CLOSED --> OPEN: Failure threshold exceeded (e.g. 5 errors in 30s)
-    note right of CLOSED: Normal operations.<br/>Requests flow through to downstream service.
-    
-    OPEN --> HALF_OPEN: Recovery timeout expires (e.g. 60 seconds)
-    note right of OPEN: Circuit trips!<br/>Requests FAIL-FAST immediately.<br/>Zero traffic sent downstream.
-    
-    HALF_OPEN --> CLOSED: Canary probe request succeeds
-    HALF_OPEN --> OPEN: Canary probe request fails
-    note right of HALF_OPEN: Testing recovery.<br/>Allows 1 probe request through.
+![Circuit Breaker Pattern State Machine](assets/13_python_backend_and_api_development/06_circuit_breaker_pattern_state_machine.svg)
+
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  closed: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  open: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  half: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+closed: "CLOSED (Normal Operations)\nRequests flow downstream" { class: closed }
+open: "OPEN (Circuit Tripped)\nRequests fail-fast immediately" { class: open }
+half_open: "HALF-OPEN (Canary Probing)\nAllows 1 test request through" { class: half }
+
+closed -> open: "5 errors in 30s"
+open -> half_open: "60s recovery timeout"
+half_open -> closed: "Probe succeeds"
+half_open -> open: "Probe fails"
+
 ```
+</details>
 
 #### Implementing Circuit Breakers in Python:
 ```python
@@ -2262,40 +2301,42 @@ If Alice sends a chat message, **Pod 1 cannot directly communicate with Pod 2**!
 #### Production Solution: Distributed Redis Pub/Sub Backplane
 Every worker process subscribes to a centralized Redis channel. When a message arrives at any worker, it publishes to Redis, and all workers broadcast to their respective local WebSocket clients:
 
-```mermaid
-flowchart TD
-    subgraph ClientPerimeter ["Connected WebSocket Clients"]
-        direction LR
-        ClientAlice["<b>Client Alice</b><br/>(Browser WebSocket session)"]
-        ClientBob["<b>Client Bob</b><br/>(Browser WebSocket session)"]
-    end
+![WebSocket Horizontal Scaling via Distributed Redis Pub/Sub](assets/13_python_backend_and_api_development/07_websocket_redis_pubsub_horizontal_scaling.svg)
 
-    subgraph PodCluster ["Application Cluster (Independent FastAPI Pods)"]
-        direction LR
-        Worker1["<b>FastAPI Pod 1</b><br/>(Manages Alice connection)"]
-        Worker2["<b>FastAPI Pod 2</b><br/>(Manages Bob connection)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph BrokerTier ["Distributed Message Backplane"]
-        RedisBus[("<b>Redis Pub/Sub Channel</b><br/>'channel_trade' broadcast hub")]
-    end
+```d2
+direction: right
+classes: {
+  client: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  pod: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  bus: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
 
-    ClientAlice <-->|"WebSocket Full-Duplex"| Worker1
-    ClientBob <-->|"WebSocket Full-Duplex"| Worker2
+clients: "Connected WebSocket Clients" {
+  alice: "Client Alice (Browser)" { class: client }
+  bob: "Client Bob (Mobile)" { class: client }
+}
 
-    Worker1 -->|"PUBLISH channel_trade 'Apple +2%'"| RedisBus
-    RedisBus -.->|"Subscribed Broadcast"| Worker1
-    RedisBus -.->|"Subscribed Broadcast"| Worker2
+pods: "FastAPI Application Cluster" {
+  pod1: "FastAPI Pod 1\n(Manages Alice socket)" { class: pod }
+  pod2: "FastAPI Pod 2\n(Manages Bob socket)" { class: pod }
+}
 
-    style ClientPerimeter fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PodCluster fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style BrokerTier fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ClientAlice fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ClientBob fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Worker1 fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-    style Worker2 fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-    style RedisBus fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
+redis: "Distributed Message Backplane" {
+  channel: "Redis Pub/Sub\n'channel_trade' broadcast" { class: bus }
+}
+
+clients.alice <-> pods.pod1: "WebSocket"
+clients.bob <-> pods.pod2: "WebSocket"
+
+pods.pod1 -> redis.channel: "PUBLISH 'AAPL +2%'"
+redis.channel -> pods.pod1: "Broadcast"
+redis.channel -> pods.pod2: "Broadcast"
+
 ```
+</details>
 
 ```python
 import redis.asyncio as aioredis

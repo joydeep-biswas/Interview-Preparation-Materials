@@ -1,0 +1,40 @@
+direction: down
+title: Constructor Overloading & Delegation Chaining (this())
+
+C1: UserProfile(username) {
+  style.fill: "#1E293B"
+  style.stroke: "#3B82F6"
+  desc: "1-Arg constructor; defaults tier='STANDARD', zone=UTC"
+  code: "this(username, 'STANDARD', ZoneOffset.UTC)"
+}
+
+C2: UserProfile(username, tier) {
+  style.fill: "#1E293B"
+  style.stroke: "#3B82F6"
+  desc: "2-Arg constructor; defaults zone=UTC"
+  code: "this(username, tier, ZoneOffset.UTC)"
+}
+
+Master: Master Canonical Constructor UserProfile(u, t, z) {
+  style.fill: "#0B132B"
+  style.stroke: "#10B981"
+  step1: "1. Fail-fast validation (Objects.requireNonNull)"
+  step2: "2. Final field assignment (this.username = ...)"
+}
+
+HeapObj: Guaranteed Consistent Immutable Object in Heap {
+  style.fill: "#0F172A"
+  style.stroke: "#06B6D4"
+}
+
+C1 -> Master: this(...) delegation {
+  style.stroke: "#06B6D4"
+}
+
+C2 -> Master: this(...) delegation {
+  style.stroke: "#06B6D4"
+}
+
+Master -> HeapObj: Completes <init> {
+  style.stroke: "#10B981"
+}

@@ -1,0 +1,14 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+adls: "ADLS Gen2 Storage\nMillions of files" { class: box; style.stroke: "#64748B" }
+al: "Auto Loader (cloudFiles)\nFile Notification Queue" { class: box; style.stroke: "#06B6D4" }
+schema: "Schema Rescue\n_rescued_data column" { class: box; style.stroke: "#F59E0B" }
+stream: "Structured Streaming\nmaxFilesPerTrigger=50,000" { class: box; style.stroke: "#3B82F6" }
+merge: "Idempotent Delta MERGE\nforeachBatch dedup on natural PK" { class: box; style.stroke: "#10B981" }
+chk: "Cloud Checkpoint Store\nDeterministic offset tracking" { class: box; style.stroke: "#8B5CF6" }
+
+adls -> al -> schema -> stream -> merge
+merge -> chk

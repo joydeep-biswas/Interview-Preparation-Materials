@@ -1,0 +1,40 @@
+direction: right
+title: "Database Access Paths: Cost-Based Optimizer Scan Decision Matrix"
+
+cbo: "CBO Query Planner" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+seq: "1. Sequential Scan
+> 15-20% selectivity
+Sequential 8KB Heap Reads" {
+  style.fill: "#7f1d1d"
+  style.stroke: "#ef4444"
+}
+
+idx: "2. Index Scan
+< 1-5% selectivity
+B+Tree -> Random Heap I/O" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+bm: "3. Bitmap Index Scan
+5-15% selectivity
+Memory Bitmap Batches Disk Reads" {
+  style.fill: "#451a03"
+  style.stroke: "#f59e0b"
+}
+
+idxonly: "4. Index-Only Scan
+Covering Index + Visibility Map
+Zero Heap Access!" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+cbo -> seq: "> 20% rows"
+cbo -> idx: "< 5% rows"
+cbo -> bm: "5-15% rows or OR clauses"
+cbo -> idxonly: "All cols in index"

@@ -248,33 +248,9 @@ When `SpringApplication.run(Application.class, args)` executes:
    - Instantiates all non-lazy singleton beans, injects dependencies, calls `@PostConstruct`.
 6. **Runner Execution**: Fires `ApplicationRunner` and `CommandLineRunner` beans.
 
-```mermaid
-flowchart TD
-    Boot["<b>SpringApplication.run()</b><br/>Application bootstrap"]
+![Spring Boot Application Bootstrap & Startup Lifecycle](assets/05_spring_boot_and_rest_apis_faq/01_spring_boot_application_bootstrap_lifecycle.svg)
 
-    subgraph Phase1 ["Phase 1: Environment & Context Setup"]
-        direction LR
-        Env["<b>1. Prepare Environment</b><br/>Profiles, YAML & ConfigData"] --> CreateCtx["<b>2. Create Context</b><br/>ServletWebServerApplicationContext"]
-    end
-
-    subgraph Phase2 ["Phase 2: Component Scanning & Lifecycle"]
-        direction LR
-        Scan["<b>3. Component Scan</b><br/>Parse @Component & auto-config"] --> Refresh["<b>4. Context Refresh</b><br/>Instantiate singletons & start Tomcat"]
-        Refresh --> Runners["<b>5. Runners & Ready</b><br/>Execute ApplicationRunners"]
-    end
-
-    Boot --> Phase1
-    Phase1 --> Phase2
-
-    style Boot fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style Phase1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Phase2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Env fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style CreateCtx fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Scan fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Refresh fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Runners fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/05_spring_boot_and_rest_apis_faq/01_spring_boot_application_bootstrap_lifecycle.d2](assets/05_spring_boot_and_rest_apis_faq/01_spring_boot_application_bootstrap_lifecycle.d2)
 
 ---
 
@@ -372,19 +348,9 @@ Clients supply a unique UUID `Idempotency-Key` header. The server checks Redis v
 **Topic Covered:** Enterprise Architecture & DTOs  
 DTOs decouple public API contracts from internal database entity schemas, preventing mass-assignment vulnerabilities and eliminating Jackson circular reference errors in bidirectional JPA relationships.
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    Client->>Controller: POST /orders (CreateOrderRequest DTO)
-    Controller->>Service: process(orderCommand)
-    Service->>Repository: save(OrderEntity)
-    Repository->>DB: INSERT INTO orders...
-    DB-->>Repository: Saved entity
-    Repository-->>Service: OrderEntity
-    Service-->>Controller: OrderResponse DTO
-    Controller-->>Client: 201 Created (OrderResponse JSON)
-```
+![Spring MVC DispatcherServlet Request Lifecycle](assets/05_spring_boot_and_rest_apis_faq/02_spring_mvc_dispatcherservlet_request_lifecycle.svg)
+
+*D2 Source:* [assets/05_spring_boot_and_rest_apis_faq/02_spring_mvc_dispatcherservlet_request_lifecycle.d2](assets/05_spring_boot_and_rest_apis_faq/02_spring_mvc_dispatcherservlet_request_lifecycle.d2)
 
 ---
 
@@ -576,36 +542,9 @@ From the client's perspective, case 1 and case 2 look identical: a `SocketTimeou
    - **Completed Retry (Key exists with cached response):** The operation was already completed previously! The server short-circuits execution entirely, skips the database mutation, and replays the cached status code and response payload directly to the client.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph ClientFlow ["Client Request & Timeout Retry"]
-        Req1["POST /v1/payments<br/>Idempotency-Key: abc-123"] --> Server
-        Req1 -.-> Timeout["Read Timeout (Network Delay)<br/>Client Retries!"]
-        Timeout --> Req2["Retry: POST /v1/payments<br/>Idempotency-Key: abc-123"]
-    end
+![Idempotent API Design & Distributed Locking Architecture](assets/05_spring_boot_and_rest_apis_faq/03_idempotent_api_design_distributed_locking.svg)
 
-    subgraph Server ["Server-Side Idempotency Engine"]
-        CheckKey{"Redis Atomic SETNX<br/>Key: abc-123"}
-        ExecuteDB[("Execute Payment &<br/>Commit PostgreSQL Transaction")]
-        CacheResp["Save Response in Redis<br/>status: COMPLETED, body: {...}"]
-        ReplayResp["Replay Cached Response<br/>(Skip DB Mutation!)"]
-    end
-
-    Req2 --> CheckKey
-    CheckKey -->|"Lock Acquired (First Time)"| ExecuteDB
-    ExecuteDB --> CacheResp
-    CheckKey -->|"Key Already Exists (COMPLETED)"| ReplayResp
-
-    style ClientFlow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Server fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Req1 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Timeout fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Req2 fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style CheckKey fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
-    style ExecuteDB fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style CacheResp fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style ReplayResp fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_spring_boot_and_rest_apis_faq/03_idempotent_api_design_distributed_locking.d2](assets/05_spring_boot_and_rest_apis_faq/03_idempotent_api_design_distributed_locking.d2)
 
 #### Production Implementation / Code Solution
 ```java
@@ -709,36 +648,9 @@ public class IdempotencyFilter extends OncePerRequestFilter {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph ClientBurst ["Incoming Client Traffic"]
-        Burst["200 Concurrent HTTP Requests<br/>(Tomcat Worker Threads)"]
-    end
+![Resilience4j Circuit Breaker Finite State Machine](assets/05_spring_boot_and_rest_apis_faq/04_resilience4j_circuit_breaker_state_machine.svg)
 
-    subgraph HikariPoolState ["HikariCP Connection Pool (Max Size: 10)"]
-        Active["10 Active Connections<br/>(Executing 300ms complex queries)"]
-        Queue["190 Threads Waiting in Queue<br/>(State: TIMED_WAITING on FairSync.acquire)"]
-        Timeout["connectionTimeout = 30,000ms<br/>Each thread queues up to 3s before getting connection!"]
-    end
-
-    subgraph DownstreamDB ["PostgreSQL Database Server"]
-        DB["DB CPU: 8% (Idle)<br/>Queries fast, but pool is bottleneck!"]
-    end
-
-    Burst --> Active
-    Burst -.->|"Starved!"| Queue
-    Active --> DB
-    Queue --> Timeout
-
-    style ClientBurst fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style HikariPoolState fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style DownstreamDB fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Burst fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Active fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Queue fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Timeout fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style DB fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_spring_boot_and_rest_apis_faq/04_resilience4j_circuit_breaker_state_machine.d2](assets/05_spring_boot_and_rest_apis_faq/04_resilience4j_circuit_breaker_state_machine.d2)
 
 The 5-Step Diagnostic Triage Runbook:
 1. **Thread Dump Inspection (`jcmd <pid> Thread.print`):**
@@ -820,46 +732,9 @@ public class HttpClientConfiguration {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph SpringBootApp ["Spring Boot Application Context"]
-        direction TB
-        subgraph PrimarySubsystem ["Primary Domain (Orders / Users)"]
-            PrimaryProps["@ConfigurationProperties('spring.datasource.primary')"]
-            PrimaryDS["@Primary DataSource"]
-            PrimaryEM["@Primary LocalContainerEntityManagerFactory<br/>(Packages: com.app.domain.primary)"]
-            PrimaryTM["@Primary PlatformTransactionManager<br/>(JpaTransactionManager)"]
-            PrimaryRepo["@EnableJpaRepositories(basePackages = '...primary')"]
-            
-            PrimaryProps --> PrimaryDS --> PrimaryEM --> PrimaryTM --> PrimaryRepo
-        end
+![Spring Bean Lifecycle Phase Transitions](assets/05_spring_boot_and_rest_apis_faq/05_spring_bean_lifecycle_phase_transitions.svg)
 
-        subgraph SecondarySubsystem ["Secondary Domain (Audit / Analytics)"]
-            SecProps["@ConfigurationProperties('spring.datasource.secondary')"]
-            SecDS["DataSource (secondaryDataSource)"]
-            SecEM["LocalContainerEntityManagerFactory (secondaryEntityManagerFactory)<br/>(Packages: com.app.domain.secondary)"]
-            SecTM["PlatformTransactionManager (secondaryTransactionManager)<br/>(JpaTransactionManager)"]
-            SecRepo["@EnableJpaRepositories(basePackages = '...secondary')"]
-            
-            SecProps --> SecDS --> SecEM --> SecTM --> SecRepo
-        end
-    end
-
-    subgraph DatabaseTier ["Database Tier"]
-        DB1[("Primary Database: PostgreSQL<br/>(Read/Write OLTP)")]
-        DB2[("Secondary Database: MySQL<br/>(Audit / Read-Replica)")]
-    end
-
-    PrimaryDS --> DB1
-    SecDS --> DB2
-
-    style SpringBootApp fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PrimarySubsystem fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style SecondarySubsystem fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style DatabaseTier fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style DB1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DB2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_spring_boot_and_rest_apis_faq/05_spring_bean_lifecycle_phase_transitions.d2](assets/05_spring_boot_and_rest_apis_faq/05_spring_bean_lifecycle_phase_transitions.d2)
 
 Deciding Primary vs. Secondary:
 1. **`@Primary` Designation:** Exactly one `DataSource`, `EntityManagerFactory`, and `TransactionManager` must be annotated with `@Primary`. This is used by default Spring Boot starters (e.g., Spring Security, Spring Batch, Actuator health checks).

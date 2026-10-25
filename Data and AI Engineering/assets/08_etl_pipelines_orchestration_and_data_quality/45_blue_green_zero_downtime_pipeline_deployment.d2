@@ -1,0 +1,31 @@
+direction: right
+classes: {
+  blue: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  green: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  swap: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+blue_active: "1. Active Blue Production" {
+  bi: "Live BI Dashboard" { class: blue }
+  view: "Public View: v_orders" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  t_blue: "orders_v1 (Blue)" { class: blue }
+
+  bi -> view -> t_blue
+}
+
+green_stage: "2. Deploy Green in Parallel" {
+  pipe: "v2 Pipeline Code" { class: green }
+  t_green: "orders_v2 (Green)" { class: green }
+  dq: "Data Quality Gate" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+
+  pipe -> t_green -> dq
+}
+
+atomic_cutover: "3. Instant Atomic Pointer Cutover" {
+  swap: "CREATE OR REPLACE VIEW v_orders\nAS SELECT * FROM orders_v2;" { class: swap }
+  swapped_bi: "BI Queries Instantly Directed to Green\n(Zero Downtime)" { class: green }
+
+  swap -> swapped_bi
+}
+
+green_stage.dq -> atomic_cutover.swap: "Tests Pass!"

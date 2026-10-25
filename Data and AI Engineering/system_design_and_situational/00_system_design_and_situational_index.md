@@ -6,63 +6,9 @@ A comprehensive, production-grade guide covering distributed data and AI systems
 
 ## Master Architecture & Preparation Roadmap
 
-```mermaid
-flowchart TD
-    subgraph Pillar1 ["Phase 1: Distributed Foundations (01)"]
-        direction TB
-        FND["01. System Design Foundations<br/>(Storage-Compute Disaggregation, Parquet Columnar Layout, Delta/Iceberg ACID Logs, Spark Shuffle Mechanics, RocksDB Stream Watermarks, HNSW/IVF-PQ Vector Math, Unity Catalog Governance)"]
-    end
+![Master Architecture & Preparation Roadmap](assets/00_system_design_and_situational_index/01_master_architecture_and_preparation_roadmap.svg)
 
-    subgraph Pillar2 ["Phase 2: High-Level Data & AI Architectures HLD (02)"]
-        direction TB
-        HLD_Lake["Lakehouse & CDC (Medallion Pattern, Petabyte Debezium CDC, Hybrid Multi-Cloud)"]
-        HLD_Realtime["Real-Time & Telemetry (ClickHouse Sub-Second OLAP, 100M GPS Pings Ingestion)"]
-        HLD_Finance["Mission-Critical Financial Data (Trade Surveillance CEP, Regulatory Snapshot Time-Travel, Payment Event Streaming, Payments Data Warehouse)"]
-        HLD_AI["Enterprise AI & Serving (End-to-End Enterprise RAG, Feature Store, Model Drift Retraining, Multi-Tenant LLM Isolation)"]
-        
-        HLD_Lake --> HLD_Realtime --> HLD_Finance --> HLD_AI
-    end
-
-    subgraph Pillar3 ["Phase 3: Low-Level Design & Component Internals LLD (03)"]
-        direction TB
-        LLD_Stream["Streaming Primitives (Ring Buffer with Backpressure, Sliding Window Deduplication)"]
-        LLD_Engine["Engine Internals (Custom Shuffle Partitioner, Columnar Row-Group Reader)"]
-        LLD_Sink["Pipelines & AI (Schema Validator, Batch Sink with DLQ, Vector Index, AI Agent Safe Tool Gatekeeper)"]
-        
-        LLD_Stream --> LLD_Engine --> LLD_Sink
-    end
-
-    subgraph Pillar4 ["Phase 4: Situational Scenarios & Engineering Leadership (04)"]
-        direction TB
-        SIT_Outage["Incident Command (Sev-1 Pipeline Failures, Data Skew OOM Triage, 11 PM Board Discrepancies)"]
-        SIT_Optimization["Performance & Cost (Spark 6.7h to 48m Optimization, Multi-Million GPU Cost Governance)"]
-        SIT_Conflicts["Stakeholder Governance (Data vs Analytics vs Business Conflicts, Storage Pushback, Speed vs Accuracy)"]
-        SIT_AI["AI Incidents & Architecture (Retrieval Stale Chunk Hallucinations, Hybrid Azure Databricks Architecture)"]
-        
-        SIT_Outage --> SIT_Optimization --> SIT_Conflicts --> SIT_AI
-    end
-
-    Pillar1 --> Pillar2
-    Pillar2 --> Pillar3
-    Pillar3 --> Pillar4
-
-    style Pillar1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Pillar2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Pillar3 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Pillar4 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style FND fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style HLD_Lake fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style HLD_Realtime fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style HLD_Finance fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style HLD_AI fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style LLD_Stream fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style LLD_Engine fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style LLD_Sink fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SIT_Outage fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style SIT_Optimization fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style SIT_Conflicts fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style SIT_AI fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/00_system_design_and_situational_index/01_master_architecture_and_preparation_roadmap.d2](assets/00_system_design_and_situational_index/01_master_architecture_and_preparation_roadmap.d2)
 
 ---
 

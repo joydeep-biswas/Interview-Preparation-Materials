@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Referential Integrity &amp; Orphan Record Prevention</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Validating Foreign Keys at Ingestion to Quarantine Broken Parent-Child Relationships</text>
+  
+  
+    <rect x="30" y="95" width="250" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Incoming Transaction Batch</text>
+  
+    <rect x="45" y="140" width="220" height="120" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="155.0" y="166" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Raw Orders Batch</text>
+    <text x="155.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Spark / Flink Ingestion Stream</text>
+    <rect x="207" y="150" width="52" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="233.0" y="162" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">STREAM</text>
+    <circle cx="61" cy="195" r="2" fill="#3b82f6"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">order_id: 994812</text>
+    <circle cx="61" cy="211" r="2" fill="#3b82f6"/>
+    <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">customer_id: 'CUST-8491'</text>
+    <circle cx="61" cy="227" r="2" fill="#3b82f6"/>
+    <text x="69" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">total_amount: $184.50</text>
+    <circle cx="61" cy="243" r="2" fill="#3b82f6"/>
+    <text x="69" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">order_timestamp: 2026-10-25</text>
+  <text x="155" y="320" fill="#94a3b8" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle">Unverified Foreign Key</text>
+
+  
+    <rect x="320" y="95" width="340" height="290" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="336" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Referential Integrity Validation Engine</text>
+  
+    <rect x="340" y="140" width="300" height="110" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="166" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Dimension Existence Probe</text>
+    <text x="490.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Bloom Filter / Broadcast Hash Join</text>
+    <rect x="589" y="150" width="45" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="611.5" y="162" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PROBE</text>
+    <circle cx="356" cy="195" r="2" fill="#8b5cf6"/>
+    <text x="364" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Probe: customer_id IN dim_customer</text>
+    <circle cx="356" cy="211" r="2" fill="#8b5cf6"/>
+    <text x="364" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Evaluated inside streaming micro-batch</text>
+    <circle cx="356" cy="227" r="2" fill="#8b5cf6"/>
+    <text x="364" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Branch A: FK matches existing parent</text>
+    <circle cx="356" cy="243" r="2" fill="#8b5cf6"/>
+    <text x="364" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Branch B: FK missing (Out of order CDC)</text>
+  <text x="490" y="300" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle">Zero Unchecked Inserts into Production Gold</text>
+
+  
+    <rect x="700" y="95" width="250" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="716" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Target Lakehouse Sinks</text>
+  
+    <rect x="715" y="135" width="220" height="105" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="825.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">gold.fact_orders</text>
+    <text x="825.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Conformed Fact Table</text>
+    <rect x="891" y="145" width="38" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="910.0" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">GOLD</text>
+    <circle cx="731" cy="190" r="2" fill="#10b981"/>
+    <text x="739" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Clean referential integrity</text>
+    <circle cx="731" cy="206" r="2" fill="#10b981"/>
+    <text x="739" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Surrogate key assigned</text>
+    <circle cx="731" cy="222" r="2" fill="#10b981"/>
+    <text x="739" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Guaranteed join fidelity</text>
+    <circle cx="731" cy="238" r="2" fill="#10b981"/>
+    <text x="739" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Active BI dashboard serving</text>
+  
+    <rect x="715" y="260" width="220" height="105" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <text x="825.0" y="286" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">quarantine.orphan_orders</text>
+    <text x="825.0" y="302" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Dead-Letter Investigation Queue</text>
+    <rect x="849" y="270" width="80" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="889.0" y="282" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">QUARANTINE</text>
+    <circle cx="731" cy="315" r="2" fill="#ef4444"/>
+    <text x="739" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Isolated broken records</text>
+    <circle cx="731" cy="331" r="2" fill="#ef4444"/>
+    <text x="739" y="334" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Auto-retried after dim catch-up</text>
+    <circle cx="731" cy="347" r="2" fill="#ef4444"/>
+    <text x="739" y="350" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Alert fired if orphan &amp;gt; 24h</text>
+    <circle cx="731" cy="363" r="2" fill="#ef4444"/>
+    <text x="739" y="366" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Prevents data silent loss</text>
+
+  
+    <line x1="265" y1="195" x2="340" y2="195" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="302.5" y="187.0" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Ingest</text>
+  
+    <line x1="640" y1="175" x2="715" y2="175" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="677.5" y="167.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Valid FK Match</text>
+  
+    <path d="M 640.0 215.0 L 650.0 215.0 C 675.5 215.0, 675.5 300.0, 701.0 300.0 L 715.0 300.0" fill="none" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/><text x="677.5" y="249.5" fill="#ef4444" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Missing FK (Orphan)</text>
+
+</svg>

@@ -1,0 +1,32 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+compute: "Compute Engine: Apache Spark" {
+  class: box
+  style.stroke: "#3B82F6"
+  drv: "Spark Driver (Coordinates DAG)"
+  e1: "Executor 1 (In-Memory CPU / RAM)"
+  e2: "Executor 2 (Tungsten Off-Heap Vectors)"
+  drv -> e1
+  drv -> e2
+}
+
+format: "ACID Table Format: Delta Lake" {
+  class: box
+  style.stroke: "#F59E0B"
+  log: "_delta_log/ (JSON Commit History & ACID State)"
+  meta: "Schema Enforcement, Time Travel & Z-Order"
+  log -> meta
+}
+
+storage: "Physical Storage: Apache Parquet" {
+  class: box
+  style.stroke: "#10B981"
+  f1: "part-00000.parquet (Columnar Chunks, Snappy)"
+  f2: "part-00001.parquet (Min/Max Stats, Dictionary)"
+}
+
+compute -> format: "Atomic Commits & Reads"
+format -> storage: "Pointers to Active Parquet Files"

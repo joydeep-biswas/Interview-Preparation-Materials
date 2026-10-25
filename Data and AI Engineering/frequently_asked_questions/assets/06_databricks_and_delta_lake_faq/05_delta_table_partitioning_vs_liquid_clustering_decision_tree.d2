@@ -1,0 +1,19 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+start: "Table Sizing Assessment" { class: box; style.stroke: "#3B82F6" }
+size_check: "Table Size < 500 GB?" { class: box; style.stroke: "#F59E0B" }
+no_part: "Do NOT Partition\nStandard Delta file sizing + Min/Max Stats" { class: box; style.stroke: "#10B981" }
+
+runtime: "Databricks Runtime >= 13.3?" { class: box; style.stroke: "#F59E0B" }
+liquid: "Use Liquid Clustering\nCLUSTER BY (date, customer_id)\nHandles high cardinality & skew" { class: box; style.stroke: "#10B981" }
+
+hive: "Legacy Hive Partitioning Gate\nCandidate column cardinality: 10 - 1,000\nEnsure each partition slice >= 1 GB" { class: box; style.stroke: "#8B5CF6" }
+
+start -> size_check
+size_check -> no_part: "Yes (< 500 GB)"
+size_check -> runtime: "No (>= 500 GB)"
+runtime -> liquid: "DBR >= 13.3 (Recommended)"
+runtime -> hive: "Legacy Engine / DBR < 13.3"

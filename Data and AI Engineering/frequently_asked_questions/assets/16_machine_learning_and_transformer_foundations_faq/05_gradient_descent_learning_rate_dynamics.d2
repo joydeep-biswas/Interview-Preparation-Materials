@@ -1,0 +1,10 @@
+direction: right
+classes: {
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6" } }
+  good_box: { style: { fill: "#0D1F1C", stroke: "#10B981" } }
+  bad_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+}
+
+Small: "LR Too Small (1e-6)\n• Glacial progress\n• Trapped in local minima" { class: blue_box }
+Optimal: "Optimal LR (1e-3)\n• Fast convergence\n• Cosine decay schedule" { class: good_box }
+Large: "LR Too Large (1.0)\n• Overshooting ravines\n• Loss diverges to NaN" { class: bad_box }

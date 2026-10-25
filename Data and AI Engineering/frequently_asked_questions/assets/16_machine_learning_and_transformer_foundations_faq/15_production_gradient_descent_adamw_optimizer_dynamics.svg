@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Left: Loss Landscape Traversal -->
+  <rect x="25" y="30" width="410" height="240" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="45" y="55" class="title-txt" fill="#93C5FD">Non-Convex Loss Surface Traversal</text>
+  <rect x="45" y="75" width="370" height="65" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+  <text x="55" y="98" class="title-txt" fill="#FCA5A5">Standard SGD</text>
+  <text x="55" y="118" class="body-txt">• Oscillates wildly in steep ravines; stalls at saddle points</text>
+  <text x="55" y="132" class="mono-txt">Zero momentum or adaptive scaling</text>
+
+  <rect x="45" y="155" width="370" height="95" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1"/>
+  <text x="55" y="178" class="title-txt" fill="#A7F3D0">AdamW Optimizer</text>
+  <text x="55" y="198" class="body-txt">• Momentum (m_t) glides through flat saddle zones</text>
+  <text x="55" y="214" class="body-txt">• Variance scaling (v_t) dampens oscillation</text>
+  <text x="55" y="232" class="mono-txt">Decoupled weight decay: theta = theta*(1 - lr*lambda)</text>
+
+  <path d="M 435 150 L 495 150" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Right: Memory State per Parameter -->
+  <rect x="495" y="30" width="440" height="240" rx="10" ry="10" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="515" y="55" class="title-txt" fill="#6EE7B7">PyTorch Optimizer Memory State (Per Parameter Tensor)</text>
+
+  <rect x="515" y="75" width="400" height="35" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="525" y="97" class="mono-txt" text-anchor="start">1. Parameter Tensor (theta): 100M FP32 = 400 MB</text>
+
+  <rect x="515" y="115" width="400" height="35" rx="6" ry="6" fill="#111827" stroke="#F59E0B" stroke-width="1"/>
+  <text x="525" y="137" class="mono-txt" text-anchor="start">2. Gradient Tensor (grad): 400 MB</text>
+
+  <rect x="515" y="155" width="400" height="35" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="525" y="177" class="mono-txt" text-anchor="start">3. First Moment Buffer (m_t): 400 MB</text>
+
+  <rect x="515" y="195" width="400" height="35" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="525" y="217" class="mono-txt" text-anchor="start">4. Second Moment Buffer (v_t): 400 MB</text>
+
+  <text x="525" y="255" class="badge-txt" fill="#F59E0B">Total: 16 Bytes / Parameter in FP32 (4x Model Weights!)</text>
+</svg>

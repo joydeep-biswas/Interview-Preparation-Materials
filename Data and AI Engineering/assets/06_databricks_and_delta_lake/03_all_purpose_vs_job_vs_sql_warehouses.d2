@@ -1,0 +1,26 @@
+direction: right
+title: Databricks Compute Comparison Matrix
+
+AllPurpose: 1. All-Purpose Compute {
+  style.stroke: "#38BDF8"
+  Workload: Interactive Notebook Prototyping
+  Cost: High DBU (~0.50 DBU/hr)
+  Lifecycle: Persistent until manual stop
+  Rule: NEVER run production jobs here!
+}
+
+JobCompute: 2. Job Compute Clusters {
+  style.stroke: "#34D399"
+  Workload: Automated Production Workflows & ETL
+  Cost: 50% Cheaper (~0.20 DBU/hr)
+  Lifecycle: Ephemeral (Auto-destroys immediately)
+  Rule: Mandatory for all scheduled pipelines!
+}
+
+SQLWarehouse: 3. Serverless SQL Warehouses {
+  style.stroke: "#C084FC"
+  Workload: BI Dashboards & Analyst SQL
+  Cost: Auto-stopping Serverless Pool
+  Lifecycle: Starts in <2s, scales horizontally
+  Rule: Photon-native for maximum query speed
+}

@@ -1,0 +1,15 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+trips: "Raw Trips Table\n100M driver trip records" { class: box; style.stroke: "#3B82F6" }
+group: "GROUP BY driver_id\nAggregate trip metrics" { class: box; style.stroke: "#F59E0B" }
+having_gate: "HAVING Trip Count &gt; 100\nPrune low-sample noise drivers" { class: box; style.stroke: "#F59E0B" }
+
+compute: "Compute Metrics & Ranks\nAVG(rating) & DENSE_RANK() OVER ()" { class: box; style.stroke: "#10B981" }
+top3: "Filter rank &lt;= 3\nTop 3 Performers Output" { class: box; style.stroke: "#10B981" }
+
+trips -> group -> having_gate
+having_gate -> compute: "Pass (>100 Trips)"
+compute -> top3

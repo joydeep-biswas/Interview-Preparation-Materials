@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Forensic EXPLAIN ANALYZE Execution Plan Tree</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Cost Estimates vs. Actual Execution Timings, Operator Memory, and Join Mechanics</text>
+  
+  
+    <rect x="340" y="95" width="300" height="90" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="490.0" y="121" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Hash Join</text>
+    <text x="490.0" y="137" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Actual Time: 185.32 ms | Cost: 1250..54200</text>
+    <rect x="561" y="105" width="73" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="597.5" y="117" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ROOT JOIN</text>
+    <circle cx="356" cy="150" r="2" fill="#3b82f6"/>
+    <text x="364" y="153" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Condition: f.customer_id = c.customer_id</text>
+    <circle cx="356" cy="166" r="2" fill="#3b82f6"/>
+    <text x="364" y="169" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Total rows returned: 48,200</text>
+    <circle cx="356" cy="182" r="2" fill="#3b82f6"/>
+    <text x="364" y="185" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Memory WorkMem: 720 kB</text>
+
+  
+    <rect x="40" y="240" width="360" height="110" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="220.0" y="266" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Seq Scan on fact_orders (f)</text>
+    <text x="220.0" y="282" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Actual Time: 120.10 ms | Cost: 0..48500</text>
+    <rect x="314" y="250" width="80" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="354.0" y="262" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">BOTTLENECK</text>
+    <circle cx="56" cy="295" r="2" fill="#ef4444"/>
+    <text x="64" y="298" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scanned 500,000 physical rows</text>
+    <circle cx="56" cy="311" r="2" fill="#ef4444"/>
+    <text x="64" y="314" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Filter: order_date &amp;gt;= '2026-01-01'</text>
+    <circle cx="56" cy="327" r="2" fill="#ef4444"/>
+    <text x="64" y="330" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rows Removed by Filter: 420,000</text>
+    <circle cx="56" cy="343" r="2" fill="#ef4444"/>
+    <text x="64" y="346" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">CRITICAL BOTTLENECK: Missing index on order_date!</text>
+
+  
+    <rect x="470" y="240" width="200" height="75" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="570.0" y="266" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Hash Operator</text>
+    <text x="570.0" y="282" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Batches: 1 | Memory: 720 kB</text>
+    <rect x="584" y="250" width="80" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="624.0" y="262" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">HASH BUILD</text>
+    <circle cx="486" cy="295" r="2" fill="#f59e0b"/>
+    <text x="494" y="298" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Buckets: 16384</text>
+    <circle cx="486" cy="311" r="2" fill="#f59e0b"/>
+    <text x="494" y="314" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Builds in-memory hash table</text>
+    <circle cx="486" cy="327" r="2" fill="#f59e0b"/>
+    <text x="494" y="330" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero spill to disk</text>
+
+  
+    <rect x="730" y="240" width="220" height="110" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="840.0" y="266" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Index Scan on dim_customer (c)</text>
+    <text x="840.0" y="282" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Actual Time: 4.82 ms | Cost: 0..240</text>
+    <rect x="885" y="250" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="914.5" y="262" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">OPTIMAL</text>
+    <circle cx="746" cy="295" r="2" fill="#10b981"/>
+    <text x="754" y="298" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Index Used: idx_customer_tier</text>
+    <circle cx="746" cy="311" r="2" fill="#10b981"/>
+    <text x="754" y="314" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Filter: tier = 'PLATINUM'</text>
+    <circle cx="746" cy="327" r="2" fill="#10b981"/>
+    <text x="754" y="330" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rows Returned: 8,000</text>
+    <circle cx="746" cy="343" r="2" fill="#10b981"/>
+    <text x="754" y="346" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Blazing fast B+ tree range probe</text>
+
+  
+    <path d="M 440.0 185.0 L 440.0 195.0 C 440.0 210.5, 220.0 210.5, 220.0 226.0 L 220.0 240.0" fill="none" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/><text x="330.0" y="204.5" fill="#ef4444" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Outer Stream</text>
+  
+    <path d="M 540.0 185.0 L 540.0 195.0 C 540.0 210.5, 570.0 210.5, 570.0 226.0 L 570.0 240.0" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="555.0" y="204.5" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Inner Build</text>
+  
+    <line x1="670" y1="277" x2="730" y2="277" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="700.0" y="269.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Index Scan</text>
+
+  <text x="490" y="395" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">EXPLAIN ANALYZE reveals fact_orders Seq Scan consumed 65% of query duration due to missing partition/index</text>
+
+</svg>

@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Boot 3 Ahead-of-Time (AOT) &amp; GraalVM Native Compilation</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">From Java source to instant native binary: Ahead-Of-Time code generation, closed-world analysis, and zero-JIT execution</text>
+<rect x="30" y="85" width="200" height="410" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="130" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Java Source Code</text>
+<rect x="60" y="122" width="140" height="18" rx="9" fill="#1d4ed8"/><text x="130" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Boot 3 App</text>
+<rect x="45" y="155" width="170" height="80" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Spring Annotations</text>
+<text x="55" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@SpringBootApp</text>
+<text x="55" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@RestController, @Service</text>
+<text x="55" y="228" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@Repository, @Transactional</text>
+<rect x="45" y="250" width="170" height="100" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="273" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Dynamic Features</text>
+<text x="55" y="293" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Normally relies on:</text>
+<text x="55" y="309" fill="#FBBF24" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Java reflection</text>
+<text x="55" y="323" fill="#FBBF24" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• CGLIB bytecode generation</text>
+<text x="55" y="337" fill="#FBBF24" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Dynamic proxy creation</text>
+<rect x="45" y="365" width="170" height="110" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="130" y="388" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">JVM Warm-Up Cost</text>
+<text x="130" y="410" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Standard JVM takes 3-15s</text>
+<text x="130" y="426" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">to boot, loads 5,000+ classes,</text>
+<text x="130" y="442" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">consumes 350MB+ RSS RAM</text>
+<rect x="260" y="85" width="240" height="410" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="380" y="112" fill="#FDE68A" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Spring AOT Processing</text>
+<rect x="300" y="122" width="160" height="18" rx="9" fill="#b45309"/><text x="380" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Build-Time Evaluation</text>
+<rect x="275" y="155" width="210" height="85" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="285" y="178" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Static Context Inspection</text>
+<text x="285" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Evaluates all @Conditional</text>
+<text x="285" y="214" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  annotations AT BUILD TIME!</text>
+<text x="285" y="228" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Freezes bean definition graph</text>
+<rect x="275" y="255" width="210" height="95" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="285" y="278" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Direct Bytecode CodeGen</text>
+<text x="285" y="298" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Generates explicit Java code</text>
+<text x="285" y="314" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  to instantiate beans directly</text>
+<text x="285" y="330" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Completely replaces reflection!</text>
+<rect x="275" y="365" width="210" height="110" rx="8" fill="#332408" stroke="#f59e0b" stroke-width="1"/>
+<text x="285" y="388" fill="#FDE68A" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">GraalVM Hints Generation</text>
+<text x="285" y="408" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• reflect-config.json</text>
+<text x="285" y="422" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• resource-config.json</text>
+<text x="285" y="438" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• serialization-config.json</text>
+<text x="285" y="454" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Instructs GraalVM native compiler</text>
+<rect x="530" y="85" width="230" height="410" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="645" y="112" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. GraalVM Native Image</text>
+<rect x="565" y="122" width="160" height="18" rx="9" fill="#6d28d9"/><text x="645" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">native-image Compiler</text>
+<rect x="545" y="155" width="200" height="85" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="555" y="178" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Closed-World Analysis</text>
+<text x="555" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Assumes all classes are</text>
+<text x="555" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  known at build time</text>
+<text x="555" y="228" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Zero runtime dynamic loading</text>
+<rect x="545" y="255" width="200" height="95" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="555" y="278" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Dead-Code Elimination</text>
+<text x="555" y="298" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Aggressively strips out</text>
+<text x="555" y="314" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  unused classes &amp; methods</text>
+<text x="555" y="330" fill="#6EE7B7" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Shrinks final binary footprint</text>
+<rect x="545" y="365" width="200" height="110" rx="8" fill="#2e1065" stroke="#8b5cf6" stroke-width="1"/>
+<text x="555" y="388" fill="#DDD6FE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Substrate VM Embedding</text>
+<text x="555" y="408" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Embeds lightweight GC</text>
+<text x="555" y="422" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  and thread scheduler</text>
+<text x="555" y="438" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Compiles directly into native</text>
+<text x="555" y="454" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  machine instructions (x86/ARM)</text>
+<rect x="790" y="85" width="220" height="410" rx="8" fill="#062e22" stroke="#10b981" stroke-width="1.5"/>
+<text x="900" y="112" fill="#34D399" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Native Binary</text>
+<rect x="820" y="122" width="160" height="18" rx="9" fill="#059669"/><text x="900" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Instant Serverless / Edge</text>
+<rect x="805" y="155" width="190" height="110" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="815" y="178" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Standalone Executable</text>
+<text x="815" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Linux ELF / macOS Mach-O</text>
+<text x="815" y="214" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• NO JVM INSTALLATION NEEDED!</text>
+<text x="815" y="232" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Runs in scratch / distroless</text>
+<text x="815" y="246" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  Docker containers (&amp;lt;50MB)</text>
+<rect x="805" y="280" width="190" height="195" rx="8" fill="#0f2e28" stroke="#059669" stroke-width="1"/>
+<text x="815" y="303" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Runtime Metrics:</text>
+<text x="815" y="325" fill="#FBBF24" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Startup Latency:</text>
+<text x="815" y="341" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">0.05 seconds (50ms!)</text>
+<text x="815" y="365" fill="#FBBF24" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Base Memory (RSS):</text>
+<text x="815" y="381" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">30 MB (vs 350MB JVM)</text>
+<text x="815" y="405" fill="#FBBF24" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">JIT Warm-up:</text>
+<text x="815" y="421" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">ZERO! Peak performance on first request</text>
+<text x="815" y="445" fill="#38BDF8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Ideal for AWS Lambda &amp; K8s autoscale!</text>
+<line x1="230" y1="290" x2="260" y2="290" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="500" y1="290" x2="530" y2="290" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<line x1="760" y1="290" x2="790" y2="290" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

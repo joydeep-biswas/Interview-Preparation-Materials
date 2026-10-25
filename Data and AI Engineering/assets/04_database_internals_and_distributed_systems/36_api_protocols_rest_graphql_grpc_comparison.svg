@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">API Architecture Archetypes: REST vs. GraphQL vs. gRPC</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Wire Protocols, Over-Fetching Characteristics, and Network Payload Efficiencies</text>
+  
+  
+    <rect x="30" y="95" width="290" height="290" rx="10" fill="#261a05" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">1. REST (HTTP/1.1 JSON Text)</text>
+  
+    <rect x="45" y="135" width="260" height="235" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="175.0" y="161" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Over-Fetching Problem</text>
+    <text x="175.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Fixed Endpoints &amp; Heavy Payloads</text>
+    <rect x="226" y="145" width="73" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="262.5" y="157" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">TEXT JSON</text>
+    <circle cx="61" cy="190" r="2" fill="#f59e0b"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Client: GET /api/v1/users/501</text>
+    <circle cx="61" cy="206" r="2" fill="#f59e0b"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Server returns ALL 45 columns in JSON text!</text>
+    <circle cx="61" cy="222" r="2" fill="#f59e0b"/>
+    <text x="69" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Payload size: 12 KB of ASCII text.</text>
+    <circle cx="61" cy="238" r="2" fill="#f59e0b"/>
+    <text x="69" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Over-fetching: returns unneeded fields.</text>
+    <circle cx="61" cy="254" r="2" fill="#f59e0b"/>
+    <text x="69" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Under-fetching: 3 roundtrips needed.</text>
+    <circle cx="61" cy="270" r="2" fill="#f59e0b"/>
+    <text x="69" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Browser standard; human-readable.</text>
+
+  
+    <rect x="345" y="95" width="290" height="290" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="361" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. GraphQL (Dynamic Client Query)</text>
+  
+    <rect x="360" y="135" width="260" height="235" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="161" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Zero Over-Fetching</text>
+    <text x="490.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Single Flexible Endpoint (/graphql)</text>
+    <rect x="548" y="145" width="66" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="581.0" y="157" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">FLEXIBLE</text>
+    <circle cx="376" cy="190" r="2" fill="#8b5cf6"/>
+    <text x="384" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Client specifies exact requested fields:</text>
+    <circle cx="376" cy="206" r="2" fill="#8b5cf6"/>
+    <text x="384" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">POST /graphql: query { user(id: 501) { name, ltv } }</text>
+    <circle cx="376" cy="222" r="2" fill="#8b5cf6"/>
+    <text x="384" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Server returns ONLY 'name' and 'ltv'.</text>
+    <circle cx="376" cy="238" r="2" fill="#8b5cf6"/>
+    <text x="384" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Payload size: 90 Bytes!</text>
+    <circle cx="376" cy="254" r="2" fill="#8b5cf6"/>
+    <text x="384" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Solves under-fetching in 1 roundtrip.</text>
+    <circle cx="376" cy="270" r="2" fill="#8b5cf6"/>
+    <text x="384" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Complex caching &amp; N+1 query hazards.</text>
+
+  
+    <rect x="660" y="95" width="290" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="676" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">3. gRPC (HTTP/2 Binary Protobuf)</text>
+  
+    <rect x="675" y="135" width="260" height="235" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="805.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">10x Faster Microservices</text>
+    <text x="805.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Multiplexed Binary Serialization</text>
+    <rect x="877" y="145" width="52" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="903.0" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">BINARY</text>
+    <circle cx="691" cy="190" r="2" fill="#10b981"/>
+    <text x="699" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Client invokes compiled typed stub:</text>
+    <circle cx="691" cy="206" r="2" fill="#10b981"/>
+    <text x="699" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">userService.GetUser(UserRequest(501))</text>
+    <circle cx="691" cy="222" r="2" fill="#10b981"/>
+    <text x="699" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Wire format: Compact binary Protocol Buffer.</text>
+    <circle cx="691" cy="238" r="2" fill="#10b981"/>
+    <text x="699" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Payload size: 18 Bytes! (Zero text headers).</text>
+    <circle cx="691" cy="254" r="2" fill="#10b981"/>
+    <text x="699" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">HTTP/2 multiplexing on single socket.</text>
+    <circle cx="691" cy="270" r="2" fill="#10b981"/>
+    <text x="699" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Bidirectional streaming support.</text>
+    <circle cx="691" cy="286" r="2" fill="#10b981"/>
+    <text x="699" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Standard for internal microservices.</text>
+
+</svg>

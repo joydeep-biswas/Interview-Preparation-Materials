@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 430" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="540" y="32" class="title" font-size="19" text-anchor="middle">Architectural Framework: Two-Way Doors &amp; Empirical Risk Containment</text>
+  <text x="540" y="52" class="subtitle" text-anchor="middle">Balancing reversible operational experiments against irreversible architectural decisions under uncertainty</text>
+
+  <!-- Incoming Decision Challenge -->
+  <g transform="translate(390, 75)">
+    <rect width="300" height="60" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="150" y="27" class="card-title" fill="#FDE68A" text-anchor="middle">Architectural Challenge</text>
+    <text x="150" y="47" class="card-body" fill="#D1D5DB" text-anchor="middle">Incomplete Information: Classify Decision Type</text>
+  </g>
+
+  <!-- Left: Type 1 One-Way Door -->
+  <g transform="translate(40, 185)">
+    <rect width="470" height="215" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="470" height="32" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="235" y="21" class="card-title" fill="#FCA5A5" text-anchor="middle">Type 1: Irreversible / One-Way Door</text>
+    
+    <text x="16" y="52" class="card-body" font-weight="600" fill="#F87171">• Scope: Storage format (Iceberg vs Delta), primary key choice, cloud vendor</text>
+    
+    <rect x="16" y="65" width="438" height="38" rx="6" ry="6" fill="#1E293B" stroke="#3B82F6"/>
+    <text x="235" y="82" class="card-body" font-weight="700" fill="#93C5FD" text-anchor="middle">1. 5-Day Empirical Canary Spike</text>
+    <text x="235" y="97" class="card-body" text-anchor="middle">Benchmark on 1% representative production data (throughput &amp; cost)</text>
+
+    <rect x="16" y="112" width="438" height="38" rx="6" ry="6" fill="#1E293B" stroke="#10B981"/>
+    <text x="235" y="129" class="card-body" font-weight="700" fill="#A7F3D0" text-anchor="middle">2. Decoupled Abstraction Layer</text>
+    <text x="235" y="144" class="card-body" text-anchor="middle">Wrap behind open API (dbt SQL / PyIceberg) to preserve vendor portability</text>
+
+    <rect x="16" y="159" width="438" height="32" rx="6" ry="6" fill="#1E293B" stroke="#EF4444"/>
+    <text x="235" y="179" class="card-body" font-weight="700" fill="#FCA5A5" text-anchor="middle">3. Stop-Loss Criteria: Auto-rollback if Cost &gt; +20% or Latency &gt; +15%</text>
+  </g>
+
+  <!-- Right: Type 2 Two-Way Door -->
+  <g transform="translate(570, 185)">
+    <rect width="470" height="215" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="470" height="32" rx="10" ry="10" fill="#064E3B"/>
+    <text x="235" y="21" class="card-title" fill="#A7F3D0" text-anchor="middle">Type 2: Reversible / Two-Way Door</text>
+    
+    <text x="16" y="52" class="card-body" font-weight="600" fill="#34D399">• Scope: Compute node sizing, micro-batch trigger interval, worker parallelism</text>
+    
+    <rect x="16" y="65" width="438" height="38" rx="6" ry="6" fill="#1E293B" stroke="#10B981"/>
+    <text x="235" y="82" class="card-body" font-weight="700" fill="#A7F3D0" text-anchor="middle">1. Rapid Execution with Guardrails</text>
+    <text x="235" y="97" class="card-body" text-anchor="middle">Empower team leads to decide immediately; bias toward rapid action</text>
+
+    <rect x="16" y="112" width="438" height="38" rx="6" ry="6" fill="#1E293B" stroke="#F59E0B"/>
+    <text x="235" y="129" class="card-body" font-weight="700" fill="#FDE68A" text-anchor="middle">2. Shadow Pipeline &amp; Feature Flags</text>
+    <text x="235" y="144" class="card-body" text-anchor="middle">Run concurrently with baseline; dynamic toggling without code releases</text>
+
+    <rect x="16" y="159" width="438" height="32" rx="6" ry="6" fill="#1E293B" stroke="#8B5CF6"/>
+    <text x="235" y="179" class="card-body" font-weight="700" fill="#DDD6FE" text-anchor="middle">3. Real-Time Observability: Datadog dashboards track P99 &amp; memory</text>
+  </g>
+
+  <!-- Connective Runways from Top Node to Branches -->
+  <path d="M 450 135 L 450 155 Q 450 165 430 165 L 295 165 Q 275 165 275 173 L 275 185" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <path d="M 630 135 L 630 155 Q 630 165 650 165 L 785 165 Q 805 165 805 173 L 805 185" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+</svg>

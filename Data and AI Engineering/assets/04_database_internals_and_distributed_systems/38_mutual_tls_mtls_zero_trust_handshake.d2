@@ -1,0 +1,14 @@
+direction: right
+title: Mutual TLS (mTLS) for Zero Trust Pipeline Ingress
+
+client: Data Pipeline Worker
+ca: Corporate Root CA (Trust Anchor)
+server: Enterprise Ingress Gateway (Envoy)
+
+client -> server: "1. ClientHello (TLS 1.3 Ciphers)"
+server -> client: "2. ServerHello + Server X.509 Certificate"
+client -> ca: "3. Verify Server Certificate against CA"
+server -> client: "4. CertificateRequest (Demands Client Identity)"
+client -> server: "5. Client X.509 Certificate + Digital Signature"
+server -> ca: "6. Verify Client Certificate against CA"
+client <-> server: "Mutual Cryptographic Trust Established (AES-GCM Tunnel)"

@@ -6,46 +6,9 @@ A comprehensive, production-grade guide to real-world interview scenarios and en
 
 ## Architectural Overview: High-Throughput Persistence & Distributed Caching Topology
 
-```mermaid
-flowchart TD
-    subgraph App_Cluster ["1. Application Microservices"]
-        FastAPI_1["FastAPI Instance 1"]
-        FastAPI_2["FastAPI Instance 2"]
-    end
+![High-Throughput Persistence & Distributed Caching Topology](assets/14_persistence_caching_and_service_architecture_faq/01_high_throughput_persistence_distributed_caching_topology.svg)
 
-    subgraph Caching_Tier ["2. Distributed Caching & Locking Layer"]
-        RedisCluster[("Redis Cluster / Sentinel<br/>Cache-Aside & Redlock Distributed Locks")]
-    end
-
-    subgraph Relational_Persistence ["3. Relational Storage Layer"]
-        direction TB
-        MasterDB[("PostgreSQL Primary (Write Master)")]
-        ReplicaDB[("PostgreSQL Read Replica")]
-        MasterDB -.->|Streaming Replication| ReplicaDB
-    end
-
-    subgraph Async_Worker_Fleet ["4. Asynchronous Background Workers"]
-        CeleryBroker["RabbitMQ / Redis Task Broker"]
-        CeleryWorker_1["Celery Worker (Prefetch Bounded)"]
-        CeleryWorker_2["Celery Worker (Prefetch Bounded)"]
-        CeleryBroker --> CeleryWorker_1
-        CeleryBroker --> CeleryWorker_2
-    end
-
-    FastAPI_1 <--> RedisCluster
-    FastAPI_2 <--> RedisCluster
-    FastAPI_1 -->|Writes / Mutations| MasterDB
-    FastAPI_1 -->|Reads / Queries| ReplicaDB
-    FastAPI_2 -->|Writes / Mutations| MasterDB
-    FastAPI_2 -->|Reads / Queries| ReplicaDB
-    FastAPI_1 -->|Dispatch Heavy Tasks| CeleryBroker
-    CeleryWorker_1 --> MasterDB
-
-    style App_Cluster fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Caching_Tier fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Relational_Persistence fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Async_Worker_Fleet fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/14_persistence_caching_and_service_architecture_faq/01_high_throughput_persistence_distributed_caching_topology.d2](assets/14_persistence_caching_and_service_architecture_faq/01_high_throughput_persistence_distributed_caching_topology.d2)
 
 ---
 

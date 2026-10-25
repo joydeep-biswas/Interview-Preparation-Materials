@@ -1,0 +1,27 @@
+direction: right
+
+old_table: "Old Table (Cap = 16)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  mask: "Mask: 0000 1111"
+  collision: "Key A and Key B both at index 5"
+}
+
+rehash: "resize() Doubling (Cap = 32)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  bit_test: "Check bit: (hash & 16)"
+  bit_0: "Bit == 0 -> Remains at index 5"
+  bit_1: "Bit == 1 -> Moves to index 5 + 16 = 21"
+}
+
+new_table: "New Table (Cap = 32)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  low: "Bucket 5: Key A (loHead)"
+  high: "Bucket 21: Key B (hiHead)"
+  order: "Order preserved, zero hashCode() recalculation"
+}
+
+old_table -> rehash: "Threshold reached"
+rehash -> new_table: "Bit-partitioned split"

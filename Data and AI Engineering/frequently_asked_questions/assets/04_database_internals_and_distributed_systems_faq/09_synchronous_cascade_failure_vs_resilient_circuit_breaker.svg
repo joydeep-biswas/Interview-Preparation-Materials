@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+      .edge-lbl { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="380" fill="#0B0F19"/>
+
+  <!-- Top: Synchronous Chain (Red) -->
+  <g transform="translate(30, 25)">
+    <rect width="960" height="140" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <text x="480" y="28" class="title" fill="#FCA5A5">Tightly Coupled Synchronous HTTP Chain: Cumulative Availability = 99.50%</text>
+    <line x1="20" y1="40" x2="940" y2="40" stroke="#1F2937" stroke-width="1.5"/>
+
+    <!-- 5 chained services -->
+    <rect x="25" y="60" width="125" height="50" rx="6" ry="6" fill="#1F2937" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="87.5" y="85" class="title" font-size="11" fill="#FCA5A5">Service 1</text>
+    <text x="87.5" y="100" class="body-txt" text-anchor="middle">99.9% Uptime</text>
+
+    <path fill="none" d="M 150 85 L 175 85" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+
+    <rect x="175" y="60" width="125" height="50" rx="6" ry="6" fill="#1F2937" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="237.5" y="85" class="title" font-size="11" fill="#FCA5A5">Service 2</text>
+    <text x="237.5" y="100" class="body-txt" text-anchor="middle">99.9% Uptime</text>
+
+    <path fill="none" d="M 300 85 L 325 85" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+
+    <rect x="325" y="60" width="125" height="50" rx="6" ry="6" fill="#1F2937" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="387.5" y="85" class="title" font-size="11" fill="#FCA5A5">Service 3</text>
+    <text x="387.5" y="100" class="body-txt" text-anchor="middle">99.9% Uptime</text>
+
+    <path fill="none" d="M 450 85 L 475 85" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+
+    <rect x="475" y="60" width="125" height="50" rx="6" ry="6" fill="#1F2937" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="537.5" y="85" class="title" font-size="11" fill="#FCA5A5">Service 4</text>
+    <text x="537.5" y="100" class="body-txt" text-anchor="middle">99.9% Uptime</text>
+
+    <path fill="none" d="M 600 85 L 625 85" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+
+    <rect x="625" y="60" width="125" height="50" rx="6" ry="6" fill="#1F2937" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="687.5" y="85" class="title" font-size="11" fill="#FCA5A5">Service 5</text>
+    <text x="687.5" y="100" class="body-txt" text-anchor="middle">99.9% Uptime</text>
+
+    <path fill="none" d="M 750 85 L 775 85" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+
+    <rect x="775" y="55" width="170" height="60" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <text x="860" y="80" class="title" font-size="11" fill="#FECACA">Pipeline Blocked!</text>
+    <text x="860" y="98" class="body-txt" text-anchor="middle" fill="#FCA5A5">Single failure stops all</text>
+  </g>
+
+  <!-- Bottom: Decoupled Architecture (Green) -->
+  <g transform="translate(30, 190)">
+    <rect width="960" height="165" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="480" y="28" class="title" fill="#6EE7B7">Decoupled Asynchronous Event-Driven Architecture: Availability &gt; 99.95%</text>
+    <line x1="20" y1="40" x2="940" y2="40" stroke="#1F2937" stroke-width="1.5"/>
+
+    <!-- Kafka -->
+    <rect x="25" y="60" width="180" height="75" rx="8" ry="8" fill="#1F2937" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="115" y="86" class="title" font-size="12" fill="#93C5FD">Distributed Broker</text>
+    <text x="115" y="104" class="body-txt" text-anchor="middle">Kafka / Event Hubs Log</text>
+    <text x="115" y="120" class="body-txt" text-anchor="middle">Persistent replay buffer</text>
+
+    <!-- Circuit Breaker -->
+    <rect x="255" y="60" width="190" height="75" rx="8" ry="8" fill="#1F2937" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="350" y="86" class="title" font-size="12" fill="#FCD34D">Circuit Breaker</text>
+    <text x="350" y="104" class="body-txt" text-anchor="middle">Exponential backoff &amp; jitter</text>
+    <text x="350" y="120" class="body-txt" text-anchor="middle">Isolates failing microservice</text>
+
+    <!-- Fallback & DLQ -->
+    <rect x="495" y="55" width="170" height="42" rx="6" ry="6" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="580" y="75" class="body-txt" text-anchor="middle" fill="#6EE7B7">Shadow Cache Fallback</text>
+
+    <rect x="495" y="105" width="170" height="42" rx="6" ry="6" fill="#1E293B" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="580" y="125" class="body-txt" text-anchor="middle" fill="#FCA5A5">Dead-Letter Queue (DLQ)</text>
+
+    <!-- Downstream Stream Processor -->
+    <rect x="715" y="60" width="230" height="75" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="830" y="86" class="title" font-size="12" fill="#A7F3D0">Stream Processor</text>
+    <text x="830" y="104" class="body-txt" text-anchor="middle" fill="#A7F3D0">Spark / Flink Consumer</text>
+    <text x="830" y="122" class="body-txt" text-anchor="middle" fill="#A7F3D0">Continues Uninterrupted</text>
+
+    <!-- Edges Bottom with straight runways -->
+    <path fill="none" d="M 205 97.5 L 255 97.5" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+    <path fill="none" d="M 445 80 L 495 76" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+    <path fill="none" d="M 445 115 L 495 125" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+    <path fill="none" d="M 665 76 L 715 85" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  </g>
+</svg>

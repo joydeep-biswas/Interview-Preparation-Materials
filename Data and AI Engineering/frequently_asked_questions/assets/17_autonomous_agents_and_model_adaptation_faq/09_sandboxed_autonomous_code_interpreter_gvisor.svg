@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Host Cluster -->
+  <rect x="25" y="40" width="220" height="220" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="45" y="66" class="title-txt" fill="#93C5FD">Host Kubernetes Engine</text>
+  <rect x="45" y="85" width="180" height="60" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="55" y="108" class="title-txt">Autonomous Agent</text>
+  <text x="55" y="126" class="sub-txt">Emits untrusted python</text>
+  <rect x="45" y="160" width="180" height="60" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="55" y="184" class="title-txt">gRPC / REST Gateway</text>
+  <text x="55" y="202" class="mono-txt">mTLS encrypted stream</text>
+
+  <path d="M 245 150 L 305 150" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Sandboxed Pod -->
+  <rect x="305" y="30" width="630" height="245" rx="12" ry="12" fill="#0D1F1C" stroke="#10B981" stroke-width="1.5"/>
+  <text x="325" y="55" class="title-txt" fill="#6EE7B7">Hardened Sandboxed Execution Pod (gVisor runsc)</text>
+
+  <rect x="325" y="70" width="270" height="70" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1"/>
+  <text x="335" y="94" class="title-txt" fill="#A7F3D0">Ephemeral Python Kernel</text>
+  <text x="335" y="112" class="body-txt">• In-memory session instance</text>
+  <text x="335" y="126" class="mono-txt">Captures stdout, stderr, PNGs</text>
+
+  <!-- Hardened Boundaries Grid -->
+  <rect x="615" y="70" width="300" height="70" rx="6" ry="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="625" y="94" class="title-txt" fill="#FECACA">gVisor User-Space Kernel</text>
+  <text x="625" y="112" class="body-txt">• Intercepts all syscalls in runsc</text>
+  <text x="625" y="126" class="sub-txt">Host Linux kernel completely insulated</text>
+
+  <rect x="325" y="155" width="270" height="100" rx="6" ry="6" fill="#111827" stroke="#F59E0B" stroke-width="1"/>
+  <text x="335" y="178" class="title-txt" fill="#FDE68A">Resource Governance (cgroups v2)</text>
+  <text x="335" y="198" class="body-txt">• CPU limit: 1.0 core</text>
+  <text x="335" y="216" class="body-txt">• RAM limit: 512 MB (hard limit)</text>
+  <text x="335" y="234" class="badge-txt" fill="#F59E0B">Kernel OOM-Kill on Breach</text>
+
+  <rect x="615" y="155" width="300" height="100" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="625" y="178" class="title-txt" fill="#C4B5FD">Network &amp; Watchdog Isolation</text>
+  <text x="625" y="198" class="body-txt">• Isolated NetNS: No outbound internet</text>
+  <text x="625" y="216" class="body-txt">• Hard Watchdog: 10s SIGKILL</text>
+  <text x="625" y="234" class="badge-txt" fill="#10B981">✓ Zero Data Exfiltration</text>
+</svg>

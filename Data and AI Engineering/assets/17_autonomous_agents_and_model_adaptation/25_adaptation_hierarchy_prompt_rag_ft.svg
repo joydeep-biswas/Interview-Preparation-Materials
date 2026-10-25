@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0d1527"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Node Surface Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142e2b"/>
+      <stop offset="100%" stop-color="#091d1a"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d2212"/>
+      <stop offset="100%" stop-color="#181308"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#261b3d"/>
+      <stop offset="100%" stop-color="#130c24"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b181e"/>
+      <stop offset="100%" stop-color="#1f090d"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112d38"/>
+      <stop offset="100%" stop-color="#071920"/>
+    </linearGradient>
+
+    <!-- Matched Arrow Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base Dark Card Background -->
+  <rect width="1000" height="520" rx="12" fill="url(#bg)"/>
+  <rect width="1000" height="520" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Centered Header Section -->
+  <g id="header-group">
+    <text x="500" y="32" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.3">The Model Adaptation Decision Hierarchy</text>
+    <text x="500" y="52" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Navigating In-Context Adaptation (Prompting/RAG) vs. Parameter-Efficient LoRA vs. Full Fine-Tuning</text>
+  </g>
+
+  <!-- Diagram Inner Content -->
+  
+  <!-- Top Root Problem -->
+  <rect x="360" y="85" width="280" height="60" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="110" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">New Production Capability</text>
+  <text x="500" y="130" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="11">Adaptation Strategy Evaluation</text>
+
+  <!-- Connector Down to Q1 -->
+  <path d="M 500 145 L 500 175" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  <!-- Decision Diamond Q1 -->
+  <polygon points="500,180 630,225 500,270 370,225" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="220" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="12" font-weight="700">Prompting &amp; RAG</text>
+  <text x="500" y="236" text-anchor="middle" fill="#fde68a" font-family="sans-serif" font-size="11">Achieve Target Accuracy?</text>
+
+  <!-- Branch YES (Left): In-Context Tier -->
+  <path d="M 370 225 L 230 225 L 230 290" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <rect x="250" y="210" width="100" height="20" rx="4" fill="#091d1a" stroke="#34d399" stroke-width="1"/>
+  <text x="300" y="224" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="10" font-weight="700">YES (Sufficient)</text>
+
+  <!-- Left Container: In-Context Adaptation -->
+  <rect x="40" y="295" width="380" height="195" rx="10" fill="#0c1726" stroke="#34d399" stroke-width="1.5" stroke-dasharray="4 4" filter="url(#shadow)"/>
+  <text x="60" y="322" fill="#34d399" font-family="sans-serif" font-size="13" font-weight="700">Tier 1: In-Context Adaptation (Zero Weights)</text>
+
+  <rect x="60" y="340" width="340" height="60" rx="6" fill="url(#card-green)" stroke="#059669" stroke-width="1"/>
+  <text x="75" y="362" fill="#6ee7b7" font-family="sans-serif" font-size="12" font-weight="700">Prompt Engineering &amp; Few-Shot</text>
+  <text x="75" y="382" fill="#94a3b8" font-family="sans-serif" font-size="11">Fastest iteration, zero training cost, bounded token context</text>
+
+  <rect x="60" y="415" width="340" height="60" rx="6" fill="url(#card-green)" stroke="#059669" stroke-width="1"/>
+  <text x="75" y="437" fill="#6ee7b7" font-family="sans-serif" font-size="12" font-weight="700">Modular RAG &amp; Vector Grounding</text>
+  <text x="75" y="457" fill="#94a3b8" font-family="sans-serif" font-size="11">Dynamic domain injection, citation lineage, live enterprise knowledge</text>
+
+  <!-- Branch NO (Right): Parameter Adaptation Tier -->
+  <path d="M 630 225 L 750 225 L 750 265" fill="none" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+  <rect x="645" y="210" width="95" height="20" rx="4" fill="#1f090d" stroke="#f87171" stroke-width="1"/>
+  <text x="692" y="224" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="10" font-weight="700">NO (Style/Syntax)</text>
+
+  <!-- Decision Diamond Q2 -->
+  <polygon points="750,270 870,310 750,350 630,310" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="750" y="306" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="12" font-weight="700">Compute Budget &amp;</text>
+  <text x="750" y="322" text-anchor="middle" fill="#fde68a" font-family="sans-serif" font-size="11">Dataset Volume?</text>
+
+  <!-- Q2 Left Branch: Standard (LoRA) -->
+  <path d="M 680 340 L 590 340 L 590 380" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <text x="635" y="360" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">&lt;= 50k Samples</text>
+
+  <rect x="470" y="385" width="240" height="90" rx="6" fill="url(#card-blue)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="590" y="410" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">LoRA / QLoRA PEFT</text>
+  <text x="590" y="430" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="11">Frozen base model weights</text>
+  <text x="590" y="448" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="11">Trains rank adapters (0.1% params)</text>
+  <text x="590" y="465" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="10" font-weight="600">Single GPU viable (1x A100/H100)</text>
+
+  <!-- Q2 Right Branch: Enterprise (Full FT) -->
+  <path d="M 820 340 L 890 340 L 890 380" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  <text x="860" y="360" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="10" font-weight="700">&gt;= 500k Samples</text>
+
+  <rect x="770" y="385" width="200" height="90" rx="6" fill="url(#card-purple)" stroke="#9333ea" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="870" y="410" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="12" font-weight="700">Full Parameter FT</text>
+  <text x="870" y="430" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="11">All weights updated</text>
+  <text x="870" y="448" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="11">New language / vocabulary</text>
+  <text x="870" y="465" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="10" font-weight="600">Multi-Node Cluster (8-64 GPUs)</text>
+
+</svg>

@@ -1,0 +1,21 @@
+direction: right
+
+dist_monolith: "Distributed Monolith" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  db: "Shared DB across all services (SPOF)"
+  coupling: "Synchronous HTTP chains (A->B->C->D)"
+  deploys: "Co-dependent lock-step weekend releases"
+  verdict: "Worst of both worlds"
+}
+
+autonomous: "Autonomous Microservices" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  db: "Strict Database-per-Service isolation"
+  async: "Event-driven via Kafka / Choreography"
+  deploys: "Independent CI/CD deployments 50x/day"
+  verdict: "Resilient & agile architecture"
+}
+
+dist_monolith -> autonomous: "Evolution to decoupled domain architecture"

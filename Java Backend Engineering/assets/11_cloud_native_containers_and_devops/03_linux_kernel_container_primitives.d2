@@ -1,0 +1,29 @@
+direction: right
+title: Linux Kernel Container Primitives
+
+NS: 1. Namespaces (Visibility) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  pid: "PID (Process tree)"
+  net: "NET (veth, loopback, port 8080)"
+  mnt: "MNT (Private rootfs)"
+  user: "USER (Map root to non-root UID)"
+}
+
+CG: 2. Control Groups (Quotas) {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  cpu: "CPU CFS Bandwidth (cpu.max)"
+  mem: "Memory Limit (memory.max -> OOM 137)"
+  blk: "BlkIO (Disk read/write IOPS)"
+}
+
+OFS: 3. OverlayFS (Layered Storage) {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  upper: "UpperDir: Writable layer"
+  lower3: "App Layer (app.jar)"
+  lower2: "JRE Layer (binaries)"
+  lower1: "Distroless RootFS"
+  upper -> lower3 -> lower2 -> lower1
+}

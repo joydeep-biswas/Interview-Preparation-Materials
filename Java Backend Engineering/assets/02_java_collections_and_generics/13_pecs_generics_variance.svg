@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1200" height="520" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Java Generics PECS Rule: Producer Extends, Consumer Super</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Covariance (? extends T) for Safe Reading vs. Contravariance (? super T) for Safe Writing</text>
+
+  <!-- Left: Producer Extends -->
+  <rect x="50" y="95" width="520" height="360" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="95" width="520" height="32" rx="8" fill="#0C4A6E"/>
+  <text x="310" y="117" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Producer Extends: List&lt;? extends Number&gt; (Covariance)</text>
+
+  <!-- Read Safe -->
+  <rect x="70" y="145" width="480" height="95" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="85" y="170" font-size="12" font-weight="700" fill="#34D399">&#x2714; Reading is Safe (Covariant Read):</text>
+  <text x="85" y="195" font-size="11" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Number num = list.get(0); // 100% COMPILE SAFE</text>
+  <text x="85" y="220" font-size="10" fill="#A7F3D0">Guarantee: Every element in the list is guaranteed to be a Number (or subtype).</text>
+
+  <!-- Write Unsafe -->
+  <rect x="70" y="255" width="480" height="95" rx="6" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="85" y="280" font-size="12" font-weight="700" fill="#F87171">&#x2718; Writing is FORBIDDEN (Compilation Error):</text>
+  <text x="85" y="305" font-size="11" font-family="'JetBrains Mono', monospace" fill="#FCA5A5">list.add(10); // COMPILATION ERROR!</text>
+  <text x="85" y="330" font-size="10" fill="#CBD5E1">Reason: Actual instance might be <tspan font-family="'JetBrains Mono', monospace">List&lt;Double&gt;</tspan>! Adding Integer corrupts type safety.</text>
+
+  <!-- Core Takeaway -->
+  <rect x="70" y="365" width="480" height="75" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="85" y="390" font-size="11" font-weight="700" fill="#38BDF8">Producer Principle:</text>
+  <text x="85" y="410" font-size="10" fill="#CBD5E1">If collection <tspan fill="#38BDF8" font-weight="700">PRODUCES</tspan> data for your code to read, use <tspan font-family="'JetBrains Mono', monospace" fill="#38BDF8">? extends T</tspan>.</text>
+  <text x="85" y="428" font-size="9" fill="#94A3B8">The list acts as a read-only data source.</text>
+
+  <!-- Right: Consumer Super -->
+  <rect x="630" y="95" width="520" height="360" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="630" y="95" width="520" height="32" rx="8" fill="#78350F"/>
+  <text x="890" y="117" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Consumer Super: List&lt;? super Integer&gt; (Contravariance)</text>
+
+  <!-- Write Safe -->
+  <rect x="650" y="145" width="480" height="95" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="665" y="170" font-size="12" font-weight="700" fill="#34D399">&#x2714; Writing is Safe (Contravariant Write):</text>
+  <text x="665" y="195" font-size="11" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">list.add(42); // 100% COMPILE SAFE</text>
+  <text x="665" y="220" font-size="10" fill="#A7F3D0">Guarantee: List holds Integer, Number, or Object. 42 is valid in all candidates!</text>
+
+  <!-- Read Limited -->
+  <rect x="650" y="255" width="480" height="95" rx="6" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="665" y="280" font-size="12" font-weight="700" fill="#FBBF24">&#x26A0; Reading is Severely Restricted:</text>
+  <text x="665" y="305" font-size="11" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Object obj = list.get(0); // CAN ONLY READ AS OBJECT</text>
+  <text x="665" y="330" font-size="10" fill="#CBD5E1">Reason: List might be <tspan font-family="'JetBrains Mono', monospace">List&lt;Object&gt;</tspan>; cannot guarantee elements are Integers.</text>
+
+  <!-- Core Takeaway -->
+  <rect x="650" y="365" width="480" height="75" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="665" y="390" font-size="11" font-weight="700" fill="#FBBF24">Consumer Principle:</text>
+  <text x="665" y="410" font-size="10" fill="#CBD5E1">If collection <tspan fill="#FBBF24" font-weight="700">CONSUMES</tspan> data you write into it, use <tspan font-family="'JetBrains Mono', monospace" fill="#FBBF24">? super T</tspan>.</text>
+  <text x="665" y="428" font-size="9" fill="#94A3B8">The list acts as a write-target sink.</text>
+
+  <!-- Bottom Invariant Card -->
+  <rect x="50" y="470" width="1100" height="40" rx="6" fill="#0B132B" stroke="#3B82F6" stroke-width="1"/>
+  <text x="600" y="495" font-size="12" font-weight="700" fill="#60A5FA" text-anchor="middle">Mnemonic: PECS = Producer Extends, Consumer Super (Effective Java Item 31)</text>
+</svg>

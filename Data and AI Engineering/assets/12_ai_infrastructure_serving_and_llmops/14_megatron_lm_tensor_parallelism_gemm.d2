@@ -1,0 +1,32 @@
+direction: right
+classes: {
+  col: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  row: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  sync: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+column_parallel: "1. Column-Parallel Projection" {
+  x: "Input Activation X" { class: col }
+  w1_1: "Shard W1 (GPU 0)" { class: col }
+  w1_2: "Shard W2 (GPU 1)" { class: col }
+
+  x -> w1_1
+  x -> w1_2
+}
+
+row_parallel: "2. Row-Parallel Projection" {
+  w2_1: "Shard W2_A (GPU 0)" { class: row }
+  w2_2: "Shard W2_B (GPU 1)" { class: row }
+}
+
+all_reduce: "3. NCCL All-Reduce" {
+  op: "All-Reduce Sum: Z = Z1 + Z2" { class: sync }
+  out: "Identical Output Z on both GPUs" { class: row }
+
+  op -> out
+}
+
+column_parallel.w1_1 -> row_parallel.w2_1
+column_parallel.w1_2 -> row_parallel.w2_2
+row_parallel.w2_1 -> all_reduce.op
+row_parallel.w2_2 -> all_reduce.op

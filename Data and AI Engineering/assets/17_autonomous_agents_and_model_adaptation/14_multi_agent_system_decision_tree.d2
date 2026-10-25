@@ -1,0 +1,18 @@
+classes: {
+  dag_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  single_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  super_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  swarm_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+start: "New AI Workload"
+
+workflow: "Deterministic DAG\nKnown steps, predictable flow\nZero agentic drift" { class: dag_box }
+single: "Single ReAct Agent\nDynamic problem, < 5 tools" { class: single_box }
+supervisor: "Hierarchical Multi-Agent\n> 5 tools, disparate domains\nCentral supervisor governance" { class: super_box }
+swarm: "Decentralized Swarm\nPeer-to-peer handoffs" { class: swarm_box }
+
+start -> workflow: "Predictable pipeline"
+start -> single: "Narrow domain"
+start -> supervisor: "Multiple specialized domains"
+supervisor -> swarm: "Dynamic peer coordination"

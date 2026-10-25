@@ -1,0 +1,12 @@
+# Cyclic Garbage Collection & Generational Marking
+direction: right
+
+trap: "The Reference Cycle Trap\n• A points to B, B points to A\n• del a, b drops external pointers\n• Both retain refcnt=1 -> Memory Leak!" {
+  style.stroke: "#EF4444"
+}
+
+gc: "Generational Cyclic GC\n• Gen 0: Young objects (700 threshold)\n• Gen 1: Survivors promoted (10:1 ratio)\n• Gen 2: Long-lived objects (Full scan)\n• Trial deletion isolates cycles" {
+  style.stroke: "#10B981"
+}
+
+trap -> gc: "Resolved by GC"

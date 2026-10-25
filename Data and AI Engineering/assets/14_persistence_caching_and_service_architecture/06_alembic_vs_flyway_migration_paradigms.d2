@@ -1,0 +1,22 @@
+classes: {
+  alembic_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  flyway_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+alembic: "Alembic Paradigm (Python ORM Centric)" {
+  models: "SQLAlchemy DeclarativeBase Models" { class: alembic_box }
+  engine: "Alembic Autogenerate Engine\n(Diffs models vs live DB catalog)" { class: alembic_box }
+  rev: "Revision File (.py)\nupgrade() & downgrade() hooks" { class: alembic_box }
+
+  models -> engine: "inspect metadata"
+  engine -> rev: "synthesize migration script"
+}
+
+flyway: "Pyway / Flyway Paradigm (Raw SQL Centric)" {
+  sql: "Handcrafted DDL Scripts (.sql)\nV1.0__create_tables.sql" { class: flyway_box }
+  runner: "Pyway Migration Runner\n(Calculates SHA-256 Checksums)" { class: flyway_box }
+  history: "pyway_schema_history Table\n(Immutable audit trail in DB)" { class: flyway_box }
+
+  sql -> runner: "execute in lexicographical order"
+  runner -> history: "record checksum and status"
+}

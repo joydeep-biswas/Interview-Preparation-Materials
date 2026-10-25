@@ -1,0 +1,16 @@
+classes: {
+  spec_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  csi_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  pv_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+pvc: "1. PersistentVolumeClaim (PVC)\nWorkload requests 500GB NVMe" { class: spec_box }
+sc: "2. StorageClass\nDefines CSI provisioner & parameters" { class: spec_box }
+csi: "3. CSI External-Provisioner\nCalls Cloud API to allocate disk" { class: csi_box }
+pv: "4. PersistentVolume (PV)\nBinds 1:1 to PVC with volumeHandle" { class: pv_box }
+node: "5. Kubelet & CSI Node Plugin\nAttaches, formats filesystem & bind-mounts" { class: pv_box }
+
+pvc -> sc: "References StorageClass"
+sc -> csi: "Triggers dynamic provisioning"
+csi -> pv: "Creates PV representation in etcd"
+pv -> node: "Attaches & mounts volume to Pod"

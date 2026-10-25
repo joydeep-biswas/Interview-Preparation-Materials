@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="540" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="540" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">High-Throughput I/O: Traditional 4-Copy vs Zero-Copy Transfer</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">How FileChannel.transferTo() eliminates user-space JVM memory copies and kernel context switches</text>
+
+  <!-- Top Panel: Traditional 4-Copy Transfer -->
+  <rect x="40" y="85" width="1040" height="195" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#EF4444" stroke-width="1.5"/>
+  <rect x="40" y="85" width="1040" height="30" rx="8" fill="#450A0A" fill-opacity="0.8" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="560" y="105" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">TRADITIONAL I/O (FileInputStream / SocketOutputStream): 4 DATA COPIES &amp; 4 CONTEXT SWITCHES</text>
+
+  <!-- Step 1: Disk Cache -->
+  <rect x="60" y="130" width="180" height="65" rx="6" fill="#0F172A" stroke="#64748B" stroke-width="1"/>
+  <text x="150" y="152" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Physical Disk</text>
+  <text x="150" y="172" font-size="9.5" fill="#94A3B8" text-anchor="middle">Storage subsystem file block</text>
+
+  <!-- Step 2: OS Page Cache -->
+  <rect x="290" y="130" width="190" height="65" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="385" y="152" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">OS Page Cache (Kernel)</text>
+  <text x="385" y="172" font-size="9.5" fill="#93C5FD" text-anchor="middle">Kernel memory buffer</text>
+
+  <!-- Step 3: JVM User Space (The Bottleneck!) -->
+  <rect x="530" y="125" width="200" height="75" rx="6" fill="#450A0A" fill-opacity="0.4" stroke="#EF4444" stroke-width="2"/>
+  <text x="630" y="147" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">JVM User Buffer (Heap)</text>
+  <text x="630" y="165" font-size="9.5" font-family="monospace" fill="#FCA5A5" text-anchor="middle">byte[] buffer = new byte[8192];</text>
+  <text x="630" y="182" font-size="9.5" font-weight="600" fill="#EF4444" text-anchor="middle">CPU Copy + Context Switch!</text>
+
+  <!-- Step 4: Socket Buffer -->
+  <rect x="780" y="130" width="180" height="65" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="870" y="152" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle">Socket Buffer (Kernel)</text>
+  <text x="870" y="172" font-size="9.5" fill="#FDE68A" text-anchor="middle">Kernel network send buffer</text>
+
+  <!-- Step 5: NIC -->
+  <rect x="990" y="130" width="70" height="65" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="1025" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">NIC</text>
+  <text x="1025" y="174" font-size="9" fill="#94A3B8" text-anchor="middle">Wire</text>
+
+  <!-- Arrows Top Row -->
+  <line x1="240" y1="162" x2="290" y2="162" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <text x="265" y="152" font-size="8.5" fill="#38BDF8" text-anchor="middle">1. DMA</text>
+
+  <line x1="480" y1="162" x2="530" y2="162" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+  <text x="505" y="152" font-size="8.5" fill="#EF4444" text-anchor="middle">2. CPU</text>
+
+  <line x1="730" y1="162" x2="780" y2="162" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+  <text x="755" y="152" font-size="8.5" fill="#EF4444" text-anchor="middle">3. CPU</text>
+
+  <line x1="960" y1="162" x2="990" y2="162" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="975" y="152" font-size="8.5" fill="#34D399" text-anchor="middle">4. DMA</text>
+
+  <text x="560" y="225" font-size="10" fill="#FCA5A5" text-anchor="middle">4 Context Switches (User &lt;-&gt; Kernel) + 2 High-Overhead CPU Memory Copies saturate bus bandwidth and pollute L1/L2 caches.</text>
+
+  <!-- Bottom Panel: Zero-Copy Transfer -->
+  <rect x="40" y="300" width="1040" height="200" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="40" y="300" width="1040" height="30" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="560" y="320" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">ZERO-COPY (FileChannel.transferTo / sendfile): 2 DMA COPIES, 0 CPU COPIES &amp; 2 CONTEXT SWITCHES</text>
+
+  <!-- Step 1: Disk Cache -->
+  <rect x="60" y="350" width="180" height="70" rx="6" fill="#0F172A" stroke="#64748B" stroke-width="1"/>
+  <text x="150" y="375" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Physical Disk</text>
+  <text x="150" y="395" font-size="9.5" fill="#94A3B8" text-anchor="middle">Storage subsystem file block</text>
+
+  <!-- Step 2: OS Page Cache -->
+  <rect x="300" y="350" width="230" height="70" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="2"/>
+  <text x="415" y="375" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">OS Page Cache (Kernel Space)</text>
+  <text x="415" y="395" font-size="9.5" fill="#A7F3D0" text-anchor="middle">Data resides in kernel memory only</text>
+
+  <!-- Middle: Bypass User Space Banner -->
+  <rect x="580" y="355" width="190" height="60" rx="6" fill="#0F172A" stroke="#334155" stroke-dasharray="3 3" stroke-width="1"/>
+  <text x="675" y="377" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">JVM User Space Bypassed!</text>
+  <text x="675" y="395" font-size="9" fill="#94A3B8" text-anchor="middle">Kernel descriptor reference passed</text>
+  <text x="675" y="407" font-size="9" fill="#94A3B8" text-anchor="middle">(Socket buffer holds only pointer &amp; len)</text>
+
+  <!-- Step 3: NIC Buffer -->
+  <rect x="830" y="350" width="230" height="70" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="2"/>
+  <text x="945" y="375" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">NIC Buffer (Gather DMA)</text>
+  <text x="945" y="395" font-size="9.5" fill="#A7F3D0" text-anchor="middle">Hardware gathers data straight from cache!</text>
+
+  <!-- Connectors Bottom Row -->
+  <line x1="240" y1="385" x2="300" y2="385" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="270" y="375" font-size="8.5" fill="#34D399" text-anchor="middle">1. DMA Copy</text>
+
+  <!-- Direct Gather DMA from Page Cache to NIC -->
+  <path d="M 530.0 385.0 L 540.0 385.0 C 678.0 385.0, 678.0 385.0, 816.0 385.0 L 830.0 385.0" fill="none" stroke="#34D399" stroke-width="2.5" marker-end="url(#arr-g)"/>
+  <text x="675" y="450" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">2. Direct Gather DMA Copy (Zero CPU Overhead!)</text>
+
+  <text x="560" y="485" font-size="10" fill="#A7F3D0" text-anchor="middle">Why Kafka &amp; Netty are so fast: Operating System directly routes data from page cache to network interface card with zero user-space RAM buffering.</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="508" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="524" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Zero-Copy Invariant: FileChannel.transferTo() instructs the OS kernel to transfer data directly from the storage page cache to the network socket, bypassing JVM heap entirely.</text>
+</svg>

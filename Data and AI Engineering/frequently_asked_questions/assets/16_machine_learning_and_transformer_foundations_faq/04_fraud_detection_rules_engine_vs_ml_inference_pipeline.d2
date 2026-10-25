@@ -1,0 +1,30 @@
+direction: right
+classes: {
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6" } }
+  diamond_box: { shape: diamond, style: { fill: "#111827", stroke: "#F59E0B" } }
+  red_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+  ml_container: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  good_box: { style: { fill: "#064E3B", stroke: "#10B981" } }
+  stepup_box: { style: { fill: "#111827", stroke: "#F59E0B" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+Tx: "Incoming Transaction" { class: blue_box }
+Rules: "Deterministic Blacklist?" { class: diamond_box }
+Block: "Immediate Rejection" { class: red_box }
+
+MLPipeline: "ML Inference Pipeline" {
+  class: ml_container
+  Store: "Feature Store Lookup" { class: card_dark }
+  Model: "XGBoost Scoring" { class: card_dark }
+  Store -> Model
+}
+
+Approve: "Approve Tx" { class: good_box }
+StepUp: "Step-Up 2FA" { class: stepup_box }
+
+Tx -> Rules
+Rules -> Block: "MATCH"
+Rules -> MLPipeline.Store: "PASS"
+MLPipeline.Model -> Approve: "Score <= 0.85"
+MLPipeline.Model -> StepUp: "Score > 0.85"

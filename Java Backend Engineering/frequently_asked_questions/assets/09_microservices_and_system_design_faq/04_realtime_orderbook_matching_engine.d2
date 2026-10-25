@@ -1,0 +1,34 @@
+direction: right
+
+ingress: "1. Market Ingress" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  orders: "50,000+ orders/sec (FIX/UDP)"
+  risk: "Zero-allocation pre-trade risk check"
+}
+
+disruptor: "2. LMAX Disruptor" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  ring: "Pre-allocated circular RingBuffer"
+  lock_free: "Lock-free sequence tracking (~50ns)"
+}
+
+matching: "3. Matching Core" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  single_thread: "Single thread pinned to CPU core (ZERO LOCKS)"
+  orderbook: "Price-time priority matching (TreeSet / Radix)"
+}
+
+fanout: "4. Fan-Out & Clearing" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  md: "UDP multicast market data feed"
+  clearing: "Chronicle Queue / Kafka trade journal"
+  latency: "P99 &lt; 25 microseconds"
+}
+
+ingress -> disruptor: "Enqueue sequence"
+disruptor -> matching: "Consume single writer"
+matching -> fanout: "Broadcast execution"

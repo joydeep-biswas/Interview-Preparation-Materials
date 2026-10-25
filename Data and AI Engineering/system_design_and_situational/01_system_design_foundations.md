@@ -6,47 +6,9 @@ A comprehensive, production-grade guide covering universal distributed systems f
 
 ## Architectural Overview: Distributed Data & AI Platform Core Blueprint
 
-```mermaid
-flowchart TD
-    subgraph Ingestion_Backplane ["1. High-Throughput Ingestion & Event Stream"]
-        Sources["Upstream Sources (CDC / Kafka / Telemetry / Documents)"]
-        IngressLog["Distributed Append Log<br/>(Kafka / Auto Loader / Event Hubs)"]
-        Sources --> IngressLog
-    end
+![Distributed Data & AI Platform Core Blueprint](assets/01_system_design_foundations/01_distributed_data_ai_platform_core_blueprint.svg)
 
-    subgraph Storage_Tier ["2. Disaggregated Lakehouse Storage (Object Store)"]
-        direction TB
-        Bronze["Raw Bronze Layer (Append-Only Immutable Parquet)"]
-        Silver["Curated Silver Layer (Delta Lake / Iceberg ACID Log)"]
-        Gold["Aggregated Gold Layer (Z-Order / Partitioned Marts)"]
-        IngressLog --> Bronze --> Silver --> Gold
-    end
-
-    subgraph Compute_Tier ["3. Ephemeral Distributed Compute & Query Engines"]
-        direction LR
-        SparkCluster["Apache Spark / Databricks<br/>(Catalyst Optimizer & Tungsten Shuffle)"]
-        OLAPServing["Real-Time OLAP Engine<br/>(ClickHouse / Apache Pinot)"]
-        VectorEngine["Vector Indexing & ANN<br/>(HNSW / IVF-PQ / Milvus)"]
-    end
-
-    subgraph Metadata_Governance ["4. Unified Metadata & Catalog Governance"]
-        direction TB
-        Catalog["Distributed Catalog (Unity Catalog / Iceberg REST)"]
-        TransactionCoordinator["ACID Log & Snapshot Manager (Raft / Object Store Conditional Put)"]
-    end
-
-    Silver <--> SparkCluster
-    Gold <--> OLAPServing
-    Gold <--> VectorEngine
-    SparkCluster <--> Catalog
-    OLAPServing <--> Catalog
-    Catalog <--> TransactionCoordinator
-
-    style Ingestion_Backplane fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Storage_Tier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Compute_Tier fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Metadata_Governance fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/01_system_design_foundations/01_distributed_data_ai_platform_core_blueprint.d2](assets/01_system_design_foundations/01_distributed_data_ai_platform_core_blueprint.d2)
 
 ---
 
@@ -77,29 +39,9 @@ In modern cloud data architecture, separating compute from persistent storage is
 
 Analytical workloads rarely scan all columns in a wide table; they scan a few columns across millions of rows.
 
-```mermaid
-flowchart TD
-    subgraph ParquetFile ["Apache Parquet File Architecture"]
-        Header["Magic Header: PAR1"]
-        RowGroup1["Row Group 1 (~128MB - 512MB)"]
-        RowGroup2["Row Group 2 (~128MB - 512MB)"]
-        Footer["File Metadata Footer<br/>(Column Chunk Offsets, Min/Max Stats, Schema)"]
-        FooterLen["4-byte Footer Length + Magic PAR1"]
-        
-        Header --> RowGroup1 --> RowGroup2 --> Footer --> FooterLen
-    end
+![Apache Parquet Columnar Storage Format & Binary Layout](assets/01_system_design_foundations/02_parquet_columnar_storage_format.svg)
 
-    subgraph ColumnChunks ["Inside Row Group 1"]
-        ColA["Column A Chunk<br/>[Page 1 (Dictionary)] [Page 2 (Data)]"]
-        ColB["Column B Chunk<br/>[Page 1 (Data: RLE/Bit-Packed)]"]
-    end
-
-    RowGroup1 --> ColA
-    RowGroup1 --> ColB
-
-    style ParquetFile fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ColumnChunks fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_system_design_foundations/02_parquet_columnar_storage_format.d2](assets/01_system_design_foundations/02_parquet_columnar_storage_format.d2)
 
 1. **Physical Layout:**
    - **Row Group:** Horizontal partitioning of data containing e.g. 1,000,000 rows.
@@ -130,27 +72,9 @@ Object stores are fundamentally key-value systems; they lack POSIX atomic file a
 
 Distributed engines like Apache Spark break SQL queries into a directed acyclic graph (DAG) of stages separated by **shuffle boundaries**.
 
-```mermaid
-flowchart LR
-    subgraph Stage1 ["Stage 1: Map Stage"]
-        W1["Worker 1 (Scan Table A)"] --> HashPart1["Hash Partitioner (Key % N)"]
-        W2["Worker 2 (Scan Table A)"] --> HashPart2["Hash Partitioner (Key % N)"]
-    end
+![Distributed Query Planning: Sort Shuffle Mechanics & Disk Spills](assets/01_system_design_foundations/03_distributed_query_planning_shuffle_mechanics.svg)
 
-    subgraph Shuffle_Disk ["Shuffle Disk Spill Boundary"]
-        HashPart1 -->|"Network / Spill"| ShuffleBlock["Shuffle Data Files (.data + .index)"]
-        HashPart2 -->|"Network / Spill"| ShuffleBlock
-    end
-
-    subgraph Stage2 ["Stage 2: Reduce Stage"]
-        ShuffleBlock --> Reducer1["Reducer Worker 1 (Key Partition 0)"]
-        ShuffleBlock --> Reducer2["Reducer Worker 2 (Key Partition 1)"]
-    end
-
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Shuffle_Disk fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Stage2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_system_design_foundations/03_distributed_query_planning_shuffle_mechanics.d2](assets/01_system_design_foundations/03_distributed_query_planning_shuffle_mechanics.d2)
 
 1. **Shuffle Cost Breakdown:**
    - Serialization to bytes $\to$ write to disk on mapper $\to$ network transfer over rack $\to$ deserialization on reducer $\to$ sort/merge in reducer RAM.

@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Pillar 1: Latency -->
+  <rect x="25" y="30" width="215" height="260" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="40" y="55" class="title-txt" fill="#93C5FD">Pillar 1: System Latency</text>
+
+  <rect x="35" y="75" width="195" height="60" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="45" y="98" class="title-txt" text-anchor="start">TTFT</text>
+  <text x="45" y="115" class="sub-txt" text-anchor="start">Time-to-First-Token (&lt; 400ms)</text>
+
+  <rect x="35" y="145" width="195" height="60" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="45" y="168" class="title-txt" text-anchor="start">TPOT</text>
+  <text x="45" y="185" class="sub-txt" text-anchor="start">Time-Per-Output-Token (&lt; 30ms)</text>
+
+  <rect x="35" y="215" width="195" height="60" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="45" y="238" class="title-txt" text-anchor="start">E2E Latency</text>
+  <text x="45" y="255" class="sub-txt" text-anchor="start">Total duration (&lt; 2.5s)</text>
+
+  <!-- Pillar 2: FinOps -->
+  <rect x="260" y="30" width="215" height="260" rx="10" ry="10" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="275" y="55" class="title-txt" fill="#6EE7B7">Pillar 2: Cost &amp; FinOps</text>
+
+  <rect x="270" y="75" width="195" height="60" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="280" y="98" class="title-txt" text-anchor="start" fill="#10B981">Prompt Tokens</text>
+  <text x="280" y="115" class="sub-txt" text-anchor="start">Input billable context volume</text>
+
+  <rect x="270" y="145" width="195" height="60" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="280" y="168" class="title-txt" text-anchor="start" fill="#10B981">Completion Tokens</text>
+  <text x="280" y="185" class="sub-txt" text-anchor="start">Generated response tokens</text>
+
+  <rect x="270" y="215" width="195" height="60" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="280" y="238" class="title-txt" text-anchor="start" fill="#10B981">Unit Cost Attribution</text>
+  <text x="280" y="255" class="sub-txt" text-anchor="start">Dollar cost per tenant &amp; user</text>
+
+  <!-- Pillar 3: Retrieval Quality -->
+  <rect x="495" y="30" width="215" height="260" rx="10" ry="10" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="510" y="55" class="title-txt" fill="#C4B5FD">Pillar 3: Retrieval Quality</text>
+
+  <rect x="505" y="75" width="195" height="60" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="515" y="98" class="title-txt" text-anchor="start" fill="#C084FC">Vector Latency</text>
+  <text x="515" y="115" class="sub-txt" text-anchor="start">HNSW + BM25 search duration</text>
+
+  <rect x="505" y="145" width="195" height="60" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="515" y="168" class="title-txt" text-anchor="start" fill="#C084FC">Cache Hit Ratio</text>
+  <text x="515" y="185" class="sub-txt" text-anchor="start">% queries served from Redis</text>
+
+  <rect x="505" y="215" width="195" height="60" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="515" y="238" class="title-txt" text-anchor="start" fill="#C084FC">Precision &amp; Recall</text>
+  <text x="515" y="255" class="sub-txt" text-anchor="start">Ragas quality score</text>
+
+  <!-- Pillar 4: Safety & Faithfulness -->
+  <rect x="730" y="30" width="205" height="260" rx="10" ry="10" fill="#0D1526" stroke="#EC4899" stroke-width="1.5"/>
+  <text x="745" y="55" class="title-txt" fill="#FBCFE8">Pillar 4: Safety &amp; Grounding</text>
+
+  <rect x="740" y="75" width="185" height="60" rx="6" ry="6" fill="#111827" stroke="#EC4899" stroke-width="1.5"/>
+  <text x="750" y="98" class="title-txt" text-anchor="start" fill="#F472B6">Groundedness</text>
+  <text x="750" y="115" class="sub-txt" text-anchor="start">Zero hallucination check</text>
+
+  <rect x="740" y="145" width="185" height="60" rx="6" ry="6" fill="#111827" stroke="#EC4899" stroke-width="1.5"/>
+  <text x="750" y="168" class="title-txt" text-anchor="start" fill="#F472B6">Toxicity &amp; PII Flags</text>
+  <text x="750" y="185" class="sub-txt" text-anchor="start">Presidio / Llama-Guard</text>
+
+  <rect x="740" y="215" width="185" height="60" rx="6" ry="6" fill="#111827" stroke="#EC4899" stroke-width="1.5"/>
+  <text x="750" y="238" class="title-txt" text-anchor="start" fill="#F472B6">Feedback Flywheel</text>
+  <text x="750" y="255" class="sub-txt" text-anchor="start">Explicit user thumbs up/down</text>
+</svg>

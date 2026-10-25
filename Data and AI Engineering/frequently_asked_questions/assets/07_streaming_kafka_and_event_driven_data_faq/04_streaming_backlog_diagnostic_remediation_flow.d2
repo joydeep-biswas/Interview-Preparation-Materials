@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+backlog: "Backlog Detected\nInput Rate > Processing Rate" { class: card; style.stroke: "#EF4444" }
+s1: "1. Inspect Spark UI Stages\nLatency in GC, Shuffling, or External APIs?" { class: card; style.stroke: "#3B82F6" }
+s2: "2. Check Sink Bottleneck\nDelta table bloated with small files? Run OPTIMIZE" { class: card; style.stroke: "#F59E0B" }
+s3: "3. Tune Micro-Capacity\nIncrease maxFilesPerTrigger to saturate cores" { class: card; style.stroke: "#10B981" }
+s4: "4. Scale Worker Compute\nMemory-Optimized or Photon instances" { class: card; style.stroke: "#8B5CF6" }
+
+backlog -> s1 -> s2 -> s3 -> s4

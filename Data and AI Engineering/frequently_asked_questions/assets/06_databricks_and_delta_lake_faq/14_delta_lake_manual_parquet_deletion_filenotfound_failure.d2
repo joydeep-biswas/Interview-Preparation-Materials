@@ -1,0 +1,26 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+storage: "Physical Cloud Storage (S3/ADLS)" {
+  class: box
+  style.stroke: "#3B82F6"
+  f1: "part-00001.parquet (Active)"
+  f2: "part-00002.parquet ❌ MANUALLY DELETED via AWS CLI!" { style.stroke: "#EF4444" }
+  f3: "part-00003.parquet (Active)"
+}
+
+log_dir: "_delta_log/ (Single Source of Truth)" {
+  class: box
+  style.stroke: "#10B981"
+  commit: "000014.json\nActive Files: [part-00001, part-00002, part-00003]"
+}
+
+engine: "Spark Catalyst Query Planner\nConstructs Scan Plan from _delta_log/" { class: box; style.stroke: "#8B5CF6" }
+exec: "Executor Worker Node\nRequests part-00002 from Cloud" { class: box; style.stroke: "#F59E0B" }
+crash: "💥 java.io.FileNotFoundException\nQuery Aborts Immediately!" { class: box; style.stroke: "#EF4444" }
+
+log_dir -> engine -> exec
+exec -> storage: "Requests Missing File"
+storage -> crash

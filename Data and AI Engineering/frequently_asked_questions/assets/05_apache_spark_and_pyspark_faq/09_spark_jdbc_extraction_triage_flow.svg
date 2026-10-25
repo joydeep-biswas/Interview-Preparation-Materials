@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+      .lbl { fill: #CBD5E1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="380" fill="#0B0F19"/>
+
+  <!-- Left: Issue Alert -->
+  <g transform="translate(30, 130)">
+    <rect width="210" height="110" rx="10" ry="10" fill="#1F2937" stroke="#EF4444" stroke-width="2"/>
+    <text x="105" y="32" class="title" fill="#FCA5A5">Slow JDBC Read Alert</text>
+    <line x1="15" y1="44" x2="195" y2="44" stroke="#374151" stroke-width="1"/>
+    <text x="105" y="68" class="body-txt" text-anchor="middle">• Single worker core saturated</text>
+    <text x="105" y="88" class="body-txt" text-anchor="middle" fill="#FCA5A5">• Cluster idling at 0% CPU</text>
+  </g>
+
+  <path fill="none" d="M 240 185 L 290 185" class="edge" stroke="#EF4444" marker-end="url(#arr-blue)"/>
+
+  <!-- Step 1: Partition Check -->
+  <g transform="translate(290, 130)">
+    <rect width="220" height="110" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="110" y="30" class="title" fill="#93C5FD">1. Partitioning Check</text>
+    <line x1="15" y1="42" x2="205" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="20" y="65" class="body-txt">• numPartitions specified?</text>
+    <text x="20" y="85" class="body-txt">• partitionColumn configured?</text>
+    <text x="20" y="103" class="body-txt" fill="#93C5FD">Missing = Single JDBC stream</text>
+  </g>
+
+  <!-- Missing Partitioning Fix (Up branch) -->
+  <g transform="translate(290, 20)">
+    <rect width="220" height="75" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="110" y="26" class="title" fill="#6EE7B7">Fix: Add Partitioning</text>
+    <line x1="15" y1="36" x2="205" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <text x="110" y="55" class="body-txt" text-anchor="middle" fill="#A7F3D0">Set numPartitions=20 + bounds</text>
+  </g>
+  <path fill="none" d="M 400 130 L 400 95" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- Step 1 to Step 2 -->
+  <path fill="none" d="M 510 185 L 560 185" class="edge" stroke="#3B82F6" marker-end="url(#arr-amber)"/>
+
+  <!-- Step 2: Distribution Skew -->
+  <g transform="translate(560, 130)">
+    <rect width="210" height="110" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="105" y="30" class="title" fill="#FCD34D">2. Distribution Skew</text>
+    <line x1="15" y1="42" x2="195" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="15" y="65" class="body-txt">• Is column integer / date?</text>
+    <text x="15" y="85" class="body-txt">• Uniform range without gaps?</text>
+    <text x="15" y="103" class="body-txt" fill="#FCD34D">Skewed column = Stragglers</text>
+  </g>
+
+  <!-- Step 2 to Step 3 -->
+  <path fill="none" d="M 770 185 L 810 185" class="edge" stroke="#F59E0B" marker-end="url(#arr-green)"/>
+
+  <!-- Step 3: FetchSize -->
+  <g transform="translate(810, 130)">
+    <rect width="180" height="110" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="90" y="30" class="title" fill="#6EE7B7">3. FetchSize Check</text>
+    <line x1="15" y1="42" x2="165" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="15" y="65" class="body-txt">• Default fetchsize = 10</text>
+    <text x="15" y="85" class="body-txt">• Millions of network hops</text>
+    <text x="15" y="103" class="body-txt" fill="#6EE7B7">Fix: Set fetchsize=50000</text>
+  </g>
+
+  <!-- Step 4: Downwards DB Execution -->
+  <g transform="translate(560, 275)">
+    <rect width="430" height="80" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="215" y="26" class="title" fill="#C4B5FD">4. Source Database Indexing &amp; Query Plan</text>
+    <line x1="15" y1="36" x2="415" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="56" class="body-txt">• Check if database is executing full table scan on unindexed column</text>
+    <text x="20" y="72" class="body-txt" fill="#C4B5FD">• Fix: Add B-tree index on partitionColumn in source OLTP DB</text>
+  </g>
+
+  <path fill="none" d="M 900 240 L 900 255 C 900 265, 800 265, 800 275" class="edge" stroke="#8B5CF6"/>
+</svg>

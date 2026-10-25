@@ -1,0 +1,27 @@
+direction: down
+title: PACELC Theorem: Trade-Offs in Normal vs. Partition Operations
+
+state: Is Cluster Currently Partitioned? {
+  shape: diamond
+}
+
+partition_mode: Partition Mode (P): Network Split {
+  pa: PA: High Availability (Cassandra, DynamoDB) {
+    behavior: "Accepts writes, returns stale reads"
+  }
+  pc: PC: Strong Consistency (Spanner, CockroachDB) {
+    behavior: "Rejects writes, preserves correctness"
+  }
+}
+
+normal_mode: Normal Operation (E): Latency vs Consistency {
+  el: EL: Low Latency (Cassandra ONE, DynamoDB Eventual) {
+    behavior: "Sub-2ms local replica read; skips quorum"
+  }
+  ec: EC: Strong Consistency (Spanner TrueTime, Postgres Sync) {
+    behavior: "Synchronous multi-replica commit (30ms+)"
+  }
+}
+
+state -> partition_mode: "If Partitioned (P)"
+state -> normal_mode: "Else Normal (E)"

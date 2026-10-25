@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1180" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1180" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="590" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">JVM Thread Execution Stack: Stack Frame Internal Architecture</text>
+  <text x="590" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Method Invocation Call Stack -&gt; Local Variables Array (LVA) -&gt; Operand Stack Scratchpad -&gt; Frame Data Control Links</text>
+  <line x1="40" y1="68" x2="1140" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Left Side: Thread Stack Call Sequence -->
+  <rect x="50" y="105" width="260" height="360" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="105" width="260" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="180" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">Active Thread Call Stack</text>
+
+  <rect x="70" y="150" width="220" height="65" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="180" y="175" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Current Active Frame (Top)</text>
+  <text x="85" y="198" font-size="8" font-family="'JetBrains Mono', monospace" fill="#A7F3D0">calculateTax(amount, rate)</text>
+
+  <rect x="70" y="230" width="220" height="55" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="180" y="252" font-size="9" font-weight="700" fill="#CBD5E1" text-anchor="middle">Calling Frame (Caller)</text>
+  <text x="85" y="272" font-size="8" font-family="'JetBrains Mono', monospace" fill="#94A3B8">processOrder(order)</text>
+
+  <rect x="70" y="300" width="220" height="55" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="180" y="322" font-size="9" font-weight="700" fill="#CBD5E1" text-anchor="middle">Controller Frame</text>
+  <text x="85" y="342" font-size="8" font-family="'JetBrains Mono', monospace" fill="#94A3B8">checkout(cart)</text>
+
+  <text x="180" y="385" font-size="8" fill="#94A3B8" text-anchor="middle">&#x2022; Default stack size: -Xss1m</text>
+  <text x="180" y="402" font-size="8" fill="#CBD5E1">&#x2022; Pushes on method invoke</text>
+  <text x="180" y="420" font-size="8" fill="#34D399">&#x2714; Pops on return / throw</text>
+  <text x="180" y="445" font-size="7" fill="#FCA5A5">Recursion limit &#x2192; StackOverflowError</text>
+
+  <!-- Right Side: Frame Detail Breakdown -->
+  <rect x="340" y="105" width="790" height="360" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="340" y="105" width="790" height="30" rx="8" fill="#064E3B"/>
+  <text x="735" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">Deep Dive: Anatomy of a Single JVM Stack Frame</text>
+
+  <!-- Part 1: Local Variables Array -->
+  <rect x="360" y="150" width="240" height="295" rx="6" fill="#1E293B" stroke="#0284C7"/>
+  <text x="480" y="175" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">1. Local Variables Array (LVA)</text>
+
+  <rect x="375" y="195" width="210" height="35" rx="4" fill="#0B132B" stroke="#0284C7"/>
+  <text x="385" y="215" font-size="8" font-weight="700" fill="#7DD3FC">Slot 0: "this" Pointer</text>
+  <text x="385" y="226" font-size="7" fill="#CBD5E1">Implicit receiver in non-static methods</text>
+
+  <rect x="375" y="240" width="210" height="35" rx="4" fill="#0B132B" stroke="#334155"/>
+  <text x="385" y="260" font-size="8" fill="#CBD5E1">Slot 1: double amount (Part 1)</text>
+  <text x="385" y="271" font-size="7" fill="#94A3B8">64-bit primitives occupy 2 slots</text>
+
+  <rect x="375" y="285" width="210" height="35" rx="4" fill="#0B132B" stroke="#334155"/>
+  <text x="385" y="305" font-size="8" fill="#CBD5E1">Slot 2: double amount (Part 2)</text>
+
+  <rect x="375" y="330" width="210" height="35" rx="4" fill="#0B132B" stroke="#334155"/>
+  <text x="385" y="350" font-size="8" fill="#CBD5E1">Slot 3: double rate</text>
+
+  <text x="480" y="395" font-size="8" fill="#CBD5E1" text-anchor="middle">&#x2022; Statically sized at compile time</text>
+  <text x="480" y="415" font-size="8" fill="#34D399" text-anchor="middle">&#x2714; Zero runtime resizing overhead</text>
+
+  <!-- Part 2: Operand Stack -->
+  <rect x="620" y="150" width="230" height="295" rx="6" fill="#1E293B" stroke="#10B981"/>
+  <text x="735" y="175" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">2. Operand Stack (LIFO)</text>
+
+  <rect x="635" y="195" width="200" height="40" rx="4" fill="#06201B" stroke="#10B981"/>
+  <text x="735" y="215" font-size="8" font-family="'JetBrains Mono', monospace" fill="#34D399" text-anchor="middle">dload_1 (Pushes amount)</text>
+  <text x="735" y="228" font-size="7" fill="#A7F3D0" text-anchor="middle">Top of Stack</text>
+
+  <rect x="635" y="245" width="200" height="40" rx="4" fill="#06201B" stroke="#10B981"/>
+  <text x="735" y="265" font-size="8" font-family="'JetBrains Mono', monospace" fill="#34D399" text-anchor="middle">dload_3 (Pushes rate)</text>
+
+  <rect x="635" y="295" width="200" height="40" rx="4" fill="#06201B" stroke="#34D399"/>
+  <text x="735" y="315" font-size="8" font-family="'JetBrains Mono', monospace" fill="#6EE7B7" text-anchor="middle">dmul (Pops 2, pushes result)</text>
+
+  <text x="735" y="365" font-size="8" fill="#CBD5E1" text-anchor="middle">&#x2022; CPU register scratchpad emulation</text>
+  <text x="735" y="385" font-size="8" fill="#CBD5E1" text-anchor="middle">&#x2022; Max depth set at compilation:</text>
+  <text x="735" y="402" font-size="7" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">Code: stack=4, locals=5</text>
+
+  <!-- Part 3: Frame Data -->
+  <rect x="870" y="150" width="240" height="295" rx="6" fill="#1E293B" stroke="#8B5CF6"/>
+  <text x="990" y="175" font-size="10" font-weight="700" fill="#C4B5FD" text-anchor="middle">3. Frame Data &amp; Links</text>
+
+  <rect x="885" y="195" width="210" height="45" rx="4" fill="#1E1B4B" stroke="#8B5CF6"/>
+  <text x="895" y="215" font-size="8" font-weight="700" fill="#C084FC">Dynamic Linking:</text>
+  <text x="895" y="230" font-size="7" fill="#CBD5E1">Pointer to Metaspace Constant Pool</text>
+
+  <rect x="885" y="250" width="210" height="45" rx="4" fill="#1E1B4B" stroke="#334155"/>
+  <text x="895" y="270" font-size="8" font-weight="700" fill="#E2E8F0">Return Program Counter:</text>
+  <text x="895" y="285" font-size="7" fill="#CBD5E1">Calling method resume address</text>
+
+  <rect x="885" y="305" width="210" height="45" rx="4" fill="#1E1B4B" stroke="#EF4444"/>
+  <text x="895" y="325" font-size="8" font-weight="700" fill="#F87171">Exception Dispatch Table:</text>
+  <text x="895" y="340" font-size="7" fill="#CBD5E1">Bytecode range &#x2192; catch handler PC</text>
+
+  <text x="990" y="385" font-size="8" fill="#CBD5E1" text-anchor="middle">&#x2022; Manages method invocation</text>
+  <text x="990" y="402" font-size="8" fill="#CBD5E1" text-anchor="middle">  completion and stack unwinding</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="50" y="475" width="1080" height="30" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="590" y="495" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Stack Frame Contract: When a method terminates (via return opcode or unhandled exception), its stack frame is instantly popped. All local reference variables are reclaimed with zero GC overhead.</text>
+</svg>

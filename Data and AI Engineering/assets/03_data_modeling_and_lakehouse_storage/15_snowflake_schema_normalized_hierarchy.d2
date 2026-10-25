@@ -1,0 +1,53 @@
+direction: right
+title: Snowflake Schema: Normalized Dimension Hierarchies
+
+fact_sales: FACT_SALES {
+  shape: sql_table
+  sales_fact_id: bigint [pk]
+  product_sk: int [fk]
+  store_sk: int [fk]
+}
+
+dim_product: DIM_PRODUCT {
+  shape: sql_table
+  product_sk: int [pk]
+  subcategory_id: int [fk]
+}
+
+dim_subcategory: DIM_SUBCATEGORY {
+  shape: sql_table
+  subcategory_id: int [pk]
+  category_id: int [fk]
+}
+
+dim_category: DIM_CATEGORY {
+  shape: sql_table
+  category_id: int [pk]
+  category_name: varchar
+}
+
+dim_store: DIM_STORE {
+  shape: sql_table
+  store_sk: int [pk]
+  city_id: int [fk]
+}
+
+dim_city: DIM_CITY {
+  shape: sql_table
+  city_id: int [pk]
+  region_id: int [fk]
+}
+
+dim_region: DIM_REGION {
+  shape: sql_table
+  region_id: int [pk]
+  region_name: varchar
+}
+
+fact_sales -> dim_product: "FK: product_sk"
+dim_product -> dim_subcategory: "FK: subcategory_id"
+dim_subcategory -> dim_category: "FK: category_id"
+
+fact_sales -> dim_store: "FK: store_sk"
+dim_store -> dim_city: "FK: city_id"
+dim_city -> dim_region: "FK: region_id"

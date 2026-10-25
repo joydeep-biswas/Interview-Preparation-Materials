@@ -1,0 +1,13 @@
+classes: {
+  symptom_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  trigger_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  root_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+w1: "1. Why did checkout fail?\nPayment service returned HTTP 504 timeouts" { class: symptom_box }
+w2: "2. Why did payment time out?\nPostgreSQL connection pool exhausted" { class: symptom_box }
+w3: "3. Why was connection pool exhausted?\nQueries stalled on table locks" { class: trigger_box }
+w4: "4. Why were tables locked?\nUnindexed batch analytics query ran at peak" { class: trigger_box }
+w5: "5. Why was batch query on prod OLTP?\nRoot Vulnerability: Lacked read-replica isolation\nand proxy query timeouts" { class: root_box }
+
+w1 -> w2 -> w3 -> w4 -> w5

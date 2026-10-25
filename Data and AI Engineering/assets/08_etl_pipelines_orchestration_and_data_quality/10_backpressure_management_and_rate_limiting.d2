@@ -1,0 +1,24 @@
+direction: right
+title: Backpressure Management & Dynamic Rate Limiting
+
+no_backpressure: Without Backpressure (Crash Cycle) {
+  k1: Kafka: 50,000,000 Messages Waiting
+  w1: Worker Heap: Pulls all 50M messages at once! {
+    style.stroke: "#ef4444"
+  }
+  crash: Fatal JVM OutOfMemoryError Crash! {
+    style.stroke: "#ef4444"
+  }
+  k1 -> w1 -> crash
+}
+
+with_backpressure: With Backpressure & Rate Limiting {
+  k2: Kafka: 50,000,000 Messages Waiting
+  w2: Worker Heap: Throttled maxOffsetsPerTrigger=500,000 {
+    style.stroke: "#10b981"
+  }
+  stable: Stable Delta Lake Batch Commit (30s per batch) {
+    style.stroke: "#10b981"
+  }
+  k2 -> w2 -> stable
+}

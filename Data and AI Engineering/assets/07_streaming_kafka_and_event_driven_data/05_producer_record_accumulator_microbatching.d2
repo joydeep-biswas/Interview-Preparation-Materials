@@ -1,0 +1,41 @@
+direction: right
+title: Kafka Producer Architecture: RecordAccumulator & Micro-Batching
+
+app: "Application Thread" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  send: "producer.send(record)"
+  hash: "Murmur2(key) Partitioner"
+  async: "Returns Future immediately\n(Non-blocking)"
+}
+
+acc: "RecordAccumulator (RAM Buffer Pool)" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+
+  b0: "Batch P0 (Accumulating 8KB)"
+  b1: "Batch P1 (16KB Full -> READY TO FLUSH)"
+  b2: "Batch P2 (linger.ms expired -> FLUSH)"
+}
+
+sender: "Background Sender Thread" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  drain: "Batch Drainer (Groups by Broker)"
+  nio: "Java NIO SocketChannel"
+}
+
+broker: "Kafka Broker Leader" {
+  style.fill: "#0b1329"
+  style.stroke: "#38bdf8"
+
+  socket: "TCP Port 9092 Socket"
+  pagecache: "OS Page Cache Append"
+}
+
+app.send -> app.hash -> acc
+acc.b1 -> sender.drain: "Flush Batch"
+acc.b2 -> sender.drain: "Flush Batch"
+sender.drain -> sender.nio -> broker.socket -> broker.pagecache

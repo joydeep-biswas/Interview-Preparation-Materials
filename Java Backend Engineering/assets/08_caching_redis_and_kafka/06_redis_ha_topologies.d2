@@ -1,0 +1,21 @@
+direction: right
+title: Redis High-Availability Topologies: Sentinel vs Cluster
+
+Sentinel: 1. Redis Sentinel {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  quorum: "Sentinel Quorum (3 nodes)"
+  master: "Redis Master (Read/Write)"
+  replica: "Redis Replica (Read-Only)"
+  quorum -> master: Heartbeat Ping
+  master -> replica: Async replication
+}
+
+Cluster: 2. Redis Cluster {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  s1: "Shard A (Slots 0 - 5460)"
+  s2: "Shard B (Slots 5461 - 10922)"
+  s3: "Shard C (Slots 10923 - 16383)"
+  routing: "CRC16(key) % 16384"
+}

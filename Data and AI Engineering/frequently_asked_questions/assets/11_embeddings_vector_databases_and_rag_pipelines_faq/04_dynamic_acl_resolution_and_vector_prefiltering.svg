@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- User Request -->
+  <rect x="25" y="80" width="180" height="90" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="115" y="106" class="title-txt" text-anchor="middle">Incoming Request</text>
+  <text x="37" y="130" class="mono-txt" text-anchor="start">Bearer JWT: Alice</text>
+  <text x="37" y="148" class="body-txt" text-anchor="start">Prompt query payload</text>
+
+  <path d="M 205 125 L 255 125" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- IAM & Token Context -->
+  <rect x="255" y="70" width="200" height="110" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="355" y="96" class="title-txt" text-anchor="middle" fill="#FDE68A">IAM Token Context</text>
+  <text x="267" y="120" class="body-txt" text-anchor="start">• Okta / Entra ID resolution</text>
+  <text x="267" y="138" class="mono-txt" text-anchor="start">User: alice@corp.com</text>
+  <text x="267" y="156" class="mono-txt" text-anchor="start">Groups: ['ENG', 'APAC']</text>
+
+  <path d="M 455 125 L 505 125" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- Pre-Filtered ANN Graph -->
+  <rect x="505" y="40" width="230" height="170" rx="10" ry="10" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="620" y="65" class="title-txt" text-anchor="middle" fill="#C4B5FD">Vector Pre-Filter (Qdrant)</text>
+  <text x="517" y="90" class="mono-txt" text-anchor="start">WHERE (allowed_users = Alice</text>
+  <text x="517" y="108" class="mono-txt" text-anchor="start">  OR groups OVERLAPS ENG)</text>
+  <text x="517" y="126" class="mono-txt" text-anchor="start">  AND status != 'RESTRICTED'</text>
+  <text x="517" y="150" class="body-txt" text-anchor="start">• Prunes unauthorized vectors</text>
+  <text x="517" y="168" class="body-txt" text-anchor="start">• Evaluates BEFORE graph walk</text>
+  <text x="517" y="186" class="badge-txt" fill="#10B981">✓ Zero Post-Filter Truncation</text>
+
+  <path d="M 735 125 L 775 125" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Clean Chunks -->
+  <rect x="775" y="70" width="160" height="110" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="855" y="96" class="title-txt" text-anchor="middle" fill="#A7F3D0">Authorized Chunks</text>
+  <text x="787" y="120" class="body-txt" text-anchor="start">• Zero data leakage</text>
+  <text x="787" y="138" class="body-txt" text-anchor="start">• Injected into LLM</text>
+  <text x="787" y="156" class="badge-txt" fill="#10B981">✓ Fully Compliant</text>
+</svg>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1040" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="560" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="520" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">TLS 1.3 Handshake: Single Round-Trip Time (1-RTT) Timeline</text>
+  <text x="520" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Zero-RTT Pre-Shared Key Ready, Ephemeral Diffie-Hellman Key Exchange &amp; Encrypted Certificate Handshake</text>
+  <line x1="40" y1="68" x2="1000" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Actor 1: HTTP Client -->
+  <rect x="80" y="95" width="240" height="45" rx="6" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="200" y="122" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">HTTP Client (Browser / App)</text>
+  <line x1="200" y1="140" x2="200" y2="490" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Actor 2: Spring Boot HTTPS Server -->
+  <rect x="720" y="95" width="240" height="45" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+  <text x="840" y="122" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Spring Boot HTTPS Server</text>
+  <line x1="840" y1="140" x2="840" y2="490" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Flight 1: ClientHello -->
+  <path fill="none" d="M 200 170 L 840 170" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <text x="520" y="162" font-size="9" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. ClientHello: Supported Ciphers + Key Share (Client Ephemeral ECDHE Public Key)</text>
+
+  <!-- Flight 2: ServerHello + Encrypted Extensions + Cert + Finished -->
+  <path fill="none" d="M 840 230 L 200 230" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="520" y="210" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">2. ServerHello: Selected Cipher (TLS_AES_256_GCM_SHA384) + Server Key Share</text>
+  <text x="520" y="225" font-size="8" fill="#A7F3D0" text-anchor="middle">{EncryptedExtensions, Encrypted Certificate, CertificateVerify, Finished}</text>
+
+  <!-- Independent Secret Derivation Note -->
+  <rect x="270" y="255" width="500" height="55" rx="6" fill="#0F172A" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="520" y="275" font-size="9" font-weight="700" fill="#C4B5FD" text-anchor="middle">Independent Cryptographic Session Key Derivation (HKDF)</text>
+  <text x="520" y="295" font-size="9" fill="#CBD5E1" text-anchor="middle">Both compute shared secret K = ECDH(Priv_Client, Pub_Server) without transmitting keys!</text>
+
+  <!-- Flight 3: Client Finished + Application Data (1-RTT Achieved!) -->
+  <path fill="none" d="M 200 340 L 840 340" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <text x="520" y="332" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle">3. Client Finished + Encrypted Application Data (GET /api/v1/orders)</text>
+
+  <!-- Flight 4: Server Encrypted Response -->
+  <path fill="none" d="M 840 390 L 200 390" stroke="#34D399" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arr-g)"/>
+  <text x="520" y="382" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">4. Server Encrypted HTTP 200 OK Response (Orders payload)</text>
+
+  <!-- Comparison Box -->
+  <rect x="150" y="425" width="740" height="45" rx="4" fill="#06201B" stroke="#10B981" stroke-width="1"/>
+  <text x="520" y="445" font-size="9" font-weight="700" fill="#6EE7B7" text-anchor="middle">Latency Improvement: TLS 1.3 reduces handshake latency from 2-RTT (TLS 1.2) to 1-RTT (50% faster!).</text>
+  <text x="520" y="460" font-size="8" fill="#CBD5E1" text-anchor="middle">Furthermore, certificates are encrypted on the wire, preventing eavesdroppers from sniffing SNI/identity.</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="50" y="515" width="940" height="30" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="520" y="535" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">TLS 1.3 Invariant: Forward Secrecy is mandatory. RSA key exchange and insecure CBC ciphers are completely removed from the spec.</text>
+</svg>

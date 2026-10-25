@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 440" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+      .edge-blue { stroke: #3B82F6; }
+    </style>
+    <marker id="arr-a1lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g1lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Col 1: Storage Layer -->
+  <rect x="25" y="25" width="300" height="390" class="pillar-box" stroke="#3B82F6"/>
+  <text x="175" y="55" class="title-text" fill="#60A5FA">1. Cloud Object Storage</text>
+
+  <rect x="45" y="80" width="260" height="135" class="card card-blue"/>
+  <text x="175" y="105" class="card-title" fill="#93C5FD">Immutable Parquet Files</text>
+  <text x="60" y="130" class="card-body">• S3 / ADLS Gen2 / GCS</text>
+  <text x="60" y="150" class="card-body">• Columnar data format</text>
+  <text x="60" y="170" class="card-body">• Snappy / ZSTD compression</text>
+  <text x="60" y="190" class="card-body">• 128 MB to 512 MB file chunks</text>
+
+  <rect x="45" y="235" width="260" height="150" class="card card-blue"/>
+  <text x="175" y="260" class="card-title" fill="#93C5FD">Decoupled Storage Cost</text>
+  <text x="60" y="285" class="card-body">• Pay-as-you-go commodity tiers</text>
+  <text x="60" y="305" class="card-body">• 99.999999999% durability</text>
+  <text x="60" y="325" class="card-body">• Infinitely scalable throughput</text>
+  <text x="60" y="345" class="card-body">• Zero proprietary lock-in</text>
+
+  <!-- Col 2: Metadata & ACID Layer -->
+  <rect x="365" y="25" width="340" height="390" class="pillar-box" stroke="#F59E0B"/>
+  <text x="535" y="55" class="title-text" fill="#FDE68A">2. ACID Transaction Log</text>
+
+  <rect x="385" y="80" width="300" height="135" class="card card-amber"/>
+  <text x="535" y="105" class="card-title" fill="#FDE68A">Delta Log / Iceberg Metadata</text>
+  <text x="400" y="130" class="card-body">• _delta_log/*.json &amp; checkpoints</text>
+  <text x="400" y="150" class="card-body">• Single source of truth for active files</text>
+  <text x="400" y="170" class="card-body">• Optimistic concurrency control (OCC)</text>
+  <text x="400" y="190" class="card-body" fill="#34D399">• Time travel &amp; rollback auditing</text>
+
+  <rect x="385" y="235" width="300" height="150" class="card card-amber"/>
+  <text x="535" y="260" class="card-title" fill="#FDE68A">Column-Level Min/Max Stats</text>
+  <text x="400" y="285" class="card-body">• Metadata stores min/max per file</text>
+  <text x="400" y="305" class="card-body">• File pruning &amp; data skipping</text>
+  <text x="400" y="325" class="card-body">• Z-Order / Liquid Clustering metadata</text>
+  <text x="400" y="345" class="card-body" fill="#34D399">• Eliminates 95% of disk reads</text>
+
+  <!-- Col 3: Compute Federation -->
+  <rect x="745" y="25" width="290" height="390" class="pillar-box" stroke="#10B981"/>
+  <text x="890" y="55" class="title-text" fill="#6EE7B7">3. Multi-Engine Federation</text>
+
+  <rect x="765" y="80" width="250" height="90" class="card card-green"/>
+  <text x="890" y="105" class="card-title" fill="#6EE7B7">Apache Spark / Databricks</text>
+  <text x="780" y="130" class="card-body">• Batch ETL &amp; streaming pipelines</text>
+  <text x="780" y="150" class="card-body">• Photon vectorization engine</text>
+
+  <rect x="765" y="185" width="250" height="90" class="card card-green"/>
+  <text x="890" y="210" class="card-title" fill="#6EE7B7">Trino / Presto</text>
+  <text x="780" y="235" class="card-body">• Sub-second ad-hoc interactive SQL</text>
+  <text x="780" y="255" class="card-body">• Massively parallel distributed queries</text>
+
+  <rect x="765" y="290" width="250" height="95" class="card card-green"/>
+  <text x="890" y="315" class="card-title" fill="#6EE7B7">Snowflake / BigQuery</text>
+  <text x="780" y="340" class="card-body">• External Iceberg table catalog read</text>
+  <text x="780" y="360" class="card-body">• Zero data movement query access</text>
+
+  <!-- Connectors with straight runways -->
+  <!-- Engines to Metadata: exit 765,230 -> curve -> enter 685,147 with runway dx>=14 -->
+  <path fill="none" d="M 765 230 C 730 230, 715 147, 699 147 L 685 147" class="edge edge-green" marker-end="url(#arr-g1lk)"/>
+
+  <!-- Metadata to Storage: exit 385,147 -> horizontal straight to 305,147 -->
+  <path fill="none" d="M 385 147 L 305 147" class="edge edge-amber" marker-end="url(#arr-a1lk)"/>
+</svg>

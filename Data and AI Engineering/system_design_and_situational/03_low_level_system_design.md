@@ -6,36 +6,9 @@ A comprehensive, production-grade guide answering real-world Data Engineering Lo
 
 ## Architectural Overview: Component Internals of a Streaming Data Engine
 
-```mermaid
-flowchart TD
-    subgraph IngestionBuffer ["1. Memory Ingestion & Backpressure Tier"]
-        IngressEvents["Incoming High-Velocity Stream"] --> RingBuffer["Ring Buffer / Circular Array<br/>(Lock-free CAS Sequence Barrier)"]
-    end
+![Component Internals of a Real-Time Streaming Data Engine](assets/03_low_level_system_design/01_streaming_engine_component_internals.svg)
 
-    subgraph PartitionShuffle ["2. Partitioning, Sorting & Spill Manager"]
-        RingBuffer --> Partitioner["Hash & Range Partitioner<br/>(Maps keys to reducer buckets)"]
-        Partitioner --> MemTable["In-Memory Buffer<br/>(Sort-based buffer)"]
-        MemTable -->|"Threshold Exceeded (>64MB)"| DiskSpill["Disk Spill Manager<br/>(Sorted spilled block files)"]
-    end
-
-    subgraph SinkDeduplication ["3. Idempotent Sink & Dead-Letter Pipeline"]
-        DiskSpill --> Deduplicator["Sliding Window Deduplicator<br/>(In-Memory Bloom Filter + Cache)"]
-        Deduplicator --> BatchSink["Rate-Limited Batch Writer<br/>(Exponential Backoff & Retries)"]
-        BatchSink --> DLQ["Dead Letter Queue (DLQ)<br/>(Quarantine poison payloads)"]
-    end
-
-    style IngestionBuffer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PartitionShuffle fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style SinkDeduplication fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style IngressEvents fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style RingBuffer fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Partitioner fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style MemTable fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style DiskSpill fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Deduplicator fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style BatchSink fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style DLQ fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/03_low_level_system_design/01_streaming_engine_component_internals.d2](assets/03_low_level_system_design/01_streaming_engine_component_internals.d2)
 
 ---
 

@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1200" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Floyd's Cycle-Finding Algorithm (Tortoise and Hare)</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Phase 1: Collision Detection at 2x Speed -&gt; Phase 2: Cycle Origin Identification in O(n) Time &amp; O(1) Space</text>
+
+  <!-- Top Region: Linked List Topology -->
+  <rect x="50" y="95" width="1100" height="195" rx="8" fill="#0B132B" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="50" y="95" width="1100" height="32" rx="8" fill="#1E3A8A"/>
+  <text x="600" y="117" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Linked List Node Topology &amp; Pointer Traversal</text>
+
+  <!-- Node 1 (Head) -->
+  <rect x="75" y="145" width="80" height="55" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="115" y="170" font-size="12" font-weight="700" fill="#60A5FA" text-anchor="middle">Node 1</text>
+  <text x="115" y="188" font-size="10" fill="#94A3B8" text-anchor="middle">Head</text>
+
+  <!-- Node 2 -->
+  <rect x="205" y="145" width="80" height="55" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="245" y="170" font-size="12" font-weight="700" fill="#60A5FA" text-anchor="middle">Node 2</text>
+  <text x="245" y="188" font-size="10" fill="#94A3B8" text-anchor="middle">next</text>
+
+  <!-- Node 3 (Cycle Start) -->
+  <rect x="335" y="145" width="105" height="55" rx="6" fill="#06201B" stroke="#10B981" stroke-width="2"/>
+  <text x="387" y="170" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">Node 3</text>
+  <text x="387" y="188" font-size="10" font-weight="600" fill="#6EE7B7" text-anchor="middle">Cycle Origin</text>
+
+  <!-- Node 4 (Upper Loop) -->
+  <rect x="490" y="135" width="80" height="45" rx="6" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="530" y="162" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Node 4</text>
+
+  <!-- Node 5 (Collision Point) -->
+  <rect x="620" y="145" width="105" height="55" rx="6" fill="#1C1917" stroke="#F59E0B" stroke-width="2"/>
+  <text x="672" y="170" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle">Node 5</text>
+  <text x="672" y="188" font-size="10" font-weight="600" fill="#FDE68A" text-anchor="middle">Collision Pt</text>
+
+  <!-- Node 6 (Lower Loop) -->
+  <rect x="490" y="215" width="80" height="45" rx="6" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="530" y="242" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Node 6</text>
+
+  <!-- Topology Arrows -->
+  <path fill="none" d="M 155 172 L 205 172" stroke="#3B82F6" stroke-width="2" marker-end="url(#arr-b)"/>
+  <path fill="none" d="M 285 172 L 335 172" stroke="#3B82F6" stroke-width="2" marker-end="url(#arr-b)"/>
+  <path fill="none" d="M 440.0 160.0 L 450.0 160.0 C 463.0 160.0, 463.0 155.0, 476.0 155.0 L 490.0 155.0" stroke="#06B6D4" stroke-width="2" marker-end="url(#arr-c)"/>
+  <path fill="none" d="M 570.0 155.0 L 580.0 155.0 C 593.0 155.0, 593.0 165.0, 606.0 165.0 L 620.0 165.0" stroke="#06B6D4" stroke-width="2" marker-end="url(#arr-c)"/>
+  <path d="M 672 200 L 672 237 L 570 237" stroke="#06B6D4" stroke-width="2" fill="none" marker-end="url(#arr-c)"/>
+  <path d="M 490 237 L 387 237 L 387 200" stroke="#06B6D4" stroke-width="2" fill="none" marker-end="url(#arr-c)"/>
+
+  <!-- Right: Pointer Velocities Box -->
+  <rect x="760" y="135" width="370" height="140" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="945" y="158" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">Two-Pointer Velocity Differential</text>
+  
+  <rect x="775" y="170" width="340" height="40" rx="4" fill="#06201B" stroke="#10B981" stroke-width="1"/>
+  <text x="790" y="188" font-size="11" font-weight="700" fill="#34D399">Tortoise (Slow Pointer):</text>
+  <text x="790" y="202" font-size="10" fill="#A7F3D0">Advances 1 step per tick (speed v = 1)</text>
+
+  <rect x="775" y="220" width="340" height="40" rx="4" fill="#1C1917" stroke="#EF4444" stroke-width="1"/>
+  <text x="790" y="238" font-size="11" font-weight="700" fill="#F87171">Hare (Fast Pointer):</text>
+  <text x="790" y="252" font-size="10" fill="#FCA5A5">Advances 2 steps per tick (speed v = 2) -&gt; Closes gap by 1 step/tick</text>
+
+  <!-- Bottom Left: Phase 1 Collision Detection -->
+  <rect x="50" y="310" width="530" height="230" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="310" width="530" height="32" rx="8" fill="#0C4A6E"/>
+  <text x="315" y="331" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Phase 1: Collision Detection &amp; Proof</text>
+
+  <rect x="70" y="355" width="490" height="170" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="85" y="378" font-size="11" fill="#CBD5E1"><tspan fill="#38BDF8" font-weight="700">Distance Definitions:</tspan></text>
+  <text x="85" y="398" font-size="10" fill="#94A3B8">&amp;#x2022; <tspan fill="#F8FAFC" font-weight="600">F</tspan> = Distance from Head to Cycle Origin (Node 1 to Node 3)</text>
+  <text x="85" y="416" font-size="10" fill="#94A3B8">&amp;#x2022; <tspan fill="#F8FAFC" font-weight="600">C</tspan> = Cycle circumference / length (Nodes 3, 4, 5, 6)</text>
+  <text x="85" y="434" font-size="10" fill="#94A3B8">&amp;#x2022; <tspan fill="#F8FAFC" font-weight="600">a</tspan> = Distance from Cycle Origin to Collision (Node 3 to Node 5)</text>
+
+  <rect x="85" y="448" width="460" height="65" rx="4" fill="#1E293B" stroke="#0284C7" stroke-width="1"/>
+  <text x="95" y="468" font-size="10" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">Distance(Hare) = 2 * Distance(Slow)</text>
+  <text x="95" y="486" font-size="10" font-family="'JetBrains Mono', monospace" fill="#A5F3FC">F + nC + a = 2(F + a)  =&gt;  F = nC - a</text>
+  <text x="95" y="504" font-size="9" fill="#94A3B8">Proves: Remaining loop distance (C - a) equals runway distance (F)!</text>
+
+  <!-- Bottom Right: Phase 2 Cycle Origin Algorithm -->
+  <rect x="620" y="310" width="530" height="230" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
+  <rect x="620" y="310" width="530" height="32" rx="8" fill="#064E3B"/>
+  <text x="885" y="331" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Phase 2: Locating Exact Cycle Origin</text>
+
+  <rect x="640" y="355" width="490" height="170" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="655" y="378" font-size="11" font-weight="700" fill="#34D399">Origin Resolution Algorithm:</text>
+  <text x="655" y="400" font-size="10" fill="#CBD5E1">1. Reset <tspan fill="#34D399" font-weight="600">Slow</tspan> pointer back to Head (Node 1).</text>
+  <text x="655" y="420" font-size="10" fill="#CBD5E1">2. Keep <tspan fill="#FBBF24" font-weight="600">Fast</tspan> pointer at Collision Point (Node 5).</text>
+  <text x="655" y="440" font-size="10" fill="#CBD5E1">3. Advance BOTH pointers at identical speed: <tspan fill="#38BDF8" font-weight="600">v = 1 step / tick</tspan>.</text>
+  
+  <rect x="655" y="455" width="460" height="58" rx="4" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+  <text x="665" y="475" font-size="10" fill="#A7F3D0">&amp;#x2022; Slow travels distance F to arrive at Node 3</text>
+  <text x="665" y="492" font-size="10" fill="#A7F3D0">&amp;#x2022; Fast travels distance (nC - a) = F to arrive at Node 3</text>
+  <text x="665" y="506" font-size="9" font-weight="700" fill="#34D399">&amp;#x2714; Guaranteed Collision at Node 3 (Cycle Origin)! O(n) Time, O(1) Memory</text>
+</svg>

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Cascading Failure Meltdown &amp; Circuit Breaker Mitigation</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">How retry amplification triggers exponential traffic explosion vs Circuit Breaker fail-fast shedding</text>
+
+  <!-- Left: The Cascading Meltdown -->
+  <g transform="translate(40, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="230" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">Pathological Meltdown: Multiplicative Retry Storm</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="70" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#93C5FD">Chain of 3 Services with Retries</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">Service A (Retries=3) -&gt; Service B (Retries=3) -&gt; Service C</text>
+      <text x="15" y="52" class="card-body" font-size="11" fill="#FCA5A5">Each layer retries 3 times on timeout</text>
+
+      <rect x="0" y="80" width="420" height="90" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+      <text x="15" y="100" class="badge" fill="#F87171">Traffic Amplification Explosion: 3^2 = 9x!</text>
+      <text x="15" y="118" class="card-body">• 1 initial user request to Service A causes:</text>
+      <text x="15" y="134" class="card-body">• Service A sends 3 calls to Service B</text>
+      <text x="15" y="150" class="card-body">• Service B retries 3 calls for EACH of those 3 = 9 calls to Service C!</text>
+      <text x="15" y="162" class="badge" fill="#FCA5A5">1,000 requests/sec turns into 9,000 requests/sec crushing Service C!</text>
+
+      <rect x="0" y="180" width="420" height="65" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+      <text x="15" y="200" class="badge" fill="#F87171">Systemic Domino Collapse</text>
+      <text x="15" y="220" class="card-body">Service C crashes -&gt; Service B queue fills &amp; crashes -&gt; Service A crashes</text>
+      <text x="15" y="234" class="card-body" font-size="11">Total platform blackout triggered by retry amplification.</text>
+    </g>
+
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#450A0A"/>
+    <text x="210" y="328" class="badge" fill="#FCA5A5" text-anchor="middle">Retries turn a localized slowdown into an existential outage!</text>
+  </g>
+
+  <!-- Right: Circuit Breaker + Load Shedding -->
+  <g transform="translate(560, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="230" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">Circuit Breaker &amp; Load Shedding Defense</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="70" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+      <text x="15" y="20" class="badge" fill="#34D399">1. Circuit Breaker Trips OPEN</text>
+      <text x="15" y="38" class="card-body">When Service C failure rate &gt; 50%, Service B trips OPEN immediately.</text>
+      <text x="15" y="52" class="badge" fill="#A7F3D0">Fails fast in 0 milliseconds; sends ZERO requests to struggling Service C!</text>
+
+      <rect x="0" y="80" width="420" height="85" rx="6" ry="6" fill="#1E293B" stroke="#10B981"/>
+      <text x="15" y="100" class="badge" fill="#A7F3D0">2. Graceful Fallback &amp; Retry Budget</text>
+      <text x="15" y="118" class="card-body">• Returns degraded cached response or default payload</text>
+      <text x="15" y="134" class="card-body">• Retry Budget: Re-attempts capped at max 10% of total traffic</text>
+      <text x="15" y="150" class="badge" fill="#6EE7B7">Eliminates multiplicative amplification factor!</text>
+
+      <rect x="0" y="175" width="420" height="70" rx="6" ry="6" fill="#0F172A" stroke="#10B981"/>
+      <text x="15" y="195" class="badge" fill="#34D399">3. Service C Reboots in Complete Peace</text>
+      <text x="15" y="215" class="card-body">With traffic completely cut off, Service C clears its connection backlogs,</text>
+      <text x="15" y="231" class="card-body" font-size="11">recovers CPU/memory health, and passes HALF_OPEN health probes.</text>
+    </g>
+
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#064E3B"/>
+    <text x="210" y="328" class="badge" fill="#A7F3D0" text-anchor="middle">Graceful Degradation: System bends under load without breaking!</text>
+  </g>
+</svg>

@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="520" viewBox="0 0 1140 520">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1140" height="520" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Data Structures &amp; Algorithms Mastery Architecture</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Four-tier progressive curriculum: From linear memory fundamentals to advanced state transitions and graph topologies</text>
+
+  <!-- Tier 1 -->
+  <g transform="translate(30, 85)">
+    <rect width="255" height="385" rx="8" fill="#0B132B" stroke="#38BDF8" stroke-width="1.5"/>
+    <text x="127" y="28" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">TIER 1: LINEAR FOUNDATIONS</text>
+    <rect x="15" y="45" width="225" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="127" y="70" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">01. Linear &amp; Two Pointers</text>
+    <text x="25" y="95" font-size="10.5" fill="#94A3B8">• Cache Locality &amp; Offset Math</text>
+    <text x="25" y="115" font-size="10.5" fill="#94A3B8">• Two Pointers: Left / Right Convergent</text>
+    <text x="25" y="135" font-size="10.5" fill="#94A3B8">• Sliding Window: Expand / Contract</text>
+    <text x="25" y="155" font-size="10.5" fill="#94A3B8">• Fast &amp; Slow: Floyd Cycle Detection</text>
+    <text x="25" y="175" font-size="10.5" fill="#94A3B8">• Dutch National Flag 3-Way Sort</text>
+
+    <rect x="15" y="215" width="225" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="127" y="240" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">02. Lists, Stacks &amp; Caches</text>
+    <text x="25" y="265" font-size="10.5" fill="#94A3B8">• Doubly-Linked Sentinel Nodes</text>
+    <text x="25" y="285" font-size="10.5" fill="#94A3B8">• Monotonic Stack: Next Greater Element</text>
+    <text x="25" y="305" font-size="10.5" fill="#94A3B8">• Monotonic Deque: Max in Window</text>
+    <text x="25" y="325" font-size="10.5" fill="#94A3B8">• LRU Cache: Map + DLL O(1)</text>
+    <text x="25" y="345" font-size="10.5" fill="#94A3B8">• LFU Cache: Frequency Buckets O(1)</text>
+  </g>
+
+  <!-- Tier 2 -->
+  <g transform="translate(315, 85)">
+    <rect width="255" height="385" rx="8" fill="#062828" stroke="#34D399" stroke-width="1.5"/>
+    <text x="127" y="28" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">TIER 2: HIERARCHIES &amp; SEARCH</text>
+    <rect x="15" y="45" width="225" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="127" y="70" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">03. Trees, BSTs &amp; Tries</text>
+    <text x="25" y="95" font-size="10.5" fill="#94A3B8">• Tree Traversals: In/Pre/Post/Level</text>
+    <text x="25" y="115" font-size="10.5" fill="#94A3B8">• BST Invariant: Left &lt; Root &lt; Right</text>
+    <text x="25" y="135" font-size="10.5" fill="#94A3B8">• Lowest Common Ancestor (LCA)</text>
+    <text x="25" y="155" font-size="10.5" fill="#94A3B8">• Tree Serialization &amp; Rebuilding</text>
+    <text x="25" y="175" font-size="10.5" fill="#94A3B8">• Prefix Trie &amp; Wildcard Search</text>
+
+    <rect x="15" y="215" width="225" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="127" y="240" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">04. Binary Search &amp; D&amp;C</text>
+    <text x="25" y="265" font-size="10.5" fill="#94A3B8">• Monotonic Invariant Search Space</text>
+    <text x="25" y="285" font-size="10.5" fill="#94A3B8">• Rotated Sorted Array Inflection</text>
+    <text x="25" y="305" font-size="10.5" fill="#94A3B8">• Binary Search on Answer / Predicate</text>
+    <text x="25" y="325" font-size="10.5" fill="#94A3B8">• Divide &amp; Conquer Master Theorem</text>
+    <text x="25" y="345" font-size="10.5" fill="#94A3B8">• QuickSelect: Expected O(N) Kth Element</text>
+  </g>
+
+  <!-- Tier 3 -->
+  <g transform="translate(600, 85)">
+    <rect width="255" height="385" rx="8" fill="#2D1802" stroke="#FBBF24" stroke-width="1.5"/>
+    <text x="127" y="28" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle">TIER 3: PRIORITY &amp; NETWORKS</text>
+    <rect x="15" y="45" width="225" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="127" y="70" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">05. Heaps, Intervals &amp; Greedy</text>
+    <text x="25" y="95" font-size="10.5" fill="#94A3B8">• Two-Heaps Streaming Median</text>
+    <text x="25" y="115" font-size="10.5" fill="#94A3B8">• K-Way Merge of Sorted Iterators</text>
+    <text x="25" y="135" font-size="10.5" fill="#94A3B8">• Sweep-Line Coordinate Projection</text>
+    <text x="25" y="155" font-size="10.5" fill="#94A3B8">• Meeting Rooms &amp; Interval Overlaps</text>
+    <text x="25" y="175" font-size="10.5" fill="#94A3B8">• Task Scheduler Idle-Slot Math</text>
+
+    <rect x="15" y="215" width="225" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="127" y="240" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">06. Graphs &amp; Shortest Paths</text>
+    <text x="25" y="265" font-size="10.5" fill="#94A3B8">• Bidirectional BFS Level Frontier</text>
+    <text x="25" y="285" font-size="10.5" fill="#94A3B8">• DFS 3-Color Cycle Detection</text>
+    <text x="25" y="305" font-size="10.5" fill="#94A3B8">• Kahn's Topo Sort &amp; In-Degree Queue</text>
+    <text x="25" y="325" font-size="10.5" fill="#94A3B8">• Union-Find (DSU) Path Compression</text>
+    <text x="25" y="345" font-size="10.5" fill="#94A3B8">• Dijkstra &amp; Bellman-Ford Negative Cycle</text>
+  </g>
+
+  <!-- Tier 4 -->
+  <g transform="translate(885, 85)">
+    <rect width="225" height="385" rx="8" fill="#1E1035" stroke="#C084FC" stroke-width="1.5"/>
+    <text x="112" y="28" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle">TIER 4: STATES &amp; SEARCH</text>
+    <rect x="12" y="45" width="201" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="112" y="70" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">07. Dynamic Programming</text>
+    <text x="20" y="95" font-size="10.5" fill="#94A3B8">• DAG State Transition Topology</text>
+    <text x="20" y="115" font-size="10.5" fill="#94A3B8">• Rolling Buffer Space Compression</text>
+    <text x="20" y="135" font-size="10.5" fill="#94A3B8">• Circular Kadane &amp; Inverted Min</text>
+    <text x="20" y="155" font-size="10.5" fill="#94A3B8">• Longest Increasing Subseq (Patience)</text>
+    <text x="20" y="175" font-size="10.5" fill="#94A3B8">• 0/1 &amp; Unbounded Knapsack Vectors</text>
+
+    <rect x="12" y="215" width="201" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="112" y="240" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">08. Backtracking &amp; Bits</text>
+    <text x="20" y="265" font-size="10.5" fill="#94A3B8">• Decision Tree State Rollback</text>
+    <text x="20" y="285" font-size="10.5" fill="#94A3B8">• Pruning Invariants &amp; Deduplication</text>
+    <text x="20" y="305" font-size="10.5" fill="#94A3B8">• XOR Cancellation Properties</text>
+    <text x="20" y="325" font-size="10.5" fill="#94A3B8">• Kernighan's Lowest-Bit Drop</text>
+    <text x="20" y="345" font-size="10.5" fill="#94A3B8">• Bitmasking Subset State Registers</text>
+  </g>
+
+  <!-- Inter-tier Connectors with Straight Runways -->
+  <path d="M 285 275 L 293 275 C 300 275, 300 275, 303 275 L 315 275" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path d="M 570 275 L 578 275 C 585 275, 585 275, 588 275 L 600 275" fill="none" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+  <path d="M 855 275 L 863 275 C 870 275, 870 275, 873 275 L 885 275" fill="none" stroke="#C084FC" stroke-width="2" marker-end="url(#arr-p)"/>
+
+  <!-- Footer Invariant Banner -->
+  <rect x="30" y="480" width="1080" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="570" y="497" font-size="10.5" fill="#93C5FD" font-weight="600" text-anchor="middle">Architectural Progression: Master pointer memory locality in Tier 1, search space geometry in Tier 2, priority topologies in Tier 3, and state compression in Tier 4.</text>
+
+</svg>

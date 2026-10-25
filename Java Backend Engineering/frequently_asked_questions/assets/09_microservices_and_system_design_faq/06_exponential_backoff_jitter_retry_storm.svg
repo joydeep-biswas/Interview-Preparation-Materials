@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Retry Strategies: Naive Fixed Retry Storm vs Exponential Backoff + Jitter</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Preventing synchronized thundering herd pulses during downstream database or service recovery</text>
+
+  <!-- Left: Naive Fixed Retry (Thundering Herd) -->
+  <g transform="translate(40, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="230" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">Naive Fixed Retry: Thundering Herd Pulse</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="65" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#FCA5A5">Fixed Retry Interval Configuration</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">@Retry(maxAttempts=3, backoff=@Backoff(delay=2000))</text>
+      <text x="15" y="52" class="card-body" font-size="11" fill="#FCA5A5">Every client waits EXACTLY 2.0 seconds</text>
+
+      <rect x="0" y="75" width="420" height="90" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+      <text x="15" y="95" class="badge" fill="#F87171">Synchronized Periodic Waveforms</text>
+      <text x="15" y="115" class="card-body">• T = 0s: Service blips -&gt; 5,000 requests fail simultaneously</text>
+      <text x="15" y="131" class="card-body">• T = 2s: EXACTLY 5,000 retries hit downstream simultaneously!</text>
+      <text x="15" y="147" class="card-body" font-size="11" fill="#FCA5A5">• T = 4s: Another synchronized 5,000 request hammer pulse!</text>
+
+      <rect x="0" y="175" width="420" height="75" rx="6" ry="6" fill="#0F172A" stroke="#EF4444"/>
+      <text x="15" y="195" class="badge" fill="#FCA5A5">The Self-Inflicted Denial of Service (DoS)</text>
+      <text x="15" y="215" class="card-body">Downstream service tries to reboot, but each synchronized tidal wave</text>
+      <text x="15" y="231" class="card-body" font-size="11">knocks it back down before TCP connections can even be established.</text>
+    </g>
+
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#450A0A"/>
+    <text x="210" y="328" class="badge" fill="#FCA5A5" text-anchor="middle">Catastrophic synchronization keeps downstream service permanently dead!</text>
+  </g>
+
+  <!-- Right: Exponential Backoff with Full Jitter -->
+  <g transform="translate(560, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="230" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">Exponential Backoff + Full Jitter: Smooth Uniform Spread</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="65" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#A7F3D0">AWS Full Jitter Algorithm</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">sleep = random_between(0, min(cap, base * 2^attempt))</text>
+      <text x="15" y="52" class="card-body" font-size="11" fill="#34D399">Spreads retry arrival times uniformly across the time horizon</text>
+
+      <rect x="0" y="75" width="420" height="90" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+      <text x="15" y="95" class="badge" fill="#34D399">De-Synchronized Request Dispersion</text>
+      <text x="15" y="115" class="card-body">• T = 0s: 5,000 requests encounter failure</text>
+      <text x="15" y="131" class="card-body">• T = 0.1s to 2.0s: Retries arrive smoothly dispersed like rainfall</text>
+      <text x="15" y="147" class="card-body" font-size="11" fill="#D1FAE5">• Peak load reduced from 5,000 req/sec spike down to 50 req/sec stream!</text>
+
+      <rect x="0" y="175" width="420" height="75" rx="6" ry="6" fill="#0F172A" stroke="#10B981"/>
+      <text x="15" y="195" class="badge" fill="#A7F3D0">Graceful Self-Healing Recovery</text>
+      <text x="15" y="215" class="card-body">Downstream database or server recovers smoothly without shock spikes,</text>
+      <text x="15" y="231" class="card-body" font-size="11">absorbing retries at its own natural throughput capacity.</text>
+    </g>
+
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#064E3B"/>
+    <text x="210" y="328" class="badge" fill="#A7F3D0" text-anchor="middle">Production Mandate: ALWAYS add jitter to exponential retry policies!</text>
+  </g>
+</svg>

@@ -6,46 +6,9 @@ A comprehensive, production-grade guide to real-world interview scenarios and en
 
 ## Architectural Overview: Enterprise Quality Engineering & Test Execution Matrix
 
-```mermaid
-flowchart TD
-    subgraph TestingPyramid ["1. Enterprise Testing Pyramid & Blast Radius"]
-        direction TB
-        E2E["End-to-End & Chaos Tests (5% Volume)<br/>Slow, Expensive, Environment-Dependent"]
-        Contract["Consumer-Driven Contract Tests (Pact) (10% Volume)<br/>Microservice Boundary Verification"]
-        Integration["Integration Tests (Testcontainers + Spring Context) (25% Volume)<br/>Real PostgreSQL, Redis & Kafka Containers"]
-        Unit["Fast Isolated Unit Tests (JUnit 5 + Mockito) (60% Volume)<br/>Millisecond Execution, Pure In-Memory Business Logic"]
-        
-        E2E --> Contract --> Integration --> Unit
-    end
+![Enterprise Testing Pyramid and Spring TestContext Caching](assets/10_testing_and_quality_engineering_faq/01_testing_pyramid_and_spring_testcontext_caching.svg)
 
-    subgraph SpringTestHarness ["2. Spring TestContext Framework & Caching"]
-        TCM["TestContextManager"]
-        ContextCache["ContextCache (SHA-256 of Config Classes)"]
-        DPR["@DynamicPropertySource (Testcontainers Ports)"]
-        
-        TCM <--> ContextCache
-        TCM --> DPR
-    end
-
-    subgraph ContainerRuntime ["3. Ephemeral Infrastructure (Testcontainers)"]
-        DockerHost["Docker Daemon Host"]
-        Ryuk["Ryuk Moby Cleaner Container (Port 8080)"]
-        PostgresCont["PostgreSQL 16 Testcontainer"]
-        KafkaCont["Apache Kafka KRaft Testcontainer"]
-        
-        Ryuk -.->|Monitors Heartbeat & Auto-Purges| PostgresCont
-        Ryuk -.->|Monitors Heartbeat & Auto-Purges| KafkaCont
-        DockerHost --> Ryuk
-    end
-
-    Unit --> SpringTestHarness
-    Integration --> SpringTestHarness
-    Integration --> ContainerRuntime
-
-    style TestingPyramid fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SpringTestHarness fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style ContainerRuntime fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/10_testing_and_quality_engineering_faq/01_testing_pyramid_and_spring_testcontext_caching.d2](assets/10_testing_and_quality_engineering_faq/01_testing_pyramid_and_spring_testcontext_caching.d2)
 
 ---
 
@@ -173,22 +136,9 @@ When Spring executes integration tests, the `TestContextManager` hashes the test
 **Topic Covered:** Testcontainers, Ryuk Container, @DynamicPropertySource, Dynamic Port Sizing  
 **Question:** How does Testcontainers communicate with the local Docker daemon? What is the role of the `testcontainers/ryuk` container, and how does `@DynamicPropertySource` inject dynamic ephemeral ports into the Spring environment?
 
-```mermaid
-flowchart TD
-    JVM["Spring Boot Test JVM"] --> Daemon["Docker Daemon API (/var/run/docker.sock)"]
-    Daemon --> Ryuk["Ryuk Moby Cleaner Container<br/>(testcontainers/ryuk)"]
-    Daemon --> PGContainer["PostgreSQL Container<br/>(Bound to dynamic random port: 32778:5432)"]
-    
-    Ryuk <-->|TCP Socket Heartbeat| JVM
-    PGContainer -.->|Host Port: 32778| DPR["@DynamicPropertySource<br/>spring.datasource.url=jdbc:postgresql://localhost:32778/testdb"]
-    DPR --> JVM
+![Testcontainers Isolated Integration Test Architecture](assets/10_testing_and_quality_engineering_faq/02_testcontainers_isolated_integration_architecture.svg)
 
-    style JVM fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Daemon fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Ryuk fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style PGContainer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style DPR fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/10_testing_and_quality_engineering_faq/02_testcontainers_isolated_integration_architecture.d2](assets/10_testing_and_quality_engineering_faq/02_testcontainers_isolated_integration_architecture.d2)
 
 1. **The Ryuk Cleaner:** When the Testcontainers Java library starts, it immediately launches a lightweight container named `testcontainers/ryuk`. Ryuk opens a bidirectional TCP connection to the test JVM. If the test process terminates cleanly—or crashes abruptly via `SIGKILL` or IDE stop—the TCP connection drops, and Ryuk immediately deletes all containers, networks, and volumes created during the session, preventing orphaned Docker zombie processes.
 2. **Port Collisions & `@DynamicPropertySource`:** Testcontainers never binds containers to static fixed ports (e.g. 5432) to prevent collisions with local services or parallel CI jobs. It binds to random available host ports (e.g. 32778). `@DynamicPropertySource` dynamically resolves this port and overrides Spring properties before bean initialization:
@@ -234,23 +184,9 @@ flowchart TD
 **Topic Covered:** Contract Testing, Pact, Breaking Changes, Microservice Verification  
 **Question:** How does consumer-driven contract testing with Pact prevent breaking changes in microservice architectures without spinning up end-to-end environments?
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Consumer as Frontend / Client Microservice
-    participant Broker as Pact Broker (Contract Store)
-    participant Provider as Backend Producer Microservice
+![Consumer-Driven Contract Testing Pact Broker Architecture](assets/10_testing_and_quality_engineering_faq/03_consumer_driven_contract_testing_pact_broker.svg)
 
-    Note over Consumer: 1. Consumer defines contract expectations in unit test
-    Consumer->>Broker: Publish contract JSON (Pact file)
-    
-    Note over Provider: 2. Provider CI pipeline triggers on commit
-    Provider->>Broker: Fetch consumer contract JSON
-    Note over Provider: 3. Provider replays recorded requests against real controller
-    Provider-->>Broker: Publish verification results (Success / Failure)
-    
-    Note over Consumer,Provider: 4. can-i-deploy tool checks broker before production release!
-```
+*D2 Source:* [assets/10_testing_and_quality_engineering_faq/03_consumer_driven_contract_testing_pact_broker.d2](assets/10_testing_and_quality_engineering_faq/03_consumer_driven_contract_testing_pact_broker.d2)
 - **The Breakthrough:** Unlike end-to-end testing which requires orchestrating 20 interdependent services, Pact tests are pure unit tests executed independently by the consumer and provider, completely eliminating breaking schema surprises in production.
 
 *Deep-dive theoretical reference: See [Module 10: Testing & Quality Engineering](../10_testing_and_quality_engineering.md#3-contract-testing-mocking--code-quality-gates)*

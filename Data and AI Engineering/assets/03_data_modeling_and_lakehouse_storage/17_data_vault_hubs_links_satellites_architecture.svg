@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="440" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Data Vault 2.0: Hubs, Links &amp; Satellites Architecture</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Hash-Key Based Enterprise Data Vault for 100% Auditability and Parallel Ingestion</text>
+  
+  
+    <rect x="30" y="95" width="280" height="315" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Hubs (Business Keys)</text>
+  
+    <rect x="45" y="135" width="250" height="115" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="170.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">HUB_CUSTOMER</text>
+    <text x="170.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Core Business Entity</text>
+    <rect x="258" y="145" width="31" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="273.5" y="157" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">HUB</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">customer_hk: CHAR(32) [PK: MD5/SHA256]</text>
+    <circle cx="61" cy="206" r="2" fill="#3b82f6"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">customer_id: VARCHAR [Natural Key]</text>
+    <circle cx="61" cy="222" r="2" fill="#3b82f6"/>
+    <text x="69" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">load_date: TIMESTAMP</text>
+    <circle cx="61" cy="238" r="2" fill="#3b82f6"/>
+    <text x="69" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">record_source: VARCHAR</text>
+  
+    <rect x="45" y="270" width="250" height="115" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="170.0" y="296" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">HUB_ORDER</text>
+    <text x="170.0" y="312" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Core Business Entity</text>
+    <rect x="258" y="280" width="31" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="273.5" y="292" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">HUB</text>
+    <circle cx="61" cy="325" r="2" fill="#3b82f6"/>
+    <text x="69" y="328" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">order_hk: CHAR(32) [PK: Hash]</text>
+    <circle cx="61" cy="341" r="2" fill="#3b82f6"/>
+    <text x="69" y="344" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">order_id: VARCHAR [Natural Key]</text>
+    <circle cx="61" cy="357" r="2" fill="#3b82f6"/>
+    <text x="69" y="360" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">load_date: TIMESTAMP</text>
+    <circle cx="61" cy="373" r="2" fill="#3b82f6"/>
+    <text x="69" y="376" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">record_source: VARCHAR</text>
+
+  
+    <rect x="350" y="95" width="280" height="315" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="366" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Links (Unit of Work)</text>
+  
+    <rect x="365" y="190" width="250" height="135" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="216" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">LINK_CUSTOMER_ORDER</text>
+    <text x="490.0" y="232" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Associative Intersection</text>
+    <rect x="571" y="200" width="38" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="590.0" y="212" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">LINK</text>
+    <circle cx="381" cy="245" r="2" fill="#8b5cf6"/>
+    <text x="389" y="248" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">link_customer_order_hk: CHAR(32) [PK]</text>
+    <circle cx="381" cy="261" r="2" fill="#8b5cf6"/>
+    <text x="389" y="264" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">customer_hk: CHAR(32) [FK]</text>
+    <circle cx="381" cy="277" r="2" fill="#8b5cf6"/>
+    <text x="389" y="280" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">order_hk: CHAR(32) [FK]</text>
+    <circle cx="381" cy="293" r="2" fill="#8b5cf6"/>
+    <text x="389" y="296" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">load_date: TIMESTAMP</text>
+    <circle cx="381" cy="309" r="2" fill="#8b5cf6"/>
+    <text x="389" y="312" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">record_source: VARCHAR</text>
+
+  
+    <rect x="670" y="95" width="280" height="315" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="686" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Satellites (Context &amp; History)</text>
+  
+    <rect x="685" y="115" width="250" height="90" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="810.0" y="141" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SAT_CUSTOMER</text>
+    <text x="810.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Descriptive Context</text>
+    <rect x="898" y="125" width="31" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="913.5" y="137" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SAT</text>
+    <circle cx="701" cy="170" r="2" fill="#10b981"/>
+    <text x="709" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">customer_hk: CHAR(32) [PK, FK]</text>
+    <circle cx="701" cy="186" r="2" fill="#10b981"/>
+    <text x="709" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">load_date: TIMESTAMP [PK]</text>
+    <circle cx="701" cy="202" r="2" fill="#10b981"/>
+    <text x="709" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">hash_diff: CHAR(32), name, tier</text>
+  
+    <rect x="685" y="215" width="250" height="90" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="810.0" y="241" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SAT_LINK_FULFILLMENT</text>
+    <text x="810.0" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Transaction Context</text>
+    <rect x="898" y="225" width="31" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="913.5" y="237" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SAT</text>
+    <circle cx="701" cy="270" r="2" fill="#10b981"/>
+    <text x="709" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">link_customer_order_hk: CHAR(32) [PK, FK]</text>
+    <circle cx="701" cy="286" r="2" fill="#10b981"/>
+    <text x="709" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">load_date: TIMESTAMP [PK]</text>
+    <circle cx="701" cy="302" r="2" fill="#10b981"/>
+    <text x="709" y="305" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">channel: VARCHAR, shipping_method</text>
+  
+    <rect x="685" y="315" width="250" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="810.0" y="341" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SAT_ORDER_DETAILS</text>
+    <text x="810.0" y="357" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Order Context</text>
+    <rect x="898" y="325" width="31" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="913.5" y="337" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SAT</text>
+    <circle cx="701" cy="370" r="2" fill="#10b981"/>
+    <text x="709" y="373" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">order_hk: CHAR(32) [PK, FK]</text>
+    <circle cx="701" cy="386" r="2" fill="#10b981"/>
+    <text x="709" y="389" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">load_date: TIMESTAMP [PK]</text>
+    <circle cx="701" cy="402" r="2" fill="#10b981"/>
+    <text x="709" y="405" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">order_status, total_amount</text>
+
+  
+    <path d="M 295.0 192.0 L 305.0 192.0 C 328.0 192.0, 328.0 240.0, 351.0 240.0 L 365.0 240.0" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="330.0" y="208.0" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">FK: customer_hk</text>
+  
+    <path d="M 295.0 327.0 L 305.0 327.0 C 328.0 327.0, 328.0 270.0, 351.0 270.0 L 365.0 270.0" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="330.0" y="290.5" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">FK: order_hk</text>
+
+  
+    <line x1="295" y1="160" x2="685" y2="160" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="490.0" y="152.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">describes</text>
+  
+    <line x1="615" y1="255" x2="685" y2="255" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="650.0" y="247.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">tracks context</text>
+  
+    <line x1="295" y1="355" x2="685" y2="355" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="490.0" y="347.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">describes</text>
+
+</svg>

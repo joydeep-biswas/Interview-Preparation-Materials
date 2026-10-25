@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Command Pattern: Encapsulated Request Objects with Undo/Redo &amp; Queuing</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Decoupling the Invoker from the Receiver to Enable Asynchronous Scheduling and Transaction Rollbacks</text>
+<rect x="40" y="130" width="210" height="270" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="145" width="120" height="20" rx="10" fill="#1e3a8a"/><text x="115" y="158" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Client</text>
+<text x="145" y="190" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderActionService</text>
+<text x="55" y="225" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Instantiates Command:</text>
+<text x="55" y="245" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Command cmd =</text>
+<text x="65" y="262" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">new CreateOrderCmd(r);</text>
+<text x="55" y="290" fill="#FBBF24" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">invoker.submit(cmd);</text>
+<text x="55" y="325" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client does not know</text>
+<text x="55" y="345" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">HOW command runs!</text>
+<rect x="280" y="130" width="250" height="270" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<rect x="295" y="145" width="180" height="20" rx="10" fill="#047857"/><text x="385" y="158" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Command Object</text>
+<text x="405" y="185" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt;&amp;lt;interface&amp;gt;&amp;gt; Command</text>
+<text x="405" y="205" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CreateOrderCommand</text>
+<rect x="292" y="235" width="226" height="75" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="300" y="255" fill="#F8FAFC" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">+execute(): void</text>
+<text x="300" y="275" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">+undo(): void // Comp rollback</text>
+<text x="300" y="295" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">private final Receiver receiver;</text>
+<text x="295" y="330" fill="#D1FAE5" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Encapsulates request params</text>
+<text x="295" y="348" fill="#6EE7B7" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Serializable for Redis queues</text>
+<rect x="560" y="130" width="240" height="270" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+<rect x="575" y="145" width="160" height="20" rx="10" fill="#78350f"/><text x="655" y="158" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Invoker / Queue</text>
+<text x="680" y="190" fill="#FBBF24" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CommandExecutorQueue</text>
+<text x="575" y="225" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Queue &amp; History Buffer:</text>
+<text x="575" y="245" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Deque&amp;lt;Command&amp;gt; history</text>
+<text x="575" y="265" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• ThreadPool / Worker queue</text>
+<text x="575" y="285" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Scheduled delayed execution</text>
+<text x="575" y="310" fill="#34D399" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Triggers: cmd.execute()</text>
+<text x="575" y="335" fill="#F87171" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">On Failure: calls cmd.undo()</text>
+<rect x="830" y="130" width="210" height="270" rx="8" fill="#083344" stroke="#06b6d4" stroke-width="2"/>
+<rect x="845" y="145" width="120" height="20" rx="10" fill="#0891b2"/><text x="905" y="158" fill="#ECFEFF" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Receiver</text>
+<text x="935" y="190" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderDatabaseReceiver</text>
+<text x="845" y="225" fill="#E2E8F0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Executes Physical DML:</text>
+<text x="845" y="245" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• insertOrderRow()</text>
+<text x="845" y="265" fill="#F87171" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• deleteOrderRow() [undo]</text>
+<text x="845" y="285" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• updates database tables</text>
+<text x="845" y="315" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Receiver knows HOW to</text>
+<text x="845" y="335" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">perform physical work</text>
+<line x1="250" y1="260" x2="280" y2="260" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="530" y1="260" x2="560" y2="260" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<line x1="800" y1="260" x2="830" y2="260" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<rect x="40" y="440" width="1000" height="85" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="465" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Command Pattern in Distributed Sagas &amp; Event Sourcing:</text>
+<text x="65" y="485" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• In a Saga Orchestrator, each step is modeled as a Command object with execute() and compensating undo() actions.</text>
+<text x="65" y="502" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Commands can be persisted to a transaction log / outbox table, allowing automated crash-recovery and idempotent retries.</text>
+</svg>

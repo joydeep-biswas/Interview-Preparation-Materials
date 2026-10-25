@@ -1,0 +1,21 @@
+direction: right
+title: Statistical Anomaly Detection in Ingestion Volumes
+
+baseline: 1. Metric Extraction & Baseline Stats {
+  history: "Historical 30-Day Rolling Ingestion Counts"
+  stats: "Mean (μ): 1,000,000 | StdDev (σ): 50,000"
+}
+
+zscore: 2. Z-Score Anomaly Evaluation {
+  formula: "Z = |X - μ| / σ"
+  probe: "Today: X = 400,000 -> Z = 12.0! (Exceeds 3.0 Threshold)"
+}
+
+action: 3. Automated Circuit Breaker Gate {
+  halt: "Halts downstream dbt jobs; prevents corrupt data polluting Gold"
+  alert: "Triggers PagerDuty anomaly alert"
+  style.stroke: "#ef4444"
+}
+
+baseline -> zscore: "Evaluate Today Count"
+zscore -> action: "Z > 3.0 Detected"

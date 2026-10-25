@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1220" height="560" viewBox="0 0 1220 560">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1220" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">JVM Thread Lifecycle State Machine (java.lang.Thread.State)</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">6 Core States: NEW -&gt; RUNNABLE -&gt; BLOCKED / WAITING / TIMED_WAITING -&gt; TERMINATED</text>
+
+  <!-- NEW State -->
+  <rect x="50" y="210" width="160" height="85" rx="8" fill="#1E293B" stroke="#3B82F6" stroke-width="2"/>
+  <text x="130" y="240" font-size="14" font-weight="700" fill="#60A5FA" text-anchor="middle">NEW</text>
+  <text x="130" y="262" font-size="10" fill="#CBD5E1" text-anchor="middle">new Thread() created</text>
+  <text x="130" y="278" font-size="9" fill="#94A3B8" text-anchor="middle">Not yet started</text>
+
+  <!-- RUNNABLE State (Subdivided) -->
+  <rect x="290" y="160" width="280" height="185" rx="8" fill="#06201B" stroke="#10B981" stroke-width="2"/>
+  <rect x="290" y="160" width="280" height="30" rx="8" fill="#064E3B"/>
+  <text x="430" y="181" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">RUNNABLE</text>
+
+  <rect x="305" y="200" width="115" height="75" rx="4" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="362" y="228" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Ready</text>
+  <text x="362" y="248" font-size="9" fill="#94A3B8" text-anchor="middle">In OS run queue</text>
+  <text x="362" y="262" font-size="9" fill="#CBD5E1" text-anchor="middle">Awaiting CPU</text>
+
+  <rect x="440" y="200" width="115" height="75" rx="4" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="497" y="228" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Running</text>
+  <text x="497" y="248" font-size="9" fill="#A7F3D0" text-anchor="middle">Executing on core</text>
+  <text x="497" y="262" font-size="9" fill="#CBD5E1" text-anchor="middle">Active bytecode</text>
+
+  <text x="430" y="300" font-size="9" fill="#94A3B8" text-anchor="middle">OS preempts / Thread.yield() switches Ready &lt;-&gt; Running</text>
+  <text x="430" y="325" font-size="10" font-weight="600" fill="#6EE7B7" text-anchor="middle">Eligible for execution by OS scheduler</text>
+
+  <!-- BLOCKED State -->
+  <rect x="660" y="95" width="250" height="90" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="2"/>
+  <text x="785" y="125" font-size="14" font-weight="700" fill="#F87171" text-anchor="middle">BLOCKED</text>
+  <text x="785" y="148" font-size="10" fill="#CBD5E1" text-anchor="middle">Waiting for Monitor Lock</text>
+  <text x="785" y="165" font-size="9" fill="#FCA5A5" text-anchor="middle">Enters synchronized block held by other</text>
+
+  <!-- WAITING State -->
+  <rect x="660" y="215" width="250" height="90" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="2"/>
+  <text x="785" y="245" font-size="14" font-weight="700" fill="#FBBF24" text-anchor="middle">WAITING</text>
+  <text x="785" y="268" font-size="10" fill="#CBD5E1" text-anchor="middle">Indefinite Wait: Object.wait()</text>
+  <text x="785" y="285" font-size="9" fill="#FDE68A" text-anchor="middle">Thread.join(), LockSupport.park()</text>
+
+  <!-- TIMED_WAITING State -->
+  <rect x="660" y="335" width="250" height="90" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="2"/>
+  <text x="785" y="365" font-size="14" font-weight="700" fill="#FBBF24" text-anchor="middle">TIMED_WAITING</text>
+  <text x="785" y="388" font-size="10" fill="#CBD5E1" text-anchor="middle">Timed Wait: Thread.sleep(ms)</text>
+  <text x="785" y="405" font-size="9" fill="#FDE68A" text-anchor="middle">wait(timeout), parkNanos(nanos)</text>
+
+  <!-- TERMINATED State -->
+  <rect x="990" y="210" width="180" height="85" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="1080" y="240" font-size="14" font-weight="700" fill="#C4B5FD" text-anchor="middle">TERMINATED</text>
+  <text x="1080" y="262" font-size="10" fill="#CBD5E1" text-anchor="middle">run() completed</text>
+  <text x="1080" y="278" font-size="9" fill="#94A3B8" text-anchor="middle">Thread destroyed (dead)</text>
+
+  <!-- NEW to RUNNABLE -->
+  <path fill="none" d="M 210 252 L 290 252" stroke="#3B82F6" stroke-width="2" marker-end="url(#arr-b)"/>
+  <rect x="220" y="240" width="60" height="18" rx="3" fill="#0B132B" stroke="#3B82F6" stroke-width="1"/>
+  <text x="250" y="253" font-size="8" font-weight="700" fill="#93C5FD" text-anchor="middle">start()</text>
+
+  <!-- RUNNABLE to BLOCKED &amp; back -->
+  <path fill="none" d="M 540.0 160.0 L 540.0 150.0 C 540.0 145.0, 593.0 140.0, 646.0 140.0 L 660.0 140.0" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
+  <path fill="none" d="M 660.0 160.0 L 650.0 160.0 C 617.0 160.0, 617.0 180.0, 584.0 180.0 L 570.0 180.0" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- RUNNABLE to WAITING &amp; back -->
+  <path fill="none" d="M 570 245 L 660 245" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <path fill="none" d="M 660 270 L 570 270" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- RUNNABLE to TIMED_WAITING &amp; back -->
+  <path fill="none" d="M 550.0 325.0 L 560.0 325.0 C 603.0 325.0, 603.0 360.0, 646.0 360.0 L 660.0 360.0" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <path fill="none" d="M 660.0 385.0 L 652.0 385.0 C 596.0 385.0, 540.0 371.0, 540.0 357.0 L 540.0 345.0" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- RUNNABLE to TERMINATED -->
+  <path fill="none" d="M 570 252 L 570 252 L 910 252 L 910 252" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+  <path fill="none" d="M 910 252 L 990 252" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+  <rect x="925" y="240" width="50" height="18" rx="3" fill="#0B132B" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="950" y="253" font-size="8" font-weight="700" fill="#C4B5FD" text-anchor="middle">Exits</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="50" y="475" width="1120" height="40" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="610" y="500" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Important Distinction: BLOCKED only applies to intrinsic synchronized monitor locks. LockSupport.park() and ReentrantLock put the thread in WAITING.</text>
+</svg>

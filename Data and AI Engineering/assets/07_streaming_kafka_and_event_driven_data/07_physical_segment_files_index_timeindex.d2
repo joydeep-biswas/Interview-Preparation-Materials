@@ -1,0 +1,30 @@
+direction: down
+title: Kafka Physical Storage Architecture: Partition Directory & Segment Files
+
+part_dir: "Partition Directory: /var/lib/kafka/data/commerce.orders-0/" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  seg0: "Closed Segment Triad (Base Offset 0)" {
+    style.stroke: "#f59e0b"
+    log: "00000000000000000000.log (Binary records)"
+    idx: "00000000000000000000.index (Sparse mmap offset -> byte)"
+    tidx: "00000000000000000000.timeindex (Timestamp -> offset)"
+  }
+
+  active: "Active Writable Segment (Base Offset 10485760)" {
+    style.stroke: "#38bdf8"
+    active_log: "00000000000104857600.log"
+  }
+
+  epoch: "leader-epoch-checkpoint (Replication lineage)" {
+    style.stroke: "#10b981"
+  }
+}
+
+lookup: "Lookup Path: 1. Find segment -> 2. Binary search .index -> 3. Zero-copy scan" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+part_dir -> lookup

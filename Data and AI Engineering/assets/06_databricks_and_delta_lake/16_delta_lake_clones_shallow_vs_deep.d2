@@ -1,0 +1,33 @@
+direction: down
+title: Delta Lake Clones: Shallow vs Deep Clone Mechanics
+
+source: "Primary Production Table: lakehouse.fact_orders" {
+  style.fill: "#0f172a"
+  style.stroke: "#38bdf8"
+  description: "10 TB Active Parquet Data | _delta_log/ Version 50"
+}
+
+shallow: "Shallow Clone (Zero-Copy Metadata)" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+
+  target: "dev_sandbox.orders_dev_test"
+  data: "Data Copied: 0 BYTES (Pointers to source)"
+  speed: "Time: 2-5 Seconds"
+  use: "Dev/Test, ML feature validation"
+  risk: "Tied to source Parquet files (Vulnerable to source VACUUM)"
+}
+
+deep: "Deep Clone (Fully Isolated Replica)" {
+  style.fill: "#062e22"
+  style.stroke: "#10b981"
+
+  target: "dr_lakehouse.fact_orders (Secondary Region)"
+  data: "Data Copied: Full 10 TB (Incremental sync after run 1)"
+  speed: "Time: Hours (Proportional to size)"
+  use: "Multi-region DR, Compliance archival"
+  isolation: "100% Decoupled from source table"
+}
+
+source -> shallow: "SHALLOW CLONE\n(Zero-copy metadata fork)"
+source -> deep: "DEEP CLONE\n(Physical data replication)"

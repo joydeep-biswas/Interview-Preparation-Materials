@@ -1,0 +1,35 @@
+direction: down
+title: "Observer Pattern: Asynchronous Event-Driven Decoupling"
+
+pub: "OrderService
+publishEvent(OrderPlacedEvent)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+bus: "Spring Event Bus
+ApplicationEventPublisher" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+l1: "InventoryListener
+@TransactionalEventListener(AFTER_COMMIT)" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+l2: "NotificationListener
+@Async @EventListener (Background thread)" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+l3: "AnalyticsKafkaListener
+Streams event to Kafka cluster" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+pub -> bus: "1. Publishes event"
+bus -> l1: "2. Dispatches"
+bus -> l2: "2. Dispatches"
+bus -> l3: "2. Dispatches"

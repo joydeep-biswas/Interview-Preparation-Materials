@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Java HashMap Internal Mechanics &amp; Collision Handling</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Bit-spread perturbation, fast power-of-two masking, and treeification thresholds</text>
+
+  <!-- Stage 1: Key Hash & Perturbation -->
+  <g transform="translate(40, 75)">
+    <rect width="280" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="280" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="140" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">1. Hash &amp; Bucket Indexing</text>
+
+    <rect x="15" y="45" width="250" height="60" rx="6" ry="6" fill="#1E293B"/>
+    <text x="140" y="65" class="badge" fill="#93C5FD" text-anchor="middle">Object Hash Code</text>
+    <text x="140" y="85" class="card-body" font-family="monospace" text-anchor="middle">int h = key.hashCode();</text>
+
+    <!-- Down arrow -->
+    <path fill="none" d="M 140 105 L 140 120" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+    <rect x="15" y="125" width="250" height="75" rx="6" ry="6" fill="#1E293B"/>
+    <text x="140" y="145" class="badge" fill="#93C5FD" text-anchor="middle">Bit Spread (Perturbation)</text>
+    <text x="140" y="165" class="card-body" font-family="monospace" text-anchor="middle">h ^ (h &gt;&gt;&gt; 16)</text>
+    <text x="25" y="185" class="card-body" font-size="11">Folds upper 16 bits into lower 16 bits</text>
+
+    <!-- Down arrow -->
+    <path fill="none" d="M 140 200 L 140 215" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+    <rect x="15" y="220" width="250" height="75" rx="6" ry="6" fill="#1E293B"/>
+    <text x="140" y="240" class="badge" fill="#93C5FD" text-anchor="middle">Array Index Masking</text>
+    <text x="140" y="260" class="card-body" font-family="monospace" text-anchor="middle">index = (n - 1) &amp; hash</text>
+    <text x="25" y="280" class="card-body" font-size="11">Fast bitwise AND (Capacity n is power of 2)</text>
+
+    <rect x="15" y="310" width="250" height="45" rx="4" ry="4" fill="#0F172A" stroke="#3B82F6"/>
+    <text x="140" y="328" class="badge" fill="#60A5FA" text-anchor="middle">Target Bucket Array Index</text>
+    <text x="140" y="344" class="card-body" font-size="11" text-anchor="middle">table[index] Node&lt;K,V&gt;</text>
+  </g>
+
+  <!-- Stage 2: Bucket Array Topology -->
+  <g transform="translate(360, 75)">
+    <rect width="320" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="320" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="160" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Table Array &amp; Collision Chains</text>
+
+    <!-- Array Slots -->
+    <g transform="translate(20, 50)">
+      <rect x="0" y="0" width="100" height="34" rx="4" ry="4" fill="#1E293B" stroke="#10B981"/>
+      <text x="50" y="22" class="badge" fill="#A7F3D0" text-anchor="middle">table[0]: null</text>
+
+      <rect x="0" y="44" width="100" height="34" rx="4" ry="4" fill="#1E293B" stroke="#10B981"/>
+      <text x="50" y="66" class="badge" fill="#A7F3D0" text-anchor="middle">table[1]: Node</text>
+
+      <path fill="none" d="M 100 61 L 138 61 L 150 61" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+      <rect x="150" y="44" width="120" height="34" rx="4" ry="4" fill="#1E293B"/>
+      <text x="210" y="65" class="card-body" font-size="11" text-anchor="middle">Single Node (O(1))</text>
+
+      <rect x="0" y="88" width="100" height="34" rx="4" ry="4" fill="#1E293B" stroke="#10B981"/>
+      <text x="50" y="110" class="badge" fill="#A7F3D0" text-anchor="middle">table[2]: null</text>
+
+      <rect x="0" y="132" width="100" height="34" rx="4" ry="4" fill="#1E293B" stroke="#F59E0B"/>
+      <text x="50" y="154" class="badge" fill="#FDE68A" text-anchor="middle">table[3]: Chain</text>
+
+      <!-- Collision Linked List -->
+      <path fill="none" d="M 100 149 L 128 149 L 140 149" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+      <rect x="140" y="132" width="70" height="34" rx="4" ry="4" fill="#1E293B"/>
+      <text x="175" y="153" class="card-body" font-size="10" text-anchor="middle">Node A</text>
+
+      <path fill="none" d="M 210 149 L 228 149 L 240 149" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+      <rect x="240" y="132" width="50" height="34" rx="4" ry="4" fill="#1E293B"/>
+      <text x="265" y="153" class="card-body" font-size="10" text-anchor="middle">Node B</text>
+
+      <rect x="0" y="176" width="100" height="34" rx="4" ry="4" fill="#1E293B" stroke="#10B981"/>
+      <text x="50" y="198" class="badge" fill="#A7F3D0" text-anchor="middle">table[...]: null</text>
+
+      <rect x="0" y="220" width="100" height="34" rx="4" ry="4" fill="#1E293B" stroke="#8B5CF6"/>
+      <text x="50" y="242" class="badge" fill="#DDD6FE" text-anchor="middle">table[k]: &gt; 8</text>
+    </g>
+
+    <rect x="20" y="310" width="280" height="45" rx="4" ry="4" fill="#064E3B"/>
+    <text x="160" y="328" class="badge" fill="#A7F3D0" text-anchor="middle">Threshold Invariant</text>
+    <text x="160" y="344" class="card-body" font-size="11" text-anchor="middle">Load Factor = 0.75 | Cap doubles when size &gt; 0.75*n</text>
+  </g>
+
+  <!-- Stage 3: Collision Resolution & Treeify -->
+  <g transform="translate(720, 75)">
+    <rect width="300" height="370" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="300" height="30" rx="10" ry="10" fill="#5B21B6"/>
+    <text x="150" y="20" class="card-title" fill="#DDD6FE" text-anchor="middle">3. Treeify / Untreeify Logic</text>
+
+    <rect x="15" y="45" width="270" height="135" rx="6" ry="6" fill="#1E293B" stroke="#F59E0B"/>
+    <text x="150" y="68" class="badge" fill="#FDE68A" text-anchor="middle">Collision Threshold: 8 Items</text>
+    <text x="25" y="90" class="card-body">• When bucket length &gt;= 8 AND table cap &gt;= 64:</text>
+    <text x="25" y="108" class="card-body">• Bucket transforms from LinkedList to</text>
+    <text x="25" y="126" class="badge" fill="#C4B5FD">   Red-Black Balanced BST (TreeNode)</text>
+    <text x="25" y="146" class="card-body">• Worst case lookup drops from O(N) to O(log N)</text>
+    <text x="25" y="164" class="card-body">• If cap &lt; 64: Resizes table instead of treeifying!</text>
+
+    <!-- Down arrow -->
+    <path fill="none" d="M 150 185 L 150 200" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrow-purple)"/>
+
+    <rect x="15" y="205" width="270" height="150" rx="6" ry="6" fill="#1E293B" stroke="#10B981"/>
+    <text x="150" y="228" class="badge" fill="#A7F3D0" text-anchor="middle">Untreeify Threshold: 6 Items</text>
+    <text x="25" y="250" class="card-body">• During table resize() or deletion:</text>
+    <text x="25" y="270" class="card-body">• If bucket item count drops to &lt;= 6:</text>
+    <text x="25" y="290" class="card-body">• TreeNode unbinds back to Singly LinkedList</text>
+    <text x="25" y="312" class="badge" fill="#6EE7B7">   Hysteresis Gap: 6 vs 8</text>
+    <text x="25" y="332" class="card-body">Prevents thrashing (rapid treeify/untreeify cycles)</text>
+  </g>
+
+  <!-- Straight Runways from Stage 1 to Stage 2, and Stage 2 to Stage 3 -->
+  <path d="M 320 260 L 348 260 L 360 260" fill="none" stroke="#3B82F6" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+  <path d="M 480 315 L 480 340 Q 480 355 600 355 L 708 355 L 720 355" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arrow-purple)"/>
+</svg>

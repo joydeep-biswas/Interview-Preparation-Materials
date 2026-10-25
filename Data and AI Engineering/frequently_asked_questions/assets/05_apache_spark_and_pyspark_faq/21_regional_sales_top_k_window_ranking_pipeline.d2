@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+fact: "fact_sales\n(order_id, region, product_id, qty)" { class: card; style.stroke: "#3B82F6" }
+agg: "1. GroupBy & Sum\n.groupBy('region', 'product_id')\n.agg(sum('qty'))" { class: card; style.stroke: "#F59E0B" }
+window_rank: "2. Dense Rank Window\ndense_rank().over(\nWindow.partitionBy('region')\n.orderBy(desc('total_sold')))" { class: card; style.stroke: "#10B981" }
+filter_k: "3. Top-K Filter\n.filter(col('rank') <= 3)" { class: card; style.stroke: "#10B981" }
+output: "Final Regional Top-3 Matrix\nOptimized analytical serving" { class: card; style.stroke: "#10B981" }
+
+fact -> agg -> window_rank -> filter_k -> output

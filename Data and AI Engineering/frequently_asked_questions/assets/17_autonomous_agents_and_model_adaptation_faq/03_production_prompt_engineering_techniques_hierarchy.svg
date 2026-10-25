@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 260" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <rect x="25" y="30" width="170" height="200" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="110" y="55" class="title-txt" text-anchor="middle">1. System Prompt</text>
+  <text x="35" y="80" class="body-txt">• Persona &amp; Role</text>
+  <text x="35" y="100" class="body-txt">• Ethical guardrails</text>
+  <text x="35" y="120" class="body-txt">• Negative constraints</text>
+  <text x="35" y="140" class="mono-txt">Contractual rules</text>
+  <text x="35" y="200" class="badge-txt" fill="#38BDF8">Foundational Prior</text>
+
+  <rect x="210" y="30" width="170" height="200" rx="8" ry="8" fill="#111827" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="295" y="55" class="title-txt" text-anchor="middle">2. Few-Shot</text>
+  <text x="220" y="80" class="body-txt">• Concrete input/output</text>
+  <text x="220" y="100" class="body-txt">• Exemplar pairs</text>
+  <text x="220" y="120" class="body-txt">• Eliminates ambiguity</text>
+  <text x="220" y="140" class="mono-txt">In-context learning</text>
+  <text x="220" y="200" class="badge-txt" fill="#67E8F9">Pattern Alignment</text>
+
+  <rect x="395" y="30" width="170" height="200" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="480" y="55" class="title-txt" text-anchor="middle" fill="#C4B5FD">3. Chain-of-Thought</text>
+  <text x="405" y="80" class="body-txt">• Step-by-step tokens</text>
+  <text x="405" y="100" class="body-txt">• Unrolls hidden state</text>
+  <text x="405" y="120" class="body-txt">• Drastically cuts error</text>
+  <text x="405" y="140" class="mono-txt">Think step-by-step</text>
+  <text x="405" y="200" class="badge-txt" fill="#C4B5FD">Reasoning Tokens</text>
+
+  <rect x="580" y="30" width="170" height="200" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="665" y="55" class="title-txt" text-anchor="middle" fill="#FDE68A">4. ReAct Loop</text>
+  <text x="590" y="80" class="body-txt">• Interleaves Thought,</text>
+  <text x="590" y="100" class="body-txt">  Action, Observation</text>
+  <text x="590" y="120" class="body-txt">• Calls external tools</text>
+  <text x="590" y="140" class="mono-txt">Dynamic retrieval</text>
+  <text x="590" y="200" class="badge-txt" fill="#FDE68A">Agent Standard</text>
+
+  <rect x="765" y="30" width="170" height="200" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="850" y="55" class="title-txt" text-anchor="middle" fill="#A7F3D0">5. Structured Output</text>
+  <text x="775" y="80" class="body-txt">• Constrained grammar</text>
+  <text x="775" y="100" class="body-txt">• JSON schema guarantee</text>
+  <text x="775" y="120" class="body-txt">• Pydantic validation</text>
+  <text x="775" y="140" class="mono-txt">Zero parsing error</text>
+  <text x="775" y="200" class="badge-txt" fill="#10B981">Production Contract</text>
+</svg>

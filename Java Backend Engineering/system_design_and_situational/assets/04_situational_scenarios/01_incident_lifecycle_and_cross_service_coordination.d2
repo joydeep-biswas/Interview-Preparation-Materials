@@ -1,0 +1,35 @@
+direction: right
+
+phase1: "Phase 1: Detection & Triage" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  alert: "Metric Breach (p99 > 500ms / 5xx Spike)"
+  triage: "Incident Commander Trace Isolation"
+  shed: "Traffic Shedding & Circuit Breaker Trip"
+}
+
+phase2: "Phase 2: Rectification & Bridge" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  bridge: "War Room & Statuspage Client Updates"
+  hotfix: "Rollback or Hotfix Canary Deployment"
+}
+
+phase3: "Phase 3: Hardening & Post-Mortem" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  post_mortem: "Blameless 5 Whys Post-Mortem"
+  action_items: "Socket Timeout Hardening & Chaos Testing"
+}
+
+phase1 -> phase2: "Active Blast Radius Contained" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+phase2 -> phase3: "Service Health Verified" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

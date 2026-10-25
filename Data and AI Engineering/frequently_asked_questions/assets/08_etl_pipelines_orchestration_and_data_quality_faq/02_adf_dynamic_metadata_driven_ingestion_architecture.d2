@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  container: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  box_purple: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
+  box_blue: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  box_cyan: { style: { fill: "#111827", stroke: "#06B6D4", stroke-width: 2 } }
+  box_green: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
+}
+
+MetadataPipeline: "ADF Dynamic Metadata-Driven Ingestion Architecture (100+ Tables)" {
+  class: container
+  ControlTable: "SQL Control Table\n• etl_control_metadata\n• table_name, schema\n• target_adls_path\n• is_active = 1" { class: box_purple }
+  Lookup: "1. ADF Lookup Activity\n• SELECT * FROM meta\n• Outputs JSON array\n• @activity().output.value" { class: box_blue }
+  ForEach: "2. ADF ForEach Activity\n• Parallel batch loop\n• Concurrency: up to 50\n• @item().source_table" { class: box_cyan }
+  Execute: "3. Copy & Transform\n• Dynamic Copy Activity\n• SQL Server -> ADLS\n• Databricks Silver/Gold" { class: box_green }
+
+  ControlTable -> Lookup -> ForEach -> Execute
+}

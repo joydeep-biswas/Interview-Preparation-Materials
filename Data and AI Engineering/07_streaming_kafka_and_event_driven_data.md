@@ -8,69 +8,9 @@ A comprehensive, production-grade guide to real-time event streaming architectur
 
 Event streaming treats data not as static snapshots stored in tables, but as a **continuous, infinite, unbounded stream of events happening in real time**.
 
-```mermaid
-flowchart TD
-    subgraph Producers ["1. Event Ingress & Publishing Layer"]
-        App1["IoT Telemetry Gateways<br/>(100k msgs/sec)"]
-        App2["Clickstream Collectors<br/>(Frontend Webhooks)"]
-        App3["Transactional CDC Debezium<br/>(PostgreSQL / MySQL WAL)"]
-    end
+![Distributed Event Streaming Platform Architecture](assets/07_streaming_kafka_and_event_driven_data/01_distributed_event_streaming_ecosystem.svg)
 
-    subgraph KafkaCore ["2. Distributed Commit Log Layer (Apache Kafka Cluster)"]
-        direction TB
-        KRaft["KRaft Controller Quorum<br/>(Raft-based metadata management; No ZooKeeper)"]
-        
-        subgraph TopicPartitioning ["Topic: commerce.orders (Partitions & ISR Replication)"]
-            P0["Partition 0<br/>(Leader: Broker 1 | Replicas: Broker 2, 3)"]
-            P1["Partition 1<br/>(Leader: Broker 2 | Replicas: Broker 1, 3)"]
-            P2["Partition 2<br/>(Leader: Broker 3 | Replicas: Broker 1, 2)"]
-        end
-        KRaft --- P0 & P1 & P2
-    end
-
-    subgraph ConsumerEcosystem ["3. Consumer Subsystems & Processing"]
-        direction TB
-        subgraph SparkStreaming ["Spark Structured Streaming / Flink"]
-            Driver["Stream Coordinator (Checkpoint State Store)"]
-            Exec1["Executor 1 (Consumes P0)"]
-            Exec2["Executor 2 (Consumes P1)"]
-            Exec3["Executor 3 (Consumes P2)"]
-            Driver --- Exec1 & Exec2 & Exec3
-        end
-    end
-
-    subgraph Sinks ["4. Real-Time Sinks & Persistent Serving Layer"]
-        DeltaSilver[("Delta Lake Silver<br/>ACID MERGE & CDC State")]
-        ClickHouseOLAP[("ClickHouse OLAP<br/>Sub-50ms Real-Time Dashboards")]
-        FraudAlerts["Egress Topic / PagerDuty Alert Engine"]
-    end
-
-    Producers -->|Murmur2 Key Hashing| KafkaCore
-    P0 --> Exec1
-    P1 --> Exec2
-    P2 --> Exec3
-    Exec1 & Exec2 & Exec3 --> DeltaSilver & ClickHouseOLAP & FraudAlerts
-
-    style Producers fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style KafkaCore fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style TopicPartitioning fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ConsumerEcosystem fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Sinks fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#86efac
-    style App1 fill:#182234,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style App2 fill:#182234,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style App3 fill:#182234,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style KRaft fill:#182234,stroke:#94a3b8,stroke-width:2px,color:#fff
-    style P0 fill:#182234,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style P1 fill:#182234,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style P2 fill:#182234,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Driver fill:#182234,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Exec1 fill:#182234,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Exec2 fill:#182234,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Exec3 fill:#182234,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style DeltaSilver fill:#182234,stroke:#10b981,stroke-width:2px,color:#fff
-    style ClickHouseOLAP fill:#182234,stroke:#10b981,stroke-width:2px,color:#fff
-    style FraudAlerts fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/01_distributed_event_streaming_ecosystem.d2](assets/07_streaming_kafka_and_event_driven_data/01_distributed_event_streaming_ecosystem.d2)*
 
 ---
 
@@ -152,34 +92,9 @@ SELECT * FROM orders WHERE order_date = CURRENT_DATE() - 1;
 ```
 This paradigm introduces an artificial **24-hour latency barrier**. In the real world, businesses do not operate in 24-hour batch dumps. Every user click, GPS coordinate, heart rate monitor ping, and credit card swipe occurs **continuously in real time**.
 
-```mermaid
-flowchart LR
+![Paradigm Shift: Static Tables vs. Infinite Unbounded Streams](assets/07_streaming_kafka_and_event_driven_data/02_batch_vs_streaming_unbounded_streams.svg)
 
-    subgraph StreamingParadigm ["2. Modern Event Streaming (Unbounded Append-Only Log)"]
-        direction LR
-        S_Event["Continuous Event Stream<br/>(Event 1 -> Event 2 -> Event 3...)"]
-        S_Engine["Real-Time Engine (Kafka + Spark / Flink)<br/>(Sub-second Latency)"]
-        S_Action["Immediate Business Action<br/>(Block fraud, adjust pricing)"]
-        S_Event --> S_Engine --> S_Action
-    end
-
-    subgraph BatchParadigm ["1. Traditional Batch Paradigm (Bounded Snapshot)"]
-        direction LR
-        B_Store[("Static Database Snapshot")]
-        B_Job["Nightly Batch Job<br/>(Runs at 2:00 AM)"]
-        B_Delay["24-Hour Business Latency!"]
-        B_Store --> B_Job --> B_Delay
-    end
-
-    style BatchParadigm fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style StreamingParadigm fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style B_Store fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style B_Job fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style B_Delay fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style S_Event fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style S_Engine fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style S_Action fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/02_batch_vs_streaming_unbounded_streams.d2](assets/07_streaming_kafka_and_event_driven_data/02_batch_vs_streaming_unbounded_streams.d2)*
 
 ---
 
@@ -188,38 +103,9 @@ flowchart LR
 Many software engineers ask: *"Why invent Kafka when we already have RabbitMQ, ActiveMQ, or AWS SQS?"*
 The answer lies in **destructive reads vs. replayable commit logs**:
 
-```mermaid
-flowchart LR
+![Traditional Message Queue vs Distributed Commit Log](assets/07_streaming_kafka_and_event_driven_data/03_kafka_log_vs_traditional_mq_amqp.svg)
 
-    subgraph KafkaLogArch ["2. Distributed Commit Log (Apache Kafka)"]
-        direction TB
-        K_Log["Append-Only Immutable Disk Log<br/>[Offset 0] [Offset 1] [Offset 2] [Offset 3]..."]
-        K_C1["Consumer Group A (Analytics): Cursor at Offset 3"]
-        K_C2["Consumer Group B (Fraud ML): Cursor at Offset 2"]
-        K_C3["Consumer Group C (Auditor): Rewinds cursor back to Offset 0!"]
-        K_Log --> K_C1
-        K_Log --> K_C2
-        K_Log --> K_C3
-    end
-
-    subgraph TraditionalQueue ["1. Traditional Message Queue (RabbitMQ / SQS)"]
-        direction LR
-        Q_Msg["Message arrives in Queue"]
-        Q_C1["Consumer 1 reads message"]
-        Q_Del["<b>DESTRUCTIVE READ:</b><br/>Message is deleted from queue memory!<br/>Consumer 2 CANNOT read it.<br/>Cannot rewind or replay historical events!"]
-        Q_Msg --> Q_C1 --> Q_Del
-    end
-
-    style TraditionalQueue fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style KafkaLogArch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Q_Msg fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style Q_C1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style Q_Del fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style K_Log fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style K_C1 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style K_C2 fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style K_C3 fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/03_kafka_log_vs_traditional_mq_amqp.d2](assets/07_streaming_kafka_and_event_driven_data/03_kafka_log_vs_traditional_mq_amqp.d2)*
 
 | Dimension | Traditional Message Queue (RabbitMQ / SQS) | Distributed Commit Log (Apache Kafka) |
 | :--- | :--- | :--- |
@@ -250,29 +136,9 @@ In modern architectures, the append-only log is the **Single Source of Truth**:
 - **Partition:** A physical, ordered, immutable commit log file. Topics are divided into **Partitions** to achieve horizontal scaling across cluster brokers.
 - **Offset:** A strictly increasing 64-bit integer (`BIGINT`) assigned sequentially to every message inside a partition. Offsets are immutable and unique *within a partition*.
 
-```mermaid
-flowchart TD
-    subgraph TopicOrders ["Topic: commerce.orders (3 Partitions)"]
-        direction LR
-        subgraph P0 ["Partition 0 (Physical Disk Log)"]
-            direction LR
-            P0_0["[Off 0]"] --- P0_1["[Off 1]"] --- P0_2["[Off 2]"] --- P0_3["[Off 3]"] --- P0_4["[Off 4]"]
-        end
-        subgraph P1 ["Partition 1 (Physical Disk Log)"]
-            direction LR
-            P1_0["[Off 0]"] --- P1_1["[Off 1]"] --- P1_2["[Off 2]"] --- P1_3["[Off 3]"]
-        end
-        subgraph P2 ["Partition 2 (Physical Disk Log)"]
-            direction LR
-            P2_0["[Off 0]"] --- P2_1["[Off 1]"] --- P2_2["[Off 2]"] --- P2_3["[Off 3]"] --- P2_4["[Off 4]"] --- P2_5["[Off 5]"]
-        end
-    end
+![Kafka Topics, Partitions, and Monotonic Sequential Offsets](assets/07_streaming_kafka_and_event_driven_data/04_topics_partitions_and_monotonic_offsets.svg)
 
-    style TopicOrders fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style P0 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style P1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style P2 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/04_topics_partitions_and_monotonic_offsets.d2](assets/07_streaming_kafka_and_event_driven_data/04_topics_partitions_and_monotonic_offsets.d2)*
 
 > [!IMPORTANT]
 > **Total Ordering Guarantee:**
@@ -309,26 +175,9 @@ This deterministic formula guarantees that records with identical keys (e.g., `u
 #### 2. The RecordAccumulator & Micro-Batching
 Producers do *not* make a network call for every single record. Instead, records are buffered in client memory inside the **RecordAccumulator**:
 
-```mermaid
-flowchart LR
-    App["Application Thread: producer.send()"] --> RA["RecordAccumulator (RAM Buffer)"]
-    
-    subgraph Batches ["In-Flight Partition Batches"]
-        direction LR
-        B0["Batch for P0 (accumulating...)"]
-        B1["Batch for P1 (ready to flush)"]
-    end
+![Kafka Producer Architecture: RecordAccumulator & Micro-Batching](assets/07_streaming_kafka_and_event_driven_data/05_producer_record_accumulator_microbatching.svg)
 
-    RA --> Batches
-    Batches --> Sender["Background I/O Sender Thread"]
-    Sender -->|"TCP Network Send"| Broker["Kafka Broker Leader"]
-
-    style App fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style RA fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Batches fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Sender fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Broker fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/05_producer_record_accumulator_microbatching.d2](assets/07_streaming_kafka_and_event_driven_data/05_producer_record_accumulator_microbatching.d2)*
 
 - **`batch.size` (Default 16 KB):** Maximum byte size per partition batch.
 - **`linger.ms` (Default 0 ms):** Artificial delay to wait for more records to arrive before sending. Setting `linger.ms = 20` enables the producer to aggregate hundreds of events into a single compressed batch, increasing throughput by 500% with negligible latency cost.
@@ -348,31 +197,9 @@ Kafka partitions retain data based on declarative retention rules:
 
 In compacted topics, a background cleaner thread periodically merges log segments, keeping only the most recent record for each key:
 
-```mermaid
-flowchart TD
-    subgraph DirtyLog ["Uncompacted Log Segment (Before Cleaning)"]
-        direction LR
-        M1["[Off 0: K1=A]"] --- M2["[Off 1: K2=B]"] --- M3["[Off 2: K1=C]"] --- M4["[Off 3: K3=D]"] --- M5["[Off 4: K2=NULL]"]
-    end
+![Kafka Log Compaction & Tombstone Deletion Mechanics](assets/07_streaming_kafka_and_event_driven_data/06_log_compaction_and_tombstones.svg)
 
-    subgraph CleanLog ["Compacted Log Segment (After Cleaner Runs)"]
-        direction LR
-        C1["[Off 2: K1=C]"] --- C2["[Off 3: K3=D]"] --- C3["[Off 4: K2=Tombstone]"]
-    end
-
-    DirtyLog -->|"Log Cleaner Process"| CleanLog
-
-    style DirtyLog fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style CleanLog fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style M1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style M2 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style M3 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style M4 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style M5 fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style C1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style C2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style C3 fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/06_log_compaction_and_tombstones.d2](assets/07_streaming_kafka_and_event_driven_data/06_log_compaction_and_tombstones.d2)*
 
 - **Tombstones:** To delete a key from a compacted topic, the producer sends a record with the key and a **`NULL` value**. The cleaner retains this tombstone for `delete.retention.ms` (e.g., 24 hours) so consumers observe the deletion, then purges the key permanently.
 
@@ -384,28 +211,9 @@ flowchart TD
 
 On disk, a partition is not one massive file. It is sliced into **Segments** (typically 1 GB each, configured via `segment.bytes`):
 
-```mermaid
-flowchart TD
-    PartDir["Partition Directory: /var/lib/kafka/data/commerce.orders-0/"]
-    Seg1["Active Segment 0<br/>(Base Offset 0)"]
-    Seg2["Active Segment 1<br/>(Base Offset 10,485,760)"]
-    LeaderEpoch["leader-epoch-checkpoint<br/>(Leader assignment lineage)"]
+![Kafka Physical Storage Architecture: Partition Directory & Segment Files](assets/07_streaming_kafka_and_event_driven_data/07_physical_segment_files_index_timeindex.svg)
 
-    Log1["00000000000000000000.log<br/>(Raw message payloads)"]
-    Idx1["00000000000000000000.index<br/>(Sparse offset -> byte position)"]
-    TIdx1["00000000000000000000.timeindex<br/>(Timestamp -> offset)"]
-
-    PartDir --> Seg1 & Seg2 & LeaderEpoch
-    Seg1 --> Log1 & Idx1 & TIdx1
-
-    style PartDir fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Seg1 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Seg2 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style LeaderEpoch fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Log1 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#cbd5e1
-    style Idx1 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#cbd5e1
-    style TIdx1 fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#cbd5e1
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/07_physical_segment_files_index_timeindex.d2](assets/07_streaming_kafka_and_event_driven_data/07_physical_segment_files_index_timeindex.d2)*
 
 | Segment File Component | Physical File Format | Hardware & OS Lookup Mechanism |
 | :--- | :--- | :--- |
@@ -427,35 +235,9 @@ The `.index` file is a **Memory-Mapped Sparse Index** (`mmap`). It does *not* re
 
 Why can a single Kafka broker transmit gigabytes of data per second across 10Gbps/40Gbps network cards without saturating CPU? **Zero-Copy Data Transfer via `sendfile()`**:
 
-```mermaid
-flowchart TD
+![Zero-Copy Network I/O: Traditional Read/Write vs. OS sendfile()](assets/07_streaming_kafka_and_event_driven_data/08_zero_copy_network_io_sendfile.svg)
 
-    subgraph ZeroCopyPath ["2. Kafka Zero-Copy via sendfile() (2 Context Switches / 0 CPU Copies)"]
-        direction TB
-        Disk2["Storage Disk"] -->|1. DMA Copy| Kernel2["OS Kernel PageCache"]
-        Kernel2 -->|2. Direct DMA Gather Copy| NIC2["Network Interface Card (NIC)"]
-        Note["Data NEVER enters JVM User Memory! CPU utilization near 0%!"]
-    end
-
-    subgraph TraditionalRead ["1. Traditional Application Read/Write (4 Context Switches / 4 Data Copies)"]
-        direction TB
-        Disk1["Storage Disk"] -->|1. DMA Copy| Kernel1["OS Kernel PageCache"]
-        Kernel1 -->|2. CPU Copy| AppMem["Application JVM Memory Buffer"]
-        AppMem -->|3. CPU Copy| SocketBuf["OS Kernel Socket Buffer"]
-        SocketBuf -->|4. DMA Copy| NIC1["Network Interface Card (NIC)"]
-    end
-
-    style TraditionalRead fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style ZeroCopyPath fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Disk1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style Kernel1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style AppMem fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style SocketBuf fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style NIC1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style Disk2 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Kernel2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style NIC2 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/08_zero_copy_network_io_sendfile.d2](assets/07_streaming_kafka_and_event_driven_data/08_zero_copy_network_io_sendfile.d2)*
 
 By relying on Linux **`sendfile()`** system call, the kernel transfers bytes directly from the storage cache to the network card via Direct Memory Access (DMA), completely bypassing user-space JVM memory and eliminating CPU copy overhead.
 
@@ -465,33 +247,9 @@ By relying on Linux **`sendfile()`** system call, the kernel transfers bytes dir
 
 Apache Kafka 3.x+ deprecated external ZooKeeper clusters in favor of **KRaft (Kafka Raft Metadata Mode)**:
 
-```mermaid
-flowchart LR
-    subgraph ZooKeeperArch ["Legacy Architecture (Apache ZooKeeper)"]
-        ZK["External ZooKeeper Ensemble<br/>(Slow metadata sync, watch tree bottlenecks)"]
-        B1_Z["Broker 1"] --- ZK
-        B2_Z["Broker 2"] --- ZK
-        B3_Z["Broker 3"] --- ZK
-    end
+![Kafka Metadata Architecture: Legacy ZooKeeper vs. Modern KRaft](assets/07_streaming_kafka_and_event_driven_data/09_zookeeper_vs_kraft_consensus.svg)
 
-    subgraph KRaftArch ["Modern Architecture (KRaft - KIP-500)"]
-        subgraph ControllerQuorum ["KRaft Controller Quorum (Raft Leader & Followers)"]
-            C1["Controller 1 (Raft Leader)"]
-            C2["Controller 2 (Follower)"]
-            C3["Controller 3 (Follower)"]
-            C1 <--> C2 & C3
-        end
-        MetaLog["Internal Topic: @metadata (Replicated Event Log)"]
-        ControllerQuorum --- MetaLog
-        B1_K["Broker 1"] & B2_K["Broker 2"] & B3_K["Broker 3"] --> ControllerQuorum
-    end
-
-    style ZooKeeperArch fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style KRaftArch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ZK fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style ControllerQuorum fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style MetaLog fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/09_zookeeper_vs_kraft_consensus.d2](assets/07_streaming_kafka_and_event_driven_data/09_zookeeper_vs_kraft_consensus.d2)*
 
 #### Why KRaft is Superior:
 1. **Millions of Partitions:** ZooKeeper bottlenecked at $\approx 200,000$ partitions per cluster. KRaft scales to **millions of partitions**.
@@ -511,43 +269,9 @@ flowchart LR
 
 ### 3.5 Producer ACKs (`acks=0`, `acks=1`, `acks=all`) & `min.insync.replicas`
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Producer
-    box rgba(15, 23, 42, 0.8) "Kafka Cluster (replication.factor=3)"
-        participant Leader as Leader Broker
-        participant ISR1 as Follower ISR 1
-        participant ISR2 as Follower ISR 2
-    end
+![Producer ACKs & Replication Durability Matrix](assets/07_streaming_kafka_and_event_driven_data/10_producer_acks_0_1_all_durability.svg)
 
-    Note over Producer,Leader: Case 1: acks=0 (Fire & Forget)
-    Producer->>Leader: send(record)
-    Note over Producer: Returns immediately (0ms RTT). Extreme data loss risk if leader crashes!
-
-    Note over Producer,Leader: Case 2: acks=1 (Leader Local Write)
-    Producer->>Leader: send(record)
-    Leader->>Leader: Append to OS Page Cache
-    Leader-->>Producer: ACK (Offset=42)
-    Note over Leader,ISR1: Data lost if Leader crashes before ISR replicates!
-    Leader-)ISR1: Async Fetch Replicate
-
-    Note over Producer,ISR2: Case 3: acks=all / -1 (min.insync.replicas=2 Quorum)
-    Producer->>Leader: send(record)
-    Leader->>Leader: Append to local page cache
-    par Parallel In-Sync Replication
-        Leader->>ISR1: Fetch Replicate
-        ISR1->>ISR1: Append to page cache
-        ISR1-->>Leader: Replicated ACK
-    and
-        Leader->>ISR2: Fetch Replicate
-        ISR2->>ISR2: Append to page cache
-        ISR2-->>Leader: Replicated ACK
-    end
-    Note over Leader: min.insync.replicas quorum satisfied
-    Leader-->>Producer: ACK (Offset=43)
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/10_producer_acks_0_1_all_durability.d2](assets/07_streaming_kafka_and_event_driven_data/10_producer_acks_0_1_all_durability.d2)*
 
 | Acks Configuration | Network Round-Trips | Write Latency ($p99$) | Durability Guarantee | Production Failure Mode |
 | :--- | :--- | :--- | :--- | :--- |
@@ -582,38 +306,9 @@ A **Consumer Group** represents a coordinated team of consumers cooperating to r
 - **Rule of Cardinality:** Each partition is assigned to **exactly one consumer thread** within a group.
 - If a topic has 6 partitions and you spin up 8 consumers in the same group, **2 consumers will sit idle**.
 
-```mermaid
-flowchart TD
-    subgraph TopicPartitions ["Topic: commerce.orders (4 Partitions)"]
-        direction LR
-        TP0["Partition 0"]
-        TP1["Partition 1"]
-        TP2["Partition 2"]
-        TP3["Partition 3"]
-    end
+![Kafka Consumer Groups & Partition Assignment Dynamics](assets/07_streaming_kafka_and_event_driven_data/11_consumer_groups_and_rebalancing.svg)
 
-    subgraph ConsumerGroup ["Consumer Group: 'order_analytics' (3 Active Consumers)"]
-        direction TB
-        C1["Consumer Thread 1 (Reads P0, P1)"]
-        C2["Consumer Thread 2 (Reads P2)"]
-        C3["Consumer Thread 3 (Reads P3)"]
-    end
-
-    TP0 --> C1
-    TP1 --> C1
-    TP2 --> C2
-    TP3 --> C3
-
-    style TopicPartitions fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ConsumerGroup fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style TP0 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style TP1 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style TP2 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style TP3 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style C1 fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style C2 fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style C3 fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/11_consumer_groups_and_rebalancing.d2](assets/07_streaming_kafka_and_event_driven_data/11_consumer_groups_and_rebalancing.d2)*
 
 ---
 
@@ -675,32 +370,9 @@ To prevent producer schema changes from breaking downstream analytical consumers
 
 Spark Structured Streaming abstracts streaming data as an **Unbounded Table** that grows indefinitely as new records arrive:
 
-```mermaid
-flowchart TD
-    subgraph StreamStream ["Incoming Continuous Stream (Kafka)"]
-        StreamIn["Event t1 -> Event t2 -> Event t3 -> Event t4..."]
-    end
+![Spark Structured Streaming: Unbounded Table Mental Model & Output Modes](assets/07_streaming_kafka_and_event_driven_data/12_spark_streaming_unbounded_table_modes.svg)
 
-    subgraph UnboundedModel ["The Unbounded Table Concept"]
-        UT["Unbounded Table<br/>(Every incoming micro-batch appends new rows)"]
-    end
-
-    subgraph OutputModes ["Output Modes"]
-        Append["<b>Append Mode:</b> Only new rows added since last trigger are emitted.<br/>(For point-in-time inserts)"]
-        Update["<b>Update Mode:</b> Only rows that changed since last trigger are emitted.<br/>(For running state aggregations)"]
-        Complete["<b>Complete Mode:</b> The entire updated result table is re-emitted.<br/>(For small global count/sum tables)"]
-    end
-
-    StreamIn --> UT
-    UT --> Append & Update & Complete
-
-    style StreamStream fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style UnboundedModel fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style OutputModes fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Append fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Update fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style Complete fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/12_spark_streaming_unbounded_table_modes.d2](assets/07_streaming_kafka_and_event_driven_data/12_spark_streaming_unbounded_table_modes.d2)*
 
 ---
 
@@ -782,39 +454,9 @@ windowed_counts = (
 
 ### 6.5 Streaming Windows: Tumbling, Sliding, and Session Windows
 
-```mermaid
-flowchart LR
-    subgraph Tumbling ["1. Tumbling Window (Non-Overlapping Fixed Buckets: 10 Mins)"]
-        direction LR
-        TW1["10:00 - 10:10"] --- TW2["10:10 - 10:20"] --- TW3["10:20 - 10:30"]
-    end
+![Streaming Windowing Strategies: Tumbling, Sliding, and Session Windows](assets/07_streaming_kafka_and_event_driven_data/13_streaming_windows_tumbling_sliding_session.svg)
 
-    subgraph Sliding ["2. Sliding Window (Overlapping: 10 Min Window sliding every 5 Mins)"]
-        direction LR
-        SW1["10:00 - 10:10"]
-        SW2["10:05 - 10:15"]
-        SW3["10:10 - 10:20"]
-        SW1 --- SW2 --- SW3
-    end
-
-    subgraph Session ["3. Session Window (Dynamic Gap-Based Inactivity: 15 Min Inactivity)"]
-        direction LR
-        Sess1["User Active (Gap < 15m)"] --- Gap["15m Idle"] --- Sess2["New Session"]
-    end
-
-    style Tumbling fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Sliding fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Session fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style TW1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style TW2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style TW3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SW1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SW2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SW3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Sess1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Gap fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Sess2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/13_streaming_windows_tumbling_sliding_session.d2](assets/07_streaming_kafka_and_event_driven_data/13_streaming_windows_tumbling_sliding_session.d2)*
 
 ---
 
@@ -875,37 +517,9 @@ deduped_orders = (
 
 $$\text{End-to-End Semantics} = \min(\text{Producer Guarantees}, \ \text{Broker Durability}, \ \text{Consumer Idempotence})$$
 
-```mermaid
-flowchart LR
-    subgraph AtMostOnce ["At-Most-Once (Fastest / Data Loss Possible)"]
-        direction LR
-        M1["Commit offset BEFORE processing"] --> M2["Crash occurs -> Messages lost forever!"]
-    end
+![End-to-End Delivery Semantics: At-Most-Once, At-Least-Once, Exactly-Once](assets/07_streaming_kafka_and_event_driven_data/14_delivery_semantics_at_least_most_exactly_once.svg)
 
-    subgraph AtLeastOnce ["At-Least-Once (Standard / Duplicates Possible)"]
-        direction LR
-        L1["Process data -> Sink"] --> L2["Crash occurs before offset commit"]
-        L2 --> L3["Replays from previous offset -> Duplicates emitted!"]
-    end
-
-    subgraph ExactlyOnce ["Exactly-Once (EOS / Production Gold Standard)"]
-        direction LR
-        E1["Idempotent Producer (PID + Sequence)"] --> E2["Kafka Transactional Commits (2PC)"]
-        E2 --> E3["Idempotent Sink (Delta Lake MERGE / Atomic Upsert)"]
-    end
-
-    style AtMostOnce fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style AtLeastOnce fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ExactlyOnce fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style M1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style M2 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style L1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style L2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style L3 fill:#7f1d1d,stroke:#f59e0b,stroke-width:2px,color:#fecaca
-    style E1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style E2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style E3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/14_delivery_semantics_at_least_most_exactly_once.d2](assets/07_streaming_kafka_and_event_driven_data/14_delivery_semantics_at_least_most_exactly_once.d2)*
 
 ---
 

@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  entity: { style: { fill: "#111827"; stroke-width: 1.5; rx: 8 } }
+}
+
+colleges: "COLLEGES\ncollege_id (PK)\nname, dean_name" { class: entity; style.stroke: "#3B82F6" }
+depts: "DEPARTMENTS\ndepartment_id (PK)\ncollege_id (FK), name" { class: entity; style.stroke: "#3B82F6" }
+profs: "PROFESSORS\nprofessor_id (PK)\ndepartment_id (FK), email" { class: entity; style.stroke: "#8B5CF6" }
+courses: "COURSES\ncourse_id (PK)\ndepartment_id (FK), code, credits" { class: entity; style.stroke: "#8B5CF6" }
+sections: "SECTIONS\nsection_id (PK)\ncourse_id (FK), professor_id (FK)\nsemester, academic_year" { class: entity; style.stroke: "#F59E0B" }
+students: "STUDENTS\nstudent_id (PK)\nmajor_dept_id (FK), full_name" { class: entity; style.stroke: "#10B981" }
+enrollments: "ENROLLMENTS (Join Table)\nenrollment_id (PK)\nstudent_id (FK), section_id (FK)\nletter_grade, enrolled_at" { class: entity; style.stroke: "#10B981" }
+
+colleges -> depts: "contains"
+depts -> profs: "employs"
+depts -> courses: "offers"
+courses -> sections: "schedules"
+profs -> sections: "instructs"
+students -> enrollments: "registers"
+sections -> enrollments: "fulfills"

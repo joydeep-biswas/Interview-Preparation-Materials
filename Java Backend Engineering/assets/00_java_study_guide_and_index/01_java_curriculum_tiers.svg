@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="740" viewBox="0 0 1200 740">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-pk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EC4899"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-y" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EAB308"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1200" height="740" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Java Backend Engineering: 7-Tier Chronological Curriculum Roadmap</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Comprehensive master progression: From language internals and Loom concurrency to enterprise Spring, distributed microservices, and interview pillars</text>
+
+  <!-- ========================================================================= -->
+  <!-- PHASE 1: Core Java Language &amp; Concurrency (Tiers 1 - 2) [x=35..395, w=360] -->
+  <!-- ========================================================================= -->
+  <g transform="translate(35, 95)">
+    <rect width="360" height="615" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="180" y="24" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Phase 1: Language Internals &amp; Concurrency</text>
+
+    <!-- Tier 1 -->
+    <rect x="15" y="40" width="330" height="295" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
+    <text x="180" y="62" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Tier 1: Core Java Language &amp; OOP Foundations</text>
+    <!-- M1 -->
+    <rect x="25" y="74" width="310" height="70" rx="4" fill="#0F172A" stroke="#3B82F6" stroke-width="0.8"/>
+    <text x="35" y="92" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">01. Core Java &amp; OOP Foundations</text>
+    <text x="35" y="108" font-size="10" fill="#94A3B8" text-anchor="start">• HotSpot Object layout, Mark Word, Klass Word</text>
+    <text x="35" y="122" font-size="10" fill="#94A3B8" text-anchor="start">• Virtual method table (vtable), dynamic dispatch</text>
+    <text x="35" y="136" font-size="10" fill="#94A3B8" text-anchor="start">• Strict pass-by-value memory semantics</text>
+    <!-- M2 -->
+    <rect x="25" y="152" width="310" height="70" rx="4" fill="#0F172A" stroke="#3B82F6" stroke-width="0.8"/>
+    <text x="35" y="170" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">02. Collections &amp; Generics Internals</text>
+    <text x="35" y="186" font-size="10" fill="#94A3B8" text-anchor="start">• ArrayList amortized array growth &amp; copying</text>
+    <text x="35" y="200" font-size="10" fill="#94A3B8" text-anchor="start">• HashMap treeification (Red-Black), CAS bucket init</text>
+    <text x="35" y="214" font-size="10" fill="#94A3B8" text-anchor="start">• Generics type erasure &amp; PECS variance rules</text>
+    <!-- M3 -->
+    <rect x="25" y="230" width="310" height="90" rx="4" fill="#0F172A" stroke="#3B82F6" stroke-width="0.8"/>
+    <text x="35" y="248" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">03. Modern Java: Streams, Records &amp; Sealed</text>
+    <text x="35" y="264" font-size="10" fill="#94A3B8" text-anchor="start">• Immutable Records with canonical constructors</text>
+    <text x="35" y="278" font-size="10" fill="#94A3B8" text-anchor="start">• Sealed class hierarchies &amp; switch pattern match</text>
+    <text x="35" y="292" font-size="10" fill="#94A3B8" text-anchor="start">• Stream pipelines: loop fusion, short-circuit ops</text>
+    <text x="35" y="306" font-size="10" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ Zero intermediate allocation in fused streams</text>
+
+    <!-- Connector Tier 1 -> Tier 2 -->
+    <path d="M 180 335 L 180 353" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+    <!-- Tier 2 -->
+    <rect x="15" y="355" width="330" height="240" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+    <text x="180" y="377" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Tier 2: Concurrency &amp; Async Systems</text>
+    <!-- M4 -->
+    <rect x="25" y="390" width="310" height="190" rx="4" fill="#062828" stroke="#10B981" stroke-width="0.8"/>
+    <text x="35" y="410" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">04. Concurrency, Multithreading &amp; Loom</text>
+    <text x="35" y="428" font-size="10" fill="#A7F3D0" text-anchor="start">• Java Memory Model (JMM): happens-before ordering</text>
+    <text x="35" y="444" font-size="10" fill="#A7F3D0" text-anchor="start">• volatile read/write memory barriers (CPU cache)</text>
+    <text x="35" y="460" font-size="10" fill="#A7F3D0" text-anchor="start">• Lock-free Atomic CAS (Compare-And-Swap) loops</text>
+    <text x="35" y="476" font-size="10" fill="#A7F3D0" text-anchor="start">• Synchronized lock inflation: biased -&gt; thin -&gt; fat</text>
+    <text x="35" y="492" font-size="10" fill="#A7F3D0" text-anchor="start">• AbstractQueuedSynchronizer (AQS) state engine</text>
+    <text x="35" y="508" font-size="10" fill="#A7F3D0" text-anchor="start">• ForkJoinPool work-stealing scheduling</text>
+    <text x="35" y="528" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="start">✓ Project Loom: Virtual Threads (Java 21+)</text>
+    <text x="35" y="546" font-size="10" fill="#A7F3D0" text-anchor="start">• Unmounts continuation on blocking I/O</text>
+    <text x="35" y="562" font-size="10" fill="#6EE7B7" font-weight="600" text-anchor="start">1M+ concurrent tasks on small memory footprint</text>
+  </g>
+
+  <!-- Pathway Arrow: Phase 1 -> Phase 2 (Runway gap: 395..420) -->
+  <path d="M 395 380 L 418 380" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arr-a)"/>
+
+  <!-- ========================================================================= -->
+  <!-- PHASE 2: Enterprise Spring, Persistence &amp; Messaging (Tiers 3 - 4) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(420, 95)">
+    <rect width="360" height="615" rx="8" fill="#2E1C05" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="180" y="24" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Phase 2: Spring Framework &amp; Data Fabric</text>
+
+    <!-- Tier 3 -->
+    <rect x="15" y="40" width="330" height="260" rx="6" fill="#451A03" stroke="#F59E0B" stroke-width="1.2"/>
+    <text x="180" y="62" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Tier 3: Enterprise Spring &amp; Security</text>
+    <!-- M5 -->
+    <rect x="25" y="74" width="310" height="105" rx="4" fill="#2E1C05" stroke="#F59E0B" stroke-width="0.8"/>
+    <text x="35" y="92" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">05. Spring Boot &amp; REST API Internals</text>
+    <text x="35" y="108" font-size="10" fill="#FDE68A" text-anchor="start">• IoC ApplicationContext &amp; Bean lifecycle phases</text>
+    <text x="35" y="122" font-size="10" fill="#FDE68A" text-anchor="start">• Spring Auto-Configuration &amp; @Conditional</text>
+    <text x="35" y="136" font-size="10" fill="#FDE68A" text-anchor="start">• DispatcherServlet HTTP execution pipeline</text>
+    <text x="35" y="150" font-size="10" fill="#FDE68A" text-anchor="start">• Spring AOP dynamic proxies (CGLIB vs JDK)</text>
+    <text x="35" y="164" font-size="10" fill="#FDE68A" text-anchor="start">• Actuator metrics, health probes, Micrometer</text>
+    <!-- M6 -->
+    <rect x="25" y="187" width="310" height="98" rx="4" fill="#2E1C05" stroke="#F59E0B" stroke-width="0.8"/>
+    <text x="35" y="205" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">06. Security, Cryptography &amp; Identity</text>
+    <text x="35" y="221" font-size="10" fill="#FDE68A" text-anchor="start">• SecurityFilterChain filter order &amp; authentication</text>
+    <text x="35" y="235" font-size="10" fill="#FDE68A" text-anchor="start">• Salted password hashing: BCrypt &amp; Argon2id</text>
+    <text x="35" y="249" font-size="10" fill="#FDE68A" text-anchor="start">• JWT stateless authentication (RS256 asymmetric)</text>
+    <text x="35" y="263" font-size="10" fill="#FDE68A" text-anchor="start">• OAuth2 Authorization Code flow with PKCE</text>
+
+    <!-- Connector Tier 3 -> Tier 4 -->
+    <path d="M 180 300 L 180 318" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+
+    <!-- Tier 4 -->
+    <rect x="15" y="320" width="330" height="275" rx="6" fill="#2E1065" stroke="#8B5CF6" stroke-width="1.2"/>
+    <text x="180" y="342" font-size="12" font-weight="700" fill="#DDD6FE" text-anchor="middle">Tier 4: Relational Persistence &amp; Messaging</text>
+    <!-- M7 -->
+    <rect x="25" y="354" width="310" height="110" rx="4" fill="#1A102F" stroke="#8B5CF6" stroke-width="0.8"/>
+    <text x="35" y="372" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">07. Databases, JPA &amp; Hibernate</text>
+    <text x="35" y="388" font-size="10" fill="#DDD6FE" text-anchor="start">• ACID properties &amp; ANSI SQL isolation levels</text>
+    <text x="35" y="402" font-size="10" fill="#DDD6FE" text-anchor="start">• Hibernate Persistence Context entity states</text>
+    <text x="35" y="416" font-size="10" fill="#DDD6FE" text-anchor="start">• N+1 query problem diagnosis &amp; JOIN FETCH fixes</text>
+    <text x="35" y="430" font-size="10" fill="#DDD6FE" text-anchor="start">• 1st-level vs 2nd-level distributed cache (Redis)</text>
+    <text x="35" y="446" font-size="10" fill="#FDE68A" font-weight="600" text-anchor="start">@Transactional proxy mechanics &amp; rollback rules</text>
+    <!-- M8 -->
+    <rect x="25" y="472" width="310" height="108" rx="4" fill="#1A102F" stroke="#8B5CF6" stroke-width="0.8"/>
+    <text x="35" y="490" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">08. Caching, Redis &amp; Kafka Messaging</text>
+    <text x="35" y="506" font-size="10" fill="#DDD6FE" text-anchor="start">• Cache-Aside, Write-Through &amp; Write-Behind</text>
+    <text x="35" y="520" font-size="10" fill="#DDD6FE" text-anchor="start">• Cache stampede, penetration &amp; avalanche triage</text>
+    <text x="35" y="534" font-size="10" fill="#DDD6FE" text-anchor="start">• Redis Cluster hash slot sharding (16,384 slots)</text>
+    <text x="35" y="548" font-size="10" fill="#DDD6FE" text-anchor="start">• Kafka partitioned commit log &amp; consumer groups</text>
+    <text x="35" y="564" font-size="10" fill="#6EE7B7" font-weight="600" text-anchor="start">Idempotent producer &amp; exactly-once semantics</text>
+  </g>
+
+  <!-- Pathway Arrow: Phase 2 -> Phase 3 (Runway gap: 780..805) -->
+  <path d="M 780 380 L 803 380" fill="none" stroke="#EC4899" stroke-width="2.5" marker-end="url(#arr-pk)"/>
+
+  <!-- ========================================================================= -->
+  <!-- PHASE 3: Microservices, SRE &amp; Interview Pillars (Tiers 5 - 7) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(805, 95)">
+    <rect width="360" height="615" rx="8" fill="#180B2B" stroke="#EC4899" stroke-width="1.5"/>
+    <text x="180" y="24" font-size="12" font-weight="700" fill="#F472B6" text-anchor="middle">Phase 3: Architecture &amp; Interview Pillars</text>
+
+    <!-- Tier 5 -->
+    <rect x="15" y="40" width="330" height="135" rx="6" fill="#4C0519" stroke="#EC4899" stroke-width="1.2"/>
+    <text x="180" y="62" font-size="12" font-weight="700" fill="#F472B6" text-anchor="middle">Tier 5: Microservices &amp; System Design</text>
+    <!-- M9 -->
+    <rect x="25" y="74" width="310" height="88" rx="4" fill="#2A0B1A" stroke="#EC4899" stroke-width="0.8"/>
+    <text x="35" y="92" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">09. Microservices &amp; Distributed Architecture</text>
+    <text x="35" y="108" font-size="10" fill="#FBCFE8" text-anchor="start">• GoF design patterns &amp; SOLID architecture</text>
+    <text x="35" y="122" font-size="10" fill="#FBCFE8" text-anchor="start">• Clean / Hexagonal Ports-and-Adapters layout</text>
+    <text x="35" y="136" font-size="10" fill="#FBCFE8" text-anchor="start">• Saga orchestration vs choreography, Outbox pattern</text>
+    <text x="35" y="150" font-size="10" fill="#FBCFE8" text-anchor="start">• CQRS, Event Sourcing, Circuit Breakers (Resilience4j)</text>
+
+    <!-- Connector Tier 5 -> Tier 6 -->
+    <path d="M 180 175 L 180 193" fill="none" stroke="#06B6D4" stroke-width="2" marker-end="url(#arr-c)"/>
+
+    <!-- Tier 6 -->
+    <rect x="15" y="195" width="330" height="195" rx="6" fill="#083344" stroke="#06B6D4" stroke-width="1.2"/>
+    <text x="180" y="217" font-size="12" font-weight="700" fill="#67E8F9" text-anchor="middle">Tier 6: Testing, Cloud Operations &amp; JVM</text>
+    <!-- M10-M11 -->
+    <rect x="25" y="228" width="310" height="68" rx="4" fill="#0B1E29" stroke="#06B6D4" stroke-width="0.8"/>
+    <text x="35" y="246" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="start">10. Testing &amp; 11. Cloud DevOps</text>
+    <text x="35" y="260" font-size="9" fill="#A5F3FC" text-anchor="start">• JUnit 5, Mockito, Testcontainers for real PostgreSQL/Kafka</text>
+    <text x="35" y="274" font-size="9" fill="#A5F3FC" text-anchor="start">• Distroless container packaging, K8s probes &amp; HPA</text>
+    <text x="35" y="288" font-size="9" fill="#A5F3FC" text-anchor="start">• CI/CD pipelines, GitOps deployment workflows</text>
+    <!-- M12-M13 -->
+    <rect x="25" y="304" width="310" height="72" rx="4" fill="#0B1E29" stroke="#06B6D4" stroke-width="0.8"/>
+    <text x="35" y="322" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="start">12. JVM Internals &amp; 13. SRE Observability</text>
+    <text x="35" y="336" font-size="9" fill="#A5F3FC" text-anchor="start">• Heap regions, ZGC / G1GC generational phases</text>
+    <text x="35" y="350" font-size="9" fill="#A5F3FC" text-anchor="start">• Thread dump &amp; heap dump analysis, Async-profiler</text>
+    <text x="35" y="364" font-size="9" fill="#A5F3FC" text-anchor="start">• OpenTelemetry distributed traces, Prometheus metrics</text>
+
+    <!-- Connector Tier 6 -> Tier 7 -->
+    <path d="M 180 390 L 180 408" fill="none" stroke="#EAB308" stroke-width="2" marker-end="url(#arr-y)"/>
+
+    <!-- Tier 7 -->
+    <rect x="15" y="410" width="330" height="185" rx="6" fill="#422006" stroke="#EAB308" stroke-width="1.2"/>
+    <text x="180" y="432" font-size="12" font-weight="700" fill="#FEF08A" text-anchor="middle">Tier 7: Universal Interview Pillars</text>
+    <!-- Pillar 1 -->
+    <rect x="25" y="444" width="310" height="65" rx="4" fill="#2E1C05" stroke="#EAB308" stroke-width="0.8"/>
+    <text x="35" y="462" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">Universal DSA Track (in Java)</text>
+    <text x="35" y="478" font-size="10" fill="#FEF08A" text-anchor="start">• 8 Progressive Modules: Arrays, Lists, Trees, Graphs</text>
+    <text x="35" y="492" font-size="10" fill="#FEF08A" text-anchor="start">• Dynamic Programming, Backtracking, Union-Find, Heaps</text>
+    <!-- Pillar 2 -->
+    <rect x="25" y="517" width="310" height="65" rx="4" fill="#2E1C05" stroke="#EAB308" stroke-width="0.8"/>
+    <text x="35" y="535" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">System Design &amp; Situational Pillars</text>
+    <text x="35" y="551" font-size="10" fill="#FEF08A" text-anchor="start">• 24 HLDs + 11 LLDs + Distributed Foundations</text>
+    <text x="35" y="565" font-size="10" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ 16 Leadership &amp; Behavioral Scenarios (Staff/Principal)</text>
+  </g>
+</svg>

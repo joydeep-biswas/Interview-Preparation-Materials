@@ -1,0 +1,45 @@
+direction: down
+title: "Backend for Frontend (BFF) Pattern & Edge Routing Architecture"
+
+web_c: "Desktop Web (React)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+mob_c: "Mobile (iOS/Android)" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+b2b_c: "B2B Partners" {
+  style.fill: "#0f172a"
+  style.stroke: "#f59e0b"
+}
+
+web_bff: "Web BFF Service
+Dense payloads & SSR" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+mob_bff: "Mobile BFF Service
+Compact payloads & batching" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+b2b_bff: "Partner BFF Service
+API keys & rate limiting" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+
+svcs: "Downstream Services
+Catalog, Order, User, Payment" {
+  style.fill: "#0f172a"
+  style.stroke: "#06b6d4"
+}
+
+web_c -> web_bff
+mob_c -> mob_bff
+b2b_c -> b2b_bff
+
+web_bff -> svcs
+mob_bff -> svcs
+b2b_bff -> svcs

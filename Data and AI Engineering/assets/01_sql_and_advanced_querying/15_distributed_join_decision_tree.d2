@@ -1,0 +1,40 @@
+# Distributed Join Comparison & Selection Decision Tree
+direction: down
+
+d1: "Is one table < Broadcast Threshold? (<10MB)" {
+  shape: diamond
+}
+bhj: "Broadcast Hash Join (BHJ)
+• Highest Performance
+• Zero shuffle of large fact table" {
+  style.stroke: "#10B981"
+}
+
+d2: "Are both inputs pre-sorted & clustered?" {
+  shape: diamond
+}
+smj: "Sort-Merge Join (SMJ)
+• Highly Scalable
+• Bypasses sort; stream merges O(N+M)" {
+  style.stroke: "#3B82F6"
+}
+
+d3: "Is extreme key skew detected? (>50% on 1 key)" {
+  shape: diamond
+}
+salt: "Skewed Salting Join
+• Prevents Straggler OOMs
+• Splits hot key 1..K" {
+  style.stroke: "#8B5CF6"
+}
+shj: "Shuffle Hash Join (SHJ)
+• Shuffles both tables; builds HT per partition" {
+  style.stroke: "#F59E0B"
+}
+
+d1 -> bhj: "YES"
+d1 -> d2: "NO"
+d2 -> smj: "YES"
+d2 -> d3: "NO"
+d3 -> salt: "YES"
+d3 -> shj: "NO"

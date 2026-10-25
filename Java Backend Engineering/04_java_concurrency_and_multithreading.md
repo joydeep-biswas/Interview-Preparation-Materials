@@ -6,34 +6,9 @@ A comprehensive reference guide covering thread fundamentals, thread synchroniza
 
 ## Architectural Overview: Java Concurrency & Thread Memory Architecture
 
-```mermaid
-flowchart TD
-    subgraph OSProcess ["Operating System Process (Virtual Address Space)"]
-        subgraph SharedMemory ["Shared Process Memory"]
-            Heap["JVM Heap & Metaspace<br/>(Objects, Instance Fields, Static Variables)"]
-        end
-        subgraph PlatformThreads ["Platform Threads (OS 1:1 Mapping)"]
-            T1["Thread 1 Stack<br/>(Stack Frames, Local Primitives, Object References)"]
-            T2["Thread 2 Stack<br/>(Stack Frames, Local Primitives, Object References)"]
-        end
-        subgraph VirtualThreads ["Java 21 Project Loom (M:N Virtual Threads)"]
-            VT["Virtual Threads<br/>(Mounted on Carrier Threads; ContStack on Heap)"]
-        end
-    end
+![Java Concurrency & Thread Memory Architecture Overview](assets/04_java_concurrency_and_multithreading/01_java_concurrency_architecture_overview.svg)
 
-    Heap <-->|"JMM Happens-Before / Memory Barriers"| T1
-    Heap <-->|"JMM Happens-Before / Memory Barriers"| T2
-    VT -->|"Mounted dynamically"| T1
-
-    style OSProcess fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SharedMemory fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style PlatformThreads fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style VirtualThreads fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Heap fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style T1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style VT fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading/01_java_concurrency_architecture_overview.d2](assets/04_java_concurrency_and_multithreading/01_java_concurrency_architecture_overview.d2)
 
 ---
 
@@ -58,32 +33,9 @@ flowchart TD
 ### Process vs Thread
 
 #### Visual Architecture
-```mermaid
-flowchart TD
-    subgraph OSProcess["Operating System Process (Dedicated Virtual Address Space)"]
-        Heap["Shared Process Heap & Metaspace"]
-        subgraph Thread1["Thread 1 (OS Platform Thread)"]
-            T1Stack["Private Thread Stack"]
-            T1PC["PC Register"]
-        end
-        subgraph Thread2["Thread 2 (OS Platform Thread)"]
-            T2Stack["Private Thread Stack"]
-            T2PC["PC Register"]
-        end
-    end
-    T1Stack -->|"Object Reference Pointer"| Heap
-    T2Stack -->|"Concurrent Memory Contention"| Heap
+![Operating System Process vs. Thread Memory Model](assets/04_java_concurrency_and_multithreading/02_process_vs_thread_memory_model.svg)
 
-    style OSProcess fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Thread1 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Thread2 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style Heap fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style T1Stack fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T1PC fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T2Stack fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style T2PC fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading/02_process_vs_thread_memory_model.d2](assets/04_java_concurrency_and_multithreading/02_process_vs_thread_memory_model.d2)
 
 #### First-Principles Breakdown: Process vs. Thread Architecture
 
@@ -115,41 +67,9 @@ Modern multitasking operating systems manage concurrent execution units using tw
 ### Thread Lifecycle & State Transitions
 
 #### Visual State Diagram
-```mermaid
-stateDiagram-v2
-    classDef transient fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    classDef running fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#ffffff
-    classDef blocked fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#ffffff
-    classDef waiting fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#ffffff
-    classDef terminated fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#ffffff
+![JVM Thread Lifecycle State Machine (java.lang.Thread.State)](assets/04_java_concurrency_and_multithreading/03_thread_lifecycle_state_machine.svg)
 
-    [*] --> NEW: new Thread()
-    NEW --> RUNNABLE: thread.start()
-    
-    state RUNNABLE {
-        [*] --> Ready: In OS ready queue
-        Ready --> Running: CPU time slice scheduled
-        Running --> Ready: Thread.yield() / Preempted
-    }
-
-    RUNNABLE --> BLOCKED: Enters synchronized block (monitor lock held)
-    BLOCKED --> RUNNABLE: Intrinsic monitor lock acquired
-
-    RUNNABLE --> WAITING: Object.wait() / Thread.join() / LockSupport.park()
-    WAITING --> RUNNABLE: notify() / notifyAll() / LockSupport.unpark()
-
-    RUNNABLE --> TIMED_WAITING: Thread.sleep(ms) / wait(timeout) / parkNanos()
-    TIMED_WAITING --> RUNNABLE: Timeout expires / notify() / unpark()
-
-    RUNNABLE --> TERMINATED: run() exits cleanly or unhandled exception
-    TERMINATED --> [*]
-
-    class NEW transient
-    class RUNNABLE running
-    class BLOCKED blocked
-    class WAITING,TIMED_WAITING waiting
-    class TERMINATED terminated
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading/03_thread_lifecycle_state_machine.d2](assets/04_java_concurrency_and_multithreading/03_thread_lifecycle_state_machine.d2)
 
 #### The Six Java Thread States (`Thread.State`)
 1. **`NEW`**: Thread created (`new Thread()`) but `start()` has not been called.
@@ -302,20 +222,9 @@ public class InterruptionDemo {
 A race condition occurs when multiple threads concurrently read and write shared mutable state without proper coordination, and the final outcome depends on the timing or interleaving of thread execution.
 
 #### Visual Interleaving
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    participant T1 as Thread 1
-    participant Mem as Shared Variable: count = 0
-    participant T2 as Thread 2
+![Race Condition & Lost Update Concurrency Anomaly](assets/04_java_concurrency_and_multithreading/04_race_condition_interleaving_timeline.svg)
 
-    T1->>Mem: Read count (0)
-    T2->>Mem: Read count (0)
-    T1->>T1: Compute count + 1 (1)
-    T2->>T2: Compute count + 1 (1)
-    T1->>Mem: Write count = 1
-    T2->>Mem: Write count = 1 (LOST UPDATE!)
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading/04_race_condition_interleaving_timeline.d2](assets/04_java_concurrency_and_multithreading/04_race_condition_interleaving_timeline.d2)
 
 **Primary Source Reference**: [GeeksforGeeks - Race Condition in Java](https://www.geeksforgeeks.org/race-condition-in-java/)
 
@@ -435,18 +344,9 @@ public class BankTransferDemo {
 ### Deadlock, Starvation, Livelock
 
 #### Definitions & Visual Deadlock
-```mermaid
-flowchart LR
-    T1["Thread 1"] -->|Holds| L1["Lock A"]
-    T1 -->|Waiting to acquire| L2["Lock B"]
-    T2["Thread 2"] -->|Holds| L2
-    T2 -->|Waiting to acquire| L1
+![Deadlock Mechanics & The Four Coffman Conditions](assets/04_java_concurrency_and_multithreading/05_deadlock_four_coffman_conditions.svg)
 
-    style T1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style L1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style L2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style T2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading/05_deadlock_four_coffman_conditions.d2](assets/04_java_concurrency_and_multithreading/05_deadlock_four_coffman_conditions.d2)
 
 - **Deadlock**: Two or more threads are permanently blocked, each waiting for a lock held by the other.
   - *Prevention*: Always acquire locks in a globally consistent order across all threads.
@@ -480,37 +380,9 @@ The Java Memory Model defines the rules for how the JVM and hardware interact wh
 3. **Ordering**: Instructions may be reordered by the compiler, JIT, or CPU pipeline as long as single-threaded semantics (*as-if-serial*) are preserved.
 
 #### Visual CPU Cache Architecture
-```mermaid
-flowchart TD
-    subgraph MainRAM["Main System Memory (RAM)"]
-        SharedVar["Shared Variable: flag = true"]
-    end
+![Java Memory Model (JMM) Hardware Cache Coherence Architecture](assets/04_java_concurrency_and_multithreading/06_java_memory_model_cache_coherence.svg)
 
-    subgraph Core1["CPU Core 1"]
-        L1_1["L1/L2 Cache (flag = false)"]
-        Thread1["Thread 1 (Writer)"]
-    end
-
-    subgraph Core2["CPU Core 2"]
-        L1_2["L1/L2 Cache (flag = false)"]
-        Thread2["Thread 2 (Reader)"]
-    end
-
-    Thread1 --> L1_1
-    L1_1 -.->|Without memory barrier, write stays in local cache!| SharedVar
-    SharedVar -.-> L1_2
-    L1_2 --> Thread2
-
-    style MainRAM fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Core1 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Core2 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style SharedVar fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style L1_1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Thread1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style L1_2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Thread2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading/06_java_memory_model_cache_coherence.d2](assets/04_java_concurrency_and_multithreading/06_java_memory_model_cache_coherence.d2)
 
 ---
 
@@ -570,18 +442,9 @@ If action $A$ happens-before action $B$ ($A \xrightarrow{hb} B$), the memory eff
 **Compare-And-Swap (CAS)** is an atomic CPU instruction supported by modern architectures (e.g., `CMPXCHG` on x86). It compares the contents of a memory location to a given expected value and, only if they match, modifies the contents to a new value. If they do not match, it returns false, allowing optimistic retry loops without blocking or context switching.
 
 #### Visual CAS Optimistic Retry Loop
-```mermaid
-flowchart TD
-    Read["1. Read current memory value V"] --> Compute["2. Compute new candidate value = V + 1"]
-    Compute --> CAS{"3. Execute CAS(V, expected=V, new=V+1)"}
-    CAS -- "Success (Memory unchanged by others)" --> Done["Value updated!"]
-    CAS -- "Failure (Contention detected)" --> Read
+![Atomic CAS (Compare-And-Swap) Optimistic Retry Loop](assets/04_java_concurrency_and_multithreading/07_atomic_cas_optimistic_retry_loop.svg)
 
-    style Read fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Compute fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CAS fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Done fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading/07_atomic_cas_optimistic_retry_loop.d2](assets/04_java_concurrency_and_multithreading/07_atomic_cas_optimistic_retry_loop.d2)
 
 ---
 
@@ -869,41 +732,9 @@ Concurrent collections located in `java.util.concurrent` provide thread-safe ope
 The Executor Framework decouples task submission from thread management and allocation. `Executor` defines task execution (`execute`); `ExecutorService` adds lifecycle management and result-bearing submission (`submit`), while `ScheduledExecutorService` adds delayed and periodic execution.
 
 #### Visual Thread Pool Architecture
-```mermaid
-flowchart TD
-    subgraph Submission["Task Submission"]
-        direction TD
-        T1["Task 1"]
-        T2["Task 2"]
-        T3["Task 3"]
-    end
+![ThreadPoolExecutor Architecture & Task Execution Lifecycle](assets/04_java_concurrency_and_multithreading/08_threadpool_executor_lifecycle.svg)
 
-    subgraph ThreadPool["ThreadPoolExecutor"]
-        BQ["Work Queue (BlockingQueue)"]
-        subgraph Workers["Worker Threads"]
-            W1["Worker Thread 1"]
-            W2["Worker Thread 2"]
-            W3["Worker Thread 3"]
-        end
-    end
-
-    Submission -->|"execute() / submit()"| BQ
-    BQ -->|Pulls task| W1
-    BQ -->|Pulls task| W2
-    BQ -->|Pulls task| W3
-
-    style Submission fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ThreadPool fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Workers fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style T1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style T2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style T3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style BQ fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style W1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style W2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style W3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading/08_threadpool_executor_lifecycle.d2](assets/04_java_concurrency_and_multithreading/08_threadpool_executor_lifecycle.d2)
 
 #### Common Pool Types (`Executors`)
 - `newFixedThreadPool(n)`: Fixed number of worker threads with an unbounded queue.
@@ -1240,34 +1071,9 @@ Traditional Java threads (`java.lang.Thread`) are 1:1 wrappers around operating 
 Virtual threads are lightweight, user-mode threads managed entirely by the Java runtime (JVM). They run millions of concurrent tasks on a small pool of underlying OS **Carrier Threads**.
 
 #### Visual Architecture
-```mermaid
-flowchart TD
-    subgraph VirtualThreads["Millions of Lightweight Virtual Threads (JVM User Mode)"]
-        VT1["Virtual Thread 1 (Stack: few KB)"]
-        VT2["Virtual Thread 2"]
-        VT3["Virtual Thread 3"]
-        VTN["Virtual Thread 1,000,000"]
-    end
+![Java 21 Virtual Threads (Project Loom) Carrier Multiplexing](assets/04_java_concurrency_and_multithreading/09_virtual_threads_carrier_multiplexing.svg)
 
-    subgraph CarrierPool["Small Pool of OS Carrier Threads (Platform Threads)"]
-        CT1["Carrier Thread 1 (CPU Core 1)"]
-        CT2["Carrier Thread 2 (CPU Core 2)"]
-    end
-
-    VT1 -->|Mounted when active| CT1
-    VT2 -->|Mounted when active| CT2
-    VT3 -.->|"Unmounted upon blocking I/O (parked in heap)"| CT1
-
-    style VirtualThreads fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CarrierPool fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style VT1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style VT2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style VT3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style VTN fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CT1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CT2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading/09_virtual_threads_carrier_multiplexing.d2](assets/04_java_concurrency_and_multithreading/09_virtual_threads_carrier_multiplexing.d2)
 
 #### Working Code Example
 ```java
@@ -1305,18 +1111,9 @@ public class VirtualThreadDemo {
 Structured Concurrency (standardized in recent JDK releases) treats multiple concurrent subtasks spawned in different threads as a single atomic unit of work with clear syntactical block lifetimes. If one subtask fails or times out, the scope cancels all remaining sibling subtasks automatically, eliminating thread leaks.
 
 #### Visual Structured Task Scope
-```mermaid
-flowchart TD
-    ParentScope["Parent Request Scope: handleUserRequest()"]
-    ParentScope --> Task1["Subtask 1: fetchUserData() [Thread 1]"]
-    ParentScope --> Task2["Subtask 2: fetchAccountBalance() [Thread 2]"]
-    Task2 -.->|Throws Timeout Exception!| ParentScope
-    ParentScope -.->|Automatically triggers cancellation| Task1
+![Java 21 Structured Concurrency: StructuredTaskScope Lifecycle](assets/04_java_concurrency_and_multithreading/10_structured_concurrency_scope.svg)
 
-    style ParentScope fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Task1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Task2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_java_concurrency_and_multithreading/10_structured_concurrency_scope.d2](assets/04_java_concurrency_and_multithreading/10_structured_concurrency_scope.d2)
 
 #### Working Code Example (Java 21 `StructuredTaskScope`)
 ```java

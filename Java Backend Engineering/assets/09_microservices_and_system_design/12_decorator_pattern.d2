@@ -1,0 +1,30 @@
+direction: right
+title: "Decorator Pattern: Dynamic Transparent Behavior Augmentation"
+
+client: "MessageService" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+iface: "MessagePublisher <<interface>>
++publish(topic, payload)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+dec: "EncryptedMessageDecorator
+Adds AES-256 GCM
+Wraps delegate publisher" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+base: "KafkaMessagePublisher
+Core KafkaTemplate sender" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+client -> iface: "1. Publishes"
+dec -> iface: "implements"
+dec -> base: "2. Wraps & forwards encrypted payload"

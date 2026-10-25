@@ -1,0 +1,38 @@
+direction: right
+title: Event Handling: @EventListener vs. @TransactionalEventListener
+
+service: "Order Placement Service" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  tx: "1. DB Transaction Begins"
+  pub: "2. publishEvent(OrderPlacedEvent)"
+  commit: "3. Commit Evaluation\n(Success vs Rollback)"
+
+  tx -> pub -> commit
+}
+
+bad: "@EventListener (Standard Synchronous)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  fire_early: "Fires immediately before DB commits"
+  ghost: "DB Rolls back -> GHOST EMAIL SENT TO CUSTOMER!\n(Data Corruption Bug)"
+
+  fire_early -> ghost
+}
+
+good: "@TransactionalEventListener(AFTER_COMMIT)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  sync: "Bound to TransactionSynchronizationManager"
+  safe_commit: "If Commit Success: Send confirmation email"
+  safe_rollback: "If Rollback: EVENT SILENTLY DROPPED!"
+
+  sync -> safe_commit
+  sync -> safe_rollback
+}
+
+service.pub -> bad.fire_early: "Fires immediately"
+service.commit -> good.sync: "Fires only after commit completes"

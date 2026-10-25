@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" width="1080" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Consistent Hashing Ring &amp; Virtual Nodes (Vnodes)</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Minimizing Key Relocation (1/N) and Eliminating Hotspot Skew during Cluster Scaling</text>
+<rect x="50" y="105" width="450" height="340" rx="10" fill="#083344" stroke="#06b6d4" stroke-width="2"/>
+<rect x="65" y="120" width="260" height="22" rx="11" fill="#0891b2"/><text x="195" y="134" fill="#ECFEFF" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CONSISTENT HASH RING [0 .. 2^32-1]</text>
+<text x="275" y="165" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Address Space: 0 to 4,294,967,295</text>
+<rect x="80" y="195" width="170" height="55" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="165" y="217" fill="#10b981" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">vnode: S1_V1</text>
+<text x="165" y="235" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Token: 0x1A2B (Node 1)</text>
+<rect x="300" y="195" width="170" height="55" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="385" y="217" fill="#f59e0b" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">vnode: S2_V1</text>
+<text x="385" y="235" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Token: 0x5F10 (Node 2)</text>
+<rect x="300" y="325" width="170" height="55" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="385" y="347" fill="#8b5cf6" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">vnode: S3_V1</text>
+<text x="385" y="365" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Token: 0x9B8C (Node 3)</text>
+<rect x="80" y="325" width="170" height="55" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="165" y="347" fill="#10b981" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">vnode: S1_V2</text>
+<text x="165" y="365" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Token: 0xD4E0 (Node 1)</text>
+<rect x="190" y="265" width="170" height="45" rx="4" fill="#1e293b" stroke="#38BDF8" stroke-width="1.5"/>
+<text x="275" y="285" fill="#93C5FD" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Key: 'user:42' (Hash: 0x3E10)</text>
+<text x="275" y="300" fill="#FDE68A" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Routes clockwise -&gt; S2_V1!</text>
+<rect x="530" y="105" width="500" height="340" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<rect x="545" y="120" width="260" height="22" rx="11" fill="#047857"/><text x="675" y="134" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">VIRTUAL NODE (VNODE) MECHANICS</text>
+<text x="550" y="165" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why Virtual Nodes are Mandatory (Dynamo / Cassandra):</text>
+<text x="550" y="187" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Non-Uniform Hashing Trap: With only 3 physical nodes, token distances</text>
+<text x="550" y="201" fill="#F87171" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  can vary wildly, causing one node to receive 70% of all traffic (Hotspot).</text>
+<text x="550" y="223" fill="#6EE7B7" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Virtual Node Solution: Each physical machine is assigned 128 to 256</text>
+<text x="550" y="237" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  virtual tokens spread evenly across the 2^32 ring.</text>
+<rect x="550" y="255" width="460" height="75" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="780" y="277" fill="#FBBF24" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Key Relocation Formula on Node Addition:</text>
+<text x="780" y="300" fill="#34D399" font-size="14" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Keys Moved = K / (N + 1)</text>
+<text x="780" y="320" fill="#F87171" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Traditional Modulo (K % N) moves ~100% of keys!</text>
+<text x="550" y="350" fill="#38BDF8" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Binary Search Routing (TreeMap.ceilingEntry()):</text>
+<text x="550" y="370" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Calculate Murmur3 hash of cache key: hash(key) = token.</text>
+<text x="550" y="385" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. ringMap.ceilingEntry(token) finds immediate clockwise node in O(log M).</text>
+<text x="550" y="400" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. If token &gt; last key, wraps around to ringMap.firstEntry() in O(1).</text>
+<rect x="40" y="465" width="1000" height="75" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="488" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Consistent Hashing Invariant in Distributed Caching:</text>
+<text x="65" y="508" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Adding a 10th node to a 9-node cluster invalidates only 10% of cached keys instead of 100%, completely preventing database-destroying cache stampedes.</text>
+<text x="65" y="524" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Used universally in Apache Cassandra, Amazon DynamoDB, Akka Cluster, and Memcached routing clients.</text>
+</svg>

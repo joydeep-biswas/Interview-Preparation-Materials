@@ -1,0 +1,12 @@
+# Anatomy of a Python Object: C vs PyLongObject
+direction: right
+
+c_int: "C Primitive: int64_t x = 42\n• 8 Bytes total\n• Sits directly in register\n• Zero header overhead" {
+  style.stroke: "#3B82F6"
+}
+
+py_int: "CPython: x = 42 (PyLongObject)\n• 24 Bytes Header (ob_refcnt, ob_type, ob_size)\n• 4 Bytes Value (ob_digit[0])\n• Total: 28 Bytes (3.5x larger!)" {
+  style.stroke: "#F59E0B"
+}
+
+c_int -> py_int: "3.5x Memory Overhead"

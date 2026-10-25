@@ -1,0 +1,17 @@
+direction: down
+title: Kafka Consumer Group Scalability & Idle Worker Trap
+
+Partitions: Topic: orders (4 Partitions) {
+  p0: Partition 0
+  p1: Partition 1
+  p2: Partition 2
+  p3: Partition 3
+}
+
+Scenarios: Consumer Scaling Scenarios {
+  sA: "Scenario A: 2 Pods (Each reads 2 partitions)"
+  sB: "Scenario B: 4 Pods (Optimal 1:1 mapping)"
+  sC: "Scenario C: 8 Pods (4 active, 4 IDLE!)"
+}
+
+Partitions.p0 -> Scenarios.sB: 1:1 mapping { style.stroke: "#10B981" }

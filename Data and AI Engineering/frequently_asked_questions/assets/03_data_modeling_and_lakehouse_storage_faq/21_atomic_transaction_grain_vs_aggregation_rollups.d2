@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  atomic: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; rx: 10 } }
+  rollup: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+atomic_grain: "1. Atomic Transaction Grain\nfact_sales_line_item (Lowest Granularity)" {
+  class: atomic
+  r1: "Row 1: Receipt #101, Item: Milk, Qty: 2, Amt: $6.00"
+  r2: "Row 2: Receipt #101, Item: Bread, Qty: 1, Amt: $3.50"
+  r3: "Row 3: Receipt #102, Item: Milk, Qty: 1, Amt: $3.00"
+}
+
+store_rollup: "Store-Level Rollup\nagg_sales_store_daily" {
+  class: rollup
+  s1: "Store #1 Daily Total: $12.50"
+}
+
+prod_rollup: "Product-Level Rollup\nagg_sales_product_daily" {
+  class: rollup
+  p1: "Milk Total: $9.00\nBread Total: $3.50"
+}
+
+atomic_grain -> store_rollup: "SUM(amt) GROUP BY store"
+atomic_grain -> prod_rollup: "SUM(amt) GROUP BY product"

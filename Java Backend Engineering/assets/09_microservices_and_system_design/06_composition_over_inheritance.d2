@@ -1,0 +1,25 @@
+direction: right
+title: "Favor Composition Over Inheritance: Eliminating Fragile Base Class Traps"
+
+trap: "Fragile Inheritance Anti-Pattern" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+  hashset: "HashSet<E>"
+  sub: "InstrumentedHashSet<E>
+extends HashSet
+addAll() double-counts items!"
+  hashset <- sub: "extends (breaks encapsulation)"
+}
+
+clean: "Composition & Forwarding Pattern" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+  iface: "Set<E> <<interface>>"
+  wrapper: "InstrumentedSet<E>
+composes Set delegate
+100% bug-free & polymorphic"
+  impl: "HashSet / TreeSet"
+
+  iface <- wrapper: "implements"
+  wrapper -> impl: "composes delegate"
+}

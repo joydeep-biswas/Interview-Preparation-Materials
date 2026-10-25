@@ -1,0 +1,16 @@
+classes: {
+  event_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  ttft_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  itl_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  eos_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+timeline: "Timeline of an LLM Inference Request" {
+  dispatch: "T=0: Request Dispatched\nEnter gateway queue" { class: event_box }
+  prefill: "T=150ms: Prefill Phase Starts\nParallel prompt processing" { class: event_box }
+  ttft: "T=450ms: Time To First Token (TTFT)\nFirst token emitted & spinner vanishes" { class: ttft_box }
+  stream: "Inter-Token Latency (ITL: +30ms/token)\nTokens 2..N streamed to client" { class: itl_box }
+  eos: "T=880ms: Request Complete\n[EOS] token emitted; Total = TTFT + N*ITL" { class: eos_box }
+
+  dispatch -> prefill -> ttft -> stream -> eos
+}

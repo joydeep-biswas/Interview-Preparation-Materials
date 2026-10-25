@@ -6,39 +6,9 @@ A comprehensive, production-grade guide covering enterprise distributed caching 
 
 ## Architectural Overview: Enterprise Caching, Messaging & Event Mesh Architecture
 
-```mermaid
-flowchart LR
-    subgraph App_And_Cache["1. Application Tier & Distributed Caching"]
-        RestAPI["Spring Boot 3 Application Services"] <--> L1Cache["L1 Local Cache (Caffeine in JVM Heap)"]
-        L1Cache <--> CacheService["Cache-Aside Layer (@Cacheable)"]
-        CacheService <--> RedisCluster[("Redis Enterprise Cluster (Master-Replica + Sentinel)<br/>Distributed Locks (Redlock) & Sliding Window Rate Limiting")]
-        RestAPI --> PostgresDB[("Primary Database: PostgreSQL<br/>(ACID Transactions)")]
-    end
+![Enterprise Caching, Messaging & Event Mesh Architecture](assets/08_caching_redis_and_kafka/01_caching_messaging_mesh_architecture.svg)
 
-    subgraph Messaging_And_Streaming["2. Event-Driven Messaging Mesh"]
-        RestAPI -->|Point-to-Point Task Queue| RabbitMQ["RabbitMQ Broker (AMQP 0-9-1)<br/>(Direct/Topic Exchanges & Dead Letter Queue)"]
-        RabbitMQ --> AsyncWorker["Async Background Task Workers"]
-
-        RestAPI -->|High-Throughput Partitioned Event Stream| Kafka["Apache Kafka Cluster (KRaft Architecture)<br/>(Topics, Partitions, In-Sync Replicas, Exactly-Once)"]
-        Kafka --> ConsumerGroupA["Consumer Group A: Billing Service"]
-        Kafka --> ConsumerGroupB["Consumer Group B: Notification Service"]
-        Kafka -.->|Poison Messages / Failures| KafkaDLQ["Kafka Dead Letter Topic (DLT)"]
-    end
-
-    style App_And_Cache fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Messaging_And_Streaming fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style RestAPI fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style L1Cache fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style CacheService fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style RedisCluster fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style PostgresDB fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style RabbitMQ fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style AsyncWorker fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Kafka fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ConsumerGroupA fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ConsumerGroupB fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style KafkaDLQ fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/01_caching_messaging_mesh_architecture.d2](assets/08_caching_redis_and_kafka/01_caching_messaging_mesh_architecture.d2)
 
 ---
 
@@ -118,24 +88,9 @@ Software performance is fundamentally bound by the physical latency of computer 
 
 ### 1.2 Local In-Memory Caches (Caffeine) vs Distributed Caches (Redis)
 
-```mermaid
-flowchart TD
-    subgraph LocalCache ["Local In-Memory Cache (Caffeine / Guava)"]
-        direction TB
-        App1["App Node 1 (JVM Heap)"] --> C1["Local Caffeine Cache<br/>(Ultra-low latency (~50ns), ZERO network overhead, Inconsistent across nodes!)"]
-        App2["App Node 2 (JVM Heap)"] --> C2["Local Caffeine Cache<br/>(Distinct copy of data!)"]
-    end
+![Local In-Memory Cache (Caffeine) vs. Distributed Cache (Redis)](assets/08_caching_redis_and_kafka/02_local_vs_distributed_cache.svg)
 
-    subgraph DistributedCache ["Distributed Cache (Redis Enterprise)"]
-        direction TB
-        AppA["App Node 1"] --> Redis[("Shared Redis Cluster<br/>(Consistent state across all pods, Scales independently of JVM, Network latency (~0.5ms))")]
-        AppB["App Node 2"] --> Redis
-    end
-
-    style LocalCache fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DistributedCache fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Redis fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/02_local_vs_distributed_cache.d2](assets/08_caching_redis_and_kafka/02_local_vs_distributed_cache.d2)
 
 * **Local Cache (Caffeine)**: Stored directly in JVM heap RAM. Ideal for static, immutable reference data (e.g., country codes, tax rates) that rarely change.
 * **Distributed Cache (Redis)**: Hosted as a separate stateful cluster. Ideal for session state, high-velocity transactional domain entities, distributed rate limiters, and distributed locks.
@@ -146,44 +101,9 @@ flowchart TD
 
 In ultra-high-throughput systems, combining L1 (local JVM Caffeine cache) with L2 (distributed Redis) provides the ultimate balance of microsecond latency and cluster-wide consistency:
 
-```mermaid
-flowchart TD
-    App["<b>Application Code</b><br/>Read request"]
+![Two-Tier L1/L2 Caching Pipeline Architecture](assets/08_caching_redis_and_kafka/03_two_tier_l1_l2_caching_hierarchy.svg)
 
-    subgraph Tier1 ["Tier 1: Local In-Memory Cache (~50ns)"]
-        direction LR
-        L1{"1. Check L1 Cache<br/>(Caffeine / Guava)"}
-        ReturnL1["<b>Return L1 Value</b><br/>Instant in-process hit"]
-        L1 -- "L1 Hit" --> ReturnL1
-    end
-
-    subgraph Tier2 ["Tier 2: Distributed Cache (~0.5ms)"]
-        direction LR
-        L2{"2. Check L2 Cache<br/>(Redis Cluster)"}
-        PopulateL1["<b>Populate L1 & Return</b><br/>Redis cache hit"]
-        L2 -- "L2 Hit" --> PopulateL1
-    end
-
-    subgraph Tier3 ["Tier 3: Relational Persistence (~5ms - 50ms)"]
-        direction LR
-        DB[("<b>PostgreSQL / MySQL</b><br/>Source of Truth")] --> PopulateBoth["<b>Populate L2 & L1</b><br/>Cache-aside update"]
-    end
-
-    App --> Tier1
-    L1 -- "L1 Miss" --> Tier2
-    L2 -- "L2 Miss" --> Tier3
-
-    style App fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style Tier1 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Tier2 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Tier3 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style L1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style ReturnL1 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style L2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style PopulateL1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DB fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style PopulateBoth fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/03_two_tier_l1_l2_caching_hierarchy.d2](assets/08_caching_redis_and_kafka/03_two_tier_l1_l2_caching_hierarchy.d2)
 
 #### The L1 Invalidation Problem:
 When Pod A mutates a database entity, it updates Redis (L2). However, Pod B, Pod C, and Pod D still have the stale version in their local JVM heap (L1).
@@ -351,31 +271,9 @@ public class TwoTierCache extends AbstractValueAdaptingCache {
 
 ### 1.4 Enterprise Caching Patterns (Cache-Aside, Read-Through, Write-Through, Write-Behind)
 
-```mermaid
-flowchart TD
-    subgraph P1 ["1. Cache-Aside (Lazy Loading)"]
-        direction TB
-        App1["Application"] -->|1. Check Cache| C1[("Cache")]
-        App1 -->|2. On Miss: Read DB| DB1[("Database")]
-        App1 -->|3. Populate Cache| C1
-    end
+![Four Enterprise Caching Patterns](assets/08_caching_redis_and_kafka/04_enterprise_caching_patterns.svg)
 
-    subgraph P2 ["2. Write-Through"]
-        direction TB
-        App2["Application"] -->|1. Write Data| C2[("Cache")]
-        C2 -->|2. Synchronously Writes DB| DB2[("Database")]
-    end
-
-    subgraph P3 ["3. Write-Behind (Write-Back)"]
-        direction TB
-        App3["Application"] -->|"1. Write Data (Fast)"| C3[("Cache")]
-        C3 -.->|2. Async Batch Flush| DB3[("Database")]
-    end
-
-    style P1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style P2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style P3 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/04_enterprise_caching_patterns.d2](assets/08_caching_redis_and_kafka/04_enterprise_caching_patterns.d2)
 
 1. **Cache-Aside (Lazy Loading - Most Common)**:
    * The application code is responsible for checking the cache first.
@@ -408,33 +306,9 @@ When cache RAM is exhausted, an eviction policy decides which keys must be disca
 
 ### 1.6 Production Cache Hazards & Defenses (Stampede, Penetration, Avalanche)
 
-```mermaid
-flowchart TD
-    Hazards["<b>Production Caching Hazards</b><br/>Failure modes in high-concurrency systems"]
+![Production Caching Hazards & Hardened Defenses](assets/08_caching_redis_and_kafka/05_cache_hazards_and_defenses.svg)
 
-    subgraph AvailabilityThreats ["Availability & Throughput Threats"]
-        direction TB
-        H1["<b>1. Cache Stampede (Thundering Herd)</b><br/>Hot key expires; thousands of concurrent threads hammer database"]
-        H2["<b>2. Cache Penetration</b><br/>Attacker queries non-existent IDs; every request bypasses cache to DB"]
-    end
-
-    subgraph DataIntegrityThreats ["Data Consistency & Volume Threats"]
-        direction TB
-        H3["<b>3. Cache Breakdown (Avalanche)</b><br/>Mass simultaneous TTL expiration causes database saturation"]
-        H4["<b>4. Dual-Write Inconsistency</b><br/>Out-of-order writes between DB and Redis leave stale cache data"]
-    end
-
-    Hazards --> AvailabilityThreats
-    Hazards --> DataIntegrityThreats
-
-    style Hazards fill:#0f172a,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style AvailabilityThreats fill:#1e1e2e,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style DataIntegrityThreats fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style H1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style H2 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style H3 fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style H4 fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/05_cache_hazards_and_defenses.d2](assets/08_caching_redis_and_kafka/05_cache_hazards_and_defenses.d2)
 
 #### Hazard 1: Cache Penetration & Defense with Redisson Bloom Filter
 When an attacker requests random IDs that do not exist in the database (e.g. `/api/v1/users/-9999999`), every request misses the cache and directly pounds the relational database.
@@ -606,32 +480,9 @@ Although primarily an in-memory store, Redis provides two distinct durability op
 
 ### 2.3 High-Availability Topologies: Standalone, Sentinel & Clustered (16,384 Hash Slots)
 
-```mermaid
-flowchart TD
-    subgraph SentinelTopology ["1. Redis Sentinel (Automatic Failover)"]
-        direction TB
-        Master["Redis Master (Read/Write)"] -->|"Async Replication"| Replica["Redis Replica (Read-Only)"]
-        S1["Sentinel 1"] <--> S2["Sentinel 2"] <--> S3["Sentinel 3"]
-        S1 -.->|Heartbeat Ping| Master
-        S2 -.->|Heartbeat Ping| Master
-        S3 -.->|Heartbeat Ping| Master
-    end
+![Redis High-Availability Topologies: Sentinel vs. Clustered Sharding](assets/08_caching_redis_and_kafka/06_redis_ha_topologies.svg)
 
-    subgraph ClusterTopology ["2. Redis Cluster (Horizontal Partitioning)"]
-        direction LR
-        Node1["Master Node A<br/>Slots: 0 - 5460"]
-        Node2["Master Node B<br/>Slots: 5461 - 10922"]
-        Node3["Master Node C<br/>Slots: 10923 - 16383"]
-    end
-
-    style SentinelTopology fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ClusterTopology fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Master fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Replica fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Node1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Node2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Node3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/06_redis_ha_topologies.d2](assets/08_caching_redis_and_kafka/06_redis_ha_topologies.d2)
 
 * **Redis Sentinel**: Provides high availability without data sharding. 3 or more Sentinel nodes monitor the Master via heartbeats. If the Master goes down, Sentinels reach a quorum and elect a Replica to become the new Master automatically.
 * **Redis Cluster**: Provides **horizontal data partitioning across nodes**:
@@ -1032,27 +883,9 @@ redis-cli monitor
 
 ### 3.1 Point-to-Point Queues vs Publish-Subscribe (Pub/Sub) Topics
 
-```mermaid
-flowchart TD
-    subgraph PTP ["1. Point-to-Point Task Queue (e.g. RabbitMQ Queue)"]
-        direction LR
-        Prod1["Producer"] --> Q["Work Queue"]
-        Q --> W1["Worker 1"]
-        Q --> W2["Worker 2"]
-        Note1["Each message is consumed by EXACTLY ONE worker!"]
-    end
+![Point-to-Point Task Queues vs. Publish-Subscribe Topics](assets/08_caching_redis_and_kafka/07_point_to_point_vs_pubsub.svg)
 
-    subgraph PubSub ["2. Publish-Subscribe Stream (e.g. Kafka Topic)"]
-        direction LR
-        Prod2["Producer"] --> T["Event Topic"]
-        T --> SubA["Billing Consumer Group"]
-        T --> SubB["Notification Consumer Group"]
-        Note2["EVERY subscriber group receives a full copy of the event!"]
-    end
-
-    style PTP fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PubSub fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/07_point_to_point_vs_pubsub.d2](assets/08_caching_redis_and_kafka/07_point_to_point_vs_pubsub.d2)
 
 ---
 
@@ -1091,27 +924,9 @@ A **Poison Message** is a malformed message (e.g. corrupt JSON, invalid schema) 
 
 ### 3.5 The Idempotent Consumer Pattern: Deduplication Stores
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Broker as Message Broker (Kafka / RabbitMQ)
-    participant Consumer as Order Processing Consumer
-    participant Dedup as Redis Deduplication Store
-    participant DB as PostgreSQL DB
+![The Idempotent Consumer Pattern: Distributed Deduplication Architecture](assets/08_caching_redis_and_kafka/08_idempotent_consumer_dedup_store.svg)
 
-    Broker->>Consumer: Delivers Event: OrderCreatedEvent(id="ORD-101")
-    Consumer->>Dedup: SETNX dedup:ORD-101 "IN_PROGRESS" EX 86400
-    alt Already processed (Key exists)
-        Dedup-->>Consumer: Returns 0 (Conflict / Duplicate)
-        Consumer->>Broker: ACK (Skip processing, avoid duplicate charge!)
-    else First time seeing event (Key set)
-        Dedup-->>Consumer: Returns 1 (Acquired)
-        Consumer->>DB: Process order & insert invoice
-        Consumer->>Dedup: SET dedup:ORD-101 "COMPLETED" EX 86400
-        Consumer->>Broker: ACK
-    end
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/08_idempotent_consumer_dedup_store.d2](assets/08_caching_redis_and_kafka/08_idempotent_consumer_dedup_store.d2)
 
 ---
 
@@ -1123,36 +938,9 @@ sequenceDiagram
 
 In RabbitMQ, producers **never publish directly to a queue**. Instead, messages are published to an **Exchange**, which inspects message attributes and routes messages into **Queues** via **Bindings**:
 
-```mermaid
-flowchart TD
-    Producer["<b>Producer Application</b><br/>Publishes order.created event"] --> Exchange["<b>AMQP Topic Exchange</b><br/>Evaluates binding keys"]
+![RabbitMQ AMQP Architecture: Exchanges, Topic Bindings & Queues](assets/08_caching_redis_and_kafka/09_rabbitmq_exchange_bindings_queues.svg)
 
-    subgraph QueuesZone ["Dedicated Consumer Queues"]
-        direction LR
-        Q1["<b>Queue: BillingQueue</b><br/>Binding: order.*"]
-        Q2["<b>Queue: WarehouseQueue</b><br/>Binding: order.#"]
-    end
-
-    subgraph ConsumerWorkers ["Consumer Services"]
-        direction LR
-        ConsumerA["<b>Billing Worker</b><br/>Processes invoice"]
-        ConsumerB["<b>Warehouse Worker</b><br/>Allocates inventory"]
-    end
-
-    Exchange -->|"Matches order.*"| Q1
-    Exchange -->|"Matches order.#"| Q2
-    Q1 --> ConsumerA
-    Q2 --> ConsumerB
-
-    style Producer fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style Exchange fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style QueuesZone fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ConsumerWorkers fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Q1 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Q2 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style ConsumerA fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style ConsumerB fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/09_rabbitmq_exchange_bindings_queues.d2](assets/08_caching_redis_and_kafka/09_rabbitmq_exchange_bindings_queues.d2)
 
 ---
 
@@ -1178,21 +966,9 @@ If a consumer pod takes 200 milliseconds to process a database-heavy task, and 5
 3. Other newly spawned consumer pods sit completely starved with 0 messages!
 
 #### The Engineering Solution: Channel `basicQos(prefetchCount)`:
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Broker as RabbitMQ Broker
-    participant Consumer as Worker Pod (prefetch=2)
+![RabbitMQ Flow Control: Consumer basicQos (Prefetch) Backpressure](assets/08_caching_redis_and_kafka/10_rabbitmq_backpressure_prefetch_qos.svg)
 
-    Broker->>Consumer: Push Message 1 (Unacked: 1)
-    Broker->>Consumer: Push Message 2 (Unacked: 2 - Prefetch Limit Reached!)
-    Note over Broker: Broker PAUSES pushing to this consumer!
-    Consumer->>Consumer: Completes processing Message 1
-    Consumer->>Broker: basicAck(deliveryTag=1, multiple=false)
-    Note over Broker: Unacked count drops to 1
-    Broker->>Consumer: Push Message 3 (Unacked: 2)
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/10_rabbitmq_backpressure_prefetch_qos.d2](assets/08_caching_redis_and_kafka/10_rabbitmq_backpressure_prefetch_qos.d2)
 
 #### Sizing Rule of Thumb for `prefetchCount`:
 $$\text{Optimal Prefetch} = \frac{\text{Round-Trip Network Latency (RTT)} + \text{Processing Time}}{\text{Processing Time}}$$
@@ -1411,24 +1187,9 @@ Traditional message brokers (RabbitMQ, ActiveMQ) maintain complex internal index
 
 ### 5.2 Cluster Architecture: Brokers, Topics, Partitions, and KRaft Metadata
 
-```mermaid
-flowchart TD
-    subgraph KafkaCluster ["Apache Kafka Cluster (KRaft Architecture - No ZooKeeper)"]
-        direction TB
-        Broker1["Broker 101<br/>Partition 0 (Leader)<br/>Partition 1 (Follower)"]
-        Broker2["Broker 102<br/>Partition 1 (Leader)<br/>Partition 2 (Follower)"]
-        Broker3["Broker 103<br/>Partition 2 (Leader)<br/>Partition 0 (Follower)"]
-    end
+![Apache Kafka KRaft Architecture: Controller Quorum & Partition Layout](assets/08_caching_redis_and_kafka/11_kafka_cluster_kraft_architecture.svg)
 
-    Producer["Producer<br/>(Murmur2 Hash on Key)"] -->|Writes to Partition Leaders| KafkaCluster
-    KafkaCluster --> ConsumerA["Consumer Group: Billing<br/>(Reads Partitions 0, 1)"]
-    KafkaCluster --> ConsumerB["Consumer Group: Inventory<br/>(Reads Partition 2)"]
-
-    style KafkaCluster fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Broker1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Broker2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Broker3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/11_kafka_cluster_kraft_architecture.d2](assets/08_caching_redis_and_kafka/11_kafka_cluster_kraft_architecture.d2)
 
 * **Partitions**: A Topic is divided into multiple physical Partitions distributed across brokers. **Partitioning is the fundamental unit of parallelism and horizontal scale in Kafka**.
 * **KRaft (Kafka Raft)**: Modern Kafka replaces Apache ZooKeeper with an integrated Raft consensus metadata quorum running directly inside Kafka brokers, supporting millions of partitions per cluster with sub-second metadata failovers.
@@ -1437,31 +1198,9 @@ flowchart TD
 
 ### 5.3 Producer Internals: Partitioning Strategies, Batching & `acks=all`
 
-```mermaid
-flowchart TD
-    subgraph ClientSerialization ["Phase 1: Ingestion & Serialization"]
-        direction LR
-        ProdRecord["<b>ProducerRecord</b><br/>(topic, key, value)"] --> Serializer["<b>Serializers</b><br/>Key/Value JSON/Avro"]
-        Serializer --> Partitioner["<b>Partitioner Engine</b><br/>Murmur2 hash or sticky"]
-    end
+![Kafka Producer Internals: Ingestion, Batching & Network Transmission](assets/08_caching_redis_and_kafka/12_kafka_producer_internals_batching.svg)
 
-    subgraph BufferingTransmission ["Phase 2: Buffering & Network Dispatch"]
-        direction LR
-        RecordAccumulator["<b>RecordAccumulator</b><br/>Batches in memory pool (16KB)"] --> Sender["<b>Sender Thread</b><br/>NetworkClient socket I/O"]
-        Sender --> KafkaBroker["<b>Kafka Broker</b><br/>Leader partition commit log"]
-    end
-
-    ClientSerialization --> BufferingTransmission
-
-    style ClientSerialization fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BufferingTransmission fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ProdRecord fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Serializer fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Partitioner fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style RecordAccumulator fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Sender fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style KafkaBroker fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/12_kafka_producer_internals_batching.d2](assets/08_caching_redis_and_kafka/12_kafka_producer_internals_batching.d2)
 
 #### Producer Acknowledgement Settings (`acks`) & Tuning Parameters:
 * **`acks=0`**: Producer fires and forgets; does not wait for any broker acknowledgement. Maximum throughput; high risk of message loss.
@@ -1543,28 +1282,9 @@ public class EnterpriseKafkaProducerConfig {
   * If the group scales to 4 instances, each gets 1 partition.
   * If the group scales to 8 instances, **4 instances sit completely idle**!
 
-```mermaid
-flowchart TD
-    subgraph TopicPartitions ["Topic: orders (4 Partitions)"]
-        P0["Partition 0"]
-        P1["Partition 1"]
-        P2["Partition 2"]
-        P3["Partition 3"]
-    end
+![Kafka Consumer Group Scalability: Partition Allocation & Idle Worker Trap](assets/08_caching_redis_and_kafka/13_kafka_consumer_group_rebalance.svg)
 
-    subgraph ConsumerGroup ["Consumer Group (2 Consumer Pods)"]
-        C1["Consumer Pod 1"]
-        C2["Consumer Pod 2"]
-    end
-
-    P0 --> C1
-    P1 --> C1
-    P2 --> C2
-    P3 --> C2
-
-    style TopicPartitions fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ConsumerGroup fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/13_kafka_consumer_group_rebalance.d2](assets/08_caching_redis_and_kafka/13_kafka_consumer_group_rebalance.d2)
 
 #### Eager Rebalance vs Cooperative Sticky Rebalance:
 * **Eager Rebalance (`RangeAssignor`, `RoundRobinAssignor`)**:
@@ -1633,24 +1353,9 @@ Kafka provides native end-to-end Exactly-Once Semantics (EOS) for **read-process
 2. The record is transformed, and output records are produced to an output topic.
 3. The consumer's offset on the input topic is committed **atomically within the same transaction** as the published output records!
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant InTopic as Input Topic (OrderRequests)
-    participant Worker as Transactional Worker
-    participant TxCoord as Kafka Transaction Coordinator
-    participant OutTopic as Output Topic (OrderProcessed)
+![Kafka Exactly-Once Semantics (EOS): Transactional Stream Processing](assets/08_caching_redis_and_kafka/14_kafka_exactly_once_transactional_stream.svg)
 
-    Worker->>TxCoord: Begin Transaction (transactional.id="tx-order-worker-1")
-    Worker->>InTopic: Consume OrderRequest (Offset 100)
-    Worker->>OutTopic: Produce OrderProcessedEvent
-    Worker->>TxCoord: SendOffsetsToTx(Offset 100 for Partition 0)
-    Worker->>TxCoord: Commit Transaction
-    TxCoord-->>OutTopic: Write COMMIT Marker
-    TxCoord-->>InTopic: Write COMMIT Marker
-    Note over OutTopic: Downstream consumers with isolation.level=read_committed only see committed records!
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka/14_kafka_exactly_once_transactional_stream.d2](assets/08_caching_redis_and_kafka/14_kafka_exactly_once_transactional_stream.d2)
 
 #### Production Transactional Producer & Consumer Implementation:
 ```java

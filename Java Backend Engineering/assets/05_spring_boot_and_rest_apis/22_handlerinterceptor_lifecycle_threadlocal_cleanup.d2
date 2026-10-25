@@ -1,0 +1,35 @@
+direction: right
+title: HandlerInterceptor Lifecycle & ThreadLocal Context Cleanup
+
+s1: "1. preHandle() (Gatekeeper)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  eval: "Returns boolean (false = abort)"
+  tl: "Sets ThreadLocal / MDC.put('traceId')"
+}
+
+s2: "2. Controller Execution" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  logic: "Executes @Service & DB transactions"
+  reads: "Reads ThreadLocal context"
+}
+
+s3: "3. postHandle() (Before View)" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  warn: "SKIPPED on exception! Never clean ThreadLocal here!"
+}
+
+s4: "4. afterCompletion() (Finally Block)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  always: "ALWAYS executes in finally block"
+  clean: "MANDATORY CLEANUP: MDC.clear() & UserContext.clear()"
+}
+
+s1 -> s2 -> s3 -> s4

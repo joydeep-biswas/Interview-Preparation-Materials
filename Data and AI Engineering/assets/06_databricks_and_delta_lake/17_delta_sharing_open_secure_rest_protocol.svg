@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Sharing Open &amp; Secure Protocol Architecture</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Direct parallel data access across clouds &amp; tools via open REST protocol and short-lived pre-signed URLs</text>
+<rect x="30" y="85" width="270" height="410" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="165" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Data Provider (Unity Catalog)</text>
+<rect x="80" y="122" width="170" height="18" rx="9" fill="#1d4ed8"/><text x="165" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Governor &amp; Metastore</text>
+<rect x="45" y="155" width="240" height="85" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Unity Catalog Metastore</text>
+<text x="55" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Share Object: share_sales_external</text>
+<text x="55" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Table Grants &amp; Recipient ACLs</text>
+<text x="55" y="230" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Partition filtering / Column masking</text>
+<rect x="45" y="260" width="240" height="95" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="55" y="283" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Cloud Object Storage</text>
+<text x="55" y="303" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">AWS S3 / Azure ADLS / Google Cloud Storage</text>
+<text x="55" y="321" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Underlying Parquet data files</text>
+<text x="55" y="339" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Raw files remain securely in provider bucket</text>
+<rect x="45" y="375" width="240" height="95" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="55" y="397" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero Data Egress Server Bottleneck:</text>
+<text x="55" y="417" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Databricks servers NEVER stream the bulk</text>
+<text x="55" y="433" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">data bytes! Server only exchanges lightweight</text>
+<text x="55" y="449" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">JSON metadata and pre-signed storage URLs.</text>
+<rect x="330" y="85" width="340" height="410" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="500" y="112" fill="#34D399" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Sharing REST Protocol</text>
+<rect x="410" y="122" width="180" height="18" rx="9" fill="#047857"/><text x="500" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Open Standard (Linux Foundation)</text>
+<rect x="345" y="155" width="310" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="355" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Client Auth &amp; Metadata Query</text>
+<text x="355" y="198" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">GET /shares/{share}/schemas/{schema}/tables/{table}</text>
+<text x="355" y="214" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Recipient presents bearer token from .share profile</text>
+<rect x="345" y="245" width="310" height="65" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="1"/>
+<text x="355" y="268" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Permissions Check &amp; Version Query</text>
+<text x="355" y="288" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Delta Sharing server validates token expiry and</text>
+<text x="355" y="302" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">resolves table snapshot from _delta_log/</text>
+<rect x="345" y="325" width="310" height="80" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1"/>
+<text x="355" y="348" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. Issues Pre-Signed Cloud Storage URLs</text>
+<text x="355" y="368" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Returns short-lived pre-signed GET URLs (e.g., 15 min)</text>
+<text x="355" y="386" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Direct pointers to specific Parquet data slices in S3/ADLS</text>
+<rect x="345" y="420" width="310" height="60" rx="8" fill="#111827" stroke="#c084fc" stroke-width="1"/>
+<text x="500" y="442" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Direct Parallel Read (Zero Proxy)</text>
+<text x="500" y="462" fill="#DDD6FE" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client fetches Parquet bytes DIRECT from Cloud Storage!</text>
+<rect x="700" y="85" width="310" height="410" rx="8" fill="#18182f" stroke="#c084fc" stroke-width="1.5"/>
+<text x="855" y="112" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Heterogeneous Consumers</text>
+<rect x="770" y="122" width="170" height="18" rx="9" fill="#6d28d9"/><text x="855" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zero Vendor Lock-In</text>
+<rect x="715" y="155" width="280" height="65" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="725" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Python / Pandas / Polars Client</text>
+<text x="725" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">delta_sharing.load_as_pandas(url)</text>
+<text x="725" y="212" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Direct local in-memory dataframe analysis</text>
+<rect x="715" y="235" width="280" height="65" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="1"/>
+<text x="725" y="258" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BI Tools (PowerBI / Tableau / Excel)</text>
+<text x="725" y="278" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Native Delta Sharing connector</text>
+<text x="725" y="292" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Direct interactive executive dashboards</text>
+<rect x="715" y="315" width="280" height="65" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+<text x="725" y="338" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">External Spark / Databricks Clusters</text>
+<text x="725" y="358" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">spark.read.format('deltaSharing').load(profile)</text>
+<text x="725" y="372" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Distributed parallel reading across external cloud</text>
+<rect x="715" y="395" width="280" height="65" rx="8" fill="#1e293b" stroke="#f87171" stroke-width="1"/>
+<text x="725" y="418" fill="#F87171" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">DuckDB / Rust / Go Applications</text>
+<text x="725" y="438" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">High-performance embeddable C/Rust connectors</text>
+<text x="725" y="452" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero JVM required on consumer client</text>
+<line x1="300" y1="195" x2="345" y2="195" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="655" y1="365" x2="715" y2="365" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<path d="M 285 310 L 320 310 L 320 500 L 715 500" stroke="#34D399" stroke-width="1.5" fill="none" stroke-dasharray="4,4" marker-end="url(#arr-g)"/>
+<text x="517" y="512" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Direct Data Path: Reads Parquet from S3/ADLS without passing through sharing server!</text>
+</svg>

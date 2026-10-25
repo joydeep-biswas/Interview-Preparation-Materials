@@ -1,0 +1,31 @@
+direction: right
+title: "Transactional Outbox Pattern: Architectural Component Layout"
+
+app: "Order Microservice
+Single ACID Transaction" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+db: "PostgreSQL Database
+ACID Boundary" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+
+  orders: "orders table"
+  outbox: "outbox_events table"
+}
+
+cdc: "Debezium CDC Pipeline" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+
+  deb: "Debezium Log Miner
+Reads pg_wal directly"
+  kfk: "Kafka: 'orders.events'
+Partition Key: orderId"
+  deb -> kfk: "Streams"
+}
+
+app -> db: "Atomic Dual-Write"
+db -> cdc.deb: "WAL mining"

@@ -1,0 +1,54 @@
+direction: right
+
+ingress: "1. Request Ingress" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  req: "Incoming Client API Call (user_9872)"
+  envoy: "Envoy Rate Limit Intercept Filter"
+}
+
+zset: "2. Redis ZSET Sliding Log" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  lua: "Atomic Lua Script (ZREMRANGEBYSCORE & ZCARD)"
+}
+
+allowed: "Allowed: Return 1" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  headers: "X-RateLimit-Remaining: 42"
+}
+
+denied: "Denied: Return 0" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  http_429: "HTTP 429 Retry-After: 14"
+}
+
+core: "3. Microservice Core" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  pool: "Thread Pool Shielded from Cascading OOM"
+}
+
+ingress -> zset: "Evaluate Client Window" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+zset -> allowed: "Under Limit" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+zset -> denied: "Exceeded Limit" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}
+allowed -> core: "Forward Request" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

@@ -1,0 +1,38 @@
+direction: down
+title: B+ Tree 3-Level Physical Index Topology
+
+root: Root Page (Level 2) {
+  keys: "[100 | 200]"
+}
+
+branches: Intermediate Branch Pages (Level 1) {
+  b1: Branch Page A [30 | 70]
+  b2: Branch Page B [130 | 170]
+  b3: Branch Page C [230 | 270]
+}
+
+leaves: Doubly-Linked Leaf Pages (Level 0) {
+  l1: Leaf 1 [10..29]
+  l2: Leaf 2 [30..69]
+  l3: Leaf 3 [70..99]
+  l4: Leaf 4 [100..129]
+  l5: Leaf 5 [130..169]
+  l6: Leaf 6 [170..199]
+
+  l1 <-> l2: "Double link"
+  l2 <-> l3
+  l3 <-> l4
+  l4 <-> l5
+  l5 <-> l6
+}
+
+root -> branches.b1
+root -> branches.b2
+root -> branches.b3
+
+branches.b1 -> leaves.l1
+branches.b1 -> leaves.l2
+branches.b1 -> leaves.l3
+branches.b2 -> leaves.l4
+branches.b2 -> leaves.l5
+branches.b2 -> leaves.l6

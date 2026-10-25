@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+ingress: "Late-Arriving Ingress\nCorrections & retro-dated events" { class: card; style.stroke: "#3B82F6" }
+step1: "Step 1: Detect Months\nSELECT DISTINCT\nDATE_TRUNC('month', txn_date)" { class: card; style.stroke: "#F59E0B" }
+step2: "Step 2: Scoped Extract\nExtract ALL Silver transactions\nStrictly for affected partition months" { class: card; style.stroke: "#8B5CF6" }
+step3: "Step 3: Recompute\nRe-aggregate monthly metrics\nfor affected partition slices" { class: card; style.stroke: "#06B6D4" }
+step4: "Step 4: Atomic Merge\nDelta Lake MERGE INTO\nor Dynamic Partition Overwrite" { class: card; style.stroke: "#10B981" }
+
+ingress -> step1 -> step2 -> step3 -> step4

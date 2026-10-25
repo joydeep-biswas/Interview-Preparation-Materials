@@ -1,0 +1,33 @@
+direction: right
+title: "Spring Transaction Propagation: REQUIRED vs NESTED (Savepoints)"
+
+runner: "Batch Job Runner" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+svc: "BatchOrderService (REQUIRED)
+Uses 1 Physical Connection" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+
+pool: "HikariCP Pool" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+db: "Database Engine
+JDBC Savepoints" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+runner -> svc: "1. processBatch()"
+svc -> pool: "2. Borrows Conn 1"
+svc -> db: "3. SAVEPOINT item_1"
+svc -> db: "4. INSERT item 1 (Success)"
+svc -> db: "5. SAVEPOINT item_2"
+svc -> db: "6. ROLLBACK TO SAVEPOINT item_2 (Failed)"
+svc -> db: "7. COMMIT Tx 1"
+svc -> pool: "8. Return Conn 1"

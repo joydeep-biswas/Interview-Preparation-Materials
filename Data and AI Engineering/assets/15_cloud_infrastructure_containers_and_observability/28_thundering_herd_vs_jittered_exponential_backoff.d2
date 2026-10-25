@@ -1,0 +1,20 @@
+classes: {
+  herd_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  jitter_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+herd: "Naive Exponential Backoff (Thundering Herd)" {
+  t0: "T=0: 1,000 requests fail simultaneously" { class: herd_box }
+  t1: "T=100ms: 1,000 requests retry AT THE EXACT SAME MILLISECOND" { class: herd_box }
+  t2: "T=200ms: 1,000 retries hammer backend together -> Permanent crash!" { class: herd_box }
+
+  t0 -> t1 -> t2
+}
+
+jitter: "Decorrelated Full Jitter (Smooth Flow)" {
+  j0: "T=0: 1,000 requests fail" { class: jitter_box }
+  j1: "T=10ms to 200ms: Retries spread uniformly across time spectrum" { class: jitter_box }
+  j2: "Flat, manageable queue load -> Backend safely recovers!" { class: jitter_box }
+
+  j0 -> j1 -> j2
+}

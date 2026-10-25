@@ -1,0 +1,19 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+source: "Raw CSV / JSON File\nS3 / GCS Data Lake Ingress" { class: box; style.stroke: "#3B82F6" }
+gen: "Streaming Generator\ncsv.DictReader, 10,000 chunk buffer" { class: box; style.stroke: "#3B82F6" }
+cleanse: "Cleaning & Casting\nTrim strings, nullify blanks, format dates" { class: box; style.stroke: "#F59E0B" }
+validate: "Pydantic v2 Schema Gate\nStrict types, positive integers, valid UUIDs" { class: box; style.stroke: "#F59E0B" }
+
+batch: "Batch Accumulator (size = 1,000)\nBatches validated DTOs" { class: box; style.stroke: "#10B981" }
+db: "Target Relational Database\nPostgreSQL / SQLite\nSQLAlchemy 2.0 Bulk Upsert" { class: box; style.stroke: "#10B981" }
+
+dlq: "Dead Letter Queue (DLQ)\nbad_records.jsonl\nAudit trail of malformed payloads" { class: box; style.stroke: "#EF4444" }
+
+source -> gen -> cleanse -> validate
+validate -> batch: "Valid Record"
+batch -> db: "Buffer Full"
+validate -> dlq: "Invalid Record"

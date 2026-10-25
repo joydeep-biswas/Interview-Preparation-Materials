@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 320" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+    </style>
+  </defs>
+
+  <rect width="980" height="320" fill="#0B0F19"/>
+
+  <!-- Master Box -->
+  <g transform="translate(30, 25)">
+    <rect width="920" height="270" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="460" y="32" class="title" fill="#93C5FD">📁 /checkpointLocation/ (Fault-Tolerant Root Directory)</text>
+    <line x1="20" y1="45" x2="900" y2="45" stroke="#1F2937" stroke-width="1.5"/>
+
+    <!-- Sub-dir 1: offsets/ -->
+    <g transform="translate(25, 65)">
+      <rect width="270" height="175" rx="8" ry="8" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+      <text x="135" y="30" class="title" font-size="12" fill="#93C5FD">📁 offsets/</text>
+      <text x="135" y="48" class="title" font-size="11" fill="#F9FAFB">Write-Ahead Log (WAL)</text>
+      <line x1="15" y1="58" x2="255" y2="58" stroke="#334155" stroke-width="1"/>
+      <text x="20" y="85" class="body-txt">• Monotonic batch IDs (0, 1, 2...)</text>
+      <text x="20" y="105" class="body-txt">• Exact start/end source offsets</text>
+      <text x="20" y="125" class="body-txt">• Written BEFORE batch execution</text>
+      <text x="20" y="145" class="body-txt">• Guarantees deterministic replay</text>
+    </g>
+
+    <!-- Sub-dir 2: commits/ -->
+    <g transform="translate(325, 65)">
+      <rect width="270" height="175" rx="8" ry="8" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+      <text x="135" y="30" class="title" font-size="12" fill="#6EE7B7">📁 commits/</text>
+      <text x="135" y="48" class="title" font-size="11" fill="#F9FAFB">Completion Manifests</text>
+      <line x1="15" y1="58" x2="255" y2="58" stroke="#334155" stroke-width="1"/>
+      <text x="20" y="85" class="body-txt">• Logs successfully written batches</text>
+      <text x="20" y="105" class="body-txt">• Written AFTER idempotent sink commit</text>
+      <text x="20" y="125" class="body-txt">• Marks micro-batch completion</text>
+      <text x="20" y="145" class="body-txt">• Prevents double-processing</text>
+    </g>
+
+    <!-- Sub-dir 3: state/ -->
+    <g transform="translate(625, 65)">
+      <rect width="270" height="175" rx="8" ry="8" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="135" y="30" class="title" font-size="12" fill="#FCD34D">📁 state/</text>
+      <text x="135" y="48" class="title" font-size="11" fill="#F9FAFB">State Stores (RocksDB)</text>
+      <line x1="15" y1="58" x2="255" y2="58" stroke="#334155" stroke-width="1"/>
+      <text x="20" y="85" class="body-txt">• RocksDB checkpoint snapshots</text>
+      <text x="20" y="105" class="body-txt">• Running aggregate accumulators</text>
+      <text x="20" y="125" class="body-txt">• Watermark eviction thresholds</text>
+      <text x="20" y="145" class="body-txt">• Stream-stream join buffer state</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  fixed: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  rec: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  struct: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  sem: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  hier: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+c1: "1. Fixed-Size Token\n(Arbitrary boundaries)" { class: fixed }
+c2: "2. Recursive Character\n(Paragraphs -> Lines)" { class: rec }
+c3: "3. Structure-Aware\n(Breadcrumb Injection)" { class: struct }
+c4: "4. Semantic Inflection\n(Cosine drop split)" { class: sem }
+c5: "5. Parent-Child Multi-Vector\n(High Precision + Full Context)" { class: hier }
+
+c1 -> c2 -> c3 -> c4 -> c5

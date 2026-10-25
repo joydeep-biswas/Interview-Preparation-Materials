@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  proj_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  head_box: { style: { fill: "#0D1526", stroke: "#F59E0B" } }
+  out_box: { style: { fill: "#0D1F1C", stroke: "#10B981" } }
+}
+
+Split: "1. 32 Head Subspaces\nd_k = 4096 / 32 = 128" { class: proj_box }
+Compute: "2. Parallel Heads\nhead_i = Attn(Qi, Ki, Vi)" { class: head_box }
+Concat: "3. Concat & Output\nConcat(heads) * W_o" { class: out_box }
+
+Split -> Compute -> Concat

@@ -1,0 +1,32 @@
+direction: right
+title: "PostgreSQL MVCC: Physical Heap Tuple Versioning & HOT Chain"
+
+page: "PostgreSQL 8KB Heap Page (Block 0)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+
+  t1: "Tuple 1 (Dead Row Version)
+xmin=100 | xmax=105
+t_ctid=(0, 2)
+balance=100.00" {
+    style.fill: "#7f1d1d"
+    style.stroke: "#ef4444"
+  }
+
+  t2: "Tuple 2 (Live Row Version)
+xmin=105 | xmax=0
+t_ctid=(0, 2)
+balance=150.00" {
+    style.fill: "#064e3b"
+    style.stroke: "#10b981"
+  }
+
+  t1 -> t2: "t_ctid HOT chain pointer"
+}
+
+index: "B+Tree Index on id=1" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+
+index -> page.t1: "Points to Tuple 1 ItemId"

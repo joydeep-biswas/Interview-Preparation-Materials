@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Java Memory Model (JMM) &amp; Hardware Cache Coherence</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Per-core L1/L2 caches, MESI bus snooping, and volatile StoreLoad memory barriers</text>
+
+  <!-- Core 1 Card -->
+  <g transform="translate(40, 75)">
+    <rect width="280" height="230" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="280" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="140" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">CPU Core 1 (Thread 1)</text>
+
+    <rect x="15" y="45" width="250" height="60" rx="6" ry="6" fill="#1E293B"/>
+    <text x="140" y="65" class="badge" fill="#93C5FD" text-anchor="middle">Registers &amp; Write Buffer</text>
+    <text x="25" y="85" class="card-body">flag = true (Local write buffered)</text>
+
+    <rect x="15" y="115" width="250" height="50" rx="6" ry="6" fill="#1E293B" stroke="#3B82F6"/>
+    <text x="140" y="135" class="badge" fill="#60A5FA" text-anchor="middle">L1 / L2 Cache (Private)</text>
+    <text x="140" y="152" class="card-body" font-size="11" text-anchor="middle">Latency: ~1 - 4 ns</text>
+
+    <rect x="15" y="175" width="250" height="42" rx="4" ry="4" fill="#064E3B"/>
+    <text x="140" y="193" class="badge" fill="#A7F3D0" text-anchor="middle">Volatile Write (Store Barrier)</text>
+    <text x="140" y="207" class="card-body" font-size="10" text-anchor="middle">Flushes write buffer to shared cache</text>
+  </g>
+
+  <!-- Interconnect Bus & Cache Coherence -->
+  <g transform="translate(360, 75)">
+    <rect width="340" height="230" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="340" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="170" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">MESI Protocol &amp; Shared L3 Cache</text>
+
+    <rect x="15" y="45" width="310" height="70" rx="6" ry="6" fill="#1E293B"/>
+    <text x="155" y="66" class="badge" fill="#A7F3D0" text-anchor="middle">MESI Cache States</text>
+    <text x="25" y="86" class="card-body">• Modified (M), Exclusive (E)</text>
+    <text x="25" y="102" class="card-body">• Shared (S), Invalid (I)</text>
+
+    <rect x="15" y="125" width="310" height="90" rx="6" ry="6" fill="#0F172A" stroke="#10B981"/>
+    <text x="155" y="146" class="badge" fill="#34D399" text-anchor="middle">Shared L3 Cache &amp; Bus Snooping</text>
+    <text x="25" y="168" class="card-body">• Broadcasts invalidate signal across bus</text>
+    <text x="25" y="186" class="card-body">• Forces Core 2 to invalidate its cached copy</text>
+    <text x="25" y="202" class="badge" fill="#A7F3D0">• Latency: ~10 - 20 ns</text>
+  </g>
+
+  <!-- Core 2 Card -->
+  <g transform="translate(740, 75)">
+    <rect width="280" height="230" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="280" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="140" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">CPU Core 2 (Thread 2)</text>
+
+    <rect x="15" y="45" width="250" height="60" rx="6" ry="6" fill="#1E293B"/>
+    <text x="140" y="65" class="badge" fill="#FCA5A5" text-anchor="middle">Registers &amp; Invalidation Queue</text>
+    <text x="25" y="85" class="card-body">while (!flag) (Stale read danger!)</text>
+
+    <rect x="15" y="115" width="250" height="50" rx="6" ry="6" fill="#1E293B" stroke="#EF4444"/>
+    <text x="140" y="135" class="badge" fill="#F87171" text-anchor="middle">L1 / L2 Cache (Invalidated)</text>
+    <text x="140" y="152" class="card-body" font-size="11" text-anchor="middle">Stale flag=false cache line evicted</text>
+
+    <rect x="15" y="175" width="250" height="42" rx="4" ry="4" fill="#450A0A"/>
+    <text x="140" y="193" class="badge" fill="#FCA5A5" text-anchor="middle">Volatile Read (Load Barrier)</text>
+    <text x="140" y="207" class="card-body" font-size="10" text-anchor="middle">Forces fresh read from L3 / RAM</text>
+  </g>
+
+  <!-- Bottom: Main Memory & JMM Happens-Before Invariant -->
+  <g transform="translate(40, 325)">
+    <rect width="980" height="135" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="980" height="26" rx="10" ry="10" fill="#5B21B6"/>
+    <text x="490" y="18" class="card-title" fill="#DDD6FE" text-anchor="middle">JMM Happens-Before Guarantee &amp; Hardware Memory Barriers</text>
+
+    <g transform="translate(20, 38)">
+      <text x="20" y="20" class="badge" fill="#DDD6FE">1. Volatile Field Write:</text>
+      <text x="190" y="20" class="card-body">Emits a StoreStore + StoreLoad barrier (mfence / lock prefix). Flushes write buffers to memory.</text>
+
+      <text x="20" y="42" class="badge" fill="#DDD6FE">2. Volatile Field Read:</text>
+      <text x="190" y="42" class="card-body">Emits a LoadLoad + LoadStore barrier. Discards stale L1 cache and reads verified fresh state.</text>
+
+      <text x="20" y="64" class="badge" fill="#A7F3D0">3. Transitivity Guarantee:</text>
+      <text x="190" y="64" class="card-body">All regular variable writes executed BEFORE volatile write are also guaranteed visible to Reader!</text>
+
+      <text x="20" y="86" class="badge" fill="#FDE68A">4. Atomicity Boundary:</text>
+      <text x="190" y="86" class="card-body">Volatile guarantees Visibility and Ordering, but NOT Compound Atomicity (count++ is still broken!).</text>
+    </g>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 320 180 L 348 180 L 360 180" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <path d="M 700 180 L 728 180 L 740 180" fill="none" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+</svg>

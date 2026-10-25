@@ -1,0 +1,46 @@
+direction: right
+
+telemetry: "1. Driver Location Ingress" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  pings: "100k GPS Pings / Sec (UDP/gRPC)"
+  filter: "Jitter Filter & Lat/Lon Normalizer"
+}
+
+h3_index: "2. Uber H3 Spatial Index" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  hexagons: "Resolution 8 (~460m) Hexagonal Cells"
+  redis_shards: "Redis In-Memory Sets per Hexagon"
+}
+
+matcher: "3. Matcher Service" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  concentric: "K-Ring 0, 1, 2 Neighbor Search"
+  rank: "OSRM Routing ETA & Driver Ranking"
+}
+
+dispatch: "4. Dispatch & Lock" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  lock: "Redis Atomic Lock on Driver ID"
+  offer: "15s WebSocket Offer Push"
+}
+
+telemetry -> h3_index: "Update Driver Coordinates" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+h3_index -> matcher: "Retrieve Nearest Candidate Drivers" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+matcher -> dispatch: "Select Best Driver Match" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

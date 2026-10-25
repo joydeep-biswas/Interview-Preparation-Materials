@@ -1,0 +1,10 @@
+direction: right
+classes: {
+  tp_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  pp_box: { style: { fill: "#0D1526", stroke: "#F59E0B" } }
+  fsdp_box: { style: { fill: "#0D1F1C", stroke: "#10B981" } }
+}
+
+TP: "1. Tensor Parallelism (TP)\n• Intra-node NVLink\n• Column & Row weight splits" { class: tp_box }
+PP: "2. Pipeline Parallelism (PP)\n• Layer slicing across nodes\n• 1F1B bubble minimization" { class: pp_box }
+FSDP: "3. ZeRO-3 / FSDP\n• 1/N Sharding of states\n• All-Gather on the fly" { class: fsdp_box }

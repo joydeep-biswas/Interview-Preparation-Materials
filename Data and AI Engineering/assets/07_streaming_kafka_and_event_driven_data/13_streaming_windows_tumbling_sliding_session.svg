@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Streaming Windowing Strategies: Tumbling, Sliding, and Session Windows</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Temporal state aggregation mechanics: Non-overlapping fixed buckets, sliding overlaps, and dynamic inactivity gap sessions</text>
+<rect x="30" y="85" width="980" height="130" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="50" y="110" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Tumbling Window (Fixed-Size, Non-Overlapping Contiguous Buckets: 10 Minutes)</text>
+<rect x="50" y="125" width="290" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="195" y="148" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Window [10:00 - 10:10)</text>
+<text x="195" y="168" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Events: e1, e2, e3 (3 orders)</text>
+<text x="195" y="185" fill="#94A3B8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Closes strictly at 10:10:00</text>
+<rect x="370" y="125" width="290" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="515" y="148" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Window [10:10 - 10:20)</text>
+<text x="515" y="168" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Events: e4, e5 (2 orders)</text>
+<text x="515" y="185" fill="#94A3B8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Closes strictly at 10:20:00</text>
+<rect x="690" y="125" width="290" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="835" y="148" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Window [10:20 - 10:30)</text>
+<text x="835" y="168" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Events: e6, e7, e8, e9 (4 orders)</text>
+<text x="835" y="185" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zero overlap: Every event belongs to exactly 1 window</text>
+<rect x="30" y="230" width="980" height="135" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="50" y="255" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Sliding Window (Overlapping Intervals: 10-Minute Duration, Sliding Every 5 Minutes)</text>
+<rect x="50" y="270" width="280" height="80" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="190" y="292" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Window A [10:00 - 10:10)</text>
+<text x="190" y="312" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Events: e1, e2, e3</text>
+<text x="190" y="330" fill="#94A3B8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Duration: 10m</text>
+<rect x="350" y="270" width="280" height="80" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+<text x="490" y="292" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Window B [10:05 - 10:15)</text>
+<text x="490" y="312" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Events: e2, e3 (shared) + e4</text>
+<text x="490" y="330" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">5-Minute overlap with Window A &amp; C</text>
+<rect x="650" y="270" width="330" height="80" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="815" y="292" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Window C [10:10 - 10:20)</text>
+<text x="815" y="312" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Events: e4 (shared) + e5</text>
+<text x="815" y="330" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Smooth moving averages &amp; trend detection</text>
+<rect x="30" y="380" width="980" height="135" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="50" y="405" fill="#FDE68A" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. Session Window (Dynamic Activity Duration with Inactivity Gap Timeout: 15 Minutes)</text>
+<rect x="50" y="420" width="320" height="80" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="65" y="442" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Session 1: Active User Clicks</text>
+<text x="65" y="462" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Clicks: 10:00, 10:04, 10:11 (Inter-arrival &amp;lt; 15m)</text>
+<text x="65" y="480" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Window expands dynamically to: [10:00 - 10:26)</text>
+<rect x="390" y="435" width="180" height="50" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="480" y="457" fill="#FCA5A5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">15-Min Inactivity Gap</text>
+<text x="480" y="473" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">No events received -&gt; Closes!</text>
+<rect x="590" y="420" width="390" height="80" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="605" y="442" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Session 2: New Session Opened</text>
+<text x="605" y="462" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">User returns at 10:45 -&gt; Starts brand new isolated session window!</text>
+<text x="605" y="480" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Perfect for user clickstream sessionization and shopping cart abandonment</text>
+</svg>

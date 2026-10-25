@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Proxy Pattern: JDK Dynamic Proxy vs CGLIB Subclass Proxy</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">How Spring Intercepts Method Invocations for Transactions, Security, and Caching</text>
+<rect x="40" y="130" width="200" height="270" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="145" width="120" height="20" rx="10" fill="#1e3a8a"/><text x="115" y="158" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Caller</text>
+<text x="140" y="190" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client / Controller</text>
+<text x="55" y="225" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Invokes Business Bean:</text>
+<text x="55" y="245" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">orderService.placeOrder(req);</text>
+<text x="55" y="280" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Caller holds reference to</text>
+<text x="55" y="300" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">a PROXY, not the real class!</text>
+<rect x="280" y="130" width="290" height="270" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+<rect x="295" y="145" width="200" height="20" rx="10" fill="#78350f"/><text x="395" y="158" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Spring AOP Dynamic Proxy</text>
+<text x="425" y="190" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">TransactionInterceptor Proxy</text>
+<text x="295" y="220" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Around Advice Lifecycle:</text>
+<text x="295" y="240" fill="#38BDF8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. txManager.begin(); // Acq Conn</text>
+<text x="295" y="260" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. target.placeOrder(req); // Invoke</text>
+<text x="295" y="280" fill="#38BDF8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. txManager.commit(); // On success</text>
+<text x="295" y="300" fill="#F87171" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">4. catch (ex) txManager.rollback();</text>
+<text x="295" y="330" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">JDK Proxy: Implements Interface</text>
+<text x="295" y="348" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">CGLIB: Extends target class bytecode</text>
+<rect x="610" y="130" width="200" height="270" rx="8" fill="#083344" stroke="#06b6d4" stroke-width="1.5"/>
+<rect x="620" y="145" width="180" height="20" rx="10" fill="#0891b2"/><text x="710" y="158" fill="#ECFEFF" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. PlatformTxManager</text>
+<text x="710" y="190" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">JpaTransactionManager</text>
+<text x="625" y="225" fill="#E2E8F0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Connection Handling:</text>
+<text x="625" y="245" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Borrows from HikariCP</text>
+<text x="625" y="265" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• setAutoCommit(false)</text>
+<text x="625" y="285" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Binds to ThreadLocal</text>
+<text x="625" y="305" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Commits &amp; recycles</text>
+<rect x="850" y="130" width="190" height="270" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<rect x="860" y="145" width="170" height="20" rx="10" fill="#047857"/><text x="945" y="158" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Real Target Bean</text>
+<text x="945" y="190" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderServiceImpl</text>
+<text x="865" y="225" fill="#D1FAE5" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Pure Business Logic:</text>
+<text x="865" y="245" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• validateOrder(req);</text>
+<text x="865" y="265" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• deductStock();</text>
+<text x="865" y="285" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• saveToDb();</text>
+<text x="865" y="315" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Has zero JDBC or</text>
+<text x="865" y="335" fill="#6EE7B7" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">commit boilerplate!</text>
+<line x1="240" y1="260" x2="280" y2="260" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="570" y1="220" x2="610" y2="220" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="570" y1="280" x2="850" y2="280" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<line x1="570" y1="340" x2="610" y2="340" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<rect x="40" y="440" width="1000" height="85" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="465" fill="#F87171" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">The Self-Invocation Proxy Bypass Trap:</text>
+<text x="65" y="485" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• If methodA() calls this.methodB() inside the same class, the call is dispatched directly on the 'this' reference, completely bypassing the Spring Proxy!</text>
+<text x="65" y="502" fill="#FDE68A" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Result: @Transactional or @Cacheable on methodB() will be SILENTLY IGNORED. Fix by refactoring into a separate bean or self-injecting the proxy.</text>
+</svg>

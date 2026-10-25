@@ -1,0 +1,27 @@
+direction: right
+title: Spark Lazy Evaluation Pipeline
+
+Transformations: Lazy Transformation DAG (Zero Compute) {
+  style.stroke: "#38BDF8"
+  Read: read.parquet()
+  Filter: filter(amount > 100)
+  GroupBy: groupBy("region")
+  Agg: agg(sum("amount"))
+
+  Read -> Filter -> GroupBy -> Agg
+}
+
+ActionTrigger: Action Invoked {
+  style.stroke: "#FBBF24"
+  Action: write.save() / count() / collect()
+}
+
+Execution: Physical Cluster Compute {
+  style.stroke: "#34D399"
+  Catalyst: Catalyst Optimization & Whole-Stage CodeGen
+  ClusterRun: Distributed Parallel Task Execution
+  Catalyst -> ClusterRun
+}
+
+Transformations.Agg -> ActionTrigger.Action: DAG frozen { style.stroke: "#FBBF24" }
+ActionTrigger.Action -> Execution.Catalyst: Submits Job to Cluster { style.stroke: "#34D399" }

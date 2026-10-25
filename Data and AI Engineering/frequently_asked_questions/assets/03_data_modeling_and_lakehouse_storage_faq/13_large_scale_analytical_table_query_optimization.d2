@@ -1,0 +1,29 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+raw: "Ingestion Volume\n1 Billion Rows (10 TB+)" {
+  class: card
+  style.stroke: "#3B82F6"
+}
+
+layout: "1. Storage Layout" {
+  class: card
+  style.stroke: "#F59E0B"
+  desc: "Parquet / Delta Columnar\nSnappy / ZSTD High Compression\n128 MB - 512 MB Target File Size"
+}
+
+pruning: "2. Intelligent Pruning" {
+  class: card
+  style.stroke: "#10B981"
+  desc: "Partition by Low-Cardinality Date\nLiquid Clustering / Z-Order\nMin/Max Metadata Stats Skipping"
+}
+
+serving: "3. Serving Optimization" {
+  class: card
+  style.stroke: "#8B5CF6"
+  desc: "Pre-aggregated Materialized Views\nIn-Memory / NVMe Result Caching\nStrict Column Projection Pushdown"
+}
+
+raw -> layout -> pruning -> serving

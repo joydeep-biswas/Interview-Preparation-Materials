@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Deconstructing @SpringBootApplication: The Meta-Annotation Triad</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">How Spring Boot bootstraps: Configuration provider, auto-configuration engine, and classpath component scanning</text>
+<rect x="320" y="85" width="400" height="90" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<text x="520" y="112" fill="#6EE7B7" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">@SpringBootApplication (Root Meta-Annotation)</text>
+<rect x="410" y="122" width="220" height="18" rx="9" fill="#047857"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Bootstrap Master Switch</text>
+<text x="520" y="155" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Annotates main entry point: Application.java containing SpringApplication.run()</text>
+<rect x="30" y="230" width="300" height="265" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="180" y="255" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. @SpringBootConfiguration</text>
+<rect x="100" y="265" width="160" height="18" rx="9" fill="#1d4ed8"/><text x="180" y="277" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Java Config Provider</text>
+<rect x="45" y="295" width="270" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="318" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Specialization of @Configuration</text>
+<text x="55" y="338" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Designates the class as an IoC</text>
+<text x="55" y="354" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  Java configuration provider</text>
+<rect x="45" y="380" width="270" height="100" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="403" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key Capabilities</text>
+<text x="55" y="423" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Allows defining @Bean factory methods</text>
+<text x="55" y="439" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Enables CGLIB proxyBeanMethods=true</text>
+<text x="55" y="455" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Unique per application context</text>
+<text x="55" y="469" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Found automatically by test runners</text>
+<rect x="370" y="230" width="300" height="265" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="520" y="255" fill="#FDE68A" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. @EnableAutoConfiguration</text>
+<rect x="440" y="265" width="160" height="18" rx="9" fill="#b45309"/><text x="520" y="277" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Auto-Configuration Engine</text>
+<rect x="385" y="295" width="270" height="75" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="395" y="318" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">AutoConfigurationImportSelector</text>
+<text x="395" y="338" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Imports starter autoconfigurations</text>
+<text x="395" y="354" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Evaluates @Conditional annotations</text>
+<rect x="385" y="380" width="270" height="100" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="395" y="403" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key Capabilities</text>
+<text x="395" y="423" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Discovers META-INF/spring imports</text>
+<text x="395" y="439" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Guesses &amp; configures beans based on</text>
+<text x="395" y="455" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  jars on classpath (e.g. H2, Tomcat)</text>
+<text x="395" y="469" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Supports exclude={...} overrides</text>
+<rect x="710" y="230" width="300" height="265" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="860" y="255" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. @ComponentScan</text>
+<rect x="780" y="265" width="160" height="18" rx="9" fill="#6d28d9"/><text x="860" y="277" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Classpath Bean Discovery</text>
+<rect x="725" y="295" width="270" height="75" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="735" y="318" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Package-Level Scanner</text>
+<text x="735" y="338" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Base package = package of main class</text>
+<text x="735" y="354" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Scans current and ALL sub-packages</text>
+<rect x="725" y="380" width="270" height="100" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="735" y="403" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key Capabilities</text>
+<text x="735" y="423" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Discovers @Component, @Service,</text>
+<text x="735" y="439" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  @Repository, @Controller, @Aspect</text>
+<text x="735" y="455" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Registers BeanDefinitions in IoC</text>
+<text x="735" y="469" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Beans outside base package ignored!</text>
+<path d="M 420 175 L 420 205 L 180 205 L 180 230" stroke="#38BDF8" stroke-width="1.5" fill="none" marker-end="url(#arr-b)"/>
+<path d="M 520 175 L 520 230" stroke="#FBBF24" stroke-width="1.5" fill="none" marker-end="url(#arr-a)"/>
+<path d="M 620 175 L 620 205 L 860 205 L 860 230" stroke="#C084FC" stroke-width="1.5" fill="none" marker-end="url(#arr-p)"/>
+</svg>

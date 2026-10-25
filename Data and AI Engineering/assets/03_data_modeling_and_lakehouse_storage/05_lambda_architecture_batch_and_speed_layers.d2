@@ -1,0 +1,29 @@
+direction: down
+title: Lambda Architecture: Batch and Speed Layers
+
+events: Incoming Streaming Events (Kafka / Kinesis) {
+  shape: queue
+}
+
+batch_layer: Batch Layer (Cold Path - Accurate & Latent) {
+  master_store: Master Immutable Data Lake Store
+  batch_compute: Spark Batch / dbt Recomputation
+  batch_views: Precomputed Batch Views (Lag: 1-24h)
+  master_store -> batch_compute -> batch_views
+}
+
+speed_layer: Speed Layer (Hot Path - Low Latency Delta) {
+  stream_compute: Flink / Spark Streaming Engine
+  realtime_views: Low-Latency Realtime Views (Redis/Cassandra)
+  stream_compute -> realtime_views
+}
+
+serving_layer: Serving Layer (Unified Query Merge) {
+  shape: rectangle
+  query: "SELECT * FROM batch_views UNION speed_views"
+}
+
+events -> batch_layer.master_store: "Append raw"
+events -> speed_layer.stream_compute: "Stream delta"
+batch_layer.batch_views -> serving_layer: "Accurate historical"
+speed_layer.realtime_views -> serving_layer: "Realtime delta"

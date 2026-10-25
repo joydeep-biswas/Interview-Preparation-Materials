@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  pr: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  eval: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  pass: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+}
+
+pr_trigger: "Pull Request Trigger\n(Modifies prompt or RAG)" { class: pr }
+
+eval_zone: "CI Evaluation Pipeline" {
+  c1: "1. Strict JSON Schema Validation" { class: eval }
+  c2: "2. Semantic Similarity >= 0.85" { class: eval }
+  c3: "3. NLI Faithfulness >= 0.90" { class: eval }
+  c4: "4. PII & Jailbreak Redaction Guard" { class: pass }
+
+  c1 -> c2 -> c3 -> c4
+}
+
+pr_approve: "Merge Approved!\n(All tests pass)" { class: pass }
+pr_block: "PR Blocked!\n(Regression caught)" { class: fail }
+
+pr_trigger -> eval_zone.c1
+eval_zone.c4 -> pr_approve: "100% Pass"
+eval_zone.c4 -> pr_block: "Assertion Fail"

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Unified Pipeline Observability Triad: Metrics, Logs &amp; Traces</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Correlating Quantitative Telemetry with Structured Events and Distributed Spans</text>
+  
+  
+    <rect x="350" y="95" width="280" height="50" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="490.0" y="121" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Pipeline Ingestion Execution</text>
+    <text x="490.0" y="137" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Active Task Context</text>
+    <rect x="551" y="105" width="73" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="587.5" y="117" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">EXECUTION</text>
+    <circle cx="366" cy="150" r="2" fill="#f59e0b"/>
+    <text x="374" y="153" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Run ID: run_98124 | Task: stage_orders</text>
+
+  
+    <rect x="30" y="175" width="290" height="220" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="197" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">1. Metrics (Prometheus / StatsD)</text>
+  
+    <rect x="45" y="215" width="260" height="160" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="175.0" y="241" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Aggregatable Numerical Gauges</text>
+    <text x="175.0" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Quantitative Telemetry</text>
+    <rect x="240" y="225" width="59" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="269.5" y="237" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">METRICS</text>
+    <circle cx="61" cy="270" r="2" fill="#3b82f6"/>
+    <text x="69" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">rows_ingested_total: 1,489,200</text>
+    <circle cx="61" cy="286" r="2" fill="#3b82f6"/>
+    <text x="69" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">batch_duration_seconds: 4.82s</text>
+    <circle cx="61" cy="302" r="2" fill="#3b82f6"/>
+    <text x="69" y="305" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">heap_memory_used_bytes: 8.2 GB</text>
+    <circle cx="61" cy="318" r="2" fill="#3b82f6"/>
+    <text x="69" y="321" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">consumer_lag_records: 120</text>
+    <circle cx="61" cy="334" r="2" fill="#3b82f6"/>
+    <text x="69" y="337" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Enables dashboards &amp; anomaly alerts</text>
+
+  
+    <rect x="345" y="175" width="290" height="220" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="361" y="197" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. Logs (Structured JSON)</text>
+  
+    <rect x="360" y="215" width="260" height="160" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="490.0" y="241" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Contextual Event Breadcrumbs</text>
+    <text x="490.0" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Structured Log Files (Loki / ES)</text>
+    <rect x="576" y="225" width="38" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="595.0" y="237" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">LOGS</text>
+    <circle cx="376" cy="270" r="2" fill="#10b981"/>
+    <text x="384" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">{ timestamp: '10:45:02',</text>
+    <circle cx="376" cy="286" r="2" fill="#10b981"/>
+    <text x="384" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">  level: 'WARN',</text>
+    <circle cx="376" cy="302" r="2" fill="#10b981"/>
+    <text x="384" y="305" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">  run_id: 'run_98124',</text>
+    <circle cx="376" cy="318" r="2" fill="#10b981"/>
+    <text x="384" y="321" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">  partition_id: 4,</text>
+    <circle cx="376" cy="334" r="2" fill="#10b981"/>
+    <text x="384" y="337" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">  message: 'Retry 1: Lock wait timeout',</text>
+    <circle cx="376" cy="350" r="2" fill="#10b981"/>
+    <text x="384" y="353" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">  trace_id: '4bf92f3577b34da6' }</text>
+
+  
+    <rect x="660" y="175" width="290" height="220" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="676" y="197" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">3. Traces (OpenTelemetry)</text>
+  
+    <rect x="675" y="215" width="260" height="160" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="805.0" y="241" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">End-to-End Request Lifecycles</text>
+    <text x="805.0" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Distributed Spans (Jaeger / Tempo)</text>
+    <rect x="877" y="225" width="52" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="903.0" y="237" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">TRACES</text>
+    <circle cx="691" cy="270" r="2" fill="#8b5cf6"/>
+    <text x="699" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Trace ID: 4bf92f3577b34da6</text>
+    <circle cx="691" cy="286" r="2" fill="#8b5cf6"/>
+    <text x="699" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">[Span 1: API Gateway (12ms)]</text>
+    <circle cx="691" cy="302" r="2" fill="#8b5cf6"/>
+    <text x="699" y="305" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">  -&gt; [Span 2: Kafka Broker (4ms)]</text>
+    <circle cx="691" cy="318" r="2" fill="#8b5cf6"/>
+    <text x="699" y="321" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">    -&gt; [Span 3: Spark Worker (180ms)]</text>
+    <circle cx="691" cy="334" r="2" fill="#8b5cf6"/>
+    <text x="699" y="337" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">      -&gt; [Span 4: S3 Parquet PUT (85ms)]</text>
+    <circle cx="691" cy="350" r="2" fill="#8b5cf6"/>
+    <text x="699" y="353" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Pinpoints exact bottleneck component</text>
+
+  
+    <path d="M 440.0 145.0 L 440.0 154.0 Q 440.0 160.0 434.0 160.0 L 181.0 160.0 Q 175.0 160.0 175.0 166.0 L 175.0 175.0" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <line x1="490" y1="145" x2="490" y2="175" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <path d="M 540.0 145.0 L 540.0 154.0 Q 540.0 160.0 546.0 160.0 L 799.0 160.0 Q 805.0 160.0 805.0 166.0 L 805.0 175.0" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/>
+
+</svg>

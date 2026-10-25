@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 260" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-b2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-a2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-g2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">5-Step SQL Performance Diagnostic Protocol</text>
+
+  <!-- Step 1 -->
+  <rect x="25" y="65" width="185" height="150" class="card card-blue"/>
+  <text x="117" y="92" class="card-title" fill="#93C5FD">1. Inspect Plan</text>
+  <text x="35" y="117" class="card-body">• EXPLAIN ANALYZE</text>
+  <text x="35" y="137" class="card-body">• Buffer cache hits</text>
+  <text x="35" y="157" class="card-body">• Cost vs Actual time</text>
+  <text x="35" y="177" class="card-body">• TempDB spill bytes</text>
+
+  <!-- Step 2 -->
+  <rect x="235" y="65" width="185" height="150" class="card card-blue"/>
+  <text x="327" y="92" class="card-title" fill="#93C5FD">2. Concurrency</text>
+  <text x="245" y="117" class="card-body">• Row / Table locks</text>
+  <text x="245" y="137" class="card-body">• Blocking sessions</text>
+  <text x="245" y="157" class="card-body">• Latch contention</text>
+  <text x="245" y="177" class="card-body">• Resource queue wait</text>
+
+  <!-- Step 3 -->
+  <rect x="445" y="65" width="185" height="150" class="card card-amber"/>
+  <text x="537" y="92" class="card-title" fill="#FDE68A">3. Stats &amp; Skew</text>
+  <text x="455" y="117" class="card-body">• Histogram accuracy</text>
+  <text x="455" y="137" class="card-body">• Row misestimates</text>
+  <text x="455" y="157" class="card-body">• Data skew on keys</text>
+  <text x="455" y="177" class="card-body">• Cartesian explosions</text>
+
+  <!-- Step 4 -->
+  <rect x="655" y="65" width="185" height="150" class="card card-purple"/>
+  <text x="747" y="92" class="card-title" fill="#D8B4FE">4. Operator Review</text>
+  <text x="665" y="117" class="card-body">• Hash vs Merge Join</text>
+  <text x="665" y="137" class="card-body">• Nested Loop stalls</text>
+  <text x="665" y="157" class="card-body">• Broadcast threshold</text>
+  <text x="665" y="177" class="card-body">• Sort / Agg overhead</text>
+
+  <!-- Step 5 -->
+  <rect x="865" y="65" width="170" height="150" class="card card-green"/>
+  <text x="950" y="92" class="card-title" fill="#6EE7B7">5. Remediation</text>
+  <text x="875" y="117" class="card-body">• Covering indexes</text>
+  <text x="875" y="137" class="card-body">• Partition pruning</text>
+  <text x="875" y="157" class="card-body">• Query rewrites</text>
+  <text x="875" y="177" class="card-body">• Table clustering</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 210 140 L 235 140" class="edge edge-blue" marker-end="url(#arr-b2)"/>
+  <path fill="none" d="M 420 140 L 445 140" class="edge edge-amber" marker-end="url(#arr-a2)"/>
+  <path fill="none" d="M 630 140 L 655 140" class="edge edge-purple" marker-end="url(#arr-p2)"/>
+  <path fill="none" d="M 840 140 L 865 140" class="edge edge-green" marker-end="url(#arr-g2)"/>
+</svg>

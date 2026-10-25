@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" width="1080" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Enterprise Test Automation &amp; Continuous Quality Gates Architecture</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Testing Pyramid Composition, Testcontainers Infrastructure, and CI/CD Quality Verification</text>
+<rect x="40" y="100" width="480" height="350" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="115" width="240" height="22" rx="11" fill="#1e3a8a"/><text x="175" y="129" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Enterprise Testing Pyramid</text>
+<rect x="120" y="150" width="320" height="65" rx="6" fill="#78350f" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="280" y="172" fill="#FDE68A" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">End-to-End &amp; Contract Tests (5-10%)</text>
+<text x="280" y="190" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tools: Pact, RestAssured, Playwright</text>
+<text x="280" y="204" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Scope: Cross-service user journeys &amp; consumer contracts</text>
+<rect x="80" y="230" width="400" height="75" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="280" y="252" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Integration &amp; Slice Tests (20-30%)</text>
+<text x="280" y="270" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tools: Testcontainers (PostgreSQL, Kafka, Redis), @DataJpaTest</text>
+<text x="280" y="286" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Scope: Real database migrations, repository queries &amp; messaging</text>
+<rect x="55" y="320" width="450" height="95" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<text x="280" y="344" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Unit Tests: The Fast Foundation (60-70%)</text>
+<text x="280" y="364" fill="#CBD5E1" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tools: JUnit 5, AssertJ, Mockito, Instancio</text>
+<text x="280" y="380" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Scope: Domain entities, state machines, business calculation algorithms</text>
+<text x="280" y="396" fill="#6EE7B7" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Execution: Milliseconds per test in JVM RAM with zero network I/O!</text>
+<rect x="560" y="100" width="480" height="350" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<rect x="575" y="115" width="260" height="22" rx="11" fill="#047857"/><text x="705" y="129" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. CI Pipeline Quality Gates</text>
+<rect x="585" y="150" width="430" height="56" rx="6" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="800" y="172" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Git Push / PR Creation</text>
+<text x="800" y="190" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Triggers GitHub Actions / GitLab CI runner</text>
+<line x1="800" y1="206" x2="800" y2="220" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<rect x="585" y="220" width="430" height="56" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="800" y="242" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 1: Unit Test Suite (~30s)</text>
+<text x="800" y="260" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Fast fail: runs all JUnit 5 unit tests with Mockito in parallel</text>
+<line x1="800" y1="276" x2="800" y2="290" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<rect x="585" y="290" width="430" height="56" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="800" y="312" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 2: Testcontainers Integration (~3m)</text>
+<text x="800" y="330" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spins up lightweight Docker containers for Postgres &amp; Kafka</text>
+<line x1="800" y1="346" x2="800" y2="360" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<rect x="585" y="360" width="430" height="56" rx="6" fill="#78350f" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="800" y="382" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 3: SonarQube &amp; Security Gate</text>
+<text x="800" y="400" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Enforces &gt;= 80% line coverage, 0 critical bugs, Trivy CVE scan</text>
+<line x1="520" y1="275" x2="560" y2="275" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<rect x="40" y="470" width="1000" height="85" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="495" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Enterprise Test Automation Invariants:</text>
+<text x="65" y="515" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Shift-Left Quality: 70% of defects must be caught in unit tests running locally in &lt; 1 minute before code is even committed.</text>
+<text x="65" y="532" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• No H2 in Integration: Always use Testcontainers with real PostgreSQL/MySQL rather than H2 database to prevent SQL dialect incompatibilities.</text>
+<text x="65" y="548" fill="#FDE68A" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Consumer-Driven Contracts: Use Pact between microservices to verify API schemas without launching full end-to-end environments.</text>
+</svg>

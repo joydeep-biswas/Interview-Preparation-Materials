@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+raw: "Incoming Raw Payloads\nKafka / S3 Stream" { class: box; style.stroke: "#3B82F6" }
+iter: "Record Iterator\nStreaming single record dispatch" { class: box; style.stroke: "#3B82F6" }
+
+try_block: "try: Parse & Validate\nSchema & type enforcement" { class: box; style.stroke: "#F59E0B" }
+
+valid: "Append to Valid Batch\nPrimary Production Database / Delta Lake" { class: box; style.stroke: "#10B981" }
+catch_block: "catch DataQualityError\nEnrich with exception stack trace" { class: box; style.stroke: "#EF4444" }
+dlq: "Append to Quarantine (DLQ)\nDead-Letter Queue S3 / ADLS storage" { class: box; style.stroke: "#EF4444" }
+
+flush: "finally: Flush Buffers & Log Metrics\nGuaranteed execution" { class: box; style.stroke: "#8B5CF6" }
+
+raw -> iter -> try_block
+try_block -> valid: "Success"
+try_block -> catch_block: "Exception"
+catch_block -> dlq
+valid -> flush
+dlq -> flush

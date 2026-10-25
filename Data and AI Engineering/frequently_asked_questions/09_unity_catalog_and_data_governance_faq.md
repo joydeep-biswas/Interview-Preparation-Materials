@@ -41,48 +41,9 @@ A comprehensive, production-grade guide answering Databricks Unity Catalog, acce
 Unlike legacy Hive Metastore (which only provided a 2-level `database.table` namespace tied to a single workspace), Unity Catalog introduces an enterprise-wide **3-level namespace**:
 $$\text{catalog} \boldsymbol{.} \text{schema} \boldsymbol{.} \text{table\_or\_view}$$
 
-```mermaid
-flowchart TD
-    subgraph MetastoreLevel ["Databricks Account Metastore"]
-        Account["Account Level Metastore"]
-    end
+![Databricks Account Metastore & 3-Level Namespace](assets/09_unity_catalog_and_data_governance_faq/01_unity_catalog_three_level_namespace_hierarchy.svg)
 
-    subgraph CatalogsTier ["3-Level Catalogs"]
-        DevCat["dev_catalog (Sandbox)"]
-        TestCat["test_catalog (Integration)"]
-        ProdCat["prod_catalog (Production)"]
-    end
-
-    subgraph SchemasTier ["Managed Schemas"]
-        Bronze["bronze (Raw Data)"]
-        Silver["silver (Curated Data)"]
-        Gold["gold (Business Metrics)"]
-    end
-
-    subgraph ObjectsTier ["Tables & Views"]
-        T1[("fact_daily_revenue (Table)")]
-        V1["v_masked_customer (Dynamic View)"]
-    end
-
-    Account --> DevCat & TestCat & ProdCat
-    ProdCat --> Bronze & Silver & Gold
-    Gold --> T1 & V1
-
-    style MetastoreLevel fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style CatalogsTier fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SchemasTier fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style ObjectsTier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style Account fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style DevCat fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style TestCat fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ProdCat fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Bronze fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Silver fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Gold fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style T1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style V1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/09_unity_catalog_and_data_governance_faq/01_unity_catalog_three_level_namespace_hierarchy.d2](assets/09_unity_catalog_and_data_governance_faq/01_unity_catalog_three_level_namespace_hierarchy.d2)
 
 #### Multi-Environment Governance Design (Q8, Q13)
 To ensure isolation and security across Development, Testing, and Production:
@@ -122,20 +83,9 @@ In Unity Catalog, privileges are inherited hierarchically. To query a table `pro
 2. `USE SCHEMA` on `gold`
 3. `SELECT` on `sales`
 
-```mermaid
-flowchart TD
-    subgraph PrivilegeChain ["Unity Catalog Privilege Inheritance Hierarchy"]
-        P1["1. GRANT USE CATALOG ON CATALOG prod"] --> P2["2. GRANT USE SCHEMA ON SCHEMA prod.gold"]
-        P2 --> P3["3. GRANT SELECT ON TABLE prod.gold.sales"]
-        P3 --> Query["Authorization Success: User Queries Data!"]
-    end
+![Unity Catalog Privilege Inheritance & Prerequisite USE Chain](assets/09_unity_catalog_and_data_governance_faq/02_privilege_inheritance_prerequisite_use_chain.svg)
 
-    style PrivilegeChain fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style P1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style P2 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style P3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Query fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/09_unity_catalog_and_data_governance_faq/02_privilege_inheritance_prerequisite_use_chain.d2](assets/09_unity_catalog_and_data_governance_faq/02_privilege_inheritance_prerequisite_use_chain.d2)
 
 ---
 
@@ -220,22 +170,9 @@ SET ROW FILTER region_filter_fn ON (customer_region);
 - **Q6**: A user can access a catalog but cannot query a particular table. How would you troubleshoot the permissions?
 
 #### The 4-Step Diagnostic Protocol for Permission Denials
-```mermaid
-flowchart TD
-    subgraph DiagnosticWorkflow ["Unity Catalog Permission Denial Diagnostic Protocol"]
-        Err["Permission Denied / Table Not Found"] --> S1["Step 1: Check the 3-Level USE Hierarchy<br/>Does user have USE CATALOG and USE SCHEMA?"]
-        S1 --> S2["Step 2: Check Cluster Access Mode<br/>Is the cluster running in 'Single User' (locked to owner)<br/>instead of 'Shared / User Isolation' mode?"]
-        S2 --> S3["Step 3: Inspect Direct & Group Grants<br/>SHOW GRANTS ON TABLE prod.gold.sales"]
-        S3 --> S4["Step 4: Check Table Owner & Dynamic Row Filters<br/>Does a Row Filter evaluate to FALSE for all rows?"]
-    end
+![Unity Catalog Permission Denial 4-Step Diagnostic Protocol](assets/09_unity_catalog_and_data_governance_faq/03_permission_denial_four_step_diagnostic_protocol.svg)
 
-    style DiagnosticWorkflow fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Err fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style S1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style S4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/09_unity_catalog_and_data_governance_faq/03_permission_denial_four_step_diagnostic_protocol.d2](assets/09_unity_catalog_and_data_governance_faq/03_permission_denial_four_step_diagnostic_protocol.d2)
 
 #### Diagnostic Commands
 ```sql
@@ -306,20 +243,9 @@ spark.conf.set("fs.azure.account.key.datalake.dfs.core.windows.net", "secret_key
 ```
 
 #### Modern Unity Catalog Cloud Storage Integration Architecture
-```mermaid
-flowchart LR
-    subgraph SecureStorageModel ["Cloud Storage Access Integration via Unity Catalog"]
-        UC["Unity Catalog Governance"] --> SC["Storage Credential<br/>(Azure Managed Identity / AWS IAM Role)"]
-        SC --> EL["External Location<br/>(abfss://container@account.dfs.core.windows.net/path)"]
-        EL --> Table[("Managed / External Delta Table<br/>(Zero Hardcoded Keys)")]
-    end
+![Cloud Storage Access Integration via Storage Credentials](assets/09_unity_catalog_and_data_governance_faq/04_storage_credential_external_location_architecture.svg)
 
-    style SecureStorageModel fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style UC fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style SC fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style EL fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Table fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/09_unity_catalog_and_data_governance_faq/04_storage_credential_external_location_architecture.d2](assets/09_unity_catalog_and_data_governance_faq/04_storage_credential_external_location_architecture.d2)
 
 #### Configuration Steps
 ```sql
@@ -351,20 +277,9 @@ GRANT READ FILES, WRITE FILES ON EXTERNAL LOCATION adls_gold_container TO `sp_pr
 
 #### Architecture & Access Matrix
 
-```mermaid
-flowchart TD
-    Dataset[("Single Curated Gold Table:<br/>prod_catalog.commercial.sales_orders")] --> PolicyEngine["Unity Catalog Dynamic Governance Engine"]
+![Unity Catalog Dynamic Governance Engine & Access Matrix](assets/09_unity_catalog_and_data_governance_faq/05_dynamic_row_filtering_column_masking_matrix.svg)
 
-    PolicyEngine -->|Role: finance_analysts| FinView["Finance Entitlement<br/>(Bank Details: CLEARTEXT, Revenue & Margins: VISIBLE, Rows: ALL Rows)"]
-    PolicyEngine -->|Role: marketing_analysts| MktView["Marketing Entitlement<br/>(Bank Details: REDACTED (NULL), Revenue: MASKED to $100 tiers, Rows: Opt-in Marketing Rows)"]
-    PolicyEngine -->|Role: operations_team| OpsView["Operations Entitlement<br/>(PII: MASKED (Hash/Redacted); Rows: WHERE status IN ('PENDING', 'SHIPPED'))"]
-
-    style Dataset fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style PolicyEngine fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style FinView fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style MktView fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style OpsView fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-```
+*D2 Source:* [assets/09_unity_catalog_and_data_governance_faq/05_dynamic_row_filtering_column_masking_matrix.d2](assets/09_unity_catalog_and_data_governance_faq/05_dynamic_row_filtering_column_masking_matrix.d2)
 
 #### Production DDL & Policy Implementation
 ```sql

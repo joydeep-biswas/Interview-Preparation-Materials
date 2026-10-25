@@ -85,47 +85,9 @@ A comprehensive guide to interview scenarios covering GPU memory allocation, vLL
 
 #### Production Architecture Topology
 
-```mermaid
-flowchart TD
-    subgraph ClientAndIngress ["1. Ingress & Security Layer"]
-        Client["Web / Mobile / Microservices"] --> WAF["Enterprise API Gateway (Envoy / Azure APIM)"]
-        WAF --> RateLimit["Token-Bucket Rate Limiter (RPM / TPM)"]
-        RateLimit --> InputGuard["Input Guardrail (Prompt Injection & PII Filter)"]
-    end
+![Enterprise LLM Gateway Production Architecture Topology](assets/12_ai_infrastructure_serving_and_llmops_faq/01_production_llm_gateway_topology.svg)
 
-    subgraph CoreGateway ["2. Enterprise LLM Gateway (LiteLLM / Portkey)"]
-        InputGuard --> Cache{"Semantic Cache (Redis / Qdrant)<br/>Cosine Sim > 0.96?"}
-        Cache -->|Cache Hit| ReturnCached["Return Cached Response (Sub-15ms)"]
-        Cache -->|Cache Miss| Router["Dynamic Router & Fallback Engine"]
-        Router --> PromptReg["Prompt Registry & Template Compiler"]
-    end
-
-    subgraph ModelServing ["3. Foundation & Self-Hosted Models"]
-        Router -->|Primary Route| Hosted1["Commercial Provider (GPT-4o / Claude 3.5 Sonnet)"]
-        Router -->|Circuit Breaker Fallback| Hosted2["Secondary Provider (Azure OpenAI / Bedrock)"]
-        Router -->|Low-Latency / Private VPC| SelfHosted["Self-Hosted Engine (vLLM / Triton on H100s)"]
-    end
-
-    subgraph RetrievalLayer ["4. Non-Parametric Memory (RAG)"]
-        Router <--> HybridSearch["Hybrid Retrieval (Qdrant + Elasticsearch)"]
-    end
-
-    subgraph EgressAndTelemetry ["5. Egress Safety & Observability Flywheel"]
-        Hosted1 --> OutputGuard["Output Guardrails (Hallucination & Toxicity Check)"]
-        Hosted2 --> OutputGuard
-        SelfHosted --> OutputGuard
-        OutputGuard --> SSEStream["SSE Stream to Client"]
-        OutputGuard --> OTel["Distributed Tracing (OTel / OpenInference)"]
-        OTel --> FinOps["Token FinOps & Unit Cost Attribution"]
-        OTel --> EvalEngine["Online Quality Sampling (TruLens / Langfuse)"]
-    end
-
-    style ClientAndIngress fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CoreGateway fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ModelServing fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style RetrievalLayer fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-    style EgressAndTelemetry fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-```
+*D2 Source:* [assets/12_ai_infrastructure_serving_and_llmops_faq/01_production_llm_gateway_topology.d2](assets/12_ai_infrastructure_serving_and_llmops_faq/01_production_llm_gateway_topology.d2)
 
 #### Detailed Component Decomposition
 1. **API Ingress, Rate-Limiting & Security Guardrails:**
@@ -155,30 +117,9 @@ flowchart TD
 
 #### Systematic Root Cause Diagnosis Matrix
 
-```mermaid
-flowchart TD
-    Alert["🚨 Alert: Quality Drop Reported (Zero Code Changes)"] --> Step1["Step 1: Check Upstream Model Versioning"]
-    
-    Step1 --> CheckAlias{"Was an unpinned alias used?<br/>(e.g., 'gpt-4o' or 'claude-3-5')"}
-    CheckAlias -->|Yes| ProviderUpdate["Root Cause: Provider silently rolled alias to a new snapshot checkpoint.<br/>Fix: Pin exact immutable date snapshot (e.g. 'gpt-4o-2024-08-06')"]
-    
-    CheckAlias -->|No| Step2["Step 2: Inspect Ingress Payload & Prompt Formatting"]
-    Step2 --> CheckPrompt{"Did prompt variable templates change or fail?"}
-    CheckPrompt -->|Yes| PromptBug["Root Cause: Upstream microservice sent null variables, causing template syntax errors or missing context."]
-    
-    CheckPrompt -->|No| Step3["Step 3: Audit Retrieval & Vector DB Layer"]
-    Step3 --> CheckRetrieval{"Did retrieval recall or score collapse?"}
-    CheckRetrieval -->|Yes| IndexFailure["Root Cause: Embedding model API updated silently, index corruption, or failed night-sync pipeline."]
-    
-    CheckRetrieval -->|No| Step4["Step 4: Check Gateway Sampling Parameters & Truncation"]
-    Step4 --> ParameterDrift["Root Cause: Gateway config drift (temperature set to default 1.0, or max_tokens capped prematurely)."]
+![Systematic Quality Drop Root Cause Diagnosis Tree](assets/12_ai_infrastructure_serving_and_llmops_faq/02_model_quality_drop_systematic_rca_diagnostic_tree.svg)
 
-    style Alert fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style ProviderUpdate fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style PromptBug fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style IndexFailure fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-    style ParameterDrift fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/12_ai_infrastructure_serving_and_llmops_faq/02_model_quality_drop_systematic_rca_diagnostic_tree.d2](assets/12_ai_infrastructure_serving_and_llmops_faq/02_model_quality_drop_systematic_rca_diagnostic_tree.d2)
 
 #### The 5-Step Triage Execution Playbook
 1. **Verify Immutable Checkpoint Pinning (The Alias Trap):**
@@ -213,31 +154,9 @@ Production systems enforce **Multi-Dimensional Rate Limiting**:
 2. **Tokens Per Minute (TPM):** Prevents GPU compute and memory starvation.
 3. **Concurrent Active In-Flight Requests:** Prevents thread pool and socket exhaustion.
 
-```mermaid
-flowchart TD
-    User["Client Application / End User"] --> APIM["Azure API Management (APIM) Gateway"]
-    
-    subgraph APIMPolicies ["APIM Policy Execution Pipeline"]
-        APIM --> Auth["1. Extract & Validate Microsoft Entra JWT<br/>(Extract: tenant_id, user_id, tier)"]
-        Auth --> RPMCheck{"2. Check User RPM Quota<br/>(Redis Rate-Limiter)"}
-        RPMCheck -->|Exceeded| Ret429["Return HTTP 429<br/>(Retry-After: N seconds)"]
-        
-        RPMCheck -->|Pass| TPMCheck{"3. Estimate Prompt Tokens + Reserve TPM<br/>(Token Bucket Algorithm)"}
-        TPMCheck -->|Exceeded| Ret429
-        
-        TPMCheck -->|Pass| AzureAOAI["4. Forward Request to Azure OpenAI Endpoint<br/>(Managed Identity Authentication)"]
-    end
+![Multi-Dimensional Rate Limiting Architecture (RPM/TPM)](assets/12_ai_infrastructure_serving_and_llmops_faq/03_multidimensional_token_bucket_rate_limiting_architecture.svg)
 
-    AzureAOAI --> Resp["Stream Response Tokens"]
-    Resp --> Reconcile["5. Reconcile Actual Used Tokens into Bucket"]
-    Reconcile --> User
-
-    style User fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style APIM fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style APIMPolicies fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Ret429 fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style AzureAOAI fill:#1e1b4b,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
-```
+*D2 Source:* [assets/12_ai_infrastructure_serving_and_llmops_faq/03_multidimensional_token_bucket_rate_limiting_architecture.d2](assets/12_ai_infrastructure_serving_and_llmops_faq/03_multidimensional_token_bucket_rate_limiting_architecture.d2)
 
 #### Production Azure APIM Policy Implementation
 Azure API Management (APIM) provides native, enterprise-grade LLM rate-limiting policies (`llm-token-limit` and `rate-limit-by-key`):
@@ -309,41 +228,9 @@ When clients hit rate limits, naive retries trigger thundering herd problems tha
 
 #### The 4 Pillars of GenAI Telemetry
 
-```mermaid
-flowchart TD
-    subgraph P1 ["Pillar 1: System Latency & Performance"]
-        direction TB
-        L1["<b>TTFT (Time-to-First-Token)</b><br/>User perception of responsiveness<br/>Target: < 400ms"]
-        L2["<b>TPOT (Time-Per-Output-Token)</b><br/>Streaming decode speed<br/>Target: < 30ms/token"]
-        L3["<b>E2E Latency</b><br/>Total pipeline duration<br/>Target: < 2.5s"]
-    end
+![The 4 Pillars of GenAI Telemetry & Observability Flywheel](assets/12_ai_infrastructure_serving_and_llmops_faq/04_four_pillars_genai_telemetry_observability.svg)
 
-    subgraph P2 ["Pillar 2: Cost Governance & FinOps"]
-        direction TB
-        C1["<b>Prompt Token Count</b><br/>Input billable tokens"]
-        C2["<b>Completion Token Count</b><br/>Output billable tokens"]
-        C3["<b>Cost Attribution</b><br/>Dollar cost per user, tenant & feature"]
-    end
-
-    subgraph P3 ["Pillar 3: Retrieval & Pipeline Quality"]
-        direction TB
-        Q1["<b>Vector Retrieval Latency</b><br/>HNSW & BM25 search duration"]
-        Q2["<b>Semantic Cache Hit Ratio</b><br/>% queries served from Redis cache"]
-        Q3["<b>Context Precision & Recall</b><br/>Quality of retrieved chunks"]
-    end
-
-    subgraph P4 ["Pillar 4: Safety & Faithfulness"]
-        direction TB
-        S1["<b>Groundedness Score</b><br/>Zero hallucination verification"]
-        S2["<b>Toxicity & PII Flags</b><br/>Sensitive content containment"]
-        S3["<b>User Feedback Flywheel</b><br/>Explicit thumbs up / thumbs down"]
-    end
-
-    style P1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style P2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style P3 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style P4 fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-```
+*D2 Source:* [assets/12_ai_infrastructure_serving_and_llmops_faq/04_four_pillars_genai_telemetry_observability.d2](assets/12_ai_infrastructure_serving_and_llmops_faq/04_four_pillars_genai_telemetry_observability.d2)
 
 #### Distributed Tracing with OpenTelemetry GenAI Semantic Conventions
 Every user request generates a single distributed trace with nested spans capturing each pipeline stage:
@@ -396,30 +283,9 @@ LLM inference consists of two fundamentally distinct operational phases:
    - Generates one token at a time per request ($1$ token per step) conditioned on all previous tokens.
    - **Memory-Bandwidth Bound (GB/s):** Low arithmetic intensity; must read the entire model weight matrix and KV cache from High Bandwidth Memory (HBM) to compute just a single new token.
 
-```mermaid
-flowchart TD
-    subgraph ServingEngine ["vLLM Continuous Batching Engine (Iteration Step t)"]
-        direction TB
-        Sched["Dynamic Iteration Scheduler"]
-        
-        subgraph BatchedTokens ["Token Budget: max_num_batched_tokens = 4096"]
-            PrefillReq["Prefill Sequence A: 2048 prompt tokens<br/><i>(Compute-Bound: Saturates Tensor Cores)</i>"]
-            DecodeBatch["Decode Batch: 64 concurrent sequences<br/>(1 token each = 64 tokens)<br/><i>(Bandwidth-Bound: Reads KV Cache)</i>"]
-        end
+![vLLM Continuous Batching: Chunked Prefill vs Decode Disaggregation](assets/12_ai_infrastructure_serving_and_llmops_faq/05_vllm_prefill_decode_disaggregation_continuous_batching.svg)
 
-        Sched --> PrefillReq
-        Sched --> DecodeBatch
-    end
-
-    BatchedTokens --> ChunkedPrefill{"Chunked Prefill Enabled?"}
-    ChunkedPrefill -->|Yes: --enable-chunked-prefill| CoSchedule["Co-schedule Prefill chunks alongside Decode<br/>Stable Inter-Token Latency (ITL) & High Throughput!"]
-    ChunkedPrefill -->|No: Long Prompt Monopolizes Iteration| Jitter["Severe ITL Latency Spike on active streams!"]
-
-    style ServingEngine fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BatchedTokens fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style CoSchedule fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Jitter fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/12_ai_infrastructure_serving_and_llmops_faq/05_vllm_prefill_decode_disaggregation_continuous_batching.d2](assets/12_ai_infrastructure_serving_and_llmops_faq/05_vllm_prefill_decode_disaggregation_continuous_batching.d2)
 
 #### 2. Core Serving Parameters & Mathematical Tuning Rules
 

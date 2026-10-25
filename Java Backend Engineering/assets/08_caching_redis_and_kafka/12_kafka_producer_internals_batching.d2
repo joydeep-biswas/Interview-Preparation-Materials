@@ -1,0 +1,31 @@
+direction: right
+title: Kafka Producer Internals: Ingestion, Batching & Transmission
+
+Phase1: Phase 1: Ingestion & Serialization {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  record: ProducerRecord (topic, key, value)
+  serializer: Serializers (byte[])
+  partitioner: "Partitioner (Murmur2 hash)"
+  record -> serializer -> partitioner
+}
+
+Phase2: Phase 2: RecordAccumulator {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  pool: "32MB Buffer Pool"
+  p0: "Partition 0 Batch (16KB)"
+  p1: "Partition 1 Batch (16KB)"
+  p2: "Partition 2 Batch (16KB)"
+}
+
+Phase3: Phase 3: Sender Thread {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  sender: "Sender Thread (linger.ms & batch.size)"
+  network: "NetworkClient Socket (acks=all, idempotence=true)"
+  sender -> network
+}
+
+Phase1.partitioner -> Phase2.pool: Appends record { style.stroke: "#38BDF8" }
+Phase2.pool -> Phase3.sender: Batches dispatched { style.stroke: "#10B981" }

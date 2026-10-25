@@ -1,0 +1,28 @@
+direction: right
+title: Deadlock Mechanics & The Four Coffman Conditions
+
+DeadlockGraph: Circular Wait Cycle {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  T1: Thread 1
+  L1: Lock A
+  T2: Thread 2
+  L2: Lock B
+  
+  T1 -> L1: Holds Lock A
+  T1 -> L2: Waiting for Lock B
+  T2 -> L2: Holds Lock B
+  T2 -> L1: Waiting for Lock A
+}
+
+CoffmanConditions: 4 Necessary Coffman Conditions {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  c1: "1. Mutual Exclusion (Non-shareable locks)"
+  c2: "2. Hold and Wait (Holding L1 while requesting L2)"
+  c3: "3. No Preemption (Locks cannot be forcibly revoked)"
+  c4: "4. Circular Wait (Closed loop: T1 -> L2 -> T2 -> L1 -> T1)"
+  fix: "Universal Fix: Enforce Global Lock Ordering to break Circular Wait"
+}
+
+DeadlockGraph -> CoffmanConditions: Requires all 4 conditions

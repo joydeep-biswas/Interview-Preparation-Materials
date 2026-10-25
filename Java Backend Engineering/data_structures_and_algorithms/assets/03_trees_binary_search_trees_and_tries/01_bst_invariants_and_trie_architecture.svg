@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="480" viewBox="0 0 1120 480">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1120" height="480" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">BST Invariant Hierarchy &amp; Prefix Trie Architecture</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Comparison of search space partitioning in ordered trees vs character-branching retrieval trees</text>
+
+  <!-- Container 1: BST Invariant -->
+  <g transform="translate(30, 85)">
+    <rect width="520" height="355" rx="8" fill="#0B132B" stroke="#38BDF8" stroke-width="1.5"/>
+    <text x="260" y="28" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">1. BINARY SEARCH TREE INVARIANT (LEFT &lt; ROOT &lt; RIGHT)</text>
+
+    <!-- Root Node (8) -->
+    <rect x="220" y="55" width="80" height="36" rx="6" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+    <text x="260" y="77" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">Root (8)</text>
+
+    <!-- Level 1 Nodes: Left (3) and Right (10) -->
+    <rect x="90" y="135" width="80" height="36" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+    <text x="130" y="157" font-size="12" font-weight="700" fill="#A7F3D0" text-anchor="middle">Left (3)</text>
+
+    <rect x="350" y="135" width="80" height="36" rx="6" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5"/>
+    <text x="390" y="157" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Right (10)</text>
+
+    <!-- Level 2 Nodes: Left(1), Right(6), Right(14) -->
+    <rect x="30" y="215" width="70" height="36" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+    <text x="65" y="237" font-size="12" font-weight="700" fill="#A7F3D0" text-anchor="middle">Node (1)</text>
+
+    <rect x="150" y="215" width="70" height="36" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+    <text x="185" y="237" font-size="12" font-weight="700" fill="#A7F3D0" text-anchor="middle">Node (6)</text>
+
+    <rect x="390" y="215" width="70" height="36" rx="6" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5"/>
+    <text x="425" y="237" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Node (14)</text>
+
+    <!-- Connectors with straight runways -->
+    <path d="M 235 91 L 235 101 C 235 118, 130 108, 130 125 L 130 135" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 285 91 L 285 101 C 285 118, 390 108, 390 125 L 390 135" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+    <path d="M 110 171 L 110 181 C 110 198, 65 188, 65 205 L 65 215" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 150 171 L 150 181 C 150 198, 185 188, 185 205 L 185 215" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 410 171 L 410 181 C 410 198, 425 188, 425 205 L 425 215" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+    <!-- Invariant Box -->
+    <rect x="25" y="275" width="470" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="35" y="295" font-size="10" fill="#94A3B8">• In-Order Traversal (L → Root → R) strictly yields sorted sequence</text>
+    <text x="35" y="312" font-size="10" fill="#94A3B8">• Validation Invariant: Pass valid range (min &lt; val &lt; max) down DFS</text>
+    <text x="35" y="329" font-size="10" fill="#38BDF8">• LCA in BST: Split point where (p.val &lt;= root &lt;= q.val)</text>
+  </g>
+
+  <!-- Container 2: Prefix Trie -->
+  <g transform="translate(570, 85)">
+    <rect width="520" height="355" rx="8" fill="#1E1035" stroke="#C084FC" stroke-width="1.5"/>
+    <text x="260" y="28" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle">2. 26-WAY PREFIX TRIE ARCHITECTURE ("cat", "car", "cart")</text>
+
+    <!-- Trie Root -->
+    <rect x="220" y="55" width="80" height="36" rx="6" fill="#1E293B" stroke="#C084FC" stroke-width="1.5"/>
+    <text x="260" y="77" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">Trie Root</text>
+
+    <!-- Node [c] -->
+    <rect x="220" y="125" width="80" height="34" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+    <text x="260" y="146" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Node ['c']</text>
+
+    <!-- Node [a] -->
+    <rect x="220" y="190" width="80" height="34" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+    <text x="260" y="211" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Node ['a']</text>
+
+    <!-- Branch: ['r'] vs ['t'] -->
+    <rect x="130" y="255" width="105" height="34" rx="4" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+    <text x="182" y="276" font-size="10.5" font-weight="700" fill="#34D399" text-anchor="middle">['r'] (isEnd=true)</text>
+
+    <rect x="285" y="255" width="105" height="34" rx="4" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+    <text x="337" y="276" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="middle">['t'] (isEnd=true)</text>
+
+    <!-- Branch from r to t: "cart" -->
+    <rect x="130" y="310" width="105" height="30" rx="4" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+    <text x="182" y="329" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">['t'] (isEnd=true)</text>
+
+    <!-- Connectors -->
+    <path d="M 260 91 L 260 125" fill="none" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+    <path d="M 260 159 L 260 190" fill="none" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+    <path d="M 235 224 L 235 234 C 235 245, 182 240, 182 248 L 182 255" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 285 224 L 285 234 C 285 245, 337 240, 337 248 L 337 255" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+    <path d="M 182 289 L 182 310" fill="none" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+
+    <!-- Key Insights Text on the Right -->
+    <g transform="translate(405, 130)">
+      <text x="0" y="20" font-size="11" font-weight="700" fill="#C084FC">Trie Complexity:</text>
+      <text x="0" y="40" font-size="10" fill="#94A3B8">• Search: O(L)</text>
+      <text x="0" y="56" font-size="10" fill="#94A3B8">• Insert: O(L)</text>
+      <text x="0" y="72" font-size="10" fill="#94A3B8">• Prefix: O(P)</text>
+      <text x="0" y="96" font-size="10" fill="#64748B">L = word length</text>
+      <text x="0" y="112" font-size="10" fill="#64748B">P = prefix length</text>
+    </g>
+  </g>
+
+  <!-- Footer Invariant Banner -->
+  <rect x="30" y="448" width="1060" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="464" font-size="10" fill="#93C5FD" font-weight="600" text-anchor="middle">Search Space Pruning: BST prunes half the search space at each comparison; Tries share common prefixes, collapsing space complexity across large dictionaries.</text>
+
+</svg>

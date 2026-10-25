@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Key Salting Technique for Mitigating Extreme Data Skew</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">How appending random salt integers splits hot keys into uniform buckets and matches exploded dimension rows</text>
+
+  <!-- Column 1: Fact Table Salting -->
+  <rect x="40" y="85" width="490" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#EF4444" stroke-width="1.5"/>
+  <rect x="40" y="85" width="490" height="36" rx="8" fill="#0F172A" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="285" y="108" font-size="12" font-weight="700" fill="#F87171" text-anchor="middle">1. SKEWED FACT TABLE: RANDOM SALTING (K = 4)</text>
+
+  <!-- Skewed Row Input -->
+  <rect x="60" y="135" width="450" height="80" rx="6" fill="#450A0A" fill-opacity="0.3" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="75" y="157" font-size="11" font-weight="700" fill="#F87171" text-anchor="start">Skewed Large Fact Table Row</text>
+  <text x="75" y="177" font-size="10" font-family="monospace" fill="#FCA5A5" text-anchor="start">[Key: 'NULL', order_id: 104928, amount: 250.00]</text>
+  <text x="75" y="195" font-size="9" fill="#CBD5E1" text-anchor="start">Problem: 50,000,000 rows all share the identical key 'NULL'!</text>
+
+  <!-- Salt Transformation -->
+  <rect x="60" y="230" width="450" height="75" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="75" y="252" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="start">Append Random Salt (K = 4)</text>
+  <text x="75" y="272" font-size="10" font-family="monospace" fill="#FDE68A" text-anchor="start">salted_key = concat(key, '_', floor(rand() * 4))</text>
+  <text x="75" y="290" font-size="9" fill="#CBD5E1" text-anchor="start">Assigns a pseudo-random integer [0, 1, 2, 3] to each row</text>
+
+  <!-- 4 Even Buckets -->
+  <rect x="60" y="320" width="450" height="135" rx="6" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <text x="75" y="342" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Produces 4 Evenly Distributed Buckets (12.5M rows each!)</text>
+
+  <rect x="75" y="355" width="95" height="40" rx="4" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="122" y="372" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">'NULL_0'</text>
+  <text x="122" y="386" font-size="8" fill="#CBD5E1" text-anchor="middle">12.5M rows</text>
+
+  <rect x="180" y="355" width="95" height="40" rx="4" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="227" y="372" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">'NULL_1'</text>
+  <text x="227" y="386" font-size="8" fill="#CBD5E1" text-anchor="middle">12.5M rows</text>
+
+  <rect x="285" y="355" width="95" height="40" rx="4" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="332" y="372" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">'NULL_2'</text>
+  <text x="332" y="386" font-size="8" fill="#CBD5E1" text-anchor="middle">12.5M rows</text>
+
+  <rect x="390" y="355" width="95" height="40" rx="4" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="437" y="372" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">'NULL_3'</text>
+  <text x="437" y="386" font-size="8" fill="#CBD5E1" text-anchor="middle">12.5M rows</text>
+
+  <text x="75" y="420" font-size="9.5" fill="#34D399" text-anchor="start">✔ No single reducer receives more than 12.5M rows.</text>
+  <text x="75" y="437" font-size="9.5" fill="#CBD5E1" text-anchor="start">✔ Can scale K to 10 or 20 for extreme petabyte skews!</text>
+
+  <line x1="285" y1="215" x2="285" y2="230" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <line x1="285" y1="305" x2="285" y2="320" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- Column 2: Dimension Table Explode -->
+  <rect x="560" y="85" width="520" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="560" y="85" width="520" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="820" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">2. SMALL DIMENSION: EXPLODE &amp; BALANCED JOIN</text>
+
+  <!-- Small Dim Row Input -->
+  <rect x="580" y="135" width="480" height="80" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="595" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Dimension Table Row (Single Match)</text>
+  <text x="595" y="177" font-size="10" font-family="monospace" fill="#A7F3D0" text-anchor="start">[Key: 'NULL', customer_name: 'Guest / Unknown']</text>
+  <text x="595" y="195" font-size="9" fill="#CBD5E1" text-anchor="start">How to match with 'NULL_0', 'NULL_1', 'NULL_2', and 'NULL_3'?</text>
+
+  <!-- Explode Operation -->
+  <rect x="580" y="230" width="480" height="75" rx="6" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="595" y="252" font-size="11" font-weight="700" fill="#C084FC" text-anchor="start">Replicate K Times via explode(array(0, 1, 2, 3))</text>
+  <text x="595" y="272" font-size="10" font-family="monospace" fill="#E9D5FF" text-anchor="start">dim.withColumn("salt", explode(array(0, 1, 2, 3)))</text>
+  <text x="595" y="290" font-size="9" fill="#CBD5E1" text-anchor="start">Replicates the single row exactly 4 times with matching salt tags</text>
+
+  <!-- Replicated Rows &amp; Final Balanced Join -->
+  <rect x="580" y="320" width="480" height="135" rx="6" fill="#064E3B" fill-opacity="0.3" stroke="#34D399" stroke-width="2"/>
+  <text x="595" y="342" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Evenly Balanced Join Across 4 Workers!</text>
+  
+  <text x="595" y="365" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Worker 1 joins: <tspan font-family="monospace" fill="#34D399">Fact('NULL_0') == Dim('NULL_0')</tspan></text>
+  <text x="595" y="382" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Worker 2 joins: <tspan font-family="monospace" fill="#34D399">Fact('NULL_1') == Dim('NULL_1')</tspan></text>
+  <text x="595" y="399" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Worker 3 joins: <tspan font-family="monospace" fill="#34D399">Fact('NULL_2') == Dim('NULL_2')</tspan></text>
+  <text x="595" y="416" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Worker 4 joins: <tspan font-family="monospace" fill="#34D399">Fact('NULL_3') == Dim('NULL_3')</tspan></text>
+  <text x="595" y="437" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">Result: Perfect 100% linear load balance; zero disk spill!</text>
+
+  <line x1="820" y1="215" x2="820" y2="230" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  <line x1="820" y1="305" x2="820" y2="320" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Salting Invariant: By appending random salt integers [0..K-1] to the skewed fact table and exploding the dimension table by the same range, extreme single-key data skew is partitioned evenly across K worker nodes.</text>
+</svg>

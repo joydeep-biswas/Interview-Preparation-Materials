@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Watermarking Mechanics &amp; Allowed Lateness in Stream Processing</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Bounded State Memory: Dropping Unrecoverable Late Events to Bound RocksDB State Stores</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Moving Watermark Window (Allowed Lateness = 20 Minutes)</text>
+  
+    <rect x="45" y="140" width="400" height="75" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="166" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Max Event Time Seen: 10:40 AM</text>
+    <text x="245.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Highest Timestamp Observed in Stream</text>
+    <rect x="331" y="150" width="108" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="385.0" y="162" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MAX EVENT TIME</text>
+    <circle cx="61" cy="195" r="2" fill="#3b82f6"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Latest incoming event timestamp: 10:40:00 AM</text>
+    <circle cx="61" cy="211" r="2" fill="#3b82f6"/>
+    <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Formula: Watermark = MaxEventTime - AllowedLateness</text>
+  
+    <rect x="45" y="230" width="400" height="135" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="256" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Watermark Threshold: 10:20 AM</text>
+    <text x="245.0" y="272" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Strict Evaluation Horizon</text>
+    <rect x="310" y="240" width="129" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="374.5" y="252" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">WATERMARK HORIZON</text>
+    <circle cx="61" cy="285" r="2" fill="#3b82f6"/>
+    <text x="69" y="288" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Watermark calculates: 10:40 AM - 20 mins = 10:20 AM.</text>
+    <circle cx="61" cy="301" r="2" fill="#3b82f6"/>
+    <text x="69" y="304" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Any window ending before 10:20 AM is finalized and emitted to storage.</text>
+    <circle cx="61" cy="317" r="2" fill="#3b82f6"/>
+    <text x="69" y="320" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Windows prior to 10:20 AM are permanently evicted from RocksDB state RAM!</text>
+    <circle cx="61" cy="333" r="2" fill="#3b82f6"/>
+    <text x="69" y="336" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Prevents unbounded state store memory growth.</text>
+
+  
+    <line x1="245" y1="215" x2="245" y2="230" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Arriving Records Evaluation</text>
+  
+    <rect x="535" y="140" width="400" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Record A: Event Time 10:25 AM</text>
+    <text x="735.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Evaluation: 10:25 AM &gt; 10:20 AM Threshold</text>
+    <rect x="863" y="150" width="66" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="896.0" y="162" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ACCEPTED</text>
+    <circle cx="551" cy="195" r="2" fill="#10b981"/>
+    <text x="559" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Event arrived late (now 10:40 AM), but within allowed 20-min lateness.</text>
+    <circle cx="551" cy="211" r="2" fill="#10b981"/>
+    <text x="559" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Action: ACCEPTED into aggregation window; state updated in RAM!</text>
+  
+    <rect x="535" y="245" width="400" height="120" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="735.0" y="271" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Record B: Event Time 10:15 AM</text>
+    <text x="735.0" y="287" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Evaluation: 10:15 AM &lt; 10:20 AM Threshold</text>
+    <rect x="828" y="255" width="101" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="878.5" y="267" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DROPPED / DLQ</text>
+    <circle cx="551" cy="300" r="2" fill="#ef4444"/>
+    <text x="559" y="303" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Event arrived 25 minutes late (exceeds 20-minute allowed lateness).</text>
+    <circle cx="551" cy="316" r="2" fill="#ef4444"/>
+    <text x="559" y="319" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">The target window has already been finalized and evicted from memory!</text>
+    <circle cx="551" cy="332" r="2" fill="#ef4444"/>
+    <text x="559" y="335" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Action: DROPPED or routed to Dead Letter Queue (DLQ).</text>
+    <circle cx="551" cy="348" r="2" fill="#ef4444"/>
+    <text x="559" y="351" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero state corruption.</text>
+
+</svg>

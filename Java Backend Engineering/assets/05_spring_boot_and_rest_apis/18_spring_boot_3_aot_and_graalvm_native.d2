@@ -1,0 +1,28 @@
+direction: right
+title: Spring Boot 3 Ahead-of-Time (AOT) & GraalVM Native Compilation
+
+src: "1. Java Source Code" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+  desc: "Spring Boot 3 App with annotations"
+}
+
+aot: "2. Spring AOT Processing" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+  desc: "Build-time @Conditional evaluation & static bytecode code-gen"
+}
+
+graal: "3. GraalVM Native Image" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+  desc: "Closed-world analysis & dead-code elimination"
+}
+
+native: "4. Standalone Native Binary" {
+  style.fill: "#062e22"
+  style.stroke: "#10b981"
+  desc: "50ms startup | 30MB RAM | No JVM required"
+}
+
+src -> aot -> graal -> native

@@ -1,0 +1,35 @@
+direction: right
+title: Relational Schema Normalization: 3NF & BCNF Architecture
+
+customer: CUSTOMER {
+  shape: sql_table
+  customer_id: bigint [pk]
+  name: varchar
+  email: varchar
+}
+
+order: ORDER {
+  shape: sql_table
+  order_id: bigint [pk]
+  customer_id: bigint [fk]
+  order_date: timestamp
+}
+
+order_item: ORDER_ITEM {
+  shape: sql_table
+  order_id: bigint [pk, fk]
+  item_id: bigint [pk, fk]
+  quantity: int
+  unit_price: numeric
+}
+
+item: ITEM {
+  shape: sql_table
+  item_id: bigint [pk]
+  item_name: varchar
+  current_price: numeric
+}
+
+customer -> order: "places (1:N)"
+order -> order_item: "contains (1:N)"
+item -> order_item: "referenced_in (1:N)"

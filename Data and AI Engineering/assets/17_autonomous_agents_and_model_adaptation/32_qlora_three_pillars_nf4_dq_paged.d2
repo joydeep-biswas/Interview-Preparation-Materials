@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  nf4: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  dq: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  paged: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+}
+
+p1: "1. 4-bit NormalFloat (NF4)
+Quantile fit for normal weights
+Optimal information precision" { class: nf4 }
+p2: "2. Double Quantization (DQ)
+Quantizes quant constants
+Saves 0.37 bits/param" { class: dq }
+p3: "3. Paged Optimizers
+CUDA Unified Memory paging
+Prevents VRAM OOM spikes" { class: paged }

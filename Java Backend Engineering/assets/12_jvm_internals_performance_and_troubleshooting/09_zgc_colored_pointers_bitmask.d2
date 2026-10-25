@@ -1,0 +1,26 @@
+direction: right
+title: ZGC Colored Pointer & Load Barrier
+
+ReferenceBits: 64-Bit Reference Layout {
+  style.stroke: "#38BDF8"
+  Unused: Bits 48-63 (16 bits) OS Reserved
+  Final: Bit 47 Finalizable
+  Remap: Bit 46 Remapped Pointer
+  Mark1: Bit 45 Marked1 (Alt Cycle)
+  Mark0: Bit 44 Marked0 (Current Cycle)
+  Addr: Bits 0-43 (44 bits = 16TB Heap Address Space)
+}
+
+LoadBarrier: Concurrent Load Barrier {
+  style.stroke: "#34D399"
+  Step1: Mutator loads reference (o = p.target)
+  Step2: Test color bit with BAD_MASK
+  FastPath: Fast Path (Good Bit -> Immediate Return)
+  SlowPath: Slow Path (Bad Bit -> Forwarding Table Lookup & Relocate)
+  SelfHeal: Self-Healing Pointer (In-place update to Remapped bit)
+
+  Step1 -> Step2: JIT injected check { style.stroke: "#38BDF8" }
+  Step2 -> FastPath: Good bit { style.stroke: "#34D399" }
+  Step2 -> SlowPath: Bad bit { style.stroke: "#EF4444" }
+  SlowPath -> SelfHeal: Resolves new address { style.stroke: "#C084FC" }
+}

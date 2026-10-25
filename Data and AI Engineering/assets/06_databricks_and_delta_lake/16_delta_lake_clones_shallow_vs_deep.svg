@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Lake Clones: Shallow vs Deep Clone Mechanics</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zero-copy instantaneous dev branching vs fully isolated cross-region disaster recovery replication</text>
+<rect x="270" y="85" width="500" height="105" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="520" y="112" fill="#38BDF8" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Source Production Table: lakehouse.fact_orders</text>
+<rect x="410" y="122" width="220" height="18" rx="9" fill="#0284c7"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Primary Production Lakehouse</text>
+<text x="290" y="155" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Physical Volume: 10 TB active data (5,000 Parquet data files on cloud storage)</text>
+<text x="290" y="175" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Transaction Log: _delta_log/ commit version 50 (Latest ACID snapshot)</text>
+<rect x="30" y="240" width="460" height="275" rx="8" fill="#062e3d" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="260" y="268" fill="#22D3EE" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Shallow Clone (Zero-Copy Metadata)</text>
+<rect x="170" y="278" width="180" height="18" rx="9" fill="#0891b2"/><text x="260" y="290" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CREATE TABLE ... SHALLOW CLONE</text>
+<rect x="50" y="310" width="420" height="75" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1"/>
+<text x="65" y="332" fill="#67E8F9" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Target: dev_sandbox.orders_dev_test</text>
+<text x="65" y="352" fill="#22D3EE" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Data Copied: 0 BYTES! Points to source Parquet files</text>
+<text x="65" y="370" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Setup Duration: ~2 to 5 seconds (instantaneous metadata fork)</text>
+<rect x="50" y="395" width="420" height="105" rx="8" fill="#0e3a47" stroke="#0891b2" stroke-width="1"/>
+<text x="65" y="417" fill="#A5F3FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key Characteristics &amp; Use Cases:</text>
+<text x="65" y="437" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Perfect for developer sandboxes, ML experiments, schema migrations</text>
+<text x="65" y="455" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Zero storage cost increase (only new dev writes consume bytes)</text>
+<text x="65" y="473" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">⚠ Caution: Tied to source files. If source runs aggressive VACUUM,</text>
+<text x="65" y="489" fill="#FCA5A5" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">   shallow clone queries fail when unreferenced source files are deleted!</text>
+<rect x="550" y="240" width="460" height="275" rx="8" fill="#062e22" stroke="#10b981" stroke-width="1.5"/>
+<text x="780" y="268" fill="#34D399" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Deep Clone (Fully Isolated Replica)</text>
+<rect x="690" y="278" width="180" height="18" rx="9" fill="#059669"/><text x="780" y="290" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CREATE TABLE ... DEEP CLONE</text>
+<rect x="570" y="310" width="420" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="585" y="332" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Target: dr_lakehouse.fact_orders (Secondary Region)</text>
+<text x="585" y="352" fill="#FBBF24" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Data Copied: FULL 10 TB physical data copied across regions</text>
+<text x="585" y="370" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Setup Duration: Proportional to data volume (Incremental after 1st run!)</text>
+<rect x="570" y="395" width="420" height="105" rx="8" fill="#0f3d2e" stroke="#059669" stroke-width="1"/>
+<text x="585" y="417" fill="#A7F3D0" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key Characteristics &amp; Use Cases:</text>
+<text x="585" y="437" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Perfect for Disaster Recovery (DR) replication across cloud regions</text>
+<text x="585" y="455" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ 100% Isolated: Modifying, deleting, or vacuuming source has 0 effect</text>
+<text x="585" y="473" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Subsequent sync runs copy only modified files incrementally</text>
+<text x="585" y="489" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cost: Double storage (10 TB in Primary + 10 TB in DR Region)</text>
+<path d="M 400 190 L 400 215 L 260 215 L 260 235" stroke="#06b6d4" stroke-width="1.5" fill="none" marker-end="url(#arr-c)"/>
+<text x="310" y="210" fill="#22D3EE" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Metadata Fork (0 Bytes)</text>
+<path d="M 640 190 L 640 215 L 780 215 L 780 235" stroke="#10b981" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<text x="720" y="210" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Physical Data Copy (10 TB)</text>
+</svg>

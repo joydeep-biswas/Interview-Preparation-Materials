@@ -1,0 +1,17 @@
+direction: right
+title: Pipeline Idempotency Patterns: Overwrite vs. Merge vs. Swap
+
+p1: Pattern 1: Delete-Before-Insert (Partition Overwrite) {
+  cmd: "INSERT OVERWRITE TABLE WHERE date = '2026-10-01'"
+  feature: "Replaces entire partition atomically; fast and simple"
+}
+
+p2: Pattern 2: Merge / Upsert on Primary Key {
+  cmd: "MERGE INTO target USING staging ON target.id = staging.id"
+  feature: "Row-level updates; handles late arriving CDC mutations"
+}
+
+p3: Pattern 3: Atomic Staging Table Swap {
+  cmd: "ALTER TABLE prod_table SWAP WITH staging_table_temp"
+  feature: "Zero-downtime O(1) metadata swap; instant rollback capability"
+}

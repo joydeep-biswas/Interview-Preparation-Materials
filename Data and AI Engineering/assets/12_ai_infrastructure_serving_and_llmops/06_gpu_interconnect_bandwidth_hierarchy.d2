@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  slow: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  fast: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  ultra: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  net: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+pcie: "PCIe Gen 5 x16\n128 GB/s\n(Severe All-Reduce Bottleneck)" { class: slow }
+nv4: "NVLink 4 (H100)\n900 GB/s\n(7x PCIe speed, 8 GPUs)" { class: fast }
+nv5: "NVLink 5 (B200)\n1,800 GB/s\n(14x PCIe speed, 72 GPUs)" { class: ultra }
+ib: "InfiniBand NDR\n400 Gbps (100 GB/s)\n(Inter-Node Cluster RDMA)" { class: net }
+
+pcie -> nv4: "7x Faster"
+nv4 -> nv5: "2x Faster"
+nv4 -> ib: "Inter-Node Link"

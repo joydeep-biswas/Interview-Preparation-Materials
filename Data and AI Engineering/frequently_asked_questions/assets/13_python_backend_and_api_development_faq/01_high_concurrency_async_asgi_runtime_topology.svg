@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 380" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Tier 1: Client Ingress -->
+  <rect x="25" y="30" width="190" height="320" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="40" y="55" class="title-txt" fill="#93C5FD">1. Client Requests</text>
+
+  <rect x="40" y="75" width="160" height="60" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="120" y="98" class="title-txt" text-anchor="middle">HTTP / REST</text>
+  <text x="48" y="118" class="body-txt" text-anchor="start">Fast synchronous queries</text>
+
+  <rect x="40" y="150" width="160" height="75" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="120" y="174" class="title-txt" text-anchor="middle" fill="#A7F3D0">SSE Token Stream</text>
+  <text x="48" y="196" class="body-txt" text-anchor="start">text/event-stream</text>
+  <text x="48" y="210" class="mono-txt" text-anchor="start">LLM Token Generator</text>
+
+  <rect x="40" y="240" width="160" height="60" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="120" y="264" class="title-txt" text-anchor="middle">Bidirectional WS</text>
+  <text x="48" y="284" class="body-txt" text-anchor="start">WebSocket Audio / Text</text>
+
+  <path d="M 215 190 L 255 190" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Tier 2: FastAPI / Uvicorn ASGI Server -->
+  <rect x="255" y="30" width="200" height="320" rx="10" ry="10" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="270" y="55" class="title-txt" fill="#C4B5FD">2. FastAPI / ASGI</text>
+
+  <rect x="270" y="75" width="170" height="65" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="355" y="98" class="title-txt" text-anchor="middle">Uvicorn Worker</text>
+  <text x="278" y="120" class="mono-txt" text-anchor="start">uvloop (epoll engine)</text>
+
+  <rect x="270" y="155" width="170" height="65" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="355" y="178" class="title-txt" text-anchor="middle">Middleware Stack</text>
+  <text x="278" y="198" class="body-txt" text-anchor="start">• OTel Spans &amp; CORS</text>
+  <text x="278" y="212" class="body-txt" text-anchor="start">• Token bucket limit</text>
+
+  <rect x="270" y="235" width="170" height="65" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="355" y="258" class="title-txt" text-anchor="middle" fill="#A7F3D0">Pydantic v2</text>
+  <text x="278" y="278" class="body-txt" text-anchor="start">• Rust-backed parser</text>
+  <text x="278" y="292" class="mono-txt" text-anchor="start">Sub-millisecond parse</text>
+
+  <path d="M 455 190 L 495 190" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- Tier 3: Event Loop Isolation -->
+  <rect x="495" y="30" width="210" height="320" rx="10" ry="10" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="510" y="55" class="title-txt" fill="#6EE7B7">3. Event Loop Isolation</text>
+
+  <rect x="510" y="75" width="180" height="65" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="600" y="98" class="title-txt" text-anchor="middle" fill="#A7F3D0">AsyncIO Loop</text>
+  <text x="518" y="120" class="body-txt" text-anchor="start">• Non-blocking coroutines</text>
+  <text x="518" y="134" class="mono-txt" text-anchor="start">httpx, AsyncSession</text>
+
+  <rect x="510" y="155" width="180" height="65" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="600" y="178" class="title-txt" text-anchor="middle" fill="#FDE68A">ThreadPoolExecutor</text>
+  <text x="518" y="198" class="body-txt" text-anchor="start">• Light CPU tasks</text>
+  <text x="518" y="212" class="mono-txt" text-anchor="start">Tokenizers &amp; bcrypt</text>
+
+  <rect x="510" y="235" width="180" height="65" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="600" y="258" class="title-txt" text-anchor="middle" fill="#FCA5A5">ProcessPoolExecutor</text>
+  <text x="518" y="278" class="body-txt" text-anchor="start">• Heavy CPU tensor ops</text>
+  <text x="518" y="292" class="badge-txt" fill="#EF4444">Zero GIL Contention</text>
+
+  <path d="M 705 190 L 745 190" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Tier 4: Downstream Services -->
+  <rect x="745" y="30" width="190" height="320" rx="10" ry="10" fill="#0D1526" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="760" y="55" class="title-txt" fill="#FDE68A">4. Downstream Tier</text>
+
+  <rect x="760" y="75" width="160" height="65" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="840" y="98" class="title-txt" text-anchor="middle">vLLM Engine</text>
+  <text x="768" y="120" class="mono-txt" text-anchor="start">POST /v1/completions</text>
+  <text x="768" y="134" class="body-txt" text-anchor="start">Streaming token chunks</text>
+
+  <rect x="760" y="155" width="160" height="65" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="840" y="178" class="title-txt" text-anchor="middle" fill="#FCA5A5">Redis Cluster</text>
+  <text x="768" y="198" class="body-txt" text-anchor="start">• Distributed locks</text>
+  <text x="768" y="212" class="mono-txt" text-anchor="start">Redlock &amp; Session Store</text>
+
+  <rect x="760" y="235" width="160" height="65" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="840" y="258" class="title-txt" text-anchor="middle" fill="#A7F3D0">PostgreSQL DB</text>
+  <text x="768" y="278" class="mono-txt" text-anchor="start">SQLAlchemy 2.0 Async</text>
+  <text x="768" y="292" class="badge-txt" fill="#10B981">✓ Asyncpg pool</text>
+</svg>

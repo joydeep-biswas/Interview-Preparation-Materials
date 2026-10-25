@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  ci: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  cd: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+ci_stage: "Continuous Integration (CI)" {
+  pr: "1. Feature Pull Request" { class: ci }
+  lint: "2. Linting (sqlfluff, ruff)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  unit: "3. pytest Unit Tests" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  contract: "4. Data Contract Tests" { class: cd }
+
+  pr -> lint -> unit -> contract
+}
+
+cd_stage: "Continuous Deployment (CD)" {
+  merge: "5. Merge to Main" { class: cd }
+  deploy_dev: "6. Deploy Dev & Smoke Test" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  gate: "7. Manual Approval Gate" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  deploy_prod: "8. Blue-Green Swap to Prod" { class: cd }
+
+  merge -> deploy_dev -> gate -> deploy_prod
+}
+
+ci_stage.contract -> cd_stage.merge: "All Gates Pass"

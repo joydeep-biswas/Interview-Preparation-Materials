@@ -1,0 +1,20 @@
+direction: right
+title: Java Generics PECS Rule: Producer Extends, Consumer Super
+
+Producer: Producer Extends (? extends Number) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  read: "Number n = list.get(0) [Safe Covariant Read]"
+  write: "list.add(10) [COMPILATION ERROR! Type unknown]"
+  rule: "Use 'extends' when reading data OUT of collection"
+}
+
+Consumer: Consumer Super (? super Integer) {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  write: "list.add(42) [Safe Contravariant Write]"
+  read: "Object o = list.get(0) [Restricted to Object]"
+  rule: "Use 'super' when putting data INTO collection"
+}
+
+Producer <-> Consumer: Dual Variance Symmetries

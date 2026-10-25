@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1140" height="480" rx="10" fill="url(#bg)"/>
+  <rect width="1140" height="480" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="570" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Point-to-Point Task Queues vs. Publish-Subscribe Topics</text>
+  <text x="570" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Competing Consumer Task Distribution (RabbitMQ Queue) vs. Independent Multi-Subscriber Event Streaming (Kafka Topic)</text>
+  <line x1="40" y1="68" x2="1100" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Left Side: Point-to-Point -->
+  <rect x="50" y="105" width="480" height="325" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="105" width="480" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="290" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Point-to-Point Task Queue (e.g. RabbitMQ)</text>
+
+  <!-- Producer -->
+  <rect x="70" y="155" width="120" height="50" rx="5" fill="#1E293B" stroke="#38BDF8"/>
+  <text x="130" y="185" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">Producer</text>
+
+  <!-- Queue Buffer -->
+  <rect x="230" y="150" width="130" height="60" rx="5" fill="#0F172A" stroke="#0284C7" stroke-width="1.5"/>
+  <text x="295" y="175" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="middle">Task Queue</text>
+  <text x="295" y="195" font-size="8" fill="#94A3B8" text-anchor="middle">[Msg 1] [Msg 2] [Msg 3]</text>
+
+  <path fill="none" d="M 190 180 L 230 180" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Workers -->
+  <rect x="400" y="145" width="110" height="35" rx="4" fill="#1E293B" stroke="#10B981"/>
+  <text x="455" y="167" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">Worker Pod 1</text>
+
+  <rect x="400" y="190" width="110" height="35" rx="4" fill="#1E293B" stroke="#10B981"/>
+  <text x="455" y="212" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">Worker Pod 2</text>
+
+  <path fill="none" d="M 360.0 170.0 L 368.0 170.0 C 378.0 170.0, 378.0 160.0, 388.0 160.0 L 400.0 160.0" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <path fill="none" d="M 360.0 190.0 L 368.0 190.0 C 378.0 190.0, 378.0 205.0, 388.0 205.0 L 400.0 205.0" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <rect x="70" y="235" width="440" height="180" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="85" y="260" font-size="10" font-weight="700" fill="#F8FAFC">Competing Consumer Mechanics:</text>
+  <text x="85" y="285" font-size="9" fill="#CBD5E1">&#x2022; <tspan font-weight="700" fill="#FDE68A">One-to-One Delivery:</tspan> Each message is consumed by EXACTLY ONE worker.</text>
+  <text x="85" y="310" font-size="9" fill="#CBD5E1">&#x2022; Destructive Read: Message deleted from queue upon consumer ACK.</text>
+  <text x="85" y="335" font-size="9" fill="#CBD5E1">&#x2022; Automatic Work Distribution: Adding workers increases throughput.</text>
+  <text x="85" y="360" font-size="9" fill="#CBD5E1">&#x2022; Primary Use: Background processing (email dispatch, image resize, PDF gen).</text>
+
+  <!-- Right Side: PubSub -->
+  <rect x="610" y="105" width="480" height="325" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="610" y="105" width="480" height="30" rx="8" fill="#064E3B"/>
+  <text x="850" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. Publish-Subscribe Topics (e.g. Kafka)</text>
+
+  <!-- Producer -->
+  <rect x="630" y="155" width="120" height="50" rx="5" fill="#1E293B" stroke="#38BDF8"/>
+  <text x="690" y="185" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">Producer</text>
+
+  <!-- Event Topic -->
+  <rect x="790" y="150" width="130" height="60" rx="5" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+  <text x="855" y="175" font-size="10" font-weight="700" fill="#6EE7B7" text-anchor="middle">Event Topic</text>
+  <text x="855" y="195" font-size="8" fill="#A7F3D0" text-anchor="middle">Immutable Commit Log</text>
+
+  <path fill="none" d="M 750 180 L 790 180" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Consumer Groups -->
+  <rect x="960" y="145" width="115" height="35" rx="4" fill="#1E293B" stroke="#F59E0B"/>
+  <text x="1017" y="167" font-size="9" font-weight="700" fill="#FBBF24" text-anchor="middle">Billing Group</text>
+
+  <rect x="960" y="190" width="115" height="35" rx="4" fill="#1E293B" stroke="#C084FC"/>
+  <text x="1017" y="212" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle">Notify Group</text>
+
+  <path fill="none" d="M 920.0 170.0 L 928.0 170.0 C 938.0 170.0, 938.0 160.0, 948.0 160.0 L 960.0 160.0" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <path fill="none" d="M 920.0 190.0 L 928.0 190.0 C 938.0 190.0, 938.0 205.0, 948.0 205.0 L 960.0 205.0" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+
+  <rect x="630" y="235" width="440" height="180" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="645" y="260" font-size="10" font-weight="700" fill="#F8FAFC">Multi-Subscriber Broadcast Mechanics:</text>
+  <text x="645" y="285" font-size="9" fill="#CBD5E1">&#x2022; <tspan font-weight="700" fill="#6EE7B7">One-to-Many Fanout:</tspan> EVERY subscriber group receives a full copy.</text>
+  <text x="645" y="310" font-size="9" fill="#CBD5E1">&#x2022; Non-Destructive Read: Consumer reads offset; messages persist for days.</text>
+  <text x="645" y="335" font-size="9" fill="#CBD5E1">&#x2022; Time-Travel Replay: Consumers can rewind offsets to replay past events.</text>
+  <text x="645" y="360" font-size="9" fill="#CBD5E1">&#x2022; Primary Use: Domain event dissemination, audit logs, analytics ingestion.</text>
+
+  <!-- Bottom Invariant Banner -->
+  <rect x="50" y="445" width="1040" height="25" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="570" y="462" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Core Distinction: Queues distribute jobs to workers who compete. Topics broadcast state changes to independent systems who collaborate.</text>
+</svg>

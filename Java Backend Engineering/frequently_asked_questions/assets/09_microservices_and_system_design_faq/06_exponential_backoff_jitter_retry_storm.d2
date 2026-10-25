@@ -1,0 +1,19 @@
+direction: right
+
+fixed_retry: "Naive Fixed Retry (Storm)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  rule: "Retry every 2.0s exact"
+  wave: "5,000 retries hit simultaneously every 2s"
+  hazard: "Knocks recovering database back down (DoS)"
+}
+
+jitter_retry: "Exponential Backoff + Jitter" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  formula: "sleep = random(0, min(cap, base * 2^attempt))"
+  dispersion: "5,000 requests spread smoothly across time"
+  recovery: "Allows downstream service to reboot safely"
+}
+
+fixed_retry -> jitter_retry: "De-synchronizes retry spikes"

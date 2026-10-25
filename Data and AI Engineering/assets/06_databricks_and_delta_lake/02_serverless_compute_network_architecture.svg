@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Databricks Serverless Compute Architecture</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">How Databricks-managed serverless pools eliminate cold starts, offering sub-second scale and isolated networking</text>
+
+  <!-- Column 1: Customer Environment -->
+  <rect x="40" y="85" width="310" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="310" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="195" y="108" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">1. CUSTOMER ENVIRONMENT</text>
+
+  <!-- User Query -->
+  <rect x="55" y="135" width="280" height="75" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1"/>
+  <text x="70" y="157" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">User Query / API Trigger</text>
+  <text x="70" y="174" font-size="10" fill="#CBD5E1" text-anchor="start">• BI Tool (Tableau, PowerBI, dbt)</text>
+  <text x="70" y="189" font-size="10" fill="#CBD5E1" text-anchor="start">• Serverless Notebook / Workflow</text>
+  <text x="70" y="204" font-size="9.5" fill="#34D399" text-anchor="start">Submits SQL query or PySpark task</text>
+
+  <!-- Storage in Customer Tenant -->
+  <rect x="55" y="230" width="280" height="135" rx="6" fill="#083344" fill-opacity="0.3" stroke="#22D3EE" stroke-width="1.5"/>
+  <text x="70" y="252" font-size="11" font-weight="700" fill="#22D3EE" text-anchor="start">Customer Cloud Object Storage</text>
+  <text x="70" y="272" font-size="10" fill="#A5F3FC" text-anchor="start">S3 Bucket / ADLS Gen2 Storage Account</text>
+  <text x="70" y="292" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Holds all enterprise data</text>
+  <text x="70" y="309" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Secured by Cloud Storage Firewall</text>
+  <text x="70" y="326" font-size="9.5" fill="#CBD5E1" text-anchor="start">• PrivateLink / VNet Service Endpoint</text>
+  <text x="70" y="348" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">Protected against data exfiltration</text>
+
+  <!-- Note -->
+  <rect x="55" y="380" width="280" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="400" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="start">Zero Customer Infrastructure</text>
+  <text x="70" y="417" font-size="9" fill="#CBD5E1" text-anchor="start">No VMs, no autoscaler rules, and no</text>
+  <text x="70" y="432" font-size="9" fill="#CBD5E1" text-anchor="start">cloud quota management required.</text>
+
+  <!-- Middle Transit: PrivateLink Direct Connection -->
+  <rect x="375" y="195" width="160" height="150" rx="8" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="375" y="195" width="160" height="30" rx="8" fill="#78350F" fill-opacity="0.8" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="455" y="215" font-size="10" font-weight="700" fill="#FDE68A" text-anchor="middle">PRIVATE CONNECTIVITY</text>
+  
+  <text x="455" y="245" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">AWS PrivateLink /</text>
+  <text x="455" y="260" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">Azure VNet Peering</text>
+
+  <text x="455" y="285" font-size="9" fill="#CBD5E1" text-anchor="middle">Network traffic stays</text>
+  <text x="455" y="300" font-size="9" fill="#CBD5E1" text-anchor="middle">within cloud backbone.</text>
+  <text x="455" y="315" font-size="9" fill="#CBD5E1" text-anchor="middle">Zero public internet</text>
+  <text x="455" y="333" font-size="9" font-weight="600" fill="#34D399" text-anchor="middle">Egress Lockdown!</text>
+
+  <line x1="335" y1="270" x2="375" y2="270" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+
+  <!-- Column 3: Databricks Serverless Compute Plane -->
+  <rect x="560" y="85" width="520" height="375" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="560" y="85" width="520" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="820" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">DATABRICKS SERVERLESS COMPUTE (DATABRICKS CLOUD)</text>
+
+  <!-- Pre-Warmed Capacity Pool -->
+  <rect x="580" y="135" width="480" height="135" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="595" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Pre-Warmed Multi-Tenant Capacity Pool (&lt; 2s Spin-Up!)</text>
+
+  <!-- Container Sandboxes -->
+  <rect x="595" y="170" width="145" height="55" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="667" y="190" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">Customer A Pod</text>
+  <text x="667" y="205" font-size="8.5" fill="#CBD5E1" text-anchor="middle">Isolated MicroVM</text>
+  <text x="667" y="217" font-size="8" fill="#34D399" text-anchor="middle">Dedicated Network NS</text>
+
+  <rect x="750" y="170" width="145" height="55" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="822" y="190" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">Customer B Pod</text>
+  <text x="822" y="205" font-size="8.5" fill="#CBD5E1" text-anchor="middle">Isolated MicroVM</text>
+  <text x="822" y="217" font-size="8" fill="#34D399" text-anchor="middle">Dedicated Network NS</text>
+
+  <rect x="905" y="170" width="145" height="55" rx="4" fill="#1E293B" stroke="#FBBF24" stroke-width="1"/>
+  <text x="977" y="190" font-size="9.5" font-weight="700" fill="#FBBF24" text-anchor="middle">Warm Idle Pods</text>
+  <text x="977" y="205" font-size="8.5" fill="#CBD5E1" text-anchor="middle">Instant scale buffer</text>
+  <text x="977" y="217" font-size="8" fill="#A7F3D0" text-anchor="middle">0s wait on load spike</text>
+
+  <text x="595" y="245" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Hardware Virtualization Isolation: Firecracker MicroVMs / Hyper-V</text>
+  <text x="595" y="260" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">• Starts in &lt; 2 seconds! Classic clusters took 5 to 7 MINUTES.</text>
+
+  <!-- Scale-to-Zero Box -->
+  <rect x="580" y="285" width="480" height="155" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="595" y="307" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">Scale-to-Zero &amp; Aggressive Auto-Termination</text>
+
+  <text x="595" y="330" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Automatically scales down to ZERO nodes after 5 to 10 minutes of idle time</text>
+  <text x="595" y="347" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Next incoming query wakes up warm compute in &lt; 2 seconds</text>
+  <text x="595" y="364" font-size="9.5" fill="#CBD5E1" text-anchor="start">• No paying for idle cluster VMs during developer coffee breaks or night shifts!</text>
+  
+  <rect x="595" y="380" width="450" height="45" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="820" y="398" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Cost Savings Benchmark</text>
+  <text x="820" y="413" font-size="9" fill="#A7F3D0" text-anchor="middle">Reduces infrastructure spend by 40% - 60% compared to persistent all-purpose VMs.</text>
+
+  <!-- Connectors -->
+  <path d="M 535.0 270.0 L 544.0 270.0 C 555.2 270.0, 555.2 200.0, 566.5 200.0 L 580.0 200.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="468" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="484" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Serverless Invariant: Serverless compute runs in Databricks-owned cloud accounts using pre-warmed, isolated microVMs, slashing cluster boot times from 5 minutes to under 2 seconds.</text>
+</svg>

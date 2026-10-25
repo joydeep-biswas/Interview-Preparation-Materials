@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Apache ORC Physical File Anatomy: Stripes &amp; Streams</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Optimized Row Columnar Layout, Lightweight Indexes, and File Postscript</text>
+  
+  
+    <rect x="30" y="95" width="920" height="300" rx="10" fill="#0a1120" stroke="#334155" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Apache ORC Physical Layout (Optimized Row Columnar)</text>
+
+  
+    <rect x="45" y="125" width="890" height="28" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="490.0" y="151" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">File Header: 'ORC' (3 Bytes)</text>
+    
+
+  
+    <rect x="45" y="160" width="890" height="115" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="61" y="182" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Stripe 1 (~250 MB - Unit of Read &amp;amp; Distributed Processing)</text>
+  
+    <rect x="60" y="190" width="270" height="75" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="195.0" y="216" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Index Data (Row Index)</text>
+    <text x="195.0" y="232" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Per 10,000 Rows</text>
+    <rect x="279" y="200" width="45" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="301.5" y="212" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">INDEX</text>
+    <circle cx="76" cy="245" r="2" fill="#3b82f6"/>
+    <text x="84" y="248" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Column Min/Max stats</text>
+    <circle cx="76" cy="261" r="2" fill="#3b82f6"/>
+    <text x="84" y="264" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Bloom filters per column</text>
+    <circle cx="76" cy="277" r="2" fill="#3b82f6"/>
+    <text x="84" y="280" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Bit-level skip pointers</text>
+  
+    <rect x="345" y="190" width="320" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="505.0" y="216" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Row Data (Column Streams)</text>
+    <text x="505.0" y="232" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Decomposed Byte Streams</text>
+    <rect x="600" y="200" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="629.5" y="212" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">STREAMS</text>
+    <circle cx="361" cy="245" r="2" fill="#10b981"/>
+    <text x="369" y="248" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Present Stream: Null indicator bitmap</text>
+    <circle cx="361" cy="261" r="2" fill="#10b981"/>
+    <text x="369" y="264" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Data Stream: Encoded integer/text values</text>
+    <circle cx="361" cy="277" r="2" fill="#10b981"/>
+    <text x="369" y="280" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Length Stream: Variable string lengths</text>
+  
+    <rect x="680" y="190" width="240" height="75" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="800.0" y="216" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Stripe Footer</text>
+    <text x="800.0" y="232" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Metadata &amp;amp; Encodings</text>
+    <rect x="862" y="200" width="52" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="888.0" y="212" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">FOOTER</text>
+    <circle cx="696" cy="245" r="2" fill="#f59e0b"/>
+    <text x="704" y="248" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Stream byte offsets</text>
+    <circle cx="696" cy="261" r="2" fill="#f59e0b"/>
+    <text x="704" y="264" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Column encoding types</text>
+    <circle cx="696" cy="277" r="2" fill="#f59e0b"/>
+    <text x="704" y="280" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Stripe row counts</text>
+
+  
+    <line x1="330" y1="227" x2="345" y2="227" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <line x1="665" y1="227" x2="680" y2="227" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  
+    <rect x="45" y="285" width="890" height="90" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="61" y="307" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">File Footer &amp;amp; Postscript (Evaluated from End of File)</text>
+  
+    <rect x="60" y="310" width="480" height="55" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="300.0" y="336" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">File Metadata Footer</text>
+    <text x="300.0" y="352" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Table Schema &amp;amp; Stripe Stats</text>
+    <circle cx="76" cy="365" r="2" fill="#10b981"/>
+    <text x="84" y="368" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Table schema, column type tree, per-stripe row counts, global column statistics</text>
+  
+    <rect x="560" y="310" width="360" height="55" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="740.0" y="336" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Postscript (Read First)</text>
+    <text x="740.0" y="352" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Compression &amp;amp; Length Trailer</text>
+    <circle cx="576" cy="365" r="2" fill="#10b981"/>
+    <text x="584" y="368" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Compression codec (ZSTD/Snappy), buffer size, footer length byte</text>
+
+</svg>

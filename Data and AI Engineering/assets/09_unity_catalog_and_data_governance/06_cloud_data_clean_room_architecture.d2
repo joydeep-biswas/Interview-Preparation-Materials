@@ -1,0 +1,28 @@
+direction: right
+classes: {
+  disney: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  target: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  clean: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  block: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+}
+
+disney: "Disney+ (Subscriber Data)" { class: disney }
+target: "Target (Retail Purchase Data)" { class: target }
+
+clean_room: "Cloud Data Clean Room" {
+  join: "1. Cryptographic Hash Match" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  gate: "2. Query Template Gatekeeper" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  dp: "3. Differential Privacy Engine" { class: target }
+  threshold: "4. Threshold Check (>=100 Users)" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+
+  join -> gate -> dp -> threshold
+}
+
+disney -> clean_room.join
+target -> clean_room.join
+
+output: "Aggregated Insight (Zero PII)" { class: clean }
+blocked: "Blocked! (&lt;100 Rows)" { class: block }
+
+clean_room.threshold -> output: "Passed (>=100)"
+clean_room.threshold -> blocked: "Failed (&lt;100)"

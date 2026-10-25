@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="480" viewBox="0 0 1120 480">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1120" height="480" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">CPU Cache Line Locality &amp; Pointer Traversal Topologies</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Hardware memory layout vs algorithmic pointer scanning patterns in contiguous buffers</text>
+
+  <!-- Container 1: CPU Cache Line Memory Locality -->
+  <g transform="translate(30, 85)">
+    <rect width="1060" height="145" rx="8" fill="#0B132B" stroke="#38BDF8" stroke-width="1.5"/>
+    <text x="530" y="26" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">1. CONTIGUOUS ARRAY MEMORY LAYOUT &amp; 64-BYTE CPU CACHE LINE PREFETCH</text>
+    
+    <rect x="25" y="45" width="1010" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-dasharray="4,4" stroke-width="1.2"/>
+    <text x="530" y="62" font-size="10" fill="#64748B" text-anchor="middle">CPU L1/L2 Cache Line (64 Bytes = 8 × 64-bit References / Longs)</text>
+    
+    <g transform="translate(40, 72)">
+      <rect x="0" y="0" width="115" height="48" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+      <text x="57" y="20" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Array[0]</text>
+      <text x="57" y="38" font-size="9" fill="#94A3B8" class="code" text-anchor="middle">Offset 0x00</text>
+      
+      <rect x="125" y="0" width="115" height="48" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+      <text x="182" y="20" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Array[1]</text>
+      <text x="182" y="38" font-size="9" fill="#94A3B8" class="code" text-anchor="middle">Offset 0x08</text>
+
+      <rect x="250" y="0" width="115" height="48" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+      <text x="307" y="20" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Array[2]</text>
+      <text x="307" y="38" font-size="9" fill="#94A3B8" class="code" text-anchor="middle">Offset 0x10</text>
+
+      <rect x="375" y="0" width="115" height="48" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+      <text x="432" y="20" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Array[3]</text>
+      <text x="432" y="38" font-size="9" fill="#94A3B8" class="code" text-anchor="middle">Offset 0x18</text>
+
+      <rect x="500" y="0" width="115" height="48" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+      <text x="557" y="20" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Array[4]</text>
+      <text x="557" y="38" font-size="9" fill="#94A3B8" class="code" text-anchor="middle">Offset 0x20</text>
+
+      <rect x="625" y="0" width="115" height="48" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+      <text x="682" y="20" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Array[5]</text>
+      <text x="682" y="38" font-size="9" fill="#94A3B8" class="code" text-anchor="middle">Offset 0x28</text>
+
+      <rect x="750" y="0" width="115" height="48" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+      <text x="807" y="20" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Array[6]</text>
+      <text x="807" y="38" font-size="9" fill="#94A3B8" class="code" text-anchor="middle">Offset 0x30</text>
+
+      <rect x="875" y="0" width="105" height="48" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+      <text x="927" y="20" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Array[7]</text>
+      <text x="927" y="38" font-size="9" fill="#94A3B8" class="code" text-anchor="middle">Offset 0x38</text>
+    </g>
+  </g>
+
+  <!-- Container 2: Pointer Traversal Topologies -->
+  <g transform="translate(30, 245)">
+    <rect width="1060" height="195" rx="8" fill="#062828" stroke="#34D399" stroke-width="1.5"/>
+    <text x="530" y="26" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">2. CANONICAL POINTER SCANNING TOPOLOGIES</text>
+
+    <!-- Subcard 1: Convergent Scan -->
+    <rect x="25" y="45" width="325" height="135" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="187" y="68" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">Two Pointers: Convergent Scan</text>
+    <rect x="40" y="82" width="90" height="28" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+    <text x="85" y="100" font-size="10.5" fill="#38BDF8" font-weight="600" text-anchor="middle">Left (i = 0) →</text>
+    <rect x="240" y="82" width="95" height="28" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+    <text x="287" y="100" font-size="10.5" fill="#38BDF8" font-weight="600" text-anchor="middle">← Right (j = n-1)</text>
+    <path fill="none" d="M 130 96 L 240 96" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <text x="40" y="130" font-size="10" fill="#94A3B8">• Optimal for: 2-Sum Sorted, Container With Most Water</text>
+    <text x="40" y="146" font-size="10" fill="#94A3B8">• Pruning Invariant: Discard row/col based on sum comparison</text>
+    <text x="40" y="162" font-size="10" fill="#34D399">• Complexity: Exactly O(N) time, O(1) auxiliary space</text>
+
+    <!-- Subcard 2: Fast & Slow Pointers -->
+    <rect x="368" y="45" width="325" height="135" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="530" y="68" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle">Fast &amp; Slow (Floyd Tortoise &amp; Hare)</text>
+    <rect x="385" y="82" width="105" height="28" rx="4" fill="#1E293B" stroke="#FBBF24" stroke-width="1"/>
+    <text x="437" y="100" font-size="10.5" fill="#FBBF24" font-weight="600" text-anchor="middle">Slow (1 Step/iter)</text>
+    <rect x="575" y="82" width="105" height="28" rx="4" fill="#1E293B" stroke="#FBBF24" stroke-width="1"/>
+    <text x="627" y="100" font-size="10.5" fill="#FBBF24" font-weight="600" text-anchor="middle">Fast (2 Steps/iter)</text>
+    <path fill="none" d="M 490 96 L 575 96" stroke="#FBBF24" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <text x="385" y="130" font-size="10" fill="#94A3B8">• Optimal for: Linked List Cycle, Midpoint, Duplicate Num</text>
+    <text x="385" y="146" font-size="10" fill="#94A3B8">• Collision Proof: Relative distance closes by 1 step/iter</text>
+    <text x="385" y="162" font-size="10" fill="#34D399">• Cycle Entry: Reset slow to head, advance both by 1</text>
+
+    <!-- Subcard 3: Dynamic Sliding Window -->
+    <rect x="710" y="45" width="325" height="135" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="872" y="68" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle">Dynamic Sliding Window</text>
+    <rect x="725" y="82" width="115" height="28" rx="4" fill="#1E293B" stroke="#C084FC" stroke-width="1"/>
+    <text x="782" y="100" font-size="10.5" fill="#C084FC" font-weight="600" text-anchor="middle">Left (Contract) [</text>
+    <rect x="905" y="82" width="115" height="28" rx="4" fill="#1E293B" stroke="#C084FC" stroke-width="1"/>
+    <text x="962" y="100" font-size="10.5" fill="#C084FC" font-weight="600" text-anchor="middle">] Right (Expand)</text>
+    <path fill="none" d="M 840 96 L 905 96" stroke="#C084FC" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <text x="725" y="130" font-size="10" fill="#94A3B8">• Optimal for: Longest Substring Without Repeating, Min Window</text>
+    <text x="725" y="146" font-size="10" fill="#94A3B8">• State Invariant: Right advances unconditionally, Left catches up</text>
+    <text x="725" y="162" font-size="10" fill="#34D399">• Amortized: Each element entered and exited at most once (2N)</text>
+  </g>
+
+  <!-- Connectors -->
+  <path d="M 560 230 L 560 236 C 560 240, 560 240, 560 242 L 560 245" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Footer -->
+  <rect x="30" y="448" width="1060" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="464" font-size="10" fill="#93C5FD" font-weight="600" text-anchor="middle">Hardware Coupling Invariant: Contiguous arrays leverage spatial locality and CPU cache lines; pointer algorithms guarantee O(1) auxiliary space without pointer-chasing latency.</text>
+
+</svg>

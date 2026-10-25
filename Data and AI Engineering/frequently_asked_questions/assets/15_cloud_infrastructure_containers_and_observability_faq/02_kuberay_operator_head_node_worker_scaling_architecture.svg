@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 340" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Left: Ray Head Node Pod -->
+  <rect x="25" y="40" width="280" height="260" rx="12" ry="12" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="45" y="66" class="title-txt" fill="#93C5FD">Ray Head Node Pod</text>
+
+  <rect x="45" y="85" width="240" height="60" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="55" y="108" class="title-txt" text-anchor="start">Global Control Store (GCS)</text>
+  <text x="55" y="126" class="mono-txt" text-anchor="start">Cluster metadata &amp; actor registry</text>
+
+  <rect x="45" y="155" width="240" height="60" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="55" y="178" class="title-txt" text-anchor="start">Ray Dashboard &amp; API Server</text>
+  <text x="55" y="196" class="body-txt" text-anchor="start">Port 8265 UI &amp; Job Submission</text>
+
+  <rect x="45" y="225" width="240" height="60" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="55" y="248" class="title-txt" text-anchor="start" fill="#C4B5FD">Ray Cluster Autoscaler</text>
+  <text x="55" y="266" class="body-txt" text-anchor="start">Dynamically provisions Worker Pods</text>
+
+  <!-- Connectors into Worker Groups -->
+  <path d="M 305 140 L 375 140" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <path d="M 305 240 L 375 240" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- Right: Worker Fleet -->
+  <!-- CPU Worker Group -->
+  <rect x="375" y="40" width="290" height="130" rx="10" ry="10" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="395" y="66" class="title-txt" fill="#6EE7B7">CPU Worker Fleet (Preprocess)</text>
+  <text x="395" y="92" class="body-txt">• Data preprocessing, tokenization &amp; shuffling</text>
+  <text x="395" y="112" class="body-txt">• Fast scaling spot instances</text>
+  <text x="395" y="132" class="mono-txt">Ray Plasma Object Store (Zero-Copy)</text>
+  <text x="395" y="152" class="badge-txt" fill="#10B981">✓ Ephemeral &amp; Cheap</text>
+
+  <!-- GPU Worker Group -->
+  <rect x="375" y="190" width="290" height="130" rx="10" ry="10" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="395" y="216" class="title-txt" fill="#C4B5FD">GPU Worker Fleet (Serving &amp; Train)</text>
+  <text x="395" y="242" class="body-txt">• vLLM Tensor Parallelism (TP=2/4/8)</text>
+  <text x="395" y="262" class="body-txt">• NCCL high-bandwidth GPU mesh</text>
+  <text x="395" y="282" class="mono-txt">Pinned GPU reservations</text>
+  <text x="395" y="302" class="badge-txt" fill="#A7F3D0">✓ Zero Cold-Start Throttling</text>
+
+  <!-- External GCS Redis Backup -->
+  <path d="M 665 140 L 735 140" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <rect x="735" y="90" width="200" height="150" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="835" y="116" class="title-txt" text-anchor="middle" fill="#FDE68A">External GCS State</text>
+  <text x="745" y="142" class="body-txt" text-anchor="start">• Redis / Postgres backup</text>
+  <text x="745" y="162" class="body-txt" text-anchor="start">• If Ray Head crashes,</text>
+  <text x="745" y="180" class="body-txt" text-anchor="start">  KubeRay restores</text>
+  <text x="745" y="198" class="body-txt" text-anchor="start">  metadata without losing</text>
+  <text x="745" y="216" class="body-txt" text-anchor="start">  running worker jobs!</text>
+</svg>

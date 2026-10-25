@@ -1,0 +1,11 @@
+classes: {
+  small_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  optimal_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  large_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+dynamics: "Learning Rate Step Size Dynamics" {
+  too_small: "Learning Rate Too Small (eta = 1e-6)\nCrawls at glacial pace; trapped in local minima\nWastes massive GPU compute" { class: small_box }
+  optimal: "Optimal Learning Rate (eta = 3e-4)\nSmooth descent along loss contour\nFast convergence toward global minimum" { class: optimal_box }
+  too_large: "Learning Rate Too Large (eta = 0.5)\nOvershoots valley floor; bounces across ravines\nLoss explodes to NaN / +inf" { class: large_box }
+}

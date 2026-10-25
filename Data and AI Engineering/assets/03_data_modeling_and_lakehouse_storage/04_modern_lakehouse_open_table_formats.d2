@@ -1,0 +1,30 @@
+direction: up
+title: Modern Data Lakehouse Architecture
+
+storage: Cloud Object Storage (Parquet Files) {
+  shape: cylinder
+  s3: "s3://company-lakehouse/*.parquet"
+}
+
+table_format: Open Table Formats (ACID & Metadata) {
+  delta: Delta Lake (_delta_log/*.json)
+  iceberg: Apache Iceberg (metadata.json)
+  hudi: Apache Hudi (.hoodie timeline)
+}
+
+compute: Decoupled Distributed Compute {
+  photon: Databricks Photon
+  spark: Apache Spark
+  trino: Trino Distributed SQL
+  snowflake: Snowflake Iceberg Engine
+}
+
+consumers: Unified Analytical & AI Consumption {
+  bi: BI & Dashboards (Power BI, Tableau)
+  ml: AI & ML (PyTorch, Feature Store)
+  adhoc: Interactive Ad-Hoc SQL
+}
+
+storage -> table_format: "Data files registered"
+table_format -> compute: "ACID metadata scan"
+compute -> consumers: "Unified Serving"

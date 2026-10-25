@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Covering Indexes &amp; Index-Only Scans: 1-Hop vs. 2-Hop I/O</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Eliminating Expensive Random Table Heap Lookups with the SQL INCLUDE Clause</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#261a05" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Standard Index Scan (2-Hop I/O)</text>
+  
+    <rect x="45" y="140" width="400" height="65" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="245.0" y="166" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. Traverse Index B+ Tree</text>
+    <text x="245.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Index on: email</text>
+    <circle cx="61" cy="195" r="2" fill="#f59e0b"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Searches B+ Tree for email = 'alice@corp.com'</text>
+  
+    <rect x="45" y="215" width="400" height="60" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="245.0" y="241" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. Extract ctid Pointer</text>
+    <text x="245.0" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Heap Tuple Address</text>
+    <circle cx="61" cy="270" r="2" fill="#f59e0b"/>
+    <text x="69" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Finds leaf record: ctid = (Page 42, Slot 3)</text>
+  
+    <rect x="45" y="285" width="400" height="85" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="311" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. Random Table Heap I/O Read</text>
+    <text x="245.0" y="327" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Disk I/O Penalty</text>
+    <rect x="359" y="295" width="80" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="399.0" y="307" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">RANDOM I/O</text>
+    <circle cx="61" cy="340" r="2" fill="#ef4444"/>
+    <text x="69" y="343" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Query requests: SELECT user_id, email FROM users...</text>
+    <circle cx="61" cy="356" r="2" fill="#ef4444"/>
+    <text x="69" y="359" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">user_id is NOT in the index!</text>
+    <circle cx="61" cy="372" r="2" fill="#ef4444"/>
+    <text x="69" y="375" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Must execute random read from table heap disk block!</text>
+    <circle cx="61" cy="388" r="2" fill="#ef4444"/>
+    <text x="69" y="391" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">High latency under concurrency</text>
+
+  
+    <line x1="245" y1="205" x2="245" y2="215" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  
+    <line x1="245" y1="275" x2="245" y2="285" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Index-Only Scan with INCLUDE (1-Hop I/O)</text>
+  
+    <rect x="535" y="140" width="400" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. Traverse Covering Index</text>
+    <text x="735.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">CREATE INDEX ON users(email) INCLUDE(user_id)</text>
+    <circle cx="551" cy="195" r="2" fill="#10b981"/>
+    <text x="559" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Key search: email = 'alice@corp.com'</text>
+    <circle cx="551" cy="211" r="2" fill="#10b981"/>
+    <text x="559" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">INCLUDE payload stores 'user_id' directly in index leaf</text>
+  
+    <rect x="535" y="230" width="400" height="140" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="256" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. Instant Payload Extraction: ZERO Heap Reads!</text>
+    <text x="735.0" y="272" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">1-Hop Invariant</text>
+    <rect x="849" y="240" width="80" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="889.0" y="252" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">INDEX-ONLY</text>
+    <circle cx="551" cy="285" r="2" fill="#10b981"/>
+    <text x="559" y="288" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Engine extracts 'user_id' directly from the index leaf node payload!</text>
+    <circle cx="551" cy="301" r="2" fill="#10b981"/>
+    <text x="559" y="304" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Visibility Map confirms page has zero uncommitted tuples.</text>
+    <circle cx="551" cy="317" r="2" fill="#10b981"/>
+    <text x="559" y="320" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Table Heap Data Files are 100% UNTOUCHED!</text>
+    <circle cx="551" cy="333" r="2" fill="#10b981"/>
+    <text x="559" y="336" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Eliminates 95% of random disk I/O.</text>
+    <circle cx="551" cy="349" r="2" fill="#10b981"/>
+    <text x="559" y="352" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Query executes in under 200 microseconds!</text>
+
+  
+    <line x1="735" y1="215" x2="735" y2="230" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+</svg>

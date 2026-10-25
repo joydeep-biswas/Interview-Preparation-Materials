@@ -1,0 +1,31 @@
+direction: right
+
+source: "1. Stream<Employee>" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  emps: "Alice ($140k, Eng) | Bob ($160k, Eng) | Charlie ($120k, Fin)"
+}
+
+group: "2. groupingBy(department)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  eng: "Engineering partition"
+  fin: "Finance partition"
+}
+
+map: "3. mapping(salary)" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  salary_stream: "Extracts Double salary, discards Emp object"
+}
+
+avg: "4. averagingDouble()" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  result: "Map<String, Double>: Eng: $150k, Fin: $120k"
+  space: "O(1) accumulator per bucket"
+}
+
+source -> group: "Feed employees"
+group -> map: "Department stream"
+map -> avg: "Aggregate average"

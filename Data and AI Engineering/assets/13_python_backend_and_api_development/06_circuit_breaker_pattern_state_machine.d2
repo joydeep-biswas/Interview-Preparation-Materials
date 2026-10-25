@@ -1,0 +1,15 @@
+direction: right
+classes: {
+  closed: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  open: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  half: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+closed: "CLOSED (Normal Operations)\nRequests flow downstream" { class: closed }
+open: "OPEN (Circuit Tripped)\nRequests fail-fast immediately" { class: open }
+half_open: "HALF-OPEN (Canary Probing)\nAllows 1 test request through" { class: half }
+
+closed -> open: "5 errors in 30s"
+open -> half_open: "60s recovery timeout"
+half_open -> closed: "Probe succeeds"
+half_open -> open: "Probe fails"

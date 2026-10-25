@@ -1,0 +1,36 @@
+direction: down
+title: "Strategy Pattern: Encapsulated Swappable Tax Calculation Algorithms"
+
+context: "TaxCalculationService
+Map<String, TaxStrategy>" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+strategy: "TaxStrategy <<interface>>
++getCountryCode()
++calculateTax(amt)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+us: "UsSalesTaxStrategy
+@Component('US')" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+eu: "EuVatTaxStrategy
+@Component('EU')" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+in: "IndiaGstTaxStrategy
+@Component('IN')" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+context -> strategy: "1. Delegates calculation"
+strategy <- us: "implements"
+strategy <- eu: "implements"
+strategy <- in: "implements"

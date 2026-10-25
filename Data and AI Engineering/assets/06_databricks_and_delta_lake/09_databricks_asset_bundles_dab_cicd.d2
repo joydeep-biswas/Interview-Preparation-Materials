@@ -1,0 +1,33 @@
+direction: right
+title: Databricks Asset Bundles (DAB) CI/CD Architecture
+
+Dev: 1. Developer Workstation {
+  style.stroke: "#38BDF8"
+  Config: databricks.yml (IaC Bundle Definition)
+  Val: databricks bundle validate
+  DeployDev: databricks bundle deploy -t dev
+  Config -> Val -> DeployDev
+}
+
+Git: 2. Git Pull Request {
+  style.stroke: "#FBBF24"
+  PR: Peer Review & Automated Unit Tests
+}
+
+CICD: 3. CI/CD Runner (GitHub Actions / ADO) {
+  style.stroke: "#C084FC"
+  OIDC: Authenticates via Cloud OIDC
+  DeployProd: databricks bundle deploy -t prod
+  OIDC -> DeployProd
+}
+
+Prod: 4. Governed Prod Workspace {
+  style.stroke: "#34D399"
+  SP: Owned by Service Principal
+  Workflows: Production Workflows & DLT DAGs
+  SP -> Workflows
+}
+
+Dev.DeployDev -> Git.PR: Git Push & Open PR { style.stroke: "#FBBF24" }
+Git.PR -> CICD.OIDC: Merge to main branch { style.stroke: "#C084FC" }
+CICD.DeployProd -> Prod.SP: Deploys assets { style.stroke: "#34D399" }

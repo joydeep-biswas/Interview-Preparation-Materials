@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 390" width="100%" height="100%">
+  {COMMON_DEFS}
+  <style>
+{COMMON_STYLES}
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="550" y="32" class="title" font-size="19" text-anchor="middle">JVM Process Virtual Memory Architecture &amp; OutOfMemoryError Taxonomy</text>
+  <text x="550" y="52" class="subtitle" text-anchor="middle">Managed Heap Space vs Off-Heap Native Memory: Pinpointing exact OOM root causes across JVM regions</text>
+
+  <!-- Heap: Young Generation -->
+  <g transform="translate(30, 75)">
+    <rect width="240" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="120" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">Young Gen (-Xmn)</text>
+    
+    <rect x="15" y="48" width="210" height="45" rx="6" ry="6" fill="#1E293B" stroke="#60A5FA"/>
+    <text x="120" y="68" class="badge" fill="#93C5FD" text-anchor="middle">Eden Space</text>
+    <text x="120" y="84" class="card-body" text-anchor="middle">New object allocations (bump pointer)</text>
+
+    <rect x="15" y="105" width="210" height="50" rx="6" ry="6" fill="#1E293B" stroke="#60A5FA"/>
+    <text x="120" y="125" class="badge" fill="#93C5FD" text-anchor="middle">Survivor Spaces (S0 / S1)</text>
+    <text x="120" y="142" class="card-body" text-anchor="middle">Alternating copy GC survivor aging</text>
+
+    <rect x="15" y="170" width="210" height="45" rx="6" ry="6" fill="#1E293B" stroke="#10B981"/>
+    <text x="120" y="190" class="badge" fill="#A7F3D0" text-anchor="middle">Minor GC (Stop-The-World)</text>
+    <text x="120" y="206" class="card-body" text-anchor="middle">Promotes survivors to Old Gen</text>
+    
+    <rect x="15" y="244" width="210" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="259" class="badge" fill="#93C5FD" text-anchor="middle">High Allocation Throughput</text>
+  </g>
+
+  <!-- Heap: Old Generation -->
+  <g transform="translate(300, 75)">
+    <rect width="250" height="280" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="250" height="34" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="125" y="22" class="card-title" fill="#FCA5A5" text-anchor="middle">Old Gen (Tenured)</text>
+    
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#F87171">• Long-Lived Objects:</text>
+    <text x="24" y="78" class="card-body">  - Survived MaxTenuringThreshold</text>
+    <text x="24" y="98" class="card-body">  - Large object arrays bypass Eden</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#F87171">• OOM Failure Trigger:</text>
+    <text x="24" y="146" class="card-body">  - java.lang.OutOfMemoryError:</text>
+    <text x="24" y="166" class="badge" fill="#EF4444">    Java heap space</text>
+    <text x="16" y="194" class="card-body" font-weight="600" fill="#F87171">• Root Causes:</text>
+    <text x="24" y="214" class="card-body">  - Static caches, leaked ThreadLocals</text>
+    <rect x="16" y="244" width="218" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="125" y="259" class="badge" fill="#FCA5A5" text-anchor="middle">Full GC / Heap Starvation</text>
+  </g>
+
+  <!-- Non-Heap: Metaspace & Thread Stacks -->
+  <g transform="translate(575, 75)">
+    <rect width="245" height="280" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="245" height="34" rx="10" ry="10" fill="#78350F"/>
+    <text x="122" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">Metaspace &amp; Stacks</text>
+    
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#FBBF24">• Metaspace (Native RAM):</text>
+    <text x="24" y="78" class="card-body">  - Class metadata, JIT methods</text>
+    <text x="24" y="98" class="badge" fill="#FDE68A">  - OOM: Metaspace (ClassLoader leak)</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#FBBF24">• Thread Stacks (-Xss):</text>
+    <text x="24" y="146" class="card-body">  - 1MB per thread (frames, locals)</text>
+    <text x="24" y="166" class="badge" fill="#EF4444">  - java.lang.StackOverflowError</text>
+    <text x="24" y="186" class="card-body">    (Infinite recursive loop)</text>
+    <text x="24" y="206" class="badge" fill="#FDE68A">  - OOM: unable to create thread</text>
+    <rect x="16" y="244" width="213" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="122" y="259" class="badge" fill="#FDE68A" text-anchor="middle">Native Metaspace &amp; Stacks</text>
+  </g>
+
+  <!-- Off-Heap: Direct Memory -->
+  <g transform="translate(845, 75)">
+    <rect width="225" height="280" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="225" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <text x="112" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">Direct Memory (Off-Heap)</text>
+    
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• DirectByteBuffers:</text>
+    <text x="24" y="78" class="card-body">  - Netty / NIO channel buffers</text>
+    <text x="24" y="98" class="card-body">  - Bypasses JVM GC cycles</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#A78BFA">• OOM Failure Trigger:</text>
+    <text x="24" y="146" class="card-body">  - java.lang.OutOfMemoryError:</text>
+    <text x="24" y="166" class="badge" fill="#DDD6FE">    Direct buffer memory</text>
+    <text x="16" y="194" class="card-body" font-weight="600" fill="#A78BFA">• Root Cause &amp; Flag:</text>
+    <text x="24" y="214" class="card-body">  - Missing cleaner release / leak</text>
+    <rect x="16" y="244" width="193" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="112" y="259" class="badge" fill="#DDD6FE" text-anchor="middle">C-Heap / Native Allocation</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 270 215 L 288 215 L 300 215" fill="none" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+  <path d="M 550 215 L 563 215 L 575 215" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+  <path d="M 820 215 L 833 215 L 845 215" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arrow-purple)"/>
+</svg>

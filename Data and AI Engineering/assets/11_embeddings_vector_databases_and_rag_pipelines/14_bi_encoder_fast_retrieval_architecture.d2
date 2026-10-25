@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  d: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  enc: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  score: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+query: "Query: 'How to restart pod?'" { class: q }
+doc: "Doc: 'Run kubectl delete pod...'" { class: d }
+enc_q: "Encoder Network (Query)" { class: enc }
+enc_d: "Encoder Network (Doc)" { class: enc }
+dot: "Dot Product u . v\n(&lt;2ms HNSW search)" { class: score }
+
+query -> enc_q -> dot: "u in R^1536"
+doc -> enc_d -> dot: "v in R^1536"

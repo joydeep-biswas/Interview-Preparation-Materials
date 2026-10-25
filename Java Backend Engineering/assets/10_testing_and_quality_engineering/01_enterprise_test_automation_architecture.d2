@@ -1,0 +1,40 @@
+direction: right
+title: "Enterprise Test Automation & Continuous Quality Gates Architecture"
+
+pyramid: "The Enterprise Testing Pyramid" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+
+  e2e: "E2E & Contract Tests (5-10%)
+Pact / Selenium / RestAssured" {
+    style.fill: "#78350f"
+    style.stroke: "#f59e0b"
+  }
+  integ: "Integration Tests (20-30%)
+Testcontainers (Postgres, Kafka)" {
+    style.fill: "#083344"
+    style.stroke: "#06b6d4"
+  }
+  unit: "Unit Tests (60-70%)
+JUnit 5, AssertJ, Mockito
+Fast & Deterministic" {
+    style.fill: "#064e3b"
+    style.stroke: "#10b981"
+  }
+
+  e2e -> integ -> unit
+}
+
+ci: "CI Quality Gates" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+
+  git: "Git Push"
+  u_run: "Run Unit Tests (~30s)"
+  i_run: "Testcontainers Integration (~3m)"
+  gate: "SonarQube Gate (>=80% Coverage)"
+
+  git -> u_run -> i_run -> gate
+}
+
+pyramid -> ci: "Enforces testing standards"

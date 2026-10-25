@@ -6,61 +6,9 @@ A comprehensive, production-grade guide covering universal distributed systems f
 
 ## Architectural Overview: Distributed Systems Core Blueprint
 
-```mermaid
-flowchart TD
-    subgraph Client_Ingress ["1. Ingress & Edge Layer"]
-        Clients["Clients (Web / Mobile / IoT)"]
-        DNS["Geo-DNS / Anycast Routing"]
-        CDN["Content Delivery Network (Edge Caching)"]
-        LB["Layer 7 Load Balancer / API Gateway<br/>(Consistent Hashing & Rate Limiting)"]
-        
-        Clients --> DNS --> CDN --> LB
-    end
+![Distributed Systems Architecture: Core Blueprint](assets/01_system_design_foundations/01_distributed_systems_core_blueprint.svg)
 
-    subgraph Service_Tier ["2. Application & Microservice Tier"]
-        direction TB
-        App1["Service Replica A<br/>(Stateless Worker)"]
-        App2["Service Replica B<br/>(Stateless Worker)"]
-        App3["Service Replica C<br/>(Stateless Worker)"]
-        
-        LB --> App1
-        LB --> App2
-        LB --> App3
-    end
-
-    subgraph Caching_Tier ["3. Distributed In-Memory Tier"]
-        direction LR
-        RedisCluster["Distributed Cache Cluster<br/>(Redis Sentinel / Clustered Hash Slots)"]
-        App1 <--> RedisCluster
-        App2 <--> RedisCluster
-        App3 <--> RedisCluster
-    end
-
-    subgraph Messaging_Tier ["4. Asynchronous Event Streaming Tier"]
-        direction LR
-        KafkaBrokers["Event Streaming Backplane<br/>(Apache Kafka / Pulsar Partitions)"]
-        App1 -.->|Publish Domain Events| KafkaBrokers
-        App2 -.->|Publish Domain Events| KafkaBrokers
-        App3 -.->|Publish Domain Events| KafkaBrokers
-    end
-
-    subgraph Persistence_Tier ["5. Storage & Persistence Tier"]
-        PrimaryDB["Primary Relational DB (Leader)<br/>(ACID / B+ Tree Storage Engine)"]
-        ReplicaDB["Read Replicas (Followers)<br/>(Asynchronous Streaming Replication)"]
-        LSM_Store["NoSQL / Analytical Store<br/>(LSM Tree / SSTables / Columnar)"]
-        
-        App1 -->|Writes| PrimaryDB
-        App2 -->|Reads| ReplicaDB
-        PrimaryDB -->|Replication Stream| ReplicaDB
-        KafkaBrokers -->|Async Ingestion| LSM_Store
-    end
-
-    style Client_Ingress fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Service_Tier fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Caching_Tier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Messaging_Tier fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Persistence_Tier fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-```
+*D2 Source:* [assets/01_system_design_foundations/01_distributed_systems_core_blueprint.d2](assets/01_system_design_foundations/01_distributed_systems_core_blueprint.d2)
 
 ---
 
@@ -142,7 +90,8 @@ Raft provides deterministic linearizable state machine replication across $2F+1$
   1. Client sends command to Leader.
   2. Leader appends entry to its local log.
   3. Leader sends `AppendEntries` RPC to followers.
-  4. Once entry is replicated to a quorum ($\lfloor rac{N}{2} floor + 1$ nodes), Leader commits the entry, applies it to its state machine, and replies to client.
+  4. Once entry is replicated to a quorum ($\lfloor rac{N}{2} 
+floor + 1$ nodes), Leader commits the entry, applies it to its state machine, and replies to client.
   5. Subsequent heartbeats notify followers to commit the entry locally.
 
 ---
@@ -199,14 +148,9 @@ Raft provides deterministic linearizable state machine replication across $2F+1$
 
 ## 8. Distributed Resiliency & Fault Tolerance
 
-```mermaid
-stateDiagram-v2
-    [*] --> Closed
-    Closed --> Open : Failure Rate >= Threshold (e.g., 50%)
-    Open --> HalfOpen : Sleep Window Expires (e.g., 30s)
-    HalfOpen --> Closed : Consecutive Probe Requests Succeed
-    HalfOpen --> Open : Single Probe Request Fails
-```
+![Resilience4j Circuit Breaker State Machine](assets/01_system_design_foundations/02_resilience4j_circuit_breaker_state_machine.svg)
+
+*D2 Source:* [assets/01_system_design_foundations/02_resilience4j_circuit_breaker_state_machine.d2](assets/01_system_design_foundations/02_resilience4j_circuit_breaker_state_machine.d2)
 
 1. **Circuit Breakers (Resilience4j / Envoy)**: Prevents cascading failure by failing fast when downstream services become degraded.
 2. **Bulkhead Pattern**: Partitions thread pools, connection pools, and memory quotas so that the exhaustion of one integration does not bring down the entire host.

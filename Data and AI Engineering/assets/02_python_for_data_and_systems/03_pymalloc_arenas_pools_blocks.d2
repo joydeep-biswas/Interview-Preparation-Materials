@@ -1,0 +1,16 @@
+# PyMalloc Memory Allocator: Arenas, Pools, and Blocks
+direction: right
+
+arena: "Level 1: Arena (256 KB)\n• Allocated from OS via mmap()\n• Subdivided into 64 Pools" {
+  style.stroke: "#3B82F6"
+}
+
+pool: "Level 2: Pool (4 KB)\n• 1 Memory Page\n• Dedicated to 1 size-class (e.g. 32B)\n• Tracks free block list" {
+  style.stroke: "#F59E0B"
+}
+
+blocks: "Level 3: Blocks (8B - 512B)\n• Multiples of 8 bytes\n• Houses PyObject instances\n• > 512B goes to system malloc()" {
+  style.stroke: "#10B981"
+}
+
+arena -> pool -> blocks

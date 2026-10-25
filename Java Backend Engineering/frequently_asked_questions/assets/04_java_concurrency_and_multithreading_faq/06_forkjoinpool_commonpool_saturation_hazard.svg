@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">ForkJoinPool.commonPool() Saturation &amp; Starvation Hazard</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Shared JVM-wide pool exhaustion by blocking I/O vs dedicated custom Executor pools</text>
+
+  <!-- Left: The Fatal Anti-Pattern -->
+  <g transform="translate(40, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="230" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">The Anti-Pattern: Blocking I/O in commonPool()</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="50" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="18" class="badge" fill="#FCA5A5">Shared Singleton Resource</text>
+      <text x="15" y="34" class="card-body" font-family="monospace">ForkJoinPool.commonPool() [Size = Runtime.cores - 1]</text>
+
+      <!-- Contaminating workloads -->
+      <g transform="translate(0, 60)">
+        <rect x="0" y="0" width="420" height="65" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+        <text x="15" y="20" class="badge" fill="#F87171">Workload 1: CompletableFuture.supplyAsync(fetchHttp)</text>
+        <text x="15" y="38" class="card-body">• 8 HTTP calls block on 5-second network timeout</text>
+        <text x="15" y="52" class="card-body" font-size="11" fill="#FCA5A5">• Exhausts all 8 commonPool worker threads!</text>
+
+        <rect x="0" y="75" width="420" height="65" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+        <text x="15" y="95" class="badge" fill="#F87171">Workload 2: list.parallelStream().map(process)</text>
+        <text x="15" y="113" class="card-body">• Unrelated parallel stream tries to run in another module</text>
+        <text x="15" y="127" class="card-body" font-size="11" fill="#FCA5A5">• ZERO worker threads available -&gt; STARVED / FROZEN!</text>
+      </g>
+    </g>
+
+    <rect x="20" y="275" width="420" height="80" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+    <text x="210" y="296" class="badge" fill="#F87171" text-anchor="middle">Catastrophic Consequence</text>
+    <text x="25" y="318" class="card-body">• One slow external API freezes parallel processing across the ENTIRE JVM!</text>
+    <text x="25" y="336" class="card-body">• CPU utilization drops to 0%, yet latency spikes to timeout</text>
+    <text x="25" y="350" class="badge" fill="#FCA5A5">• Blast radius is global across all application modules</text>
+  </g>
+
+  <!-- Right: The Production Remedy -->
+  <g transform="translate(560, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="230" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">Production Solution: Bulkhead Thread Pools</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="65" rx="6" ry="6" fill="#1E293B" stroke="#10B981"/>
+      <text x="15" y="20" class="badge" fill="#A7F3D0">1. Dedicated I/O Thread Pool</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">ExecutorService ioPool = Executors.newFixedThreadPool(100);</text>
+      <text x="15" y="54" class="card-body" font-family="monospace">CompletableFuture.supplyAsync(call, ioPool); // Isolated!</text>
+
+      <rect x="0" y="75" width="420" height="65" rx="6" ry="6" fill="#1E293B" stroke="#3B82F6"/>
+      <text x="15" y="95" class="badge" fill="#93C5FD">2. Virtual Threads (Java 21+ Project Loom)</text>
+      <text x="15" y="113" class="card-body" font-family="monospace">ExecutorService vt = Executors.newVirtualThreadPerTaskExecutor();</text>
+      <text x="15" y="129" class="card-body">Blocking unmounts carrier thread; zero starvation!</text>
+
+      <rect x="0" y="150" width="420" height="65" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+      <text x="15" y="170" class="badge" fill="#34D399">3. Pure CPU Work Only for Parallel Streams</text>
+      <text x="15" y="188" class="card-body">commonPool() is reserved strictly for short-lived, in-memory CPU calculations</text>
+      <text x="15" y="204" class="card-body" font-size="11" fill="#A7F3D0">(e.g., sorting, math arrays, in-memory filtering).</text>
+    </g>
+
+    <rect x="20" y="275" width="420" height="80" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="210" y="296" class="badge" fill="#A7F3D0" text-anchor="middle">Bulkhead Architecture Invariant</text>
+    <text x="25" y="318" class="card-body">• Complete failure domain isolation: Slow HTTP cannot affect streams</text>
+    <text x="25" y="336" class="card-body">• Sized independently according to Little's Law</text>
+    <text x="25" y="350" class="badge" fill="#34D399">• Zero cross-system interference</text>
+  </g>
+</svg>

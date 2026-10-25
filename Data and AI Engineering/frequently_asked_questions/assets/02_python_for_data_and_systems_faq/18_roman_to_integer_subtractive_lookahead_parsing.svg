@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 280" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-a18py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g18py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="32" class="title-text">Roman to Integer: Subtractive Lookahead Parsing ('MCMXCIV' -> 1994)</text>
+
+  <!-- Step 1 -->
+  <rect x="30" y="65" width="220" height="185" class="card card-blue"/>
+  <text x="140" y="92" class="card-title" fill="#93C5FD">Roman Numeral Input</text>
+  <text x="45" y="120" class="card-body">• String: 'MCMXCIV'</text>
+  <text x="45" y="145" class="card-body">• Map: M=1000, D=500,</text>
+  <text x="45" y="165" class="card-body">  C=100, L=50, X=10,</text>
+  <text x="45" y="185" class="card-body">  V=5, I=1</text>
+  <text x="45" y="210" class="card-body">• Lookahead: val[i] &lt; val[i+1]</text>
+
+  <!-- Step 2 -->
+  <rect x="290" y="65" width="370" height="185" class="card card-amber"/>
+  <text x="475" y="92" class="card-title" fill="#FDE68A">Lookahead Evaluation</text>
+  <text x="310" y="117" class="card-body">• 'M' (1000) &gt;= 'C' (100) -&gt; +1000</text>
+  <text x="310" y="137" class="card-body" fill="#EF4444">• 'C' (100) &lt; 'M' (1000) -&gt; -100 (Subtractive CM)</text>
+  <text x="310" y="157" class="card-body">• 'M' (1000) &gt;= 'X' (10) -&gt; +1000</text>
+  <text x="310" y="177" class="card-body" fill="#EF4444">• 'X' (10) &lt; 'C' (100) -&gt; -10 (Subtractive XC)</text>
+  <text x="310" y="197" class="card-body">• 'C' (100) &gt;= 'I' (1) -&gt; +100</text>
+  <text x="310" y="217" class="card-body" fill="#EF4444">• 'I' (1) &lt; 'V' (5) -&gt; -1 (IV) | 'V' (5) -&gt; +5</text>
+
+  <!-- Step 3 -->
+  <rect x="700" y="65" width="230" height="185" class="card card-green"/>
+  <text x="815" y="92" class="card-title" fill="#6EE7B7">Cumulative Integer</text>
+  <text x="715" y="125" class="card-body">• 1000 - 100</text>
+  <text x="715" y="145" class="card-body">• + 1000 - 10</text>
+  <text x="715" y="165" class="card-body">• + 100 - 1 + 5</text>
+  <text x="715" y="190" class="card-body" fill="#34D399">• Total = 1994</text>
+  <text x="715" y="215" class="card-body" fill="#34D399">• O(N) Linear Time</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 250 157 L 290 157" class="edge edge-amber" marker-end="url(#arr-a18py)"/>
+  <path fill="none" d="M 660 157 L 700 157" class="edge edge-green" marker-end="url(#arr-g18py)"/>
+</svg>

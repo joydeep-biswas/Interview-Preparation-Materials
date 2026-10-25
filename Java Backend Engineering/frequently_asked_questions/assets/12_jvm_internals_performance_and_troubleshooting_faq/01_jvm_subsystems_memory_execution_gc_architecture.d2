@@ -1,0 +1,37 @@
+direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; rx: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke: "#4B5563"; stroke-width: 1; rx: 8 } }
+}
+
+mem: "1. JVM Memory Layout & Zones" {
+  class: pillar
+  young: "Young Generation\nEden + S0/S1 Survivor Spaces" { class: stage }
+  old: "Old Generation\nTenured long-lived objects" { class: stage }
+  meta: "Metaspace (Off-Heap)\nClass metadata, methods & bytecode" { class: stage }
+  code: "Code Cache\nJIT compiled C1/C2 native assembly" { class: stage }
+  direct: "Direct Off-Heap Buffers\nUnsafe & Direct ByteBuffer NIO channels" { class: stage }
+
+  young -> old: "Tenuring Promotion"
+}
+
+gc: "2. Garbage Collection & Safepoint Plane" {
+  class: pillar
+  zgc: "ZGC / Shenandoah\nSub-millisecond concurrent mark & relocate" { class: stage }
+  g1gc: "G1 GC\nRegion-based mixed collections & ergonomics" { class: stage }
+  safepoint: "JVM Safepoint Engine\nTime-To-Safepoint (TTSP) & JIT poll points" { class: stage }
+}
+
+diag: "3. Production Troubleshooting Toolkit" {
+  class: pillar
+  jstack: "Thread Dumps (jcmd / jstack)\nDeadlocks, WAITING & BLOCKED thread triage" { class: stage }
+  jmap: "Heap Dumps (-XX:+HeapDumpOnOutOfMemoryError)\nHPROF snapshot of object reference graph" { class: stage }
+  mat: "Eclipse Memory Analyzer (MAT)\nDominator trees, retained heap & leak suspects" { class: stage }
+  jfr: "Java Flight Recorder (JFR)\nContinuous low-overhead flight recorder events" { class: stage }
+
+  jmap -> mat: "Offline Analysis"
+}
+
+mem.young -> gc.g1gc: "Minor Collections"
+mem.old -> gc.zgc: "Concurrent Relocation"
+mem.old -> diag.jmap: "OOM Trigger Dump"

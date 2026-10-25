@@ -1,0 +1,32 @@
+direction: right
+title: "Distributed Tracing: W3C TraceContext & OpenTelemetry Propagation"
+
+user: "User Client" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+gw: "API Gateway
+TraceID: 4bf92f
+Span: 00f067" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+order: "Order Service
+TraceID: 4bf92f
+Span: e4a781" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+pay: "Payment Service
+TraceID: 4bf92f
+Span: 7c92b1" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+
+user -> gw: "1. POST /orders"
+gw -> order: "2. traceparent: 00-4bf92f-00f067-01"
+order -> pay: "3. traceparent: 00-4bf92f-e4a781-01"
+pay -> order: "4. 200 OK (45ms)"
+order -> gw: "5. 200 OK (115ms)"
+gw -> user: "6. 200 OK (165ms)"

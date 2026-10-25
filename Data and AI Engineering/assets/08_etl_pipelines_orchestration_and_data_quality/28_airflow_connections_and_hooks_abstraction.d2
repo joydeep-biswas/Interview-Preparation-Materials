@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  secret: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  conn: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  hook: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  op: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+vault: "Key Vault / Encrypted DB\n(External Secrets)" { class: secret }
+connection: "Airflow Connection\n('postgres_default')" { class: conn }
+hook: "Airflow Hook\n(PostgresHook Client)" { class: hook }
+operator: "Airflow Operator\n(PostgresOperator)" { class: op }
+target: "External PostgreSQL Database" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+
+vault -> connection: "Fetch Credentials"
+connection -> hook: "Inject Config"
+hook -> operator: "Session Management"
+operator -> target: "Execute Query"

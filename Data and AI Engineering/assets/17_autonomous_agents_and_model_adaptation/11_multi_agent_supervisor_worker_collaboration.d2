@@ -1,0 +1,20 @@
+classes: {
+  super_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  research_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  coder_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  reviewer_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+supervisor: "Supervisor Agent\nPlans, decomposes & orchestrates" { class: super_box }
+
+w_research: "Worker 1: Research Agent\nWeb search & Vector DB" { class: research_box }
+w_coder: "Worker 2: Coder Agent\nPython REPL & Git execution" { class: coder_box }
+w_reviewer: "Worker 3: Reviewer Agent\nSecurity analysis & tests" { class: reviewer_box }
+
+supervisor -> w_research: "Delegate research"
+supervisor -> w_coder: "Delegate implementation"
+supervisor -> w_reviewer: "Delegate QA"
+
+w_research -> supervisor: "Report facts"
+w_coder -> supervisor: "Report code"
+w_reviewer -> supervisor: "Report review"

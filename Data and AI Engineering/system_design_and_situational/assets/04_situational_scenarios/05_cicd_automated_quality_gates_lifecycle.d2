@@ -1,0 +1,47 @@
+direction: right
+
+dev: "1. Git Feature Branch" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  branch: "Git Feature Branch"
+  pr: "Pull Request (GitHub Actions / Azure DevOps)"
+}
+
+quality_gates: "2. Automated Quality Gates" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  pytest: "PySpark pytest Suite (Local Spark Mocks)"
+  linters: "SQLFluff & Black Linter"
+  arm_validate: "ADF ArmTemplateValidator CLI"
+}
+
+staging: "3. Staging Deployment" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  deploy: "Terraform / ARM Staging Deploy"
+  smoke: "End-to-End Smoke Test on Staging"
+}
+
+prod: "4. Production Release" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  canary: "Canary Blue/Green Cluster Swap"
+  rollback: "Delta Lake Automated Rollback"
+}
+
+dev -> quality_gates: "Trigger PR Build" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}
+quality_gates -> staging: "All Gates Pass -> Merge" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+staging -> prod: "Smoke Tests Verified" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

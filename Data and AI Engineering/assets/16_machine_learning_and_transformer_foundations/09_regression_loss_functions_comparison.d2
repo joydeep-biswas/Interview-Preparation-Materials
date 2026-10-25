@@ -1,0 +1,11 @@
+classes: {
+  mse_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  mae_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  huber_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+losses: "Regression Loss Penalty Profiles" {
+  mse: "MSE (L2 Loss)\nL = (y - y_hat)^2\nQuadratic penalty severely punishes outliers\nSmooth everywhere, easy gradient descent" { class: mse_box }
+  mae: "MAE (L1 Loss)\nL = |y - y_hat|\nLinear penalty; robust to extreme outliers\nDiscontinuous derivative at 0 (oscillates)" { class: mae_box }
+  huber: "Huber Loss (Smooth L1)\nQuadratic for small errors, linear for outliers\nBest of both worlds: smooth + robust" { class: huber_box }
+}

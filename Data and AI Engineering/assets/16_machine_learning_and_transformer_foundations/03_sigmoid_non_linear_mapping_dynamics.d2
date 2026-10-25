@@ -1,0 +1,12 @@
+classes: {
+  logit_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  sigmoid_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  prob_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+logit: "Raw Logit z\nz = w^T * x + b\nDomain: (-inf, +inf)" { class: logit_box }
+sigmoid: "Sigmoid Non-Linearity\nsigma(z) = 1 / (1 + e^-z)\nS-curve continuous mapping" { class: sigmoid_box }
+prob: "Output Probability p\np in (0.0, 1.0)\nCalibrated confidence score" { class: prob_box }
+
+logit -> sigmoid: "Squeeze logit"
+sigmoid -> prob: "Bounded probability"

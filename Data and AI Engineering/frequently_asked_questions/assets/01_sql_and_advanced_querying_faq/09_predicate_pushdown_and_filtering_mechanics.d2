@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+scan: "Employees Table Scan\nReads index or table blocks" { class: box; style.stroke: "#3B82F6" }
+pred: "Predicate Evaluation\ndepartment = 'Finance' / 'IT'?" { class: box; style.stroke: "#F59E0B" }
+
+sel: "SELECT Projection\nname, salary (Read-Only)" { class: box; style.stroke: "#10B981" }
+upd: "UPDATE Statement\nsalary = salary * 1.10 (Exclusive Lock)" { class: box; style.stroke: "#EF4444" }
+skip: "Bypass Row\nNon-matching records discarded" { class: box; style.stroke: "#64748B" }
+
+scan -> pred
+pred -> sel: "Finance"
+pred -> upd: "IT"
+pred -> skip: "Other"

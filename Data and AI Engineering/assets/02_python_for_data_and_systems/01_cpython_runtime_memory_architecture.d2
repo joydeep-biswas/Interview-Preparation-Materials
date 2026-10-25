@@ -1,0 +1,21 @@
+# CPython Runtime & Memory Architecture Overview
+direction: right
+
+memory: "1. CPython Memory Management" {
+  pymalloc: "PyMalloc (Objects <= 512B)\n• Arenas (256KB) -> Pools (4KB) -> Blocks\n• Thread-local free lists"
+  refcnt: "Reference Counting (Primary GC)\n• Deterministic deallocation at refcnt == 0"
+  gc: "Cyclic GC (Gen 0, 1, 2)\n• Tri-color marking resolves circular cycles"
+  pymalloc -> refcnt -> gc
+}
+
+engines: "2. Modern Data Engines" {
+  polars: "Polars (Rust Arrow Core)\n• Columnar off-heap buffers\n• Multi-threaded query optimizer"
+  duckdb: "DuckDB (In-Process OLAP)\n• Vectorized SIMD execution\n• Zero-copy Parquet scans"
+  generators: "Generators & Iterators\n• Bounded O(1) RAM streaming"
+}
+
+concurrency: "3. Concurrency & Runtimes" {
+  gil: "Global Interpreter Lock (GIL)\n• Serializes bytecode to 1 CPU core"
+  mp: "Multiprocessing\n• Bypasses GIL with separate OS processes"
+  asyncio: "Asyncio & Threading\n• High-concurrency I/O event loops"
+}

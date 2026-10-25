@@ -1,0 +1,51 @@
+direction: right
+title: Distributed Event Streaming Platform Architecture
+
+producers: "1. Ingress Publishers" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  iot: "IoT Gateways\n(100k+ events/sec)"
+  click: "Clickstream Collectors\n(Frontend webhooks)"
+  cdc: "CDC / Debezium\n(Postgres/MySQL WAL)"
+}
+
+kafka: "2. Kafka Cluster Core" {
+  style.fill: "#0f172a"
+  style.stroke: "#f59e0b"
+
+  kraft: "KRaft Quorum (Raft metadata)"
+  topic: "Topic: commerce.orders" {
+    p0: "Partition 0 (Leader: Broker 1)"
+    p1: "Partition 1 (Leader: Broker 2)"
+    p2: "Partition 2 (Leader: Broker 3)"
+  }
+}
+
+compute: "3. Stream Processing" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+
+  coord: "Stream Coordinator (Checkpoint Store)"
+  exec0: "Executor 1 (Consumes P0)"
+  exec1: "Executor 2 (Consumes P1)"
+  exec2: "Executor 3 (Consumes P2)"
+}
+
+sinks: "4. Real-Time Sinks" {
+  style.fill: "#062e22"
+  style.stroke: "#10b981"
+
+  delta: "Delta Lake Silver\n(ACID Merge & CDC)"
+  clickhouse: "ClickHouse OLAP\n(Sub-50ms dashboards)"
+  alerts: "Fraud Alerts / PagerDuty\n(Sub-second triggers)"
+}
+
+producers -> kafka.topic: "Murmur2(key) % partitions"
+kafka.topic.p0 -> compute.exec0
+kafka.topic.p1 -> compute.exec1
+kafka.topic.p2 -> compute.exec2
+
+compute.exec0 -> sinks.delta
+compute.exec1 -> sinks.clickhouse
+compute.exec2 -> sinks.alerts

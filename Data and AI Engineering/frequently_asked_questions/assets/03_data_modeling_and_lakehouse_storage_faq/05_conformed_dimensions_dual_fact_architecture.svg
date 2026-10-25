@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-green { stroke: #10B981; }
+      .card-blue { stroke: #3B82F6; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-g5lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Left: Conformed Dimensions -->
+  <rect x="25" y="25" width="400" height="325" class="pillar-box" stroke="#10B981"/>
+  <text x="225" y="55" class="title-text" fill="#6EE7B7">Conformed Dimensions (Shared)</text>
+
+  <rect x="45" y="75" width="360" height="75" class="card card-green"/>
+  <text x="225" y="100" class="card-title" fill="#6EE7B7">dim_vendor</text>
+  <text x="60" y="125" class="card-body">vendor_sk, vendor_id, bank_details, tax_id</text>
+
+  <rect x="45" y="160" width="360" height="75" class="card card-green"/>
+  <text x="225" y="185" class="card-title" fill="#6EE7B7">dim_date</text>
+  <text x="60" y="210" class="card-body">date_sk, calendar_date, fiscal_quarter, fiscal_year</text>
+
+  <rect x="45" y="245" width="360" height="75" class="card card-green"/>
+  <text x="225" y="270" class="card-title" fill="#6EE7B7">dim_chart_of_accounts</text>
+  <text x="60" y="295" class="card-body">gl_account_sk, account_number, cost_center</text>
+
+  <!-- Right: Dual Facts -->
+  <rect x="495" y="25" width="440" height="325" class="pillar-box" stroke="#3B82F6"/>
+  <text x="715" y="55" class="title-text" fill="#60A5FA">Dual Fact Architecture</text>
+
+  <rect x="515" y="80" width="400" height="105" class="card card-blue"/>
+  <text x="715" y="108" class="card-title" fill="#93C5FD">fact_vendor_invoice_line</text>
+  <text x="530" y="133" class="card-body">• Grain: 1 Invoice Line Item</text>
+  <text x="530" y="153" class="card-body">• FKs: vendor_sk, date_sk, gl_account_sk</text>
+  <text x="530" y="173" class="card-body">• invoice_number, line_amount, tax</text>
+
+  <rect x="515" y="210" width="400" height="105" class="card card-blue"/>
+  <text x="715" y="238" class="card-title" fill="#93C5FD">fact_vendor_payment_batch</text>
+  <text x="530" y="263" class="card-body">• Grain: 1 Payment Disbursement Batch</text>
+  <text x="530" y="283" class="card-body">• FKs: vendor_sk, payment_date_sk</text>
+  <text x="530" y="303" class="card-body">• batch_id, disbursement_amount</text>
+
+  <!-- Connectors with straight runways -->
+  <!-- dim_vendor to both facts -->
+  <path fill="none" d="M 405 112 C 450 112, 480 132, 501 132 L 515 132" class="edge edge-green" marker-end="url(#arr-g5lk)"/>
+  <path fill="none" d="M 405 112 C 450 112, 480 262, 501 262 L 515 262" class="edge edge-green" marker-end="url(#arr-g5lk)"/>
+</svg>

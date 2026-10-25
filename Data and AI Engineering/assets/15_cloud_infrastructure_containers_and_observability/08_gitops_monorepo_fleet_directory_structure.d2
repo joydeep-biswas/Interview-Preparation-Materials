@@ -1,0 +1,24 @@
+classes: {
+  cluster_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  base_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  prod_overlay: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  stage_overlay: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+repo: "📁 gitops-enterprise-fleet/" {
+  clusters: "📁 clusters/ (Platform Addons)" {
+    prod: "production-aks-eastus/\nCertManager, Ingress, Kyverno" { class: cluster_box }
+    staging: "staging-aks-eastus/\nDevelopment Tools & Mocks" { class: cluster_box }
+  }
+
+  apps: "📁 apps/ (Application Catalog)" {
+    payment: "payment-service/" {
+      base: "base/\ndeployment.yaml, service.yaml" { class: base_box }
+      prod_overlay: "overlays/production/\n10 replicas, PSS hardened, Vault secrets" { class: prod_overlay }
+      stage_overlay: "overlays/staging/\n1 replica, sandbox config" { class: stage_overlay }
+
+      base -> prod_overlay: "patchesStrategicMerge"
+      base -> stage_overlay: "patchesStrategicMerge"
+    }
+  }
+}

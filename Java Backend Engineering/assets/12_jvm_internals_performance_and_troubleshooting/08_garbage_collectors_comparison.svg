@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">HotSpot Garbage Collector Selection Matrix &amp; Trade-Offs</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Throughput-Optimized vs Predictable Balanced (G1) vs Sub-Millisecond Pauses (ZGC &amp; Shenandoah)</text>
+
+  <!-- Column 1: Throughput Parallel GC -->
+  <rect x="40" y="85" width="330" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="330" height="40" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="205" y="105" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">THROUGHPUT-OPTIMIZED</text>
+  <text x="205" y="119" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">-XX:+UseParallelGC (Parallel GC)</text>
+
+  <!-- Architecture Box -->
+  <rect x="55" y="140" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="160" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Architecture &amp; Algorithm</text>
+  <text x="70" y="177" font-size="10" fill="#94A3B8" text-anchor="start">• Generational Young (PS Scavenge) + Old (PS Old)</text>
+  <text x="70" y="192" font-size="10" fill="#94A3B8" text-anchor="start">• Multi-threaded STW copying and mark-compact</text>
+  <text x="70" y="207" font-size="10" fill="#94A3B8" text-anchor="start">• Zero concurrent marking overhead during app work</text>
+
+  <!-- Metrics Box -->
+  <rect x="55" y="235" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="255" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Performance Characteristics</text>
+  <text x="70" y="272" font-size="10" fill="#CBD5E1" text-anchor="start">• <tspan fill="#34D399" font-weight="700">Throughput:</tspan> Highest raw CPU throughput (&gt;99%)</text>
+  <text x="70" y="287" font-size="10" fill="#CBD5E1" text-anchor="start">• <tspan fill="#F87171" font-weight="700">Pause Times:</tspan> Long STW pauses (50ms - seconds)</text>
+  <text x="70" y="302" font-size="10" fill="#CBD5E1" text-anchor="start">• <tspan fill="#38BDF8" font-weight="700">Heap Scaling:</tspan> Pauses grow linearly with live heap</text>
+
+  <!-- Workloads Box -->
+  <rect x="55" y="330" width="300" height="125" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1"/>
+  <text x="70" y="350" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">Target Workloads</text>
+  <text x="70" y="370" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Batch ETL &amp; Data Pipeline Processing</text>
+  <text x="70" y="388" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Offline Machine Learning Model Training</text>
+  <text x="70" y="406" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Non-interactive background daemon tasks</text>
+  <text x="70" y="430" font-size="9.5" fill="#94A3B8" text-anchor="start">Verdict: Ideal when raw throughput beats pause time.</text>
+
+  <!-- Column 2: Balanced G1 GC -->
+  <rect x="395" y="85" width="330" height="385" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="395" y="85" width="330" height="40" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="560" y="105" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">BALANCED &amp; LOW LATENCY</text>
+  <text x="560" y="119" font-size="10" font-weight="600" fill="#A7F3D0" text-anchor="middle">-XX:+UseG1GC (Default Java 9+)</text>
+
+  <!-- Architecture Box -->
+  <rect x="410" y="140" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="425" y="160" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Architecture &amp; Algorithm</text>
+  <text x="425" y="177" font-size="10" fill="#94A3B8" text-anchor="start">• Splits heap into 2048 equal regions (1MB - 32MB)</text>
+  <text x="425" y="192" font-size="10" fill="#94A3B8" text-anchor="start">• Concurrent marking phase + Remembered Sets (RSet)</text>
+  <text x="425" y="207" font-size="10" fill="#94A3B8" text-anchor="start">• Evacuates highest-garbage regions first ("Garbage-First")</text>
+
+  <!-- Metrics Box -->
+  <rect x="410" y="235" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="425" y="255" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Performance Characteristics</text>
+  <text x="425" y="272" font-size="10" fill="#CBD5E1" text-anchor="start">• <tspan fill="#34D399" font-weight="700">Throughput:</tspan> Balanced (~90-95% application CPU)</text>
+  <text x="425" y="287" font-size="10" fill="#CBD5E1" text-anchor="start">• <tspan fill="#FBBF24" font-weight="700">Pause Times:</tspan> Targetable (-XX:MaxGCPauseMillis=200)</text>
+  <text x="425" y="302" font-size="10" fill="#CBD5E1" text-anchor="start">• <tspan fill="#34D399" font-weight="700">Compaction:</tspan> Incremental evacuation stops fragmentation</text>
+
+  <!-- Workloads Box -->
+  <rect x="410" y="330" width="300" height="125" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="425" y="350" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Target Workloads</text>
+  <text x="425" y="370" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Enterprise Spring Boot Web &amp; REST APIs</text>
+  <text x="425" y="388" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Microservices with heaps between 4GB - 32GB</text>
+  <text x="425" y="406" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Production default for 90% of business software</text>
+  <text x="425" y="430" font-size="9.5" fill="#94A3B8" text-anchor="start">Verdict: Best overall balance of latency &amp; throughput.</text>
+
+  <!-- Column 3: Ultra Low Latency ZGC &amp; Shenandoah -->
+  <rect x="750" y="85" width="330" height="385" rx="8" fill="#3B0764" fill-opacity="0.2" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="750" y="85" width="330" height="40" rx="8" fill="#3B0764" fill-opacity="0.8" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="915" y="105" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle">ULTRA-LOW LATENCY (&lt;1MS)</text>
+  <text x="915" y="119" font-size="10" font-weight="600" fill="#E9D5FF" text-anchor="middle">-XX:+UseZGC / -XX:+UseShenandoahGC</text>
+
+  <!-- Architecture Box -->
+  <rect x="765" y="140" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="780" y="160" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Architecture &amp; Algorithm</text>
+  <text x="780" y="177" font-size="10" fill="#94A3B8" text-anchor="start">• Concurrent mark, evacuate &amp; reference remap</text>
+  <text x="780" y="192" font-size="10" fill="#94A3B8" text-anchor="start">• ZGC uses Colored Pointers + Load Barriers</text>
+  <text x="780" y="207" font-size="10" fill="#94A3B8" text-anchor="start">• Generational ZGC in Java 21+ splits young &amp; old</text>
+
+  <!-- Metrics Box -->
+  <rect x="765" y="235" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="780" y="255" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Performance Characteristics</text>
+  <text x="780" y="272" font-size="10" fill="#CBD5E1" text-anchor="start">• <tspan fill="#C084FC" font-weight="700">Pause Times:</tspan> Sub-millisecond (&lt;1ms, avg &lt;200µs)</text>
+  <text x="780" y="287" font-size="10" fill="#CBD5E1" text-anchor="start">• <tspan fill="#38BDF8" font-weight="700">Heap Scale:</tspan> Scalable from 16MB to 16 Terabytes</text>
+  <text x="780" y="302" font-size="10" fill="#CBD5E1" text-anchor="start">• <tspan fill="#FBBF24" font-weight="700">Throughput Trade-off:</tspan> ~2-5% CPU cost for barriers</text>
+
+  <!-- Workloads Box -->
+  <rect x="765" y="330" width="300" height="125" rx="6" fill="#0F172A" stroke="#C084FC" stroke-width="1"/>
+  <text x="780" y="350" font-size="11" font-weight="700" fill="#C084FC" text-anchor="start">Target Workloads</text>
+  <text x="780" y="370" font-size="10" fill="#F8FAFC" text-anchor="start">✔ High-Frequency Trading &amp; Financial Order Books</text>
+  <text x="780" y="388" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Multi-gigabyte In-Memory Distributed Caches</text>
+  <text x="780" y="406" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Real-time streaming &amp; SLA-critical systems</text>
+  <text x="780" y="430" font-size="9.5" fill="#94A3B8" text-anchor="start">Verdict: Absolute lowest pause latency without sizing limits.</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">GC Selection Rule: Benchmark your SLA. Parallel GC for batch jobs, G1 for general enterprise REST APIs, and ZGC for sub-millisecond SLAs or multi-terabyte heaps.</text>
+</svg>

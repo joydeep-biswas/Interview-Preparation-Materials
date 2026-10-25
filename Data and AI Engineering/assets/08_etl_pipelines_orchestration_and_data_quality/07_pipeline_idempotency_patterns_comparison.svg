@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Pipeline Idempotency Patterns: Overwrite vs. Merge vs. Swap</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Guaranteeing Identical System State Regardless of Pipeline Re-Execution or Retries</text>
+  
+  
+    <rect x="30" y="95" width="290" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Pattern 1: Delete-Before-Insert</text>
+  
+    <rect x="45" y="135" width="260" height="105" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="175.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Partition Overwrite</text>
+    <text x="175.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">INSERT OVERWRITE TABLE</text>
+    <rect x="226" y="145" width="73" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="262.5" y="157" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">OVERWRITE</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Target: fact_daily_sales</text>
+    <circle cx="61" cy="206" r="2" fill="#3b82f6"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Partition: WHERE date = '2026-10-01'</text>
+    <circle cx="61" cy="222" r="2" fill="#3b82f6"/>
+    <text x="69" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Deletes existing partition directory</text>
+    <circle cx="61" cy="238" r="2" fill="#3b82f6"/>
+    <text x="69" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Atomically writes new recalculated data</text>
+  
+    <rect x="45" y="250" width="260" height="120" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="175.0" y="276" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Trade-Offs</text>
+    <text x="175.0" y="292" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Partition-Level Idempotency</text>
+    <circle cx="61" cy="305" r="2" fill="#3b82f6"/>
+    <text x="69" y="308" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">Pros: Extremely fast; zero join overhead.</text>
+    <circle cx="61" cy="321" r="2" fill="#3b82f6"/>
+    <text x="69" y="324" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">Cons: Replaces full partition; cannot</text>
+    <text x="69" y="338" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">do fine-grained row-level updates.</text>
+
+  
+    <rect x="345" y="95" width="290" height="290" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="361" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Pattern 2: MERGE / UPSERT</text>
+  
+    <rect x="360" y="135" width="260" height="105" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="161" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Row-Level Match</text>
+    <text x="490.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">MERGE INTO target USING staging</text>
+    <rect x="569" y="145" width="45" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="591.5" y="157" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MERGE</text>
+    <circle cx="376" cy="190" r="2" fill="#8b5cf6"/>
+    <text x="384" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">ON target.order_id = staging.order_id</text>
+    <circle cx="376" cy="206" r="2" fill="#8b5cf6"/>
+    <text x="384" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">WHEN MATCHED -&amp;gt; UPDATE SET *</text>
+    <circle cx="376" cy="222" r="2" fill="#8b5cf6"/>
+    <text x="384" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">WHEN NOT MATCHED -&amp;gt; INSERT *</text>
+    <circle cx="376" cy="238" r="2" fill="#8b5cf6"/>
+    <text x="384" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Fine-grained row-level mutation</text>
+  
+    <rect x="360" y="250" width="260" height="120" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="276" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Trade-Offs</text>
+    <text x="490.0" y="292" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Row-Level Idempotency</text>
+    <circle cx="376" cy="305" r="2" fill="#8b5cf6"/>
+    <text x="384" y="308" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Pros: Perfect for CDC updates &amp; late arrivals.</text>
+    <circle cx="376" cy="321" r="2" fill="#8b5cf6"/>
+    <text x="384" y="324" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">Cons: High compute; requires full join</text>
+    <text x="384" y="338" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">between staging and target tables.</text>
+
+  
+    <rect x="660" y="95" width="290" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="676" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Pattern 3: Atomic Staging Swap</text>
+  
+    <rect x="675" y="135" width="260" height="105" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="805.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Table Pointer Swap</text>
+    <text x="805.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">ALTER TABLE SWAP WITH</text>
+    <rect x="891" y="145" width="38" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="910.0" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SWAP</text>
+    <circle cx="691" cy="190" r="2" fill="#10b981"/>
+    <text x="699" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Builds full output in staging_temp table</text>
+    <circle cx="691" cy="206" r="2" fill="#10b981"/>
+    <text x="699" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Validates data quality assertions</text>
+    <circle cx="691" cy="222" r="2" fill="#10b981"/>
+    <text x="699" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Instant O(1) metadata swap: prod &#x2194; staging</text>
+  
+    <rect x="675" y="250" width="260" height="120" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="805.0" y="276" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Trade-Offs</text>
+    <text x="805.0" y="292" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Zero-Downtime Replacement</text>
+    <circle cx="691" cy="305" r="2" fill="#10b981"/>
+    <text x="699" y="308" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">Pros: Zero read downtime; clean rollback.</text>
+    <circle cx="691" cy="321" r="2" fill="#10b981"/>
+    <text x="699" y="324" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Instant rollback by swapping back.</text>
+    <circle cx="691" cy="337" r="2" fill="#10b981"/>
+    <text x="699" y="338" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">Cons: Requires 2x storage temporarily.</text>
+
+</svg>

@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-red { stroke: #EF4444; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-red { stroke: #EF4444; }
+      .edge-green { stroke: #10B981; }
+      .edge-amber { stroke: #F59E0B; }
+    </style>
+    <marker id="arr-b122" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-r122" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-g122" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Column 1: Phase 1 Shell & Metric Diagnostics -->
+  <rect x="20" y="20" width="340" height="480" class="pillar-box" stroke="#3B82F6"/>
+  <text x="190" y="48" class="title-text" fill="#60A5FA">Phase 1: Shell &amp; Metric Diagnostics</text>
+
+  <!-- Cmd 1: top -H -->
+  <rect x="40" y="70" width="300" height="100" class="card card-blue"/>
+  <text x="190" y="95" class="card-title" fill="#93C5FD">top -H -p PID</text>
+  <text x="55" y="120" class="card-body">• Identify specific TID consuming &gt;90% CPU</text>
+  <text x="55" y="138" class="card-body">• Convert decimal TID to hex: printf "%x
+" TID</text>
+  <text x="55" y="156" class="card-body">• Differentiate user% (code) vs sys% (kernel/locks)</text>
+
+  <!-- Cmd 2: pidstat -->
+  <rect x="40" y="200" width="300" height="95" class="card card-blue"/>
+  <text x="190" y="225" class="card-title" fill="#93C5FD">pidstat -w 1 5</text>
+  <text x="55" y="250" class="card-body">• Measure voluntary context switches (cswch/s)</text>
+  <text x="55" y="268" class="card-body">• Involuntary switches indicate CPU starvation</text>
+  <text x="55" y="286" class="card-body">• High cswch indicates severe thread over-provisioning</text>
+
+  <!-- Cmd 3: jcmd Thread Dump -->
+  <rect x="40" y="325" width="300" height="105" class="card card-blue"/>
+  <text x="190" y="350" class="card-title" fill="#93C5FD">jcmd PID Thread.print</text>
+  <text x="55" y="375" class="card-body">• Capture 3 consecutive thread dumps (5s intervals)</text>
+  <text x="55" y="393" class="card-body">• Correlate nid=0xHEX from top with stack traces</text>
+  <text x="55" y="411" class="card-body">• Detect thread state progression across snapshots</text>
+
+  <!-- Column 1 Flow -->
+  <path fill="none" d="M 190 170 L 190 200" class="edge edge-blue" marker-end="url(#arr-b122)"/>
+  <path fill="none" d="M 190 295 L 190 325" class="edge edge-blue" marker-end="url(#arr-b122)"/>
+
+  <!-- Column 2: Phase 2 Thread State Triage -->
+  <rect x="390" y="20" width="340" height="480" class="pillar-box" stroke="#F59E0B"/>
+  <text x="560" y="48" class="title-text" fill="#FDE68A">Phase 2: Thread State Triage</text>
+
+  <!-- State 1: BLOCKED -->
+  <rect x="410" y="70" width="300" height="110" class="card card-red"/>
+  <text x="560" y="95" class="card-title" fill="#FCA5A5">BLOCKED (Monitor Contention)</text>
+  <text x="425" y="120" class="card-body">• Threads waiting on java.lang.Object monitor</text>
+  <text x="425" y="138" class="card-body">• Single thread holding synchronized block</text>
+  <text x="425" y="156" class="card-body">• Multi-threaded pipeline serialized into queue</text>
+
+  <!-- State 2: WAITING (Hikari) -->
+  <rect x="410" y="205" width="300" height="110" class="card card-red"/>
+  <text x="560" y="230" class="card-title" fill="#FCA5A5">WAITING (HikariCP Starvation)</text>
+  <text x="425" y="255" class="card-body">• Threads parked in HikariPool.getConnection()</text>
+  <text x="425" y="273" class="card-body">• All database connections leased by slow queries</text>
+  <text x="425" y="291" class="card-body">• Fast requests stall waiting for JDBC handles</text>
+
+  <!-- State 3: RUNNABLE (Storm) -->
+  <rect x="410" y="340" width="300" height="110" class="card card-red"/>
+  <text x="560" y="365" class="card-title" fill="#FCA5A5">RUNNABLE (Thread Storm)</text>
+  <text x="425" y="390" class="card-body">• 500+ threads simultaneously active</text>
+  <text x="425" y="408" class="card-body">• Kernel spends 80% CPU swapping register contexts</text>
+  <text x="425" y="426" class="card-body">• Zero actual application progress achieved</text>
+
+  <!-- Column 3: Phase 3 Production Remediation -->
+  <rect x="760" y="20" width="340" height="480" class="pillar-box" stroke="#10B981"/>
+  <text x="930" y="48" class="title-text" fill="#6EE7B7">Phase 3: Production Remediation</text>
+
+  <!-- Fix 1: Striped Locks -->
+  <rect x="780" y="70" width="300" height="110" class="card card-green"/>
+  <text x="930" y="95" class="card-title" fill="#6EE7B7">Non-Blocking / Striped Locks</text>
+  <text x="795" y="120" class="card-body">• Replace synchronized with LongAdder / StampedLock</text>
+  <text x="795" y="138" class="card-body">• Use ConcurrentHashMap.computeIfAbsent()</text>
+  <text x="795" y="156" class="card-body">• Partition critical section across 16 stripe buckets</text>
+
+  <!-- Fix 2: Hikari Sizing -->
+  <rect x="780" y="205" width="300" height="110" class="card card-green"/>
+  <text x="930" y="230" class="card-title" fill="#6EE7B7">Size HikariCP Correctly</text>
+  <text x="795" y="255" class="card-body">• Formula: Pool = 2 * Cores + Spindle Count</text>
+  <text x="795" y="273" class="card-body">• Add connectionTimeout = 250ms</text>
+  <text x="795" y="291" class="card-body">• Optimize slow SQL to reduce hold duration</text>
+
+  <!-- Fix 3: Virtual Threads -->
+  <rect x="780" y="340" width="300" height="110" class="card card-green"/>
+  <text x="930" y="365" class="card-title" fill="#6EE7B7">Adopt Virtual Threads (Java 21)</text>
+  <text x="795" y="390" class="card-body">• Replace 200 platform threads with Virtual Threads</text>
+  <text x="795" y="408" class="card-body">• Threads unmount on blocking I/O (zero OS cost)</text>
+  <text x="795" y="426" class="card-body">• Context switch drops from 200k/s to negligible</text>
+
+  <!-- Cross-pillar connectors with straight runways -->
+  <!-- Col 1 (Cmd3) -> BLOCKED: exit 340,360 -> curve -> enter 410,125 with runway dx>=14 -->
+  <path fill="none" d="M 340 360 C 370 360, 375 125, 396 125 L 410 125" class="edge edge-red" marker-end="url(#arr-r122)"/>
+
+  <!-- Col 1 (Cmd3) -> WAITING: exit 340,375 -> curve -> enter 410,260 with runway dx>=14 -->
+  <path fill="none" d="M 340 375 C 370 375, 375 260, 396 260 L 410 260" class="edge edge-red" marker-end="url(#arr-r122)"/>
+
+  <!-- Col 1 (Cmd3) -> RUNNABLE: exit 340,390 -> curve -> enter 410,395 with runway dx>=14 -->
+  <path fill="none" d="M 340 390 C 370 390, 385 395, 396 395 L 410 395" class="edge edge-red" marker-end="url(#arr-r122)"/>
+
+  <!-- Col 2 -> Col 3 (Horizontal straight connectors) -->
+  <path fill="none" d="M 710 125 L 780 125" class="edge edge-green" marker-end="url(#arr-g122)"/>
+  <path fill="none" d="M 710 260 L 780 260" class="edge edge-green" marker-end="url(#arr-g122)"/>
+  <path fill="none" d="M 710 395 L 780 395" class="edge edge-green" marker-end="url(#arr-g122)"/>
+</svg>

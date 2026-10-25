@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PostgreSQL MVCC Internals: In-Heap Tuple Versioning</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">xmin, xmax, and ctid Chaining Enabling Concurrent Non-Blocking Reads and Writes</text>
+  
+  
+    <rect x="30" y="95" width="520" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">PostgreSQL In-Heap Tuple Versioning (ctid Tracking)</text>
+  
+    <rect x="45" y="140" width="230" height="120" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="160.0" y="166" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Tuple Version 1</text>
+    <text x="160.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">ctid: (1, 1)</text>
+    <rect x="182" y="150" width="87" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="225.5" y="162" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">OLD VERSION</text>
+    <circle cx="61" cy="195" r="2" fill="#ef4444"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">xmin: 100 (Created by Tx 100)</text>
+    <circle cx="61" cy="211" r="2" fill="#ef4444"/>
+    <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">xmax: 105 (Updated by Tx 105)</text>
+    <circle cx="61" cy="227" r="2" fill="#ef4444"/>
+    <text x="69" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Name: 'Alice'</text>
+    <circle cx="61" cy="243" r="2" fill="#ef4444"/>
+    <text x="69" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Balance: $500</text>
+    <circle cx="61" cy="259" r="2" fill="#ef4444"/>
+    <text x="69" y="262" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Status: DEAD to new queries</text>
+
+  
+    <rect x="305" y="140" width="230" height="120" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="420.0" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Tuple Version 2</text>
+    <text x="420.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">ctid: (1, 2)</text>
+    <rect x="442" y="150" width="87" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="485.5" y="162" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">NEW VERSION</text>
+    <circle cx="321" cy="195" r="2" fill="#10b981"/>
+    <text x="329" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">xmin: 105 (Created by Tx 105)</text>
+    <circle cx="321" cy="211" r="2" fill="#10b981"/>
+    <text x="329" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">xmax: 0 (Active / In-Flight)</text>
+    <circle cx="321" cy="227" r="2" fill="#10b981"/>
+    <text x="329" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Name: 'Alice'</text>
+    <circle cx="321" cy="243" r="2" fill="#10b981"/>
+    <text x="329" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Balance: $400</text>
+    <circle cx="321" cy="259" r="2" fill="#10b981"/>
+    <text x="329" y="262" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Status: LIVE version</text>
+
+  
+    <line x1="275" y1="200" x2="305" y2="200" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="290.0" y="192.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">ctid pointer</text>
+
+  <text x="290" y="320" fill="#94a3b8" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle">UPDATE creates a new tuple in heap; sets old tuple xmax to current XID</text>
+
+  
+    <rect x="580" y="95" width="370" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="596" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Transaction Snapshot Visibility (Tx 102)</text>
+  
+    <rect x="595" y="140" width="340" height="175" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="765.0" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Snapshot Visibility Rules</text>
+    <text x="765.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Tx 102 Snapshot: [xmin: 102, active: 105]</text>
+    <rect x="814" y="150" width="115" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="871.5" y="162" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">VISIBILITY RULE</text>
+    <circle cx="611" cy="195" r="2" fill="#10b981"/>
+    <text x="619" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rule 1: Is xmin &amp;lt; 102 and committed? YES (xmin=100 &amp;lt; 102)</text>
+    <circle cx="611" cy="211" r="2" fill="#10b981"/>
+    <text x="619" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rule 2: Is xmax active or &amp;gt; 102? YES (xmax=105 is active!)</text>
+    <circle cx="611" cy="227" r="2" fill="#10b981"/>
+    <text x="619" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Result: Tx 102 reads Version 1 ($500)!</text>
+    <circle cx="611" cy="243" r="2" fill="#10b981"/>
+    <text x="619" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Tx 102 CANNOT see the uncommitted $400 update of Tx 105.</text>
+    <circle cx="611" cy="259" r="2" fill="#10b981"/>
+    <text x="619" y="262" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Readers NEVER block Writers; Writers NEVER block Readers!</text>
+
+  
+    <polyline points="600,250 560,250 560,200 275,200" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="560" y="185" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Tx 102 Reads V1</text>
+
+</svg>

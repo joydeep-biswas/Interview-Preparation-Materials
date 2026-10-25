@@ -1,0 +1,19 @@
+direction: right
+
+anti_pattern: "Anti-Pattern: I/O in commonPool" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  pool: "ForkJoinPool.commonPool() [Cores - 1]"
+  hazard: "Blocking HTTP calls exhaust all workers"
+  collapse: "Parallel streams across entire JVM freeze!"
+}
+
+remedy: "Bulkhead Isolation Solution" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  io_pool: "Dedicated ExecutorService for I/O"
+  loom: "Virtual Threads (Executors.newVirtualThreadPerTaskExecutor)"
+  cpu_only: "Reserve commonPool() strictly for fast CPU work"
+}
+
+anti_pattern -> remedy: "Bulkhead isolation prevents starvation"

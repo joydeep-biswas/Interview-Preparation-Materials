@@ -1,0 +1,22 @@
+direction: down
+title: Idempotent Consumer Pattern via Redis Deduplication Store
+
+Broker: Message Broker (Kafka / RabbitMQ)
+Consumer: Order Consumer Worker
+Dedup: Redis Deduplication Store
+DB: PostgreSQL Database
+
+Broker -> Consumer: 1. Delivers OrderCreatedEvent(ORD-101) { style.stroke: "#F59E0B" }
+Consumer -> Dedup: 2. SET dedup:ORD-101 "IN_PROGRESS" NX EX 86400 { style.stroke: "#C084FC" }
+
+CaseA: Case A: Key acquired (First delivery) {
+  Dedup -> Consumer: Returns 1 { style.stroke: "#10B981" }
+  Consumer -> DB: 3. Process SQL transaction { style.stroke: "#10B981" }
+  Consumer -> Dedup: 4. Mark "COMPLETED" { style.stroke: "#C084FC" }
+  Consumer -> Broker: 5. ACK offset { style.stroke: "#38BDF8" }
+}
+
+CaseB: Case B: Key exists (Duplicate redelivery) {
+  Dedup -> Consumer: Returns 0 { style.stroke: "#EF4444" }
+  Consumer -> Broker: 6. Instant ACK (Discard duplicate) { style.stroke: "#38BDF8" }
+}

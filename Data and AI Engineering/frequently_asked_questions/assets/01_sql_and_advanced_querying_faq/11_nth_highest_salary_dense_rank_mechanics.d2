@@ -1,0 +1,13 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+salaries: "All Raw Salaries\n[100k, 100k, 90k, 80k]" { class: box; style.stroke: "#3B82F6" }
+distinct_sal: "DISTINCT Salaries\n[100k, 90k, 80k] (Collapse Ties)" { class: box; style.stroke: "#F59E0B" }
+rank_step: "Filter Salary &lt; MAX(salary)\nPrunes top tier to find 2nd max" { class: box; style.stroke: "#8B5CF6" }
+result: "2nd Highest Salary: 90k\n(Returns NULL if &lt; 2 distinct values)" { class: box; style.stroke: "#10B981" }
+
+salaries -> distinct_sal: "Deduplicate"
+distinct_sal -> rank_step: "Order Desc"
+rank_step -> result: "Fetch N=2"

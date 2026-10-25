@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Lake Change Data Feed (CDF) Architecture</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Row-level CDC capture with pre-image and post-image streams for incremental downstream pipelines</text>
+<rect x="30" y="85" width="210" height="410" rx="8" fill="#111827" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="135" y="112" fill="#38BDF8" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Table Mutations</text>
+<rect x="60" y="122" width="150" height="18" rx="9" fill="#0284c7"/><text x="135" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Silver Orders Table</text>
+<rect x="45" y="155" width="180" height="65" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+<text x="55" y="178" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">INSERT Operation</text>
+<text x="55" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">New order #101 arrives</text>
+<text x="55" y="212" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Status: PENDING</text>
+<rect x="45" y="240" width="180" height="80" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="1"/>
+<text x="55" y="263" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">UPDATE Operation</text>
+<text x="55" y="283" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Order #101 status changes</text>
+<text x="55" y="298" fill="#FDE68A" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">PENDING -&gt; SHIPPED</text>
+<text x="55" y="312" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Pre-image + Post-image</text>
+<rect x="45" y="340" width="180" height="65" rx="8" fill="#1e293b" stroke="#f87171" stroke-width="1"/>
+<text x="55" y="363" fill="#F87171" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">DELETE Operation</text>
+<text x="55" y="383" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Order #99 cancelled</text>
+<text x="55" y="397" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Row deleted from table</text>
+<rect x="45" y="425" width="180" height="55" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="135" y="447" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Table Property</text>
+<text x="135" y="465" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">delta.enableChangeDataFeed=true</text>
+<rect x="270" y="85" width="230" height="410" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="385" y="112" fill="#34D399" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Storage Engine</text>
+<rect x="310" y="122" width="150" height="18" rx="9" fill="#059669"/><text x="385" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Commit &amp; CDC Files</text>
+<rect x="285" y="155" width="200" height="75" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="295" y="178" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">_delta_log/ Commits</text>
+<text x="295" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">000010.json, 000011.json</text>
+<text x="295" y="214" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Records CDC metadata &amp; file tags</text>
+<rect x="285" y="250" width="200" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="295" y="273" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Committed Parquet Files</text>
+<text x="295" y="293" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Base tables store latest snapshot</text>
+<text x="295" y="309" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Append-only files serve as CDC</text>
+<rect x="285" y="345" width="200" height="85" rx="8" fill="#1e293b" stroke="#c084fc" stroke-width="1"/>
+<text x="295" y="368" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">_change_data/ Folder</text>
+<text x="295" y="388" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Dedicated CDC files for updates</text>
+<text x="295" y="404" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">and deletes to avoid full scan</text>
+<text x="295" y="420" fill="#DDD6FE" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Compact, fast columnar CDC</text>
+<rect x="530" y="85" width="240" height="410" rx="8" fill="#1e1e38" stroke="#c084fc" stroke-width="1.5"/>
+<text x="650" y="112" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CDF Change Record Stream</text>
+<rect x="575" y="122" width="150" height="18" rx="9" fill="#7c3aed"/><text x="650" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">table_changes() Output</text>
+<rect x="545" y="155" width="210" height="55" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+<text x="555" y="175" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">_change_type = 'insert'</text>
+<text x="555" y="193" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">order_id: 101 | status: PENDING</text>
+<text x="555" y="205" fill="#64748B" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">v10 | 2026-10-25 10:00:00</text>
+<rect x="545" y="220" width="210" height="55" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="555" y="240" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">_change_type = 'update_preimage'</text>
+<text x="555" y="258" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">order_id: 101 | status: PENDING</text>
+<text x="555" y="270" fill="#64748B" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">v11 | 2026-10-25 10:05:00</text>
+<rect x="545" y="285" width="210" height="55" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="555" y="305" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">_change_type = 'update_postimage'</text>
+<text x="555" y="323" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">order_id: 101 | status: SHIPPED</text>
+<text x="555" y="335" fill="#64748B" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">v11 | 2026-10-25 10:05:00</text>
+<rect x="545" y="350" width="210" height="55" rx="8" fill="#1e293b" stroke="#f87171" stroke-width="1"/>
+<text x="555" y="370" fill="#F87171" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">_change_type = 'delete'</text>
+<text x="555" y="388" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">order_id: 99 | status: CANCELLED</text>
+<text x="555" y="400" fill="#64748B" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">v12 | 2026-10-25 10:10:00</text>
+<rect x="545" y="420" width="210" height="60" rx="8" fill="#2e1065" stroke="#8b5cf6" stroke-width="1"/>
+<text x="650" y="442" fill="#DDD6FE" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stream Reader API</text>
+<text x="650" y="460" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">spark.readStream.format('delta')</text>
+<text x="650" y="473" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">.option('readChangeFeed', 'true')</text>
+<rect x="800" y="85" width="210" height="410" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="905" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Downstream Consumers</text>
+<rect x="830" y="122" width="150" height="18" rx="9" fill="#1d4ed8"/><text x="905" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Incremental Pipelines</text>
+<rect x="815" y="155" width="180" height="80" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+<text x="825" y="178" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Gold Business Mart</text>
+<text x="825" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Incremental rollup aggregation</text>
+<text x="825" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">using pre/postimage deltas</text>
+<text x="825" y="228" fill="#6EE7B7" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">No full recompute needed!</text>
+<rect x="815" y="255" width="180" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="825" y="278" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Audit &amp; Compliance Log</text>
+<text x="825" y="298" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Immutable log of all row</text>
+<text x="825" y="314" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">modifications over time</text>
+<rect x="815" y="350" width="180" height="75" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="825" y="373" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Event Streaming / Kafka</text>
+<text x="825" y="393" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Publish change events to</text>
+<text x="825" y="409" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Kafka for microservices</text>
+<line x1="240" y1="200" x2="270" y2="200" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="240" y1="280" x2="270" y2="280" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<line x1="240" y1="370" x2="270" y2="370" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<line x1="500" y1="200" x2="530" y2="200" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="500" y1="290" x2="530" y2="290" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<line x1="500" y1="380" x2="530" y2="380" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<line x1="770" y1="200" x2="800" y2="200" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="770" y1="290" x2="800" y2="290" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="770" y1="380" x2="800" y2="380" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+</svg>

@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1100" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1100" height="560" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="550" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Cross-Site Request Forgery (CSRF) Attack Mechanics vs. Defense</text>
+  <text x="550" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Ambient Credential Exploitation (Cookies) vs. Modern Defenses: SameSite Cookies &amp; Double-Submit CSRF Tokens</text>
+  <line x1="40" y1="68" x2="1060" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Actor 1: Victim Browser -->
+  <rect x="50" y="95" width="200" height="45" rx="6" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="150" y="122" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Victim User Browser</text>
+  <line x1="150" y1="140" x2="150" y2="490" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Actor 2: Trusted Bank Portal -->
+  <rect x="450" y="95" width="200" height="45" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+  <text x="550" y="122" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Bank Portal (Cookie Auth)</text>
+  <line x1="550" y1="140" x2="550" y2="490" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Actor 3: Malicious Attacker Site -->
+  <rect x="850" y="95" width="200" height="45" rx="6" fill="#1E293B" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="950" y="122" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">Malicious Website / Forum</text>
+  <line x1="950" y1="140" x2="950" y2="490" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Step 1: Legitimate Login -->
+  <path fill="none" d="M 150 165 L 550 165" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <text x="350" y="157" font-size="9" fill="#7DD3FC" text-anchor="middle">1. Logs into bank.com (Credentials verified)</text>
+
+  <path fill="none" d="M 550 195 L 150 195" stroke="#34D399" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr-g)"/>
+  <text x="350" y="187" font-size="9" fill="#34D399" text-anchor="middle">2. Sets Session Cookie: Set-Cookie: JSESSIONID=abc (Cookie stored in browser jar)</text>
+
+  <!-- Step 2: Visits Malicious Tab -->
+  <path fill="none" d="M 150 235 L 950 235" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <text x="550" y="227" font-size="9" fill="#FBBF24" text-anchor="middle">3. Victim visits evil-site.com in a separate tab while still logged into bank.com</text>
+
+  <!-- Step 3: Evil Auto-Form Submit -->
+  <path fill="none" d="M 950 275 L 150 275" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr-r)"/>
+  <text x="550" y="267" font-size="9" fill="#F87171" text-anchor="middle">4. Malicious page renders hidden form with auto-submit: POST /transfer?to=evil&amp;amt=10000</text>
+
+  <!-- Step 4: Ambient Cookie Attachment Exploit -->
+  <path fill="none" d="M 150 320 L 550 320" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+  <text x="350" y="312" font-size="9" font-weight="700" fill="#EF4444" text-anchor="middle">5. Browser automatically attaches Cookie: JSESSIONID=abc (Ambient Authority!)</text>
+
+  <!-- Step 5: Exploit vs Defense Split -->
+  <rect x="420" y="340" width="260" height="65" rx="6" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="550" y="360" font-size="9" font-weight="700" fill="#F87171" text-anchor="middle">&#x2718; WITHOUT CSRF Protection:</text>
+  <text x="550" y="378" font-size="8" fill="#CBD5E1" text-anchor="middle">Bank sees valid JSESSIONID cookie and transfers \$10,000!</text>
+  <text x="550" y="394" font-size="8" fill="#FCA5A5" text-anchor="middle">Victim money stolen silently with zero user consent.</text>
+
+  <!-- Step 6: Modern Defense Mechanisms -->
+  <rect x="420" y="415" width="260" height="70" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="550" y="435" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">&#x2714; WITH Modern Defenses Enabled:</text>
+  <text x="550" y="452" font-size="8" fill="#CBD5E1" text-anchor="middle">1. SameSite=Strict cookie stops cross-site cookie attachment</text>
+  <text x="550" y="468" font-size="8" fill="#CBD5E1" text-anchor="middle">2. CsrfFilter verifies X-XSRF-TOKEN header (evil site cannot read token!)</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="50" y="515" width="1000" height="30" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="550" y="535" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Same-Origin Invariant: Malicious cross-site scripts cannot inspect headers or read cookies from another domain due to Same-Origin Policy (SOP).</text>
+</svg>

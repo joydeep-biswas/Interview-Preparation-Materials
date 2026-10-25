@@ -1,0 +1,25 @@
+direction: right
+title: Circuit Breaker Design Pattern for Upstream Fault Isolation
+
+closed: CLOSED {
+  status: "Normal Operation: All requests forwarded directly"
+  style.stroke: "#10b981"
+}
+
+open: OPEN {
+  status: "Tripped: Fail-fast immediately without sending network requests"
+  style.stroke: "#ef4444"
+}
+
+half_open: HALF-OPEN {
+  status: "Testing Recovery: Sends a single trial canary request"
+  style.stroke: "#f59e0b"
+}
+
+closed -> open: "Failure rate > 50% over 60s"
+open -> half_open: "Sleep window (60s) expires"
+half_open -> closed: "Canary probe succeeds cleanly"
+half_open -> open: "Any trial request fails" {
+  style.stroke: "#ef4444"
+  style.stroke-dash: 4
+}

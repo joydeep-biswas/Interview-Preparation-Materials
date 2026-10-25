@@ -1,0 +1,23 @@
+classes: {
+  ingest_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  cache_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  queue_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  reconcile_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+apiserver: "kube-apiserver\nCluster State Authority" { class: ingest_box }
+reflector: "Reflector (ListerWatcher)\nHTTP/2 Watch Stream" { class: ingest_box }
+fifo: "DeltaFIFO Queue\nOrdered change buffer" { class: ingest_box }
+indexer: "Local Indexer Cache\nThread-safe local store" { class: cache_box }
+workqueue: "Rate-Limiting WorkQueue\nStores namespace/name keys" { class: queue_box }
+reconcile: "Reconcile() Control Loop\nCompare Desired vs Actual State" { class: reconcile_box }
+
+apiserver -> reflector: "Watch Stream"
+reflector -> fifo: "Populate deltas"
+fifo -> indexer: "Update local cache"
+fifo -> workqueue: "Enqueue changed keys"
+workqueue -> reconcile: "Worker dequeues key"
+reconcile -> indexer: "Fetch cached object"
+reconcile -> apiserver: "Corrective API mutation" {
+  style: { stroke: "#f87171"; stroke-width: 2 }
+}

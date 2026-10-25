@@ -1,0 +1,28 @@
+direction: right
+title: The Memory-to-Disk Bridge (Serialization & Persistence)
+
+ram: In-Memory Data Structures (RAM) {
+  obj: User Object (Heap) {
+    id: "101 (int64)"
+    name: "Pointer -> 0x7ffd9b8a (String)"
+    orders: "Pointer -> Array Heap"
+  }
+}
+
+engine: Serialization & Encoding Engine {
+  serializer: Serializer Pipeline {
+    step1: "Dereference pointers & strip memory headers"
+    step2: "Zig-zag variable int & dictionary encoding"
+    step3: "Compress byte stream via Snappy / ZSTD"
+  }
+}
+
+disk: Persistent Storage Block (Disk / Cloud) {
+  bytes: Contiguous Byte Stream {
+    stream: "01000101 01101110 01100111..."
+    portability: "Cross-platform contiguous storage"
+  }
+}
+
+ram.obj -> engine.serializer: "In-memory traversal"
+engine.serializer -> disk.bytes: "Flush to S3 / Disk"

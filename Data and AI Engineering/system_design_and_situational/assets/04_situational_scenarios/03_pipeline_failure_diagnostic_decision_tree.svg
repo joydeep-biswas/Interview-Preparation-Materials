@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 460" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="525" y="32" class="title" font-size="19" text-anchor="middle">Pipeline Failure Diagnostic Decision Tree</text>
+  <text x="525" y="52" class="subtitle" text-anchor="middle">Systematic triage framework mapping error signatures to infrastructure, data contracts, or partition skew</text>
+
+  <!-- Top Root Node: Failure Breach -->
+  <g transform="translate(375, 75)">
+    <rect width="300" height="60" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <text x="150" y="27" class="card-title" fill="#FCA5A5" text-anchor="middle">Pipeline Failed / Breached SLA</text>
+    <text x="150" y="47" class="card-body" fill="#D1D5DB" text-anchor="middle">Diagnostic Check: Where is failure logged?</text>
+  </g>
+
+  <!-- Three Diagnostic Branches -->
+  <!-- Branch 1: Infra -->
+  <g transform="translate(40, 185)">
+    <rect width="290" height="240" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="145" y="21" class="card-title" fill="#93C5FD" text-anchor="middle">Suspect: Infrastructure Layer</text>
+    <text x="16" y="54" class="card-body" font-weight="600" fill="#60A5FA">• Error Signature:</text>
+    <text x="24" y="74" class="card-body">  - ExecutorLostFailure / Heartbeat exit</text>
+    <text x="24" y="94" class="card-body">  - Kubernetes OOMKilled (Exit Code 137)</text>
+    <text x="24" y="114" class="card-body">  - Cloud spot node preemption</text>
+    <text x="16" y="142" class="card-body" font-weight="600" fill="#60A5FA">• Remediation Action:</text>
+    <text x="24" y="162" class="card-body">  - Increase container memory overhead</text>
+    <text x="24" y="182" class="card-body">  - Switch critical drivers to On-Demand</text>
+    <text x="24" y="202" class="card-body">  - Enable Spark Dynamic Allocation</text>
+    <rect x="16" y="212" width="258" height="18" rx="3" ry="3" fill="#1E293B"/>
+    <text x="145" y="225" class="badge" fill="#93C5FD" text-anchor="middle">Hardware / Resource Scaling</text>
+  </g>
+
+  <!-- Branch 2: Data & Schema -->
+  <g transform="translate(380, 185)">
+    <rect width="290" height="240" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#064E3B"/>
+    <text x="145" y="21" class="card-title" fill="#A7F3D0" text-anchor="middle">Suspect: Data &amp; Schema Layer</text>
+    <text x="16" y="54" class="card-body" font-weight="600" fill="#34D399">• Error Signature:</text>
+    <text x="24" y="74" class="card-body">  - AnalysisException / CastError</text>
+    <text x="24" y="94" class="card-body">  - NullPointerException on NOT NULL</text>
+    <text x="24" y="114" class="card-body">  - Schema evolution mismatch</text>
+    <text x="16" y="142" class="card-body" font-weight="600" fill="#34D399">• Remediation Action:</text>
+    <text x="24" y="162" class="card-body">  - Route poisoned rows to DLQ</text>
+    <text x="24" y="182" class="card-body">  - Enforce Upstream Data Contract</text>
+    <text x="24" y="202" class="card-body">  - Delta Lake mergeSchema / rescue</text>
+    <rect x="16" y="212" width="258" height="18" rx="3" ry="3" fill="#1E293B"/>
+    <text x="145" y="225" class="badge" fill="#A7F3D0" text-anchor="middle">Schema &amp; Contract Isolation</text>
+  </g>
+
+  <!-- Branch 3: Skew -->
+  <g transform="translate(720, 185)">
+    <rect width="290" height="240" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#78350F"/>
+    <text x="145" y="21" class="card-title" fill="#FDE68A" text-anchor="middle">Suspect: Data Skew / Stragglers</text>
+    <text x="16" y="54" class="card-body" font-weight="600" fill="#FBBF24">• Error Signature:</text>
+    <text x="24" y="74" class="card-body">  - 199/200 tasks finished in 2m</text>
+    <text x="24" y="94" class="card-body">  - Final task hangs for 45m then OOMs</text>
+    <text x="24" y="114" class="card-body">  - Huge shuffle read on single node</text>
+    <text x="16" y="142" class="card-body" font-weight="600" fill="#FBBF24">• Remediation Action:</text>
+    <text x="24" y="162" class="card-body">  - Enable AQE: spark.sql.adaptive.skewJoin</text>
+    <text x="24" y="182" class="card-body">  - Salt hotspot keys (key + rand(0..15))</text>
+    <text x="24" y="202" class="card-body">  - Broadcast small dimension table</text>
+    <rect x="16" y="212" width="258" height="18" rx="3" ry="3" fill="#1E293B"/>
+    <text x="145" y="225" class="badge" fill="#FDE68A" text-anchor="middle">Partition &amp; Join Resharding</text>
+  </g>
+
+  <!-- Connective Runways from Top to 3 Branches -->
+  <!-- Left Branch Runway: leaves bottom of top node, curves down-left, enters top of left branch -->
+  <path d="M 430 135 L 430 155 Q 430 165 410 165 L 205 165 Q 185 165 185 173 L 185 185" fill="none" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Center Branch Runway: straight down into center branch -->
+  <path d="M 525 135 L 525 173 L 525 185" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- Right Branch Runway: leaves bottom, curves down-right, enters top of right branch -->
+  <path d="M 620 135 L 620 155 Q 620 165 640 165 L 845 165 Q 865 165 865 173 L 865 185" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+</svg>

@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Enterprise Medallion Lakehouse Architecture</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">End-to-End Flow from Raw Ingestion to Enterprise Semantic Layer</text>
+  
+  
+    <rect x="30" y="90" width="280" height="300" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="112" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">1. Bronze Layer (Raw Ingestion)</text>
+  
+    <rect x="45" y="130" width="250" height="110" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="170.0" y="156" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Raw Event Streams</text>
+    <text x="170.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Streaming / Micro-batch</text>
+    <rect x="244" y="140" width="45" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="266.5" y="152" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">RAW-1</text>
+    <circle cx="61" cy="185" r="2" fill="#3b82f6"/>
+    <text x="69" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Append-only raw payloads</text>
+    <circle cx="61" cy="201" r="2" fill="#3b82f6"/>
+    <text x="69" y="204" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Kafka / Kinesis event log</text>
+    <circle cx="61" cy="217" r="2" fill="#3b82f6"/>
+    <text x="69" y="220" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Preserves exact source JSON</text>
+    <circle cx="61" cy="233" r="2" fill="#3b82f6"/>
+    <text x="69" y="236" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Includes ingest timestamp</text>
+  
+    <rect x="45" y="260" width="250" height="110" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="170.0" y="286" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Change Data Capture (CDC)</text>
+    <text x="170.0" y="302" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Database WAL Ingestion</text>
+    <rect x="244" y="270" width="45" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="266.5" y="282" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">RAW-2</text>
+    <circle cx="61" cy="315" r="2" fill="#3b82f6"/>
+    <text x="69" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Debezium / Fivetran streams</text>
+    <circle cx="61" cy="331" r="2" fill="#3b82f6"/>
+    <text x="69" y="334" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Insert / Update / Delete logs</text>
+    <circle cx="61" cy="347" r="2" fill="#3b82f6"/>
+    <text x="69" y="350" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Immutable landing table</text>
+    <circle cx="61" cy="363" r="2" fill="#3b82f6"/>
+    <text x="69" y="366" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Schema drift tolerated</text>
+
+  
+    <rect x="350" y="90" width="280" height="300" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="366" y="112" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. Silver Layer (Cleansed &amp; Enriched)</text>
+  
+    <rect x="365" y="130" width="250" height="110" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="490.0" y="156" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Cleansed &amp; Deduplicated</text>
+    <text x="490.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Quality Enforced</text>
+    <rect x="543" y="140" width="66" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="576.0" y="152" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SILVER-1</text>
+    <circle cx="381" cy="185" r="2" fill="#10b981"/>
+    <text x="389" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Schema validation &amp; type casting</text>
+    <circle cx="381" cy="201" r="2" fill="#10b981"/>
+    <text x="389" y="204" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Quarantine dead-letter queue</text>
+    <circle cx="381" cy="217" r="2" fill="#10b981"/>
+    <text x="389" y="220" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Idempotent merge on PK</text>
+    <circle cx="381" cy="233" r="2" fill="#10b981"/>
+    <text x="389" y="236" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Null checks &amp; domain constraints</text>
+  
+    <rect x="365" y="260" width="250" height="110" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="490.0" y="286" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Data Vault 2.0 Core</text>
+    <text x="490.0" y="302" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Enterprise Auditable Core</text>
+    <rect x="543" y="270" width="66" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="576.0" y="282" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SILVER-2</text>
+    <circle cx="381" cy="315" r="2" fill="#10b981"/>
+    <text x="389" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Hubs: Business keys &amp; hash keys</text>
+    <circle cx="381" cy="331" r="2" fill="#10b981"/>
+    <text x="389" y="334" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Links: Unit of work transactions</text>
+    <circle cx="381" cy="347" r="2" fill="#10b981"/>
+    <text x="389" y="350" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Satellites: Context &amp; SCD tracking</text>
+    <circle cx="381" cy="363" r="2" fill="#10b981"/>
+    <text x="389" y="366" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">100% auditability &amp; lineage</text>
+
+  
+    <rect x="670" y="90" width="280" height="300" rx="10" fill="#291b05" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="686" y="112" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">3. Gold Layer (Curated Serving)</text>
+  
+    <rect x="685" y="130" width="250" height="110" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="810.0" y="156" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Kimball Star Schema</text>
+    <text x="810.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Dimensional Data Marts</text>
+    <rect x="877" y="140" width="52" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="903.0" y="152" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">GOLD-1</text>
+    <circle cx="701" cy="185" r="2" fill="#f59e0b"/>
+    <text x="709" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Conformed dimension tables</text>
+    <circle cx="701" cy="201" r="2" fill="#f59e0b"/>
+    <text x="709" y="204" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Atomic &amp; periodic fact tables</text>
+    <circle cx="701" cy="217" r="2" fill="#f59e0b"/>
+    <text x="709" y="220" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Surrogate keys &amp; SCD Type 2</text>
+    <circle cx="701" cy="233" r="2" fill="#f59e0b"/>
+    <text x="709" y="236" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sub-second analytical queries</text>
+  
+    <rect x="685" y="260" width="250" height="110" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="810.0" y="286" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Enterprise Semantic Layer</text>
+    <text x="810.0" y="302" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Governed Metric Engine</text>
+    <rect x="877" y="270" width="52" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="903.0" y="282" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">GOLD-2</text>
+    <circle cx="701" cy="315" r="2" fill="#f59e0b"/>
+    <text x="709" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Standardized metric definitions</text>
+    <circle cx="701" cy="331" r="2" fill="#f59e0b"/>
+    <text x="709" y="334" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Role-based access &amp; RLS</text>
+    <circle cx="701" cy="347" r="2" fill="#f59e0b"/>
+    <text x="709" y="350" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Direct BI &amp; SQL consumption</text>
+    <circle cx="701" cy="363" r="2" fill="#f59e0b"/>
+    <text x="709" y="366" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Consistent business KPI calc</text>
+
+  
+    <line x1="295" y1="185" x2="365" y2="185" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="330.0" y="177" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Schema &amp; Cleanse</text>
+  
+    <line x1="295" y1="315" x2="365" y2="315" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="330.0" y="307" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">De-dup &amp; Model</text>
+  
+    <line x1="615" y1="185" x2="685" y2="185" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="650.0" y="177" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Model Dimensions</text>
+  
+    <line x1="615" y1="315" x2="685" y2="315" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="650.0" y="307" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Metric Catalog</text>
+
+</svg>

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 260" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Left: Underfitting -->
+  <rect x="30" y="30" width="260" height="200" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="160" y="56" class="title-txt" text-anchor="middle" fill="#FECACA">High Bias (Underfitting)</text>
+  <rect x="45" y="75" width="230" height="35" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+  <text x="55" y="97" class="body-txt" text-anchor="start">• High Training Error</text>
+  <rect x="45" y="120" width="230" height="35" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+  <text x="55" y="142" class="body-txt" text-anchor="start">• High Validation Error</text>
+  <rect x="45" y="165" width="230" height="45" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+  <text x="55" y="185" class="sub-txt" text-anchor="start">Minimal gap between curves</text>
+  <text x="55" y="200" class="badge-txt" fill="#EF4444">Model Too Simple / Rigid</text>
+
+  <!-- Arrow Underfit -> Optimal -->
+  <path d="M 290 130 L 345 130" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="295" y="117" width="50" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="320" y="130" class="edge-txt" text-anchor="middle" fill="#10B981">+Capacity</text>
+
+  <!-- Center: Optimal Balance -->
+  <rect x="345" y="30" width="270" height="200" rx="10" ry="10" fill="#0D1F1C" stroke="#10B981" stroke-width="1.5"/>
+  <text x="480" y="56" class="title-txt" text-anchor="middle" fill="#6EE7B7">Optimal Balance</text>
+  <rect x="360" y="75" width="240" height="35" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1"/>
+  <text x="370" y="97" class="body-txt" text-anchor="start">• Low Training Error</text>
+  <rect x="360" y="120" width="240" height="35" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1"/>
+  <text x="370" y="142" class="body-txt" text-anchor="start">• Low Validation Error</text>
+  <rect x="360" y="165" width="240" height="45" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1"/>
+  <text x="370" y="185" class="sub-txt" text-anchor="start">Acceptable generalization margin</text>
+  <text x="370" y="200" class="badge-txt" fill="#10B981">✓ Robust Generalization</text>
+
+  <!-- Arrow Optimal -> Overfit -->
+  <path d="M 615 130 L 670 130" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <rect x="620" y="117" width="50" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="645" y="130" class="edge-txt" text-anchor="middle" fill="#EF4444">+Overtune</text>
+
+  <!-- Right: Overfitting -->
+  <rect x="670" y="30" width="260" height="200" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="800" y="56" class="title-txt" text-anchor="middle" fill="#FECACA">High Variance (Overfitting)</text>
+  <rect x="685" y="75" width="230" height="35" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+  <text x="695" y="97" class="body-txt" text-anchor="start">• Near-Zero Training Error</text>
+  <rect x="685" y="120" width="230" height="35" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+  <text x="695" y="142" class="body-txt" text-anchor="start">• High Validation Error</text>
+  <rect x="685" y="165" width="230" height="45" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+  <text x="695" y="185" class="sub-txt" text-anchor="start">Massive generalization gap</text>
+  <text x="695" y="200" class="badge-txt" fill="#EF4444">Memorizes Training Noise</text>
+</svg>

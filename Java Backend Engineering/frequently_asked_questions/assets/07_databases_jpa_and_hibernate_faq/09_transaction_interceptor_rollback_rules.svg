@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Spring @Transactional Rollback Rules &amp; Exception Invariants</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">The EJB legacy distinction: Why checked Exceptions commit by default while RuntimeExceptions rollback</text>
+
+  <!-- Left: Unchecked Exceptions (Auto-Rollback) -->
+  <g transform="translate(40, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="230" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">Unchecked Exceptions: AUTO-ROLLBACK (Default)</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="65" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#FCA5A5">Triggered Exceptions</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">RuntimeException, NullPointerException,</text>
+      <text x="15" y="54" class="card-body" font-family="monospace">IllegalArgumentException, java.lang.Error</text>
+
+      <rect x="0" y="75" width="420" height="85" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+      <text x="15" y="95" class="badge" fill="#F87171">TransactionInterceptor Behavior</text>
+      <text x="15" y="115" class="card-body">• Catches Throwable in invokeWithinTransaction()</text>
+      <text x="15" y="131" class="card-body" font-family="monospace">if (txInfo.transactionAttribute.rollbackOn(ex))</text>
+      <text x="15" y="147" class="badge" fill="#FCA5A5">  txManager.rollback(txInfo.transactionStatus);</text>
+
+      <rect x="0" y="170" width="420" height="70" rx="6" ry="6" fill="#0F172A" stroke="#EF4444"/>
+      <text x="15" y="190" class="badge" fill="#FCA5A5">Architectural Invariant</text>
+      <text x="15" y="210" class="card-body">System/programming errors signify unrecoverable state corruption,</text>
+      <text x="15" y="226" class="card-body">demanding complete transaction abortion.</text>
+    </g>
+
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#450A0A"/>
+    <text x="210" y="328" class="badge" fill="#FCA5A5" text-anchor="middle">Zero partial writes persisted; DB state restored cleanly</text>
+  </g>
+
+  <!-- Right: Checked Exceptions (Silent Commit Danger) -->
+  <g transform="translate(560, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#92400E"/>
+    <text x="230" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">Checked Exceptions: SILENT COMMIT (The Trap!)</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="65" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#FDE68A">Triggered Exceptions</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">java.lang.Exception, IOException, SQLException,</text>
+      <text x="15" y="54" class="card-body" font-family="monospace">CustomCheckedBusinessException</text>
+
+      <rect x="0" y="75" width="420" height="85" rx="6" ry="6" fill="#451A03" stroke="#F59E0B"/>
+      <text x="15" y="95" class="badge" fill="#FDE68A">The Default Spring Behavior: COMMITS!</text>
+      <text x="15" y="115" class="card-body">• EJB legacy assumes checked exceptions are business returns</text>
+      <text x="15" y="131" class="card-body" font-family="monospace">rollbackOn(ex) returns FALSE for checked Exception!</text>
+      <text x="15" y="147" class="badge" fill="#F87171">  txManager.commit(txInfo.transactionStatus); // COMMITS!</text>
+
+      <rect x="0" y="170" width="420" height="85" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+      <text x="15" y="190" class="badge" fill="#34D399">The Production Fix: rollbackFor</text>
+      <text x="15" y="210" class="card-body" font-family="monospace">@Transactional(rollbackFor = Exception.class)</text>
+      <text x="15" y="228" class="card-body" font-size="11" fill="#A7F3D0">Always configure rollbackFor = Exception.class on production services!</text>
+    </g>
+
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#064E3B"/>
+    <text x="210" y="328" class="badge" fill="#A7F3D0" text-anchor="middle">Configuring rollbackFor = Exception.class guarantees 100% safety</text>
+  </g>
+</svg>

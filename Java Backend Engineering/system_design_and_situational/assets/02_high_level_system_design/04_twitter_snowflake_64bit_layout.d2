@@ -1,0 +1,40 @@
+direction: right
+
+sign: "1 Bit: Sign (0)" {
+  style.fill: "#1e293b"
+  style.stroke: "#64748b"
+  style.stroke-width: 2
+}
+
+timestamp: "41 Bits: Timestamp (ms epoch)" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+  style.stroke-width: 2
+  desc: "~69.7 Years Lifespan from Custom Epoch"
+}
+
+datacenter: "5 Bits: Datacenter ID" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+  style.stroke-width: 2
+  desc: "32 Datacenters"
+}
+
+worker: "5 Bits: Worker ID" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+  style.stroke-width: 2
+  desc: "32 Worker Nodes per Datacenter"
+}
+
+sequence: "12 Bits: Sequence Number" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+  style.stroke-width: 2
+  desc: "4,096 IDs per ms per node"
+}
+
+sign -> timestamp
+timestamp -> datacenter
+datacenter -> worker
+worker -> sequence

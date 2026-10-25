@@ -6,41 +6,9 @@ A comprehensive, production-grade guide to Graph Representations, BFS & Bidirect
 
 ## Architectural Overview: Graph Topologies & Traversal Mechanics
 
-```mermaid
-flowchart TD
-    subgraph Reps ["1. Graph Representations"]
-        direction LR
-        AdjList["Adjacency List<br/>Map&lt;Node, List&lt;Edge&gt;&gt;<br/>Space: O(V + E)"]
-        AdjMatrix["Adjacency Matrix<br/>int[V][V]<br/>Space: O(V^2)"]
-    end
+![Graph Traversal Topologies & Shortest Path Convergence](assets/06_graphs_topological_sort_and_shortest_paths/01_graph_topologies_and_shortest_paths.svg)
 
-    subgraph Traversals ["2. Core Traversal & Cycle Detection"]
-        direction TB
-        BFS["Breadth-First Search (BFS)<br/>(Unweighted Shortest Path / Frontier Queue)"]
-        DFS["Depth-First Search (DFS)<br/>(3-Color Cycle Detection: White, Gray, Black)"]
-    end
-
-    subgraph DependencyPaths ["3. Dependency Resolution & Shortest Paths"]
-        direction LR
-        Topo["Topological Sort<br/>(Kahn's BFS In-Degree / Alien Dictionary)"]
-        DSU["Union-Find (DSU)<br/>(Path Compression & Rank: O(alpha(V)))"]
-        Dijkstra["Dijkstra / Bellman-Ford<br/>(Weighted Shortest Paths / Flights within K Stops)"]
-    end
-
-    Reps --> Traversals
-    Traversals --> DependencyPaths
-
-    style Reps fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Traversals fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style DependencyPaths fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style AdjList fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style AdjMatrix fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style BFS fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style DFS fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Topo fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style DSU fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Dijkstra fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_graphs_topological_sort_and_shortest_paths/01_graph_topologies_and_shortest_paths.d2](assets/06_graphs_topological_sort_and_shortest_paths/01_graph_topologies_and_shortest_paths.d2)
 
 ---
 

@@ -1,0 +1,16 @@
+direction: right
+title: Distributed Token Bucket Rate Limiting Architecture via Redis
+
+Client: Client Ingress (POST /api/auth/login)
+Filter: RateLimitingFilter (OncePerRequestFilter)
+Redis: Redis Cluster (Token Bucket Lua Script)
+Decision: Tokens Available? { shape: diamond }
+
+Allow: HTTP 200 / Forward Request (X-RateLimit headers)
+Deny: HTTP 429 Too Many Requests (Retry-After header)
+
+Client -> Filter: Ingress request { style.stroke: "#38BDF8" }
+Filter -> Redis: Evaluates token bucket { style.stroke: "#10B981" }
+Redis -> Decision: Returns available count { style.stroke: "#8B5CF6" }
+Decision -> Allow: Yes (Consume 1 token) { style.stroke: "#10B981" }
+Decision -> Deny: No (Bucket empty) { style.stroke: "#EF4444" }

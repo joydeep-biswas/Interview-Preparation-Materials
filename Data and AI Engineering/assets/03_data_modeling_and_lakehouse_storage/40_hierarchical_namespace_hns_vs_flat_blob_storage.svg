@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Hierarchical Namespace (HNS) vs. Flat Blob Storage: O(1) vs. O(N)</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Metadata Pointer Swaps vs. Expensive Copy-and-Delete Operations on Cloud Object Stores</text>
+  
+  
+    <rect x="30" y="95" width="430" height="295" rx="10" fill="#260b0b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#fca5a5" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Flat Blob Storage (AWS S3 / Standard GCS - No HNS)</text>
+  
+    <rect x="45" y="140" width="400" height="75" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="166" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Virtual Prefix Emulation</text>
+    <text x="245.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">No Physical Directory Concept</text>
+    <circle cx="61" cy="195" r="2" fill="#ef4444"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Key: 'stage/orders/2026/part-001.parquet'</text>
+    <circle cx="61" cy="211" r="2" fill="#ef4444"/>
+    <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Directory is merely a string delimiter in key name</text>
+  
+    <rect x="45" y="230" width="400" height="145" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="256" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Rename '/stage/' to '/prod/': O(N) Nightmare</text>
+    <text x="245.0" y="272" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Copy &amp; Delete Loop</text>
+    <rect x="366" y="240" width="73" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="402.5" y="252" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">O(N) COPY</text>
+    <circle cx="61" cy="285" r="2" fill="#ef4444"/>
+    <text x="69" y="288" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">1. Must issue HTTP GET &amp;amp; PUT to COPY all 100,000 files one by one!</text>
+    <circle cx="61" cy="301" r="2" fill="#ef4444"/>
+    <text x="69" y="304" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">2. Must issue HTTP DELETE for all 100,000 original files!</text>
+    <circle cx="61" cy="317" r="2" fill="#ef4444"/>
+    <text x="69" y="320" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Time Complexity: O(N) operations where N = file count</text>
+    <circle cx="61" cy="333" r="2" fill="#ef4444"/>
+    <text x="69" y="336" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Total Rename Duration: 1 HOUR for large datasets</text>
+    <circle cx="61" cy="349" r="2" fill="#ef4444"/>
+    <text x="69" y="352" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Network bandwidth &amp;amp; API request costs incur on rename</text>
+
+  
+    <rect x="520" y="95" width="430" height="295" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Hierarchical Namespace (Azure ADLS Gen2 with HNS)</text>
+  
+    <rect x="535" y="140" width="400" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Real Hierarchical Inode Tree</text>
+    <text x="735.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">True Filesystem Semantics</text>
+    <circle cx="551" cy="195" r="2" fill="#10b981"/>
+    <text x="559" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Directory is a concrete metadata node with permissions</text>
+    <circle cx="551" cy="211" r="2" fill="#10b981"/>
+    <text x="559" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Files are children linked to parent directory inode</text>
+  
+    <rect x="535" y="230" width="400" height="145" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="256" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Rename '/stage/' to '/prod/': O(1) Instantaneous</text>
+    <text x="735.0" y="272" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Atomic Pointer Update</text>
+    <rect x="842" y="240" width="87" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="885.5" y="252" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">O(1) ATOMIC</text>
+    <circle cx="551" cy="285" r="2" fill="#10b981"/>
+    <text x="559" y="288" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">1. Single atomic metadata pointer update on the directory inode!</text>
+    <circle cx="551" cy="301" r="2" fill="#10b981"/>
+    <text x="559" y="304" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">2. Zero files copied; zero file bytes moved over network!</text>
+    <circle cx="551" cy="317" r="2" fill="#10b981"/>
+    <text x="559" y="320" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Time Complexity: O(1) constant time regardless of size</text>
+    <circle cx="551" cy="333" r="2" fill="#10b981"/>
+    <text x="559" y="336" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Total Rename Duration: 15 MILLISECONDS for 100,000 files!</text>
+    <circle cx="551" cy="349" r="2" fill="#10b981"/>
+    <text x="559" y="352" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero risk of partial failure during pipeline commit</text>
+
+</svg>

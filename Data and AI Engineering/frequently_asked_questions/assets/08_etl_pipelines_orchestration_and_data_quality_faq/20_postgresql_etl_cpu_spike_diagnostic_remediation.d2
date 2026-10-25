@@ -1,0 +1,14 @@
+direction: right
+classes: {
+  alert_box: { style: { fill: "#7F1D1D", stroke: "#EF4444", stroke-width: 2 } }
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  amber_box: { style: { fill: "#111827", stroke: "#F59E0B", stroke-width: 2 } }
+  green_box: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
+}
+
+Alert: "🚨 PostgreSQL CPU Spike\n• CPU at 95% during ETL\n• 50 concurrent workers" { class: alert_box }
+Step1: "1. Identify Query\n• pg_stat_activity\n• Find active queries" { class: blue_box }
+Step2: "2. EXPLAIN ANALYZE\n• Detects Seq Scan on 50M rows\n• Missing index" { class: amber_box }
+Step3: "3. Remediation\n• CREATE INDEX CONCURRENTLY\n• Query Read Replica" { class: green_box }
+
+Alert -> Step1 -> Step2 -> Step3

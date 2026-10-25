@@ -1,0 +1,26 @@
+direction: right
+title: Pipeline Fault Tolerance: Self-Healing & Quarantine Gate
+
+task: Task Execution {
+  status: "Worker executes transformation"
+}
+
+transient: Transient Error Handler {
+  check: "Error classified as Transient (Network timeout / Lock wait)"
+  retry: "Exponential Backoff with Full Jitter (Attempts < 5)"
+}
+
+circuit: Circuit Breaker Trip {
+  status: "Attempts >= 5: Halt pipeline & trigger PagerDuty alert"
+  style.stroke: "#ef4444"
+}
+
+dlq: Fatal Poison Pill Handler (DLQ) {
+  status: "Fatal schema corruption: Route record to DLQ; pipeline continues"
+  style.stroke: "#10b981"
+}
+
+task -> transient: "Transient Failure"
+transient -> task: "Retry with Jitter"
+transient -> circuit: "Budget Depleted"
+task -> dlq: "Fatal Corrupt Data"

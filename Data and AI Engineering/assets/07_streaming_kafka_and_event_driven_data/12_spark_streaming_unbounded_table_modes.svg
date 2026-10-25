@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spark Structured Streaming: Unbounded Table Mental Model &amp; Output Modes</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stream-table duality: Continuous stream ingestion into conceptual unbounded table and trigger evaluation modes</text>
+<rect x="30" y="85" width="980" height="90" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="520" y="110" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Incoming Continuous Event Stream (Kafka / Event Hubs)</text>
+<text x="520" y="130" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">t1: [Order 101] -&gt; t2: [Order 102] -&gt; t3: [Order 103] -&gt; t4: [Order 104] -&gt; ... (Infinite Stream)</text>
+<rect x="410" y="142" width="220" height="18" rx="9" fill="#1d4ed8"/><text x="520" y="154" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Unbounded Append Stream</text>
+<line x1="520" y1="175" x2="520" y2="205" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<rect x="160" y="205" width="720" height="80" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="2"/>
+<text x="520" y="228" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Conceptual Unbounded Table (Stream as Table)</text>
+<text x="520" y="248" fill="#DDD6FE" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Every new micro-batch or continuous event appends new rows to an infinite relational table</text>
+<text x="520" y="266" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">User writes standard SQL / DataFrame query: df.groupBy('country').count()</text>
+<path d="M 300.0 285.0 L 300.0 294.0 Q 300.0 300.0 294.0 300.0 L 186.0 300.0 Q 180.0 300.0 180.0 306.0 L 180.0 315.0" fill="none" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="520" y1="285" x2="520" y2="315" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<path d="M 740.0 285.0 L 740.0 294.0 Q 740.0 300.0 746.0 300.0 L 854.0 300.0 Q 860.0 300.0 860.0 306.0 L 860.0 315.0" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<rect x="30" y="315" width="300" height="185" rx="8" fill="#0b1329" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="180" y="340" fill="#38BDF8" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Append Output Mode</text>
+<rect x="100" y="350" width="160" height="18" rx="9" fill="#0284c7"/><text x="180" y="362" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">outputMode('append')</text>
+<text x="45" y="385" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Emits ONLY NEW rows added since</text>
+<text x="45" y="401" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  the last trigger execution</text>
+<text x="45" y="421" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Default mode for ETL &amp; data lakes</text>
+<text x="45" y="441" fill="#F87171" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Incompatible with simple aggregations</text>
+<text x="45" y="457" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  without a defined watermark threshold</text>
+<text x="45" y="477" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Use: Kafka-to-Parquet raw ingestion</text>
+<rect x="370" y="315" width="300" height="185" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="520" y="340" fill="#FBBF24" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Update Output Mode</text>
+<rect x="440" y="350" width="160" height="18" rx="9" fill="#b45309"/><text x="520" y="362" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">outputMode('update')</text>
+<text x="385" y="385" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Emits ONLY ROWS THAT CHANGED</text>
+<text x="385" y="401" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  since the last trigger execution</text>
+<text x="385" y="421" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• If a key was not updated in batch,</text>
+<text x="385" y="437" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  nothing is output for that key</text>
+<text x="385" y="457" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Optimal for key-value state sinks</text>
+<text x="385" y="477" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Use: Real-time Redis / Cassandra updates</text>
+<rect x="710" y="315" width="300" height="185" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="860" y="340" fill="#34D399" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Complete Output Mode</text>
+<rect x="780" y="350" width="160" height="18" rx="9" fill="#047857"/><text x="860" y="362" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">outputMode('complete')</text>
+<text x="725" y="385" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Re-emits the ENTIRE state table</text>
+<text x="725" y="401" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  on every single trigger run</text>
+<text x="725" y="421" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Requires an aggregation query</text>
+<text x="725" y="441" fill="#F87171" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Unbounded state risk: fails if table</text>
+<text x="725" y="457" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  has millions of distinct keys!</text>
+<text x="725" y="477" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Use: Low-cardinality live KPI counts</text>
+</svg>

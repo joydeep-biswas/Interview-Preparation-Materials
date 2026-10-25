@@ -1,0 +1,28 @@
+direction: right
+title: Delta Live Tables (DLT) Declarative Pipeline
+
+RawStream: 1. Raw Storage Stream {
+  style.stroke: "#38BDF8"
+  AutoLoader: Auto Loader (cloudFiles)
+}
+
+Bronze: 2. Bronze DLT Table {
+  style.stroke: "#FBBF24"
+  Table: orders_bronze (Raw Append-Only)
+}
+
+Silver: 3. Silver DLT Table {
+  style.stroke: "#34D399"
+  Expectations: DLT Expectations (warn, drop, fail)
+  CleanTable: orders_silver (Deduplicated & Validated)
+  Expectations -> CleanTable
+}
+
+Gold: 4. Gold Business Mart {
+  style.stroke: "#C084FC"
+  Mart: sales_summary_gold (Materialized KPI View)
+}
+
+RawStream.AutoLoader -> Bronze.Table: @dlt.table readStream { style.stroke: "#FBBF24" }
+Bronze.Table -> Silver.Expectations: @dlt.read("orders_bronze") { style.stroke: "#34D399" }
+Silver.CleanTable -> Gold.Mart: @dlt.read("orders_silver") { style.stroke: "#C084FC" }

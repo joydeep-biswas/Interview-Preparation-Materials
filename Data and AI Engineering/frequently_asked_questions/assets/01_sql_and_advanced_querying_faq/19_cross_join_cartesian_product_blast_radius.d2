@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+case1: "Case 1: Populated Tables" {
+  a1: "Table A: 10 Rows" { class: box; style.stroke: "#3B82F6" }
+  b1: "Table B: 20 Rows" { class: box; style.stroke: "#3B82F6" }
+  out1: "Cartesian Join Result\n10 x 20 = 200 Rows Materialized" { class: box; style.stroke: "#10B981" }
+  a1 -> out1
+  b1 -> out1
+}
+
+case2: "Case 2: Empty Set Table" {
+  a2: "Table A: Empty Set (0 Rows)" { class: box; style.stroke: "#EF4444" }
+  b2: "Table B: 20 Rows" { class: box; style.stroke: "#3B82F6" }
+  out2: "Cartesian Join Result\n0 x 20 = 0 Rows (Empty Output)" { class: box; style.stroke: "#EF4444" }
+  a2 -> out2
+  b2 -> out2
+}

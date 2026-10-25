@@ -1,0 +1,34 @@
+direction: down
+classes: {
+  card: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  decision: { shape: diamond; style: { fill: "#1e293b"; stroke: "#fbbf24"; stroke-width: 2 } }
+  green_card: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  purple_card: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+}
+
+start: "New Production Capability
+Adaptation Strategy Evaluation" { class: card }
+q1: "Prompting & RAG
+Achieve Target Accuracy?" { class: decision }
+q2: "Compute Budget &
+Dataset Volume?" { class: decision }
+
+in_context: "Tier 1: In-Context Adaptation" {
+  prompt: "Prompt Engineering & Few-Shot
+Fast iteration, zero training cost" { class: green_card }
+  rag: "Modular RAG & Grounding
+Dynamic enterprise knowledge" { class: green_card }
+}
+
+lora: "LoRA / QLoRA PEFT
+Frozen base weights (0.1% params)
+Single GPU viable" { class: card }
+full_ft: "Full Parameter FT
+All weights updated
+Multi-Node Cluster" { class: purple_card }
+
+start -> q1: "Evaluate"
+q1 -> in_context: "YES (Sufficient)"
+q1 -> q2: "NO (Style/Syntax)"
+q2 -> lora: "<= 50k Samples"
+q2 -> full_ft: ">= 500k Samples"

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 560" width="1040" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="560" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Isolation Anomaly: Non-Repeatable Read (Fuzzy Read)</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Read Committed Statement-Level Snapshot vs Repeatable Read Transaction Snapshot</text>
+<rect x="70" y="90" width="240" height="50" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+<text x="190" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Session 1 (Tx 101)</text>
+<text x="190" y="130" fill="#94A3B8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ISOLATION: READ COMMITTED</text>
+<rect x="400" y="90" width="240" height="50" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<text x="520" y="112" fill="#34D399" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL Database Engine</text>
+<text x="520" y="130" fill="#94A3B8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Table: accounts (id=1, balance=100.00)</text>
+<rect x="750" y="90" width="240" height="50" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+<text x="870" y="112" fill="#FBBF24" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Session 2 (Tx 102)</text>
+<text x="870" y="130" fill="#94A3B8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Concurrent Updater Session</text>
+<line x1="190" y1="140" x2="190" y2="470" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<line x1="520" y1="140" x2="520" y2="470" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<line x1="870" y1="140" x2="870" y2="470" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<rect x="90" y="160" width="200" height="32" rx="6" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="190" y="180" fill="#93C5FD" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. BEGIN; SELECT balance...</text>
+<line x1="290" y1="175" x2="520" y2="175" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="520" y1="205" x2="190" y2="205" stroke="#34D399" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-g)"/>
+<rect x="100" y="213" width="180" height="26" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="190" y="229" fill="#6EE7B7" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Returns: $100.00 (Snapshot 1)</text>
+<line x1="770" y1="250" x2="520" y2="250" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<rect x="770" y="235" width="200" height="32" rx="6" fill="#78350f" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="870" y="255" fill="#FDE68A" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. UPDATE balance=150; COMMIT;</text>
+<rect x="410" y="260" width="220" height="36" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+<text x="520" y="276" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">WAL Flushed: New Tuple committed</text>
+<text x="520" y="290" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">xmin=102 committed, old xmax=102</text>
+<line x1="190" y1="330" x2="520" y2="330" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<rect x="90" y="315" width="200" height="32" rx="6" fill="#7f1d1d" stroke="#ef4444" stroke-width="1.5"/>
+<text x="190" y="335" fill="#FCA5A5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Repeated SELECT balance...</text>
+<line x1="520" y1="370" x2="190" y2="370" stroke="#F87171" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-r)"/>
+<rect x="90" y="378" width="200" height="42" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>
+<text x="190" y="396" fill="#FECACA" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Returns: $150.00! (ANOMALY)</text>
+<text x="190" y="412" fill="#FCA5A5" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Non-Repeatable Read in same Tx!</text>
+<rect x="740" y="330" width="260" height="100" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="755" y="352" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Under REPEATABLE READ / SERIALIZABLE:</text>
+<text x="755" y="372" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Snapshot is created at 1st query start</text>
+<text x="755" y="390" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Tx 102 commit is ignored by snapshot</text>
+<text x="755" y="410" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Query 3 returns $100.00 consistently!</text>
+<rect x="50" y="480" width="940" height="60" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="520" y="505" fill="#93C5FD" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">READ COMMITTED takes a fresh snapshot before EACH statement, exposing concurrent commits.</text>
+<text x="520" y="525" fill="#94A3B8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">REPEATABLE READ locks the snapshot to the transaction's first query, guaranteeing query-to-query repeatability.</text>
+</svg>

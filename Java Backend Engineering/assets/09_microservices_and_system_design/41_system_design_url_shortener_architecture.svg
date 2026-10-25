@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" width="1080" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">System Design: Highly Scalable URL Shortener Architecture (TinyURL)</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Cloudflare Edge CDN, Range-Based Snowflake ID Allocation, Redis LRU Cache, and Base62 Encoding</text>
+<rect x="40" y="130" width="210" height="300" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="145" width="140" height="20" rx="10" fill="#1e3a8a"/><text x="125" y="158" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. EDGE INGRESS</text>
+<text x="145" y="185" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Cloudflare CDN Edge</text>
+<text x="55" y="215" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Edge 301 Redirect Cache</text>
+<text x="55" y="232" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Absorbs 85% of read QPS</text>
+<text x="55" y="250" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• DDoS &amp; TLS Termination</text>
+<rect x="52" y="280" width="186" height="70" rx="4" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="145" y="302" fill="#38BDF8" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">AWS ALB / Envoy</text>
+<text x="145" y="322" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Round-robin distribution</text>
+<text x="145" y="336" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">to stateless pod fleet</text>
+<rect x="290" y="130" width="210" height="300" rx="8" fill="#083344" stroke="#06b6d4" stroke-width="2"/>
+<rect x="305" y="145" width="160" height="20" rx="10" fill="#0891b2"/><text x="385" y="158" fill="#ECFEFF" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. SHORTENER PODS</text>
+<text x="395" y="185" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Boot Pod Fleet</text>
+<text x="305" y="215" fill="#67E8F9" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Base62 Encoding Engine:</text>
+<text x="305" y="235" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• [a-z, A-Z, 0-9] characters</text>
+<text x="305" y="252" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• 7 chars = 62^7 = 3.5 Trillion URLs!</text>
+<rect x="302" y="280" width="186" height="80" rx="4" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
+<text x="395" y="302" fill="#FDE68A" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zookeeper Token Allocator</text>
+<text x="310" y="322" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Pod claims range [1M - 2M]</text>
+<text x="310" y="338" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Atomic in-memory counter</text>
+<text x="310" y="352" fill="#34D399" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero DB collision lock!</text>
+<rect x="540" y="130" width="210" height="300" rx="8" fill="#1a140b" stroke="#f59e0b" stroke-width="2"/>
+<rect x="555" y="145" width="150" height="20" rx="10" fill="#78350f"/><text x="630" y="158" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. REDIS LRU CACHE</text>
+<text x="645" y="185" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Redis Cluster (LRU)</text>
+<text x="555" y="215" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Caching Topology:</text>
+<text x="555" y="235" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Key: 'short_key'</text>
+<text x="555" y="252" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Value: 'long_url'</text>
+<text x="555" y="270" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Memory: 20% hot URLs</text>
+<text x="555" y="286" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  absorbs 80% of traffic</text>
+<text x="555" y="310" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Eviction: allkeys-lru</text>
+<text x="555" y="335" fill="#6EE7B7" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Sub-millisecond redirect!</text>
+<rect x="790" y="130" width="240" height="300" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
+<rect x="805" y="145" width="180" height="20" rx="10" fill="#047857"/><text x="895" y="158" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. PERSISTENT STORAGE</text>
+<text x="910" y="185" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL / DynamoDB</text>
+<text x="805" y="215" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Table: url_mappings</text>
+<text x="805" y="235" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• short_key VARCHAR(7) PK</text>
+<text x="805" y="252" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• original_url VARCHAR(2048)</text>
+<text x="805" y="270" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• user_id BIGINT | created_at</text>
+<text x="805" y="288" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• expires_at TIMESTAMP</text>
+<text x="805" y="315" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">B+Tree Clustered Index:</text>
+<text x="805" y="335" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">O(log N) lookup on cache miss</text>
+<text x="805" y="355" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partitioned by short_key hash</text>
+<line x1="250" y1="280" x2="290" y2="280" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="500" y1="280" x2="540" y2="280" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<line x1="750" y1="280" x2="790" y2="280" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<rect x="40" y="460" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="483" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key Architectural Decision: HTTP 301 Permanent vs HTTP 302 Temporary Redirect:</text>
+<text x="65" y="503" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• HTTP 301 (Permanent): Browser caches the redirect locally. Subsequent clicks never touch our servers -&gt; Saves massive bandwidth, but loses analytics tracking.</text>
+<text x="65" y="520" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• HTTP 302 (Found): Browser always hits our servers first -&gt; Enables click tracking, geo-analytics, and link expiry enforcement at the cost of higher server load.</text>
+</svg>

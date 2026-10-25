@@ -1,0 +1,20 @@
+direction: right
+title: Physical Join Algorithms: Nested Loop vs. Hash Join vs. Merge Sort
+
+nlj: 1. Nested Loop Join (Index Probe) {
+  complexity: "O(M * log N)"
+  mechanics: "For each outer row, probe inner B+ Tree index"
+  best_for: "Small outer table with indexed inner table"
+}
+
+hash_join: 2. Hash Join (Build & Probe) {
+  complexity: "O(M + N)"
+  mechanics: "Build in-memory hash table on small table, stream probe large table"
+  best_for: "Large unsorted datasets with equality joins (=)"
+}
+
+merge_join: 3. Merge Sort Join (Synchronized Scan) {
+  complexity: "O(M + N) sorted"
+  mechanics: "Advance two pointers along sorted streams"
+  best_for: "Pre-sorted inputs via B+ Tree indexes"
+}

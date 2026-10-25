@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="400" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">The Memory-to-Disk Bridge: In-Memory Objects to Persistent Bytes</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Dereferencing Pointers, Stripping Memory Headers, and Encoding Contiguous Byte Streams</text>
+  
+  
+    <rect x="30" y="95" width="280" height="275" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">In-Memory Data Structures (RAM)</text>
+  
+    <rect x="45" y="135" width="250" height="220" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="170.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">User Object (Heap)</text>
+    <text x="170.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Non-Contiguous Virtual Memory</text>
+    <rect x="258" y="145" width="31" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="273.5" y="157" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">RAM</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Object Header: 12-16 bytes (Klass/Mark)</text>
+    <circle cx="61" cy="206" r="2" fill="#3b82f6"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Field: id = 101 (int64, 8 bytes)</text>
+    <circle cx="61" cy="222" r="2" fill="#3b82f6"/>
+    <text x="69" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Field: name -&amp;gt; Pointer (0x7ffd9b8a)</text>
+    <circle cx="61" cy="238" r="2" fill="#3b82f6"/>
+    <text x="69" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">String Heap: char[] 'Alice'</text>
+    <circle cx="61" cy="254" r="2" fill="#3b82f6"/>
+    <text x="69" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Field: orders -&amp;gt; Pointer (0x7ffe102c)</text>
+    <circle cx="61" cy="270" r="2" fill="#3b82f6"/>
+    <text x="69" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Array Heap: Order[] references</text>
+    <circle cx="61" cy="286" r="2" fill="#3b82f6"/>
+    <text x="69" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Pointers meaningless outside this JVM process!</text>
+
+  
+    <rect x="345" y="95" width="290" height="275" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="361" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Serialization &amp;amp; Encoding Engine</text>
+  
+    <rect x="360" y="135" width="260" height="220" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="490.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Serializer Pipeline</text>
+    <text x="490.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Parquet / Avro / Arrow Encoder</text>
+    <rect x="555" y="145" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="584.5" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ENCODER</text>
+    <circle cx="376" cy="190" r="2" fill="#10b981"/>
+    <text x="384" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">1. Dereference in-memory pointer addresses</text>
+    <circle cx="376" cy="206" r="2" fill="#10b981"/>
+    <text x="384" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">2. Strip JVM/OS memory header overhead</text>
+    <circle cx="376" cy="222" r="2" fill="#10b981"/>
+    <text x="384" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">3. Flatten nested graphs into record stream</text>
+    <circle cx="376" cy="238" r="2" fill="#10b981"/>
+    <text x="384" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">4. Apply variable-length zig-zag encoding</text>
+    <circle cx="376" cy="254" r="2" fill="#10b981"/>
+    <text x="384" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">5. Dictionary encode repetitive strings</text>
+    <circle cx="376" cy="270" r="2" fill="#10b981"/>
+    <text x="384" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">6. Compress byte stream (Snappy/ZSTD)</text>
+    <circle cx="376" cy="286" r="2" fill="#10b981"/>
+    <text x="384" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Output: Highly compact byte stream</text>
+
+  
+    <rect x="665" y="95" width="285" height="275" rx="10" fill="#291b05" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="681" y="117" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Persistent Storage (Disk / Cloud)</text>
+  
+    <rect x="680" y="135" width="255" height="220" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="807.5" y="161" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Contiguous Byte Stream</text>
+    <text x="807.5" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Physical File on S3 / NVMe SSD</text>
+    <rect x="849" y="145" width="80" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="889.0" y="157" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PERSISTENT</text>
+    <circle cx="696" cy="190" r="2" fill="#f59e0b"/>
+    <text x="704" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Bytes: 01000101 01101110 01100111...</text>
+    <circle cx="696" cy="206" r="2" fill="#f59e0b"/>
+    <text x="704" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Magic bytes: 'PAR1' or 0x00 (Avro)</text>
+    <circle cx="696" cy="222" r="2" fill="#f59e0b"/>
+    <text x="704" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero pointer references stored</text>
+    <circle cx="696" cy="238" r="2" fill="#f59e0b"/>
+    <text x="704" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Self-describing schema in footer/registry</text>
+    <circle cx="696" cy="254" r="2" fill="#f59e0b"/>
+    <text x="704" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Contiguous sequential disk I/O</text>
+    <circle cx="696" cy="270" r="2" fill="#f59e0b"/>
+    <text x="704" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Portable across languages (Java/C++/Python)</text>
+    <circle cx="696" cy="286" r="2" fill="#f59e0b"/>
+    <text x="704" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Ready for high-speed columnar scan</text>
+
+  
+    <line x1="310" y1="245" x2="345" y2="245" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="327.5" y="237" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Serialize</text>
+  
+    <line x1="635" y1="245" x2="665" y2="245" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="650.0" y="237" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Write Flush</text>
+
+</svg>

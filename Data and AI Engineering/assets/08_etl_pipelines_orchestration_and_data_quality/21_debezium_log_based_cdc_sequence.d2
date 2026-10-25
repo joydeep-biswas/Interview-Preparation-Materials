@@ -1,0 +1,18 @@
+direction: right
+title: Log-Based Change Data Capture (CDC) Architecture
+
+app: 1. OLTP Application
+db: 2. PostgreSQL Core Database {
+  wal: Write-Ahead Log (WAL on Disk)
+}
+debezium: 3. Debezium (Kafka Connect) {
+  slot: Logical Replication Slot
+}
+kafka: 4. Kafka Topic (db.orders)
+lakehouse: 5. Delta Lake / Iceberg Bronze
+
+app -> db: "UPDATE orders SET status = 'SHIPPED'"
+db -> db.wal: "Append Commit Record (LSN: 0/16B2D40)"
+db.wal -> debezium.slot: "Stream WAL bytes"
+debezium -> kafka: "Publish Event Envelope (Before & After)"
+kafka -> lakehouse: "Stream Ingest into Bronze"

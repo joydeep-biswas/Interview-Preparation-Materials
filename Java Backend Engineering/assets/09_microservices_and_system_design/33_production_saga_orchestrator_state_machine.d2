@@ -1,0 +1,48 @@
+direction: right
+title: "Production Saga Orchestrator: State Machine & Compensation Rollback"
+
+s1: "1. SAGA_STARTED" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+s2: "2. ORDER_PENDING" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+s3: "3. PAYMENT_AUTHORIZED" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+s4: "4. INVENTORY_RESERVED" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+s5: "5. SAGA_COMPLETED" {
+  style.fill: "#064e3b"
+  style.stroke: "#34d399"
+}
+
+c1: "COMPENSATING_PAYMENT
+Refunds Stripe auth" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+}
+c2: "COMPENSATING_ORDER
+Cancels Order" {
+  style.fill: "#1a1118"
+  style.stroke: "#ef4444"
+}
+c3: "SAGA_FAILED
+Consistent baseline" {
+  style.fill: "#450a0a"
+  style.stroke: "#ef4444"
+}
+
+s1 -> s2: "createOrder()"
+s2 -> s3: "chargePayment()"
+s3 -> s4: "reserveStock()"
+s4 -> s5: "dispatchOrder()"
+
+s4 -> c1: "Stock Out Error!"
+c1 -> c2: "Payment refunded"
+c2 -> c3: "Order cancelled (Clean)"

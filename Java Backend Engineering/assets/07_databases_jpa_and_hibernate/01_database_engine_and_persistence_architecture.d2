@@ -1,0 +1,52 @@
+direction: right
+title: Enterprise Database Engine & Persistence Architecture
+
+pool: "1. Client & Pool (HikariCP)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  app: "Spring Boot Apps"
+  hikari: "HikariCP Pool (ConcurrentBag)"
+}
+
+engine: "2. Query Processing Engine" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+
+  parser: "SQL Parser & AST"
+  cbo: "Cost-Based Optimizer"
+  exec: "Volcano Iterator Executor"
+
+  parser -> cbo -> exec
+}
+
+memory: "3. Storage Memory Buffers" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  buffers: "Shared Buffer Pool (8KB Pages)"
+  wal_buf: "WAL Buffer (RAM)"
+}
+
+disk: "4. Persistent NVMe Storage" {
+  style.fill: "#1e1e38"
+  style.stroke: "#8b5cf6"
+
+  wal_disk: "WAL Log Disk (fsync on COMMIT)"
+  heap: "Table Heap Files (Async Checkpoint)"
+}
+
+replicas: "5. Read Replicas (Streaming)" {
+  style.fill: "#0b1329"
+  style.stroke: "#38bdf8"
+
+  r1: "Replica 1 (Reporting)"
+  r2: "Replica 2 (Analytics)"
+}
+
+pool.hikari -> engine.parser
+engine.exec -> memory.buffers
+memory.wal_buf -> disk.wal_disk: "fsync() on COMMIT"
+memory.buffers -> disk.heap: "Async Checkpoint"
+disk.wal_disk -> replicas.r1: "Streaming WAL"
+disk.wal_disk -> replicas.r2: "Streaming WAL"

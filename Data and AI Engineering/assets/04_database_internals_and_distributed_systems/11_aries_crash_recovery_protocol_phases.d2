@@ -1,0 +1,23 @@
+direction: right
+title: The Three Phases of ARIES Crash Recovery
+
+p1: Phase 1: Analysis {
+  action: "Scan WAL forward from latest checkpoint"
+  reconstruct: "Reconstruct Dirty Page Table (DPT) & Transaction Table"
+  identify: "Identify all active 'loser' transactions"
+}
+
+p2: Phase 2: Redo ('Repeat History') {
+  action: "Scan forward from smallest RecLSN in DPT"
+  replay: "Replay all changes (committed & uncommitted)"
+  state: "Restores exact millisecond state of crash"
+}
+
+p3: Phase 3: Undo {
+  action: "Scan WAL backward from end of log"
+  rollback: "Roll back changes made by loser transactions"
+  clrs: "Write Compensation Log Records (CLRs) for idempotency"
+}
+
+p1 -> p2: "State reconstructed"
+p2 -> p3: "History repeated"

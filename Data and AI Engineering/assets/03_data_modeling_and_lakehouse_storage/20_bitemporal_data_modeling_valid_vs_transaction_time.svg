@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Bitemporal Data Modeling: Valid Time vs. Transaction Time</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Tracking When Real-World Events Occurred vs. When the Database Recorded Them</text>
+  
+  
+    <rect x="30" y="95" width="240" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Bitemporal Time Plane</text>
+  
+    <rect x="45" y="140" width="210" height="105" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="150.0" y="166" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Valid / Business Time</text>
+    <text x="150.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Real-World Occurrence</text>
+    <rect x="204" y="150" width="45" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="226.5" y="162" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">VALID</text>
+    <circle cx="61" cy="195" r="2" fill="#3b82f6"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">When event actually occurred</text>
+    <circle cx="61" cy="211" r="2" fill="#3b82f6"/>
+    <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Columns: valid_from, valid_to</text>
+    <circle cx="61" cy="227" r="2" fill="#3b82f6"/>
+    <text x="69" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Under control of business user</text>
+    <circle cx="61" cy="243" r="2" fill="#3b82f6"/>
+    <text x="69" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Can record past or future dates</text>
+  
+    <rect x="45" y="260" width="210" height="105" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="150.0" y="286" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">System / Transaction Time</text>
+    <text x="150.0" y="302" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Database Audit Timestamp</text>
+    <rect x="197" y="270" width="52" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="223.0" y="282" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SYSTEM</text>
+    <circle cx="61" cy="315" r="2" fill="#3b82f6"/>
+    <text x="69" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">When database stored row</text>
+    <circle cx="61" cy="331" r="2" fill="#3b82f6"/>
+    <text x="69" y="334" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Columns: system_from, system_to</text>
+    <circle cx="61" cy="347" r="2" fill="#3b82f6"/>
+    <text x="69" y="350" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Immutable, machine generated</text>
+    <circle cx="61" cy="363" r="2" fill="#3b82f6"/>
+    <text x="69" y="366" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Strictly append-only timeline</text>
+
+  
+    <rect x="310" y="95" width="640" height="290" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="326" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Timeline Execution Sequence: Late Arrival &amp; Retroactive Correction</text>
+  
+    <rect x="325" y="135" width="280" height="105" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="465.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">T1: Real-World Event</text>
+    <text x="465.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Jan 10 (Valid Time)</text>
+    <rect x="554" y="145" width="45" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="576.5" y="157" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">EVENT</text>
+    <circle cx="341" cy="190" r="2" fill="#3b82f6"/>
+    <text x="349" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Customer signs $100 policy on Jan 10</text>
+    <circle cx="341" cy="206" r="2" fill="#3b82f6"/>
+    <text x="349" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Paperwork in transit; not yet in DB</text>
+    <circle cx="341" cy="222" r="2" fill="#3b82f6"/>
+    <text x="349" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">DB state: Zero record exists yet</text>
+
+  
+    <rect x="640" y="135" width="290" height="105" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="785.0" y="161" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">T2: Late Ingestion</text>
+    <text x="785.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Jan 15 (System Time)</text>
+    <rect x="872" y="145" width="52" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="898.0" y="157" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">INSERT</text>
+    <circle cx="656" cy="190" r="2" fill="#f59e0b"/>
+    <text x="664" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Paperwork arrives at DB on Jan 15</text>
+    <circle cx="656" cy="206" r="2" fill="#f59e0b"/>
+    <text x="664" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Inserted: valid = [Jan 10, Inf)</text>
+    <circle cx="656" cy="222" r="2" fill="#f59e0b"/>
+    <text x="664" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">System = [Jan 15, Inf), amount = $100</text>
+
+  
+    <rect x="325" y="260" width="605" height="105" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="627.5" y="286" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">T3: Retroactive Correction on Jan 20 (Audit Invariant)</text>
+    <text x="627.5" y="302" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Jan 20 (System Time)</text>
+    <rect x="844" y="270" width="80" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="884.0" y="282" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CORRECTION</text>
+    <circle cx="341" cy="315" r="2" fill="#10b981"/>
+    <text x="349" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Audit discovers on Jan 20 that the policy signed on Jan 10 was actually $120, not $100!</text>
+    <circle cx="341" cy="331" r="2" fill="#10b981"/>
+    <text x="349" y="334" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Row 1 is NOT mutated. Its system_to is closed at Jan 20: valid=[Jan 10, Inf), system=[Jan 15, Jan 20), amount=$100</text>
+    <circle cx="341" cy="347" r="2" fill="#10b981"/>
+    <text x="349" y="350" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Row 2 is inserted: valid=[Jan 10, Inf), system=[Jan 20, Inf), amount=$120. Enables AS-WAS and AS-OF queries!</text>
+
+  
+    <line x1="605" y1="187" x2="640" y2="187" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="622.5" y="179.0" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Ingest</text>
+  
+    <line x1="785" y1="240" x2="785" y2="260" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="785.0" y="242.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Correct</text>
+
+</svg>

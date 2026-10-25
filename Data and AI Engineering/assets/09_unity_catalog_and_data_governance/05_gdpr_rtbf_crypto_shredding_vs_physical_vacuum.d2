@@ -1,0 +1,19 @@
+direction: right
+classes: {
+  slow: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  fast: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+vacuum_approach: "Approach A: Physical VACUUM Rewrite" {
+  scan: "1. Locate User in 500k Files" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  rewrite: "2. Spark MERGE Rewrite + Vacuum\n(Rewrites 14k files, $10,000s compute\nWaits 30-day tombstone)" { class: slow }
+
+  scan -> rewrite: "Triggers Heavy Job"
+}
+
+crypto_approach: "Approach B: Crypto-Shredding (Zero Rewrite)" {
+  key_store: "1. Dedicated Per-User AES-256 Key" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  shred: "2. RTBF Deletion: Destroy Key Entry\n(Takes &lt;5ms! Zero Parquet files modified\nCryptographically shredded)" { class: fast }
+
+  key_store -> shred: "Drop Key Record"
+}

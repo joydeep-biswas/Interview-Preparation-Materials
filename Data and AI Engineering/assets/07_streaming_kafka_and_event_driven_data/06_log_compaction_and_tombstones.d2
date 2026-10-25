@@ -1,0 +1,30 @@
+direction: down
+title: Kafka Log Compaction & Tombstone Deletion Mechanics
+
+dirty: "1. Uncompacted Log Segment (Before Cleaner)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  o0: "Off 0: K1='Alice' (Old)"
+  o1: "Off 1: K2='Bob' (Old)"
+  o2: "Off 2: K1='Alice Smith' (LATEST)"
+  o3: "Off 3: K3='David' (Active)"
+  o4: "Off 4: K2=NULL (Tombstone)"
+}
+
+cleaner: "Log Cleaner Process (SkimpyOffsetMap)" {
+  style.fill: "#1e293b"
+  style.stroke: "#38bdf8"
+}
+
+clean: "2. Compacted Log Segment (After Cleaner)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  c2: "Off 2: K1='Alice Smith' (Retained latest)"
+  c3: "Off 3: K3='David' (Retained active)"
+  c4: "Off 4: K2=NULL (Tombstone held for delete.retention.ms)"
+}
+
+dirty -> cleaner: "Scan & deduplicate"
+cleaner -> clean: "Write compacted segment"

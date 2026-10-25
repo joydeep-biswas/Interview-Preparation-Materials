@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1180" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1180" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="590" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Docker / OCI Container Lifecycle State Machine</text>
+  <text x="590" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Process Transitions: Created -&gt; Running &lt;-&gt; Paused -&gt; Stopped / OOMKilled (Exit 137) -&gt; Removed</text>
+  <line x1="40" y1="68" x2="1140" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- State 1: Created -->
+  <rect x="50" y="140" width="180" height="110" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="140" width="180" height="26" rx="8" fill="#0C4A6E"/>
+  <text x="140" y="158" font-size="10" font-weight="700" fill="#7DD3FC" text-anchor="middle">CREATED State</text>
+  <text x="65" y="185" font-size="8" fill="#CBD5E1">&#x2022; Filesystem allocated</text>
+  <text x="65" y="202" font-size="8" fill="#CBD5E1">&#x2022; Namespaces configured</text>
+  <text x="65" y="220" font-size="8" fill="#94A3B8">&#x2022; Zero active PID running</text>
+  <text x="65" y="237" font-size="7" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">docker create</text>
+
+  <!-- State 2: Running -->
+  <rect x="330" y="125" width="220" height="140" rx="8" fill="#06201B" stroke="#10B981" stroke-width="2"/>
+  <rect x="330" y="125" width="220" height="26" rx="8" fill="#047857"/>
+  <text x="440" y="143" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">&#x2714; RUNNING State</text>
+  <text x="345" y="170" font-size="8" fill="#CBD5E1">&#x2022; PID 1 executing in namespaces</text>
+  <text x="345" y="188" font-size="8" fill="#CBD5E1">&#x2022; Processing HTTP / gRPC traffic</text>
+  <text x="345" y="206" font-size="8" fill="#CBD5E1">&#x2022; cgroup cpu/memory constraints active</text>
+  <text x="345" y="226" font-size="8" fill="#34D399">&#x2714; Health check probes passing</text>
+  <text x="345" y="245" font-size="7" font-family="'JetBrains Mono', monospace" fill="#A7F3D0">docker run / docker start</text>
+
+  <!-- Connector Created -> Running -->
+  <path fill="none" d="M 230 195 L 330 195" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <text x="280" y="185" font-size="8" fill="#38BDF8" text-anchor="middle">start</text>
+
+  <!-- State 3: Paused -->
+  <rect x="330" y="335" width="220" height="110" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="330" y="335" width="220" height="26" rx="8" fill="#78350F"/>
+  <text x="440" y="353" font-size="10" font-weight="700" fill="#FDE68A" text-anchor="middle">PAUSED State</text>
+  <text x="345" y="380" font-size="8" fill="#CBD5E1">&#x2022; Process frozen via cgroup freezer</text>
+  <text x="345" y="398" font-size="8" fill="#CBD5E1">&#x2022; Zero CPU cycles allocated</text>
+  <text x="345" y="416" font-size="8" fill="#CBD5E1">&#x2022; Memory pages remain in RAM</text>
+  <text x="345" y="433" font-size="7" font-family="'JetBrains Mono', monospace" fill="#FBBF24">docker pause / unpause</text>
+
+  <!-- Connectors Running <-> Paused -->
+  <path fill="none" d="M 410 265 L 410 335" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <text x="390" y="305" font-size="7" fill="#FBBF24">pause</text>
+
+  <path fill="none" d="M 470 335 L 470 265" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <text x="490" y="305" font-size="7" fill="#34D399">unpause</text>
+
+  <!-- State 4: Stopped -->
+  <rect x="660" y="105" width="210" height="110" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1.5"/>
+  <text x="765" y="130" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="middle">STOPPED / EXITED</text>
+  <text x="675" y="155" font-size="8" fill="#CBD5E1">&#x2022; Graceful shutdown:</text>
+  <text x="675" y="172" font-size="8" fill="#CBD5E1">  SIGTERM &#x2192; 30s grace &#x2192; SIGKILL</text>
+  <text x="675" y="190" font-size="8" fill="#34D399">&#x2714; Clean exit (Code 0)</text>
+  <text x="675" y="205" font-size="7" font-family="'JetBrains Mono', monospace" fill="#94A3B8">docker stop</text>
+
+  <!-- State 5: OOMKilled -->
+  <rect x="660" y="235" width="210" height="110" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="2"/>
+  <text x="765" y="260" font-size="10" font-weight="700" fill="#F87171" text-anchor="middle">&#x26A0; OOMKILLED (Exit 137)</text>
+  <text x="675" y="285" font-size="8" fill="#CBD5E1">&#x2022; Hard memory ceiling breached</text>
+  <text x="675" y="302" font-size="8" fill="#FCA5A5">&#x2022; Linux kernel fires SIGKILL (9)</text>
+  <text x="675" y="320" font-size="8" fill="#EF4444">&#x2718; Exit code = 128 + 9 = 137</text>
+  <text x="675" y="335" font-size="7" fill="#FCA5A5">Zero grace period; immediate death</text>
+
+  <!-- State 6: Removed -->
+  <rect x="960" y="170" width="180" height="110" rx="8" fill="#0F172A" stroke="#64748b" stroke-width="1"/>
+  <text x="1050" y="195" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="middle">REMOVED</text>
+  <text x="975" y="220" font-size="8" fill="#CBD5E1">&#x2022; Writable layer purged</text>
+  <text x="975" y="238" font-size="8" fill="#CBD5E1">&#x2022; Network interfaces torn down</text>
+  <text x="975" y="256" font-size="8" fill="#CBD5E1">&#x2022; Container ID deleted</text>
+  <text x="975" y="271" font-size="7" font-family="'JetBrains Mono', monospace" fill="#94A3B8">docker rm</text>
+
+  <!-- Connectors from Running to Terminations -->
+  <path fill="none" d="M 550 160 L 660 160" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr-s)"/>
+  <text x="605" y="152" font-size="7" fill="#94A3B8" text-anchor="middle">SIGTERM</text>
+
+  <path fill="none" d="M 550.0 215.0 L 560.0 215.0 C 603.0 215.0, 603.0 270.0, 646.0 270.0 L 660.0 270.0" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+  <text x="605" y="232" font-size="7" font-weight="700" fill="#EF4444" text-anchor="middle">OOM Killer</text>
+
+  <!-- To Removed -->
+  <path fill="none" d="M 870.0 160.0 L 880.0 160.0 C 913.0 160.0, 913.0 210.0, 946.0 210.0 L 960.0 210.0" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr-s)"/>
+  <path fill="none" d="M 870.0 290.0 L 880.0 290.0 C 913.0 290.0, 913.0 240.0, 946.0 240.0 L 960.0 240.0" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr-s)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="50" y="460" width="1090" height="25" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="595" y="477" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Diagnostic Rule: Exit code 137 indicates the container was forcefully terminated by the Linux OOM Killer. Increase Kubernetes container memory limits or tune MaxRAMPercentage.</text>
+</svg>

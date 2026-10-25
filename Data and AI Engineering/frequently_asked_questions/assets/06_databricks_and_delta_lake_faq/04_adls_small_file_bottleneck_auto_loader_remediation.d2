@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  box_red: { style: { fill: "#111827"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+problem: "ADLS Small File Bottleneck" {
+  class: box_red
+  adls: "ADLS Gen2: Millions of 500KB Files"
+  glob: "Driver Globbing: ListBlobs API Calls\nHTTP 429 Throttling + Driver OOM"
+  tasks: "Millions of Micro-Tasks\nScheduler RPC Congestion"
+  adls -> glob -> tasks
+}
+
+solution: "Databricks Remediation Pipeline" {
+  class: box_green
+  al: "1. Auto Loader (cloudFiles)\nEvent Grid + Queue (Zero File Listing!)"
+  conv: "2. In-Place Conversion\nCONVERT TO DELTA parquet.`abfss://...`"
+  opt: "3. Scheduled Compaction\nOPTIMIZE table into 1 GB files"
+  writeopt: "4. Prevent Recurrence\nautoCompact & optimizeWrite = true"
+  al -> conv -> opt -> writeopt
+}

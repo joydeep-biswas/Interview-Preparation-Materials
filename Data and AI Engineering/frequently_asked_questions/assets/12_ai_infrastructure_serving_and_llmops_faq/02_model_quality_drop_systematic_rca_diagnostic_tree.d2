@@ -1,0 +1,20 @@
+direction: down
+classes: {
+  alert_box: { style: { fill: "#7F1D1D", stroke: "#EF4444", stroke-width: 2 } }
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  amber_box: { style: { fill: "#111827", stroke: "#F59E0B", stroke-width: 2 } }
+  pink_box: { style: { fill: "#111827", stroke: "#EC4899", stroke-width: 2 } }
+  purple_box: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
+}
+
+Alert: "🚨 Quality Drop Reported\n(Zero Code Changes)" { class: alert_box }
+
+Step1: "Step 1: Model Version\nUnpinned alias shifted?\nFix: Pin immutable date" { class: blue_box }
+Step2: "Step 2: Prompt Template\nNULL variables passed?\nFix: Input schema check" { class: amber_box }
+Step3: "Step 3: Vector Layer\nEmbedding model drift?\nFix: Rebuild HNSW index" { class: pink_box }
+Step4: "Step 4: Config Drift\nTemp reset to 1.0?\nFix: Config as code in Git" { class: purple_box }
+
+Alert -> Step1
+Alert -> Step2
+Alert -> Step3
+Alert -> Step4

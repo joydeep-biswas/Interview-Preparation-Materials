@@ -1,0 +1,20 @@
+direction: right
+title: Row-Oriented vs. Column-Oriented Storage Mechanics
+
+target_query: "Target Query: SELECT AVG(dwell_time) FROM page_views WHERE date = '2026-10-01'"
+
+row_store: Row Store (OLTP) - High I/O Overhead {
+  p1: "Page 1: [ID, IP, User, Date, DwellTime, Country, Session, Device...]"
+  p2: "Page 2: [ID, IP, User, Date, DwellTime, Country, Session, Device...]"
+  result: "Must scan 100% of bytes off disk -> Severe I/O Bottleneck"
+  p1 -> result
+  p2 -> result
+}
+
+col_store: Column Store (OLAP) - Columnar Pruning {
+  c_date: "Column File 'date' (Min/Max Header Stats -> File Pruning)"
+  c_dwell: "Column File 'dwell_time' (Dense Contiguous Float Array)"
+  result: "Scans ONLY 2 target columns -> 90%+ I/O Reduction & High Compression"
+  c_date -> result
+  c_dwell -> result
+}

@@ -1,0 +1,18 @@
+direction: right
+title: Stateful Session vs Stateless JWT Architecture
+
+Stateful: Stateful Session (Legacy Monolith) {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  client: "Browser sends JSESSIONID cookie"
+  server: "Tomcat heap table lookup"
+  issue: "Requires sticky sessions; breaks horizontal scaling"
+}
+
+Stateless: Stateless JWT (Cloud Microservices) {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  client: "Client sends Authorization: Bearer JWT"
+  server: "Cryptographic signature check via cached JWKS"
+  advantage: "Zero DB lookups; unlimited horizontal K8s scaling"
+}

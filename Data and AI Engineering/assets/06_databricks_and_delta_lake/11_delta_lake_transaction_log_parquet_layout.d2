@@ -1,0 +1,27 @@
+direction: right
+title: Delta Lake Storage Architecture
+
+TableDir: Delta Table Directory (/lakehouse/orders/) {
+  style.stroke: "#38BDF8"
+
+  DeltaLog: _delta_log/ Transaction Log {
+    style.stroke: "#FBBF24"
+    C0: 000000.json (Add part-0001)
+    C1: 000001.json (Add part-0002, part-0003)
+    C2: 000002.json (Remove part-0003, Add part-0004)
+    Check10: 000010.checkpoint.parquet (Consolidated State)
+
+    C0 -> C1 -> C2 -> Check10
+  }
+
+  StorageFiles: Physical Parquet Data Files {
+    style.stroke: "#34D399"
+    F1: part-0001.parquet (ACTIVE)
+    F2: part-0002.parquet (ACTIVE)
+    F3: part-0003.parquet (TOMBSTONED in C2)
+    F4: part-0004.parquet (ACTIVE)
+  }
+}
+
+TableDir.DeltaLog.C2 -> TableDir.StorageFiles.F3: Tombstones file { style.stroke: "#EF4444" }
+TableDir.DeltaLog.C2 -> TableDir.StorageFiles.F4: Adds new file { style.stroke: "#34D399" }

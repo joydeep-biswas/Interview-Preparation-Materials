@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 220" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-b8lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-a8lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g8lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">High-Throughput Ingestion: Fast Append &amp; Background OPTIMIZE Compaction</text>
+
+  <!-- Step 1 -->
+  <rect x="25" y="65" width="180" height="120" class="card card-blue"/>
+  <text x="115" y="92" class="card-title" fill="#93C5FD">100k events/sec</text>
+  <text x="35" y="117" class="card-body">• Kafka log stream</text>
+  <text x="35" y="137" class="card-body">• High write velocity</text>
+  <text x="35" y="157" class="card-body">• Unindexed ingress</text>
+
+  <!-- Step 2 -->
+  <rect x="235" y="65" width="180" height="120" class="card card-blue"/>
+  <text x="325" y="92" class="card-title" fill="#93C5FD">Memory Buffer</text>
+  <text x="245" y="117" class="card-body">• 10s Micro-batch</text>
+  <text x="245" y="137" class="card-body">• RAM accumulator</text>
+  <text x="245" y="157" class="card-body" fill="#34D399">• Eliminates fsync lock</text>
+
+  <!-- Step 3 -->
+  <rect x="445" y="65" width="190" height="120" class="card card-amber"/>
+  <text x="540" y="92" class="card-title" fill="#FDE68A">Append Parquet</text>
+  <text x="455" y="117" class="card-body">• date=2024-10-15/h=14/</text>
+  <text x="455" y="137" class="card-body">• Small file chunks</text>
+  <text x="455" y="157" class="card-body" fill="#34D399">• Instant O(1) write</text>
+
+  <!-- Step 4 -->
+  <rect x="665" y="65" width="200" height="120" class="card card-green"/>
+  <text x="765" y="92" class="card-title" fill="#6EE7B7">OPTIMIZE Job</text>
+  <text x="675" y="117" class="card-body">• Nightly compaction</text>
+  <text x="675" y="137" class="card-body">• Merges to 512 MB</text>
+  <text x="675" y="157" class="card-body" fill="#34D399">• Builds Bloom filters</text>
+
+  <!-- Step 5 -->
+  <rect x="895" y="65" width="140" height="120" class="card card-green"/>
+  <text x="965" y="92" class="card-title" fill="#6EE7B7">Fast Reads</text>
+  <text x="905" y="117" class="card-body" fill="#34D399">• BI Queries</text>
+  <text x="905" y="137" class="card-body">• 95% Skipped</text>
+  <text x="905" y="157" class="card-body">• Sub-second</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 205 125 L 235 125" class="edge edge-blue" marker-end="url(#arr-b8lk)"/>
+  <path fill="none" d="M 415 125 L 445 125" class="edge edge-amber" marker-end="url(#arr-a8lk)"/>
+  <path fill="none" d="M 635 125 L 665 125" class="edge edge-green" marker-end="url(#arr-g8lk)"/>
+  <path fill="none" d="M 865 125 L 895 125" class="edge edge-green" marker-end="url(#arr-g8lk)"/>
+</svg>

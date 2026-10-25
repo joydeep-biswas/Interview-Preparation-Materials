@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  rag_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  agent_box: { style: { fill: "#0D1F1C", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+TraditionalRAG: "Traditional RAG (Linear DAG)" {
+  class: rag_box
+  Q: "Query" { class: card_dark }
+  Ret: "Vector Search" { class: card_dark }
+  Gen: "LLM Output" { class: card_dark }
+  Q -> Ret -> Gen
+}
+
+AutonomousAgent: "Autonomous Agent (MAPE-K Loop)" {
+  class: agent_box
+  Plan: "1. Reason & Plan" { class: card_dark }
+  Act: "2. Tool Action" { class: card_dark }
+  Obs: "3. Observe JSON" { class: card_dark }
+  Reflect: "4. Reflect & Self-Correct" { class: card_dark }
+  Plan -> Act -> Obs -> Reflect -> Plan
+}
+
+TraditionalRAG -> AutonomousAgent: "Evolution"

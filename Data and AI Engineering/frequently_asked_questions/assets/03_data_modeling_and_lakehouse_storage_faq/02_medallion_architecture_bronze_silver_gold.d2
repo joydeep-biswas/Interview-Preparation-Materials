@@ -1,0 +1,13 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+src: "Data Sources\nKafka, REST APIs, CDC Logs" { class: box; style.stroke: "#3B82F6" }
+bronze: "1. Bronze Tier (Raw)\nAppend-only raw payloads\nPreserves raw JSON & schema rescue" { class: box; style.stroke: "#F59E0B" }
+silver: "2. Silver Tier (Enriched)\nCleaned, validated & deduplicated\nSCD Type 1/2 merged tables" { class: box; style.stroke: "#3B82F6" }
+gold: "3. Gold Tier (Curated)\nStar schema / aggregated KPI marts\nSub-second BI & ML feature stores" { class: box; style.stroke: "#10B981" }
+
+src -> bronze: "Ingest"
+bronze -> silver: "Clean & Conform"
+silver -> gold: "Model & Aggregate"

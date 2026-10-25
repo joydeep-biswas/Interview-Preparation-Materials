@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-red { stroke: #EF4444; }
+      .card-green { stroke: #10B981; }
+      .card-amber { stroke: #F59E0B; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-red { stroke: #EF4444; }
+      .edge-green { stroke: #10B981; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-dashed { stroke-dasharray: 4 4; }
+      .badge-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E5E7EB; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="35" class="title-text">Testcontainers Isolated Integration Test Architecture</text>
+
+  <!-- Left: Spring Boot Test JVM -->
+  <rect x="40" y="80" width="260" height="150" class="card card-blue"/>
+  <text x="170" y="110" class="card-title" fill="#93C5FD">Spring Boot Test JVM</text>
+  <text x="60" y="135" class="card-body">• JVM Process (PID 4120)</text>
+  <text x="60" y="155" class="card-body">• Executes JUnit 5 lifecycle</text>
+  <text x="60" y="175" class="card-body">• Holds open TCP socket to Ryuk</text>
+  <text x="60" y="195" class="card-body">• Injects datasource via @DynamicProp</text>
+
+  <!-- Center Top: Docker Daemon -->
+  <rect x="370" y="80" width="240" height="110" class="card card-purple"/>
+  <text x="490" y="110" class="card-title" fill="#C4B5FD">Docker Daemon API</text>
+  <text x="390" y="135" class="card-body">• /var/run/docker.sock</text>
+  <text x="390" y="155" class="card-body">• Handles container create &amp; start</text>
+  <text x="390" y="175" class="card-body">• Manages bridge network &amp; ports</text>
+
+  <!-- Right Top: Ryuk Cleaner -->
+  <rect x="680" y="80" width="240" height="110" class="card card-red"/>
+  <text x="800" y="110" class="card-title" fill="#FCA5A5">Ryuk Moby Cleaner</text>
+  <text x="700" y="135" class="card-body">• Container: testcontainers/ryuk</text>
+  <text x="700" y="155" class="card-body">• Purges orphan containers</text>
+  <text x="700" y="175" class="card-body">• Triggers if JVM terminates</text>
+
+  <!-- Right Bottom: PostgreSQL Container -->
+  <rect x="680" y="270" width="240" height="130" class="card card-green"/>
+  <text x="800" y="300" class="card-title" fill="#6EE7B7">PostgreSQL Container</text>
+  <text x="700" y="325" class="card-body">• Image: postgres:16-alpine</text>
+  <text x="700" y="345" class="card-body">• Internal: 5432</text>
+  <text x="700" y="365" class="card-body">• Host port: 32778 (random)</text>
+  <text x="700" y="385" class="card-body">• Full ACID compliance</text>
+
+  <!-- Center Bottom: @DynamicPropertySource -->
+  <rect x="250" y="300" width="360" height="120" class="card card-amber"/>
+  <text x="430" y="330" class="card-title" fill="#FDE68A">@DynamicPropertySource</text>
+  <text x="270" y="355" class="card-body">• Dynamic property registry override</text>
+  <text x="270" y="375" class="card-body" font-family="monospace">spring.datasource.url=jdbc:postgresql://</text>
+  <text x="270" y="395" class="card-body" font-family="monospace">  localhost:32778/testdb</text>
+
+  <!-- Connections with Straight Runways -->
+  <!-- 1. JVM -> Docker Daemon API (Horizontal straight) -->
+  <path fill="none" d="M 300 135 L 370 135" class="edge edge-purple" marker-end="url(#arr-purple)"/>
+  <text x="335" y="125" class="badge-text" fill="#C4B5FD">API Call</text>
+
+  <!-- 2. Docker Daemon -> Ryuk (Horizontal straight) -->
+  <path fill="none" d="M 610 135 L 680 135" class="edge edge-red" marker-end="url(#arr-red)"/>
+  <text x="645" y="125" class="badge-text" fill="#FCA5A5">Spawn</text>
+
+  <!-- 3. Docker Daemon -> PostgreSQL (Curved with straight runway) -->
+  <path fill="none" d="M 490 190 C 490 240, 640 335, 666 335 L 680 335" class="edge edge-green" marker-end="url(#arr-green)"/>
+
+  <!-- 4. Ryuk <-> JVM Heartbeat (Curved arch across top with straight runways) -->
+  <path fill="none" d="M 680 100 C 580 40, 400 40, 214 70 L 200 80" class="edge edge-red edge-dashed" marker-start="url(#arr-red)" marker-end="url(#arr-red)"/>
+  <text x="490" y="48" class="badge-text" fill="#EF4444">TCP Socket Heartbeat (Auto-Purge Guard)</text>
+
+  <!-- 5. PostgreSQL -> @DynamicPropertySource (Horizontal straight) -->
+  <path fill="none" d="M 680 360 L 610 360" class="edge edge-amber" marker-end="url(#arr-amber)"/>
+  <text x="645" y="350" class="badge-text" fill="#FDE68A">Port 32778</text>
+
+  <!-- 6. @DynamicPropertySource -> JVM (Curved with straight runway) -->
+  <path fill="none" d="M 250 360 C 170 360, 170 250, 170 244 L 170 230" class="edge edge-blue" marker-end="url(#arr-blue)"/>
+  <text x="110" y="270" class="badge-text" fill="#93C5FD">Inject JDBC URL</text>
+</svg>

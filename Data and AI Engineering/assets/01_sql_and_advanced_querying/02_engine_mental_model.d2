@@ -1,0 +1,26 @@
+# The Intuitive Mental Model: Declarative Client to Imperative Storage
+direction: right
+
+client: "1. Client (The Patron)" {
+  style.stroke: "#3B82F6"
+  desc: "Declarative Request (WHAT)
+• Specifies desired result
+• Sends query string"
+}
+
+optimizer: "2. Optimizer (Master Chef)" {
+  style.stroke: "#F59E0B"
+  desc: "Plan Compilation (HOW)
+• Evaluates catalog stats
+• Generates physical execution plan"
+}
+
+engine: "3. Storage & Engine (Kitchen)" {
+  style.stroke: "#10B981"
+  desc: "Physical Execution (WORK)
+• Buffer pool I/O & memory hashes
+• Streams result packets"
+}
+
+client -> optimizer: "SQL Query"
+optimizer -> engine: "Physical Plan"

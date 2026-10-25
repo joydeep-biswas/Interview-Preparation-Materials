@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 390" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="550" y="32" class="title" font-size="19" text-anchor="middle">Mainframe Modernization: Strangler Fig 4-Phase Migration Roadmap</text>
+  <text x="550" y="52" class="subtitle" text-anchor="middle">Zero-downtime evolution: CDC shadow replication, dual-run continuous reconciliation, read cutover, and full write decommission</text>
+
+  <!-- Phase 1 -->
+  <g transform="translate(30, 75)">
+    <rect width="240" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="120" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">Phase 1: Shadow CDC</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#60A5FA">• Legacy Mainframe (IBM DB2):</text>
+    <text x="24" y="78" class="card-body">  - 100% Production writes &amp; reads</text>
+    <text x="24" y="98" class="card-body">  - DB2 log reader captures WAL</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#60A5FA">• Change Data Capture (CDC):</text>
+    <text x="24" y="146" class="card-body">  - Debezium / Q-Replication</text>
+    <text x="24" y="166" class="card-body">  - Emits events to Kafka topic</text>
+    <text x="16" y="194" class="card-body" font-weight="600" fill="#60A5FA">• Cloud Microservice DB:</text>
+    <text x="24" y="214" class="card-body">  - Passive shadow replica populated</text>
+    <rect x="16" y="244" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="259" class="badge" fill="#93C5FD" text-anchor="middle">Zero Production Impact</text>
+  </g>
+
+  <!-- Phase 2 -->
+  <g transform="translate(300, 75)">
+    <rect width="240" height="280" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#78350F"/>
+    <text x="120" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">Phase 2: Dual-Run Parity</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#FBBF24">• Smart Routing Gateway:</text>
+    <text x="24" y="78" class="card-body">  - Writes to Mainframe (Primary)</text>
+    <text x="24" y="98" class="card-body">  - Shadows writes to Cloud Service</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#FBBF24">• Continuous Reconciliation:</text>
+    <text x="24" y="146" class="card-body">  - Apache Flink streaming comparator</text>
+    <text x="24" y="166" class="card-body">  - Detects byte &amp; field level drifts</text>
+    <text x="16" y="194" class="card-body" font-weight="600" fill="#FBBF24">• Parity Metric Goal:</text>
+    <text x="24" y="214" class="card-body">  - 99.999% consistency over 30 days</text>
+    <rect x="16" y="244" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="259" class="badge" fill="#FDE68A" text-anchor="middle">Empirical Data Verification</text>
+  </g>
+
+  <!-- Phase 3 -->
+  <g transform="translate(570, 75)">
+    <rect width="240" height="280" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <text x="120" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">Phase 3: Read Cutover</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• Canary Read Routing:</text>
+    <text x="24" y="78" class="card-body">  - 10% -&gt; 50% -&gt; 100% of read traffic</text>
+    <text x="24" y="98" class="card-body">  - Served by Cloud PostgreSQL</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#34D399">• Mainframe Write Master:</text>
+    <text x="24" y="146" class="card-body">  - Mainframe still source of truth</text>
+    <text x="24" y="166" class="card-body">  - MIPS CPU usage reduced by 70%!</text>
+    <text x="16" y="194" class="card-body" font-weight="600" fill="#34D399">• Instant Rollback Hook:</text>
+    <text x="24" y="214" class="card-body">  - Envoy feature flag flips reads</text>
+    <rect x="16" y="244" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="259" class="badge" fill="#A7F3D0" text-anchor="middle">70% MIPS Cost Reduction</text>
+  </g>
+
+  <!-- Phase 4 -->
+  <g transform="translate(840, 75)">
+    <rect width="230" height="280" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <text x="115" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">Phase 4: Full Cutover</text>
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• Cloud Source of Truth:</text>
+    <text x="24" y="78" class="card-body">  - 100% Reads &amp; Writes on Cloud</text>
+    <text x="24" y="98" class="card-body">  - Reverse CDC syncs to Mainframe</text>
+    <text x="16" y="126" class="card-body" font-weight="600" fill="#A78BFA">• Mainframe Decommission:</text>
+    <text x="24" y="146" class="card-body">  - Mainframe writes locked</text>
+    <text x="24" y="166" class="card-body">  - Preserved as read-only archive</text>
+    <text x="16" y="194" class="card-body" font-weight="600" fill="#A78BFA">• Full Independence:</text>
+    <text x="24" y="214" class="card-body">  - Native cloud microservices</text>
+    <rect x="16" y="244" width="198" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="115" y="259" class="badge" fill="#DDD6FE" text-anchor="middle">Strangler Fig Complete</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 270 215 L 288 215 L 300 215" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+  <path d="M 540 215 L 558 215 L 570 215" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <path d="M 810 215 L 828 215 L 840 215" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arrow-purple)"/>
+</svg>

@@ -1,0 +1,30 @@
+direction: right
+classes: {
+  box_blue: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  box_purple: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  box_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+IngestionLookup: "Stream Ingestion & Key Lookup" {
+  class: box_blue
+  Source: "1. Source Stream\n• Incoming updated records" { class: card_dark }
+  Lookup: "2. Lookup on Dim Table\n• Matches on Natural PK" { class: card_dark }
+  Source -> Lookup
+}
+
+ConditionalSplit: "Conditional Split & Alteration" {
+  class: box_purple
+  InsertNew: "4. INSERT Action (New Record)\nIsCurrent = 1, StartDate = Today" { class: card_dark }
+  AlterSCD: "5. SCD Type 2 Dual Action\nUPDATE: IsCurrent = 0, EndDate = Today\nINSERT: IsCurrent = 1, StartDate = Today" { class: card_dark }
+}
+
+StorageSink: "Target Dimension Lakehouse" {
+  class: box_green
+  Sink: "6. Dimension Sink\n• Delta Lake dim_customer" { class: card_dark }
+}
+
+IngestionLookup.Lookup -> ConditionalSplit.InsertNew: "New Record"
+IngestionLookup.Lookup -> ConditionalSplit.AlterSCD: "Changed Record"
+ConditionalSplit.InsertNew -> StorageSink.Sink
+ConditionalSplit.AlterSCD -> StorageSink.Sink

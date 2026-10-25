@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+tokens: "Roman Numeral: 'MCMXCIV' (1994)\nEvaluates adjacent lookahead" {
+  class: box
+  style.stroke: "#3B82F6"
+}
+
+rules: "Subtractive Lookahead Rules\n'M' (1000) &gt;= 'C' (100) -> +1000\n'C' (100) &lt; 'M' (1000) -> -100 (CM)\n'M' (1000) &gt;= 'X' (10) -> +1000\n'X' (10) &lt; 'C' (100) -> -10 (XC)\n'C' (100) &gt;= 'I' (1) -> +100\n'I' (1) &lt; 'V' (5) -> -1 (IV)\n'V' (5) Last char -> +5" {
+  class: box
+  style.stroke: "#F59E0B"
+}
+
+compute: "Cumulative Integer Sum\n1000 - 100 + 1000 - 10 + 100 - 1 + 5 = 1994\nSingle pass O(N) execution" {
+  class: box
+  style.stroke: "#10B981"
+}
+
+tokens -> rules -> compute

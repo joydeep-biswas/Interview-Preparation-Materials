@@ -1,0 +1,42 @@
+direction: right
+
+pillar1: "Phase 1: Foundations (01)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  desc: "Storage-Compute Disaggregation\nParquet Columnar Layout\nDelta & Iceberg ACID Logs\nSpark Catalyst & Shuffle I/O\nRocksDB Stream Watermarking\nHNSW & IVF-PQ Vector Math\nUnity Catalog Governance"
+}
+
+pillar2: "Phase 2: High-Level HLD (02)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  desc: "Enterprise Lakehouse Medallion\nPetabyte-Scale Debezium CDC\nSub-Second ClickHouse OLAP\nFinancial Market Surveillance\nMission-Critical Ledger Lakehouse\nPayment Star Schema Model\nEnterprise RAG & Vector Index\nReal-Time ML Fraud Mesh"
+}
+
+pillar3: "Phase 3: Low-Level LLD (03)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  desc: "Lock-Free CAS Ring Buffers\nSliding Window Deduplication\nCustom Shuffle Partitioner\nColumnar Row-Group Reader\nSchema Validator & Dead-Letter\nEmbedded RocksDB State Store\nChandy-Lamport Checkpointing"
+}
+
+pillar4: "Phase 4: Situational (04)" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  desc: "Sev-1 Incident Command\nData Skew OOM Triage\nLate-Arriving Event Backfill\nMulti-Million Cloud FinOps\nCross-Team Data Contracts\nSpeed vs Accuracy Tradeoffs\nAzure Modern Data Platform"
+}
+
+pillar1 -> pillar2: "Architectural Patterns" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+pillar2 -> pillar3: "Component Internals" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+pillar3 -> pillar4: "Operational Governance" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

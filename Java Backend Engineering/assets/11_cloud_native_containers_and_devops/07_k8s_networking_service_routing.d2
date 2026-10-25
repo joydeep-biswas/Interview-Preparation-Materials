@@ -1,0 +1,17 @@
+direction: down
+title: Kubernetes Networking & Traffic Routing
+
+Client: External Client
+LB: Cloud Load Balancer (Public IP)
+Ingress: Ingress Controller (L7 Routing)
+Service: Service: order-service (ClusterIP)
+Iptables: kube-proxy iptables DNAT
+Pod1: Pod 1 (10.244.1.12:8080)
+Pod2: Pod 2 (10.244.2.18:8080)
+
+Client -> LB: HTTPS { style.stroke: "#38BDF8" }
+LB -> Ingress: Forwards 443 { style.stroke: "#10B981" }
+Ingress -> Service: Matches /api/v1/orders { style.stroke: "#8B5CF6" }
+Service -> Iptables: Virtual IP resolution
+Iptables -> Pod1: DNAT 50% probability { style.stroke: "#10B981" }
+Iptables -> Pod2: DNAT 50% probability { style.stroke: "#10B981" }

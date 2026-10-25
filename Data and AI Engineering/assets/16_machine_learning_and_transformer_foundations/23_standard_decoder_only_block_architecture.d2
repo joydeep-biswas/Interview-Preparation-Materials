@@ -1,0 +1,22 @@
+classes: {
+  norm_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  attn_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  ffn_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  add_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+}
+
+input: "Input Token Hidden States x_t"
+norm1: "RMSNorm (Pre-Normalization)" { class: norm_box }
+attn: "Grouped-Query Attention (GQA)\nCausal Mask & RoPE" { class: attn_box }
+add1: "Residual Add: x = x + Attn(x)" { class: add_box }
+
+norm2: "RMSNorm (Pre-Normalization)" { class: norm_box }
+ffn: "SwiGLU Feed-Forward Network\nBilinear Gating" { class: ffn_box }
+add2: "Residual Add: x = x + FFN(x)" { class: add_box }
+output: "Output Hidden States x_{t+1}"
+
+input -> norm1 -> attn -> add1
+input -> add1: "Residual Skip"
+add1 -> norm2 -> ffn -> add2
+add1 -> add2: "Residual Skip"
+add2 -> output

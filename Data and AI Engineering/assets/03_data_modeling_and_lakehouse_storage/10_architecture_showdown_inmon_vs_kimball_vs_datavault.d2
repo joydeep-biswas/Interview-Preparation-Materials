@@ -1,0 +1,26 @@
+direction: down
+title: Enterprise Architecture Showdown: Inmon vs. Kimball vs. Data Vault 2.0
+
+inmon: 1. Inmon (Corporate Information Factory) {
+  src: Operational Sources
+  edw: Enterprise Data Warehouse (Strict 3NF)
+  marts: Departmental Data Marts
+  src -> edw: "Heavy ETL"
+  edw -> marts: "Downstream extract"
+}
+
+kimball: 2. Kimball (Dimensional Lifecycle) {
+  src: Operational Sources
+  bus: Conformed Bus Matrix
+  stars: Enterprise Star Schemas
+  src -> bus: "Conformed Dimensions"
+  bus -> stars: "Atomic Fact Tables"
+}
+
+datavault: 3. Data Vault 2.0 (Agile Audit Core) {
+  src: Hash-Based Ingestion
+  raw_vault: Raw Data Vault (Hubs, Links, Satellites)
+  biz_vault: Business Vault & Information Marts
+  src -> raw_vault: "Insert-only load"
+  raw_vault -> biz_vault: "PIT & Bridge Views"
+}

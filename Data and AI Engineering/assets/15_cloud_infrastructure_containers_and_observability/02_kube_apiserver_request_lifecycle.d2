@@ -1,0 +1,21 @@
+classes: {
+  stage_blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  stage_amber: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  stage_red: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2 } }
+  stage_green: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2 } }
+}
+
+req: "Incoming HTTP REST Request\nPOST /api/v1/namespaces/prod/pods"
+authn: "1. Authentication (AuthN)\nX.509, Bearer Token, OIDC" { class: stage_blue }
+authz: "2. Authorization (AuthZ)\nRBAC: Subject, Verb, Resource" { class: stage_blue }
+mutating: "3. Mutating Admission Webhooks\nSidecar injection & default limits" { class: stage_amber }
+schema_val: "4. Object Schema Validation\nOpenAPI v3 type verification" { class: stage_blue }
+validating: "5. Validating Admission Webhooks\nOPA Gatekeeper & Kyverno policies" { class: stage_red }
+etcd_commit: "6. Commit to etcd Storage\nAtomic write to Raft WAL log" { class: stage_green }
+
+req -> authn: "Extract identity"
+authn -> authz: "Check permissions"
+authz -> mutating: "Authorize request"
+mutating -> schema_val: "Validate mutated spec"
+schema_val -> validating: "Enforce policy guardrails"
+validating -> etcd_commit: "Persist to cluster state"

@@ -6,40 +6,9 @@ A comprehensive guide answering all 22 questions on ACID properties, database is
 
 ## Architectural Overview: Hibernate Persistence Context & Transaction Boundary
 
-```mermaid
-flowchart TD
-    subgraph SpringApp["Spring Boot Service Layer"]
-        TxProxy["Spring @Transactional AOP Proxy"]
-        Service["Service Method"]
-    end
+![Spring @Transactional AOP Proxy Interception Flow](assets/07_databases_jpa_and_hibernate_faq/01_spring_transactional_aop_proxy_flow.svg)
 
-    subgraph PersistenceContext["Hibernate 1st Level Cache (Session)"]
-        Snapshots["Original Entity Snapshots"]
-        ManagedEntities["Managed Entity Instances"]
-        DirtyCheck{"Dirty Checking on Flush"}
-    end
-
-    subgraph DatabaseEngine["Relational Database"]
-        TxManager["RDBMS Transaction (ACID Engine)"]
-        Tables[("Database Tables")]
-    end
-
-    TxProxy -->|"1. Opens Transaction & Session"| Service
-    Service -->|"2. Modifies Entity"| ManagedEntities
-    Service -->|"3. Transaction Commits"| TxProxy
-    TxProxy -->|"4. Auto Flush triggered"| DirtyCheck
-    Snapshots -.->|"Compares state"| DirtyCheck
-    DirtyCheck -->|"5. Emits UPDATE SQL"| TxManager
-    TxManager --> Tables
-
-    style SpringApp fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PersistenceContext fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style DatabaseEngine fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style TxProxy fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style ManagedEntities fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Snapshots fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Tables fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/01_spring_transactional_aop_proxy_flow.d2](assets/07_databases_jpa_and_hibernate_faq/01_spring_transactional_aop_proxy_flow.d2)
 
 ---
 
@@ -238,24 +207,9 @@ Hibernate compares entity snapshots against current state during session flush, 
 #### Architectural Overview
 Spring's `@Transactional` relies on Spring AOP proxies (CGLIB subclassing or JDK dynamic interfaces) wrapping target beans. When a client invokes a transactional method from outside the bean, the proxy intercepts the call, obtains a JDBC connection from `DataSource` (via `PlatformTransactionManager`), binds it to the current thread (`ThreadLocal`), sets `connection.setAutoCommit(false)`, and delegates to the target method.
 
-```mermaid
-flowchart TD
-    Caller["External Bean / Controller"] --> Proxy["Spring AOP Transaction Proxy"]
-    Proxy --> TxMgr["PlatformTransactionManager<br/>(Binds Connection to ThreadLocal, setAutoCommit(false))"]
-    TxMgr --> Target["Target Service Method"]
-    
-    Target -->|Throws RuntimeException / Error| Rollback["Rollback-Only Flag Set<br/>connection.rollback()"]
-    Target -->|Throws Checked Exception (e.g. IOException)| CommitByDefault["⚠️ Commits by Default!<br/>(Unless rollbackFor configured)"]
-    Target -->|Returns Normally| Commit["connection.commit()<br/>Flush Session to DB"]
+![Spring @Transactional Self-Invocation AOP Bypass](assets/07_databases_jpa_and_hibernate_faq/02_spring_self_invocation_aop_bypass.svg)
 
-    style Caller fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Proxy fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style TxMgr fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Target fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-    style Rollback fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style CommitByDefault fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#fef08a
-    style Commit fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/02_spring_self_invocation_aop_bypass.d2](assets/07_databases_jpa_and_hibernate_faq/02_spring_self_invocation_aop_bypass.d2)
 
 ---
 
@@ -382,32 +336,9 @@ FOR UPDATE SKIP LOCKED;
 #### Architectural Overview
 The **Lost Update Anomaly** occurs when Transaction 1 and Transaction 2 read the same row concurrently, and Transaction 2 commits after Transaction 1, completely overwriting Transaction 1's write without knowing about it.
 
-```mermaid
-flowchart TD
-    subgraph LostUpdate ["Lost Update Race Condition"]
-        T1Read["T1 reads balance: $100"]
-        T2Read["T2 reads balance: $100"]
-        T1Write["T1 writes balance: $100 - $20 = $80"]
-        T2Write["T2 writes balance: $100 - $30 = $70 (Overwrites T1! $20 lost!)"]
-        T1Read --> T1Write
-        T2Read --> T2Write
-    end
+![SQL Isolation Levels vs Concurrency Anomalies Matrix](assets/07_databases_jpa_and_hibernate_faq/03_acid_isolation_levels_anomalies.svg)
 
-    subgraph Strategies ["Concurrency Strategy Selection"]
-        direction LR
-        Opt["Optimistic (@Version)<br/>Best for: Low contention, read-heavy, web UIs"]
-        Pess["Pessimistic (FOR UPDATE)<br/>Best for: High contention, inventory, seat reservation"]
-    end
-
-    style LostUpdate fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Strategies fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style T1Read fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style T2Read fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style T1Write fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style T2Write fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style Opt fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Pess fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/03_acid_isolation_levels_anomalies.d2](assets/07_databases_jpa_and_hibernate_faq/03_acid_isolation_levels_anomalies.d2)
 
 * **Optimistic Locking**: Place `@Version private Long version;` on the JPA entity. Generates `UPDATE ... WHERE id = :id AND version = :version`. Throws `OptimisticLockException` on collision; retry with exponential backoff.
 * **Pessimistic Locking**: Use `@Lock(LockModeType.PESSIMISTIC_WRITE)` to place an exclusive database lock (`SELECT FOR UPDATE`).
@@ -459,33 +390,9 @@ When executing a sequence of SQL statements, if Step 4 fails out of 5:
 **Difficulty:** `[Easy]`
 
 #### Architectural Overview
-```mermaid
-classDiagram
-    Repository <|-- CrudRepository
-    CrudRepository <|-- PagingAndSortingRepository
-    PagingAndSortingRepository <|-- ListPagingAndSortingRepository
-    ListPagingAndSortingRepository <|-- JpaRepository
-    ListCrudRepository <|-- JpaRepository
+![Spring Data Repository Interface Hierarchy](assets/07_databases_jpa_and_hibernate_faq/04_spring_data_repository_hierarchy.svg)
 
-    class Repository {
-        <<marker interface>>
-    }
-    class CrudRepository {
-        +save(entity)
-        +findById(id)
-        +deleteById(id)
-    }
-    class PagingAndSortingRepository {
-        +findAll(Sort)
-        +findAll(Pageable)
-    }
-    class JpaRepository {
-        +flush()
-        +saveAndFlush(entity)
-        +deleteAllInBatch()
-        +getReferenceById(id)
-    }
-```
+*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/04_spring_data_repository_hierarchy.d2](assets/07_databases_jpa_and_hibernate_faq/04_spring_data_repository_hierarchy.d2)
 - **`CrudRepository`**: Basic CRUD operations (`save`, `findById`, `delete`).
 - **`PagingAndSortingRepository`**: Adds pagination and sorting methods.
 - **`JpaRepository`**: Extends both; adds JPA-specific flush methods (`flush()`, `saveAndFlush()`), batch deletion (`deleteAllInBatch()`), and returns `List` instead of `Iterable`.
@@ -546,42 +453,9 @@ A composite index on `(A, B, C)` is physically sorted first by $A$, then by $B$ 
 If an index contains all columns requested in the query `SELECT` clause, the database satisfies the query entirely from the B+ Tree leaf nodes, eliminating expensive **Table Heap Lookups** (Index-Only Scan).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph BTreeRoot ["Composite Index Root Node (A, B, C)"]
-        direction TB
-        NodeA["Status = 'ACTIVE'"]
-        NodeB["Status = 'PENDING'"]
-    end
+![B-Tree Composite Index (A, B, C) & Leftmost Prefix Rule](assets/07_databases_jpa_and_hibernate_faq/05_b_tree_composite_index_leftmost_prefix.svg)
 
-    subgraph BranchLayer ["Branch Node: (Status, TenantId)"]
-        direction LR
-        Branch1["'ACTIVE', Tenant: 100"]
-        Branch2["'ACTIVE', Tenant: 200"]
-    end
-
-    subgraph LeafLayer ["Leaf Layer: Sorted (Status, TenantId, CreatedAt) + Pointers"]
-        direction LR
-        Leaf1["['ACTIVE', 100, 2026-01-01] -> Row 1"]
-        Leaf2["['ACTIVE', 100, 2026-02-15] -> Row 2"]
-        Leaf3["['ACTIVE', 200, 2026-03-01] -> Row 3"]
-    end
-
-    BTreeRoot --> BranchLayer
-    BranchLayer --> LeafLayer
-
-    style BTreeRoot fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BranchLayer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style LeafLayer fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-
-    style NodeA fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style NodeB fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Branch1 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style Branch2 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style Leaf1 fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style Leaf2 fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style Leaf3 fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/05_b_tree_composite_index_leftmost_prefix.d2](assets/07_databases_jpa_and_hibernate_faq/05_b_tree_composite_index_leftmost_prefix.d2)
 
 #### Production Implementation / SQL Solution
 ```sql
@@ -626,28 +500,9 @@ ORDER BY created_at DESC;
 | **Observability** | Opaque; hard to trace with OpenTelemetry | Invisible; triggers cause unexpected latency | Full OpenTelemetry APM & distributed tracing |
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph StoredProcFlow ["Stored Procedure (Explicit Call)"]
-        App1["Spring Boot Service"] -->|"CALL transfer_funds(acc1, acc2, $500)"| SP["Stored Procedure Engine<br/>Atomic Multi-Step Debit/Credit"]
-        SP -->|"Return Status OK"| App1
-    end
+![Stored Procedures vs Database Triggers Execution Mechanics](assets/07_databases_jpa_and_hibernate_faq/06_stored_procedures_vs_triggers_execution.svg)
 
-    subgraph TriggerFlow ["Database Trigger (Implicit Side-Effect)"]
-        App2["Spring Boot Service"] -->|"UPDATE orders SET status = 'CANCELLED'"| DBTable["Orders Table"]
-        DBTable -->|"BEFORE UPDATE Trigger"| Trig1["Auto-Update modified_at Timestamp"]
-        DBTable -->|"AFTER UPDATE Trigger"| Trig2["INSERT INTO order_audit_log<br/>(Hidden transactional overhead!)"]
-    end
-
-    style StoredProcFlow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TriggerFlow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style App1 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style SP fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style App2 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style DBTable fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Trig1 fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style Trig2 fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-```
+*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/06_stored_procedures_vs_triggers_execution.d2](assets/07_databases_jpa_and_hibernate_faq/06_stored_procedures_vs_triggers_execution.d2)
 
 #### Production Implementation / SQL Example
 ```sql
@@ -701,40 +556,9 @@ To compare attributes between an employee and their immediate superior, perform 
 The CEO or root entity has `manager_id IS NULL`. An `INNER JOIN` automatically excludes the CEO from the left table (since `NULL = id` evaluates to `UNKNOWN`), which is correct because a CEO has no manager to compare against.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    subgraph EmpAlias ["Employee Alias (emp)"]
-        direction TB
-        E1["ID: 1 | Name: Alice | MgrId: 3 | Salary: $120K"]
-        E2["ID: 2 | Name: Bob   | MgrId: 3 | Salary: $80K"]
-        E3["ID: 3 | Name: Carol | MgrId: NULL | Salary: $100K"]
-    end
+![SQL Self-Join Mechanics: Hierarchical Manager Relationships](assets/07_databases_jpa_and_hibernate_faq/07_sql_self_join_manager_hierarchy.svg)
 
-    subgraph MgrAlias ["Manager Alias (mgr)"]
-        direction TB
-        M3["ID: 3 | Name: Carol | Salary: $100K"]
-    end
-
-    E1 -->|"INNER JOIN on emp.manager_id = mgr.id"| M3
-    E2 -->|"INNER JOIN on emp.manager_id = mgr.id"| M3
-
-    subgraph Predicate ["Filter: emp.salary > mgr.salary"]
-        Match1["Alice ($120K) > Carol ($100K) -> TRUE (OUTPUT)"]
-        Match2["Bob ($80K) > Carol ($100K) -> FALSE"]
-    end
-
-    M3 --> Predicate
-
-    style EmpAlias fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MgrAlias fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Predicate fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style E1 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style E2 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style E3 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style M3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Match1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Match2 fill:#7f1d1d,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-```
+*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/07_sql_self_join_manager_hierarchy.d2](assets/07_databases_jpa_and_hibernate_faq/07_sql_self_join_manager_hierarchy.d2)
 
 #### Production Implementation / SQL Solution
 ```sql
@@ -773,38 +597,9 @@ CREATE INDEX idx_emp_mgr_salary ON employees (manager_id, salary) INCLUDE (name)
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph GetExecution ["session.get(Order.class, 101) / em.find()"]
-        direction TB
-        G_Check["1. Check 1st-Level Cache (Persistence Context)"]
-        G_DB["2. Cache Miss: Execute SQL SELECT Immediately"]
-        G_Entity["3. Return Fully Initialized Order Entity<br/>(or null if row not found in DB)"]
-        G_Check --> G_DB --> G_Entity
-    end
+![Hibernate Entity Loading: session.get() vs session.load()](assets/07_databases_jpa_and_hibernate_faq/08_hibernate_session_get_vs_load_proxy.svg)
 
-    subgraph LoadExecution ["session.load(Order.class, 101) / em.getReference()"]
-        direction TB
-        L_Proxy["1. Check 1st-Level Cache. If Miss:<br/>Construct ByteBuddy Proxy: Order$HibernateProxy$xyz"]
-        L_Return["2. Return Proxy Immediately (Zero SQL Executed!)"]
-        L_Access["3. Code calls proxy.getStatus()"]
-        L_Fetch["4. Proxy intercepts: Executes SQL SELECT to populate target"]
-        L_Trap["If row missing in DB -> throws EntityNotFoundException!<br/>If session closed -> throws LazyInitializationException!"]
-        
-        L_Proxy --> L_Return --> L_Access --> L_Fetch --> L_Trap
-    end
-
-    style GetExecution fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LoadExecution fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style G_Check fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style G_DB fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style G_Entity fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style L_Proxy fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style L_Return fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style L_Access fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style L_Fetch fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style L_Trap fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/08_hibernate_session_get_vs_load_proxy.d2](assets/07_databases_jpa_and_hibernate_faq/08_hibernate_session_get_vs_load_proxy.d2)
 
 Detailed Architectural Differences:
 
@@ -884,35 +679,9 @@ public class OrderManagementService {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph TransactionInterceptorFlow ["Spring Transaction Proxy Interceptor Pipeline"]
-        direction TB
-        CallOuter["OuterService.processOrder()<br/>[@Transactional]"] --> StartTx["Start Physical DB Connection / Txn"]
-        StartTx --> CallInner["InnerService.chargeCard()<br/>[@Transactional(REQUIRED)]"]
-        CallInner --> InnerThrows["Throws PaymentFailedException (RuntimeException)"]
-        InnerThrows --> InnerInterceptor["Inner Proxy Interceptor catches Exception:<br/>Marks TransactionStatus.setRollbackOnly()!"]
-        InnerInterceptor --> Rethrow["Rethrows Exception back to Outer"]
-        Rethrow --> OuterCatch["OuterService catches exception in try-catch block:<br/>logger.error('Card failed, continuing...');"]
-        OuterCatch --> OuterReturn["OuterService completes normally and attempts to COMMIT"]
-        OuterReturn --> OuterInterceptor["Outer Proxy Interceptor calls connection.commit()"]
-        OuterInterceptor --> RollbackCheck{"Transaction marked rollback-only?"}
-        RollbackCheck -->|"Yes!"| RollbackCrash["connection.rollback();<br/>THROWS UnexpectedRollbackException!"]
-    end
+![Spring @Transactional Rollback Rules & Exception Invariants](assets/07_databases_jpa_and_hibernate_faq/09_transaction_interceptor_rollback_rules.svg)
 
-    style TransactionInterceptorFlow fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style CallOuter fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style StartTx fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style CallInner fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style InnerThrows fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style InnerInterceptor fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Rethrow fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style OuterCatch fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style OuterReturn fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style OuterInterceptor fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style RollbackCheck fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style RollbackCrash fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/09_transaction_interceptor_rollback_rules.d2](assets/07_databases_jpa_and_hibernate_faq/09_transaction_interceptor_rollback_rules.d2)
 
 Why Spring Enforces This Invariant:
 - Atomicity contract: If part of a shared transaction fails, allowing the remainder to commit would violate ACID integrity (e.g., creating an order record when payment debit failed).

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 390" width="100%" height="100%">
+  {COMMON_DEFS}
+  <style>
+{COMMON_STYLES}
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="540" y="32" class="title" font-size="19" text-anchor="middle">Threading Architecture: Platform Threads (1:1) vs Java 21 Virtual Threads (M:N)</text>
+  <text x="540" y="52" class="subtitle" text-anchor="middle">Heavyweight OS kernel threads with 1MB stacks vs lightweight JVM user-mode continuations mounted on Carrier ForkJoinPool</text>
+
+  <!-- Left: Platform Threads -->
+  <g transform="translate(40, 75)">
+    <rect width="470" height="280" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="470" height="34" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="235" y="22" class="card-title" fill="#FCA5A5" text-anchor="middle">Platform Threads (1:1 OS Thread Model)</text>
+    
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#F87171">• OS Kernel Thread Binding:</text>
+    <text x="24" y="78" class="card-body">  - 1 Java Thread = 1 OS Kernel Thread</text>
+    <text x="24" y="98" class="card-body">  - Fixed stack size: ~1MB reserved per thread</text>
+    <text x="24" y="118" class="card-body">  - Max ~3,000 threads before OS OOM limit</text>
+    
+    <text x="16" y="146" class="card-body" font-weight="600" fill="#F87171">• Blocking Socket I/O Penalty:</text>
+    <text x="24" y="166" class="card-body">  - When thread blocks on DB / HTTP read:</text>
+    <text x="24" y="186" class="card-body">  - Entire OS thread goes to SLEEP (Context Switch)</text>
+    <text x="24" y="206" class="card-body">  - CPU cores sit idle while thread pools starve</text>
+    
+    <rect x="16" y="235" width="438" height="24" rx="4" ry="4" fill="#1E293B"/>
+    <text x="235" y="251" class="badge" fill="#FCA5A5" text-anchor="middle">High Memory &amp; Kernel Context Switch Overhead</text>
+  </g>
+
+  <!-- Right: Virtual Threads -->
+  <g transform="translate(570, 75)">
+    <rect width="470" height="280" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="470" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <text x="235" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">Virtual Threads: Project Loom (M:N User Model)</text>
+    
+    <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• User-Mode Continuations:</text>
+    <text x="24" y="78" class="card-body">  - Managed directly by JVM (Millions per JVM)</text>
+    <text x="24" y="98" class="card-body">  - Dynamic stack: ~1KB initial memory on heap</text>
+    <text x="24" y="118" class="card-body">  - Mounted on Carrier Threads (ForkJoinPool)</text>
+    
+    <text x="16" y="146" class="card-body" font-weight="600" fill="#34D399">• Non-Blocking I/O Unmounting:</text>
+    <text x="24" y="166" class="card-body">  - When blocking I/O occurs, virtual thread UNMOUNTS</text>
+    <text x="24" y="186" class="card-body">  - Carrier thread immediately executes next task!</text>
+    <text x="24" y="206" class="card-body">  - Restored to carrier when I/O completes (epoll)</text>
+    
+    <rect x="16" y="235" width="438" height="24" rx="4" ry="4" fill="#1E293B"/>
+    <text x="235" y="251" class="badge" fill="#A7F3D0" text-anchor="middle">High Concurrency: 1,000,000+ Concurrent Requests</text>
+  </g>
+</svg>

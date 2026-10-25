@@ -1,0 +1,20 @@
+direction: down
+classes: {
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  diamond_box: { shape: diamond, style: { fill: "#111827", stroke: "#F59E0B", stroke-width: 2 } }
+  green_box: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
+  cyan_box: { style: { fill: "#111827", stroke: "#06B6D4", stroke-width: 2 } }
+  purple_box: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
+}
+
+Source: "Source Database\n(No Last-Modified Timestamps)" { class: blue_box }
+Strategy: "Select Strategy\nby Database Engine Type" { class: diamond_box }
+
+CT: "Strategy 1: Change Tracking\n• Built-in SQL Server CT\n• CHANGETABLE(CHANGES...)" { class: green_box }
+CDC: "Strategy 2: Log-Based CDC\n• Debezium / GoldenGate\n• Scrapes WAL / Redo logs" { class: cyan_box }
+HashDiff: "Strategy 3: Hash Diff\n• Staging full extract snapshot\n• Compare SHA-256 vs master" { class: purple_box }
+
+Source -> Strategy
+Strategy -> CT: "SQL Server / Azure SQL"
+Strategy -> CDC: "Oracle / Postgres"
+Strategy -> HashDiff: "Generic / Legacy Files"

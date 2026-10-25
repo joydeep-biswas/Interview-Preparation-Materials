@@ -1,0 +1,24 @@
+direction: right
+classes: {
+  container_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  container_red: { style: { fill: "#0D1526", stroke: "#EF4444" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+HappyPath: "Normal Sequential (ALL_SUCCESS)" {
+  class: container_green
+  T1: "Task 1: Extract & Stage" { class: card_dark }
+  T2: "Task 2: Transform (all_success)" { class: card_dark }
+  T3: "Task 3: Promote to Prod" { class: card_dark }
+  T1 -> T2 -> T3
+}
+
+FailureBranch: "Failure & Teardown" {
+  class: container_red
+  Fail1: "Task 1: Fails After Retries" { class: card_dark }
+  Alert: "PagerDuty Alert\ntrigger_rule='one_failed'" { class: card_dark }
+  Teardown: "Cluster Teardown\ntrigger_rule='all_done'" { class: card_dark }
+
+  Fail1 -> Alert
+  Fail1 -> Teardown
+}

@@ -1,0 +1,27 @@
+direction: right
+title: "Service Discovery: Client-Side vs Server-Side Architecture"
+
+client_side: "Client-Side Discovery (Eureka)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+
+  c_client: "Client App"
+  eureka: "Eureka Registry"
+  targets: "Service Instances (Direct Hop)"
+
+  c_client -> eureka: "1. Query registry"
+  eureka -> c_client: "2. Return IPs"
+  c_client -> targets: "3. Direct RPC"
+}
+
+server_side: "Server-Side Discovery (Kubernetes)" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+
+  s_client: "Client App"
+  k8s_svc: "K8s Service / Virtual IP"
+  pods: "Pods (Endpoints)"
+
+  s_client -> k8s_svc: "1. Calls DNS hostname"
+  k8s_svc -> pods: "2. Proxies to Pod"
+}

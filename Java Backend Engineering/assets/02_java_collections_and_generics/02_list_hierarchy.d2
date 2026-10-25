@@ -1,0 +1,39 @@
+direction: down
+title: Java List Interface Hierarchy & Implementation Characteristics
+
+List: <<interface>> List<E> {
+  style.fill: "#1E293B"
+  style.stroke: "#3B82F6"
+  methods: "get(i), set(i, e), add(i, e), remove(i)"
+}
+
+ArrayList: ArrayList<E> {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  backing: "Contiguous Object[] array"
+  access: "O(1) random access pointer arithmetic"
+  cache: "Excellent CPU L1/L2 spatial locality"
+  resize: "1.5x geometric growth amortized O(1)"
+}
+
+LinkedList: LinkedList<E> {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  backing: "Doubly-linked Node objects"
+  access: "O(n) sequential traversal"
+  overhead: "24B memory overhead per element"
+  cache: "Poor cache locality; frequent misses"
+}
+
+CopyOnWrite: CopyOnWriteArrayList<E> {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  backing: "Immutable array reference"
+  reads: "O(1) lock-free snapshot iteration"
+  writes: "O(n) clones full array on modification"
+  usage: "Ideal for read-heavy observer patterns"
+}
+
+List -> ArrayList
+List -> LinkedList
+List -> CopyOnWrite

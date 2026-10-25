@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 420" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-red { stroke: #EF4444; }
+      .card-blue { stroke: #3B82F6; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-b28" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g28" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Col 1: Metric Alert -->
+  <rect x="25" y="25" width="280" height="370" class="pillar-box" stroke="#EF4444"/>
+  <text x="165" y="55" class="title-text" fill="#FCA5A5">Production Anomaly Alert</text>
+
+  <rect x="45" y="80" width="240" height="130" class="card card-red"/>
+  <text x="165" y="105" class="card-title" fill="#FCA5A5">18% Revenue Inflation</text>
+  <text x="55" y="130" class="card-body">• Dashboard: $1,180,000</text>
+  <text x="55" y="150" class="card-body">• Source Ledger: $1,000,000</text>
+  <text x="55" y="170" class="card-body" fill="#EF4444">• Discrepancy: +$180,000</text>
+  <text x="55" y="190" class="card-body">• Financial compliance breach</text>
+
+  <!-- Col 2: 4-Step Runbook -->
+  <rect x="345" y="25" width="370" height="370" class="pillar-box" stroke="#3B82F6"/>
+  <text x="530" y="55" class="title-text" fill="#60A5FA">4-Step SQL Diagnostic Runbook</text>
+
+  <rect x="365" y="75" width="330" height="65" class="card card-blue"/>
+  <text x="530" y="98" class="card-title" fill="#93C5FD">1. Record Count Reconciliation</text>
+  <text x="380" y="122" class="card-body">COUNT(*) vs COUNT(DISTINCT order_id)</text>
+
+  <rect x="365" y="150" width="330" height="70" class="card card-red"/>
+  <text x="530" y="173" class="card-title" fill="#FCA5A5">2. Join Fan-Out Detection (CULPRIT!)</text>
+  <text x="380" y="198" class="card-body" fill="#FCA5A5">dim_merchant had duplicate rows for active sellers!</text>
+
+  <rect x="365" y="230" width="330" height="65" class="card card-blue"/>
+  <text x="530" y="253" class="card-title" fill="#93C5FD">3. Timezone Boundary Audit</text>
+  <text x="380" y="278" class="card-body">Reconcile UTC vs local daylight savings time</text>
+
+  <rect x="365" y="305" width="330" height="65" class="card card-blue"/>
+  <text x="530" y="328" class="card-title" fill="#93C5FD">4. Status Mutation Lag</text>
+  <text x="380" y="353" class="card-body">Filter updated_at vs created_at state changes</text>
+
+  <!-- Col 3: Root Cause & Fix -->
+  <rect x="755" y="25" width="280" height="370" class="pillar-box" stroke="#10B981"/>
+  <text x="895" y="55" class="title-text" fill="#6EE7B7">Root Cause &amp; Remediation</text>
+
+  <rect x="775" y="115" width="240" height="190" class="card card-green"/>
+  <text x="895" y="142" class="card-title" fill="#6EE7B7">Cartesian Fan-Out Resolved</text>
+  <text x="790" y="170" class="card-body">• Duplicate merchant dimension</text>
+  <text x="790" y="190" class="card-body">  multiplied orders by 1.18x</text>
+  <text x="790" y="210" class="card-body">• Fixed via SCD2 current flag</text>
+  <text x="790" y="230" class="card-body" fill="#34D399">• WHERE is_current = TRUE</text>
+  <text x="790" y="250" class="card-body">• Added unique constraint on PK</text>
+  <text x="790" y="270" class="card-body" fill="#34D399">• Ledger matched 100% ($1.00M)</text>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 285 145 C 315 145, 335 107, 351 107 L 365 107" class="edge edge-blue" marker-end="url(#arr-b28)"/>
+
+  <path fill="none" d="M 695 185 L 775 185" class="edge edge-green" marker-end="url(#arr-g28)"/>
+</svg>

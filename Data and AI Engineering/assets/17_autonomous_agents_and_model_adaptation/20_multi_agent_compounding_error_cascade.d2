@@ -1,0 +1,12 @@
+classes: {
+  step_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  warn_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  fail_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+a1: "Agent 1 (90% Acc)\n10% Error" { class: step_box }
+a2: "Agent 2 (90% Acc)\n19% Cumulative Error" { class: warn_box }
+a3: "Agent 3 (90% Acc)\n27.1% Cumulative Error" { class: warn_box }
+final: "Final Output (72.9% Total Accuracy!)\nNearly 1 in 3 runs fails!" { class: fail_box }
+
+a1 -> a2 -> a3 -> final: "Compounding probabilistic error"

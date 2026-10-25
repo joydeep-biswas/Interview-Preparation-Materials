@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 280" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-a26" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g26" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="32" class="title-text">Gaps &amp; Islands: Longest Consecutive Streak Identification</text>
+
+  <!-- Step 1 -->
+  <rect x="30" y="65" width="240" height="185" class="card card-blue"/>
+  <text x="150" y="92" class="card-title" fill="#93C5FD">1. Raw Delivery Stream</text>
+  <text x="45" y="117" class="card-body">• Deliv 1: Rating 4.9 (Pass)</text>
+  <text x="45" y="137" class="card-body">• Deliv 2: Rating 5.0 (Pass)</text>
+  <text x="45" y="157" class="card-body" fill="#EF4444">• Deliv 3: Rating 4.7 (BREACH!)</text>
+  <text x="45" y="177" class="card-body">• Deliv 4: Rating 4.9 (Pass)</text>
+  <text x="45" y="197" class="card-body">• Deliv 5: Rating 5.0 (Pass)</text>
+  <text x="45" y="217" class="card-body">• Deliv 6: Rating 4.8 (Pass)</text>
+
+  <!-- Step 2 -->
+  <rect x="330" y="65" width="290" height="185" class="card card-amber"/>
+  <text x="475" y="92" class="card-title" fill="#FDE68A">2. Island Partitioning</text>
+  <text x="345" y="117" class="card-body" fill="#60A5FA">• Island 0: [D1, D2] (Streak = 2)</text>
+  <text x="345" y="145" class="card-body" fill="#EF4444">• Gap Marker: D3 (Breach resets counter)</text>
+  <text x="345" y="175" class="card-body" fill="#34D399">• Island 1: [D4, D5, D6] (Streak = 3)</text>
+  <text x="345" y="205" class="card-body">• SUM(is_breach) defines island keys</text>
+
+  <!-- Step 3 -->
+  <rect x="680" y="65" width="250" height="185" class="card card-green"/>
+  <text x="805" y="92" class="card-title" fill="#6EE7B7">3. Aggregated Winner</text>
+  <text x="695" y="125" class="card-body" fill="#34D399">• MAX(streak) = 3 Deliveries</text>
+  <text x="695" y="155" class="card-body">• Island 1 qualifies for bonus</text>
+  <text x="695" y="185" class="card-body">• Deterministic window evaluation</text>
+  <text x="695" y="215" class="card-body">• O(N) single pass execution</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 270 157 L 330 157" class="edge edge-amber" marker-end="url(#arr-a26)"/>
+  <path fill="none" d="M 620 157 L 680 157" class="edge edge-green" marker-end="url(#arr-g26)"/>
+</svg>

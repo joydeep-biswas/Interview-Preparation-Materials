@@ -1,0 +1,18 @@
+classes: {
+  mon_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  obs_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+monitoring: "Traditional Monitoring (Car Dashboard)\nKnown-Known Failure Modes" {
+  light: "Check Engine Light\nStatic threshold trigger (CPU > 85%)" { class: mon_box }
+  panic: "Operator Guesswork\nNo context, no causal chain, alert fatigue" { class: mon_box }
+
+  light -> panic: "Alert fires without root cause"
+}
+
+observability: "Modern Observability (Hospital ICU)\nUnknown-Unknown Failure Modes" {
+  telemetry: "Correlated Telemetry\nTraces, Metrics, Structured Logs & Profiles" { class: obs_box }
+  diagnosis: "Differential Diagnosis\nHigh-cardinality queries isolate root cause" { class: obs_box }
+
+  telemetry -> diagnosis: "Trace context propagates error propagation"
+}

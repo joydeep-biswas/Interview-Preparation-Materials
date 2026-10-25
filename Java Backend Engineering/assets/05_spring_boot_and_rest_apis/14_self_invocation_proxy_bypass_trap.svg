@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Self-Invocation Proxy Bypass Trap &amp; Production Fixes</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Why @Transactional and @Async fail silently when called internally on 'this', and the 3 architectural remedies</text>
+<rect x="30" y="85" width="980" height="210" rx="8" fill="#1a1116" stroke="#ef4444" stroke-width="1.5"/>
+<text x="520" y="112" fill="#FCA5A5" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Trap: Self-Invocation Completely Bypasses the Spring AOP Proxy!</text>
+<rect x="410" y="122" width="220" height="18" rx="9" fill="#991b1b"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Silent Transaction / Async Failure</text>
+<rect x="50" y="155" width="430" height="120" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1"/>
+<text x="65" y="178" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">External Call from Controller: WORKS PERFECTLY</text>
+<text x="65" y="198" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Controller -&gt; UserService Proxy -&gt; TransactionInterceptor -&gt; UserService</text>
+<text x="65" y="218" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Method called on PROXY object reference</text>
+<text x="65" y="234" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ TransactionInterceptor opens DB connection and begins transaction</text>
+<text x="65" y="250" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Transaction commits successfully upon method exit</text>
+<rect x="520" y="155" width="470" height="120" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="535" y="178" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Internal Self-Invocation: SILENT FAILURE TRAP!</text>
+<text x="535" y="198" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">registerUser() calls this.sendActivationEmail() internally:</text>
+<text x="535" y="218" fill="#FCA5A5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✗ 'this' refers to the RAW JVM INSTANCE, NOT THE PROXY!</text>
+<text x="535" y="234" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✗ Proxy is completely bypassed: TransactionInterceptor NEVER executes!</text>
+<text x="535" y="250" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✗ If method has @Async, it runs SYNCHRONOUSLY on the HTTP thread!</text>
+<rect x="30" y="310" width="980" height="215" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="520" y="335" fill="#6EE7B7" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3 Production Remedies to Fix Self-Invocation</text>
+<rect x="50" y="355" width="300" height="150" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="200" y="378" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Remedy 1: Extract Separate Service</text>
+<rect x="120" y="388" width="160" height="16" rx="8" fill="#047857"/><text x="200" y="399" fill="#ffffff" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">RECOMMENDED (Clean Code)</text>
+<text x="65" y="420" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Move @Async / @Transactional</text>
+<text x="65" y="436" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  method to EmailService</text>
+<text x="65" y="454" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Inject EmailService into UserService</text>
+<text x="65" y="470" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Call goes through EmailService proxy</text>
+<text x="65" y="484" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Clean single responsibility design!</text>
+<rect x="370" y="355" width="300" height="150" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="520" y="378" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Remedy 2: Self-Injection via Lazy</text>
+<rect x="440" y="388" width="160" height="16" rx="8" fill="#0284c7"/><text x="520" y="399" fill="#ffffff" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring IoC Self Reference</text>
+<text x="385" y="420" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Inject proxy reference into self:</text>
+<text x="385" y="436" fill="#F8FAFC" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  @Autowired @Lazy UserService self;</text>
+<text x="385" y="454" fill="#38BDF8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Call: self.sendActivationEmail()</text>
+<text x="385" y="470" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Invocation routes through proxy!</text>
+<text x="385" y="484" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Works without creating new classes</text>
+<rect x="690" y="355" width="300" height="150" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="840" y="378" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Remedy 3: AspectJ Weaving</text>
+<rect x="760" y="388" width="160" height="16" rx="8" fill="#6d28d9"/><text x="840" y="399" fill="#ffffff" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Bytecode Weaving (No Proxy)</text>
+<text x="705" y="420" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Uses AspectJ CTW or LTW</text>
+<text x="705" y="436" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Weaves advice bytecode directly</text>
+<text x="705" y="452" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  into the class .class file</text>
+<text x="705" y="470" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Self-invocation works automatically!</text>
+<text x="705" y="484" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Trade-off: Complex build setup</text>
+</svg>

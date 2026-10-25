@@ -1,0 +1,25 @@
+classes: {
+  router_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  select_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  active_expert: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  idle_expert: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 1 } }
+  sum_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+token: "Incoming Token Vector x_t"
+router: "Router Gating Network\nW_gate * x_t -> Softmax" { class: router_box }
+top2: "Top-2 Selector\nRoutes to Expert 2 (0.62) & Expert 1 (0.38)" { class: select_box }
+
+pool: "Expert Pool (8 Parallel FFNs)" {
+  e1: "Expert 1 (Math/Logic) [Active]" { class: active_expert }
+  e2: "Expert 2 (Code/Syntax) [Active]" { class: active_expert }
+  e3_8: "Experts 3 to 8 [Inactive]" { class: idle_expert }
+}
+
+sum: "Weighted Sum: y = 0.62*E2(x) + 0.38*E1(x)" { class: sum_box }
+
+token -> router -> top2
+top2 -> pool.e1: "Route token"
+top2 -> pool.e2: "Route token"
+pool.e1 -> sum
+pool.e2 -> sum

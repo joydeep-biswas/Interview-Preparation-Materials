@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Data Lake Architecture &amp; Schema-on-Read Mechanics</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Heterogeneous Ingestion, Cloud Object Storage, and Decoupled Query Engines</text>
+  
+  
+    <rect x="30" y="90" width="260" height="300" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="112" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Heterogeneous Sources</text>
+  
+    <rect x="45" y="130" width="230" height="55" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="160.0" y="156" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PostgreSQL CDC</text>
+    <text x="160.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Relational WAL Stream</text>
+    <circle cx="61" cy="185" r="2" fill="#3b82f6"/>
+    <text x="69" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Debezium JSON/Avro records</text>
+  
+    <rect x="45" y="195" width="230" height="55" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="160.0" y="221" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Application Logs</text>
+    <text x="160.0" y="237" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Distributed Log Aggregator</text>
+    <circle cx="61" cy="250" r="2" fill="#3b82f6"/>
+    <text x="69" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Unstructured &amp; JSON text</text>
+  
+    <rect x="45" y="260" width="230" height="55" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="160.0" y="286" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Audio / PDF Media</text>
+    <text x="160.0" y="302" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Binary Unstructured Blobs</text>
+    <circle cx="61" cy="315" r="2" fill="#3b82f6"/>
+    <text x="69" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Images, recordings, raw files</text>
+  
+    <rect x="45" y="325" width="230" height="55" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="160.0" y="351" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">IoT MQTT Telemetry</text>
+    <text x="160.0" y="367" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">High-Velocity Sensor Data</text>
+    <circle cx="61" cy="380" r="2" fill="#3b82f6"/>
+    <text x="69" y="383" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sensor events, Protobuf bytes</text>
+
+  
+    <rect x="340" y="90" width="300" height="300" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="356" y="112" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Cloud Object Storage (Data Lake)</text>
+  
+    <rect x="355" y="135" width="270" height="235" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="490.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Raw Storage Substrate</text>
+    <text x="490.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">S3 / ADLS Gen2 / GCS</text>
+    <rect x="546" y="145" width="73" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="582.5" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SCALE-OUT</text>
+    <circle cx="371" cy="190" r="2" fill="#10b981"/>
+    <text x="379" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Prefix: /raw/events/year=2026/month=10/</text>
+    <circle cx="371" cy="206" r="2" fill="#10b981"/>
+    <text x="379" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Formats: Parquet, ORC, Avro, JSON, Binary</text>
+    <circle cx="371" cy="222" r="2" fill="#10b981"/>
+    <text x="379" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cost: $0.020/GB/mo (10x cheaper than RDBMS)</text>
+    <circle cx="371" cy="238" r="2" fill="#10b981"/>
+    <text x="379" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Infinite write scaling via HTTP PUT</text>
+    <circle cx="371" cy="254" r="2" fill="#10b981"/>
+    <text x="379" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Schema-on-Read: Structure inferred at query</text>
+    <circle cx="371" cy="270" r="2" fill="#10b981"/>
+    <text x="379" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Limitation: No ACID transactions natively</text>
+    <circle cx="371" cy="286" r="2" fill="#10b981"/>
+    <text x="379" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Limitation: Eventual consistency / file sprawl</text>
+
+  
+    <rect x="690" y="90" width="260" height="300" rx="10" fill="#291b05" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="706" y="112" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Compute on Demand</text>
+  
+    <rect x="705" y="130" width="230" height="55" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="820.0" y="156" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Apache Spark / EMR</text>
+    <text x="820.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Distributed Processing</text>
+    <circle cx="721" cy="185" r="2" fill="#f59e0b"/>
+    <text x="729" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Large-scale batch / stream ETL</text>
+  
+    <rect x="705" y="195" width="230" height="55" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="820.0" y="221" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Trino / Presto</text>
+    <text x="820.0" y="237" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Interactive Distributed SQL</text>
+    <circle cx="721" cy="250" r="2" fill="#f59e0b"/>
+    <text x="729" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sub-second SQL over object store</text>
+  
+    <rect x="705" y="260" width="230" height="55" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="820.0" y="286" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DuckDB Engine</text>
+    <text x="820.0" y="302" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Embedded Vectorized SQL</text>
+    <circle cx="721" cy="315" r="2" fill="#f59e0b"/>
+    <text x="729" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Fast local query without cluster</text>
+  
+    <rect x="705" y="325" width="230" height="55" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="820.0" y="351" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PyTorch / TensorFlow</text>
+    <text x="820.0" y="367" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">AI &amp; ML Training Pipeline</text>
+    <circle cx="721" cy="380" r="2" fill="#f59e0b"/>
+    <text x="729" y="383" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Direct access to raw binary/arrays</text>
+
+  
+    <path d="M 275.0 155.0 L 285.0 155.0 C 313.0 155.0, 313.0 180.0, 341.0 180.0 L 355.0 180.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <line x1="275" y1="220" x2="355" y2="220" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <path d="M 275.0 285.0 L 285.0 285.0 C 313.0 285.0, 313.0 260.0, 341.0 260.0 L 355.0 260.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <path d="M 275.0 350.0 L 285.0 350.0 C 313.0 350.0, 313.0 300.0, 341.0 300.0 L 355.0 300.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  
+    <path d="M 625.0 180.0 L 635.0 180.0 C 663.0 180.0, 663.0 155.0, 691.0 155.0 L 705.0 155.0" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  
+    <line x1="625" y1="220" x2="705" y2="220" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  
+    <path d="M 625.0 260.0 L 635.0 260.0 C 663.0 260.0, 663.0 285.0, 691.0 285.0 L 705.0 285.0" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  
+    <path d="M 625.0 300.0 L 635.0 300.0 C 663.0 300.0, 663.0 350.0, 691.0 350.0 L 705.0 350.0" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+</svg>

@@ -1,0 +1,32 @@
+direction: right
+title: Broadcast Hash Join (BHJ) Architecture
+
+Driver: Driver Layer {
+  style.stroke: "#38BDF8"
+  SmallDim: Small Dim Table (15MB)
+  DriverNode: Driver Master (Collects & Hashes)
+  Torrent: TorrentBroadcast P2P Distributor
+
+  SmallDim -> DriverNode -> Torrent
+}
+
+Worker1: Worker Node 1 {
+  style.stroke: "#34D399"
+  HashRAM1: Broadcast Hash Table (In-Memory RAM)
+  FactPart1: Fact Partition 1 (500GB Scan)
+  Join1: Local Join Complete (Zero Shuffle)
+
+  HashRAM1 -> FactPart1 -> Join1
+}
+
+Worker2: Worker Node 2 {
+  style.stroke: "#34D399"
+  HashRAM2: Broadcast Hash Table (In-Memory RAM)
+  FactPart2: Fact Partition 2 (500GB Scan)
+  Join2: Local Join Complete (Zero Shuffle)
+
+  HashRAM2 -> FactPart2 -> Join2
+}
+
+Driver.Torrent -> Worker1.HashRAM1: 15MB P2P Broadcast { style.stroke: "#FBBF24" }
+Driver.Torrent -> Worker2.HashRAM2: 15MB P2P Broadcast { style.stroke: "#FBBF24" }

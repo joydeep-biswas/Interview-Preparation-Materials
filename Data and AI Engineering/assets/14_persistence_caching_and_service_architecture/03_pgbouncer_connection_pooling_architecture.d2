@@ -1,0 +1,29 @@
+classes: {
+  client_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  bouncer_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  pg_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+clients: "FastAPI Application Workers" {
+  w1: "Worker 1 (Socket #1)" { class: client_box }
+  w2: "Worker 2 (Socket #2)" { class: client_box }
+  wn: "Worker N (5,000 App Sockets)" { class: client_box }
+}
+
+bouncer: "PgBouncer Proxy Engine\n(Transaction Pooling Mode)\nMultiplexing Ratio 100:1" {
+  class: bouncer_box
+}
+
+postgres: "PostgreSQL Database Server\n50 Dedicated OS Backend Processes\nShared Buffers Cache" {
+  class: pg_box
+}
+
+clients.w1 -> bouncer: "TCP Socket"
+clients.w2 -> bouncer: "TCP Socket"
+clients.wn -> bouncer: "5,000 Client Sockets" {
+  style: { stroke: "#fbbf24"; stroke-width: 2 }
+}
+
+bouncer -> postgres: "50 Multiplexed Connections\n(Checked out per TX)" {
+  style: { stroke: "#4ade80"; stroke-width: 2 }
+}

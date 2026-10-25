@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Star Schema vs. One Big Table (OBT) Architecture</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Query-Time Relational Joins vs. Pre-Joined Columnar Flat Tables for Modern Lakehouses</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Star Schema (Query-Time Relational Joins)</text>
+  
+    <rect x="45" y="135" width="180" height="80" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="135.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">fact_orders</text>
+    <text x="135.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Fact Table</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">order_id, date_sk</text>
+    <circle cx="61" cy="206" r="2" fill="#3b82f6"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">cust_sk, prod_sk, amount</text>
+  
+    <rect x="260" y="135" width="180" height="60" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="350.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">dim_customer</text>
+    <text x="350.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Dimension</text>
+    <circle cx="276" cy="190" r="2" fill="#3b82f6"/>
+    <text x="284" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">cust_sk, name, city</text>
+  
+    <rect x="260" y="210" width="180" height="60" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="350.0" y="236" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">dim_product</text>
+    <text x="350.0" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Dimension</text>
+    <circle cx="276" cy="265" r="2" fill="#3b82f6"/>
+    <text x="284" y="268" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">prod_sk, sku, category</text>
+  
+    <rect x="260" y="285" width="180" height="60" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="350.0" y="311" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">dim_store</text>
+    <text x="350.0" y="327" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Dimension</text>
+    <circle cx="276" cy="340" r="2" fill="#3b82f6"/>
+    <text x="284" y="343" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">store_sk, name, state</text>
+  <text x="245" y="365" fill="#94a3b8" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle">Pros: Storage efficient. Cons: Join broadcast &amp; shuffle overhead at query</text>
+
+  
+    <line x1="225" y1="165" x2="260" y2="165" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <path d="M 225.0 180.0 L 236.5 180.0 Q 242.5 180.0 242.5 186.0 L 242.5 229.0 Q 242.5 235.0 248.5 235.0 L 260.0 235.0" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <path d="M 225.0 195.0 L 236.5 195.0 Q 242.5 195.0 242.5 201.0 L 242.5 304.0 Q 242.5 310.0 248.5 310.0 L 260.0 310.0" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">One Big Table (OBT: Pre-Joined Flat Storage)</text>
+  
+    <rect x="535" y="135" width="400" height="205" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">analytics.obt_orders_denormalized</text>
+    <text x="735.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Flat Columnar Table (Delta / Iceberg / BigQuery)</text>
+    <rect x="849" y="145" width="80" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="889.0" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">OBT / WIDE</text>
+    <circle cx="551" cy="190" r="2" fill="#10b981"/>
+    <text x="559" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">All fact &amp; dimension attributes denormalized into 1 table</text>
+    <circle cx="551" cy="206" r="2" fill="#10b981"/>
+    <text x="559" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Columns: order_id, date, customer_name, city, product_name,</text>
+    <circle cx="551" cy="222" r="2" fill="#10b981"/>
+    <text x="559" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">category, store_name, store_state, gross_amount, net_amount...</text>
+    <circle cx="551" cy="238" r="2" fill="#10b981"/>
+    <text x="559" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Width: 150 to 300+ columns; Depth: Billions of rows</text>
+    <circle cx="551" cy="254" r="2" fill="#10b981"/>
+    <text x="559" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero query-time joins: Scans only requested columns (columnar)</text>
+    <circle cx="551" cy="270" r="2" fill="#10b981"/>
+    <text x="559" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Storage cost mitigated by high Snappy/ZSTD compression</text>
+    <circle cx="551" cy="286" r="2" fill="#10b981"/>
+    <text x="559" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sub-second BI dashboards without shuffle bottleneck</text>
+
+  
+    <line x1="460" y1="240" x2="520" y2="240" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="490.0" y="232" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Batch Join ETL</text>
+
+</svg>

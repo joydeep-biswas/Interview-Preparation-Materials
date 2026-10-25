@@ -1,0 +1,28 @@
+direction: right
+
+return_opt: "1. Return Optional<User>" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  states: "Present: Optional.of(user) | Empty: Optional.empty()"
+  rule: "Never return null for Optional"
+}
+
+transform: "2. Monadic Composition" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  filter: ".filter(User::isActive)"
+  map: ".map(User::getEmail)"
+  flatMap: ".flatMap(User::findSecondaryEmail)"
+  bypass: "Automatically bypasses on empty (No NPE)"
+}
+
+terminal: "3. Safe Terminal Unwrap" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  throw: ".orElseThrow(UserNotFoundException::new)"
+  lazy: ".orElseGet(() -> generateDefault())"
+  branch: ".ifPresentOrElse(sendEmail, logMissing)"
+}
+
+return_opt -> transform: "Fluent pipeline"
+transform -> terminal: "Safe extraction"

@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 540" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-blue { stroke: #3B82F6; }
+      .card-green { stroke: #10B981; }
+      .card-purple { stroke: #8B5CF6; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-green { stroke: #10B981; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-dashed { stroke-dasharray: 4 4; }
+    </style>
+    <marker id="arr-b131" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g131" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-p131" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Column 1: Linux Kernel Socket Subsystem -->
+  <rect x="20" y="20" width="340" height="500" class="pillar-box" stroke="#3B82F6"/>
+  <text x="190" y="48" class="title-text" fill="#60A5FA">1. Linux OS &amp; Network Socket Subsystem</text>
+
+  <!-- NIC -->
+  <rect x="40" y="70" width="300" height="80" class="card card-blue"/>
+  <text x="190" y="95" class="card-title" fill="#93C5FD">Physical NIC &amp; RX Ring Buffer</text>
+  <text x="55" y="120" class="card-body">• Hardware packet ingress via DMA</text>
+  <text x="55" y="138" class="card-body">• NAPI softirq handler processes ethernet frames</text>
+
+  <!-- SYN Backlog Queue -->
+  <rect x="40" y="175" width="300" height="85" class="card card-blue"/>
+  <text x="190" y="200" class="card-title" fill="#93C5FD">SYN Backlog Queue</text>
+  <text x="55" y="225" class="card-body">• Configured by net.ipv4.tcp_max_syn_backlog</text>
+  <text x="55" y="243" class="card-body">• Holds half-open connections during 3-way handshake</text>
+
+  <!-- Accept Listen Queue -->
+  <rect x="40" y="285" width="300" height="85" class="card card-blue"/>
+  <text x="190" y="310" class="card-title" fill="#93C5FD">Accept Listen Queue (somaxconn)</text>
+  <text x="55" y="335" class="card-body">• Holds fully established sockets (ESTABLISHED)</text>
+  <text x="55" y="353" class="card-body">• Overflows silently drop SYN or send RST packets</text>
+
+  <!-- Epoll -->
+  <rect x="40" y="395" width="300" height="95" class="card card-blue"/>
+  <text x="190" y="420" class="card-title" fill="#93C5FD">epoll_wait (Netty Event Loop)</text>
+  <text x="55" y="445" class="card-body">• Edge-triggered socket I/O multiplexing O(1)</text>
+  <text x="55" y="463" class="card-body">• Wakes up single Netty event loop thread</text>
+  <text x="55" y="481" class="card-body">• Dispatches byte buffers to worker pipeline</text>
+
+  <!-- Col 1 Edges -->
+  <path fill="none" d="M 190 150 L 190 175" class="edge edge-blue" marker-end="url(#arr-b131)"/>
+  <path fill="none" d="M 190 260 L 190 285" class="edge edge-blue" marker-end="url(#arr-b131)"/>
+  <path fill="none" d="M 190 370 L 190 395" class="edge edge-blue" marker-end="url(#arr-b131)"/>
+
+  <!-- Column 2: Enterprise Service Runtime -->
+  <rect x="390" y="20" width="340" height="500" class="pillar-box" stroke="#10B981"/>
+  <text x="560" y="48" class="title-text" fill="#6EE7B7">2. Enterprise Service Runtime &amp; Context</text>
+
+  <!-- Workers -->
+  <rect x="410" y="80" width="300" height="110" class="card card-green"/>
+  <text x="560" y="105" class="card-title" fill="#6EE7B7">Worker / Virtual Threads</text>
+  <text x="425" y="130" class="card-body">• Executes business controllers &amp; transactions</text>
+  <text x="425" y="150" class="card-body">• Thread-per-request model or Loom virtual threads</text>
+  <text x="425" y="170" class="card-body">• Manages timeouts, retries &amp; circuit breakers</text>
+
+  <!-- MDC -->
+  <rect x="410" y="225" width="300" height="110" class="card card-green"/>
+  <text x="560" y="250" class="card-title" fill="#6EE7B7">Logback MDC Context</text>
+  <text x="425" y="275" class="card-body">• Injects traceId, spanId &amp; tenantId per thread</text>
+  <text x="425" y="295" class="card-body">• Transferred across async boundaries with Scope</text>
+  <text x="425" y="315" class="card-body">• Standardizes structured JSON log events</text>
+
+  <!-- Metrics -->
+  <rect x="410" y="365" width="300" height="110" class="card card-green"/>
+  <text x="560" y="390" class="card-title" fill="#6EE7B7">Micrometer Metrics Engine</text>
+  <text x="425" y="415" class="card-body">• MeterRegistry records p50, p95, p99 timers</text>
+  <text x="425" y="435" class="card-body">• Tracks JDBC pool, JVM heap &amp; HTTP counters</text>
+  <text x="425" y="455" class="card-body">• Exposes /actuator/prometheus scrapable endpoint</text>
+
+  <!-- Col 2 Edges -->
+  <path fill="none" d="M 560 190 L 560 225" class="edge edge-green" marker-end="url(#arr-g131)"/>
+  <path fill="none" d="M 560 335 L 560 365" class="edge edge-green" marker-end="url(#arr-g131)"/>
+
+  <!-- Column 3: Telemetry & Alerting Plane -->
+  <rect x="760" y="20" width="340" height="500" class="pillar-box" stroke="#8B5CF6"/>
+  <text x="930" y="48" class="title-text" fill="#C4B5FD">3. Telemetry Ingestion &amp; SRE Alerting</text>
+
+  <!-- FluentBit -->
+  <rect x="780" y="80" width="300" height="110" class="card card-purple"/>
+  <text x="930" y="105" class="card-title" fill="#D8B4FE">FluentBit DaemonSet</text>
+  <text x="795" y="130" class="card-body">• Scrapes container stdout/stderr log streams</text>
+  <text x="795" y="150" class="card-body">• Parses JSON MDC fields &amp; tags pod metadata</text>
+  <text x="795" y="170" class="card-body">• Buffers and ships to OpenSearch / CloudWatch</text>
+
+  <!-- Prometheus -->
+  <rect x="780" y="225" width="300" height="110" class="card card-purple"/>
+  <text x="930" y="250" class="card-title" fill="#D8B4FE">Prometheus TSDB &amp; Alertmanager</text>
+  <text x="795" y="275" class="card-body">• Pull-based 15s scraping intervals</text>
+  <text x="795" y="295" class="card-body">• Evaluates PromQL SLO rules (latency / 5xx)</text>
+  <text x="795" y="315" class="card-body">• Pushes paging alerts to PagerDuty / Slack</text>
+
+  <!-- Flamegraph -->
+  <rect x="780" y="365" width="300" height="110" class="card card-purple"/>
+  <text x="930" y="390" class="card-title" fill="#D8B4FE">Non-Safepoint Flamegraphs</text>
+  <text x="795" y="415" class="card-body">• async-profiler captures kernel + Java stacks</text>
+  <text x="795" y="435" class="card-body">• Avoids safepoint bias skewing CPU hotspots</text>
+  <text x="795" y="455" class="card-body">• Visualizes CPU cycles and allocation sites</text>
+
+  <!-- Cross-pillar connectors with straight runways -->
+  <!-- Epoll to Workers: exit 340,442 -> curve -> enter 410,135 with runway dx>=14 -->
+  <path fill="none" d="M 340 442 C 370 442, 375 135, 396 135 L 410 135" class="edge edge-green" marker-end="url(#arr-g131)"/>
+
+  <!-- MDC to FluentBit: exit 710,280 -> curve -> enter 780,135 with runway dx>=14 -->
+  <path fill="none" d="M 710 280 C 740 280, 745 135, 766 135 L 780 135" class="edge edge-purple" marker-end="url(#arr-p131)"/>
+
+  <!-- Metrics to Prometheus: exit 710,420 -> curve -> enter 780,280 with runway dx>=14 -->
+  <path fill="none" d="M 710 420 C 740 420, 745 280, 766 280 L 780 280" class="edge edge-purple" marker-end="url(#arr-p131)"/>
+
+  <!-- Workers to Flamegraph: exit 710,135 -> curve -> enter 780,420 with runway dx>=14 -->
+  <path fill="none" d="M 710 135 C 750 135, 750 420, 766 420 L 780 420" class="edge edge-purple edge-dashed" marker-end="url(#arr-p131)"/>
+</svg>

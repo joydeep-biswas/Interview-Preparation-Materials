@@ -1,0 +1,16 @@
+classes: {
+  prefill_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  decode_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+prefill: "Phase 1: Prefill (Context Prompt Processing)\nCompute-Bound: 2,048 tokens parallel GEMM\nSaturates Tensor Cores; emits first token (TTFT)" {
+  class: prefill_box
+}
+
+decode: "Phase 2: Decode (Sequential Token Generation)\nMemory-Bandwidth Bound: 1 token at a time\nStreams tokens (+30ms ITL) until [EOS]" {
+  class: decode_box
+}
+
+prefill -> decode: "First token emitted\nSwitches from Compute to Memory bound" {
+  style: { stroke: "#fbbf24"; stroke-width: 2 }
+}

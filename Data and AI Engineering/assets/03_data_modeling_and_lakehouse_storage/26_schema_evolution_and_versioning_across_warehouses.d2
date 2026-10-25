@@ -1,0 +1,23 @@
+direction: right
+title: Schema Evolution & Versioning Across Multi-Team Warehouses
+
+producer: Producer Service (Team A)
+registry: 1. Central Schema Registry (Avro / Protobuf) {
+  rules: "Enforces Backward & Forward Compatibility"
+}
+
+ingest: 2. Ingestion Engine (Databricks Auto Loader) {
+  features: "Captures schema drift into _rescued_data"
+}
+
+views: 3. Warehouse Versioned Views Layer {
+  v1: v1_orders (Stable contract for legacy BI)
+  v2: v2_orders (Includes new columns & types)
+}
+
+consumers: Downstream Analytics Teams (Zero Downtime)
+
+producer -> registry: "Publish new schema"
+registry -> ingest: "Validated schema ID"
+ingest -> views: "Auto-evolve physical storage"
+views -> consumers: "Zero breaking changes"

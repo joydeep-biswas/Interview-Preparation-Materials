@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Factory Method &amp; Abstract Factory: Decoupled Object Creation</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Encapsulating Instantiation Complexity, Lifecycle Wiring, and Dynamic Channel Routing</text>
+<rect x="60" y="110" width="260" height="80" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="190" y="142" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client: NotificationService</text>
+<text x="190" y="162" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">factory.create(Channel.EMAIL)</text>
+<text x="190" y="178" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Decoupled from concrete classes!</text>
+<rect x="450" y="110" width="320" height="80" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+<text x="610" y="142" fill="#FBBF24" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">NotificationFactory</text>
+<text x="610" y="162" fill="#FDE68A" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+create(ChannelType): Notification</text>
+<text x="610" y="178" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Encapsulates API keys &amp; connection pooling</text>
+<line x1="320" y1="150" x2="450" y2="150" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<rect x="460" y="230" width="300" height="65" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<text x="610" y="252" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;</text>
+<text x="610" y="268" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Notification</text>
+<text x="610" y="284" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+send(String recipient, String message): void</text>
+<line x1="610" y1="190" x2="610" y2="230" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<rect x="60" y="340" width="260" height="80" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="60" y="340" width="260" height="32" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="190" y="360" fill="#f59e0b" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">EmailNotification</text>
+<text x="190" y="388" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Uses JavaMailSender &amp; SendGrid SMTP</text>
+<text x="190" y="406" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">implements Notification</text>
+<path d="M 190.0 340.0 L 190.0 331.0 C 190.0 319.8, 610.0 319.8, 610.0 308.5 L 610.0 295.0" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-s)"/>
+<rect x="410" y="340" width="260" height="80" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<rect x="410" y="340" width="260" height="32" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="540" y="360" fill="#06b6d4" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SmsNotification</text>
+<text x="540" y="388" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Integrates Twilio SMS REST API</text>
+<text x="540" y="406" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">implements Notification</text>
+<path d="M 540.0 340.0 L 540.0 331.0 C 540.0 319.8, 610.0 319.8, 610.0 308.5 L 610.0 295.0" fill="none" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-s)"/>
+<rect x="760" y="340" width="260" height="80" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<rect x="760" y="340" width="260" height="32" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="890" y="360" fill="#10b981" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PushNotification</text>
+<text x="890" y="388" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Firebase Cloud Messaging (FCM) HTTP v1</text>
+<text x="890" y="406" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">implements Notification</text>
+<path d="M 890.0 340.0 L 890.0 331.0 C 890.0 319.8, 610.0 319.8, 610.0 308.5 L 610.0 295.0" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-s)"/>
+<rect x="40" y="455" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="478" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">When to Use Factory vs Direct Instantiation:</text>
+<text x="65" y="498" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Direct 'new EmailNotification()' tightly couples the caller to SMTP connection strings, port configurations, and vendor classes.</text>
+<text x="65" y="515" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• The Factory pattern encapsulates creation logic, enabling runtime strategy selection, connection pooling, and transparent mocking during unit testing.</text>
+</svg>

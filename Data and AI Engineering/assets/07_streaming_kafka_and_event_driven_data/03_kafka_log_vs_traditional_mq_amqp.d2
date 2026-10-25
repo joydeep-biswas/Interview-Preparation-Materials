@@ -1,0 +1,28 @@
+direction: right
+title: Traditional Message Queue vs Distributed Commit Log
+
+mq: "1. Traditional Message Queue (RabbitMQ / SQS)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  queue: "Shared In-Memory Queue\n[Msg 1] [Msg 2] [Msg 3]"
+  c1: "Consumer Worker A\n(Pops Msg 1 -> Destructive ACK)"
+  c2: "Consumer Worker B\n(Pops Msg 2 -> Destructive ACK)"
+
+  queue -> c1: "Popped & Deleted"
+  queue -> c2: "Popped & Deleted"
+}
+
+kafka: "2. Distributed Commit Log (Apache Kafka)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  log: "Immutable Disk Log\n[Off 0] [Off 1] [Off 2] [Off 3] [Off 4]"
+  flink: "Real-time Flink (Offset: 4)"
+  spark: "Batch Spark Job (Offset: 1)"
+  ml: "ML Model Replay (Offset: 0)"
+
+  log -> flink: "Independent Read"
+  log -> spark: "Independent Read"
+  log -> ml: "Rewound Read (Zero Data Deletion!)"
+}

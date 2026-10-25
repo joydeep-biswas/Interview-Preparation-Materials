@@ -1,0 +1,27 @@
+direction: right
+title: "Isolation Anomaly: Non-Repeatable Read (Fuzzy Read)"
+
+session1: "Session 1 (Tx 101: Read Committed)" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+  q1: "1. BEGIN & SELECT balance"
+  q2: "3. Repeated SELECT balance"
+}
+
+db: "PostgreSQL Database Engine" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+  snap1: "Snapshot 1 -> returns $100.00"
+  commit: "Tx 102 committed: balance=$150.00"
+  snap2: "Snapshot 2 -> returns $150.00 (Fuzzy Read Anomaly!)"
+}
+
+session2: "Session 2 (Tx 102)" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+  upd: "2. UPDATE balance=150 & COMMIT"
+}
+
+session1.q1 -> db.snap1: "Read $100.00"
+session2.upd -> db.commit: "Commit $150.00"
+session1.q2 -> db.snap2: "Read $150.00 (Value mutated mid-transaction!)"

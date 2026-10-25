@@ -1,0 +1,22 @@
+classes: {
+  input_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  gate_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  up_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  hadamard_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  down_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+}
+
+x: "Input Hidden States x\n[Batch, SeqLen, HiddenDim]" { class: input_box }
+
+w_gate: "Linear Projection: W_gate\n[HiddenDim -> IntermediateDim]" { class: gate_box }
+w_up: "Linear Projection: W_up\n[HiddenDim -> IntermediateDim]" { class: up_box }
+
+silu: "Swish / SiLU Activation\nSiLU(z) = z * sigma(z)"
+hadamard: "Hadamard Product (odot)\nSiLU(xW_gate) odot (xW_up)" { class: hadamard_box }
+w_down: "Down Projection: W_down\n[IntermediateDim -> HiddenDim]" { class: down_box }
+
+x -> w_gate
+x -> w_up
+w_gate -> silu -> hadamard
+w_up -> hadamard
+hadamard -> w_down

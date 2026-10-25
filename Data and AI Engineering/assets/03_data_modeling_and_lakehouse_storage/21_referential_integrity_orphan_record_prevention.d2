@@ -1,0 +1,30 @@
+direction: right
+title: Referential Integrity & Orphan Record Prevention in Distributed Systems
+
+ingest: Incoming Transaction Batch {
+  raw_orders: Raw Orders Batch {
+    order_id: "994812"
+    customer_id: "CUST-8491"
+    amount: "$184.50"
+  }
+}
+
+validation: Referential Integrity Validation {
+  probe: Customer ID Exists in dim_customer? {
+    shape: diamond
+  }
+}
+
+sinks: Target Lakehouse Sinks {
+  valid: gold.fact_orders (Conformed Fact Table) {
+    status: "100% clean referential integrity"
+  }
+  quarantine: quarantine.orphan_orders (Dead-Letter Queue) {
+    status: "Held until parent customer record arrives"
+    style.stroke: "#ef4444"
+  }
+}
+
+ingest.raw_orders -> validation.probe: "Stream Ingest"
+validation.probe -> sinks.valid: "Valid FK Match"
+validation.probe -> sinks.quarantine: "Orphan Record (Missing FK)"

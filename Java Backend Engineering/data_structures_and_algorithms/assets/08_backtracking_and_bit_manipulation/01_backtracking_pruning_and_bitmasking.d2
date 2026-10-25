@@ -1,0 +1,21 @@
+direction: right
+title: Backtracking Decision Tree & Bitwise Mechanics
+
+Backtracking: 1. Backtracking Decision Tree {
+  Root: "Root: []"
+  C1: "Choice 1: [1]"
+  C2: "Choice 2: [2]"
+  C3: "Choice 3: [3]"
+  Valid1: "Valid: [1, 2]"
+  Pruned: "PRUNED (Constraint Violated)"
+  Valid2: "Valid: [3, 1]"
+  Root -> C1 -> Valid1
+  Root -> C2 -> Pruned
+  Root -> C3 -> Valid2
+}
+
+Bitwise: 2. Bitwise Manipulation Mechanics {
+  XOR: "XOR Cancellation\n(x ^ x = 0)"
+  Kernighan: "Kernighan Trick\n(n & (n - 1))"
+  Mask: "Bitmasking Registers\n(mask | (1 << k))"
+}

@@ -1,0 +1,14 @@
+classes: {
+  rate_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  healthy_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  stall_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+arrival: "Arrival Rate (lambda)\nlambda = 1,000 req/s" { class: rate_box }
+healthy: "Healthy Baseline (W = 50ms)\nL = lambda * W\nL = 1,000 * 0.05 = 50 in-flight threads\nThread pool (max 200) handles easily" { class: healthy_box }
+stall: "Downstream Stall (W = 2.0s)\nL = 1,000 * 2.0 = 2,000 in-flight requests!\nThread pool exhausted -> Memory OOM Crash!" { class: stall_box }
+
+arrival -> healthy: "Fast 50ms responses"
+healthy -> stall: "Downstream DB latency explodes" {
+  style: { stroke: "#f87171"; stroke-width: 2 }
+}

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" width="1100" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="600" rx="10" fill="url(#bg)"/>
+  <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Enterprise Design Patterns Architecture: End-to-End Orchestration</text>
+  <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Ingress (Mapper), Service Domain (Facade, Strategy, Template Method), and Persistence (Repository, Outbox, Observer)</text>
+<rect x="40" y="95" width="1020" height="115" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="105" width="260" height="20" rx="10" fill="#1e3a8a"/><text x="185" y="118" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Ingress &amp; API Contract Layer</text>
+<rect x="65" y="135" width="220" height="60" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="175" y="157" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">HTTP Client / SPA</text>
+<text x="175" y="177" fill="#94A3B8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">JSON / HTTPS Request</text>
+<rect x="370" y="135" width="260" height="60" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="500" y="157" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring @RestController</text>
+<text x="500" y="177" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Unmarshals JSON &amp; Validates</text>
+<rect x="720" y="135" width="310" height="60" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="875" y="157" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">MapStruct (Mapper Pattern)</text>
+<text x="875" y="177" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">DTO &amp;lt;---&amp;gt; Domain Model Mapping</text>
+<line x1="285" y1="165" x2="370" y2="165" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="630" y1="165" x2="720" y2="165" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="500" y1="210" x2="500" y2="230" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<rect x="40" y="230" width="1020" height="175" rx="8" fill="#1a140b" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="55" y="240" width="300" height="20" rx="10" fill="#78350f"/><text x="205" y="253" fill="#FDE68A" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Business Logic &amp; Behavioral Coordination</text>
+<rect x="65" y="270" width="240" height="115" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="185" y="295" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderServiceFacade</text>
+<text x="185" y="312" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">(Facade Pattern)</text>
+<text x="75" y="335" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Orchestrates subsystems</text>
+<text x="75" y="352" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Manages @Transactional boundary</text>
+<text x="75" y="370" fill="#A7F3D0" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Hides internal complexity</text>
+<rect x="340" y="270" width="320" height="115" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="500" y="292" fill="#FBBF24" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Strategy: Map&amp;lt;String, PaymentStrategy&amp;gt;</text>
+<rect x="355" y="310" width="85" height="60" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+<text x="397" y="332" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stripe</text>
+<text x="397" y="350" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Credit Card</text>
+<rect x="455" y="310" width="85" height="60" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+<text x="497" y="332" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">UPI</text>
+<text x="497" y="350" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Instant QR</text>
+<rect x="555" y="310" width="90" height="60" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+<text x="600" y="332" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">BankWire</text>
+<text x="600" y="350" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ACH / Swift</text>
+<rect x="695" y="270" width="345" height="115" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="867" y="295" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderFulfillmentTemplate &amp; Aggregate</text>
+<text x="867" y="312" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">(Template Method &amp; State Pattern)</text>
+<text x="710" y="335" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Defines step skeleton: validate -&gt; reserve -&gt; charge</text>
+<text x="710" y="352" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Subclasses override specific fulfillment hooks</text>
+<text x="710" y="370" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Aggregate root enforces business invariants</text>
+<line x1="305" y1="325" x2="340" y2="325" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<line x1="660" y1="325" x2="695" y2="325" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<line x1="867" y1="405" x2="867" y2="425" stroke="#06b6d4" stroke-width="2" marker-end="url(#arr-c)"/>
+<rect x="40" y="425" width="1020" height="115" rx="8" fill="#062533" stroke="#06b6d4" stroke-width="1.5"/>
+<rect x="55" y="435" width="260" height="20" rx="10" fill="#0e7490"/><text x="185" y="448" fill="#ECFEFF" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Persistence &amp; Event Boundary</text>
+<rect x="65" y="465" width="280" height="60" rx="6" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="205" y="487" fill="#22D3EE" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderRepository (Repository)</text>
+<text x="205" y="507" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Data JPA &amp; Specifications</text>
+<rect x="380" y="465" width="260" height="60" rx="6" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="510" y="487" fill="#22D3EE" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL Database</text>
+<text x="510" y="507" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ACID Tables &amp; Outbox Table</text>
+<rect x="680" y="465" width="360" height="60" rx="6" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="860" y="487" fill="#22D3EE" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">EventPublisher (Observer &amp; Outbox)</text>
+<text x="860" y="507" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ApplicationEventPublisher -&gt; Kafka CDC Outbox</text>
+<line x1="680" y1="495" x2="640" y2="495" stroke="#22D3EE" stroke-width="1.5" marker-end="url(#arr-c)"/>
+<line x1="380" y1="495" x2="345" y2="495" stroke="#22D3EE" stroke-width="1.5" marker-end="url(#arr-c)"/>
+<rect x="40" y="550" width="1020" height="40" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="550" y="574" fill="#94A3B8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Patterns enforce SOLID principles: high cohesion, loose coupling, testability, and isolated evolutionary boundaries.</text>
+</svg>

@@ -1,0 +1,12 @@
+classes: {
+  mha_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  gqa_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  mqa_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+mha: "1. Multi-Head Attention (MHA)\n32 Q Heads, 32 K Heads, 32 V Heads\nKV Cache: 100% Full Footprint\nHigh VRAM consumption" { class: mha_box }
+gqa: "2. Grouped-Query Attention (GQA)\n32 Q Heads, 8 K Heads, 8 V Heads (1:4 ratio)\nKV Cache: 25% (4x Reduction!)\nGold standard in LLaMA-3" { class: gqa_box }
+mqa: "3. Multi-Query Attention (MQA)\n32 Q Heads, 1 K Head, 1 V Head\nKV Cache: 3% (32x Reduction!)\nHigh speed, slight reasoning degradation" { class: mqa_box }
+
+mha -> gqa: "Group K/V heads (4x VRAM saving)"
+gqa -> mqa: "Single K/V head (32x VRAM saving)"

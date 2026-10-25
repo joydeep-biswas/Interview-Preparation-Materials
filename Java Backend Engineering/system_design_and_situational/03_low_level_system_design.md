@@ -6,41 +6,9 @@ A comprehensive, production-grade guide answering real-world Low-Level Design (L
 
 ## Architectural Overview: Object-Oriented Concurrency & Memory Model
 
-```mermaid
-flowchart TD
-    subgraph ClientLayer ["1. Client Interaction & Request Ingress"]
-        Threads["Concurrent Worker Threads<br/>(Publishers / Readers / Schedulers)"]
-    end
+![Object-Oriented Concurrency & Java Memory Model Internals](assets/03_low_level_system_design/01_concurrency_and_memory_model_internals.svg)
 
-    subgraph SynchronizationLayer ["2. Concurrency & Synchronization Tier"]
-        ReentrantLock["ReentrantLock / ReadWriteLock<br/>(Fairness & Non-Blocking TryLock)"]
-        Conditions["Condition Variables<br/>(notEmpty, notFull, notBusy)"]
-        Atomic["Atomic CAS Registers<br/>(AtomicInteger / AtomicReference)"]
-    end
-
-    subgraph DomainModel ["3. Encapsulated Domain & Memory Stores"]
-        BoundedQueue["Ring Buffer / Bounded Queue"]
-        DAG["DAG Dependency Graph"]
-        InMemDB["Concurrent SkipList / ConcurrentHashMap"]
-    end
-
-    Threads --> ReentrantLock
-    ReentrantLock --> Conditions
-    Conditions --> DomainModel
-    Threads --> Atomic
-    Atomic --> DomainModel
-
-    style ClientLayer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SynchronizationLayer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style DomainModel fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Threads fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ReentrantLock fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Conditions fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Atomic fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style BoundedQueue fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style DAG fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style InMemDB fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/03_low_level_system_design/01_concurrency_and_memory_model_internals.d2](assets/03_low_level_system_design/01_concurrency_and_memory_model_internals.d2)
 
 ---
 
@@ -905,40 +873,9 @@ public class DynamicRuleEngine {
 ### LLD 11. Low-Level Design for a Music Streaming Platform (Spotify LLD)
 **Design Focus:** State Pattern (Playback: Playing, Paused, Buffering), Strategy Pattern (Shuffle/Loop/Radio), Observer Pattern.
 
-```mermaid
-classDiagram
-    class MusicPlayer {
-        -PlaybackState currentState
-        -Playlist currentQueue
-        +play()
-        +pause()
-        +next()
-        +setState(PlaybackState state)
-    }
+![Spotify Music Player: State Design Pattern & Domain Model](assets/03_low_level_system_design/02_spotify_music_streaming_class_diagram.svg)
 
-    class PlaybackState {
-        <<interface>>
-        +play(MusicPlayer player)
-        +pause(MusicPlayer player)
-        +next(MusicPlayer player)
-    }
-
-    class PlayingState {
-        +play(MusicPlayer player)
-        +pause(MusicPlayer player)
-        +next(MusicPlayer player)
-    }
-
-    class PausedState {
-        +play(MusicPlayer player)
-        +pause(MusicPlayer player)
-        +next(MusicPlayer player)
-    }
-
-    MusicPlayer --> PlaybackState
-    PlayingState ..|> PlaybackState
-    PausedState ..|> PlaybackState
-```
+*D2 Source:* [assets/03_low_level_system_design/02_spotify_music_streaming_class_diagram.d2](assets/03_low_level_system_design/02_spotify_music_streaming_class_diagram.d2)
 
 #### Production Implementation (Java)
 ```java

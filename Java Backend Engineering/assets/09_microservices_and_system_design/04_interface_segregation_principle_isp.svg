@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Interface Segregation Principle (ISP): Granular Single-Purpose Contracts</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Clients Should Never Be Forced to Depend on Interfaces Containing Methods They Do Not Use</text>
+<rect x="40" y="100" width="300" height="330" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="40" y="100" width="300" height="45" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="190" y="128" fill="#3b82f6" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Web Ingress Contract</text>
+<rect x="55" y="160" width="270" height="60" rx="6" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1"/>
+<text x="190" y="180" fill="#F8FAFC" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt;&amp;lt;interface&amp;gt;&amp;gt; HttpRequestHandler</text>
+<text x="190" y="202" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+handleRequest(HttpServletRequest)</text>
+<rect x="55" y="250" width="270" height="60" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+<text x="190" y="275" fill="#3b82f6" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">WebApiController</text>
+<text x="190" y="295" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Implements HttpRequestHandler</text>
+<line x1="190" y1="250" x2="190" y2="220" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-s)"/>
+<text x="55" y="335" fill="#3b82f6" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client Context:</text>
+<text x="55" y="350" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Spring MVC DispatcherServlet</text>
+<text x="55" y="375" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Advantage:</text>
+<text x="55" y="390" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Controller does not know Kafka o</text>
+<text x="55" y="404" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">r batch scheduling exists!</text>
+<rect x="390" y="100" width="300" height="330" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<rect x="390" y="100" width="300" height="45" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="540" y="128" fill="#10b981" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Event Consumer Contract</text>
+<rect x="405" y="160" width="270" height="60" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="540" y="180" fill="#F8FAFC" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt;&amp;lt;interface&amp;gt;&amp;gt; KafkaMessageListener</text>
+<text x="540" y="202" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+onMessage(ConsumerRecord)</text>
+<rect x="405" y="250" width="270" height="60" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="540" y="275" fill="#10b981" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">StreamEventConsumer</text>
+<text x="540" y="295" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Implements KafkaMessageListener</text>
+<line x1="540" y1="250" x2="540" y2="220" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-s)"/>
+<text x="405" y="335" fill="#10b981" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client Context:</text>
+<text x="405" y="350" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Spring Kafka MessageListenerContainer</text>
+<text x="405" y="375" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Advantage:</text>
+<text x="405" y="390" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Event listener never inherits un</text>
+<text x="405" y="404" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">used HTTP request/response methods!</text>
+<rect x="740" y="100" width="300" height="330" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="740" y="100" width="300" height="45" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="890" y="128" fill="#f59e0b" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Batch Processing Contract</text>
+<rect x="755" y="160" width="270" height="60" rx="6" fill="#78350f" stroke="#f59e0b" stroke-width="1"/>
+<text x="890" y="180" fill="#F8FAFC" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt;&amp;lt;interface&amp;gt;&amp;gt; BatchReportGenerator</text>
+<text x="890" y="202" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+generateReport()</text>
+<rect x="755" y="250" width="270" height="60" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+<text x="890" y="275" fill="#f59e0b" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">NightlyReportingJob</text>
+<text x="890" y="295" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Implements BatchReportGenerator</text>
+<line x1="890" y1="250" x2="890" y2="220" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-s)"/>
+<text x="755" y="335" fill="#f59e0b" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client Context:</text>
+<text x="755" y="350" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Spring Quartz / Scheduled Executor</text>
+<text x="755" y="375" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Advantage:</text>
+<text x="755" y="390" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Batch worker has zero coupling t</text>
+<text x="755" y="404" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">o Web or Kafka dependencies!</text>
+<rect x="40" y="455" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="478" fill="#F87171" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Anti-Pattern: The Fat 'Worker' Interface Trap</text>
+<text x="65" y="498" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• If a single Worker interface contains handleHttp(), onKafkaMessage(), and runBatch(), implementing classes are forced to throw UnsupportedOperationException.</text>
+<text x="65" y="515" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• ISP Rule: Segregate interfaces by client requirements. Many small, client-specific interfaces are infinitely better than one monolithic interface.</text>
+</svg>

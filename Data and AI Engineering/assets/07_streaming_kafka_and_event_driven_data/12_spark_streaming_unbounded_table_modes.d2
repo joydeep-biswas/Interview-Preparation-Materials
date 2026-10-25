@@ -1,0 +1,23 @@
+direction: down
+title: Spark Structured Streaming: Unbounded Table Mental Model & Output Modes
+
+stream: "Incoming Continuous Event Stream (Kafka)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+}
+
+table: "Conceptual Unbounded Table\n(Append-only relational view)" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+}
+
+modes: "Output Modes" {
+  append: "Append Mode\n(Only new rows emitted)"
+  update: "Update Mode\n(Only changed rows emitted)"
+  complete: "Complete Mode\n(Entire table re-emitted)"
+}
+
+stream -> table: "Micro-batch append"
+table -> modes.append
+table -> modes.update
+table -> modes.complete

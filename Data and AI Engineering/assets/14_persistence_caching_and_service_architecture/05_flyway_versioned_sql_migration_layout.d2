@@ -1,0 +1,18 @@
+classes: {
+  dir_box: { style: { fill: "#0f172a"; stroke: "#38bdf8"; stroke-width: 2; stroke-dash: 4 } }
+  ver_file: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  rep_file: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+dir: "📁 migrations/ (Flyway / Pyway SQL Repository)" {
+  class: dir_box
+
+  v1: "📄 V1.0__create_customers.sql\nBaseline Schema DDL\nChecksum: Locked" { class: ver_file }
+  v2: "📄 V1.1__create_orders.sql\nOrders & FK Constraints\nChecksum: Locked" { class: ver_file }
+  v3: "📄 V1.2__add_idx_email.sql\nConcurrent Performance Index\nChecksum: Locked" { class: ver_file }
+  r1: "📄 R__recreate_order_view.sql\nRepeatable Analytical View\nRe-runs on checksum diff" { class: rep_file }
+
+  v1 -> v2: "Sequential DDL"
+  v2 -> v3: "Sequential DDL"
+  v3 -> r1: "Executes after versioned migrations"
+}

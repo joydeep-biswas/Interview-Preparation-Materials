@@ -1,0 +1,51 @@
+direction: right
+title: Delta Lake Change Data Feed (CDF) Architecture
+
+mutations: "Table Mutations" {
+  style.fill: "#111827"
+  style.stroke: "#38bdf8"
+
+  ins: "INSERT (New Order)"
+  upd: "UPDATE (PENDING -> SHIPPED)"
+  del: "DELETE (Cancelled Order)"
+}
+
+storage: "Delta Storage Engine" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+
+  log: "_delta_log/ (JSON commits)"
+  data: "Committed Parquet Data"
+  cdc: "_change_data/ (Dedicated CDC files)"
+}
+
+cdf: "CDF Change Stream" {
+  style.fill: "#1e1e38"
+  style.stroke: "#c084fc"
+
+  rec_ins: "_change_type = 'insert'"
+  rec_pre: "_change_type = 'update_preimage'"
+  rec_post: "_change_type = 'update_postimage'"
+  rec_del: "_change_type = 'delete'"
+}
+
+consumers: "Downstream Consumers" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  gold: "Gold Business Mart\n(Incremental rollup aggregation)"
+  audit: "Compliance & Audit Log\n(Immutable record history)"
+  kafka: "Apache Kafka / Event Hubs\n(Real-time microservice events)"
+}
+
+mutations.ins -> storage.data: "Write data"
+mutations.upd -> storage.cdc: "Generate CDC"
+mutations.del -> storage.cdc: "Generate CDC"
+
+storage.log -> cdf: "table_changes() API"
+storage.data -> cdf
+storage.cdc -> cdf
+
+cdf -> consumers.gold: "Stream deltas"
+cdf -> consumers.audit: "Stream history"
+cdf -> consumers.kafka: "Publish events"

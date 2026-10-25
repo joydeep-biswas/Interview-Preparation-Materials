@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  storage_box: { style: { fill: "#111827", stroke: "#3B82F6" } }
+  bad_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+  event_container: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+Storage: "ADLS Gen2 Storage\n12,000 subfolders\nNew file lands" { class: storage_box }
+Naive: "❌ Naive Directory Scan (45-90 min)\n• Scans 12,000 folders" { class: bad_box }
+
+EventGridPattern: "Auto Loader Event Grid Pipeline (< 30s)" {
+  class: event_container
+  EGrid: "Azure Event Grid\nBlobCreated event" { class: card_dark }
+  AQueue: "Storage Queue (ASQ)\nO(1) event queue" { class: card_dark }
+  AutoLoad: "Auto Loader Stream\nIngests in seconds" { class: card_dark }
+
+  EGrid -> AQueue -> AutoLoad
+}
+
+Storage -> Naive: "Recursive Scan"
+Storage -> EventGridPattern.EGrid: "BlobCreated Event"

@@ -1,0 +1,41 @@
+direction: right
+title: "System Design: Real-Time Priority Notification & Dispatch Mesh"
+
+ingress: "1. Ingress & Deduplication
+Notification Gateway
+Redis Dedup (5m TTL)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+kafka: "2. Priority Kafka Mesh" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+
+  otp: "High: 'notif-otp-urgent'
+SLA < 1.5s" {
+    style.fill: "#450a0a"
+    style.stroke: "#ef4444"
+  }
+  order: "Medium: 'notif-order-status'
+SLA < 30s" {
+    style.fill: "#083344"
+    style.stroke: "#06b6d4"
+  }
+  bulk: "Bulk: 'notif-promotions'
+Throttled" {
+    style.fill: "#1e1b4b"
+    style.stroke: "#8b5cf6"
+  }
+}
+
+dispatch: "3. Channel Vendor Dispatch
+APNs / FCM (Push)
+Twilio / SNS (SMS)
+SendGrid (Email)" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+ingress -> kafka: "Routes by Priority"
+kafka -> dispatch: "Consumes & Dispatches"

@@ -1,0 +1,27 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+ingress: "Star Schema Analytical Query" {
+  dim1: "dim_store (Region = 'WEST')" { class: box; style.stroke: "#3B82F6" }
+  dim2: "dim_date (Quarter = 'Q4')" { class: box; style.stroke: "#3B82F6" }
+  dim3: "dim_product (Cat = 'ELECTRONICS')" { class: box; style.stroke: "#3B82F6" }
+  fact: "fact_sales\n(2 Billion Rows / 500 GB)" { class: box; style.stroke: "#F59E0B" }
+}
+
+opts: "Engine Optimization Techniques" {
+  bhj: "1. Broadcast Hash Join (BHJ)\nReplicate tiny filtered dims to all workers" { class: box; style.stroke: "#10B981" }
+  bitmap: "2. Star Join Bitmap Intersection\nIntersect dim key bitmaps on fact table" { class: box; style.stroke: "#10B981" }
+}
+
+result: "High-Performance Analytical Result\nExecution time drops from 45 min -> 18 sec" {
+  class: box
+  style.stroke: "#10B981"
+}
+
+ingress.dim1 -> opts.bhj
+ingress.dim2 -> opts.bhj
+ingress.dim3 -> opts.bhj
+opts.bhj -> ingress.fact
+ingress.fact -> opts.bitmap -> result

@@ -1,0 +1,12 @@
+# Vertical Aggregate MAX() vs Horizontal Scalar GREATEST()
+direction: right
+
+vert: "Vertical Aggregate: MAX(salary)" {
+  style.stroke: "#3B82F6"
+  desc: "Collapses N rows into 1 result\n• Evaluates vertically down 1 column\n• Automatically skips NULLs"
+}
+
+horiz: "Horizontal Scalar: GREATEST(a, b, c)" {
+  style.stroke: "#10B981"
+  desc: "Preserves all N rows\n• Evaluates horizontally across columns\n• Returns NULL if any operand is NULL"
+}

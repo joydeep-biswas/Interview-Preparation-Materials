@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  ref: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  gen: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  final: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+prompt: "User Query" { class: q }
+need_ret: "Require Retrieval?\n[Retrieve] token?" { class: ref }
+direct: "Direct Parametric Answer" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+
+retrieve: "Fetch Chunks from Vector DB" { class: q }
+eval_rel: "Chunk Relevant?\n[IsRel] / [IsNotRel]" { class: ref }
+generate: "Generate Candidate Passage" { class: gen }
+eval_sup: "Passage Grounded?\n[IsSup] / [IsNotSup]" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+final_out: "Emit Best Grounded Response\n[IsUse: 1-5]" { class: final }
+
+prompt -> need_ret
+need_ret -> direct: "No"
+need_ret -> retrieve: "Yes"
+retrieve -> eval_rel
+eval_rel -> generate: "Relevant"
+generate -> eval_sup
+eval_sup -> final_out: "Supported"

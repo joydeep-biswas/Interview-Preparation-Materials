@@ -1,0 +1,36 @@
+direction: down
+classes: {
+  l2: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  l1: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  l0: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+layer2: "Layer 2: Sparse Highway Graph" {
+  l2_a: "Node A (Entry Point)" { class: l2 }
+  l2_f: "Node F" { class: l2 }
+
+  l2_a -> l2_f: "Highway Long-Range Jump"
+}
+
+layer1: "Layer 1: Medium Density Graph" {
+  l1_a: "Node A" { class: l1 }
+  l1_c: "Node C" { class: l1 }
+  l1_e: "Node E" { class: l1 }
+  l1_f: "Node F" { class: l1 }
+
+  l1_a -> l1_c -> l1_e -> l1_f
+}
+
+layer0: "Layer 0: Full Connectivity Dense Graph" {
+  l0_a: "Node A" { class: l0 }
+  l0_b: "Node B" { class: l0 }
+  l0_c: "Node C" { class: l0 }
+  l0_d: "Node D" { class: l0 }
+  l0_e: "Node E" { class: l0 }
+  l0_f: "Node F (Nearest Neighbor)" { class: l0 }
+
+  l0_a -> l0_b -> l0_c -> l0_d -> l0_e -> l0_f
+}
+
+layer2.l2_a -> layer1.l1_a: "Descend"
+layer1.l1_f -> layer0.l0_f: "Greedy Local Search"

@@ -1,0 +1,26 @@
+direction: right
+title: HotSpot Garbage Collector Comparison Matrix
+
+Parallel: Parallel GC (-XX:+UseParallelGC) {
+  style.stroke: "#38BDF8"
+  P_type: Throughput-Optimized
+  P_arch: Generational Young & Old STW Mark-Compact
+  P_pauses: High (50ms - seconds)
+  P_target: Batch Jobs, Machine Learning, Data Processing
+}
+
+G1: G1 GC (-XX:+UseG1GC) {
+  style.stroke: "#34D399"
+  G_type: Low Latency & Predictable
+  G_arch: 2048 Homogeneous Regions + RSet Tracking
+  G_pauses: Targetable (-XX:MaxGCPauseMillis=200)
+  G_target: Standard Web APIs, Microservices (4GB-32GB)
+}
+
+ZGC: ZGC & Shenandoah (-XX:+UseZGC) {
+  style.stroke: "#C084FC"
+  Z_type: Ultra-Low Latency Sub-millisecond
+  Z_arch: Colored Pointers + Concurrent Load Barriers
+  Z_pauses: Sub-millisecond (< 1ms, up to 16TB heap)
+  Z_target: High Frequency Trading, Giant In-Memory Caches
+}

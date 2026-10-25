@@ -1,0 +1,47 @@
+direction: down
+title: Databricks Universal Format (UniForm) Architecture
+
+writer: "Delta Lake Writer (Databricks / Spark)" {
+  style.fill: "#0b1329"
+  style.stroke: "#38bdf8"
+  description: "Single write pipeline commits table updates"
+}
+
+meta: "Universal Metadata Generation Layer" {
+  delta_log: "_delta_log/ (Delta Lake Commit Log)" {
+    style.fill: "#0f172a"
+    style.stroke: "#3b82f6"
+  }
+  iceberg_meta: "metadata/ (Apache Iceberg metadata.json)" {
+    style.fill: "#062e3d"
+    style.stroke: "#06b6d4"
+  }
+  hudi_meta: ".hoodie/ (Apache Hudi timeline commits)" {
+    style.fill: "#18182f"
+    style.stroke: "#c084fc"
+  }
+}
+
+storage: "Single Shared Parquet Data Storage (0% Duplication)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+  description: "part-0001.parquet, part-0002.parquet on S3 / ADLS / GCS"
+}
+
+readers: "Heterogeneous Query Ecosystem" {
+  delta_readers: "Delta Readers\n(Databricks SQL, Apache Spark)"
+  iceberg_readers: "Iceberg Readers\n(Snowflake, BigQuery, Starburst/Trino)"
+  hudi_readers: "Hudi Readers\n(AWS EMR, Athena, Apache Flink)"
+}
+
+writer -> meta.delta_log
+meta.delta_log -> meta.iceberg_meta: "UniForm Async Converter"
+meta.delta_log -> meta.hudi_meta: "UniForm Async Converter"
+
+meta.delta_log -> storage: "References data"
+meta.iceberg_meta -> storage: "References same data"
+meta.hudi_meta -> storage: "References same data"
+
+storage -> readers.delta_readers
+storage -> readers.iceberg_readers
+storage -> readers.hudi_readers

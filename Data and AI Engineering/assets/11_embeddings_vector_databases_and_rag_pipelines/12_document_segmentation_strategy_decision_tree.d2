@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  inp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  router: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  strat: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+block: "Input Document Block\n(Exceeds token target)" { class: inp }
+check: "Document Structure Check" { class: router }
+
+s_prose: "Recursive Character Splitter\n(Markdown & Technical Prose)" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+s_code: "AST-Aware Code Splitter\n(Classes & Functions intact)" { class: strat }
+s_sem: "Semantic Similarity Chunking\n(Dense Unstructured Text)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+s_fixed: "Fixed-Size Token Window\n(High-Throughput Streaming Logs)" { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+
+block -> check
+check -> s_prose: "Prose"
+check -> s_code: "Code"
+check -> s_sem: "Unstructured"
+check -> s_fixed: "Streaming"

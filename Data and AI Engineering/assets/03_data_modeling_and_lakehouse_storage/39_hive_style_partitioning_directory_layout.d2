@@ -1,0 +1,24 @@
+direction: right
+title: Hive-Style Partitioning: Directory Layout & Pruning
+
+root: s3://company-lake/fact_orders/ {
+  y2026: year=2026/ {
+    m10: month=10/ {
+      day15: day=15/ (Scanned by Query) {
+        f1: part-0001.parquet
+        f2: part-0002.parquet
+      }
+      day16: day=16/ (Skipped / Pruned) {
+        f3: part-0001.parquet
+        f4: part-0002.parquet
+        style.stroke: "#ef4444"
+        style.stroke-dash: 4
+      }
+    }
+  }
+}
+
+root.y2026.m10 -> root.y2026.m10.day15: "Match WHERE day=15"
+root.y2026.m10 -> root.y2026.m10.day16: "Prune (Zero I/O)" {
+  style.stroke: "#ef4444"
+}

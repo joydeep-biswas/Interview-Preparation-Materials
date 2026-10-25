@@ -1,0 +1,26 @@
+direction: right
+title: Medallion Architecture Bronze, Silver, Gold Pillars
+
+bronze: 1. Bronze Layer (Raw) {
+  shape: cylinder
+  b1: Append-only raw ingestion
+  b2: Preserve exact source fidelity
+  b3: Lineage metadata (_ingested_at)
+}
+
+silver: 2. Silver Layer (Conformed) {
+  shape: cylinder
+  s1: Deduplication & Idempotent MERGE
+  s2: Schema enforcement & type casting
+  s3: Quarantine dead-letter invalid data
+}
+
+gold: 3. Gold Layer (Curated) {
+  shape: cylinder
+  g1: Kimball Star & Snowflake Schemas
+  g2: Aggregated KPI & Business Marts
+  g3: Sub-second high-speed BI & AI serving
+}
+
+bronze -> silver: "Cleanse, Deduplicate & Standardize"
+silver -> gold: "Aggregate, Join & Dimensionalize"

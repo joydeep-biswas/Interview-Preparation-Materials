@@ -1,0 +1,22 @@
+direction: right
+title: Narrow vs Wide Dependency Mechanics
+
+Narrow: Narrow Dependency (Fast Pipelined) {
+  style.stroke: "#34D399"
+  A0: Partition A-0 -> B0: Partition B-0
+  A1: Partition A-1 -> B1: Partition B-1
+  A2: Partition A-2 -> B2: Partition B-2
+}
+
+Wide: Wide Dependency (Shuffle Exchange) {
+  style.stroke: "#EF4444"
+  X0: Partition X-0
+  X1: Partition X-1
+  Y0: Reducer Y-0
+  Y1: Reducer Y-1
+
+  X0 -> Y0: Hash(key) % 2 == 0 { style.stroke: "#EF4444" }
+  X0 -> Y1: Hash(key) % 2 == 1 { style.stroke: "#EF4444" }
+  X1 -> Y0: Hash(key) % 2 == 0 { style.stroke: "#EF4444" }
+  X1 -> Y1: Hash(key) % 2 == 1 { style.stroke: "#EF4444" }
+}

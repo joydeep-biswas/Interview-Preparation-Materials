@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 580" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1100" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1100" height="580" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="550" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Mutual TLS (mTLS) Zero-Trust Handshake Architecture</text>
+  <text x="550" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Bidirectional Cryptographic Authentication: Both Client and Server Validate Each Other via X.509 Certificates</text>
+  <line x1="40" y1="68" x2="1060" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Actor 1: API Partner Microservice -->
+  <rect x="70" y="95" width="240" height="45" rx="6" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="190" y="122" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">API Partner / Service Mesh Pod</text>
+  <line x1="190" y1="140" x2="190" y2="510" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Actor 2: Enterprise Bank Gateway -->
+  <rect x="790" y="95" width="240" height="45" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+  <text x="910" y="122" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Enterprise Banking Gateway</text>
+  <line x1="910" y1="140" x2="910" y2="510" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Step 1: Handshake Init -->
+  <path fill="none" d="M 190 165 L 910 165" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <text x="550" y="157" font-size="9" fill="#7DD3FC" text-anchor="middle">1. ClientHello: Initiates TLS connection + cipher suites</text>
+
+  <!-- Step 2: Server Cert + CertificateRequest -->
+  <path fill="none" d="M 910 215 L 190 215" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="550" y="200" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">2. Server sends Server Certificate + "CertificateRequest"</text>
+  <text x="550" y="215" font-size="8" fill="#A7F3D0" text-anchor="middle">(Demands that Client present a valid X.509 certificate signed by trusted CA)</text>
+
+  <!-- Step 3: Client Validates Server -->
+  <rect x="70" y="235" width="240" height="45" rx="4" fill="#0F172A" stroke="#38BDF8" stroke-width="1"/>
+  <text x="190" y="253" font-size="8" font-weight="700" fill="#7DD3FC" text-anchor="middle">3. Client Validates Server Certificate</text>
+  <text x="190" y="268" font-size="8" fill="#CBD5E1" text-anchor="middle">Checks server signature against local cacerts TrustStore</text>
+
+  <!-- Step 4: Client Sends Its Certificate -->
+  <path fill="none" d="M 190 310 L 910 310" stroke="#C084FC" stroke-width="2" marker-end="url(#arr-p)"/>
+  <text x="550" y="295" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle">4. Client sends Client Certificate (from KeyStore) + CertificateVerify</text>
+  <text x="550" y="310" font-size="8" fill="#E9D5FF" text-anchor="middle">(Signed with Client's private key to prove key ownership)</text>
+
+  <!-- Step 5: Server Validates Client -->
+  <rect x="790" y="330" width="240" height="45" rx="4" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="910" y="348" font-size="8" font-weight="700" fill="#6EE7B7" text-anchor="middle">5. Server Validates Client Certificate</text>
+  <text x="910" y="363" font-size="8" fill="#CBD5E1" text-anchor="middle">Checks client cert against gateway TrustStore</text>
+
+  <!-- Step 6: Mutual Trust Established -->
+  <rect x="350" y="395" width="400" height="40" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="550" y="415" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">&#x2714; Mutual Cryptographic Trust Established!</text>
+  <text x="550" y="428" font-size="8" fill="#CBD5E1" text-anchor="middle">Both identities verified. Encrypted tunnel established.</text>
+
+  <!-- Step 7: Encrypted Data Exchange -->
+  <path fill="none" d="M 190 460 L 910 460" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="550" y="452" font-size="9" fill="#34D399" text-anchor="middle">6. Encrypted Financial Transaction Payload (POST /api/v1/wire-transfer)</text>
+
+  <path fill="none" d="M 910 490 L 190 490" stroke="#10B981" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arr-g)"/>
+  <text x="550" y="482" font-size="9" fill="#34D399" text-anchor="middle">7. 200 OK Response</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="50" y="535" width="1000" height="30" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="550" y="555" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Zero-Trust Service Mesh Principle: In Istio / Envoy, mTLS runs on sidecar proxies automatically, delivering cryptographically verified pod-to-pod identity without modifying application code.</text>
+</svg>

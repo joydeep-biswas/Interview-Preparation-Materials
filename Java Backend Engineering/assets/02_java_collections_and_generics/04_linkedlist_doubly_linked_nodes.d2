@@ -1,0 +1,35 @@
+direction: right
+title: LinkedList Internal Memory Anatomy: Doubly-Linked Heap Nodes
+
+Head: first (Head Ptr)
+Tail: last (Tail Ptr)
+
+Node1: Node 1 (0x10a0) {
+  prev: "null"
+  item: "'A'"
+  next: "0x20b0"
+}
+
+Node2: Node 2 (0x20b0) {
+  prev: "0x10a0"
+  item: "'B'"
+  next: "0x30c0"
+}
+
+Node3: Node 3 (0x30c0) {
+  prev: "0x20b0"
+  item: "'C'"
+  next: "null"
+}
+
+Head -> Node1
+Node1 <-> Node2: Doubly-linked
+Node2 <-> Node3: Doubly-linked
+Node3 -> Tail
+
+Overhead: 24B Overhead Per Node {
+  header: "12B Object Header"
+  pointers: "12B for (prev, next, item OOPs)"
+  total: "24B/elem vs 4B/elem in ArrayList"
+  cache: "Scattered heap pointers trigger severe CPU cache misses"
+}

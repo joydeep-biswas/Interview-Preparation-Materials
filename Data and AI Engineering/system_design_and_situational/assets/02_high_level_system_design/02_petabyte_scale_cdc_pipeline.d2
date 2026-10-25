@@ -1,0 +1,58 @@
+direction: right
+
+source: "1. PostgreSQL Primary" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  wal: "WAL Replication Log (Logical Decoding)"
+  debezium: "Debezium Connector on Kafka Connect"
+}
+
+kafka: "2. Kafka CDC Spine" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  topic: "Topic: orders.cdc (Key: order_id)"
+  partitioning: "256 Partitions with Log Compaction"
+}
+
+spark: "3. Spark Streaming" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  engine: "Structured Streaming (30s Micro-batch)"
+  dedup: "10-minute Watermark Deduplication"
+}
+
+delta: "4. Delta Silver" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  merge: "ACID MERGE INTO matching on order_id"
+  history: "Time Travel Audit Trail"
+}
+
+gold: "5. Gold & BI" {
+  style.fill: "#111827"
+  style.stroke: "#EC4899"
+  style.stroke-width: 2
+  marts: "Aggregated Revenue & Cohort Marts"
+  bi: "BI Dashboards & Reverse ETL"
+}
+
+source -> kafka: "Stream WAL Events" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+kafka -> spark: "Consumer Group Pull" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+spark -> delta: "ACID MERGE INTO" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}
+delta -> gold: "Continuous Aggregation" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}

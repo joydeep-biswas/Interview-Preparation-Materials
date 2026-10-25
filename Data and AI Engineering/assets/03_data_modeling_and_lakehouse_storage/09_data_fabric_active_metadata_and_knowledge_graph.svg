@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 430" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="430" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Data Fabric: Active Metadata &amp; Knowledge Graph</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Automated Virtualization, Machine-Assisted Lineage, and Dynamic Pipeline Synthesis</text>
+  
+  
+    <rect x="30" y="95" width="220" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Hybrid &amp; Multi-Cloud Sources</text>
+  
+    <rect x="45" y="135" width="190" height="55" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="140.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">On-Premises Oracle</text>
+    <text x="140.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Core Banking OLTP</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">JDBC connector / CDC</text>
+  
+    <rect x="45" y="200" width="190" height="55" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="140.0" y="226" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">AWS S3 Data Lake</text>
+    <text x="140.0" y="242" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cloud Parquet Storage</text>
+    <circle cx="61" cy="255" r="2" fill="#3b82f6"/>
+    <text x="69" y="258" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cold raw telemetry blobs</text>
+  
+    <rect x="45" y="265" width="190" height="55" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="140.0" y="291" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Google BigQuery</text>
+    <text x="140.0" y="307" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Marketing Data Mart</text>
+    <circle cx="61" cy="320" r="2" fill="#3b82f6"/>
+    <text x="69" y="323" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Columnar analytical views</text>
+  
+    <rect x="45" y="330" width="190" height="50" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="140.0" y="356" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Kafka Event Bus</text>
+    <text x="140.0" y="372" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Real-Time Stream</text>
+    <circle cx="61" cy="385" r="2" fill="#3b82f6"/>
+    <text x="69" y="388" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Avro clickstream topic</text>
+
+  
+    <rect x="280" y="95" width="390" height="290" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="296" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Active Metadata &amp; Knowledge Graph Engine</text>
+  
+    <rect x="295" y="135" width="360" height="110" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="475.0" y="161" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Enterprise Knowledge Graph</text>
+    <text x="475.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Graph Substrate (Neo4j / Neptune)</text>
+    <rect x="576" y="145" width="73" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="612.5" y="157" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SEMANTICS</text>
+    <circle cx="311" cy="190" r="2" fill="#8b5cf6"/>
+    <text x="319" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Tracks column lineage across silos</text>
+    <circle cx="311" cy="206" r="2" fill="#8b5cf6"/>
+    <text x="319" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Maps business terms to physical schemas</text>
+    <circle cx="311" cy="222" r="2" fill="#8b5cf6"/>
+    <text x="319" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">User query telemetry &amp; access frequency</text>
+    <circle cx="311" cy="238" r="2" fill="#8b5cf6"/>
+    <text x="319" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Continuous automated data quality scores</text>
+  
+    <rect x="295" y="255" width="360" height="115" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="475.0" y="281" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">AI / ML Recommendation Engine</text>
+    <text x="475.0" y="297" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Active Intelligence Layer</text>
+    <rect x="576" y="265" width="73" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="612.5" y="277" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">AI ENGINE</text>
+    <circle cx="311" cy="310" r="2" fill="#8b5cf6"/>
+    <text x="319" y="313" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Automated data discovery &amp; classification</text>
+    <circle cx="311" cy="326" r="2" fill="#8b5cf6"/>
+    <text x="319" y="329" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Recommends optimal partition keys &amp; indexes</text>
+    <circle cx="311" cy="342" r="2" fill="#8b5cf6"/>
+    <text x="319" y="345" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Dynamically synthesizes pushdown SQL</text>
+    <circle cx="311" cy="358" r="2" fill="#8b5cf6"/>
+    <text x="319" y="361" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Detects schema drift and anomalous latencies</text>
+
+  
+    <rect x="700" y="95" width="250" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="716" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Automated Data Delivery</text>
+  
+    <rect x="715" y="135" width="220" height="110" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="825.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Pushdown Query Virtualization</text>
+    <text x="825.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Trino / Starburst / Dremio</text>
+    <rect x="849" y="145" width="80" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="889.0" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">VIRTUALIZE</text>
+    <circle cx="731" cy="190" r="2" fill="#10b981"/>
+    <text x="739" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero data movement required</text>
+    <circle cx="731" cy="206" r="2" fill="#10b981"/>
+    <text x="739" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Virtual federated SQL engine</text>
+    <circle cx="731" cy="222" r="2" fill="#10b981"/>
+    <text x="739" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Pushes predicates to source DB</text>
+    <circle cx="731" cy="238" r="2" fill="#10b981"/>
+    <text x="739" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sub-second federated queries</text>
+  
+    <rect x="715" y="255" width="220" height="115" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="825.0" y="281" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Dynamic Automated Pipelines</text>
+    <text x="825.0" y="297" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Active Data Movement</text>
+    <rect x="863" y="265" width="66" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="896.0" y="277" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">AUTO-ETL</text>
+    <circle cx="731" cy="310" r="2" fill="#10b981"/>
+    <text x="739" y="313" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Spins up Spark jobs on high load</text>
+    <circle cx="731" cy="326" r="2" fill="#10b981"/>
+    <text x="739" y="329" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Auto-caches popular datasets</text>
+    <circle cx="731" cy="342" r="2" fill="#10b981"/>
+    <text x="739" y="345" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Synchronizes cross-cloud deltas</text>
+    <circle cx="731" cy="358" r="2" fill="#10b981"/>
+    <text x="739" y="361" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Self-healing ETL execution</text>
+
+  
+    <line x1="235" y1="240" x2="280" y2="240" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="257.5" y="232.0" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Harvest Metadata</text>
+  
+    <line x1="475" y1="245" x2="475" y2="255" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  
+    <line x1="670" y1="190" x2="715" y2="190" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="692.5" y="182.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Pushdown SQL</text>
+  
+    <line x1="670" y1="310" x2="715" y2="310" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="692.5" y="302.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Trigger Pipeline</text>
+
+</svg>

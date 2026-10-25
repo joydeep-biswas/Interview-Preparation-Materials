@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Clustered Indexes vs. Heap-Organized Tables with Secondary Indexes</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Comparing InnoDB Primary Key In-Tree Storage with PostgreSQL Heap Indirect Pointers</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">1. Clustered Table (MySQL InnoDB / SQL Server)</text>
+  
+    <rect x="45" y="135" width="400" height="95" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Primary Key B+ Tree (Clustered Index)</text>
+    <text x="245.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">The Table IS the B+ Tree</text>
+    <rect x="366" y="145" width="73" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="402.5" y="157" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CLUSTERED</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Leaf Pages contain the FULL actual row values!</text>
+    <circle cx="61" cy="206" r="2" fill="#3b82f6"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Table data is physically stored in PK order.</text>
+    <circle cx="61" cy="222" r="2" fill="#3b82f6"/>
+    <text x="69" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">PK lookups are blazing fast (Single B-Tree traversal).</text>
+  
+    <rect x="45" y="245" width="400" height="125" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="245.0" y="271" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Secondary Index: Stores Primary Key Value</text>
+    <text x="245.0" y="287" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Double B-Tree Traversal Overhead</text>
+    <rect x="317" y="255" width="122" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="378.0" y="267" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DOUBLE TRAVERSAL</text>
+    <circle cx="61" cy="300" r="2" fill="#f59e0b"/>
+    <text x="69" y="303" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Secondary index leaves do NOT store physical disk addresses.</text>
+    <circle cx="61" cy="316" r="2" fill="#f59e0b"/>
+    <text x="69" y="319" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">They store the Primary Key value (e.g. PK = 5024).</text>
+    <circle cx="61" cy="332" r="2" fill="#f59e0b"/>
+    <text x="69" y="335" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Forces a Double B-Tree Traversal: First secondary index,</text>
+    <circle cx="61" cy="348" r="2" fill="#f59e0b"/>
+    <text x="69" y="351" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">then a full traversal down the PK Clustered tree!</text>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. Heap-Organized Table (PostgreSQL / Oracle)</text>
+  
+    <rect x="535" y="135" width="400" height="95" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Heap Data Files (Unordered Storage)</text>
+    <text x="735.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Data Stored in Slotted Pages</text>
+    <rect x="891" y="145" width="38" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="910.0" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">HEAP</text>
+    <circle cx="551" cy="190" r="2" fill="#10b981"/>
+    <text x="559" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rows placed in any available slotted page with free space.</text>
+    <circle cx="551" cy="206" r="2" fill="#10b981"/>
+    <text x="559" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Table data is physically unordered.</text>
+    <circle cx="551" cy="222" r="2" fill="#10b981"/>
+    <text x="559" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rows identified by stable physical address: ctid = (block, slot).</text>
+  
+    <rect x="535" y="245" width="400" height="125" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="271" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Primary &amp; Secondary Indexes are Symmetrical</text>
+    <text x="735.0" y="287" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Direct Single-Hop Addressing</text>
+    <rect x="842" y="255" width="87" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="885.5" y="267" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DIRECT ctid</text>
+    <circle cx="551" cy="300" r="2" fill="#10b981"/>
+    <text x="559" y="303" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Both PK index and secondary indexes store direct ctid pointers!</text>
+    <circle cx="551" cy="316" r="2" fill="#10b981"/>
+    <text x="559" y="319" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Secondary index lookup is a direct single hop to heap page.</text>
+    <circle cx="551" cy="332" r="2" fill="#10b981"/>
+    <text x="559" y="335" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero double-traversal overhead.</text>
+    <circle cx="551" cy="348" r="2" fill="#10b981"/>
+    <text x="559" y="351" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Trade-off: Table reorganization requires updating all index pointers.</text>
+
+</svg>

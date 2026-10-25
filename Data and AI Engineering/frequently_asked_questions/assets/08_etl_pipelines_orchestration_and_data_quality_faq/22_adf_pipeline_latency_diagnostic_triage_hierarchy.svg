@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 340" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Alert -->
+  <rect x="25" y="25" width="400" height="50" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="40" y="48" class="title-txt" fill="#FECACA">🚨 Alert: Pipeline Duration Jumped from 20m to 120m</text>
+  <text x="40" y="63" class="sub-txt">ADF Monitor → Pipeline Runs → Activity Execution Details</text>
+
+  <!-- Step Breakdown Boxes -->
+  <rect x="25" y="95" width="400" height="50" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="40" y="118" class="title-txt">Step 1: Check Activity Breakdown</text>
+  <text x="40" y="133" class="sub-txt">Which exact activity took 100+ minutes? (e.g. Copy_Orders)</text>
+
+  <rect x="25" y="165" width="400" height="50" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="40" y="188" class="title-txt">Step 2: Inspect Copy Activity Metrics</text>
+  <text x="40" y="203" class="sub-txt">Examine 'Queue Duration' vs 'Transfer Duration'</text>
+
+  <rect x="25" y="235" width="400" height="50" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="40" y="258" class="title-txt">Step 3: Source &amp; Sink Throughput Analysis</text>
+  <text x="40" y="273" class="sub-txt">Read MB/s vs Write MB/s vs File Count (e.g. 500k small files)</text>
+
+  <!-- Connecting Arrows to Diagnoses -->
+  <path d="M 425 190 L 515 110" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <path d="M 425 250 L 515 200" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+  <path d="M 425 270 L 515 290" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Right: Diagnosis Cards -->
+  <rect x="515" y="80" width="415" height="65" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="530" y="104" class="title-txt" fill="#F59E0B">Condition: Queue Duration = 95 Min</text>
+  <text x="530" y="122" class="body-txt">• Root Cause: Self-Hosted IR CPU 100% or concurrent limits reached</text>
+  <text x="530" y="136" class="mono-txt">Fix: Scale out SHIR cluster nodes</text>
+
+  <rect x="515" y="170" width="415" height="65" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="530" y="194" class="title-txt" fill="#C084FC">Condition: Read Throughput = 150 KB/s</text>
+  <text x="530" y="212" class="body-txt">• Root Cause: Source DB table lock, blocking SPIDs, missing index</text>
+  <text x="530" y="226" class="mono-txt">Fix: Add query hint WITH (NOLOCK) or read replica</text>
+
+  <rect x="515" y="260" width="415" height="65" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="530" y="284" class="title-txt" fill="#10B981">Condition: File Count = 500,000 files</text>
+  <text x="530" y="302" class="body-txt">• Root Cause: Per-file HTTP metadata overhead bottleneck</text>
+  <text x="530" y="316" class="mono-txt">Fix: Enable binary copy compaction or Auto Loader</text>
+</svg>

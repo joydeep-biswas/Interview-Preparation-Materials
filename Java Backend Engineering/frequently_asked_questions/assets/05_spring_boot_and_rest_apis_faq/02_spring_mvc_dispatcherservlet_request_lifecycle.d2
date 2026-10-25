@@ -1,0 +1,33 @@
+direction: right
+
+front_ctrl: "1. DispatcherServlet" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  req: "Incoming HTTP Request"
+  dispatch: "doDispatch() coordinates workflow"
+}
+
+mapping: "2. HandlerMapping" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  route: "Locates target Controller method"
+  interceptor: "HandlerInterceptor.preHandle() executes"
+}
+
+controller: "3. Controller Execution" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  adapter: "HandlerAdapter binds parameters"
+  service: "Business logic and database queries"
+}
+
+response: "4. Serialization" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  jackson: "HttpMessageConverter serializes to JSON"
+  cleanup: "afterCompletion() flushes MDC and ThreadLocals"
+}
+
+front_ctrl -> mapping: "Find handler"
+mapping -> controller: "Invoke method"
+controller -> response: "Return DTO"

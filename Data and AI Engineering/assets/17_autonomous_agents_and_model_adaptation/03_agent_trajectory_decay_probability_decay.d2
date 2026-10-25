@@ -1,0 +1,15 @@
+classes: {
+  bar_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  warn_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  fail_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+trajectory: "Agent Success Probability vs. Steps (p_step = 0.95)" {
+  s1: "Step 1: 95% Success" { class: bar_box }
+  s5: "Step 5: 77% Success" { class: warn_box }
+  s10: "Step 10: 60% Success" { class: warn_box }
+  s15: "Step 15: 46% Success" { class: fail_box }
+  s25: "Step 25: 28% Success (72% Failure Rate!)" { class: fail_box }
+
+  s1 -> s5 -> s10 -> s15 -> s25: "Exponential Decay: P = (0.95)^N"
+}

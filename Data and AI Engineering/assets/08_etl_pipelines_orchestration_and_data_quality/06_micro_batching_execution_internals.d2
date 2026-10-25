@@ -1,0 +1,22 @@
+direction: right
+title: Micro-Batching Mechanics & Execution Internals
+
+kafka: 1. Kafka Event Buffer {
+  status: "Offsets advance continuously (Unbounded log)"
+}
+
+driver: 2. Driver Coordinator (Trigger: 5s) {
+  status: "Polls offsets, writes start offset, creates DAG"
+}
+
+workers: 3. Worker Tasks in RAM {
+  status: "Processes assigned partitions in parallel"
+}
+
+sink: 4. Delta Lakehouse Sink & Commit {
+  status: "Appends Parquet, writes commit marker file"
+}
+
+kafka -> driver: "Poll latest offsets"
+driver -> workers: "Schedule distributed tasks"
+workers -> sink: "Flush Parquet & Commit"

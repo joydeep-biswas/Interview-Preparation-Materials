@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SSTable Compaction Strategies: Size-Tiered (STCS) vs. Leveled (LCS)</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Comparing Write-Heavy Cassandra Throughput with Read-Heavy RocksDB Predictability</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Size-Tiered Compaction (STCS - Cassandra Default)</text>
+  
+    <rect x="45" y="140" width="400" height="75" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="166" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">4 SSTables of Similar Size (100 MB Each)</text>
+    <text x="245.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Accumulation Phase</text>
+    <circle cx="61" cy="195" r="2" fill="#3b82f6"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Files: [SST_1: 100MB] [SST_2: 100MB] [SST_3: 100MB] [SST_4: 100MB]</text>
+    <circle cx="61" cy="211" r="2" fill="#3b82f6"/>
+    <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Trigger: When 4 files of similar size accumulate, tier merge fires.</text>
+  
+    <rect x="45" y="230" width="400" height="135" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="256" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Merged Tier SSTable (400 MB Output)</text>
+    <text x="245.0" y="272" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Characteristics &amp; Trade-Offs</text>
+    <rect x="324" y="240" width="115" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="381.5" y="252" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">WRITE-OPTIMIZED</text>
+    <circle cx="61" cy="285" r="2" fill="#3b82f6"/>
+    <text x="69" y="288" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sequential read &amp; merge sort creates new 400MB SSTable.</text>
+    <circle cx="61" cy="301" r="2" fill="#3b82f6"/>
+    <text x="69" y="304" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Pros: High write throughput, low write amplification (WA ~10).</text>
+    <circle cx="61" cy="317" r="2" fill="#3b82f6"/>
+    <text x="69" y="320" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cons: High space amplification! Requires 50% free disk space</text>
+    <circle cx="61" cy="333" r="2" fill="#3b82f6"/>
+    <text x="69" y="336" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">headroom to execute merge. Severe read amplification across tiers.</text>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Leveled Compaction (LCS - RocksDB Default)</text>
+  
+    <rect x="535" y="135" width="400" height="65" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Level 0: MemTable Flush (Overlapping Keys)</text>
+    
+    <circle cx="551" cy="178" r="2" fill="#10b981"/>
+    <text x="559" y="181" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Small 64MB SSTables directly flushed from RAM</text>
+  
+    <rect x="535" y="210" width="400" height="65" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="236" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Level 1: Target 10 MB (Non-Overlapping Ranges)</text>
+    
+    <circle cx="551" cy="253" r="2" fill="#10b981"/>
+    <text x="559" y="256" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">[Key A-G] | [Key H-N] | [Key O-Z] (Strictly isolated partitions)</text>
+  
+    <rect x="535" y="285" width="400" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="311" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Level 2: Target 100 MB (10x Size Capacity)</text>
+    <text x="735.0" y="327" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Characteristics &amp; Trade-Offs</text>
+    <rect x="821" y="295" width="108" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="875.0" y="307" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">READ-OPTIMIZED</text>
+    <circle cx="551" cy="340" r="2" fill="#10b981"/>
+    <text x="559" y="343" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Pros: Low read amplification (max 1 SSTable read per level).</text>
+    <circle cx="551" cy="356" r="2" fill="#10b981"/>
+    <text x="559" y="359" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Low space amplification (&amp;lt; 10% disk overhead for compaction).</text>
+    <circle cx="551" cy="372" r="2" fill="#10b981"/>
+    <text x="559" y="375" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cons: Higher write amplification (WA ~20-30) as files re-merge.</text>
+
+  
+    <line x1="245" y1="215" x2="245" y2="230" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <line x1="735" y1="200" x2="735" y2="210" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <line x1="735" y1="275" x2="735" y2="285" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+</svg>

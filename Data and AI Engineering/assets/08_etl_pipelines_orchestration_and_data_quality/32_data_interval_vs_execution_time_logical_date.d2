@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  interval: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  exec: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+interval_box: "Data Interval: [2026-10-01 00:00 to 2026-10-02 00:00]" {
+  start: "Data Interval Start\n(Logical Date: 2026-10-01)" { class: interval }
+  end: "Data Interval End\n(2026-10-02 00:00)" { class: interval }
+
+  start -> end: "24-Hour Collection"
+}
+
+exec_box: "Actual Execution" {
+  trigger: "Scheduler Triggers Run\n(2026-10-02 00:00:05)\nImmediately after interval closes!" { class: exec }
+}
+
+interval_box.end -> exec_box.trigger: "Fires DAG Run"

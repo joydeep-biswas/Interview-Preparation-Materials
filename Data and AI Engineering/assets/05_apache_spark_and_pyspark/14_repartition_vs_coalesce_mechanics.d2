@@ -1,0 +1,35 @@
+direction: right
+title: Repartition vs Coalesce Mechanics
+
+Coalesce: coalesce(2) (Zero Network Shuffle) {
+  style.stroke: "#34D399"
+  P1: Node 1 Part 1
+  P2: Node 1 Part 2
+  P3: Node 2 Part 3
+  P4: Node 2 Part 4
+  MergedA: Merged Part A (Local)
+  MergedB: Merged Part B (Local)
+
+  P1 -> MergedA
+  P2 -> MergedA
+  P3 -> MergedB
+  P4 -> MergedB
+}
+
+Repartition: repartition(2) (Full Network Shuffle) {
+  style.stroke: "#FBBF24"
+  RP1: Part 1
+  RP2: Part 2
+  RP3: Part 3
+  RP4: Part 4
+  Shuffle: Cluster Network Shuffle (Round-Robin / Hash)
+  EvenA: Even Part A
+  EvenB: Even Part B
+
+  RP1 -> Shuffle
+  RP2 -> Shuffle
+  RP3 -> Shuffle
+  RP4 -> Shuffle
+  Shuffle -> EvenA
+  Shuffle -> EvenB
+}

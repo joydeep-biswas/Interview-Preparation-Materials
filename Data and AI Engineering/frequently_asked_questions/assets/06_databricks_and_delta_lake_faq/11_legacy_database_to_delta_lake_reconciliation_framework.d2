@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+migration: "Legacy DB -> Delta Lake Migration" { class: card; style.stroke: "#3B82F6" }
+v1: "1. Row Count & Cardinality\nCOUNT(*) and COUNT(DISTINCT pk) match exactly" { class: card; style.stroke: "#3B82F6" }
+v2: "2. Metric Numerical Footing\nSUM(revenue), MIN/MAX, AVG match to 4 decimals" { class: card; style.stroke: "#F59E0B" }
+v3: "3. Checksum Hashing\nMD5 / SHA-256 hash across sorted column slices" { class: card; style.stroke: "#10B981" }
+v4: "4. Dual-Run Shadow Pipeline\nRun both legacy & Delta pipelines parallel for 14d" { class: card; style.stroke: "#8B5CF6" }
+
+migration -> v1 -> v2 -> v3 -> v4

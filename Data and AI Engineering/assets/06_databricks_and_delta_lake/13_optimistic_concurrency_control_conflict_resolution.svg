@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 580" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="580" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Lake Optimistic Concurrency Control (OCC) &amp; Conflict Resolution</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Protocol mechanics: Snapshot isolation, atomic put-if-absent, and automatic rebase on disjoint partitions</text>
+<rect x="30" y="85" width="300" height="465" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="180" y="112" fill="#60A5FA" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Transaction 1 (Batch Job)</text>
+<rect x="100" y="122" width="160" height="18" rx="9" fill="#1d4ed8"/><text x="180" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Appends / Updates Part A</text>
+<rect x="370" y="85" width="300" height="465" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="520" y="112" fill="#34D399" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Log Engine (_delta_log/)</text>
+<rect x="430" y="122" width="180" height="18" rx="9" fill="#047857"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Atomic CAS / Put-If-Absent</text>
+<rect x="710" y="85" width="300" height="465" rx="8" fill="#111827" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="860" y="112" fill="#C084FC" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Transaction 2 (Streaming App)</text>
+<rect x="780" y="122" width="160" height="18" rx="9" fill="#6d28d9"/><text x="860" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Fast Micro-batch Appends</text>
+<rect x="50" y="155" width="260" height="46" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="62" y="173" fill="#93C5FD" font-size="11" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Read Table Snapshot</text>
+<text x="62" y="191" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Loads Version 5 state &amp; active files</text>
+<rect x="730" y="155" width="260" height="46" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="742" y="173" fill="#DDD6FE" font-size="11" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Read Table Snapshot</text>
+<text x="742" y="191" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Loads Version 5 state concurrently</text>
+<rect x="390" y="155" width="260" height="46" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="520" y="175" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Current Log State: Version 5</text>
+<text x="520" y="192" fill="#94A3B8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">000005.json (Latest Valid Snapshot)</text>
+<line x1="310" y1="178" x2="385" y2="178" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="730" y1="178" x2="655" y2="178" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<rect x="50" y="215" width="260" height="44" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="62" y="233" fill="#CBD5E1" font-size="11" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Stage Writes in Memory</text>
+<text x="62" y="249" fill="#64748B" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Heavy computation in executor tasks</text>
+<rect x="730" y="215" width="260" height="44" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="742" y="233" fill="#CBD5E1" font-size="11" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Stage Micro-batch Writes</text>
+<text x="742" y="249" fill="#64748B" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Lightweight append finished fast</text>
+<rect x="730" y="275" width="260" height="52" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="742" y="295" fill="#A7F3D0" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. Atomic Put: 000006.json</text>
+<text x="742" y="314" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Tx 2 attempts commit first and wins!</text>
+<line x1="730" y1="300" x2="655" y2="300" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<rect x="390" y="275" width="260" height="52" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1"/>
+<text x="520" y="297" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Log Commit 000006.json: SUCCESS</text>
+<text x="520" y="315" fill="#A7F3D0" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Version 6 active (Written by Tx 2)</text>
+<rect x="50" y="345" width="260" height="50" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="62" y="365" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">4. Commit Attempt: 000006.json</text>
+<text x="62" y="383" fill="#F87171" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Tx 1 attempts commit for Version 6...</text>
+<line x1="310" y1="370" x2="385" y2="370" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<rect x="390" y="345" width="260" height="50" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="520" y="367" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">409 Conflict: Already Exists!</text>
+<text x="520" y="384" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Storage CAS fails: 000006.json occupied</text>
+<rect x="50" y="415" width="260" height="120" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="62" y="435" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">5. OCC Conflict Check</text>
+<text x="62" y="453" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Tx 1 inspects Tx 2 actions in 000006.json:</text>
+<text x="72" y="475" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Path A: Disjoint files / partitions</text>
+<text x="82" y="492" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Auto-rebase: commit as 000007.json</text>
+<text x="72" y="513" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✗ Path B: Overlapping target files</text>
+<text x="82" y="528" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Abort: throw ConcurrentModificationException</text>
+<rect x="390" y="415" width="260" height="120" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="520" y="437" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Rebase Resolution (Path A)</text>
+<text x="520" y="458" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tx 1 replays ops against v6 snapshot</text>
+<text x="520" y="480" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Writes new commit: 000007.json</text>
+<rect x="430" y="498" width="180" height="22" rx="11" fill="#059669"/><text x="520" y="512" fill="#ffffff" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">200 OK: Zero Data Loss!</text>
+<path d="M 310 475 L 350 475 L 350 475 L 385 475" stroke="#34D399" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="730" y="415" width="260" height="120" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+<text x="860" y="437" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta OCC Guarantees</text>
+<text x="742" y="460" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Serializable / Write-Serializable ACID</text>
+<text x="742" y="480" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Non-blocking reads &amp; disjoint writes</text>
+<text x="742" y="500" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Auto-rebase avoids manual user retry</text>
+<text x="742" y="520" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Atomic put-if-absent across S3/ADLS/GCS</text>
+</svg>

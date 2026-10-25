@@ -1,0 +1,32 @@
+direction: right
+title: Core Extension Points: BeanFactoryPostProcessor vs. BeanPostProcessor vs. FactoryBean<T>
+
+bfpp: "BeanFactoryPostProcessor" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  timing: "Runs FIRST, before beans exist"
+  target: "Modifies BeanDefinition metadata"
+  example: "PropertySourcesPlaceholderConfig (${...})"
+}
+
+bpp: "BeanPostProcessor" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  timing: "Runs DURING initialization"
+  target: "Intercepts real bean instances"
+  example: "AnnotationAwareAspectJAutoProxyCreator (AOP)"
+}
+
+fb: "FactoryBean<T>" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+
+  timing: "Invoked on getBean()"
+  target: "Encapsulates complex factory construction"
+  example: "LocalContainerEntityManagerFactoryBean"
+}
+
+bfpp -> bpp: "Prepares definitions"
+bpp -> fb: "Initializes factory"

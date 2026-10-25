@@ -1,0 +1,28 @@
+direction: right
+classes: {
+  client_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  apim_container: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+  red_box: { style: { fill: "#7F1D1D", stroke: "#EF4444", stroke-width: 2 } }
+  green_box: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
+}
+
+User: "Client App / User\nBearer JWT: Alice" { class: client_box }
+
+APIMPolicies: "Azure APIM Pipeline" {
+  class: apim_container
+  Auth: "1. Validate JWT (tenant_id)" { class: card_dark }
+  RPM: "2. Check RPM Quota (Redis)" { class: card_dark }
+  TPM: "3. Check TPM (Token Bucket)" { class: card_dark }
+  Target: "4. Forward Request\nManaged Identity" { class: card_dark }
+
+  Auth -> RPM -> TPM -> Target
+}
+
+Ret429: "HTTP 429\nRetry-After: N sec" { class: red_box }
+AOAI: "Azure OpenAI\nStreams tokens & reconciles" { class: green_box }
+
+User -> APIMPolicies.Auth
+APIMPolicies.RPM -> Ret429: "Exceeded"
+APIMPolicies.TPM -> Ret429: "Exceeded"
+APIMPolicies.Target -> AOAI: "Allowed"

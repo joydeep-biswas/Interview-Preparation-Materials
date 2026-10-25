@@ -1,0 +1,18 @@
+direction: right
+title: Push vs. Pull Ingestion Architecture
+
+pull_model: 1. Pull Model: Consumer Initiates Polling {
+  consumer: Ingestion Service (Airflow Worker)
+  source: Source REST API / DB
+  consumer -> source: "1. GET /orders?since=10:00"
+  source -> consumer: "2. Return 0 rows (Empty)"
+  consumer -> consumer: "3. Sleep 60 seconds (Wasted Cycles)"
+  consumer -> source: "4. GET /orders?since=10:01"
+  source -> consumer: "5. Return 12 rows"
+}
+
+push_model: 2. Push Model: Producer Proactively Emits {
+  producer: Source Application (Order Placed)
+  gateway: Ingestion Gateway (Webhook / Event Hub)
+  producer -> gateway: "HTTP POST /webhook (Event Instant Push)"
+}

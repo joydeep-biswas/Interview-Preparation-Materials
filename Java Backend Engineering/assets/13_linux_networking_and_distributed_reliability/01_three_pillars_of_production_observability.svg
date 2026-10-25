@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" width="1080" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Three Pillars of Production Observability &amp; Diagnostics</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Unified Telemetry (Metrics, Logs, Traces) Integrated with Low-Overhead JVM Diagnostic Engines</text>
+<rect x="40" y="100" width="1000" height="180" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="112" width="260" height="22" rx="11" fill="#1e3a8a"/><text x="185" y="126" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. THE THREE PILLARS (Telemetry)</text>
+<text x="330" y="128" fill="#38BDF8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Correlated across distributed boundaries via W3C TraceContext trace_id</text>
+<rect x="65" y="145" width="300" height="115" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="215" y="168" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Structured Logs &amp; MDC</text>
+<text x="80" y="190" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Tools: Logback, Loki, OpenSearch</text>
+<text x="80" y="206" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Format: JSON (timestamp, level, message)</text>
+<text x="80" y="222" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• MDC: Injects trace_id, user_id, tenant_id</text>
+<text x="80" y="240" fill="#67E8F9" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Role: Deep contextual root-cause debugging</text>
+<rect x="390" y="145" width="300" height="115" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="540" y="168" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Golden Signals Metrics</text>
+<text x="405" y="190" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Tools: Micrometer, Prometheus, Grafana</text>
+<text x="405" y="206" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Types: Counters, Gauges, Timers, Histograms</text>
+<text x="405" y="222" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Signals: Latency, Traffic, Errors, Saturation</text>
+<text x="405" y="240" fill="#6EE7B7" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Role: Real-time alerting &amp; symptom detection</text>
+<rect x="715" y="145" width="300" height="115" rx="6" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="865" y="168" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Distributed Tracing</text>
+<text x="730" y="190" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Tools: OpenTelemetry, Jaeger, Tempo</text>
+<text x="730" y="206" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Spans: End-to-end DAG of RPC hops</text>
+<text x="730" y="222" fill="#C4B5FD" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Propagation: W3C traceparent headers</text>
+<text x="730" y="240" fill="#E9D5FF" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Role: Microservice latency bottleneck isolation</text>
+<line x1="540" y1="280" x2="540" y2="310" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<rect x="470" y="288" width="140" height="22" rx="4" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="540" y="303" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Deep-Dive Profiling</text>
+<rect x="40" y="315" width="1000" height="160" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<rect x="55" y="327" width="320" height="22" rx="11" fill="#047857"/><text x="215" y="341" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. PRODUCTION DIAGNOSTIC ENGINES</text>
+<text x="390" y="343" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Safe for live production execution with minimal JVM overhead (&lt; 2%)</text>
+<rect x="65" y="360" width="300" height="95" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="215" y="383" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">async-profiler</text>
+<text x="80" y="405" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Non-safepoint AsyncGetCallTrace sampling</text>
+<text x="80" y="421" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Produces interactive Flamegraphs</text>
+<text x="80" y="437" fill="#FDE68A" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Profiles CPU, Memory allocations, &amp; Lock contention</text>
+<rect x="390" y="360" width="300" height="95" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="540" y="383" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">jcmd &amp; jstack</text>
+<text x="405" y="405" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Built-in JDK diagnostic CLI tools</text>
+<text x="405" y="421" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Thread dumps (identifies deadlocks, BLOCKED threads)</text>
+<text x="405" y="437" fill="#93C5FD" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• GC.class_histogram (Instant class count inspection)</text>
+<rect x="715" y="360" width="300" height="95" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<text x="865" y="383" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Eclipse MAT / JMC</text>
+<text x="730" y="405" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Memory Analyzer Tool for HPROF dumps</text>
+<text x="730" y="421" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Dominator Tree &amp; Leak Suspects Report</text>
+<text x="730" y="437" fill="#A7F3D0" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Retained Heap vs Shallow Heap calculation</text>
+<rect x="40" y="490" width="1000" height="70" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="512" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Production Triage Golden Path:</text>
+<text x="65" y="532" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Prometheus alert fires on P99 latency spike -&gt; 2. Grafana links to Jaeger trace_id isolating failing RPC hop -&gt; 3. Loki pulls logs matching trace_id -&gt; 4. async-profiler confirms CPU hot loop.</text>
+</svg>

@@ -6,42 +6,9 @@ A comprehensive, production-grade guide to Backtracking, State-Space Tree Prunin
 
 ## Architectural Overview: Combinatorial Search Space & Bitwise Operations
 
-```mermaid
-flowchart TD
-    subgraph BacktrackingTree ["1. Backtracking Decision Tree & Pruning"]
-        direction TB
-        Root["Root State: []"]
-        Choice1["Choose Element 1: [1]"]
-        Choice2["Choose Element 2: [2]"]
-        Choice3["Choose Element 3: [3]"]
-        Pruned["Constraint Violated: PRUNED"]
-        
-        Root --> Choice1
-        Root --> Choice2
-        Root --> Choice3
-        Choice1 --> Pruned
-    end
+![Backtracking State Space Pruning & Bit Manipulation Mechanics](assets/08_backtracking_and_bit_manipulation/01_backtracking_pruning_and_bitmasking.svg)
 
-    subgraph BitwiseOps ["2. Low-Level Bitwise Manipulation Mechanics"]
-        direction LR
-        XOR["XOR Cancellation<br/>x ^ x = 0, x ^ 0 = x"]
-        Kernighan["Kernighan's Trick<br/>n & (n - 1)<br/>Drops lowest set bit"]
-        Mask["Bitmasking<br/>1 << k (Set k-th bit)<br/>n & (1 << k) (Check bit)"]
-    end
-
-    BacktrackingTree --> BitwiseOps
-
-    style BacktrackingTree fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BitwiseOps fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Root fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Choice1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Choice2 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Choice3 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Pruned fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style XOR fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Kernighan fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Mask fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/08_backtracking_and_bit_manipulation/01_backtracking_pruning_and_bitmasking.d2](assets/08_backtracking_and_bit_manipulation/01_backtracking_pruning_and_bitmasking.d2)
 
 ---
 

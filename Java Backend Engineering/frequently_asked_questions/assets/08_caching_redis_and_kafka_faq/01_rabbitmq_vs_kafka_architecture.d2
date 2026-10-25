@@ -1,0 +1,19 @@
+direction: right
+
+rabbitmq: "RabbitMQ (Smart Broker)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  routing: "Exchange with complex routing keys"
+  lifecycle: "Ephemeral: Deleted immediately after ACK"
+  use: "Task queues, RPC, complex routing (~20k msgs/s)"
+}
+
+kafka: "Apache Kafka (Distributed Log)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  storage: "Append-only partitioned commit log"
+  lifecycle: "Persistent: Retained by time/size, fully replayable"
+  use: "High-throughput event streaming (1M+ msgs/s)"
+}
+
+rabbitmq -> kafka: "Queuing vs Event Streaming trade-off"

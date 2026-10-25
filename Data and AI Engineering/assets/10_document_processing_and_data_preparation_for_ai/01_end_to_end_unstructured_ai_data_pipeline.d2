@@ -1,0 +1,47 @@
+direction: right
+classes: {
+  ing: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  parse: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  chunk: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  sink: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+gateways: "1. Ingestion Gateways" {
+  pdf: "PDFs / Scans" { class: ing }
+  html: "Web & Wikis" { class: ing }
+  audio: "Audio Transcripts" { class: ing }
+}
+
+parsing: "2. Layout Parsing Engine" {
+  native: "Native Stream Parser\n(PyMuPDF)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  ocr: "Visual OCR & Layout\n(LayoutLMv3 / ColPali)" { class: parse }
+  table: "Table Transformer (TATR)" { class: parse }
+  md: "Canonical Markdown" { class: sink }
+
+  native -> table
+  ocr -> table
+  table -> md
+}
+
+chunking: "3. Advanced Chunking Strategy" {
+  rec: "Recursive Character" { class: chunk }
+  hier: "Parent-Child (Hierarchical)" { class: chunk }
+  sem: "Semantic Inflection" { class: chunk }
+  enforce: "Token Budget Enforcer\n(cl100k_base)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+
+  rec -> enforce
+  hier -> enforce
+  sem -> enforce
+}
+
+enrichment: "4. Deduplication & Storage" {
+  minhash: "MinHash LSH Deduplication" { class: parse }
+  meta: "Breadcrumb Injection" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  vdb: "Vector Store & Doc Store\n(Dense Vectors + Hierarchy)" { class: sink }
+
+  minhash -> meta -> vdb
+}
+
+gateways.pdf -> parsing.native
+parsing.md -> chunking.rec
+chunking.enforce -> enrichment.minhash

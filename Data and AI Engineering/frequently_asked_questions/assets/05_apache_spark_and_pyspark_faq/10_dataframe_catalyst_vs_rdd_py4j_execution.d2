@@ -1,0 +1,14 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+df: "PySpark DataFrame\ndf.filter(col('age') > 25)" { class: box; style.stroke: "#3B82F6" }
+catalyst: "Catalyst Optimizer\nPredicate pushdown & projection pruning" { class: box; style.stroke: "#06B6D4" }
+tungsten: "Tungsten Binary Engine\nOff-heap vectors & Whole-Stage CodeGen" { class: box; style.stroke: "#10B981" }
+
+rdd: "PySpark RDD (Python Lambda)\nrdd.filter(lambda x: x['age'] > 25)" { class: box; style.stroke: "#EF4444" }
+py4j: "Python Worker Subprocess\nPickling serialization IPC overhead per row" { class: box; style.stroke: "#EF4444" }
+
+df -> catalyst -> tungsten: "100x Faster C++ Speed"
+rdd -> py4j: "Slow Row-by-Row Serialization"

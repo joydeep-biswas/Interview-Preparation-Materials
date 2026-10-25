@@ -6,40 +6,9 @@ A comprehensive study guide covering Core Java language mechanics, JVM object in
 
 ## Architectural Overview: Object Execution & Method Dispatch
 
-```mermaid
-flowchart TD
-    subgraph StackFrame["Thread Stack (Stack Frame)"]
-        RefVar["Reference Variable<br/>(Compressed OOP 4 bytes)"]
-    end
+![Object Execution & Method Dispatch Architecture](assets/01_core_java_and_oop_faq/01_object_execution_and_method_dispatch.svg)
 
-    subgraph HeapMemory["JVM Heap Memory"]
-        subgraph ObjectInstance["Object Instance"]
-            MarkWord["Mark Word (8B): Hash, Lock Bits, Age"]
-            KlassPtr["Klass Word (4B): Points to Metaspace"]
-            Fields["Instance Fields & Primitives"]
-            Padding["Alignment Padding (8-byte boundary)"]
-        end
-    end
-
-    subgraph MetaspaceArea["JVM Metaspace (Class Metadata)"]
-        KlassData["Klass Instance Structure"]
-        VTable["vtable (Virtual Method Table)<br/>Direct JIT Native Pointers"]
-    end
-
-    RefVar -->|"Dereferences Address"| ObjectInstance
-    KlassPtr -->|"Metadata Reference"| KlassData
-    KlassData --> VTable
-
-    style StackFrame fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style HeapMemory fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style ObjectInstance fill:#1e293b,stroke:#06b6d4,stroke-width:1px,color:#e2e8f0
-    style MetaspaceArea fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style RefVar fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style MarkWord fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style KlassPtr fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style Fields fill:#1f2937,stroke:#06b6d4,stroke-width:1px,color:#fff
-    style VTable fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/01_object_execution_and_method_dispatch.d2](assets/01_core_java_and_oop_faq/01_object_execution_and_method_dispatch.d2)
 
 ---
 
@@ -193,19 +162,9 @@ public class FirstUniqueChar {
 **Topic Covered:** Sliding Window & Dynamic Frequency Tracking  
 **Definition:** Find the maximum length of a contiguous substring where every character is unique.
 
-```mermaid
-flowchart LR
-    Start["Left Pointer (L=0)"] --> Window["Sliding Window [L ... R]"]
-    Window --> SeenMap["Map&lt;Char, LastSeenIndex&gt;"]
-    SeenMap -->|"Duplicate found at pos >= L"| Advance["Shift L to lastSeen + 1"]
-    SeenMap -->|"No duplicate"| Expand["Expand R, Update MaxLen"]
+![Longest Substring Without Repeating Characters Two Pointers](assets/01_core_java_and_oop_faq/02_longest_substring_two_pointers.svg)
 
-    style Start fill:#0f172a,stroke:#3b82f6,stroke-width:1px,color:#93c5fd
-    style Window fill:#1e293b,stroke:#06b6d4,stroke-width:1px,color:#e2e8f0
-    style SeenMap fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style Advance fill:#3b0764,stroke:#ec4899,stroke-width:1px,color:#fbcfe8
-    style Expand fill:#064e3b,stroke:#10b981,stroke-width:1px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/02_longest_substring_two_pointers.d2](assets/01_core_java_and_oop_faq/02_longest_substring_two_pointers.d2)
 
 ```java
 import java.util.HashMap;
@@ -435,32 +394,9 @@ public class BinaryTreePathSum {
 - `equals()`: Method on `Object`. Evaluates semantic value equivalence when overridden.
 - **String Pool:** A specialized hash table (`StringTable`) allocated in the JVM Heap that stores a single canonical copy of each string literal.
 
-```mermaid
-flowchart TD
-    subgraph Stack["Stack Variables"]
-        s1["s1 = 'Java'"]
-        s2["s2 = 'Java'"]
-        s3["s3 = new String('Java')"]
-    end
+![String Equality & String Constant Pool Architecture](assets/01_core_java_and_oop_faq/03_string_equality_and_string_pool.svg)
 
-    subgraph Heap["JVM Heap"]
-        subgraph StringPool["String Constant Pool (StringTable)"]
-            Literal["'Java' (char[] hash cached)"]
-        end
-        HeapObj["String Object (Heap Instance)"]
-    end
-
-    s1 --> Literal
-    s2 --> Literal
-    s3 --> HeapObj
-    HeapObj -.->|"Internal value ref"| Literal
-
-    style Stack fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Heap fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style StringPool fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Literal fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style HeapObj fill:#1f2937,stroke:#06b6d4,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/03_string_equality_and_string_pool.d2](assets/01_core_java_and_oop_faq/03_string_equality_and_string_pool.d2)
 
 ```java
 String s1 = "Hello";
@@ -632,53 +568,9 @@ An anonymous class is declared and instantiated in a single expression. Any loca
 *(Grouped together: Memory layout and OOM diagnosis)*  
 **Topic Covered:** JVM Memory Spaces, GC Generations, Diagnostic Procedures  
 
-```mermaid
-flowchart TD
-    subgraph JVMProcess ["JVM Process Memory Space (Virtual Memory)"]
-        subgraph Heap ["JVM Managed Heap Space (-Xms / -Xmx)"]
-            direction TB
-            subgraph YoungGen ["Young Generation (-Xmn)"]
-                Eden["Eden Space<br/>(New Object Allocation)"]
-                S0["Survivor From (S0)<br/>(Age Counter 1..14)"]
-                S1["Survivor To (S1)<br/>(Compacted Survivors)"]
-            end
-            
-            subgraph OldGen ["Tenured / Old Generation"]
-                Old["Old Space<br/>(Long-Lived Objects & Huge Arrays)"]
-            end
-            
-            Eden -->|"Minor GC: Surviving Objects"| S0
-            S0 <-->|"Minor GC: Ping-Pong & Age Increment"| S1
-            S0 -->|"Promotion: Age >= TenuringThreshold (15)"| Old
-            S1 -->|"Promotion: Age >= TenuringThreshold (15)"| Old
-            Old -.->|"Major / Full GC: Mark-Sweep-Compact"| Old
-        end
+![JVM Process Memory Architecture & OutOfMemory Mechanics](assets/01_core_java_and_oop_faq/04_jvm_memory_architecture_oom.svg)
 
-        subgraph NonHeap ["Non-Heap Native Memory"]
-            direction TB
-            ThreadStacks["Thread Stacks (-Xss)<br/>Stack Frames, Primitive Locals, Object References"]
-            Meta["Metaspace (-XX:MaxMetaspaceSize)<br/>Class Metadata, Method Bytecode, Constant Pool"]
-            CodeCache["Code Cache<br/>JIT Compiled Native Assembly"]
-        end
-        
-        ThreadStacks -->|"new MyObject() (Stack Pointer)"| Eden
-        Eden -.->|"Klass Pointer Header"| Meta
-        CodeCache -.->|"Executes Inlined JIT Code"| ThreadStacks
-    end
-
-    style JVMProcess fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Heap fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style YoungGen fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style OldGen fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style NonHeap fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Eden fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style S0 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style S1 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Old fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style ThreadStacks fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Meta fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style CodeCache fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/04_jvm_memory_architecture_oom.d2](assets/01_core_java_and_oop_faq/04_jvm_memory_architecture_oom.d2)
 
 #### Diagnostic & Triage Matrix: `java.lang.OutOfMemoryError`
 
@@ -779,33 +671,9 @@ return switch (payment) {
 #### Architectural Overview
 When traversing linked records in memory (e.g., undo stacks, workflow transition states, or custom pointer structures), circular references cause infinite traversal loops and stack overflows. Floyd's Algorithm utilizes two pointers—a slow pointer advancing 1 node per iteration and a fast pointer advancing 2 nodes per iteration. If a cycle exists, the fast pointer will lap and intersect the slow pointer inside the cycle loop without allocating heap memory.
 
-```mermaid
-flowchart LR
-    Head["Head: Node 1"] --> Node2["Node 2"]
-    Node2 --> Node3["Node 3 (Cycle Start)"]
-    Node3 --> Node4["Node 4"]
-    Node4 --> Node5["Node 5"]
-    Node5 --> Node3
+![Floyd Cycle Detection Mechanics & Pointer Traversal](assets/01_core_java_and_oop_faq/05_floyd_cycle_detection_mechanics.svg)
 
-    subgraph Pointers ["Pointer Convergence"]
-        direction TB
-        Slow["Slow Pointer (1 step/iter)"]
-        Fast["Fast Pointer (2 steps/iter)"]
-        Collision["Collision inside loop guarantees cycle!"]
-        Slow --> Collision
-        Fast --> Collision
-    end
-
-    style Head fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Node2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Node3 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Node4 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Node5 fill:#1e293b,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Pointers fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Slow fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Fast fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style Collision fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/05_floyd_cycle_detection_mechanics.d2](assets/01_core_java_and_oop_faq/05_floyd_cycle_detection_mechanics.d2)
 
 #### Production Code
 ```java
@@ -863,19 +731,9 @@ public final class LinkedListCycleChecker {
 #### Architectural Overview
 In Java, instance methods use **dynamic method dispatch** resolved at runtime using the object's actual class `vtable` in Metaspace (`invokevirtual`). However, `static` methods belong to the class, not the instance. When a subclass declares a static method with the exact same signature as a superclass static method, it is **method hiding**, not overriding. The JVM binds static calls at compile time (`invokestatic`) based strictly on the reference type declared.
 
-```mermaid
-flowchart TD
-    subgraph References ["Compile-Time Reference vs Runtime Instance"]
-        Ref["Parent p = new Child();"]
-        Ref --> StaticCall["p.staticPrint() -> Resolved at COMPILE TIME to Parent.staticPrint()"]
-        Ref --> VirtualCall["p.instancePrint() -> Resolved at RUNTIME via vtable to Child.instancePrint()"]
-    end
+![Compile-Time Reference vs Runtime Virtual Method Dispatch](assets/01_core_java_and_oop_faq/06_compile_time_vs_runtime_dispatch.svg)
 
-    style References fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Ref fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style StaticCall fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style VirtualCall fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/06_compile_time_vs_runtime_dispatch.d2](assets/01_core_java_and_oop_faq/06_compile_time_vs_runtime_dispatch.d2)
 
 #### Production Code & Prediction
 ```java
@@ -1020,20 +878,9 @@ Java categorizes throwables into:
 2. **Unchecked Exceptions (`RuntimeException` subclasses)**: Represent programming errors or unrecoverable bugs (e.g., `NullPointerException`, `IllegalArgumentException`).
 3. **Errors (`Error` subclasses)**: Fatal JVM failures (e.g., `OutOfMemoryError`, `StackOverflowError`).
 
-```mermaid
-flowchart TD
-    Throwable["java.lang.Throwable"]
-    Throwable --> Error["java.lang.Error (Fatal JVM: OOM, StackOverflow)"]
-    Throwable --> Exception["java.lang.Exception"]
-    Exception --> Checked["Checked Exceptions (IOException, SQLException)<br/>Compile-time enforced"]
-    Exception --> RuntimeException["java.lang.RuntimeException (Unchecked)<br/>NullPointerException, BusinessException"]
+![Java Throwable Exception Hierarchy & Error Propagation](assets/01_core_java_and_oop_faq/07_throwable_exception_hierarchy.svg)
 
-    style Throwable fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Error fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Exception fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Checked fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style RuntimeException fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/07_throwable_exception_hierarchy.d2](assets/01_core_java_and_oop_faq/07_throwable_exception_hierarchy.d2)
 
 #### Production Best Practice:
 Never use exceptions for business control flow due to the heavy performance penalty of `Throwable.fillInStackTrace()`. Handle enterprise web errors globally via `@RestControllerAdvice` emitting RFC 7807 `ProblemDetail`.
@@ -1059,41 +906,9 @@ If only one bracket type exists (e.g. `()`), an $O(1)$ space integer counter inc
 2. **Stackless / In-Place Pointer Approach ($O(1)$ Extra Heap Space):** Instead of allocating a heap `Deque` object and boxing characters into `java.lang.Character` objects, mutate a char array or reuse an integer pointer `top` over a pre-allocated primitive array `char[] buffer`. Alternatively, a recursive descent parser leverages the JVM call stack, eliminating explicit heap collections.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Stream ["Input Character Stream: '{ [ ] ( ) }'"]
-        C1["'{' (Open)"] --> C2["'[' (Open)"]
-        C2 --> C3["']' (Close)"]
-        C3 --> C4["'(' (Open)"]
-        C4 --> C5["')' (Close)"]
-        C5 --> C6["'}' (Close)"]
-    end
+![Valid Parentheses Stack Evaluation & Invariants](assets/01_core_java_and_oop_faq/08_valid_parentheses_stack_evaluation.svg)
 
-    subgraph StackOps ["Stack State Evolution (ArrayDeque / In-Place Pointer)"]
-        S1["Push '{'<br/>[ { ]"] --> S2["Push '['<br/>[ {, [ ]"]
-        S2 --> S3["Pop '[' matches ']'<br/>[ { ]"]
-        S3 --> S4["Push '('<br/>[ {, ( ]"]
-        S4 --> S5["Pop '(' matches ')'<br/>[ { ]"]
-        S5 --> S6["Pop '{' matches '}'<br/>Stack Empty -> VALID"]
-    end
-
-    Stream --> StackOps
-
-    style Stream fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StackOps fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style C1 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style C2 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style C3 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style C4 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style C5 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style C6 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style S2 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style S3 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style S4 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style S5 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style S6 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/08_valid_parentheses_stack_evaluation.d2](assets/01_core_java_and_oop_faq/08_valid_parentheses_stack_evaluation.d2)
 
 #### Production Implementation / Code Solution
 ```java
@@ -1186,46 +1001,9 @@ public final class BracketValidator {
 
 In multi-threaded Java applications, threads share the Heap and Metaspace but possess independent Stack, Native Stack, and PC Register structures. Because the JVM execution engine switches CPU time-slices across hundreds of threads, each thread requires its own discrete instruction pointer to resume execution seamlessly without state corruption:
 
-```mermaid
-flowchart TD
-    subgraph CPUScheduler ["OS CPU Scheduler & Cores"]
-        Core0["CPU Core 0"]
-        Core1["CPU Core 1"]
-    end
+![OS Kernel Threads vs JVM Virtual Threads Scheduling](assets/01_core_java_and_oop_faq/09_os_kernel_vs_virtual_threads.svg)
 
-    subgraph Thread1 ["Thread 1 Execution Context"]
-        PC1["PC Register 1<br/>Bytecode Offset: 0x002A (aload_1)"]
-        Stack1["Java Thread Stack 1<br/>(Frames, Locals, Operands)"]
-    end
-
-    subgraph Thread2 ["Thread 2 Execution Context"]
-        PC2["PC Register 2<br/>Bytecode Offset: 0x01B4 (invokevirtual)"]
-        Stack2["Java Thread Stack 2<br/>(Frames, Locals, Operands)"]
-    end
-
-    subgraph SharedJVM ["Shared JVM Memory"]
-        Heap["Java Heap & String Pool"]
-        MethodArea["Metaspace (Bytecode Stream)"]
-    end
-
-    Core0 -->|"Executes Instruction"| PC1
-    Core1 -->|"Executes Instruction"| PC2
-    PC1 -.->|"Points to Bytecode"| MethodArea
-    PC2 -.->|"Points to Bytecode"| MethodArea
-    Stack1 -.->|"Object References"| Heap
-    Stack2 -.->|"Object References"| Heap
-
-    style CPUScheduler fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Thread1 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Thread2 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style SharedJVM fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style PC1 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style PC2 fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Stack1 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Stack2 fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style Heap fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style MethodArea fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/09_os_kernel_vs_virtual_threads.d2](assets/01_core_java_and_oop_faq/09_os_kernel_vs_virtual_threads.d2)
 
 Key JVM specifications governing the PC Register:
 1. **Thread Scope:** Exactly one PC register exists per alive thread. It is deallocated when the thread terminates.
@@ -1289,36 +1067,9 @@ public final class PCRegisterInspection {
 
 When a String literal is created, it resides in the **String Intern Pool** inside the Java Heap. Multiple variables throughout the JVM reference the identical physical memory address of that pooled String:
 
-```mermaid
-flowchart LR
-    subgraph References ["Application References"]
-        AuthRef["Security Context: 'ROLE_USER'"]
-        ConfigRef["Database Config: 'ROLE_USER'"]
-        AdminCheck["Access Control Check: 'ROLE_USER'"]
-    end
+![String Immutability Security Caching & Thread Safety](assets/01_core_java_and_oop_faq/10_string_immutability_security_caching.svg)
 
-    subgraph HeapMemory ["Java Heap String Intern Pool"]
-        StringObj["String Object (HashCode: 1284712)<br/>value: ['R','O','L','E','_','U','S','E','R']"]
-    end
-
-    subgraph MaliciousMutation ["Reflection Mutation"]
-        ReflectHacker["Field.setAccessible(true)<br/>value[5..8] = 'A','D','M','I','N'"]
-    end
-
-    AuthRef --> StringObj
-    ConfigRef --> StringObj
-    AdminCheck --> StringObj
-    ReflectHacker -.->|"Mutates Backing Array In-Place!"| StringObj
-
-    style References fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style HeapMemory fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style MaliciousMutation fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style StringObj fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style AuthRef fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style ConfigRef fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style AdminCheck fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style ReflectHacker fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/10_string_immutability_security_caching.d2](assets/01_core_java_and_oop_faq/10_string_immutability_security_caching.d2)
 
 Why String Immutability is Essential to JVM Security:
 1. **Security & Classloading:** Classloaders pass package paths and credential tokens as Strings. If a String were mutable, an attacker could authenticate with a permitted filename, then mutate the String in memory before file I/O occurs (Time-of-Check to Time-of-Use exploit).
@@ -1392,36 +1143,9 @@ public final class StringMutationExploit {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph ConstantPool ["Class Constant Pool / Metaspace"]
-        CP["Constant_String_info: 'hello'<br/>(Symbolic Reference)"]
-    end
+![String Interning & Metaspace Native Memory Architecture](assets/01_core_java_and_oop_faq/11_string_interning_metaspace_mechanics.svg)
 
-    subgraph JVMHeap ["Java Heap Memory"]
-        subgraph InternPool ["String Intern Pool"]
-            PooledObj["Pooled String Instance<br/>(value: ['h','e','l','l','o'], hash: 99162322)"]
-        end
-
-        subgraph GeneralHeap ["General Heap Space"]
-            HeapObj1["Heap Object 1 (new String)<br/>Memory Address: 0x7F01"]
-            HeapObj2["Heap Object 2 (new String)<br/>Memory Address: 0x7F02"]
-        end
-    end
-
-    CP -->|"Resolved at Class Load"| PooledObj
-    HeapObj1 -->|"Shares Backing Value Array"| PooledObj
-    HeapObj2 -->|"Shares Backing Value Array"| PooledObj
-
-    style ConstantPool fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style JVMHeap fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style InternPool fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style GeneralHeap fill:#1e293b,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style CP fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style PooledObj fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style HeapObj1 fill:#1f2937,stroke:#ef4444,stroke-width:1px,color:#fff
-    style HeapObj2 fill:#1f2937,stroke:#ef4444,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/11_string_interning_metaspace_mechanics.d2](assets/01_core_java_and_oop_faq/11_string_interning_metaspace_mechanics.d2)
 
 Step-by-Step Allocation Mechanics:
 1. **Case 1: String Literal Already in Pool**
@@ -1482,33 +1206,9 @@ The JVM distinguishes between method calls using two distinct bytecode instructi
 1. `invokestatic`: Dispatched at **compile time** using the declared reference type. The method address is bound directly without querying the object's runtime class.
 2. `invokevirtual`: Dispatched at **runtime** using the dynamic object type via the **Virtual Method Table (`vtable`)** in Metaspace.
 
-```mermaid
-flowchart TD
-    subgraph CompileTime ["Compile-Time Binding (Reference Type)"]
-        Ref["Parent ref = new Child();"]
-        StaticCall["ref.printStatic();<br/>Bytecode: invokestatic Parent.printStatic()"]
-    end
+![Static Method Hiding vs Instance Method Overriding](assets/01_core_java_and_oop_faq/12_method_hiding_vs_overriding.svg)
 
-    subgraph RuntimeDispatch ["Runtime Binding (vtable Lookup)"]
-        InstanceCall["ref.printInstance();<br/>Bytecode: invokevirtual Child.printInstance()"]
-        vtable["Child Klass vtable<br/>[0] Object.equals()<br/>[1] Object.hashCode()<br/>[2] Child.printInstance()"]
-    end
-
-    Ref --> StaticCall
-    Ref --> InstanceCall
-    StaticCall -->|"Bypasses vtable (Direct Execution)"| ParentStatic["Parent.printStatic() Executed"]
-    InstanceCall -->|"Queries Runtime vtable"| vtable
-    vtable -->|"Dereferences Method Pointer"| ChildInstance["Child.printInstance() Executed"]
-
-    style CompileTime fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RuntimeDispatch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Ref fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style StaticCall fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style InstanceCall fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style vtable fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style ParentStatic fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style ChildInstance fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/01_core_java_and_oop_faq/12_method_hiding_vs_overriding.d2](assets/01_core_java_and_oop_faq/12_method_hiding_vs_overriding.d2)
 
 Can static methods be overloaded?
 - **Yes:** Within the same class, a static method can have the exact same name with different parameters:

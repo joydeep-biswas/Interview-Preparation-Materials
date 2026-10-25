@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 490" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="550" y="30" class="title" font-size="19" text-anchor="middle">Payment Processing Star Schema &amp; Dimensional Data Model</text>
+  <text x="550" y="50" class="subtitle" text-anchor="middle">Central transactional fact table, surrounding dimensions (1:N), and downstream refund/chargeback fact links</text>
+
+  <!-- Central Fact Table -->
+  <g transform="translate(410, 80)">
+    <rect width="280" height="380" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2.5"/>
+    <rect width="280" height="34" rx="10" ry="10" fill="#78350F"/>
+    <text x="140" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">FACT_PAYMENT_TRANSACTION</text>
+    
+    <text x="18" y="58" class="card-body" font-weight="700" fill="#FBBF24">PK  transaction_id : string</text>
+    <line x1="18" y1="66" x2="262" y2="66" stroke="#4B5563" stroke-width="1"/>
+    
+    <text x="18" y="86" class="card-body" font-weight="600" fill="#60A5FA">FK  customer_id : string</text>
+    <text x="18" y="106" class="card-body" font-weight="600" fill="#34D399">FK  merchant_id : string</text>
+    <text x="18" y="126" class="card-body" font-weight="600" fill="#A78BFA">FK  payment_method_id : string</text>
+    <text x="18" y="146" class="card-body" font-weight="600" fill="#F472B6">FK  date_id : int (YYYYMMDD)</text>
+    <line x1="18" y1="156" x2="262" y2="156" stroke="#4B5563" stroke-width="1"/>
+    
+    <text x="18" y="176" class="card-body">• amount_cents : bigint</text>
+    <text x="18" y="196" class="card-body">• currency : varchar(3)</text>
+    <text x="18" y="216" class="card-body">• fee_cents : bigint</text>
+    <text x="18" y="236" class="card-body">• interchange_cost_cents : bigint</text>
+    <text x="18" y="256" class="card-body">• status : varchar(16) (SUCCESS/DECLINE)</text>
+    <text x="18" y="276" class="card-body">• auth_code : varchar(32)</text>
+    <text x="18" y="296" class="card-body">• gateway_latency_ms : int</text>
+    <text x="18" y="316" class="card-body">• fraud_risk_score : decimal(5,2)</text>
+    <text x="18" y="336" class="card-body">• created_at_utc : timestamp</text>
+    
+    <rect x="18" y="348" width="244" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="140" y="363" class="badge" fill="#FDE68A" text-anchor="middle">Grain: One row per authorization attempt</text>
+  </g>
+
+  <!-- Dimension: DIM_CUSTOMER (Top Left) -->
+  <g transform="translate(40, 80)">
+    <rect width="290" height="175" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="145" y="21" class="card-title" fill="#93C5FD" text-anchor="middle">DIM_CUSTOMER</text>
+    <text x="16" y="52" class="card-body" font-weight="700" fill="#93C5FD">PK  customer_id : string</text>
+    <line x1="16" y1="58" x2="274" y2="58" stroke="#4B5563" stroke-width="1"/>
+    <text x="16" y="76" class="card-body">• customer_name : string</text>
+    <text x="16" y="94" class="card-body">• email_masked : string</text>
+    <text x="16" y="112" class="card-body">• kyc_status : varchar(16)</text>
+    <text x="16" y="130" class="card-body">• country_code : varchar(2)</text>
+    <text x="16" y="148" class="card-body">• account_created_at : timestamp</text>
+    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B"/>
+  </g>
+
+  <!-- Dimension: DIM_MERCHANT (Bottom Left) -->
+  <g transform="translate(40, 285)">
+    <rect width="290" height="175" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#064E3B"/>
+    <text x="145" y="21" class="card-title" fill="#A7F3D0" text-anchor="middle">DIM_MERCHANT</text>
+    <text x="16" y="52" class="card-body" font-weight="700" fill="#A7F3D0">PK  merchant_id : string</text>
+    <line x1="16" y1="58" x2="274" y2="58" stroke="#4B5563" stroke-width="1"/>
+    <text x="16" y="76" class="card-body">• merchant_name : string</text>
+    <text x="16" y="94" class="card-body">• mcc_code : varchar(4) (Category)</text>
+    <text x="16" y="112" class="card-body">• settlement_currency : varchar(3)</text>
+    <text x="16" y="130" class="card-body">• risk_tier : varchar(8) (LOW/HIGH)</text>
+    <text x="16" y="148" class="card-body">• onboarding_status : varchar(16)</text>
+    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B"/>
+  </g>
+
+  <!-- Fact: FACT_REFUND (Top Right) -->
+  <g transform="translate(770, 80)">
+    <rect width="290" height="175" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#4C1D95"/>
+    <text x="145" y="21" class="card-title" fill="#DDD6FE" text-anchor="middle">FACT_REFUND</text>
+    <text x="16" y="52" class="card-body" font-weight="700" fill="#DDD6FE">PK  refund_id : string</text>
+    <line x1="16" y1="58" x2="274" y2="58" stroke="#4B5563" stroke-width="1"/>
+    <text x="16" y="76" class="card-body" font-weight="600" fill="#FDE68A">FK  transaction_id : string</text>
+    <text x="16" y="94" class="card-body">• refund_amount_cents : bigint</text>
+    <text x="16" y="112" class="card-body">• reason_code : varchar(32)</text>
+    <text x="16" y="130" class="card-body">• processed_at_utc : timestamp</text>
+    <text x="16" y="148" class="card-body">• refund_status : varchar(16)</text>
+    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B"/>
+  </g>
+
+  <!-- Fact: FACT_CHARGEBACK (Bottom Right) -->
+  <g transform="translate(770, 285)">
+    <rect width="290" height="175" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="145" y="21" class="card-title" fill="#FCA5A5" text-anchor="middle">FACT_CHARGEBACK</text>
+    <text x="16" y="52" class="card-body" font-weight="700" fill="#FCA5A5">PK  dispute_id : string</text>
+    <line x1="16" y1="58" x2="274" y2="58" stroke="#4B5563" stroke-width="1"/>
+    <text x="16" y="76" class="card-body" font-weight="600" fill="#FDE68A">FK  transaction_id : string</text>
+    <text x="16" y="94" class="card-body">• disputed_amount_cents : bigint</text>
+    <text x="16" y="112" class="card-body">• card_network_reason : string</text>
+    <text x="16" y="130" class="card-body">• evidence_due_date : date</text>
+    <text x="16" y="148" class="card-body">• dispute_status : varchar(16)</text>
+    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B"/>
+  </g>
+
+  <!-- Connectors with Straight Runways (1:N Crow's Foot Style) -->
+  <!-- DIM_CUSTOMER (330, 160) to FACT (410, 160) -->
+  <path d="M 330 160 L 398 160 L 410 160" fill="none" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <text x="370" y="152" class="conn-label" fill="#93C5FD">1:N</text>
+
+  <!-- DIM_MERCHANT (330, 365) to FACT (410, 365) -->
+  <path d="M 330 365 L 398 365 L 410 365" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="370" y="357" class="conn-label" fill="#A7F3D0">1:N</text>
+
+  <!-- FACT (690, 160) to FACT_REFUND (770, 160) -->
+  <path d="M 690 160 L 758 160 L 770 160" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <text x="730" y="152" class="conn-label" fill="#DDD6FE">1:N</text>
+
+  <!-- FACT (690, 365) to FACT_CHARGEBACK (770, 365) -->
+  <path d="M 690 365 L 758 365 L 770 365" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="730" y="357" class="conn-label" fill="#FCA5A5">1:N</text>
+</svg>

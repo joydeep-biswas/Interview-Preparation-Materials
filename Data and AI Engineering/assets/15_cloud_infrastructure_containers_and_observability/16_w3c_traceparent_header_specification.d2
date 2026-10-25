@@ -1,0 +1,18 @@
+classes: {
+  spec_container: { style: { fill: "#0f172a"; stroke: "#38bdf8"; stroke-width: 2; stroke-dash: 4 } }
+  ver_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  trace_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  parent_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  flags_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+header: "W3C traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01" {
+  class: spec_container
+
+  version: "version (2 hex)\nValue: '00'\nIdentifies W3C version" { class: ver_box }
+  trace_id: "trace_id (32 hex / 16 bytes)\nGlobal unique transaction ID\nConstant across all hops" { class: trace_box }
+  parent_id: "parent_id / span_id (16 hex / 8 bytes)\nCaller span ID\nUpdated per hop" { class: parent_box }
+  trace_flags: "trace_flags (2 hex / 8-bit bitmap)\n01 = Recorded / Sampled" { class: flags_box }
+
+  version -> trace_id -> parent_id -> trace_flags
+}

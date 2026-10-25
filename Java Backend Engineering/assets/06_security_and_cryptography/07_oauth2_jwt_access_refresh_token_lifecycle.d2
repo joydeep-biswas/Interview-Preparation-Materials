@@ -1,0 +1,15 @@
+direction: down
+title: OAuth 2.0 Access vs Refresh Token Lifecycle & Silent Token Rotation
+
+Client: Client App / Browser
+IdP: Authorization Server (Keycloak / Auth0)
+Resource: Spring Resource Server
+
+Client -> IdP: 1. POST /login credentials { style.stroke: "#38BDF8" }
+IdP -> Client: 2. Access Token (15m) + HttpOnly Refresh Token (7d) { style.stroke: "#34D399" }
+Client -> Resource: 3. GET /orders (Bearer AccessToken) { style.stroke: "#38BDF8" }
+Resource -> Client: 4. 200 OK (Orders Data) { style.stroke: "#34D399" }
+Client -> Resource: 5. 15m later: GET /orders (Expired) { style.stroke: "#F59E0B" }
+Resource -> Client: 6. 401 Unauthorized (token_expired) { style.stroke: "#EF4444" }
+Client -> IdP: 7. POST /oauth/token (grant_type=refresh_token) { style.stroke: "#C084FC" }
+IdP -> Client: 8. Rotates tokens: Returns NEW Access + NEW Refresh token { style.stroke: "#34D399" }

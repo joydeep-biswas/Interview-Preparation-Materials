@@ -1,0 +1,15 @@
+classes: {
+  init_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  merge_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  final_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+bpe: "BPE Vocabulary Construction Walkthrough" {
+  base: "Initial State: Single character vocab\n[l, o, w, e, r, n, s, t, i, d, </w>]" { class: init_box }
+  m1: "Iteration 1: Merge ('e', 's') -> 'es' (Frequency = 9)" { class: merge_box }
+  m2: "Iteration 2: Merge ('es', 't') -> 'est' (Frequency = 9)" { class: merge_box }
+  m3: "Iteration 3: Merge ('est', '</w>') -> 'est</w>' (Frequency = 9)" { class: final_box }
+  m4: "Iteration 4: Merge ('l', 'o') -> 'lo' (Frequency = 7)" { class: merge_box }
+
+  base -> m1 -> m2 -> m3 -> m4: "Iterative greedy frequency merges"
+}

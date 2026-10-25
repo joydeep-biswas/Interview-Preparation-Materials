@@ -6,39 +6,9 @@ A comprehensive, production-grade guide to Singly and Doubly Linked Lists, Stack
 
 ## Architectural Overview: Pointer Manipulation & LIFO/FIFO Mechanics
 
-```mermaid
-flowchart TD
-    subgraph LinkedListArch ["1. Doubly-Linked List with Sentinel Nodes"]
-        direction LR
-        HeadDummy["Head Dummy<br/>(prev = null)"] <---> Node1["Node 1<br/>(Key, Val)"]
-        Node1 <---> Node2["Node 2<br/>(Key, Val)"]
-        Node2 <---> TailDummy["Tail Dummy<br/>(next = null)"]
-    end
+![Doubly-Linked List Sentinel Mechanics & Monotonic Stack Invariants](assets/02_linked_lists_stacks_and_monotonic_structures/01_dll_sentinels_and_monotonic_stacks.svg)
 
-    subgraph MonotonicStackArch ["2. Monotonic Decreasing Stack State"]
-        direction TB
-        Top["Stack Top: 3"] --> Mid["Middle: 5"] --> Base["Stack Base: 9"]
-    end
-
-    subgraph CacheDesign ["3. O(1) Cache Mapping (Hash + Pointers)"]
-        direction LR
-        KeyLookup["HashMap Table<br/>Key -> Node Pointer"] --> Node1
-    end
-
-    LinkedListArch <--> CacheDesign
-
-    style LinkedListArch fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MonotonicStackArch fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style CacheDesign fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style HeadDummy fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Node1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Node2 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style TailDummy fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Top fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Mid fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Base fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style KeyLookup fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/02_linked_lists_stacks_and_monotonic_structures/01_dll_sentinels_and_monotonic_stacks.d2](assets/02_linked_lists_stacks_and_monotonic_structures/01_dll_sentinels_and_monotonic_stacks.d2)
 
 ---
 

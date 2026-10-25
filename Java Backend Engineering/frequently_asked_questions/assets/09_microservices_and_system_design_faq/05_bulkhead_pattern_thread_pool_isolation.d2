@@ -1,0 +1,20 @@
+direction: right
+
+shared: "Anti-Pattern: Shared Thread Pool" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  pool: "200 shared Tomcat threads"
+  slow_dep: "Slow 3rd-party API blocks all 200 threads"
+  collapse: "Checkout & Login fail (Whole system down!)"
+}
+
+bulkhead: "Bulkhead Pattern Solution" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  order_pool: "Core Orders: 150 threads (Protected)"
+  rec_pool: "Recommendations: Capped at 20 threads"
+  water_tight: "Slow dependency only floods its own compartment"
+  survival: "Checkout stays 100% healthy!"
+}
+
+shared -> bulkhead: "Compartmentalized fault isolation"

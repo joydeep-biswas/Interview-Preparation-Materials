@@ -1,0 +1,39 @@
+direction: right
+classes: {
+  main: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  dev: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  feat: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  rel: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+main: "main (Production Releases)" {
+  v10: "v1.0.0-prod" { class: main }
+  v11: "v1.1.0-release" { class: main }
+
+  v10 -> v11: "Release Tag"
+}
+
+develop: "develop (Shared Integration)" {
+  init: "dev-init" { class: dev }
+  merged: "pr-merged-dev" { class: dev }
+  sync: "sync-develop" { class: dev }
+
+  init -> merged -> sync
+}
+
+feature: "feature/silver-orders" {
+  c1: "add-dbt-model" { class: feat }
+  c2: "add-schema-test" { class: feat }
+
+  c1 -> c2
+}
+
+release: "release/v1.1.0" {
+  uat: "uat-regression-pass" { class: rel }
+}
+
+develop.init -> feature.c1: "branch"
+feature.c2 -> develop.merged: "merge PR"
+develop.merged -> release.uat: "cut release"
+release.uat -> main.v11: "merge prod"
+release.uat -> develop.sync: "back-merge"

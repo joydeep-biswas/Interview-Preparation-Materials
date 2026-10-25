@@ -1,0 +1,28 @@
+direction: right
+title: Distributed Locks & Fencing Tokens
+
+c1: Client 1 {
+  status: "Acquires lock with Token 33, then hits 60s GC pause"
+  style.stroke: "#ef4444"
+}
+
+lock_service: Lock Service (ZooKeeper / etcd) {
+  counter: "Monotonically increasing fencing tokens (33 -> 34)"
+}
+
+c2: Client 2 {
+  status: "Acquires lock with Token 34 after lease expires"
+  style.stroke: "#10b981"
+}
+
+storage: Storage Service {
+  rule: "Rejects writes with token < current_token (33 < 34)"
+}
+
+c1 -> lock_service: "Acquire lock (Token 33)"
+lock_service -> c2: "Lease expired: Grant Token 34"
+c2 -> storage: "Write with Token 34 (ACCEPTED)"
+c1 -> storage: "Late write with Token 33 (REJECTED!)" {
+  style.stroke: "#ef4444"
+  style.stroke-dash: 4
+}

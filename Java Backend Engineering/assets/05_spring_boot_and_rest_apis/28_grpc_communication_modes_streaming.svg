@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">gRPC Communication Modes: Unary, Server, Client &amp; Bidirectional</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The 4 streaming patterns powered by HTTP/2 multiplexed streams: Request-response, streaming feeds, and full-duplex</text>
+<rect x="30" y="85" width="460" height="195" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="260" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Unary RPC (1-to-1 Request-Response)</text>
+<rect x="170" y="122" width="180" height="18" rx="9" fill="#1d4ed8"/><text x="260" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Traditional Synchronous Call</text>
+<rect x="50" y="150" width="420" height="115" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="65" y="172" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client sends 1 request -&gt; Server returns 1 response</text>
+<text x="65" y="192" fill="#F8FAFC" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Method: rpc GetOrder(OrderRequest) returns (OrderResponse);</text>
+<text x="65" y="210" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Identical flow to traditional REST API, but serialized via binary Protobuf</text>
+<text x="65" y="228" fill="#6EE7B7" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Best for: Standard CRUD operations, single lookups, point auth checks</text>
+<line x1="120" y1="248" x2="400" y2="248" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<rect x="550" y="85" width="460" height="195" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="780" y="112" fill="#FDE68A" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Server Streaming RPC (1-to-Many)</text>
+<rect x="690" y="122" width="180" height="18" rx="9" fill="#b45309"/><text x="780" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Continuous Outbound Feed</text>
+<rect x="570" y="150" width="420" height="115" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="585" y="172" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client sends 1 request -&gt; Server streams N messages</text>
+<text x="585" y="192" fill="#F8FAFC" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Method: rpc SubscribeStock(StockReq) returns (stream StockQuote);</text>
+<text x="585" y="210" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Server keeps HTTP/2 DATA stream open and pushes chunks as they arrive</text>
+<text x="585" y="228" fill="#6EE7B7" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Best for: Real-time stock ticker, log tailing, large report downloads</text>
+<line x1="640" y1="248" x2="920" y2="248" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<rect x="30" y="300" width="460" height="195" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="260" y="325" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Client Streaming RPC (Many-to-1)</text>
+<rect x="170" y="335" width="180" height="18" rx="9" fill="#6d28d9"/><text x="260" y="347" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Continuous Inbound Upload</text>
+<rect x="50" y="365" width="420" height="115" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="65" y="387" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client streams N messages -&gt; Server returns 1 response</text>
+<text x="65" y="407" fill="#F8FAFC" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Method: rpc UploadTelemetry(stream Metric) returns (UploadSummary);</text>
+<text x="65" y="425" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Client pushes sequence of chunks; server aggregates and ACKs at end</text>
+<text x="65" y="443" fill="#6EE7B7" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Best for: IoT telemetry batches, chunked large file uploads</text>
+<line x1="120" y1="463" x2="400" y2="463" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<rect x="550" y="300" width="460" height="195" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="780" y="325" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Bidirectional Streaming RPC (Full-Duplex)</text>
+<rect x="690" y="335" width="180" height="18" rx="9" fill="#047857"/><text x="780" y="347" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Concurrent Dual Streams</text>
+<rect x="570" y="365" width="420" height="115" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="585" y="387" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client &amp; Server stream simultaneously over 1 socket!</text>
+<text x="585" y="407" fill="#D1FAE5" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Method: rpc LiveChat(stream ChatMsg) returns (stream ChatMsg);</text>
+<text x="585" y="425" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Both sides read and write asynchronously without blocking each other</text>
+<text x="585" y="443" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Best for: Collaborative editing, multiplayer games, real-time voice/video</text>
+<line x1="640" y1="463" x2="920" y2="463" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

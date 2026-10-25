@@ -1,0 +1,14 @@
+classes: {
+  input_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  sum_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  act_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  out_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+inputs: "Inputs: x_1, x_2, ..., x_D" { class: input_box }
+weights: "Multiply by Weights: w_i * x_i" { class: input_box }
+sum: "Linear Summation & Bias:\nz = sum(w_i * x_i) + b" { class: sum_box }
+activation: "Non-Linear Activation:\na = sigma(z)" { class: act_box }
+output: "Neuron Output: a" { class: out_box }
+
+inputs -> weights -> sum -> activation -> output

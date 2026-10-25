@@ -1,0 +1,29 @@
+direction: right
+title: MapReduce Paradigm: Distributed Storage & Compute
+
+raw: Raw Input Dataset (100 GB HDFS) {
+  s1: Input Split 0 (64MB)
+  s2: Input Split 1 (64MB)
+  s3: Input Split 2 (64MB)
+}
+
+map_phase: 1. Map & Combiner Phase {
+  m1: Mapper 0 + Combiner 0
+  m2: Mapper 1 + Combiner 1
+  m3: Mapper 2 + Combiner 2
+}
+
+shuffle: 2. Shuffle & Sort Phase {
+  part: HashPartitioner: hash(key) % numReducers
+  sort: Network Shuffle & Merge Sort
+  part -> sort
+}
+
+reduce_phase: 3. Reduce Phase (Final Aggregation) {
+  r1: Reducer 0 ('apple' -> 48)
+  r2: Reducer 1 ('banana' -> 12)
+}
+
+raw -> map_phase: "Data Locality Read"
+map_phase -> shuffle: "Emit (key, sum)"
+shuffle -> reduce_phase: "Sorted key streams"

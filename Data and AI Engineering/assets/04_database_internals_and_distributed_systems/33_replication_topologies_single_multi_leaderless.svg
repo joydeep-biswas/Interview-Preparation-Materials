@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Database Replication Topologies: Single-Leader vs. Multi vs. Leaderless</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Comparing Primary-Replica, Active-Active Cross-Region, and Dynamo-Style Quorums</text>
+  
+  
+    <rect x="30" y="95" width="290" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">1. Single-Leader (Primary-Replica)</text>
+  
+    <rect x="45" y="135" width="260" height="95" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="175.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Primary Node (Leader)</text>
+    <text x="175.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Postgres / MySQL Primary</text>
+    <rect x="247" y="145" width="52" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="273.0" y="157" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">WRITES</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Handles 100% of write traffic</text>
+    <circle cx="61" cy="206" r="2" fill="#3b82f6"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Appends changes to WAL log</text>
+    <circle cx="61" cy="222" r="2" fill="#3b82f6"/>
+    <text x="69" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Streams WAL to read replicas</text>
+  
+    <rect x="45" y="245" width="125" height="115" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="107.5" y="271" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Replica 1</text>
+    <text x="107.5" y="287" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Read Scaler</text>
+    <circle cx="61" cy="300" r="2" fill="#3b82f6"/>
+    <text x="69" y="303" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Read-only queries</text>
+    <circle cx="61" cy="316" r="2" fill="#3b82f6"/>
+    <text x="69" y="319" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Async WAL replay</text>
+    <circle cx="61" cy="332" r="2" fill="#3b82f6"/>
+    <text x="69" y="335" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Replication lag</text>
+  
+    <rect x="180" y="245" width="125" height="115" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="242.5" y="271" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Replica 2</text>
+    <text x="242.5" y="287" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Read Scaler</text>
+    <circle cx="196" cy="300" r="2" fill="#3b82f6"/>
+    <text x="204" y="303" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Read-only queries</text>
+    <circle cx="196" cy="316" r="2" fill="#3b82f6"/>
+    <text x="204" y="319" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Async WAL replay</text>
+    <circle cx="196" cy="332" r="2" fill="#3b82f6"/>
+    <text x="204" y="335" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Failover standby</text>
+  
+    <line x1="110" y1="230" x2="110" y2="245" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <line x1="240" y1="230" x2="240" y2="245" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  
+    <rect x="345" y="95" width="290" height="290" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="361" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. Multi-Leader (Active-Active)</text>
+  
+    <rect x="360" y="135" width="260" height="105" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="161" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">US Leader &lt;-&gt; EU Leader</text>
+    <text x="490.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cross-Region Active-Active</text>
+    <rect x="513" y="145" width="101" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="563.5" y="157" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ACTIVE-ACTIVE</text>
+    <circle cx="376" cy="190" r="2" fill="#8b5cf6"/>
+    <text x="384" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">US clients write to US Leader in &amp;lt;5ms</text>
+    <circle cx="376" cy="206" r="2" fill="#8b5cf6"/>
+    <text x="384" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">EU clients write to EU Leader in &amp;lt;5ms</text>
+    <circle cx="376" cy="222" r="2" fill="#8b5cf6"/>
+    <text x="384" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Asynchronous cross-Atlantic sync</text>
+    <circle cx="376" cy="238" r="2" fill="#8b5cf6"/>
+    <text x="384" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Conflict resolution required! (LWW/CRDT)</text>
+  
+    <rect x="360" y="255" width="260" height="105" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="281" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Conflict Resolution Engine</text>
+    <text x="490.0" y="297" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Resolving Concurrent Edits</text>
+    <rect x="569" y="265" width="45" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="591.5" y="277" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MERGE</text>
+    <circle cx="376" cy="310" r="2" fill="#8b5cf6"/>
+    <text x="384" y="313" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Concurrent writes to same row handled via:</text>
+    <circle cx="376" cy="326" r="2" fill="#8b5cf6"/>
+    <text x="384" y="329" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">1. Last-Write-Wins (LWW using timestamps)</text>
+    <circle cx="376" cy="342" r="2" fill="#8b5cf6"/>
+    <text x="384" y="345" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">2. Conflict-Free Replicated Data Types (CRDT)</text>
+    <circle cx="376" cy="358" r="2" fill="#8b5cf6"/>
+    <text x="384" y="361" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">3. Custom merge stored procedures</text>
+
+  
+    <rect x="660" y="95" width="290" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="676" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">3. Leaderless (Cassandra / DynamoDB)</text>
+  
+    <rect x="675" y="135" width="260" height="235" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="805.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Peer-to-Peer Quorum (W + R &gt; N)</text>
+    <text x="805.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Zero Single Point of Failure</text>
+    <rect x="877" y="145" width="52" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="903.0" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">QUORUM</text>
+    <circle cx="691" cy="190" r="2" fill="#10b981"/>
+    <text x="699" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">No leader exists! Any node can accept writes.</text>
+    <circle cx="691" cy="206" r="2" fill="#10b981"/>
+    <text x="699" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Client writes concurrently to N replicas.</text>
+    <circle cx="691" cy="222" r="2" fill="#10b981"/>
+    <text x="699" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Write succeeds if W replicas acknowledge.</text>
+    <circle cx="691" cy="238" r="2" fill="#10b981"/>
+    <text x="699" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Read probes R replicas concurrently.</text>
+    <circle cx="691" cy="254" r="2" fill="#10b981"/>
+    <text x="699" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">If W + R &amp;gt; N: At least one read replica</text>
+    <circle cx="691" cy="270" r="2" fill="#10b981"/>
+    <text x="699" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">is guaranteed to contain the latest write!</text>
+    <circle cx="691" cy="286" r="2" fill="#10b981"/>
+    <text x="699" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Read Repair fixes lagging replicas on the fly.</text>
+
+</svg>

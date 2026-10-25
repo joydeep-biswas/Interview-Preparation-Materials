@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="440" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Apache Parquet Physical File Anatomy: Row Groups &amp; Pages</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Column Chunk Layout, Dictionary Pages, and Trailing Metadata Footer</text>
+  
+  
+    <rect x="30" y="95" width="920" height="320" rx="10" fill="#0a1120" stroke="#334155" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Apache Parquet Physical File Anatomy (s3://lake/orders.parquet)</text>
+
+  
+    <rect x="45" y="125" width="890" height="30" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="490.0" y="151" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">File Header: Magic Bytes 'PAR1' (4 Bytes)</text>
+    
+
+  
+    <rect x="45" y="165" width="890" height="100" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="61" y="187" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Row Group 1 (128 MB to 512 MB - Unit of Parallelism)</text>
+  
+    <rect x="60" y="195" width="280" height="55" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="200.0" y="221" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Column Chunk A (User_ID)</text>
+    <text x="200.0" y="237" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">BIGINT (RLE / Bit-Packed)</text>
+    <circle cx="76" cy="250" r="2" fill="#3b82f6"/>
+    <text x="84" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Page 1 (Data)</text>
+    <circle cx="76" cy="266" r="2" fill="#3b82f6"/>
+    <text x="84" y="269" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Page 2 (Data)</text>
+  
+    <rect x="355" y="195" width="280" height="55" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="495.0" y="221" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Column Chunk B (Timestamp)</text>
+    <text x="495.0" y="237" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">TIMESTAMP_MILLIS (Plain)</text>
+    <circle cx="371" cy="250" r="2" fill="#3b82f6"/>
+    <text x="379" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Page 1 (Data)</text>
+    <circle cx="371" cy="266" r="2" fill="#3b82f6"/>
+    <text x="379" y="269" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Page 2 (Data)</text>
+  
+    <rect x="650" y="195" width="270" height="55" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="785.0" y="221" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Column Chunk C (Order_Amount)</text>
+    <text x="785.0" y="237" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">DECIMAL (Dict Encoded)</text>
+    <circle cx="666" cy="250" r="2" fill="#3b82f6"/>
+    <text x="674" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Page 1 (Dict)</text>
+    <circle cx="666" cy="266" r="2" fill="#3b82f6"/>
+    <text x="674" y="269" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Page 2 (Data)</text>
+
+  
+    <rect x="45" y="275" width="890" height="45" rx="10" fill="#0f172a" stroke="#64748b" stroke-width="1.5"/>
+    <text x="61" y="297" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Row Group 2 (128 MB to 512 MB)</text>
+  
+    <rect x="60" y="290" width="280" height="24" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+    <text x="200.0" y="316" fill="#cbd5e1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Column Chunk A</text>
+    
+  
+    <rect x="355" y="290" width="280" height="24" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+    <text x="495.0" y="316" fill="#cbd5e1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Column Chunk B</text>
+    
+  
+    <rect x="650" y="290" width="270" height="24" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+    <text x="785.0" y="316" fill="#cbd5e1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Column Chunk C</text>
+    
+
+  
+    <rect x="45" y="330" width="890" height="75" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="61" y="352" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">File Metadata Footer (Read FIRST via Seek-to-End)</text>
+  
+    <rect x="60" y="355" width="410" height="40" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="265.0" y="381" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Table Schema &amp;amp; Row Group Offsets</text>
+    <text x="265.0" y="397" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Number of rows, column byte offsets</text>
+  
+    <rect x="485" y="355" width="270" height="40" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="620.0" y="381" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Column Statistics (Min / Max / Nulls)</text>
+    <text x="620.0" y="397" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Enables Data Skipping during query</text>
+  
+    <rect x="770" y="355" width="150" height="40" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="845.0" y="381" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Footer Length (4B) + 'PAR1'</text>
+    <text x="845.0" y="397" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Trailer 4-byte seek</text>
+
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+    </marker>
+    <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Background -->
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g id="header">
+    <text x="490" y="36" fill="#f8fafc" font-size="18" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Telemetry Design Patterns: The RED Method vs. The USE Method</text>
+    <text x="490" y="58" fill="#94a3b8" font-size="12" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Application Layer Request Health (RED) vs. Infrastructure Hardware Saturation (USE)</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g id="diagram-elements">
+    
+    <rect x="370" y="95" width="240" height="50" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="490" y="117" fill="#f8fafc" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Incoming User Request</text>
+<text x="382" y="137" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">API Gateway / Edge Microservice</text>
+
+    <rect x="40" y="175" width="430" height="225" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,4"/>
+<text x="255" y="195" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Application Layer: The RED Method</text>
+<text x="255" y="211" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Service-centric telemetry for request-driven architectures</text>
+    <rect x="60" y="220" width="390" height="45" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="255" y="242" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Rate (R)</text>
+<text x="72" y="262" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Number of inbound requests per second (e.g. 5,200 req/s)</text>
+    <rect x="60" y="275" width="390" height="55" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+<text x="255" y="297" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Errors (E)</text>
+<text x="72" y="317" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Failed requests count (HTTP 5xx, gRPC status errors)</text>
+<text x="72" y="335" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Calculated as Error Rate: Errors / Total Requests</text>
+    <rect x="60" y="340" width="390" height="50" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="255" y="362" fill="#fde68a" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Duration (D)</text>
+<text x="72" y="382" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Time taken to serve requests: P50, P90, P99 latency percentiles</text>
+
+    <rect x="510" y="175" width="430" height="225" rx="8" fill="#0f172a" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4,4"/>
+<text x="725" y="195" fill="#c084fc" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Infrastructure Layer: The USE Method</text>
+<text x="725" y="211" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Resource-centric telemetry for hardware components &amp; VMs</text>
+    <rect x="530" y="220" width="390" height="45" rx="6" fill="#1e293b" stroke="#c084fc" stroke-width="1.5"/>
+<text x="725" y="242" fill="#c084fc" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Utilization (U)</text>
+<text x="542" y="262" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Percentage of time resource was busy (CPU %, Disk I/O %)</text>
+    <rect x="530" y="275" width="390" height="55" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="725" y="297" fill="#fde68a" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Saturation (S)</text>
+<text x="542" y="317" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Degree of queued extra work (Linux Load Avg, Socket backlog)</text>
+<text x="542" y="335" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">High saturation indicates impending latency collapse</text>
+    <rect x="530" y="340" width="390" height="50" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+<text x="725" y="362" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Errors (E)</text>
+<text x="542" y="382" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Hardware error count (NIC packet drops, ECC memory bitflips)</text>
+
+    <path d="M 490.0 145.0 L 490.0 154.0 Q 490.0 160.0 484.0 160.0 L 261.0 160.0 Q 255.0 160.0 255.0 166.0 L 255.0 175.0" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+    <path d="M 490.0 145.0 L 490.0 154.0 Q 490.0 160.0 496.0 160.0 L 719.0 160.0 Q 725.0 160.0 725.0 166.0 L 725.0 175.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+
+  </g>
+</svg>

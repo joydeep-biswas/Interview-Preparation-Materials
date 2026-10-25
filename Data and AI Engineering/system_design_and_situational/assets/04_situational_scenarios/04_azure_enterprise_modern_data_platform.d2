@@ -1,0 +1,48 @@
+direction: right
+
+ingestion: "1. Azure Ingestion Tier" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  sources: "Salesforce, SAP, Event Hubs"
+  adf: "Azure Data Factory (ADF CDC)"
+  adls_bronze: "ADLS Gen2 Bronze (Raw Parquet)"
+}
+
+databricks: "2. Azure Databricks" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  spark: "Spark Delta Lake Auto Loader"
+  adls_silver: "ADLS Gen2 Silver (Curated)"
+  unity: "Unity Catalog & Entra ID RBAC"
+}
+
+orchestration: "3. Orchestration & Load" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  airflow: "Airflow Orchestrator DAGs"
+  snowpipe: "Snowpipe Event Grid Ingestion"
+}
+
+serving: "4. Snowflake DW & BI" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  snowflake: "Snowflake Enterprise Data Warehouse"
+  powerbi: "PowerBI DirectQuery Dashboards"
+}
+
+ingestion -> databricks: "Ingest to Silver" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}
+databricks -> orchestration: "Trigger Snowpipe" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+orchestration -> serving: "Continuous Load" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

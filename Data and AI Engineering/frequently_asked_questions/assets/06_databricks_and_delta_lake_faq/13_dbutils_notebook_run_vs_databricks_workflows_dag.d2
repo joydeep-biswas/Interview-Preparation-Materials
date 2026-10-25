@@ -1,0 +1,26 @@
+direction: right
+classes: {
+  box_amber: { style: { fill: "#111827"; stroke: "#F59E0B"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+method_a: "Method A: Programmatic dbutils.notebook.run()" {
+  class: box_amber
+  parent: "Parent Orchestrator Notebook"
+  c1: "dbutils.notebook.run('bronze', 600)"
+  c2: "dbutils.notebook.run('silver', 1200)"
+  ret: "Captures JSON string from exit()"
+  note: "Sequential execution on single shared cluster\nHard to debug multi-step failures"
+  parent -> c1 -> c2 -> ret
+}
+
+method_b: "Method B: Databricks Workflows (Multi-Task DAG)" {
+  class: box_green
+  t1: "Task 1: Ingestion (2 Workers)"
+  t2: "Task 2: Transformation (8 Workers)"
+  t3: "Task 3: Validation (Serverless)"
+  t4: "Task 4: Gold Aggregate"
+  note2: "Visual DAG, task retries, repair-and-run"
+  t1 -> t2 -> t4
+  t1 -> t3 -> t4
+}

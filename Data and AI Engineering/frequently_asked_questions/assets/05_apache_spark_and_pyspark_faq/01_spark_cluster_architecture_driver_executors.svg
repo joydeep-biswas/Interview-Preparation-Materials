@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 440" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+      .lbl { fill: #93C5FD; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="440" fill="#0B0F19"/>
+
+  <!-- Left: Driver Node -->
+  <g transform="translate(30, 40)">
+    <rect width="280" height="350" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="140" y="32" class="title" fill="#93C5FD">Driver Node (JVM Coordinator)</text>
+    <line x1="20" y1="44" x2="260" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="25" y="65" width="230" height="65" rx="8" ry="8" fill="#1E293B" stroke="#3B82F6" stroke-width="1"/>
+    <text x="140" y="92" class="title" font-size="12" fill="#F9FAFB">SparkSession / Context</text>
+    <text x="140" y="112" class="body-txt" text-anchor="middle">Entry point, Catalyst, Lineage</text>
+
+    <path fill="none" d="M 140 130 L 140 155" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+
+    <rect x="25" y="155" width="230" height="65" rx="8" ry="8" fill="#1E293B" stroke="#3B82F6" stroke-width="1"/>
+    <text x="140" y="182" class="title" font-size="12" fill="#F9FAFB">DAG Scheduler</text>
+    <text x="140" y="202" class="body-txt" text-anchor="middle">Builds stages at shuffle boundaries</text>
+
+    <path fill="none" d="M 140 220 L 140 245" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+
+    <rect x="25" y="245" width="230" height="65" rx="8" ry="8" fill="#1E293B" stroke="#3B82F6" stroke-width="1"/>
+    <text x="140" y="272" class="title" font-size="12" fill="#F9FAFB">Task Scheduler</text>
+    <text x="140" y="292" class="body-txt" text-anchor="middle">Launches TaskSets via Worker cores</text>
+  </g>
+
+  <!-- Middle Top: Cluster Manager -->
+  <g transform="translate(370, 30)">
+    <rect width="250" height="95" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="125" y="30" class="title" fill="#C4B5FD">Cluster Manager</text>
+    <text x="125" y="50" class="body-txt" text-anchor="middle">Kubernetes / YARN / Standalone</text>
+    <line x1="15" y1="62" x2="235" y2="62" stroke="#1F2937" stroke-width="1"/>
+    <text x="125" y="80" class="body-txt" text-anchor="middle" fill="#C4B5FD">Allocates Pods &amp; Tracks Heartbeats</text>
+  </g>
+
+  <!-- Connectors: Driver to CM -->
+  <path fill="none" d="M 285 100 C 310 100, 335 75, 370 75" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
+
+  <!-- Right: Worker Node 1 -->
+  <g transform="translate(680, 40)">
+    <rect width="310" height="165" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="155" y="26" class="title" fill="#6EE7B7">Worker Node 1</text>
+    <line x1="15" y1="36" x2="295" y2="36" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="15" y="48" width="280" height="100" rx="8" ry="8" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+    <text x="155" y="70" class="title" font-size="11" fill="#A7F3D0">Executor 1 (JVM Container)</text>
+    <rect x="25" y="82" width="75" height="35" rx="4" ry="4" fill="#111827"/>
+    <text x="62.5" y="104" class="body-txt" text-anchor="middle">Core 1</text>
+
+    <rect x="110" y="82" width="75" height="35" rx="4" ry="4" fill="#111827"/>
+    <text x="147.5" y="104" class="body-txt" text-anchor="middle">Core 2</text>
+
+    <rect x="195" y="82" width="90" height="35" rx="4" ry="4" fill="#111827"/>
+    <text x="240" y="104" class="body-txt" text-anchor="middle">BlockMgr</text>
+
+    <text x="155" y="136" class="body-txt" text-anchor="middle" fill="#6EE7B7">Tungsten Memory + Unified Cache</text>
+  </g>
+
+  <!-- Right: Worker Node 2 -->
+  <g transform="translate(680, 225)">
+    <rect width="310" height="165" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="155" y="26" class="title" fill="#6EE7B7">Worker Node 2</text>
+    <line x1="15" y1="36" x2="295" y2="36" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="15" y="48" width="280" height="100" rx="8" ry="8" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+    <text x="155" y="70" class="title" font-size="11" fill="#A7F3D0">Executor 2 (JVM Container)</text>
+    <rect x="25" y="82" width="75" height="35" rx="4" ry="4" fill="#111827"/>
+    <text x="62.5" y="104" class="body-txt" text-anchor="middle">Core 1</text>
+
+    <rect x="110" y="82" width="75" height="35" rx="4" ry="4" fill="#111827"/>
+    <text x="147.5" y="104" class="body-txt" text-anchor="middle">Core 2</text>
+
+    <rect x="195" y="82" width="90" height="35" rx="4" ry="4" fill="#111827"/>
+    <text x="240" y="104" class="body-txt" text-anchor="middle">BlockMgr</text>
+
+    <text x="155" y="136" class="body-txt" text-anchor="middle" fill="#6EE7B7">Tungsten Memory + Unified Cache</text>
+  </g>
+
+  <!-- CM to Workers: Launch Containers -->
+  <path fill="none" d="M 620 65 L 680 65" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
+  <path fill="none" d="M 600 125 C 625 150, 640 240, 680 240" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
+
+  <!-- Task Scheduler to Worker Slots -->
+  <path fill="none" d="M 310 295 L 495 295 C 550 295, 600 135, 665 135 L 680 135" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <path fill="none" d="M 310 320 L 495 320 C 550 320, 600 320, 665 320 L 680 320" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <text x="495" y="280" class="lbl" fill="#10B981">Distribute TaskSets</text>
+</svg>

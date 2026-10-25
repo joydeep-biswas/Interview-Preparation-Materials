@@ -1,0 +1,35 @@
+direction: right
+
+stack: "Thread Stack Frame" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  ref: "Parent p (Compressed OOP 4 bytes)"
+  invoke: "invokevirtual #4"
+}
+
+heap: "Heap Object: Child Instance" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  mark_word: "Mark Word (8 bytes): Hash/GC/Locks"
+  klass_word: "Klass Word (4 bytes): Pointer to Klass"
+  fields: "Instance Fields"
+}
+
+metaspace: "Metaspace: InstanceKlass" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  vtable: "vtable: Index 2 -> Child.print()"
+  jit: "JIT Monomorphic Call Inlining"
+}
+
+stack -> heap: "Reference Pointer" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+heap -> metaspace: "Klass Pointer" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

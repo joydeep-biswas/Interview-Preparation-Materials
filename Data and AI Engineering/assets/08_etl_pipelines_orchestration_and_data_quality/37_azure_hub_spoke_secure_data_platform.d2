@@ -1,0 +1,36 @@
+direction: right
+classes: {
+  hub: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  spoke_ing: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  spoke_comp: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  paas: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+hub: "Hub Virtual Network (10.0.0.0/16)" {
+  fw: "Azure Firewall / NVA\n(Central Egress)" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  bastion: "Azure Bastion Jumpbox" { class: hub }
+  dns: "Azure Private DNS Zones" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+ingestion_spoke: "Ingestion Spoke VNet (10.1.0.0/16)" {
+  adf_ir: "ADF Managed VNet IR" { class: spoke_ing }
+  shir: "Self-Hosted IR VM" { class: spoke_ing }
+}
+
+compute_spoke: "Compute Spoke VNet (10.2.0.0/16)" {
+  db_public: "Databricks Public Subnet" { class: spoke_comp }
+  db_private: "Databricks Private Subnet" { class: spoke_comp }
+}
+
+paas: "Isolated Azure PaaS (Zero Public Internet)" {
+  adls: "ADLS Gen2 Storage\n(Private Endpoint: 10.1.2.4)" { class: paas }
+  akv: "Azure Key Vault\n(Private Endpoint: 10.1.2.5)" { class: paas }
+  synapse: "Synapse Dedicated SQL\n(Private Endpoint: 10.1.2.6)" { class: paas }
+}
+
+hub <-> ingestion_spoke: "VNet Peering"
+hub <-> compute_spoke: "VNet Peering"
+
+ingestion_spoke.adf_ir -> paas.adls: "Private Link"
+compute_spoke.db_private -> paas.adls: "Private Link"
+compute_spoke.db_private -> paas.synapse: "Private Link"

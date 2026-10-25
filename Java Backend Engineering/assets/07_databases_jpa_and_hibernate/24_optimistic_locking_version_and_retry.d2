@@ -1,0 +1,33 @@
+direction: right
+title: "Optimistic Locking (@Version) & Automated Spring Retry Pattern"
+
+t1: "Thread 1 (User A)" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+  read: "1. Read Account (v1)"
+  upd: "3. UPDATE ... WHERE id=1 AND version=1"
+}
+
+db: "PostgreSQL Database
+accounts table" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+  state1: "id=1, balance=150, version=2"
+  state2: "0 rows matched for version=1!"
+}
+
+t2: "Thread 2 (User B)
+@Retryable" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+  read: "2. Read Account (v1)"
+  upd: "4. UPDATE ... WHERE id=1 AND version=1"
+  retry: "5. Catches OptimisticLockException
+Re-reads v2 & succeeds on retry!"
+}
+
+t1.read -> db
+t2.read -> db
+t1.upd -> db.state1: "Success (1 row updated)"
+t2.upd -> db.state2: "Conflict (0 rows updated)"
+db.state2 -> t2.retry: "OptimisticLockException"

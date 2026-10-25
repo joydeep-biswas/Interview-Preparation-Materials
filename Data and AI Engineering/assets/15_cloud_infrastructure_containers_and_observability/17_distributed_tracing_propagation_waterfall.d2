@@ -1,0 +1,16 @@
+classes: {
+  service_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  kafka_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  consumer_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+client: "Client Application"
+order_svc: "Order Service (Producer)" { class: service_box }
+kafka: "Apache Kafka Topic" { class: kafka_box }
+payment_svc: "Payment Service (Consumer)" { class: consumer_box }
+
+client -> order_svc: "1. HTTP POST /orders\nHeader: traceparent (TraceID: 0xabc)"
+order_svc -> order_svc: "Ingest context\nSpan: CreateOrder (SpanID: 0x11)"
+order_svc -> kafka: "2. Produce Record\nHeader: traceparent (TraceID: 0xabc, ParentID: 0x11)"
+kafka -> payment_svc: "3. Poll Record Batch\nExtract context from header"
+payment_svc -> payment_svc: "Span: ProcessPayment\nParentID: 0x11, TraceID: 0xabc"

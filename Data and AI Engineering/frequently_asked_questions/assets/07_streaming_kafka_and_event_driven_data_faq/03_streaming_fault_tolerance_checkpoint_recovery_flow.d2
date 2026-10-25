@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+crash: "Stream Crashes during Batch 15\nWorker killed or node fails" { class: box; style.stroke: "#EF4444" }
+restart: "Stream Restarts\nInitializes recovery protocol" { class: box; style.stroke: "#3B82F6" }
+check: "Inspect Checkpoint Logs\nChecks offsets/15 and commits/15" { class: box; style.stroke: "#8B5CF6" }
+decide: "Was Batch 15 committed?" { class: box; style.stroke: "#F59E0B" }
+
+replay: "Re-executes Batch 15\nDeterministic replay from offsets/15" { class: box; style.stroke: "#EF4444" }
+next: "Proceeds to Batch 16\nState clean, no duplicate writes" { class: box; style.stroke: "#10B981" }
+
+crash -> restart -> check -> decide
+decide -> replay: "No commit found"
+decide -> next: "Commit 15 exists"

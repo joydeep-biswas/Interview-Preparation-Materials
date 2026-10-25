@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Storage Format Decision Matrix: Row vs. Columnar vs. Text</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Selecting the Optimal Storage Substrate Based on Access Patterns and Latency SLAs</text>
+  
+  
+    <rect x="350" y="95" width="280" height="55" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="121" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">What is your primary workload?</text>
+    <text x="490.0" y="137" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Query &amp;amp; Access Pattern Decision</text>
+    <rect x="558" y="105" width="66" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="591.0" y="117" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DECISION</text>
+
+  
+    <rect x="40" y="210" width="280" height="180" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="180.0" y="236" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Row-Oriented Binary: Apache Avro</text>
+    <text x="180.0" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Kafka, Flink, Event Streaming, CDC</text>
+    <rect x="241" y="220" width="73" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="277.5" y="232" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">STREAMING</text>
+    <circle cx="56" cy="265" r="2" fill="#f59e0b"/>
+    <text x="64" y="268" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Primary workload: Row-by-row streaming</text>
+    <circle cx="56" cy="281" r="2" fill="#f59e0b"/>
+    <text x="64" y="284" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Append latency: Sub-millisecond write SLA</text>
+    <circle cx="56" cy="297" r="2" fill="#f59e0b"/>
+    <text x="64" y="300" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Whole-record reads (User ID + all fields)</text>
+    <circle cx="56" cy="313" r="2" fill="#f59e0b"/>
+    <text x="64" y="316" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Small individual message size</text>
+    <circle cx="56" cy="329" r="2" fill="#f59e0b"/>
+    <text x="64" y="332" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Schema evolution support via Registry</text>
+    <circle cx="56" cy="345" r="2" fill="#f59e0b"/>
+    <text x="64" y="348" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Ideal for Kafka topics &amp;amp; CDC WAL logs</text>
+
+  
+    <rect x="350" y="210" width="280" height="180" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="490.0" y="236" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Plain Text: CSV / JSON</text>
+    <text x="490.0" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Configuration &amp;amp; Ad-Hoc Interop</text>
+    <rect x="565" y="220" width="59" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="594.5" y="232" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">INTEROP</text>
+    <circle cx="366" cy="265" r="2" fill="#ef4444"/>
+    <text x="374" y="268" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Primary workload: Human inspection</text>
+    <circle cx="366" cy="281" r="2" fill="#ef4444"/>
+    <text x="374" y="284" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">External vendor file interchange</text>
+    <circle cx="366" cy="297" r="2" fill="#ef4444"/>
+    <text x="374" y="300" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Very small datasets (&amp;lt; 100 MB)</text>
+    <circle cx="366" cy="313" r="2" fill="#ef4444"/>
+    <text x="374" y="316" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Disadvantages: Uncompressed &amp;amp; untyped</text>
+    <circle cx="366" cy="329" r="2" fill="#ef4444"/>
+    <text x="374" y="332" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">No schema enforcement or statistics</text>
+    <circle cx="366" cy="345" r="2" fill="#ef4444"/>
+    <text x="374" y="348" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">High parsing CPU overhead</text>
+
+  
+    <rect x="660" y="210" width="280" height="180" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="800.0" y="236" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Columnar Binary: Parquet / ORC</text>
+    <text x="800.0" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Lakehouse, OLAP, Aggregations, BI</text>
+    <rect x="861" y="220" width="73" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="897.5" y="232" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ANALYTICS</text>
+    <circle cx="676" cy="265" r="2" fill="#10b981"/>
+    <text x="684" y="268" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Primary workload: Large-scale analytics</text>
+    <circle cx="676" cy="281" r="2" fill="#10b981"/>
+    <text x="684" y="284" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Column pruning: Scans only 5 of 200 cols</text>
+    <circle cx="676" cy="297" r="2" fill="#10b981"/>
+    <text x="684" y="300" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Data skipping: Row Group Min/Max stats</text>
+    <circle cx="676" cy="313" r="2" fill="#10b981"/>
+    <text x="684" y="316" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">High compression ratio (Snappy/ZSTD)</text>
+    <circle cx="676" cy="329" r="2" fill="#10b981"/>
+    <text x="684" y="332" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Engine support: Spark, Trino, Snowflake</text>
+    <circle cx="676" cy="345" r="2" fill="#10b981"/>
+    <text x="684" y="348" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Industry standard for Gold Lakehouse</text>
+
+  
+    <polyline points="420,150 420,180 180,180 180,210" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="280" y="172" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Row-by-row &lt;1ms</text>
+  
+    <line x1="490" y1="150" x2="490" y2="210" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/><text x="490.0" y="172.0" fill="#ef4444" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Human Readable</text>
+  
+    <polyline points="560,150 560,180 800,180 800,210" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="700" y="172" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">OLAP Aggregates</text>
+
+</svg>

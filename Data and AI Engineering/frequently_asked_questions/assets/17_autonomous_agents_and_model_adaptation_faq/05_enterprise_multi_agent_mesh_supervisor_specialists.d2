@@ -1,0 +1,17 @@
+direction: down
+classes: {
+  super_box: { style: { fill: "#0D1526", stroke: "#8B5CF6", stroke-width: 2 } }
+  worker_box: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+Supervisor: "Supervisor Agent\nRouter & Aggregator" { class: super_box }
+
+DE: "Data Engineer (SQL/DB)" { class: worker_box }
+Coder: "Code Interpreter (Sandbox)" { class: worker_box }
+Researcher: "Research Specialist (Web/Docs)" { class: worker_box }
+Critic: "Critic / Quality Gatekeeper" { class: worker_box }
+
+Supervisor -> DE
+Supervisor -> Coder
+Supervisor -> Researcher
+Supervisor -> Critic

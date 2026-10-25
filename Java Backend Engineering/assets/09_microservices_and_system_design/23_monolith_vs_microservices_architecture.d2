@@ -1,0 +1,33 @@
+direction: right
+title: "Monolithic vs Microservices Architecture Deep-Dive"
+
+monolith: "Monolithic Architecture" {
+  style.fill: "#0f172a"
+  style.stroke: "#ef4444"
+
+  app: "Unified JVM Monolith
+User, Order, Payment, Catalog"
+  db: "Central Monolithic DB
+Shared Tables & Relational FKs"
+  app -> db: "ACID transactions"
+}
+
+microservices: "Microservices Architecture" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+
+  gw: "API Gateway
+L7 Routing & Auth"
+  u_svc: "User Service
+Postgres DB"
+  o_svc: "Order Service
+Postgres DB"
+  p_svc: "Payment Service
+MongoDB"
+
+  gw -> u_svc
+  gw -> o_svc
+  gw -> p_svc
+}
+
+monolith -> microservices: "Decomposes into isolated services"

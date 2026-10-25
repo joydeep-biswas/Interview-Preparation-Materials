@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="380" fill="#0B0F19"/>
+
+  <!-- Step 1: Start -->
+  <g transform="translate(30, 140)">
+    <rect width="180" height="90" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="90" y="38" class="title" fill="#93C5FD">New Delta Table</text>
+    <text x="90" y="60" class="body-txt" text-anchor="middle">Sizing Architecture Gate</text>
+  </g>
+
+  <path fill="none" d="M 210 185 L 260 185" class="edge" stroke="#3B82F6" marker-end="url(#arr-amber)"/>
+
+  <!-- Step 2: Size Check -->
+  <g transform="translate(260, 140)">
+    <rect width="210" height="90" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="105" y="38" class="title" fill="#FCD34D">Total Table Volume?</text>
+    <text x="105" y="60" class="body-txt" text-anchor="middle">&lt; 500 GB vs Multi-TB</text>
+  </g>
+
+  <!-- Branch 1: < 500 GB -> No Partition (Upwards) -->
+  <g transform="translate(560, 30)">
+    <rect width="430" height="85" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="215" y="28" class="title" fill="#A7F3D0">Do NOT Partition (&lt; 500 GB)</text>
+    <line x1="15" y1="40" x2="415" y2="40" stroke="#047857" stroke-width="1"/>
+    <text x="20" y="60" class="body-txt" fill="#A7F3D0">• Rely on standard Delta file sizing + Min/Max column statistics</text>
+    <text x="20" y="76" class="body-txt" fill="#A7F3D0">• Avoids creating fragmented small directories</text>
+  </g>
+
+  <path fill="none" d="M 365 140 L 365 72 C 365 72, 450 72, 545 72 L 560 72" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- Branch 2: >= 500 GB -> Runtime Check -->
+  <g transform="translate(260, 260)">
+    <rect width="210" height="90" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="105" y="38" class="title" fill="#C4B5FD">Databricks Runtime?</text>
+    <text x="105" y="60" class="body-txt" text-anchor="middle">DBR &gt;= 13.3 vs Legacy</text>
+  </g>
+
+  <path fill="none" d="M 365 230 L 365 260" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
+
+  <!-- Liquid Clustering (DBR >= 13.3) -->
+  <g transform="translate(560, 145)">
+    <rect width="430" height="95" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="215" y="28" class="title" fill="#A7F3D0">Use Liquid Clustering (DBR &gt;= 13.3)</text>
+    <line x1="15" y1="40" x2="415" y2="40" stroke="#047857" stroke-width="1"/>
+    <text x="20" y="60" class="body-txt" fill="#A7F3D0">• CLUSTER BY (event_date, customer_id)</text>
+    <text x="20" y="78" class="body-txt" fill="#A7F3D0">• Handles high cardinality, non-skewed, flexible write pattern</text>
+  </g>
+
+  <path fill="none" d="M 470 285 L 515 285 C 540 285, 540 195, 560 195" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- Legacy Hive Partitioning -->
+  <g transform="translate(560, 260)">
+    <rect width="430" height="95" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="215" y="28" class="title" fill="#FCD34D">Legacy Hive Partitioning (DBR &lt; 13.3)</text>
+    <line x1="15" y1="40" x2="415" y2="40" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="58" class="body-txt">• PARTITIONED BY (order_date) where each slice &gt;= 1 GB</text>
+    <text x="20" y="76" class="body-txt">• Reject high cardinality (&gt;1,000) or low cardinality (&lt;5)</text>
+  </g>
+
+  <path fill="none" d="M 470 305 L 560 305" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+</svg>

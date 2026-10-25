@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+    </style>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="360" fill="#0B0F19"/>
+
+  <!-- Left: Flat Blob (Red) -->
+  <g transform="translate(30, 30)">
+    <rect width="450" height="300" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <text x="225" y="30" class="title" fill="#FCA5A5">Flat Blob Storage (Standard S3 / Blob)</text>
+    <line x1="20" y1="42" x2="430" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="25" y="60" width="400" height="40" rx="6" ry="6" fill="#1F2937" stroke="#EF4444" stroke-width="1"/>
+    <text x="35" y="85" class="body-txt" fill="#E2E8F0">Key: <tspan fill="#FCA5A5">"raw/orders/file_01.parquet"</tspan> (Virtual String)</text>
+
+    <rect x="25" y="110" width="400" height="40" rx="6" ry="6" fill="#1F2937" stroke="#EF4444" stroke-width="1"/>
+    <text x="35" y="135" class="body-txt" fill="#E2E8F0">Key: <tspan fill="#FCA5A5">"raw/orders/file_02.parquet"</tspan> (Virtual String)</text>
+
+    <path fill="none" d="M 225 150 L 225 180" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+
+    <rect x="25" y="180" width="400" height="105" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <text x="225" y="206" class="title" font-size="12" fill="#FECACA">Directory Rename: 'raw' -&gt; 'archive'</text>
+    <text x="225" y="228" class="body-txt" text-anchor="middle" fill="#FCA5A5">• No real directory exists in flat namespace!</text>
+    <text x="225" y="248" class="body-txt" text-anchor="middle" fill="#FCA5A5">• Must issue 100,000 HTTP COPY + DELETE requests</text>
+    <text x="225" y="268" class="body-txt" text-anchor="middle" fill="#FECACA">O(N) Complexity: Takes 45 Minutes, Highly Fragile</text>
+  </g>
+
+  <!-- Right: HNS Enabled (Green) -->
+  <g transform="translate(520, 30)">
+    <rect width="450" height="300" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="225" y="30" class="title" fill="#6EE7B7">ADLS Gen2: Hierarchical Namespace (HNS)</text>
+    <line x1="20" y1="42" x2="430" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+
+    <!-- Inode Tree -->
+    <rect x="25" y="60" width="200" height="90" rx="8" ry="8" fill="#1F2937" stroke="#10B981" stroke-width="1.5"/>
+    <text x="125" y="85" class="title" font-size="12" fill="#6EE7B7">📁 Directory Inode</text>
+    <text x="125" y="105" class="body-txt" text-anchor="middle">/raw/orders</text>
+    <text x="125" y="125" class="body-txt" text-anchor="middle" fill="#10B981">Real File System Node</text>
+
+    <!-- Children -->
+    <rect x="260" y="60" width="165" height="40" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+    <text x="270" y="85" class="body-txt">📄 file_01.parquet</text>
+
+    <rect x="260" y="110" width="165" height="40" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+    <text x="270" y="135" class="body-txt">📄 file_02.parquet</text>
+
+    <path fill="none" d="M 225 90 L 260 80" class="edge" stroke="#10B981"/>
+    <path fill="none" d="M 225 120 L 260 130" class="edge" stroke="#10B981"/>
+
+    <!-- Rename Box -->
+    <rect x="25" y="180" width="400" height="105" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="225" y="206" class="title" font-size="12" fill="#A7F3D0">Directory Rename: /raw -&gt; /archive</text>
+    <text x="225" y="228" class="body-txt" text-anchor="middle" fill="#A7F3D0">• Atomic directory inode pointer update in metadata</text>
+    <text x="225" y="248" class="body-txt" text-anchor="middle" fill="#A7F3D0">• Zero file data or object copying required</text>
+    <text x="225" y="268" class="body-txt" text-anchor="middle" fill="#A7F3D0">O(1) Complexity: Takes 12 Milliseconds!</text>
+  </g>
+</svg>

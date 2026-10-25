@@ -1,0 +1,22 @@
+direction: down
+classes: {
+  repo: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  parser: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  graph: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  search: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+}
+
+git: "Repository Source Code (Git)" { class: repo }
+ts: "Tree-Sitter AST Parser
+Extracts signatures, classes, imports" { class: parser }
+
+kg: "Knowledge Graph (Neo4j)
+OrderService CONTAINS processPayment
+processPayment IMPLEMENTS PaymentGateway" { class: graph }
+dual: "Dual Indexing
+Dense BGE-Code Vectors
+BM25 Exact Symbol Index" { class: search }
+
+git -> ts
+ts -> kg: "Relational Structure"
+ts -> dual: "Search Indexing"

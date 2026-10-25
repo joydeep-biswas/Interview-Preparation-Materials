@@ -1,0 +1,19 @@
+classes: {
+  think_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  out_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+user: "User Query\n'Prove sqrt(2) is irrational'"
+
+thinking: "Hidden Test-Time Compute (<think>...<think>)" {
+  t1: "1. Assume sqrt(2) is rational: a/b (gcd=1)" { class: think_box }
+  t2: "2. a^2 = 2b^2 -> a is even" { class: think_box }
+  t3: "3. 4k^2 = 2b^2 -> b is even" { class: think_box }
+  t4: "4. Contradiction: gcd(a,b) != 1" { class: think_box }
+
+  t1 -> t2 -> t3 -> t4
+}
+
+response: "Emitted User Response\n'Here is the verified proof...'" { class: out_box }
+
+user -> thinking -> response: "</think> trigger"

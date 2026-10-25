@@ -1,0 +1,11 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+p1: "1. Replayable Source (Kafka)\nOffsets stored deterministically\nRetention period buffer (7 days)" { class: card; style.stroke: "#3B82F6" }
+p2: "2. Deterministic Engine (Spark Streaming)\nWrite-Ahead Log (WAL) Checkpointing\nAtomic micro-batch offset commits" { class: card; style.stroke: "#F59E0B" }
+p3: "3. Idempotent / Transactional Sink (Delta)\nACID Log (_delta_log), Two-phase commit\nIdempotent MERGE on unique keys" { class: card; style.stroke: "#10B981" }
+
+p1 -> p2: "Deterministic Offsets"
+p2 -> p3: "Atomic Micro-Batches"

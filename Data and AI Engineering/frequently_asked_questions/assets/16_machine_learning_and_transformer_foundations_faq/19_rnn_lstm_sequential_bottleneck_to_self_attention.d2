@@ -1,0 +1,10 @@
+direction: right
+classes: {
+  rnn_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+  attn_box: { style: { fill: "#0D1F1C", stroke: "#10B981" } }
+}
+
+RNN: "RNN / LSTM: Sequential Bottleneck\n• O(N) sequential steps\n• GPU Tensor Cores sit idle\n• Fixed memory bottleneck" { class: rnn_box }
+Transformer: "Transformer: Self-Attention\n• O(1) parallel steps\n• Saturated GPU GEMM matrix ops\n• Direct all-to-all attention" { class: attn_box }
+
+RNN -> Transformer: "Paradigm Shift"

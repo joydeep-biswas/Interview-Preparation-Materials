@@ -1,0 +1,19 @@
+direction: right
+
+token_bucket: "Token Bucket (Allows Bursts)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  refill: "Tokens refill at constant rate r"
+  burst: "Allows burst up to bucket capacity B"
+  use: "REST APIs, Gateway rate limiting (Redis Lua)"
+}
+
+leaky_bucket: "Leaky Bucket (Fixed Smoothing)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  queue: "FIFO buffer holds incoming requests"
+  leak: "Leaks at strictly fixed rate r"
+  use: "Traffic shaping, protecting fragile databases"
+}
+
+token_bucket -> leaky_bucket: "Burst tolerance vs Output smoothing"

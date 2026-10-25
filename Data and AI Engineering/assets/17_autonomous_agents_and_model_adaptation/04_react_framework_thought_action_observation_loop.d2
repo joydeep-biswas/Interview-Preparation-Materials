@@ -1,0 +1,15 @@
+classes: {
+  thought_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  action_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  obs_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+context: "Context State Ingress"
+thought1: "1. Thought\n'User wants to diagnose checkout latency.\nFetch container error logs.'" { class: thought_box }
+action1: "2. Action\nfetch_k8s_logs(service='checkout', tail=100)" { class: action_box }
+tool: "Tool Execution Engine\nKubernetes API call"
+obs1: "3. Observation\n'HTTP 504: DB connection pool exhausted'" { class: obs_box }
+thought2: "4. Next Thought\n'Observation indicates DB pool exhaustion.\nInspect active queries.'" { class: thought_box }
+action2: "5. Next Action\nquery_db_metrics('active_queries')" { class: action_box }
+
+context -> thought1 -> action1 -> tool -> obs1 -> thought2 -> action2

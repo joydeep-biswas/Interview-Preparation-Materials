@@ -1,0 +1,44 @@
+direction: right
+title: DispatcherServlet Front Controller: 3-Phase Internal Architecture
+
+ds: "DispatcherServlet (Front Controller)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+  req: "POST /api/orders"
+  dispatch: "doDispatch() loop"
+}
+
+p1: "Phase 1: Handler Mapping" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  map: "RequestMappingHandlerMapping"
+  chain: "HandlerExecutionChain\n(HandlerMethod + Interceptors)"
+
+  map -> chain
+}
+
+p2: "Phase 2: Interceptors & Adapter" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  pre: "preHandle() checks"
+  adapt: "HandlerAdapter (invoke controller)"
+  post: "postHandle()"
+
+  pre -> adapt -> post
+}
+
+p3: "Phase 3: Serialization & Response" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+
+  conv: "Jackson HttpMessageConverter"
+  res: "HTTP Response (201 Created + JSON)"
+
+  conv -> res
+}
+
+ds.req -> ds.dispatch -> p1.map
+p1.chain -> p2.pre
+p2.adapt -> p3.conv

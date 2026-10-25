@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Memory Layout &amp; Cache Locality: ArrayList vs LinkedList</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Contiguous buffer cache lines vs fragmented heap pointer hopping</text>
+
+  <!-- ArrayList Layout Card -->
+  <g transform="translate(40, 75)">
+    <rect width="460" height="230" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="230" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">ArrayList: Contiguous Memory Buffer</text>
+
+    <!-- Visual Array Elements -->
+    <g transform="translate(20, 50)">
+      <rect x="0" y="0" width="80" height="45" rx="4" ry="4" fill="#1E293B" stroke="#3B82F6"/>
+      <text x="40" y="20" class="badge" fill="#93C5FD" text-anchor="middle">[0]</text>
+      <text x="40" y="36" class="card-body" text-anchor="middle">Item A</text>
+
+      <rect x="85" y="0" width="80" height="45" rx="4" ry="4" fill="#1E293B" stroke="#3B82F6"/>
+      <text x="125" y="20" class="badge" fill="#93C5FD" text-anchor="middle">[1]</text>
+      <text x="125" y="36" class="card-body" text-anchor="middle">Item B</text>
+
+      <rect x="170" y="0" width="80" height="45" rx="4" ry="4" fill="#1E293B" stroke="#3B82F6"/>
+      <text x="210" y="20" class="badge" fill="#93C5FD" text-anchor="middle">[2]</text>
+      <text x="210" y="36" class="card-body" text-anchor="middle">Item C</text>
+
+      <rect x="255" y="0" width="80" height="45" rx="4" ry="4" fill="#1E293B" stroke="#3B82F6"/>
+      <text x="295" y="20" class="badge" fill="#93C5FD" text-anchor="middle">[3]</text>
+      <text x="295" y="36" class="card-body" text-anchor="middle">Item D</text>
+
+      <rect x="340" y="0" width="80" height="45" rx="4" ry="4" fill="#0F172A" stroke="#475569" stroke-dasharray="3,3"/>
+      <text x="380" y="28" class="subtitle" font-size="11" text-anchor="middle">Capacity</text>
+    </g>
+
+    <rect x="20" y="110" width="420" height="40" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="230" y="127" class="badge" fill="#A7F3D0" text-anchor="middle">CPU L1/L2 Cache Line Prefetching (64 Bytes)</text>
+    <text x="230" y="142" class="card-body" fill="#D1FAE5" text-anchor="middle">Spatial locality loads contiguous elements in a single CPU cycle burst</text>
+
+    <text x="20" y="172" class="card-body">• Direct pointer arithmetic: base_addr + (index * 4 bytes)</text>
+    <text x="20" y="192" class="card-body">• Random Access: O(1) instantaneous access</text>
+    <text x="20" y="212" class="card-body">• Memory overhead: Small ~1.5x reserve array buffer</text>
+  </g>
+
+  <!-- LinkedList Layout Card -->
+  <g transform="translate(560, 75)">
+    <rect width="460" height="230" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="230" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">LinkedList: Fragmented Heap Nodes</text>
+
+    <!-- Visual Dispersed Nodes -->
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="115" height="50" rx="6" ry="6" fill="#1E293B" stroke="#EF4444"/>
+      <text x="57" y="18" class="badge" fill="#FCA5A5" text-anchor="middle">Node A @0x10A</text>
+      <text x="57" y="34" class="card-body" font-size="10" text-anchor="middle">[prev | Item | next]</text>
+
+      <path fill="none" d="M 115 25 L 145 25" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+      <rect x="150" y="0" width="115" height="50" rx="6" ry="6" fill="#1E293B" stroke="#EF4444"/>
+      <text x="207" y="18" class="badge" fill="#FCA5A5" text-anchor="middle">Node B @0x94F</text>
+      <text x="207" y="34" class="card-body" font-size="10" text-anchor="middle">[prev | Item | next]</text>
+
+      <path fill="none" d="M 265 25 L 295 25" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+      <rect x="300" y="0" width="115" height="50" rx="6" ry="6" fill="#1E293B" stroke="#EF4444"/>
+      <text x="357" y="18" class="badge" fill="#FCA5A5" text-anchor="middle">Node C @0x38D</text>
+      <text x="357" y="34" class="card-body" font-size="10" text-anchor="middle">[prev | Item | next]</text>
+    </g>
+
+    <rect x="20" y="110" width="420" height="40" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+    <text x="230" y="127" class="badge" fill="#FCA5A5" text-anchor="middle">Pointer Hopping &amp; Severe Cache Misses</text>
+    <text x="230" y="142" class="card-body" fill="#FEE2E2" text-anchor="middle">Each node access requires main memory stall (50-100ns latency penalty)</text>
+
+    <text x="20" y="172" class="card-body">• Traversal required: O(N) linear time to access index i</text>
+    <text x="20" y="192" class="card-body">• Node overhead: 24 bytes (Header + prev + next) for 4-byte payload!</text>
+    <text x="20" y="212" class="card-body">• Severe GC pressure: Thousands of tiny objects to mark/sweep</text>
+  </g>
+
+  <!-- Comparison Summary Matrix Card -->
+  <g transform="translate(40, 325)">
+    <rect width="980" height="135" rx="10" ry="10" fill="#111827" stroke="#1F2937" stroke-width="1.5"/>
+    <rect width="980" height="26" rx="10" ry="10" fill="#1F2937"/>
+    <text x="490" y="18" class="card-title" fill="#E5E7EB" text-anchor="middle">Operational Complexity &amp; Architecture Trade-offs</text>
+
+    <!-- Table Rows -->
+    <text x="50" y="55" class="badge" fill="#9CA3AF">Operation</text>
+    <text x="280" y="55" class="badge" fill="#93C5FD">ArrayList</text>
+    <text x="540" y="55" class="badge" fill="#FCA5A5">LinkedList</text>
+    <text x="780" y="55" class="badge" fill="#A7F3D0">Architectural Recommendation</text>
+
+    <line x1="40" y1="65" x2="1000" y2="65" stroke="#374151" stroke-width="1"/>
+
+    <text x="50" y="85" class="card-body">Random Read: get(i)</text>
+    <text x="280" y="85" class="badge" fill="#10B981">O(1) [L1 Cache Hit]</text>
+    <text x="540" y="85" class="badge" fill="#EF4444">O(N) [Cache Miss Stall]</text>
+    <text x="780" y="85" class="card-body">ArrayList dominates 99% of general use cases</text>
+
+    <text x="50" y="105" class="card-body">Insert / Delete at Ends</text>
+    <text x="280" y="105" class="badge" fill="#10B981">Amortized O(1) End</text>
+    <text x="540" y="105" class="badge" fill="#10B981">O(1) Head &amp; Tail</text>
+    <text x="780" y="105" class="card-body">Use ArrayDeque for queues / stacks, NOT LinkedList</text>
+
+    <text x="50" y="125" class="card-body">Insert / Delete Middle</text>
+    <text x="280" y="125" class="badge" fill="#F59E0B">O(N) [System.arraycopy]</text>
+    <text x="540" y="125" class="badge" fill="#F59E0B">O(N) Seek + O(1) Swap</text>
+    <text x="780" y="125" class="card-body">Even in mid-inserts, ArrayList is often faster due to SIMD memmove</text>
+  </g>
+</svg>

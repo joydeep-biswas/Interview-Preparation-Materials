@@ -1,0 +1,11 @@
+classes: {
+  compute_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  mem_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  pcie_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+gpu: "The Three Primary GPU Hardware Bottlenecks" {
+  compute: "1. Compute-Bound (GEMM)\nDense Matrix Multiplications (W * x)\nSaturated by Tensor Cores\nFix: Align dimensions to multiples of 16/32" { class: compute_box }
+  mem: "2. Memory-Bandwidth Bound\nSoftmax, RMSNorm, Activations\nStarved waiting for HBM memory bus\nFix: Kernel Fusion (FlashAttention, Triton)" { class: mem_box }
+  pcie: "3. Host-to-Device (PCIe) Bound\nSlow CPU RAM -> GPU VRAM transfers\nGPU sits idle waiting for batches\nFix: pin_memory=True & prefetching" { class: pcie_box }
+}

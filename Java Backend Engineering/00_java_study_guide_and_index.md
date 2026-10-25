@@ -8,87 +8,34 @@ Every guide includes formal architectural definitions, Mermaid topological diagr
 
 ## Recommended Chronological Study Order
 
-```mermaid
-flowchart TD
-    subgraph CoreFoundationsTier ["Tier 1: Core Java Language & OOP Foundations"]
-        direction LR
-        M1["01. Core Java & OOP<br/>(Object layout, Mark Word, dynamic dispatch, vtable, pass-by-value)"]
-        --> M2["02. Collections & Generics<br/>(ArrayList, HashMap internals, treeification, CAS, PECS)"]
-        --> M3["03. Modern Java & Streams<br/>(Records, sealed hierarchies, pattern matching, stream loop fusion)"]
-    end
+![Java Backend Engineering: 7-Tier Chronological Curriculum Roadmap](assets/00_java_study_guide_and_index/01_java_curriculum_tiers.svg)
 
-    subgraph ConcurrencyTier ["Tier 2: Concurrency & Async Programming"]
-        direction LR
-        M4["04. Concurrency & Multithreading<br/>(JMM, volatile, Atomic CAS, synchronized, Loom Virtual Threads)"]
-    end
-
-    subgraph SpringEnterpriseTier ["Tier 3: Enterprise Spring Framework & Security"]
-        direction LR
-        M5["05. Spring Boot & REST APIs<br/>(IoC container, Bean lifecycle, auto-configuration, DispatcherServlet, Actuator)"]
-        --> M6["06. Security & Cryptography<br/>(SecurityFilterChain, BCrypt, JWT RS256, Refresh tokens, PKCE)"]
-    end
-
-    subgraph PersistenceMessagingTier ["Tier 4: Relational Persistence, Caching & Messaging"]
-        direction LR
-        M7["07. Databases, JPA & Hibernate<br/>(ACID, isolation, entity states, N+1 problem, caching, transactions)"]
-        --> M8["08. Caching, Redis & Messaging<br/>(Cache-aside, Redis cluster, Kafka commit log, consumer groups)"]
-    end
-
-    subgraph ArchitectureCloudTier ["Tier 5: Microservices, Architecture & System Design"]
-        direction LR
-        M9["09. Microservices & System Design<br/>(GoF patterns, SOLID, Clean/Hexagonal, Saga, Outbox, CQRS)"]
-    end
-
-    subgraph OperationsObservabilityTier ["Tier 6: Testing, Cloud Operations & Performance Engineering"]
-        direction LR
-        M10["10. Testing & Quality Engineering<br/>(JUnit 5, Mockito, Testcontainers, WebTestClient, Quality Gates)"]
-        --> M11["11. Cloud Native & DevOps<br/>(Distroless packaging, K8s probes, HPA, CI/CD, GitOps, Azure)"]
-        --> M12["12. JVM Runtime & Troubleshooting<br/>(Heap, GC, ClassLoaders, thread/heap dumps, profiling playbooks)"]
-        --> M13["13. Observability & SRE Reliability<br/>(MDC logging, Prometheus/Grafana, OpenTelemetry, Flamegraphs)"]
-    end
-
-    subgraph InterviewFoundationsTier ["Tier 7: Universal Interview Preparation Pillars"]
-        direction LR
-        DSA["Data Structures & Algorithms<br/>(8 Progressive Modules in Java)"]
-        SDB["System Design & Situational<br/>(24 HLDs + 11 LLDs + Foundations + 16 Leadership Scenarios)"]
-        DSA --> SDB
-    end
-
-    CoreFoundationsTier --> ConcurrencyTier
-    ConcurrencyTier --> SpringEnterpriseTier
-    SpringEnterpriseTier --> PersistenceMessagingTier
-    PersistenceMessagingTier --> ArchitectureCloudTier
-    ArchitectureCloudTier --> OperationsObservabilityTier
-    OperationsObservabilityTier --> InterviewFoundationsTier
-
-    style CoreFoundationsTier fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ConcurrencyTier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SpringEnterpriseTier fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style PersistenceMessagingTier fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style ArchitectureCloudTier fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#f472b6
-    style OperationsObservabilityTier fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style InterviewFoundationsTier fill:#0f172a,stroke:#eab308,stroke-width:1.5px,color:#fef08a
-```
+*D2 Source: [`01_java_curriculum_tiers.d2`](assets/00_java_study_guide_and_index/01_java_curriculum_tiers.d2)*
 
 ---
 
 ## Core Curriculum Modules Overview
 
-| Study Order | Guide File | Conceptual Domain | Companion Interview FAQs | Key Topics & Production Scenarios Covered |
-| :---: | :--- | :--- | :--- | :--- |
-| **01** | [`01_core_java_and_oop.md`](01_core_java_and_oop.md) | Object Model & OOP Language Mechanics | [`01_core_java_and_oop_faq.md`](frequently_asked_questions/01_core_java_and_oop_faq.md) | 64-bit JVM object headers (Mark Word, Klass Word), dynamic method dispatch via `vtable`, inheritance vs composition, keyword semantics (`final`, `static`), access modifiers, pass-by-value, and the `Object` contract (`equals` & `hashCode`). |
-| **02** | [`02_java_collections_and_generics.md`](02_java_collections_and_generics.md) | Data Structures, Hashing & Generics | [`02_java_collections_and_generics_faq.md`](frequently_asked_questions/02_java_collections_and_generics_faq.md) | Collections hierarchy, `ArrayList` contiguous array vs `LinkedList`, `HashMap` capacity, load factor, threshold, bitwise hashing and Red-Black treeification, `ConcurrentHashMap` CAS, `Comparable` vs `Comparator`, and PECS wildcard generics. |
-| **03** | [`03_modern_java_streams_and_records.md`](03_modern_java_streams_and_records.md) | Modern Java, Functional & Streams API | [`03_modern_java_streams_and_records_faq.md`](frequently_asked_questions/03_modern_java_streams_and_records_faq.md) | Functional interfaces, `@FunctionalInterface`, Method references, `Optional` monad, Stream pipeline lazy execution and `Sink` loop fusion, `map` vs `flatMap`, Java 16 Records, Java 17 Sealed hierarchies, and Java 21 Pattern Matching `switch`. |
-| **04** | [`04_java_concurrency_and_multithreading.md`](04_java_concurrency_and_multithreading.md) | Concurrency, JMM & Async Programming | [`04_java_concurrency_and_multithreading_faq.md`](frequently_asked_questions/04_java_concurrency_and_multithreading_faq.md) | Java Memory Model (JMM) happens-before rules, `volatile` memory barriers, `AtomicInteger` CAS, intrinsic monitors (`synchronized`, `wait`/`notify`), `ThreadPoolExecutor` queue policies, `CompletableFuture` pipelining, and Java 21 Virtual Threads (Loom). |
-| **05** | [`05_spring_boot_and_rest_apis.md`](05_spring_boot_and_rest_apis.md) | Spring Boot & RESTful APIs | [`05_spring_boot_and_rest_apis_faq.md`](frequently_asked_questions/05_spring_boot_and_rest_apis_faq.md) | `ApplicationContext` vs `BeanFactory`, DI constructor injection mechanics, stereotype annotations, Bean lifecycle, auto-configuration engine, Actuator, `DispatcherServlet` pipeline, REST statelessness, HTTP verbs (`PUT` vs `PATCH`), RFC 7807 ProblemDetail, and gRPC/REST trade-offs. |
-| **06** | [`06_security_and_cryptography.md`](06_security_and_cryptography.md) | Spring Security, OAuth2 & Identity | [`06_security_and_cryptography_faq.md`](frequently_asked_questions/06_security_and_cryptography_faq.md) | `SecurityFilterChain` filter sequence, `AuthenticationManager`, BCrypt password hashing, `@PreAuthorize` SpEL, CSRF tokens, stateless JWT RS256 token verification, HttpOnly cookies, refresh token rotation, and OAuth2 Authorization Code Flow with PKCE. |
-| **07** | [`07_databases_jpa_and_hibernate.md`](07_databases_jpa_and_hibernate.md) | Relational Storage, JPA & Hibernate | [`07_databases_jpa_and_hibernate_faq.md`](frequently_asked_questions/07_databases_jpa_and_hibernate_faq.md) | Relational engines, ACID, transaction isolation levels, execution plans, Spring Data JPA, entity lifecycle states, N+1 query problem, 1st/2nd level caching, `@Transactional` propagation, and optimistic/pessimistic locking. |
-| **08** | [`08_caching_redis_and_kafka.md`](08_caching_redis_and_kafka.md) | Distributed Caching & Event Messaging | [`08_caching_redis_and_kafka_faq.md`](frequently_asked_questions/08_caching_redis_and_kafka_faq.md) | Cache-aside and write-through patterns, Redis data structures and distributed locking, AMQP RabbitMQ exchanges, Apache Kafka commit log architecture, partitions, consumer groups, Spring Boot `@KafkaListener`, and Dead Letter Queue. |
-| **09** | [`09_microservices_and_system_design.md`](09_microservices_and_system_design.md) | Architecture, Microservices & Patterns | [`09_microservices_and_system_design_faq.md`](frequently_asked_questions/09_microservices_and_system_design_faq.md) | GoF design patterns, SOLID principles, Clean/Hexagonal Architecture, Service discovery, API Gateway, Circuit Breakers, Saga Orchestration, Transactional Outbox, CQRS, and high-scale system design. |
-| **10** | [`10_testing_and_quality_engineering.md`](10_testing_and_quality_engineering.md) | Testing Pyramid, Testcontainers & Quality | [`10_testing_and_quality_engineering_faq.md`](frequently_asked_questions/10_testing_and_quality_engineering_faq.md) | Testing Pyramid, JUnit 5 extensions and lifecycle, Mockito argument captors and verification, Spring Boot test slices (`@WebMvcTest`, `@DataJpaTest`), Testcontainers with PostgreSQL/Kafka, consumer-driven contract testing (Pact), and SonarQube quality gates. |
-| **11** | [`11_cloud_native_containers_and_devops.md`](11_cloud_native_containers_and_devops.md) | Cloud Native, Kubernetes & GitOps | [`11_cloud_native_containers_and_devops_faq.md`](frequently_asked_questions/11_cloud_native_containers_and_devops_faq.md) | Distroless multi-stage Docker builds, Kubernetes Pod architecture, startup/liveness/readiness probes, HPA dynamic autoscaling, PodDisruptionBudgets, NetworkPolicies, GitHub Actions CI/CD workflows, ArgoCD GitOps, and Terraform Azure infrastructure. |
-| **12** | [`12_jvm_internals_performance_and_troubleshooting.md`](12_jvm_internals_performance_and_troubleshooting.md) | JVM Runtime, Memory, GC & Dumps | [`12_jvm_internals_performance_and_troubleshooting_faq.md`](frequently_asked_questions/12_jvm_internals_performance_and_troubleshooting_faq.md) | JVM memory architecture (Young/Old Heap, Metaspace, Code Cache, Off-Heap), ClassLoader parent delegation, GC algorithms (G1, ZGC, Shenandoah), JIT compilation (C1/C2), Java NIO channels and selectors, Project Panama, thread dump triage (`jstack`), and heap leak diagnosis. |
-| **13** | [`13_linux_networking_and_distributed_reliability.md`](13_linux_networking_and_distributed_reliability.md) | Observability, Profiling & Reliability | [`13_linux_networking_and_distributed_reliability_faq.md`](frequently_asked_questions/13_linux_networking_and_distributed_reliability_faq.md) | Structured logging with Logback & MDC, Micrometer metrics, Prometheus/Grafana alerting rules, OpenTelemetry distributed tracing, async-profiler non-safepoint CPU/memory flamegraphs, and production failure playbooks for high-concurrency systems. |
+Comprehensive 13-chapter progressive engineering curriculum covering HotSpot JVM internals, modern language semantics, Spring Boot microservices, high-scale persistence, and distributed systems operations:
+
+### Phase 1: Language Internals & Concurrency
+- [`01. Core Java & OOP`](01_core_java_and_oop.md) ([Companion FAQ](frequently_asked_questions/01_core_java_and_oop_faq.md)) — *Object Model & OOP Language Mechanics*: 64-bit JVM object headers (Mark Word, Klass Word), dynamic method dispatch via `vtable`, inheritance vs composition, keyword semantics (`final`, `static`), access modifiers, pass-by-value, and the `Object` contract (`equals` & `hashCode`).
+- [`02. Java Collections & Generics`](02_java_collections_and_generics.md) ([Companion FAQ](frequently_asked_questions/02_java_collections_and_generics_faq.md)) — *Data Structures, Hashing & Generics*: Collections hierarchy, `ArrayList` contiguous array vs `LinkedList`, `HashMap` capacity, load factor, threshold, bitwise hashing and Red-Black treeification, `ConcurrentHashMap` CAS, `Comparable` vs `Comparator`, and PECS wildcard generics.
+- [`03. Modern Java, Records & Streams`](03_modern_java_streams_and_records.md) ([Companion FAQ](frequently_asked_questions/03_modern_java_streams_and_records_faq.md)) — *Modern Java, Functional & Streams API*: Functional interfaces, `@FunctionalInterface`, Method references, `Optional` monad, Stream pipeline lazy execution and `Sink` loop fusion, `map` vs `flatMap`, Java 16 Records, Java 17 Sealed hierarchies, and Java 21 Pattern Matching `switch`.
+- [`04. Concurrency & Multithreading`](04_java_concurrency_and_multithreading.md) ([Companion FAQ](frequently_asked_questions/04_java_concurrency_and_multithreading_faq.md)) — *Concurrency, JMM & Async Programming*: Java Memory Model (JMM) happens-before rules, `volatile` memory barriers, `AtomicInteger` CAS, intrinsic monitors (`synchronized`, `wait`/`notify`), `ThreadPoolExecutor` queue policies, `CompletableFuture` pipelining, and Java 21 Virtual Threads (Loom).
+
+### Phase 2: Enterprise Frameworks & Data Fabric
+- [`05. Spring Boot & REST APIs`](05_spring_boot_and_rest_apis.md) ([Companion FAQ](frequently_asked_questions/05_spring_boot_and_rest_apis_faq.md)) — *Spring Boot & RESTful APIs*: `ApplicationContext` vs `BeanFactory`, DI constructor injection mechanics, stereotype annotations, Bean lifecycle, auto-configuration engine, Actuator, `DispatcherServlet` pipeline, REST statelessness, HTTP verbs (`PUT` vs `PATCH`), RFC 7807 ProblemDetail, and gRPC/REST trade-offs.
+- [`06. Security & Cryptography`](06_security_and_cryptography.md) ([Companion FAQ](frequently_asked_questions/06_security_and_cryptography_faq.md)) — *Spring Security, OAuth2 & Identity*: `SecurityFilterChain` filter sequence, `AuthenticationManager`, BCrypt password hashing, `@PreAuthorize` SpEL, CSRF tokens, stateless JWT RS256 token verification, HttpOnly cookies, refresh token rotation, and OAuth2 Authorization Code Flow with PKCE.
+- [`07. Databases, JPA & Hibernate`](07_databases_jpa_and_hibernate.md) ([Companion FAQ](frequently_asked_questions/07_databases_jpa_and_hibernate_faq.md)) — *Relational Storage, JPA & Hibernate*: Relational engines, ACID, transaction isolation levels, execution plans, Spring Data JPA, entity lifecycle states, N+1 query problem, 1st/2nd level caching, `@Transactional` propagation, and optimistic/pessimistic locking.
+- [`08. Caching, Redis & Kafka`](08_caching_redis_and_kafka.md) ([Companion FAQ](frequently_asked_questions/08_caching_redis_and_kafka_faq.md)) — *Distributed Caching & Event Messaging*: Cache-aside and write-through patterns, Redis data structures and distributed locking, AMQP RabbitMQ exchanges, Apache Kafka commit log architecture, partitions, consumer groups, Spring Boot `@KafkaListener`, and Dead Letter Queue.
+
+### Phase 3: Architecture, Quality & Operations
+- [`09. Microservices & System Design`](09_microservices_and_system_design.md) ([Companion FAQ](frequently_asked_questions/09_microservices_and_system_design_faq.md)) — *Architecture, Microservices & Patterns*: GoF design patterns, SOLID principles, Clean/Hexagonal Architecture, Service discovery, API Gateway, Circuit Breakers, Saga Orchestration, Transactional Outbox, CQRS, and high-scale system design.
+- [`10. Testing & Quality Engineering`](10_testing_and_quality_engineering.md) ([Companion FAQ](frequently_asked_questions/10_testing_and_quality_engineering_faq.md)) — *Testing Pyramid, Testcontainers & Quality*: Testing Pyramid, JUnit 5 extensions and lifecycle, Mockito argument captors and verification, Spring Boot test slices (`@WebMvcTest`, `@DataJpaTest`), Testcontainers with PostgreSQL/Kafka, consumer-driven contract testing (Pact), and SonarQube quality gates.
+- [`11. Cloud Native, Containers & DevOps`](11_cloud_native_containers_and_devops.md) ([Companion FAQ](frequently_asked_questions/11_cloud_native_containers_and_devops_faq.md)) — *Cloud Native, Kubernetes & GitOps*: Distroless multi-stage Docker builds, Kubernetes Pod architecture, startup/liveness/readiness probes, HPA dynamic autoscaling, PodDisruptionBudgets, NetworkPolicies, GitHub Actions CI/CD workflows, ArgoCD GitOps, and Terraform Azure infrastructure.
+- [`12. JVM Internals & Troubleshooting`](12_jvm_internals_performance_and_troubleshooting.md) ([Companion FAQ](frequently_asked_questions/12_jvm_internals_performance_and_troubleshooting_faq.md)) — *JVM Runtime, Memory, GC & Dumps*: JVM memory architecture (Young/Old Heap, Metaspace, Code Cache, Off-Heap), ClassLoader parent delegation, GC algorithms (G1, ZGC, Shenandoah), JIT compilation (C1/C2), Java NIO channels and selectors, Project Panama, thread dump triage (`jstack`), and heap leak diagnosis.
+- [`13. Linux Networking & Reliability`](13_linux_networking_and_distributed_reliability.md) ([Companion FAQ](frequently_asked_questions/13_linux_networking_and_distributed_reliability_faq.md)) — *Observability, Profiling & Reliability*: Structured logging with Logback & MDC, Micrometer metrics, Prometheus/Grafana alerting rules, OpenTelemetry distributed tracing, async-profiler non-safepoint CPU/memory flamegraphs, and production failure playbooks for high-concurrency systems.
 
 ---
 

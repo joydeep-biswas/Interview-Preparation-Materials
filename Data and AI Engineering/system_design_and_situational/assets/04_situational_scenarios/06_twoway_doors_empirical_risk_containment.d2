@@ -1,0 +1,35 @@
+direction: down
+
+challenge: "Architectural Challenge (Incomplete Information)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  eval: "Decision Classification: Evaluate Reversibility"
+}
+
+type1: "Type 1: Irreversible / One-Way Door" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  spike: "5-Day Empirical Canary Spike (1% load)"
+  abstraction: "Decoupled Abstraction Layer (dbt/PyIceberg)"
+  stop_loss: "Stop-Loss Criteria (Cost > +20% => Rollback)"
+}
+
+type2: "Type 2: Reversible / Two-Way Door" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  rapid: "Rapid Execution with Guardrails"
+  shadow: "Shadow Pipeline & Feature Flags"
+  observability: "Real-Time Observability (Datadog P99)"
+}
+
+challenge -> type1: "One-Way Door (Format / Storage / Vendor)" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}
+challenge -> type2: "Two-Way Door (Compute / Batch interval)" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

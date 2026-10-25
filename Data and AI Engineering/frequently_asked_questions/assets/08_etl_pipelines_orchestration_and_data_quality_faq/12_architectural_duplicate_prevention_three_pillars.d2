@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  container_red: { style: { fill: "#0D1526", stroke: "#EF4444" } }
+  container_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  cause_card: { style: { fill: "#111827", stroke: "#EF4444" } }
+  sol_card: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+RootCauses: "Why Duplicates Occurred" {
+  class: container_red
+  RC1: "1. Pipeline Concurrency Uncapped" { class: cause_card }
+  RC2: "2. Naive Sink Append Mode" { class: cause_card }
+  RC3: "3. Watermark Race Condition" { class: cause_card }
+}
+
+Solutions: "The 3-Pillar Invariants" {
+  class: container_green
+  S1: "Pillar 1: Explicit Concurrency = 1\nSet concurrency: 1 in pipeline" { class: sol_card }
+  S2: "Pillar 2: Idempotent Sink Merge\nDelta MERGE INTO target" { class: sol_card }
+  S3: "Pillar 3: Atomic Watermark Advance\nInside target transaction" { class: sol_card }
+}
+
+RootCauses.RC1 -> Solutions.S1
+RootCauses.RC2 -> Solutions.S2
+RootCauses.RC3 -> Solutions.S3

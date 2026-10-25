@@ -1,0 +1,21 @@
+classes: {
+  red_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  use_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+req: "Incoming Request\nAPI Gateway & Services"
+
+red: "Application Layer: The RED Method" {
+  rate: "Rate (R)\nRequests per second" { class: red_box }
+  errors: "Errors (E)\nHTTP 5xx error rate" { class: red_box }
+  duration: "Duration (D)\nLatency percentiles (P50, P95, P99)" { class: red_box }
+}
+
+use: "Infrastructure Layer: The USE Method" {
+  util: "Utilization (U)\nActive time % (CPU, Disk, Net)" { class: use_box }
+  sat: "Saturation (S)\nQueued backlog & load average" { class: use_box }
+  err: "Errors (E)\nHardware drops & NIC packet errors" { class: use_box }
+}
+
+req -> red: "Evaluates service health"
+req -> use: "Evaluates host hardware limits"

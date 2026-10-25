@@ -1,0 +1,10 @@
+direction: right
+classes: {
+  mha_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+  gqa_box: { style: { fill: "#0D1F1C", stroke: "#10B981" } }
+  mqa_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+}
+
+MHA: "Multi-Head (MHA)\n1:1 Ratio\n16GB VRAM per user" { class: mha_box }
+GQA: "Grouped-Query (GQA)\n4:1 Ratio (LLaMA 3)\n4-8x VRAM reduction" { class: gqa_box }
+MQA: "Multi-Query (MQA)\n32:1 Ratio\nMinimal VRAM footprint" { class: mqa_box }

@@ -73,40 +73,9 @@ A comprehensive, production-grade guide answering Databricks and Delta Lake inte
 #### Core Definition & The Problems Solved
 **Delta Lake** is an open-source storage framework that brings **ACID transactions**, data versioning, schema enforcement, and unified streaming/batch processing to Apache Spark and Cloud Object Storage (S3, ADLS, GCS).
 
-```mermaid
-flowchart TD
-    subgraph StorageLayout ["Delta Lake Physical Storage Architecture & Commit Log"]
-        subgraph DeltaLogDir ["_delta_log/ Directory (Ordered Monotonic Commits)"]
-            direction TB
-            Commit0["000000.json<br/>metaData, add: part-0000.parquet"]
-            Commit1["000001.json<br/>remove: part-0000.parquet<br/>add: part-0001.parquet"]
-            Checkpoint["000010.checkpoint.parquet<br/>Consolidated Snapshot State (Every 10 Commits)"]
-            Commit0 --> Commit1 --> Checkpoint
-        end
+![Delta Lake Storage Architecture Commit Log](assets/06_databricks_and_delta_lake_faq/01_delta_lake_storage_architecture_commit_log.svg)
 
-        subgraph ParquetDataFiles ["Physical Columnar Storage (Cloud Object Storage)"]
-            direction TB
-            File0["part-0000-tid.parquet<br/>(Logical Tombstone: Removed in Commit 1)"]
-            File1["part-0001-tid.parquet<br/>(Active Valid Snapshot File)"]
-            File2["part-0002-tid.parquet<br/>(Active Valid Snapshot File)"]
-        end
-        
-        Commit0 -.->|"References"| File0
-        Commit1 -.->|"Tombstones File 0 & Commits"| File1
-        Checkpoint -.->|"Consolidates Active Pointers"| File1
-        Checkpoint -.->|"Consolidates Active Pointers"| File2
-    end
-
-    style StorageLayout fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DeltaLogDir fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ParquetDataFiles fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Commit0 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Commit1 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Checkpoint fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style File0 fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style File1 fill:#1f2937,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-    style File2 fill:#1f2937,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/01_delta_lake_storage_architecture_commit_log.d2](assets/06_databricks_and_delta_lake_faq/01_delta_lake_storage_architecture_commit_log.d2)
 
 #### Vanilla Parquet Limitations vs. Delta Lake ACID Solutions
 
@@ -148,32 +117,9 @@ Delta Lake stores raw data as standard compressed Apache Parquet files, but wrap
 - **Q2**: You need to load only changed records from a source into a Delta table every day. How would you design the incremental load?
 
 #### Incremental Load Design Architecture (Q1, Q2)
-```mermaid
-flowchart TD
-    subgraph Stage1 ["Stage 1: Incremental Extraction & Staging"]
-        direction LR
-        Source[("Source DB / Files<br/>(Delta / CDC Feed)")] --> Filter["Watermark Filter<br/>(modified_time > last_watermark)"] --> Staging["Staging DataFrame<br/>(Raw Delta batch)"]
-    end
+![Incremental CDC Watermark Merge Pipeline](assets/06_databricks_and_delta_lake_faq/02_incremental_cdc_watermark_merge_pipeline.svg)
 
-    subgraph Stage2 ["Stage 2: Deduplication & Idempotent Upsert"]
-        direction LR
-        Dedup["Deduplicate by Natural Key<br/>(Window / ROW_NUMBER = 1)"] --> MergeOp["Delta MERGE INTO Target<br/>(WHEN MATCHED UPDATE / NOT MATCHED INSERT)"]
-        MergeOp --> Target[("Target Delta Table<br/>(Silver / Gold)")]
-        MergeOp --> Meta[("Watermark Control Table<br/>(Update high-watermark)")]
-    end
-
-    Staging --> Dedup
-
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Stage2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Source fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Filter fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Staging fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Dedup fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style MergeOp fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Target fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Meta fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/02_incremental_cdc_watermark_merge_pipeline.d2](assets/06_databricks_and_delta_lake_faq/02_incremental_cdc_watermark_merge_pipeline.d2)
 
 ---
 
@@ -274,37 +220,9 @@ In Delta Lake, SCD Type 2 is implemented via a **two-pass merge**:
 | **`Z-ORDER BY (col)`** | Multi-dimensional space-filling curve clustering. Colocates related column data in the same files. | Maximizes **Data Skipping via Min/Max Zone Maps**. Allows queries filtering on clustered columns to skip 90%+ of files. | After `OPTIMIZE` on high-cardinality query filter columns. |
 | **`VACUUM`** | Deletes tombstoned physical Parquet files older than the retention threshold (default 7 days). | Frees petabytes of cloud storage; cleans up stale metadata. | Scheduled weekly maintenance (never set retention to 0 hours in production!). |
 
-```mermaid
-flowchart TD
-    subgraph Stage1 ["Stage 1: File Compaction (OPTIMIZE)"]
-        direction LR
-        SmallFiles["Fragmented Small Files<br/>(Thousands of 1MB–5MB files from micro-batch ingestion)"] -->|"OPTIMIZE table"| Compacted["Uniform 1 GB Parquet Files<br/>(Eliminates storage API LIST/GET metadata overhead)"]
-    end
+![Delta Table Optimize ZOrder Vacuum Lifecycle](assets/06_databricks_and_delta_lake_faq/03_delta_table_optimize_zorder_vacuum_lifecycle.svg)
 
-    subgraph Stage2 ["Stage 2: Multidimensional Clustering (Z-ORDER BY)"]
-        direction LR
-        Unclustered["Compacted Parquet Files<br/>(Sequential row distribution)"] -->|"Z-ORDER BY (customer_id, order_date)"| ZOrdered["Clustered Parquet Files<br/>(Min/Max Zone Maps enable 90%+ file skipping)"]
-    end
-
-    subgraph Stage3 ["Stage 3: Tombstone Purging & Storage Reclamation (VACUUM)"]
-        direction LR
-        Tombstones["Tombstoned Parquet Files<br/>(Old files preserved in _delta_log for Time Travel)"] -->|"VACUUM table RETAIN 168 HOURS"| Purged["Purged Storage & Clean Directory<br/>(Frees cloud storage costs; removes files older than 7d)"]
-    end
-
-    Compacted -->|"Produces optimized active files"| Unclustered
-    SmallFiles -.->|"Leaves obsolete historical versions"| Tombstones
-
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Stage2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Stage3 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-
-    style SmallFiles fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Compacted fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Unclustered fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ZOrdered fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Tombstones fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Purged fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/03_delta_table_optimize_zorder_vacuum_lifecycle.d2](assets/06_databricks_and_delta_lake_faq/03_delta_table_optimize_zorder_vacuum_lifecycle.d2)
 
 ---
 
@@ -345,28 +263,9 @@ When an ADLS Gen2 folder accumulates millions of small files (e.g. <10 MB from I
 4. **Storage Space Amplification & Footer Overhead:** Parquet file footers, metadata dictionaries, and compression headers occupy a disproportionate percentage of total bytes in tiny files.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph ProblemArea ["The ADLS Small File Bottleneck"]
-        ADLS["ADLS Gen2 Raw Folder<br/>(Millions of 500KB JSON/Parquet Files)"]
-        Glob["Driver Globbing: ListBlobs API Calls<br/>(HTTP 429 Throttling + Driver OOM)"]
-        Tasks["Millions of Micro-Tasks<br/>(Scheduler RPC Congestion)"]
-        ADLS --> Glob --> Tasks
-    end
+![ADLS Small File Bottleneck Auto Loader Remediation](assets/06_databricks_and_delta_lake_faq/04_adls_small_file_bottleneck_auto_loader_remediation.svg)
 
-    subgraph SolutionArchitecture ["Databricks Remediation Pipeline"]
-        AL["1. Ingest via Auto Loader (cloudFiles)<br/>Uses Azure Event Grid + Storage Queue<br/>Zero File Listing!"]
-        Conv["2. In-Place Conversion<br/>CONVERT TO DELTA parquet.`abfss://...`"]
-        Opt["3. Scheduled Compaction<br/>OPTIMIZE table<br/>Bin-packs into 1 GB Parquet files"]
-        WriteOpt["4. Prevent Recurrence<br/>Set autoCompact & optimizeWrite = true"]
-        AL --> Conv --> Opt --> WriteOpt
-    end
-
-    style ProblemArea fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style SolutionArchitecture fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Opt fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style AL fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/04_adls_small_file_bottleneck_auto_loader_remediation.d2](assets/06_databricks_and_delta_lake_faq/04_adls_small_file_bottleneck_auto_loader_remediation.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -440,41 +339,9 @@ Partitioning physically separates a table's data into separate directories based
    - Allows clustering on high-cardinality columns (`customer_id`), prevents partition skew, allows redefining clustering keys (`ALTER TABLE ... CLUSTER BY ...`) without full table rewrites, and enables incremental clustering during normal writes.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph SizingGate ["Table Sizing & Modern Runtime Assessment"]
-        Start(["New Delta Table Design"]) --> SizeCheck{"Total Table Volume?"}
-        NoPartition["<b>Do NOT Partition</b><br/>Rely on standard Delta file sizing + Min/Max Data Skipping"]
-        SizeCheck -->|< 500 GB| NoPartition
+![Delta Table Partitioning vs Liquid Clustering Decision Tree](assets/06_databricks_and_delta_lake_faq/05_delta_table_partitioning_vs_liquid_clustering_decision_tree.svg)
 
-        WorkloadCheck{"Databricks Runtime Version?"}
-        SizeCheck -->|>= 500 GB - Multi-TB| WorkloadCheck
-        Liquid["<b>Use Liquid Clustering</b><br/>CREATE TABLE ... CLUSTER BY (date, customer_id)<br/>Flexible, handles high cardinality, no directory skew"]
-        WorkloadCheck -->|DBR >= 13.3| Liquid
-    end
-
-    subgraph CardinalityAssessment ["Legacy Hive Partitioning Cardinality Gate"]
-        CardCheck{"Candidate Column Cardinality?"}
-        WorkloadCheck -->|Legacy DBR / Hive Engine| CardCheck
-
-        Reject["<b>REJECT: High Cardinality (>1,000)</b><br/>Creates millions of directories &rarr; Use Z-ORDER"]
-        RejectSkew["<b>REJECT: Low Cardinality (<5)</b><br/>Causes massive partition skew"]
-        AcceptHive["<b>Accept Hive Partition</b><br/>PARTITIONED BY (order_date) where partition &ge; 1 GB"]
-
-        CardCheck -->|High: >1,000 values| Reject
-        CardCheck -->|Tiny: 2-5 values| RejectSkew
-        CardCheck -->|Moderate: 10 - 1,000 values| AcceptHive
-    end
-
-    style SizingGate fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CardinalityAssessment fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Start fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style NoPartition fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Liquid fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Reject fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style RejectSkew fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style AcceptHive fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/05_delta_table_partitioning_vs_liquid_clustering_decision_tree.d2](assets/06_databricks_and_delta_lake_faq/05_delta_table_partitioning_vs_liquid_clustering_decision_tree.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -598,24 +465,9 @@ RESTORE TABLE silver.customers TO TIMESTAMP AS OF '2024-10-02 12:00:00';
 - **Q9**: You notice a DataBricks job that runs fine in dev but takes 3× longer in production — how do you debug this?
 
 #### Systematic Root-Cause Analysis: 3x Slowdown in Production (Q8, Q9)
-```mermaid
-flowchart TD
-    subgraph DatabricksSlowdown ["Root Causes of Sudden 3x Slowdown in Production"]
-        Slow["Job Takes 3x Longer"] --> C1["1. Cloud Spot Instance Eviction<br/>Cloud provider reclaimed spot workers; cluster recomputed lost partitions."]
-        Slow --> C2["2. Input Data Volume Spike<br/>Source data increased 5x (e.g., month-end spike, backfill)."]
-        Slow --> C3["3. Small Files Accumulation<br/>Table accumulated 100,000 files; scan phase dominated by storage API calls."]
-        Slow --> C4["4. Severe Data Skew<br/>Single key received millions of rows; straggler task blocked entire stage."]
-        Slow --> C5["5. Delta Log Checkpoint Overhead<br/>Log lacks checkpoints; reading thousands of JSON commits."]
-    end
+![Databricks Production Slowdown Root Causes](assets/06_databricks_and_delta_lake_faq/06_databricks_production_slowdown_root_causes.svg)
 
-    style DatabricksSlowdown fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Slow fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style C1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style C2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style C3 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style C4 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style C5 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/06_databricks_production_slowdown_root_causes.d2](assets/06_databricks_and_delta_lake_faq/06_databricks_production_slowdown_root_causes.d2)
 
 ---
 
@@ -641,29 +493,9 @@ flowchart TD
 **Question:** How would you design a Databricks solution for billions of records?
 
 #### Designing for Billions of Records (Q11)
-```mermaid
-flowchart LR
-    subgraph Ingestion ["1. High-Throughput Ingestion"]
-        AL["Auto Loader (File Notification Mode)"]
-    end
-    
-    subgraph StorageLayout ["2. Physical Layout"]
-        LC["Liquid Clustering (CLUSTER BY date, customer_id)<br/>Replaces manual partition hierarchies"]
-    end
+![Auto Loader Liquid Clustering Photon Architecture](assets/06_databricks_and_delta_lake_faq/07_auto_loader_liquid_clustering_photon_architecture.svg)
 
-    subgraph ComputeEngine ["3. Native Acceleration"]
-        PE["Databricks Photon Engine (C++ Vectorized SIMD)"]
-    end
-
-    AL --> LC --> PE
-
-    style Ingestion fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StorageLayout fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style ComputeEngine fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style AL fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style LC fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style PE fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/07_auto_loader_liquid_clustering_photon_architecture.d2](assets/06_databricks_and_delta_lake_faq/07_auto_loader_liquid_clustering_photon_architecture.d2)
 
 ---
 
@@ -769,39 +601,9 @@ Delta Lake uses **Optimistic Concurrency Control (OCC)**:
 **Question:** How would you design a multi-tenant data platform using Databricks?
 
 #### The 4-Pillar Multi-Tenant Lakehouse Architecture
-```mermaid
-flowchart TD
-    subgraph MultiTenantLakehouse ["Enterprise Multi-Tenant Databricks Architecture"]
-        subgraph GovernancePlane ["1. Governance Isolation (Unity Catalog)"]
-            TenantA_Cat["tenant_a_catalog<br/>(Dedicated Storage Account A)"]
-            TenantB_Cat["tenant_b_catalog<br/>(Dedicated Storage Account B)"]
-        end
+![Enterprise Multi Tenant Databricks Lakehouse](assets/06_databricks_and_delta_lake_faq/08_enterprise_multi_tenant_databricks_lakehouse.svg)
 
-        subgraph ComputePlane ["2. Compute Isolation (Cluster Policies)"]
-            PolicyA["Tenant A Policy: Restricted Node Types, Auto-Shutdown 15m, Max 5 Workers"]
-            PolicyB["Tenant B Policy: Memory-Optimized, High-Concurrency Shared Cluster"]
-        end
-
-        subgraph NetworkPlane ["3. Network & Identity Isolation"]
-            SCIM["SCIM Azure AD / Okta Sync<br/>Group-Based RBAC"]
-            VNet["VNet Injection & Private Link<br/>Zero Public Storage Endpoints"]
-        end
-
-        subgraph CostPlane ["4. FinOps & Cost Attribution"]
-            Tags["Cluster Custom Tags: Tenant=A, CostCenter=CC101<br/>System Billing Tables (system.billing.usage)"]
-        end
-    end
-
-    GovernancePlane --> ComputePlane
-    ComputePlane --> NetworkPlane
-    NetworkPlane --> CostPlane
-
-    style MultiTenantLakehouse fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style GovernancePlane fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style ComputePlane fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style NetworkPlane fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style CostPlane fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/08_enterprise_multi_tenant_databricks_lakehouse.d2](assets/06_databricks_and_delta_lake_faq/08_enterprise_multi_tenant_databricks_lakehouse.d2)
 
 #### Layer Breakdown:
 1. **Catalog Isolation:** Each tenant is provisioned with their own Unity Catalog (`catalog_tenant_a`), mapped to a dedicated cloud storage container with tenant-isolated IAM credentials. Tenant A cannot see or query Tenant B's catalog.
@@ -825,25 +627,9 @@ Legacy approaches relied on fragile REST API scripts or UI syncs. The modern pro
 - Tracked in Git and deployed deterministically across `dev`, `staging`, and `prod` targets.
 
 #### Production CI/CD Lifecycle Blueprint
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Dev as Data Engineer
-    participant Git as GitHub / Azure Repos
-    participant CI as CI Pipeline (Actions)
-    participant Staging as Databricks Staging
-    participant Prod as Databricks Production
+![Databricks Asset Bundles CICD Deployment Sequence](assets/06_databricks_and_delta_lake_faq/09_databricks_asset_bundles_cicd_deployment_sequence.svg)
 
-    Dev->>Git: Push feature branch & open Pull Request
-    Git->>CI: Trigger linting (black, ruff), typing (mypy), and unit tests (pytest)
-    CI-->>Git: Tests Pass & Approval Granted
-    Dev->>Git: Merge PR to main
-    Git->>CI: Trigger CD Deployment (databricks bundle deploy -t staging)
-    CI->>Staging: Deploy workflows & run integration tests
-    CI->>Prod: Manual Gate Approval -> Deploy (databricks bundle deploy -t prod)
-    Prod-->>Dev: Automated Slack Notification & Workflow Activated
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/09_databricks_asset_bundles_cicd_deployment_sequence.d2](assets/06_databricks_and_delta_lake_faq/09_databricks_asset_bundles_cicd_deployment_sequence.d2)
 
 #### Production `databricks.yml` Bundle Specification
 ```yaml
@@ -968,17 +754,9 @@ print(db_password) # Prints: [REDACTED]
    - **Lakeflow Jobs:** Serverless orchestration with automated failure triage, lineage tracking, and SLA alerts.
 2. **Databricks Asset Bundles (DABs):** The Infrastructure-as-Code (IaC) standard for packaging, testing, and deploying lakehouse projects (Jobs, DLT pipelines, ML models, notebooks) across multi-stage environments (`dev`, `staging`, `prod`) using declarative YAML.
 
-```mermaid
-flowchart LR
-    Dev["Developer Laptop / IDE<br/>databricks.yml"] --> DABs["1. Databricks Asset Bundles (DABs)<br/>bundle validate && bundle deploy"]
-    DABs --> LakeflowPlatform["2. Databricks Lakeflow<br/>(Lakeflow Connect (CDC), Lakeflow Pipelines (DLT), Lakeflow Jobs (Orchestration))"]
-    LakeflowPlatform --> UC["3. Unity Catalog Metastore<br/>Governed Medallion Lakehouse"]
+![Databricks DABs Lakeflow Unity Catalog Pipeline](assets/06_databricks_and_delta_lake_faq/10_databricks_dabs_lakeflow_unity_catalog_pipeline.svg)
 
-    style Dev fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DABs fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style LakeflowPlatform fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style UC fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/10_databricks_dabs_lakeflow_unity_catalog_pipeline.d2](assets/06_databricks_and_delta_lake_faq/10_databricks_dabs_lakeflow_unity_catalog_pipeline.d2)
 
 #### Production Implementation (`databricks.yml`)
 ```yaml
@@ -1041,19 +819,9 @@ governed_df = spark.read.table("prod_catalog.finance.orders")
 **Question:** How would you validate source and target data during a large-scale migration to Delta Lake?
 
 #### Comprehensive 4-Pillar Validation Framework
-```mermaid
-flowchart TD
-    Migration["Legacy Database $\to$ Delta Lake Migration"] --> V1["1. Row Count & Cardinality Reconciliation<br/>COUNT(*) and COUNT(DISTINCT pk) match exactly"]
-    Migration --> V2["2. Metric Aggregations & Numerical Footing<br/>SUM(revenue), MIN/MAX(dates), AVG(balances) match to 4 decimal places"]
-    Migration --> V3["3. Cryptographic Checksum Hashing<br/>MD5/SHA-256 hash across sorted column slices"]
-    Migration --> V4["4. Dual-Run Shadow Pipeline<br/>Run both legacy and Delta pipelines in parallel for 14 days"]
+![Legacy Database to Delta Lake Reconciliation Framework](assets/06_databricks_and_delta_lake_faq/11_legacy_database_to_delta_lake_reconciliation_framework.svg)
 
-    style Migration fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style V1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style V2 fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style V3 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style V4 fill:#064e3b,stroke:#8b5cf6,stroke-width:2px,color:#c084fc
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/11_legacy_database_to_delta_lake_reconciliation_framework.d2](assets/06_databricks_and_delta_lake_faq/11_legacy_database_to_delta_lake_reconciliation_framework.d2)
 
 #### Production PySpark Checksum Validation
 ```python
@@ -1160,36 +928,9 @@ In the Medallion Architecture, data flows sequentially through Bronze (raw appen
 Delta Lake provides native audit primitives to trace this pipeline deterministically: `DESCRIBE HISTORY`, table tags, and Time Travel.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph BronzeAudit ["1. Bronze Raw Ingestion Audit"]
-        GoldAlert["🚨 <b>Gold Missing 50k Records</b><br/>Expected 1,000,000 &rarr; Found 950,000"] --> Trace1["<b>1. Audit Bronze Raw Table</b><br/>Run count(*) & inspect Auto Loader _rescued_data"]
-        Trace1 --> CheckBronze{"Did Bronze receive all 1,000,000?"}
-        BronzeLoss["<b>Root Cause: Source Ingestion Failure</b><br/>Source file drop missed or Auto Loader glob mismatch"]
-        CheckBronze -- "No" --> BronzeLoss
-    end
+![Data Loss Triage Bronze Quarantine Join Attrition](assets/06_databricks_and_delta_lake_faq/12_data_loss_triage_bronze_quarantine_join_attrition.svg)
 
-    subgraph SilverAndJoinAudit ["2. Quality Gate & Join Loss Audit"]
-        CheckBronze -- "Yes" --> Trace2["<b>2. Audit Silver Quality Quarantine</b><br/>Inspect silver.quarantine_orders"]
-        Trace2 --> CheckQuarantine{"Were records quarantined?"}
-        QualityLoss["<b>Root Cause: Quality Gate Caught Errors</b><br/>Strict validation caught schema/null violations"]
-        CheckQuarantine -- "Yes (30,000 in DLQ)" --> QualityLoss
-
-        CheckQuarantine -- "No / Unaccounted" --> Trace3["<b>3. Check Inner Join Attrition</b><br/>Anti-join Silver Fact against Dimensions"]
-        DimensionLoss["<b>Root Cause: Missing Dimension Key</b><br/>20,000 Fact rows dropped by INNER JOIN on missing dim_store keys"]
-        Trace3 --> DimensionLoss
-    end
-
-    style BronzeAudit fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SilverAndJoinAudit fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style GoldAlert fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Trace1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Trace2 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Trace3 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BronzeLoss fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-    style QualityLoss fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-    style DimensionLoss fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/12_data_loss_triage_bronze_quarantine_join_attrition.d2](assets/06_databricks_and_delta_lake_faq/12_data_loss_triage_bronze_quarantine_join_attrition.d2)
 
 #### Production Implementation / Diagnostic Playbook
 ```sql
@@ -1249,26 +990,9 @@ In Databricks, orchestrating modular processing steps across notebooks is achiev
    - **Enterprise Features:** Native visual DAG editor, conditional task branching (`if/else`, `RunIf`), retries, repair-and-run, and lineage observability.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph MethodA ["Method A: Programmatic dbutils.notebook.run()"]
-        Parent["Parent Orchestrator Notebook"] --> Child1["dbutils.notebook.run('bronze_etl', 600, {'env': 'prod'})"]
-        Child1 --> Child2["dbutils.notebook.run('silver_etl', 1200, {'env': 'prod'})"]
-        Child2 --> ReturnVal["Captures JSON string from dbutils.notebook.exit()"]
-        NoteA["Runs sequentially on single shared cluster<br/>Hard to debug multi-step failures"]
-    end
+![DBUtils Notebook Run vs Databricks Workflows DAG](assets/06_databricks_and_delta_lake_faq/13_dbutils_notebook_run_vs_databricks_workflows_dag.svg)
 
-    subgraph MethodB ["Method B: Databricks Workflows (Multi-Task DAG)"]
-        Task1["Task 1: Ingestion<br/>(Cluster: 2 Workers)"] --> Task2["Task 2: Transformation<br/>(Cluster: 8 Workers)"]
-        Task1 --> Task3["Task 3: Validation<br/>(Cluster: Serverless)"]
-        Task2 --> Task4["Task 4: Gold Aggregate"]
-        Task3 --> Task4
-        NoteB["Visual DAG, task-level retries, independent cluster sizing,<br/>Repair-and-run without re-executing Task 1"]
-    end
-
-    style MethodA fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-    style MethodB fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/13_dbutils_notebook_run_vs_databricks_workflows_dag.d2](assets/06_databricks_and_delta_lake_faq/13_dbutils_notebook_run_vs_databricks_workflows_dag.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1328,27 +1052,9 @@ In contrast, **Delta Lake never lists physical storage directories during query 
 3. **Execution Failure:** When a query executes, the driver constructs the file scan list from the transaction log. Spark tasks attempt to open the missing file's S3/ADLS byte blocks, resulting in an immediate hard failure: `java.io.FileNotFoundException: File does not exist`.
 
 #### Visual Flow: The Storage-Log Divergence Pathology
-```mermaid
-flowchart TD
-    subgraph StorageLayer ["Physical Cloud Storage (S3 / ADLS)"]
-        F1["part-00001.parquet (Active)"]
-        F2["part-00002.parquet ❌ MANUALLY DELETED via AWS CLI!"]
-        F3["part-00003.parquet (Active)"]
-    end
+![Delta Lake Manual Parquet Deletion FileNotFound Failure](assets/06_databricks_and_delta_lake_faq/14_delta_lake_manual_parquet_deletion_filenotfound_failure.svg)
 
-    subgraph LogLayer ["_delta_log/ (Single Source of Truth)"]
-        Commit["000014.json<br/>Active Files: [part-00001, part-00002, part-00003]"]
-    end
-
-    LogLayer -->|Constructs Scan Plan| QueryEngine["Spark Catalyst Query Planner"]
-    QueryEngine -->|Dispatches Task| Executor["Executor Worker Node"]
-    Executor -->|Requests part-00002| StorageLayer
-    StorageLayer -->|Missing File!| Crash["💥 java.io.FileNotFoundException<br/>Query Terminates Abruptly!"]
-
-    style StorageLayer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LogLayer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Crash fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/14_delta_lake_manual_parquet_deletion_filenotfound_failure.d2](assets/06_databricks_and_delta_lake_faq/14_delta_lake_manual_parquet_deletion_filenotfound_failure.d2)
 
 #### Production Diagnostic & Remediation Runbook
 
@@ -1410,31 +1116,9 @@ However, OCC in Delta Lake operates at **Parquet file granularity**, not individ
 3. **Conflict Detection:** Job B attempts to commit version $V_2$. Delta's OCC checks whether the files Job B modified have changed since version $V_0$. Because `part-00005.parquet` was already rewritten and committed by Job A, Job B's transaction fails with `ConcurrentAppendException` or `ConcurrentTransactionException` to prevent lost updates!
 
 #### Visual Flow: The Shared Parquet File Concurrency Collision
-```mermaid
-flowchart TD
-    subgraph InitialState ["Table Version V0: part-00005.parquet"]
-        File0["part-00005.parquet<br/>Contains rows: Merchant M100 AND Merchant M200"]
-    end
+![Delta Lake Concurrent Update OCC Conflict Exception](assets/06_databricks_and_delta_lake_faq/15_delta_lake_concurrent_update_occ_conflict_exception.svg)
 
-    subgraph ConcurrentJobs ["Two Concurrent Pipelines (Different Business Keys)"]
-        JobA["Job A: UPDATE where merchant_id = 'M100'"]
-        JobB["Job B: UPDATE where merchant_id = 'M200'"]
-    end
-
-    InitialState --> JobA
-    InitialState --> JobB
-
-    JobA -->|Finishes First: Commits V1| CommitA["✅ Commit V1 Succeeded!<br/>part-00005 replaced with part-00005-A"]
-    JobB -->|Attempts Commit V2| ConflictCheck{"OCC Conflict Check:<br/>Was part-00005 modified?"}
-    CommitA --> ConflictCheck
-
-    ConflictCheck -->|YES: File Modified by V1| CrashB["⛔ DeltaConcurrentModificationException<br/>Job B Aborts to Prevent Overwriting M100!"]
-
-    style InitialState fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ConcurrentJobs fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style CommitA fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style CrashB fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/15_delta_lake_concurrent_update_occ_conflict_exception.d2](assets/06_databricks_and_delta_lake_faq/15_delta_lake_concurrent_update_occ_conflict_exception.d2)
 
 #### Production Resolution Strategy: 3 Architectural Defenses
 
@@ -1507,27 +1191,9 @@ Disaster recovery in Delta Lake relies on the interaction between two independen
 - The transaction log still contains the historical metadata describing the version 60 days ago, but the physical data files required to materialize that version no longer exist on disk.
 
 #### Visual Flow: Metadata vs. Physical Storage Retention Mismatch
-```mermaid
-flowchart TD
-    subgraph MetadataLog ["Transaction Log (delta.logRetentionDuration = 90 Days)"]
-        V90["Day 90: Version 10<br/>Metadata JSON Retained"]
-        V60["Day 60: Version 120<br/>Metadata JSON Retained"]
-        V0["Day 0: Version 350 (Current)<br/>Metadata JSON Active"]
-    end
+![Delta Log Retention vs VACUUM Retention Mismatch](assets/06_databricks_and_delta_lake_faq/16_delta_log_retention_vs_vacuum_retention_mismatch.svg)
 
-    subgraph PhysicalStorage ["Cloud Object Storage (VACUUM RETAIN = 7 Days)"]
-        PCurrent["Active Parquet Files: Retained"]
-        P60["Tombstoned Parquet Files from Day 60:<br/>❌ PURGED BY VACUUM (Exceeded 7 Days!)"]
-    end
-
-    V60 -.->|References Deleted File| P60
-    Developer["Developer: RESTORE VERSION AS OF 120"] --> V60
-    P60 --> Fail["💥 java.io.FileNotFoundException:<br/>Physical Parquet file purged by VACUUM!"]
-
-    style MetadataLog fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PhysicalStorage fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Fail fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/16_delta_log_retention_vs_vacuum_retention_mismatch.d2](assets/06_databricks_and_delta_lake_faq/16_delta_log_retention_vs_vacuum_retention_mismatch.d2)
 
 #### Production Table Configuration for Enterprise Disaster Recovery
 To guarantee point-in-time recovery for regulatory compliance (e.g. 90-day restatements in financial institutions):
@@ -1567,25 +1233,9 @@ By default, Delta Lake enforces strict **Schema Validation (Schema on Write)**:
 3. **The Silent Corruption Trap (`mergeSchema = true`):** Setting `.option("mergeSchema", "true")` automatically appends new columns, but will **fail or create duplicate unioned columns** if data types conflict!
 
 #### Visual Flow: Automated Schema Evolution & Quarantine Architecture
-```mermaid
-flowchart TD
-    RawStream["Upstream Ingestion Batch<br/>(customer_zip: STRING '07030', +2 New Columns)"] --> SchemaValidator{"Schema Gatekeeper<br/>Delta Table vs Incoming Schema"}
+![Schema Evolution Type Conflict Quarantine Runbook](assets/06_databricks_and_delta_lake_faq/17_schema_evolution_type_conflict_quarantine_runbook.svg)
 
-    SchemaValidator -->|New Columns Detected (Compatible)| AutoMerge["Merge Schema (.option('mergeSchema', 'true'))<br/>Appends is_verified, loyalty_tier"]
-    SchemaValidator -->|Type Incompatibility: INT -> STRING| BranchType["Incompatible Type Branch"]
-
-    BranchType --> Quarantine["Quarantine Table: silver.raw_schema_quarantine<br/>Isolate corrupt batch with schema diff metadata"]
-    BranchType --> MigrationRunbook["Automated Column Migration Protocol:<br/>Rename zip -> zip_legacy_int<br/>Add customer_zip STRING<br/>Backfill CAST(zip_legacy_int AS STRING)"]
-
-    AutoMerge --> DeltaSink[("Target Delta Lake Table<br/>Zero Downstream Breakdown!")]
-    MigrationRunbook --> DeltaSink
-
-    style RawStream fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SchemaValidator fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style AutoMerge fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Quarantine fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style MigrationRunbook fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/06_databricks_and_delta_lake_faq/17_schema_evolution_type_conflict_quarantine_runbook.d2](assets/06_databricks_and_delta_lake_faq/17_schema_evolution_type_conflict_quarantine_runbook.d2)
 
 #### Production Python Implementation: Schema Validation & Migration Runbook
 ```python

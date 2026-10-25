@@ -1,0 +1,22 @@
+direction: right
+title: Dremel Record Shredding: Schema Tree Traversal
+
+doc: Document Root (Level 0) {
+  def_level: "D: 0, R: 0"
+}
+
+owner: owner: Optional Struct (Level 1) {
+  def_level: "Max D: 1, R: 0"
+}
+
+phone: phone: Repeated Array (Level 2) {
+  def_level: "Max D: 2, Max R: 1"
+}
+
+number: number: String (Level 3 Leaf) {
+  value: "Stored leaf primitive"
+}
+
+doc -> owner: "Level 1"
+owner -> phone: "Level 2"
+phone -> number: "Level 3"

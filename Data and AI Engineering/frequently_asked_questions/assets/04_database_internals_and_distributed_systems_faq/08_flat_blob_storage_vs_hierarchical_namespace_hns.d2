@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  box_red: { style: { fill: "#111827"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+flat: "Flat Blob Storage (No HNS)\nVirtual Path Key Strings" {
+  class: box_red
+  f1: "Key: 'raw/orders/file_01.parquet'"
+  f2: "Key: 'raw/orders/file_02.parquet'"
+  rename: "Rename Directory 'raw' to 'archive'\nMust issue 100,000 HTTP Copy + Delete calls!\nO(N) Complexity -> 45 Minutes, Highly Unstable"
+  f1 -> rename
+  f2 -> rename
+}
+
+hns: "Azure Data Lake Gen2 (HNS Enabled)\nTrue Hierarchical Inodes" {
+  class: box_green
+  dir: "Directory Inode: /raw/orders"
+  d1: "file_01.parquet"
+  d2: "file_02.parquet"
+  dir -> d1
+  dir -> d2
+  h_rename: "Rename Directory /raw to /archive\nAtomic Inode Pointer Update in Metadata\nO(1) Complexity -> 12 Milliseconds!"
+  dir -> h_rename
+}

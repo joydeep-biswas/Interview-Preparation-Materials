@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 420" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="550" y="32" class="title" font-size="19" text-anchor="middle">Cascading Failure: Thread Pool Exhaustion &amp; Circuit Breaker Salvation</text>
+  <text x="550" y="52" class="subtitle" text-anchor="middle">How an unconfigured socket timeout causes thread starvation, HTTP 504 timeouts, and circuit breaker trip</text>
+
+  <!-- Four Swimlanes -->
+  <!-- Lane 1: Client -->
+  <g transform="translate(30, 75)">
+    <rect width="210" height="325" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="210" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="105" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">Client Application</text>
+    
+    <rect x="15" y="48" width="180" height="45" rx="6" ry="6" fill="#1E293B" stroke="#60A5FA"/>
+    <text x="105" y="68" class="badge" fill="#93C5FD" text-anchor="middle">1. POST /orders</text>
+    <text x="105" y="84" class="card-body" text-anchor="middle">Submits order request</text>
+
+    <rect x="15" y="160" width="180" height="55" rx="6" ry="6" fill="#1E293B" stroke="#EF4444"/>
+    <text x="105" y="180" class="badge" fill="#FCA5A5" text-anchor="middle">5. HTTP 504 Timeout</text>
+    <text x="105" y="196" class="card-body" fill="#F87171" text-anchor="middle">Client receives gateway timeout</text>
+
+    <rect x="15" y="250" width="180" height="45" rx="6" ry="6" fill="#1E293B" stroke="#10B981"/>
+    <text x="105" y="270" class="badge" fill="#A7F3D0" text-anchor="middle">6. Fallback Response</text>
+    <text x="105" y="286" class="card-body" fill="#34D399" text-anchor="middle">Clean fallback (&lt; 5ms)</text>
+  </g>
+
+  <!-- Lane 2: API Gateway -->
+  <g transform="translate(270, 75)">
+    <rect width="230" height="325" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <text x="115" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">API Gateway (Envoy)</text>
+    
+    <rect x="15" y="48" width="200" height="45" rx="6" ry="6" fill="#1E293B" stroke="#34D399"/>
+    <text x="115" y="68" class="badge" fill="#A7F3D0" text-anchor="middle">2. Forward Request</text>
+    <text x="115" y="84" class="card-body" text-anchor="middle">Routes to Order Service</text>
+
+    <rect x="15" y="160" width="200" height="55" rx="6" ry="6" fill="#1E293B" stroke="#EF4444"/>
+    <text x="115" y="180" class="badge" fill="#FCA5A5" text-anchor="middle">Gateway SLA Breached</text>
+    <text x="115" y="196" class="card-body" text-anchor="middle">No response from Order Svc</text>
+
+    <rect x="15" y="250" width="200" height="45" rx="6" ry="6" fill="#1E293B" stroke="#10B981"/>
+    <text x="115" y="270" class="badge" fill="#A7F3D0" text-anchor="middle">Fast Fallback Emitted</text>
+    <text x="115" y="286" class="card-body" text-anchor="middle">Prevents Gateway OOM</text>
+  </g>
+
+  <!-- Lane 3: Order Service -->
+  <g transform="translate(530, 75)">
+    <rect width="270" height="325" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="270" height="34" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="135" y="22" class="card-title" fill="#FCA5A5" text-anchor="middle">Order Service (Tomcat Pool)</text>
+    
+    <rect x="15" y="48" width="240" height="45" rx="6" ry="6" fill="#1E293B" stroke="#FCA5A5"/>
+    <text x="135" y="68" class="badge" fill="#FCA5A5" text-anchor="middle">Allocates Thread-1</text>
+    <text x="135" y="84" class="card-body" text-anchor="middle">Calls Downstream Fraud Svc</text>
+
+    <rect x="15" y="105" width="240" height="70" rx="6" ry="6" fill="#1E293B" stroke="#EF4444" stroke-width="2"/>
+    <text x="135" y="125" class="badge" fill="#FCA5A5" text-anchor="middle">3. Thread Pool Starvation</text>
+    <text x="135" y="142" class="card-body" text-anchor="middle">All 200/200 threads blocked</text>
+    <text x="135" y="158" class="badge" fill="#EF4444" text-anchor="middle">Zero threads to accept new requests!</text>
+
+    <rect x="15" y="240" width="240" height="60" rx="6" ry="6" fill="#1E293B" stroke="#F59E0B"/>
+    <text x="135" y="260" class="badge" fill="#FDE68A" text-anchor="middle">Circuit Breaker Trips to OPEN</text>
+    <text x="135" y="278" class="card-body" text-anchor="middle">Sheds fraud calls, threads unblock!</text>
+  </g>
+
+  <!-- Lane 4: Downstream Hang -->
+  <g transform="translate(830, 75)">
+    <rect width="240" height="325" rx="10" ry="10" fill="#111827" stroke="#6B7280" stroke-width="2"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#374151"/>
+    <text x="120" y="22" class="card-title" fill="#E5E7EB" text-anchor="middle">Downstream Fraud Service</text>
+    
+    <rect x="15" y="48" width="210" height="45" rx="6" ry="6" fill="#1E293B"/>
+    <text x="120" y="68" class="badge" fill="#9CA3AF" text-anchor="middle">Accepts Request</text>
+    
+    <rect x="15" y="105" width="210" height="70" rx="6" ry="6" fill="#1E293B" stroke="#EF4444"/>
+    <text x="120" y="125" class="badge" fill="#FCA5A5" text-anchor="middle">4. HANGS INDEFINITELY</text>
+    <text x="120" y="142" class="card-body" text-anchor="middle">Full GC Pause / DB Lock</text>
+    <text x="120" y="158" class="badge" fill="#EF4444" text-anchor="middle">Order Svc has NO socket timeout!</text>
+
+    <rect x="15" y="240" width="210" height="60" rx="6" ry="6" fill="#1E293B"/>
+    <text x="120" y="260" class="badge" fill="#9CA3AF" text-anchor="middle">Isolated by Circuit Breaker</text>
+    <text x="120" y="278" class="card-body" text-anchor="middle">Downstream failure contained</text>
+  </g>
+
+  <!-- Arrows with Straight Runways -->
+  <!-- 1. Client to Gateway -->
+  <path d="M 240 70 L 258 70 L 270 70" fill="none" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- 2. Gateway to Order Svc -->
+  <path d="M 500 70 L 518 70 L 530 70" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- 3. Order Svc to Fraud Svc -->
+  <path d="M 800 70 L 818 70 L 830 70" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+
+  <!-- 4. Hangs (Red cross) -->
+  <text x="815" y="145" font-weight="900" fill="#EF4444" font-size="16">✕</text>
+
+  <!-- 5. Timeout from Gateway to Client -->
+  <path d="M 270 185 L 252 185 L 240 185" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+  <!-- 6. Circuit breaker recovers flow -->
+  <path d="M 530 270 L 512 270 L 500 270" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <path d="M 270 270 L 252 270 L 240 270" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+</svg>

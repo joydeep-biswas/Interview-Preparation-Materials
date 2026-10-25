@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  sync: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  async: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+sync_wsgi: "Synchronous WSGI (Flask / Gunicorn)" {
+  t1: "Thread 1 (Locked 12s waiting for LLM)" { class: sync }
+  t10: "Thread 10 (All worker slots locked!)" { class: sync }
+  crash: "Incoming Req 11: 504 Gateway Timeout!" { class: sync }
+
+  t1 -> t10 -> crash
+}
+
+async_fastapi: "AsyncIO Event Loop (FastAPI / Uvicorn)" {
+  loop: "Single Event Loop Thread\n(Yields on await token chunk)" { class: async }
+  sse: "Server-Sent Events (SSE)\n(10,000 active streams per pod)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+
+  loop -> sse
+}

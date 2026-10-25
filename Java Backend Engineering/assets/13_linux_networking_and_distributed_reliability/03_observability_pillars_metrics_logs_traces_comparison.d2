@@ -1,0 +1,32 @@
+direction: right
+title: "Production Observability: Metrics vs Logs vs Traces Comparison Matrix"
+
+obs: "The Three Pillars" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+metrics: "1. Metrics (Micrometer)
+Low Cardinality | Low Cost | 1-2 Yr Retention
+Detects: 'Something is broken!'" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+logs: "2. Logs (MDC / Logback)
+Unbounded Cardinality | High Cost | 30 Day
+Explains: 'Why did it break?'" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+traces: "3. Distributed Tracing
+Sampled Spans | Cross-Service Call Tree
+Isolates: 'Where did it stall?'" {
+  style.fill: "#2e1065"
+  style.stroke: "#8b5cf6"
+}
+
+obs -> metrics
+obs -> logs
+obs -> traces

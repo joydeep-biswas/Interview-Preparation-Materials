@@ -1,0 +1,26 @@
+direction: right
+title: "Service Mesh Architecture: Istio & Envoy Sidecar Proxies"
+
+pod1: "Pod: Order Service" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  app1: "Spring Boot App
+Plain HTTP Call"
+  envoy1: "Envoy Sidecar
+SPIFFE Identity & Encryptor"
+  app1 -> envoy1: "Localhost (Loopback)"
+}
+
+pod2: "Pod: Payment Service" {
+  style.fill: "#1a140b"
+  style.stroke: "#f59e0b"
+
+  envoy2: "Envoy Sidecar
+Terminates mTLS & AuthPolicy"
+  app2: "Spring Boot App
+Receives Plain HTTP"
+  envoy2 -> app2: "Localhost (Loopback)"
+}
+
+pod1.envoy1 -> pod2.envoy2: "Zero-Trust mTLS Tunnel (Mutual Auth)"

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" width="1080" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">API Gateway Architecture: Routing &amp; Security Offloading</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Consolidating TLS Termination, JWT Authentication, Distributed Rate Limiting, and L7 Routing</text>
+<rect x="40" y="150" width="180" height="200" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="130" y="185" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Public Clients</text>
+<text x="55" y="220" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Web Browsers (React)</text>
+<text x="55" y="245" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Mobile Apps (iOS/Android)</text>
+<text x="55" y="270" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• B2B Partner APIs</text>
+<text x="55" y="305" fill="#38BDF8" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">HTTPS / Port 443</text>
+<text x="55" y="325" fill="#F87171" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Raw Untrusted Traffic</text>
+<rect x="270" y="100" width="480" height="360" rx="10" fill="#083344" stroke="#06b6d4" stroke-width="2"/>
+<rect x="285" y="115" width="340" height="22" rx="11" fill="#0891b2"/><text x="455" y="129" fill="#ECFEFF" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">API GATEWAY (Spring Cloud Gateway / Envoy)</text>
+<rect x="290" y="155" width="440" height="65" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="510" y="179" fill="#3b82f6" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. TLS Termination &amp; WAF</text>
+<text x="510" y="201" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offloads SSL/TLS CPU burden; sanitizes XSS &amp; SQLi payloads</text>
+<rect x="290" y="230" width="440" height="65" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="510" y="254" fill="#10b981" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. JWT Auth &amp; Token Verification</text>
+<text x="510" y="276" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Validates RS256 signature, checks expiry, extracts user claims</text>
+<rect x="290" y="305" width="440" height="65" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="510" y="329" fill="#f59e0b" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Distributed Rate Limiting</text>
+<text x="510" y="351" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Token Bucket via Redis cluster (e.g. 100 req/sec per API key)</text>
+<rect x="290" y="380" width="440" height="65" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="510" y="404" fill="#8b5cf6" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Dynamic Path &amp; Canary Routing</text>
+<text x="510" y="426" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Rewrites /api/v1/orders -&gt; cluster IP; supports 95/5 canary split</text>
+<rect x="800" y="120" width="240" height="320" rx="8" fill="#062e24" stroke="#10b981" stroke-width="1.5"/>
+<rect x="815" y="135" width="210" height="20" rx="10" fill="#047857"/><text x="920" y="148" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">INTERNAL VPC MESH</text>
+<text x="920" y="175" fill="#34D399" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Sanitized &amp; Authenticated</text>
+<rect x="815" y="200" width="210" height="60" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="920" y="225" fill="#10b981" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Order Service</text>
+<text x="920" y="245" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Private IP: 10.0.1.15:8080</text>
+<rect x="815" y="275" width="210" height="60" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="920" y="300" fill="#f59e0b" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Payment Service</text>
+<text x="920" y="320" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Private IP: 10.0.2.22:8080</text>
+<rect x="815" y="350" width="210" height="60" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="920" y="375" fill="#3b82f6" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">User Service</text>
+<text x="920" y="395" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Private IP: 10.0.3.40:8080</text>
+<path d="M 220.0 250.0 L 230.0 250.0 C 243.0 250.0, 243.0 280.0, 256.0 280.0 L 270.0 280.0" fill="none" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="750" y1="280" x2="800" y2="280" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="40" y="480" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="503" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why Microservices Should Never Handle Auth &amp; Rate Limiting Individually:</text>
+<text x="65" y="523" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Centralizing authentication at the API Gateway ensures zero unauthenticated requests enter the internal cluster network.</text>
+<text x="65" y="540" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Internal microservices can safely trust user identity headers (e.g. X-User-Id, X-User-Roles) propagated by the gateway.</text>
+</svg>

@@ -1,0 +1,32 @@
+direction: right
+title: Enterprise Caching, Messaging & Event Mesh Architecture
+
+AppTier: 1. Application Tier & Multi-Tier Caching {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  app: Spring Boot 3 Services
+  l1: L1 Local Cache (Caffeine in JVM Heap)
+  l2: L2 Distributed Cache (Redis Enterprise)
+  db: Primary Database (PostgreSQL)
+  app <-> l1: In-process heap hit
+  app <-> l2: Cache-Aside / Redlock
+  app -> db: ACID transactions
+}
+
+EventMesh: 2. Asynchronous Messaging & Event Mesh {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  rmq: RabbitMQ (Task Distribution)
+  kafka: Apache Kafka (KRaft Event Log)
+  workers: Async Task Workers
+  billing: Billing Consumer Group
+  analytics: Analytics Consumer Group
+  dlq: Dead Letter Queue (DLQ)
+  rmq -> workers
+  kafka -> billing
+  kafka -> analytics
+  kafka -> dlq
+}
+
+AppTier.app -> EventMesh.rmq: Point-to-point task publish { style.stroke: "#F59E0B" }
+AppTier.app -> EventMesh.kafka: Partitioned event stream { style.stroke: "#10B981" }

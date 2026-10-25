@@ -1,0 +1,22 @@
+direction: right
+title: REST Idempotency & Safety: POST vs. PUT Mechanics
+
+post: "POST Method: Non-Idempotent (f(f(x)) != f(x))" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  req1: "POST /orders -> 1 Order in DB"
+  retry: "Client Retry -> 2 ORDERS IN DB! (Duplicate billing!)"
+
+  req1 -> retry: "Network timeout"
+}
+
+put: "PUT Method: Strictly Idempotent (f(f(x)) == f(x))" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  put1: "PUT /users/42 -> User 42 = Alice"
+  put_retry: "Client Retry -> User 42 STILL Alice (Safe!)"
+
+  put1 -> put_retry: "Network timeout"
+}

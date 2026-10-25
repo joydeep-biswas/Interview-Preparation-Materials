@@ -1,0 +1,37 @@
+direction: right
+title: Spring AOP Proxy Mechanics: JDK Dynamic Proxies vs. CGLIB
+
+client: "Client Caller (e.g. Controller)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+  invoke: "orderService.create()"
+}
+
+proxy: "Spring Dynamic Proxy" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  jdk: "JDK Dynamic Proxy (implements interface)"
+  cglib: "CGLIB Proxy (Subclasses target concrete class)"
+}
+
+chain: "MethodInterceptor Chain" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  sec: "SecurityInterceptor (@PreAuthorize)"
+  tx: "TransactionInterceptor (@Transactional)"
+  audit: "Audit Aspect (@Around)"
+
+  sec -> tx -> audit
+}
+
+target: "Target Bean Instance (OrderServiceImpl)" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+  logic: "Pure business & database logic"
+}
+
+client.invoke -> proxy.cglib
+proxy.cglib -> chain.sec
+chain.audit -> target.logic: "MethodInvocation.proceed()"

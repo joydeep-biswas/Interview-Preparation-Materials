@@ -1,0 +1,33 @@
+direction: right
+title: "CQRS Architecture"
+
+client: "Client App" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+cmd: "Command Side (Writes)
+OrderCommandService
+PostgreSQL 3NF Tables" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+}
+
+sync: "Sync Projection
+Kafka Stream / Debezium
+Denormalizes into JSON" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+query: "Query Side (Reads)
+OrderQueryService
+Elasticsearch Flat Views" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+client -> cmd: "POST /orders (Mutations)"
+cmd -> sync: "CDC Event Stream"
+sync -> query: "Hydrates Read Views"
+client -> query: "GET /orders (Fast Reads)"

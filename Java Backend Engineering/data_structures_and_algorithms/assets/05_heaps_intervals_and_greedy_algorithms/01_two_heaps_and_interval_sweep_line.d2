@@ -1,0 +1,19 @@
+direction: right
+title: Dual-Heaps & Sweep-Line Architecture
+
+Heaps: 1. Two-Heaps Streaming Median {
+  Stream: Unbounded Input Stream
+  MaxH: "Max-Heap (Lower 50%)\nRoot = Max of Lower"
+  MinH: "Min-Heap (Upper 50%)\nRoot = Min of Upper"
+  Stream -> MaxH
+  Stream -> MinH
+  MaxH <-> MinH: "Balance: 0 <= |MaxH| - |MinH| <= 1"
+}
+
+SweepLine: 2. Sweep-Line Interval Projection {
+  E1: "t=5 [Start: +1]"
+  E2: "t=10 [Start: +1]"
+  E3: "t=15 [End: -1]"
+  E4: "t=20 [End: -1]"
+  E1 -> E2 -> E3 -> E4
+}

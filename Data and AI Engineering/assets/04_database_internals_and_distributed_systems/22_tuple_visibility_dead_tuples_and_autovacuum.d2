@@ -1,0 +1,32 @@
+direction: right
+title: Tuple Visibility, Dead Tuples & The AUTOVACUUM Engine
+
+live: 1. Live Tuple {
+  status: "xmin = current_xid, xmax = 0"
+  style.stroke: "#10b981"
+}
+
+updated: 2. Updated / Deleted Tuple {
+  status: "xmax set to current_xid"
+  style.stroke: "#f59e0b"
+}
+
+dead: 3. Dead Tuple (Retained) {
+  status: "Retained while active snapshots reference it"
+  style.stroke: "#ef4444"
+}
+
+eligible: 4. Eligible for Vacuum {
+  status: "Oldest active xmin advances past xmax"
+  style.stroke: "#8b5cf6"
+}
+
+reclaimed: 5. Reclaimed Space {
+  status: "AUTOVACUUM reclaims slot in Page Header"
+  style.stroke: "#10b981"
+}
+
+live -> updated: "UPDATE / DELETE"
+updated -> dead: "Tx Commits"
+dead -> eligible: "Snapshots advance"
+eligible -> reclaimed: "AUTOVACUUM runs"

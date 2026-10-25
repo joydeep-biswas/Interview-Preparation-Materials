@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  host_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  sand_box: { style: { fill: "#0D1F1C", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+Host: "Host Kubernetes\nAutonomous Agent -> mTLS" { class: host_box }
+
+Sandbox: "Hardened Sandbox (gVisor)" {
+  class: sand_box
+  Kernel: "gVisor User-Space Kernel\nIntercepts syscalls" { class: card_dark }
+  Limits: "cgroups v2: 1 CPU, 512MB RAM" { class: card_dark }
+  Network: "Isolated NetNS: No Internet" { class: card_dark }
+  Kernel -> Limits -> Network
+}
+
+Host -> Sandbox: "Execute Code"

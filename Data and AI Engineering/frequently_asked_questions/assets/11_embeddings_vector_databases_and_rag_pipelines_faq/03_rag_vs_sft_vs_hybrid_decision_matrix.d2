@@ -1,0 +1,17 @@
+direction: down
+classes: {
+  root_box: { style: { fill: "#111827", stroke: "#F59E0B", stroke-width: 2 } }
+  rag_box: { style: { fill: "#064E3B", stroke: "#10B981", stroke-width: 2 } }
+  sft_box: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
+  hybrid_box: { style: { fill: "#111827", stroke: "#EC4899", stroke-width: 2 } }
+}
+
+Start: "What is your primary engineering objective?" { class: root_box }
+
+RAG: "Retrieval-Augmented Gen (RAG)\n• Zero training compute\n• Real-time updates\n• Strict provenance" { class: rag_box }
+SFT: "Supervised Fine-Tuning (SFT)\n• Specialized schema & syntax\n• Niche nomenclature\n• Low latency" { class: sft_box }
+Hybrid: "Hybrid (SFT + RAG)\n• Fine-tune 8B model on tools\n• Feed dynamic retrieval" { class: hybrid_box }
+
+Start -> RAG: "Dynamic Knowledge"
+Start -> SFT: "Behavior & Syntax"
+Start -> Hybrid: "Both Dynamic & Syntax"

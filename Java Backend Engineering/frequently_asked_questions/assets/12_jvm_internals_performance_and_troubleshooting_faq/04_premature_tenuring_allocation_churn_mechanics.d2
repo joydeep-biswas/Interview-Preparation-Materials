@@ -1,0 +1,34 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+alloc: "High Allocation Churn\n(Polling Loops / String Churn)" {
+  class: box
+  style.stroke: "#3B82F6"
+}
+
+eden: "Eden Space\n(Rapidly Exhausted in 100ms)" {
+  class: box
+  style.stroke: "#3B82F6"
+}
+
+survivor: "Survivor Spaces S0 / S1\n(Dynamic Aging Threshold Exceeded)" {
+  class: box
+  style.stroke: "#F59E0B"
+}
+
+old_gen: "Old Generation (Tenured)\n(Filled with Short-Lived Junk)" {
+  class: box
+  style.stroke: "#EF4444"
+}
+
+full_gc: "Major / Full GC Triggered\n(Multi-Second Stop-The-World Spike)" {
+  class: box
+  style.stroke: "#EF4444"
+}
+
+alloc -> eden: "High Allocation Rate (2 GB/s)"
+eden -> survivor: "Premature Promotion (Tenuring Age 1)"
+survivor -> old_gen: "Tenuring Overflow"
+old_gen -> full_gc: "Heap Fill Trigger"

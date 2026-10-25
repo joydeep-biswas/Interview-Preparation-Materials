@@ -1,0 +1,31 @@
+direction: right
+title: Floyd's Cycle-Finding Algorithm (Tortoise and Hare)
+
+Nodes: Linked List Topology {
+  style.fill: "#0B132B"
+  style.stroke: "#1D4ED8"
+  
+  N1: Node 1 (Head)
+  N2: Node 2
+  N3: Node 3 (Cycle Origin) {
+    style.stroke: "#10B981"
+  }
+  N4: Node 4
+  N5: Node 5 (Collision Point) {
+    style.stroke: "#F59E0B"
+  }
+  N6: Node 6
+  
+  N1 -> N2 -> N3 -> N4 -> N5 -> N6 -> N3
+}
+
+Pointers: Velocities {
+  slow: "Tortoise (Slow): 1 step / tick (v = 1)"
+  fast: "Hare (Fast): 2 steps / tick (v = 2)"
+}
+
+Proof: Phase 1 & 2 Math {
+  formula: "2 * dist(Slow) = dist(Hare) => 2(F + a) = F + nC + a => F = nC - a"
+  phase2: "Reset Slow to Head; advance Slow & Fast at v=1; collide at Cycle Origin"
+  complexity: "Time: O(n) | Auxiliary Space: O(1)"
+}

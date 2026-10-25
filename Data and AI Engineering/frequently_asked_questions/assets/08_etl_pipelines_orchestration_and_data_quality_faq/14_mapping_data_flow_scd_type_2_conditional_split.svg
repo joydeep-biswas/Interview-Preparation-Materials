@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Left: Ingestion & Lookup -->
+  <rect x="25" y="30" width="260" height="260" rx="12" ry="12" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="45" y="55" class="title-txt" fill="#93C5FD">Stream Ingestion &amp; Key Lookup</text>
+
+  <rect x="45" y="80" width="220" height="70" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="155" y="105" class="title-txt" text-anchor="middle">1. Source Stream</text>
+  <text x="57" y="128" class="body-txt" text-anchor="start">• Incoming delta records</text>
+
+  <path d="M 155 150 L 155 180" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <rect x="45" y="180" width="220" height="85" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="155" y="205" class="title-txt" text-anchor="middle">2. Lookup on Dim Table</text>
+  <text x="57" y="228" class="body-txt" text-anchor="start">• Matches on Natural Key</text>
+  <text x="57" y="246" class="mono-txt" text-anchor="start">JOIN dim_customer ON id</text>
+
+  <!-- Connect Left -> Center -->
+  <path d="M 265 222 L 325 222 Q 340 222 340 205 L 340 160 L 355 160" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- Center: Conditional Split -->
+  <rect x="355" y="30" width="310" height="260" rx="12" ry="12" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="375" y="55" class="title-txt" fill="#C084FC">Conditional Split &amp; Alteration</text>
+
+  <!-- Top branch: New Record -->
+  <rect x="375" y="80" width="270" height="75" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="510" y="105" class="title-txt" text-anchor="middle" fill="#10B981">4. INSERT Action (New)</text>
+  <text x="387" y="128" class="mono-txt" text-anchor="start">IsCurrent=1, StartDate=Today</text>
+  <text x="387" y="144" class="mono-txt" text-anchor="start">EndDate=NULL</text>
+
+  <!-- Bottom branch: Changed Record -->
+  <rect x="375" y="180" width="270" height="85" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="510" y="205" class="title-txt" text-anchor="middle" fill="#F59E0B">5. SCD Type 2 Dual Action</text>
+  <text x="387" y="228" class="body-txt" text-anchor="start">• <tspan fill="#EF4444">UPDATE:</tspan> IsCurrent=0, End=Today</text>
+  <text x="387" y="248" class="body-txt" text-anchor="start">• <tspan fill="#10B981">INSERT:</tspan> IsCurrent=1, Start=Today</text>
+
+  <!-- Connect Center -> Right -->
+  <path d="M 645 117 L 725 117 Q 740 117 740 135 L 740 150 L 760 150" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <path d="M 645 222 L 725 222 Q 740 222 740 205 L 740 170 L 760 170" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Right: Dimension Sink -->
+  <rect x="760" y="30" width="175" height="260" rx="12" ry="12" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="775" y="55" class="title-txt" fill="#6EE7B7">Dimension Lakehouse</text>
+
+  <rect x="775" y="100" width="145" height="120" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="847" y="128" class="title-txt" text-anchor="middle" fill="#10B981">6. Dim Sink</text>
+  <text x="787" y="152" class="mono-txt" text-anchor="start">dim_customer</text>
+  <text x="787" y="172" class="body-txt" text-anchor="start">• Delta Lake ACID</text>
+  <text x="787" y="192" class="body-txt" text-anchor="start">• Versioned history</text>
+</svg>

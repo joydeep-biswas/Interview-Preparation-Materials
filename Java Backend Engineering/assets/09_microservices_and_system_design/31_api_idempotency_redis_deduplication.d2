@@ -1,0 +1,34 @@
+direction: right
+title: "API Idempotency & Distributed Deduplication via Redis Lease Locks"
+
+client: "Client App" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+gw: "Idempotency Interceptor
+Spring HandlerInterceptor" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+redis: "Redis Cluster
+Atomic SETNX & Cache" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+db: "PostgreSQL Database
+ACID Order Storage" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+client -> gw: "1. POST (Idempotency-Key: uuid-101)"
+gw -> redis: "2. SETNX uuid-101 IN_PROGRESS"
+redis -> gw: "Lock acquired"
+gw -> db: "3. INSERT order (9042)"
+gw -> redis: "4. Cache {orderId: 9042}"
+gw -> client: "5. 201 Created"
+
+client -> gw: "6. RETRY with same uuid-101"
+gw -> redis: "7. GET uuid-101"
+redis -> gw: "Cached {orderId: 9042}"
+gw -> client: "8. 200 OK from Cache (No DB hit!)"

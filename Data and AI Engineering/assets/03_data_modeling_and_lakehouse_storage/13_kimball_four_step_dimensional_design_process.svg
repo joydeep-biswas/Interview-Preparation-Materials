@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 380" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="380" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Kimball 4-Step Dimensional Design Process</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">The Industry Standard Methodology for Enterprise OLAP Data Modeling</text>
+  
+  
+    <rect x="30" y="110" width="210" height="220" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="135.0" y="136" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Step 1: Select Process</text>
+    <text x="135.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Core Enterprise Activity</text>
+    <rect x="175" y="120" width="59" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="204.5" y="132" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PROCESS</text>
+    <circle cx="46" cy="165" r="2" fill="#3b82f6"/>
+    <text x="54" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Identify operational process</text>
+    <circle cx="46" cy="181" r="2" fill="#3b82f6"/>
+    <text x="54" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Examples: Retail Sales, ATM</text>
+    <circle cx="46" cy="197" r="2" fill="#3b82f6"/>
+    <text x="54" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Claims, Order Fulfillment</text>
+    <circle cx="46" cy="213" r="2" fill="#3b82f6"/>
+    <text x="54" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Answers strategic business goal</text>
+    <circle cx="46" cy="229" r="2" fill="#3b82f6"/>
+    <text x="54" y="232" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Forms basis of one Fact table</text>
+    <circle cx="46" cy="245" r="2" fill="#3b82f6"/>
+    <text x="54" y="248" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Iterative dimensional lifecycle</text>
+    <circle cx="46" cy="261" r="2" fill="#3b82f6"/>
+    <text x="54" y="264" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Prioritized by business value</text>
+
+  
+    <rect x="275" y="110" width="210" height="220" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="380.0" y="136" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Step 2: Declare Grain</text>
+    <text x="380.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Lowest Atomic Detail</text>
+    <rect x="413" y="120" width="66" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="446.0" y="132" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CRITICAL</text>
+    <circle cx="291" cy="165" r="2" fill="#ef4444"/>
+    <text x="299" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Define what ONE row means</text>
+    <circle cx="291" cy="181" r="2" fill="#ef4444"/>
+    <text x="299" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Golden Rule: Atomic grain first!</text>
+    <circle cx="291" cy="197" r="2" fill="#ef4444"/>
+    <text x="299" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Never roll up at ingestion</text>
+    <circle cx="291" cy="213" r="2" fill="#ef4444"/>
+    <text x="299" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Ex: Individual scan line on ticket</text>
+    <circle cx="291" cy="229" r="2" fill="#ef4444"/>
+    <text x="299" y="232" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Preserves ultimate query drilldown</text>
+    <circle cx="291" cy="245" r="2" fill="#ef4444"/>
+    <text x="299" y="248" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Prevents irreversible data loss</text>
+    <circle cx="291" cy="261" r="2" fill="#ef4444"/>
+    <text x="299" y="264" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Determines dimensional keys</text>
+
+  
+    <rect x="520" y="110" width="210" height="220" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="625.0" y="136" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Step 3: Dimensions</text>
+    <text x="625.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Descriptive Context (Who/What)</text>
+    <rect x="665" y="120" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="694.5" y="132" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CONTEXT</text>
+    <circle cx="536" cy="165" r="2" fill="#10b981"/>
+    <text x="544" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Context surrounding event</text>
+    <circle cx="536" cy="181" r="2" fill="#10b981"/>
+    <text x="544" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Who: Customer, Cashier, Rep</text>
+    <circle cx="536" cy="197" r="2" fill="#10b981"/>
+    <text x="544" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Where: Store, Region, IP</text>
+    <circle cx="536" cy="213" r="2" fill="#10b981"/>
+    <text x="544" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">When: Date, Shift, Fiscal Quarter</text>
+    <circle cx="536" cy="229" r="2" fill="#10b981"/>
+    <text x="544" y="232" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">What: Product SKU, Promotion</text>
+    <circle cx="536" cy="245" r="2" fill="#10b981"/>
+    <text x="544" y="248" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Provides SQL filter &amp; group by</text>
+    <circle cx="536" cy="261" r="2" fill="#10b981"/>
+    <text x="544" y="264" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Conformed across enterprise bus</text>
+
+  
+    <rect x="765" y="110" width="185" height="220" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="857.5" y="136" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Step 4: Numeric Facts</text>
+    <text x="857.5" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Quantitative Measures</text>
+    <rect x="885" y="120" width="59" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="914.5" y="132" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MEASURE</text>
+    <circle cx="781" cy="165" r="2" fill="#f59e0b"/>
+    <text x="789" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Numeric metrics from event</text>
+    <circle cx="781" cy="181" r="2" fill="#f59e0b"/>
+    <text x="789" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Additive: Sales amount, count</text>
+    <circle cx="781" cy="197" r="2" fill="#f59e0b"/>
+    <text x="789" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Semi-additive: Account balance</text>
+    <circle cx="781" cy="213" r="2" fill="#f59e0b"/>
+    <text x="789" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Non-additive: Unit margin ratio</text>
+    <circle cx="781" cy="229" r="2" fill="#f59e0b"/>
+    <text x="789" y="232" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Degenerate: Invoice/Order ID</text>
+    <circle cx="781" cy="245" r="2" fill="#f59e0b"/>
+    <text x="789" y="248" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Enables SUM, AVG, COUNT</text>
+    <circle cx="781" cy="261" r="2" fill="#f59e0b"/>
+    <text x="789" y="264" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sub-second aggregation</text>
+
+  
+    <line x1="240" y1="220" x2="275" y2="220" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <line x1="485" y1="220" x2="520" y2="220" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
+  
+    <line x1="730" y1="220" x2="765" y2="220" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+</svg>

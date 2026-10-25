@@ -1,0 +1,20 @@
+direction: right
+title: Horizontal vs. Vertical Scaling: Hardware Limits & Amdahl's Law
+
+scale_up: Vertical Scaling (Scale-Up) {
+  server: Single Large Host (128 Cores, 4TB RAM) {
+    features: "Shared memory IPC, zero network overhead"
+    limits: "Hardware ceiling, exponential cost, single point of failure"
+  }
+}
+
+scale_out: Horizontal Scaling (Scale-Out) {
+  lb: Load Balancer / Shard Router
+  n1: Node 1 (16 Cores, 64GB)
+  n2: Node 2 (16 Cores, 64GB)
+  n_n: Node N (16 Cores, 64GB)
+  lb -> n1
+  lb -> n2
+  lb -> n_n
+  features: "Infinite elastic scaling, fault isolation, commodity pricing"
+}

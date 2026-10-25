@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="400" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">NoSQL Database Taxonomy &amp; Architectural Paradigms</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Classifying Key-Value, Document, Wide-Column, and Graph Data Stores</text>
+  
+  
+    <rect x="390" y="95" width="200" height="45" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="121" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">NoSQL Taxonomy</text>
+    <text x="490.0" y="137" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Non-Relational Models</text>
+    <rect x="532" y="105" width="52" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="558.0" y="117" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MODELS</text>
+
+  
+    <rect x="30" y="180" width="210" height="200" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="135.0" y="206" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Key-Value Store</text>
+    <text x="135.0" y="222" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">O(1) Hash Map Access</text>
+    <rect x="210" y="190" width="24" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="222.0" y="202" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">KV</text>
+    <circle cx="46" cy="235" r="2" fill="#3b82f6"/>
+    <text x="54" y="238" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Redis, AWS DynamoDB, Aerospike</text>
+    <circle cx="46" cy="251" r="2" fill="#3b82f6"/>
+    <text x="54" y="254" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Data: Simple key -&amp;gt; byte blob</text>
+    <circle cx="46" cy="267" r="2" fill="#3b82f6"/>
+    <text x="54" y="270" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Lookup: Direct hash index lookup</text>
+    <circle cx="46" cy="283" r="2" fill="#3b82f6"/>
+    <text x="54" y="286" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Access Latency: Sub-millisecond</text>
+    <circle cx="46" cy="299" r="2" fill="#3b82f6"/>
+    <text x="54" y="302" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Primary Use: Caching, web sessions,</text>
+    <circle cx="46" cy="315" r="2" fill="#3b82f6"/>
+    <text x="54" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rate limiting counters, leaderboards</text>
+
+  
+    <rect x="265" y="180" width="210" height="200" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="370.0" y="206" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Document Store</text>
+    <text x="370.0" y="222" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Hierarchical JSON Documents</text>
+    <rect x="438" y="190" width="31" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="453.5" y="202" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DOC</text>
+    <circle cx="281" cy="235" r="2" fill="#10b981"/>
+    <text x="289" y="238" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">MongoDB, Couchbase, Firestore</text>
+    <circle cx="281" cy="251" r="2" fill="#10b981"/>
+    <text x="289" y="254" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Data: BSON / JSON documents</text>
+    <circle cx="281" cy="267" r="2" fill="#10b981"/>
+    <text x="289" y="270" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Schema: Flexible, self-describing</text>
+    <circle cx="281" cy="283" r="2" fill="#10b981"/>
+    <text x="289" y="286" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Secondary indexes on nested fields</text>
+    <circle cx="281" cy="299" r="2" fill="#10b981"/>
+    <text x="289" y="302" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Primary Use: Product catalogs, CMS,</text>
+    <circle cx="281" cy="315" r="2" fill="#10b981"/>
+    <text x="289" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">User profiles, mobile app backends</text>
+
+  
+    <rect x="500" y="180" width="210" height="200" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="605.0" y="206" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Wide-Column Store</text>
+    <text x="605.0" y="222" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Sparse 2D Key-Value Map</text>
+    <rect x="652" y="190" width="52" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="678.0" y="202" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">COLUMN</text>
+    <circle cx="516" cy="235" r="2" fill="#f59e0b"/>
+    <text x="524" y="238" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Apache Cassandra, ScyllaDB, Bigtable</text>
+    <circle cx="516" cy="251" r="2" fill="#f59e0b"/>
+    <text x="524" y="254" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Data: Partition Key + Clustering Key</text>
+    <circle cx="516" cy="267" r="2" fill="#f59e0b"/>
+    <text x="524" y="270" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Storage: LSM-Tree &amp;amp; SSTables</text>
+    <circle cx="516" cy="283" r="2" fill="#f59e0b"/>
+    <text x="524" y="286" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">High write throughput SLA</text>
+    <circle cx="516" cy="299" r="2" fill="#f59e0b"/>
+    <text x="524" y="302" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Primary Use: IoT sensor streams,</text>
+    <circle cx="516" cy="315" r="2" fill="#f59e0b"/>
+    <text x="524" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Time-series metrics, clickstream logs</text>
+
+  
+    <rect x="735" y="180" width="215" height="200" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="842.5" y="206" fill="#67e8f9" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Graph Database</text>
+    <text x="842.5" y="222" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Nodes, Edges &amp; Properties</text>
+    <rect x="899" y="190" width="45" height="18" rx="9" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
+    <text x="921.5" y="202" fill="#06b6d4" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">GRAPH</text>
+    <circle cx="751" cy="235" r="2" fill="#06b6d4"/>
+    <text x="759" y="238" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Neo4j, Amazon Neptune, Memgraph</text>
+    <circle cx="751" cy="251" r="2" fill="#06b6d4"/>
+    <text x="759" y="254" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Data: Pointer-free adjacency index</text>
+    <circle cx="751" cy="267" r="2" fill="#06b6d4"/>
+    <text x="759" y="270" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Query: Cypher / Gremlin traversals</text>
+    <circle cx="751" cy="283" r="2" fill="#06b6d4"/>
+    <text x="759" y="286" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">No expensive relational recursive joins</text>
+    <circle cx="751" cy="299" r="2" fill="#06b6d4"/>
+    <text x="759" y="302" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Primary Use: Fraud detection rings,</text>
+    <circle cx="751" cy="315" r="2" fill="#06b6d4"/>
+    <text x="759" y="318" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Knowledge graphs, social networks</text>
+
+  
+    <polyline points="430,140 430,160 135,160 135,180" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <polyline points="470,140 470,160 370,160 370,180" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  
+    <polyline points="510,140 510,160 605,160 605,180" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  
+    <polyline points="550,140 550,160 842,160 842,180" fill="none" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#arr-c)"/>
+
+</svg>

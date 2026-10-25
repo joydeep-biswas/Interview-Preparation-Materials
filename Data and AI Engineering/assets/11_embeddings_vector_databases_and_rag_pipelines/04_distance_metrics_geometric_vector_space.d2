@@ -1,0 +1,14 @@
+direction: right
+classes: {
+  l1: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  l2: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  cos: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  ip: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+m1: "Manhattan (L1) Distance\nd_1 = Sigma |u_i - v_i|" { class: l1 }
+m2: "Euclidean (L2) Distance\nd_2 = sqrt(Sigma (u_i - v_i)^2)" { class: l2 }
+m3: "Cosine Distance\nd_cos = 1 - (u.v)/(||u|| ||v||)" { class: cos }
+m4: "Dot Product (Inner Product)\ns = Sigma (u_i * v_i)" { class: ip }
+
+m1 -> m2 -> m3 -> m4

@@ -1,0 +1,32 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+streams: "Live Event Ingress" {
+  class: box
+  style.stroke: "#3B82F6"
+  demand: "user_ride_searches (50k/sec)"
+  supply: "driver_gps_heartbeats (120k/sec)"
+}
+
+spark: "Spark Structured Streaming (30s Window)" {
+  class: box
+  style.stroke: "#10B981"
+  h3: "H3 Hex Spatial Index (Res 8)\n(lat, lon) -> h3_hex_id"
+  agg: "30s Sliding Window Aggregation"
+  calc: "Surge Multiplier Formula"
+  h3 -> agg -> calc
+}
+
+serving: "Fast Serving Tier (< 2ms)" {
+  class: box
+  style.stroke: "#8B5CF6"
+  redis: "Redis Distributed Cluster\nsurge:{h3_hex_id} -> {multiplier: 1.8, ttl: 45s}"
+  app: "Consumer App & Pricing Gateway"
+  redis -> app
+}
+
+streams.demand -> spark.h3
+streams.supply -> spark.h3
+spark.calc -> serving.redis

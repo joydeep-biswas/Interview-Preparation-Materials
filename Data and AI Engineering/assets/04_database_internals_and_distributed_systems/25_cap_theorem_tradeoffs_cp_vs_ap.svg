@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CAP Theorem: Architectural Trade-Offs (CP vs. AP Systems)</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">When Network Partitions Occur, Distributed Databases MUST Choose Consistency OR Availability</text>
+  
+  
+    <rect x="350" y="95" width="280" height="55" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="121" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Partition Tolerance (P) is MANDATORY</text>
+    <text x="490.0" y="137" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Physical Networks Will Partition</text>
+    <rect x="551" y="105" width="73" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="587.5" y="117" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MANDATORY</text>
+    <circle cx="366" cy="150" r="2" fill="#8b5cf6"/>
+    <text x="374" y="153" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Fiber cuts, router crashes, and GC pauses occur</text>
+
+  
+    <rect x="30" y="180" width="430" height="210" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="202" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">CP Systems (Consistency &gt; Availability)</text>
+  
+    <rect x="45" y="220" width="400" height="155" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="245.0" y="246" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Google Spanner, HBase, Bigtable, ZooKeeper</text>
+    <text x="245.0" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Strict Correctness First</text>
+    <rect x="324" y="230" width="115" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="381.5" y="242" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CONSISTENT (CP)</text>
+    <circle cx="61" cy="275" r="2" fill="#3b82f6"/>
+    <text x="69" y="278" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">If network split occurs: Minority nodes reject writes / return HTTP 503.</text>
+    <circle cx="61" cy="291" r="2" fill="#3b82f6"/>
+    <text x="69" y="294" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Guarantees linearizability: Stale reads are 100% IMPOSSIBLE.</text>
+    <circle cx="61" cy="307" r="2" fill="#3b82f6"/>
+    <text x="69" y="310" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Clients never observe contradictory state across partitions.</text>
+    <circle cx="61" cy="323" r="2" fill="#3b82f6"/>
+    <text x="69" y="326" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sacrifices availability: System becomes unavailable during partition.</text>
+
+  
+    <rect x="520" y="180" width="430" height="210" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="202" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">AP Systems (Availability &gt; Consistency)</text>
+  
+    <rect x="535" y="220" width="400" height="155" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="246" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Apache Cassandra, Amazon DynamoDB, CouchDB</text>
+    <text x="735.0" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Always-On High Availability</text>
+    <rect x="821" y="230" width="108" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="875.0" y="242" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">AVAILABLE (AP)</text>
+    <circle cx="551" cy="275" r="2" fill="#10b981"/>
+    <text x="559" y="278" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">If network split occurs: All nodes accept writes and reads on both sides.</text>
+    <circle cx="551" cy="291" r="2" fill="#10b981"/>
+    <text x="559" y="294" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Guarantees 100% availability: Zero HTTP 503 downtime.</text>
+    <circle cx="551" cy="307" r="2" fill="#10b981"/>
+    <text x="559" y="310" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Returns potentially stale reads; relies on eventual consistency.</text>
+    <circle cx="551" cy="323" r="2" fill="#10b981"/>
+    <text x="559" y="326" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reconciles divergent data later via Last-Write-Wins (LWW) or CRDTs.</text>
+
+  
+    <path d="M 440.0 150.0 L 440.0 159.0 Q 440.0 165.0 434.0 165.0 L 251.0 165.0 Q 245.0 165.0 245.0 171.0 L 245.0 180.0" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="342.5" y="157.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Choose Consistency</text>
+  
+    <path d="M 540.0 150.0 L 540.0 159.0 Q 540.0 165.0 546.0 165.0 L 729.0 165.0 Q 735.0 165.0 735.0 171.0 L 735.0 180.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="637.5" y="157.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Choose Availability</text>
+
+</svg>

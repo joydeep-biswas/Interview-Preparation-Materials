@@ -1,0 +1,33 @@
+direction: right
+classes: {
+  ctrl: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  comp: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  store: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+control_layer: "1. Control Node (The Brain)" {
+  client: "Client Queries\n(Power BI, SSMS)" { class: ctrl }
+  control: "Control Node\n(Distributed Query Engine)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+
+  client -> control: "T-SQL Connection"
+}
+
+compute_layer: "2. Compute Layer (MPP Workers)" {
+  c1: "Compute Node 1\n(Distributions 1..20)" { class: comp }
+  c2: "Compute Node 2\n(Distributions 21..40)" { class: comp }
+  cn: "Compute Node N\n(Distributions 41..60)" { class: comp }
+}
+
+storage_layer: "3. Storage Layer (60 Azure Storage Distributions)" {
+  d1: "Distributions 1..20" { class: store }
+  d2: "Distributions 21..40" { class: store }
+  d3: "Distributions 41..60" { class: store }
+}
+
+control_layer.control -> compute_layer.c1: "Parallel Plan"
+control_layer.control -> compute_layer.c2: "Parallel Plan"
+control_layer.control -> compute_layer.cn: "Parallel Plan"
+
+compute_layer.c1 -> storage_layer.d1: "Direct Remote I/O"
+compute_layer.c2 -> storage_layer.d2: "Direct Remote I/O"
+compute_layer.cn -> storage_layer.d3: "Direct Remote I/O"

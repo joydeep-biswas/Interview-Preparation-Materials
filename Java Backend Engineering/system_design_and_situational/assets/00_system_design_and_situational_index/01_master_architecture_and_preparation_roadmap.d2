@@ -1,0 +1,42 @@
+direction: right
+
+pillar1: "Phase 1: Foundations (01)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  desc: "Scalability Primitives\nCAP & PACELC\nRaft Consensus & 2PC\nB+ vs LSM Trees\nConsistent Hashing\nResilience4j Circuit Breakers"
+}
+
+pillar2: "Phase 2: High-Level HLD (02)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  desc: "URL Shortener & KGS\nTwitter Snowflake 64-bit ID\nNotification Engine\n50,000 TPS Idempotent Payments\nFlash Sale Inventory\nRate Limiter & Chat"
+}
+
+pillar3: "Phase 3: Low-Level LLD (03)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  desc: "JMM & Happens-Before\nReentrantLock & CAS\nRing Buffers & Deduplication\nCustom Thread Pools\nSpotify State Design Pattern"
+}
+
+pillar4: "Phase 4: Situational (04)" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  desc: "Sev-1 Incident Protocol\nThread Pool Exhaustion Triage\nJVM Memory Leak Triage\nDistributed Deadlocks\nZero-Downtime Expand-Contract"
+}
+
+pillar1 -> pillar2: "Distributed Primitives" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+pillar2 -> pillar3: "Component Internals" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+pillar3 -> pillar4: "Operational Leadership" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

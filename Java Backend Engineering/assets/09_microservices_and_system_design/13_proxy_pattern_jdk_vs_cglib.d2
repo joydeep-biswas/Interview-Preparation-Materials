@@ -1,0 +1,34 @@
+direction: right
+title: "Proxy Pattern: JDK Dynamic Proxy vs CGLIB Subclass Proxy"
+
+caller: "Client / Controller
+Calls orderService.placeOrder()" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+proxy: "Spring AOP Proxy
+TransactionInterceptor
+Wraps target in begin/commit" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+tx: "PlatformTransactionManager
+Acquires connection
+Sets autocommit=false" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+target: "OrderServiceImpl
+Target Bean
+Pure business logic" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+caller -> proxy: "1. Invokes proxy"
+proxy -> tx: "2. Begin Tx"
+proxy -> target: "3. Invokes real bean"
+proxy -> tx: "4. Commit Tx"

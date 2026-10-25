@@ -1,0 +1,31 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+perm: "Permanent Table\nFull Disaster Recovery" {
+  class: card
+  style.stroke: "#3B82F6"
+  v: "Visible: All Sessions & Users"
+  tt: "Time Travel: 0 to 90 Days"
+  fs: "Fail-Safe: Mandatory 7 Days\nHighest storage cost, max protection"
+}
+
+trans: "Transient Table\nCost-Optimized ETL & Staging" {
+  class: card
+  style.stroke: "#10B981"
+  v: "Visible: All Sessions & Users"
+  tt: "Time Travel: 0 to 1 Day"
+  fs: "Fail-Safe: NONE (0 Days)\nZero Fail-Safe overhead charges"
+}
+
+temp: "Temporary Table\nSession Scratchpad" {
+  class: card
+  style.stroke: "#F59E0B"
+  v: "Visible: ONLY Creating Session"
+  tt: "Time Travel: 0 to 1 Day (Session Bound)"
+  fs: "Fail-Safe: NONE (0 Days)\nAuto-dropped on session disconnect"
+}
+
+perm -> trans: "ETL Isolation"
+trans -> temp: "Intermediate Work"

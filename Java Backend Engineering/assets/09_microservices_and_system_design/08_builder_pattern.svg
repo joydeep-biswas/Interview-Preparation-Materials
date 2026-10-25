@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Builder Pattern: Fluent Construction of Complex Immutable Objects</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stepwise Parameter Accumulation, Invariant Validation, and Thread-Safe Immutability</text>
+<rect x="50" y="120" width="270" height="300" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="65" y="135" width="140" height="20" rx="10" fill="#1e3a8a"/><text x="135" y="148" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Client / Caller</text>
+<text x="70" y="180" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Fluent Call Syntax:</text>
+<rect x="65" y="195" width="240" height="195" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+<text x="75" y="215" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">UserSecurityProfile profile =</text>
+<text x="85" y="232" fill="#38BDF8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">UserSecurityProfile.builder()</text>
+<text x="95" y="249" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">.userId(UUID.randomUUID())</text>
+<text x="95" y="266" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">.email('user@corp.com')</text>
+<text x="95" y="283" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">.roles(Set.of('ADMIN'))</text>
+<text x="95" y="300" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">.mfaEnabled(true)</text>
+<text x="95" y="317" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">.maxLoginAttempts(5)</text>
+<text x="95" y="334" fill="#34D399" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">.build(); // Validates!</text>
+<rect x="380" y="120" width="320" height="300" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+<rect x="395" y="135" width="200" height="20" rx="10" fill="#78350f"/><text x="495" y="148" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Mutable Builder</text>
+<text x="540" y="180" fill="#FBBF24" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">UserSecurityProfile.Builder</text>
+<text x="400" y="205" fill="#FDE68A" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Internal State Accumulator:</text>
+<text x="400" y="225" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Mutable fields with sensible defaults</text>
+<text x="400" y="242" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Fluent methods return 'this'</text>
+<text x="400" y="260" fill="#FBBF24" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Invariant Validation inside build():</text>
+<text x="410" y="278" fill="#F87171" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">if (email == null || !email.contains('@'))</text>
+<text x="420" y="292" fill="#F87171" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">throw new IllegalStateException('Invalid email');</text>
+<text x="410" y="310" fill="#F87171" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">if (roles.isEmpty())</text>
+<text x="420" y="324" fill="#F87171" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">throw new IllegalStateException('No roles');</text>
+<text x="400" y="355" fill="#34D399" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">return new UserSecurityProfile(this);</text>
+<rect x="760" y="120" width="270" height="300" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
+<rect x="775" y="135" width="200" height="20" rx="10" fill="#047857"/><text x="875" y="148" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Immutable Product</text>
+<text x="895" y="180" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">UserSecurityProfile</text>
+<text x="780" y="205" fill="#6EE7B7" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Immutable Domain Object:</text>
+<text x="780" y="225" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Private constructor: Accessible ONLY</text>
+<text x="790" y="240" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  by nested Builder class!</text>
+<text x="780" y="260" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• All fields are private final</text>
+<text x="780" y="280" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Defensive copies for collections:</text>
+<text x="790" y="296" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">this.roles = Set.copyOf(b.roles);</text>
+<text x="780" y="320" fill="#34D399" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Zero setters: 100% thread-safe!</text>
+<text x="780" y="345" fill="#6EE7B7" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Impossible to create in invalid state</text>
+<line x1="320" y1="270" x2="380" y2="270" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="700" y1="270" x2="760" y2="270" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="40" y="455" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="478" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why Telescoping Constructors &amp; JavaBean Setters Fail:</text>
+<text x="65" y="498" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Telescoping constructors (with 8 parameters) lead to accidental parameter swapping bugs (e.g. timeout vs retryCount).</text>
+<text x="65" y="515" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• JavaBean setters leave the object in a partially initialized, mutable state across multiple lines, inviting concurrency race conditions.</text>
+</svg>

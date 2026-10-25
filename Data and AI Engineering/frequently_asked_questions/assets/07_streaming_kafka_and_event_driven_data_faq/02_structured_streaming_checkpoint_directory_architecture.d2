@@ -1,0 +1,15 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+chk: "/checkpointLocation/ (Fault-Tolerant Root)" {
+  class: box
+  style.stroke: "#3B82F6"
+  offsets: "📁 offsets/ (Write-Ahead Log)\nMonotonic micro-batch IDs (0, 1, 2...)\nStart and end source offset ranges"
+  commits: "📁 commits/ (Completion Manifests)\nWritten ONLY after sink commits idempotently"
+  state: "📁 state/ (RocksDB State Stores)\nStateful streaming aggregates & watermarks"
+}
+
+chk.offsets -> chk.commits: "Two-Phase Commit"
+chk.offsets -> chk.state

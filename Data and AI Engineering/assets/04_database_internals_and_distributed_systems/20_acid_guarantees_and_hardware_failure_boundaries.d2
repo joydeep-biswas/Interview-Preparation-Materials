@@ -1,0 +1,20 @@
+direction: down
+title: ACID Guarantees & Hardware Failure Boundaries
+
+volatile: VOLATILE BOUNDARY (Lost on Kernel Panic / Power Loss) {
+  tx: Active Transactions (Private Workspace)
+  locks: Lock Manager & MVCC (Enforces ISOLATION & CONSISTENCY)
+  buffers: Buffer Pool Dirty Pages & WAL Ring Buffer in RAM
+}
+
+barrier: Physical Hardware Boundary: OS fsync() Barrier
+
+persistent: NON-VOLATILE PERSISTENCE (Survives Power Loss) {
+  wal: Write-Ahead Log (WAL / Redo Log) {
+    guarantee: "Enforces ATOMICITY & DURABILITY (Append-only fsync)"
+  }
+  heap: Table Heap & Index Files (Slotted Pages on NVMe)
+}
+
+volatile -> barrier: "fsync() Flush"
+barrier -> persistent

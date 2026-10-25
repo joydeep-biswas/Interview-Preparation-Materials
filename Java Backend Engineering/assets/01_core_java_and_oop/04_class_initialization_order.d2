@@ -1,0 +1,33 @@
+direction: right
+title: Exact Class Loading & Instance Initialization Order
+
+Phase1: Phase 1 Class Loading (<clinit>) - Once {
+  style.fill: "#0B132B"
+  style.stroke: "#1D4ED8"
+  
+  S1: 1. Superclass Static Initializers {
+    desc: "Static fields & static { } blocks run in textual order"
+  }
+  
+  S2: 2. Subclass Static Initializers {
+    desc: "Subclass static fields & static { } blocks run in textual order"
+  }
+  
+  S1 -> S2
+}
+
+Phase2: Phase 2 Instance Instantiation (<init>) - Per 'new' {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  
+  S3: 3. Superclass Instance Fields & { } Init Blocks
+  S4: 4. Superclass Constructor Body
+  S5: 5. Subclass Instance Fields & { } Init Blocks
+  S6: 6. Subclass Constructor Body
+  
+  S3 -> S4 -> S5 -> S6
+}
+
+Phase1 -> Phase2: First 'new' triggers Phase 1 then Phase 2 {
+  style.stroke: "#10B981"
+}

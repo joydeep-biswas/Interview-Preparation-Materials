@@ -1,0 +1,29 @@
+direction: right
+title: Kubernetes Liveness & Readiness Probes (AvailabilityState Model)
+
+k8s: "Kubernetes Kubelet Node Agent" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+  poll: "Periodic health polling loop"
+}
+
+live: "Liveness Probe: /actuator/health/liveness" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  state: "LivenessState (CORRECT / BROKEN)"
+  cause: "Severe deadlock or fatal corruption"
+  action: "Action: KILL & RESTART POD"
+}
+
+ready: "Readiness Probe: /actuator/health/readiness" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  r_state: "ReadinessState (ACCEPTING / REFUSING)"
+  r_cause: "Warming caches or busy DB pool"
+  r_action: "Action: STOP ROUTING TRAFFIC (DO NOT KILL!)"
+}
+
+k8s.poll -> live: "Liveness Check"
+k8s.poll -> ready: "Readiness Check"

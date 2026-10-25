@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+      .lbl { fill: #CBD5E1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="400" fill="#0B0F19"/>
+
+  <!-- Left: Alert -->
+  <g transform="translate(30, 150)">
+    <rect width="200" height="100" rx="10" ry="10" fill="#1F2937" stroke="#EF4444" stroke-width="2"/>
+    <text x="100" y="35" class="title" fill="#FCA5A5">OutOfMemoryError</text>
+    <line x1="15" y1="46" x2="185" y2="46" stroke="#374151" stroke-width="1"/>
+    <text x="100" y="68" class="body-txt" text-anchor="middle">Task or Driver Crash</text>
+    <text x="100" y="86" class="body-txt" text-anchor="middle" fill="#FCA5A5">Exit Code 137 / Heap Space</text>
+  </g>
+
+  <path fill="none" d="M 230 200 L 280 200" class="edge" stroke="#EF4444" marker-end="url(#arr-amber)"/>
+
+  <!-- Decision Node -->
+  <g transform="translate(280, 150)">
+    <rect width="190" height="100" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="95" y="35" class="title" fill="#FCD34D">Triage Location</text>
+    <line x1="15" y1="46" x2="175" y2="46" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="95" y="68" class="body-txt" text-anchor="middle">Driver or Executor</text>
+    <text x="95" y="86" class="body-txt" text-anchor="middle">OOM Failure?</text>
+  </g>
+
+  <!-- Connectors from Decision Node to 4 Causes -->
+  <path fill="none" d="M 470 170 L 510 170 C 530 170, 540 65, 560 65 L 580 65" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <path fill="none" d="M 470 185 L 510 185 C 530 185, 540 155, 560 155 L 580 155" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+  <path fill="none" d="M 470 215 L 510 215 C 530 215, 540 245, 560 245 L 580 245" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
+  <path fill="none" d="M 470 230 L 510 230 C 530 230, 540 335, 560 335 L 580 335" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- Cause 1: Driver OOM -->
+  <g transform="translate(580, 25)">
+    <rect width="410" height="80" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="205" y="26" class="title" fill="#93C5FD">1. Driver OOM (Java Heap Space)</text>
+    <line x1="15" y1="36" x2="395" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="55" class="body-txt">• Cause: df.collect(), large broadcast join table, or massive DAG lineage</text>
+    <text x="20" y="71" class="body-txt" fill="#93C5FD">Fix: Replace collect() with take(10)/write(); size spark.driver.memory</text>
+  </g>
+
+  <!-- Cause 2: Data Skew -->
+  <g transform="translate(580, 115)">
+    <rect width="410" height="80" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <text x="205" y="26" class="title" fill="#FCA5A5">2. Executor OOM: Data Skew (Hot Key Straggler)</text>
+    <line x1="15" y1="36" x2="395" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="55" class="body-txt">• Cause: One partition holds millions of nulls/hot keys, killing single core</text>
+    <text x="20" y="71" class="body-txt" fill="#FCA5A5">Fix: Key salting, broadcast join, or AQE skew join optimization</text>
+  </g>
+
+  <!-- Cause 3: Shuffle Spill -->
+  <g transform="translate(580, 205)">
+    <rect width="410" height="80" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="205" y="26" class="title" fill="#C4B5FD">3. Executor OOM: Massive Shuffle Spill</text>
+    <line x1="15" y1="36" x2="395" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="55" class="body-txt">• Cause: Default 200 shuffle partitions too small for multi-TB dataset</text>
+    <text x="20" y="71" class="body-txt" fill="#C4B5FD">Fix: Increase spark.sql.shuffle.partitions (e.g. 2000) or add off-heap</text>
+  </g>
+
+  <!-- Cause 4: GC Thrashing -->
+  <g transform="translate(580, 295)">
+    <rect width="410" height="80" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="205" y="26" class="title" fill="#6EE7B7">4. Executor OOM: GC Thrashing / Heartbeat Loss</text>
+    <line x1="15" y1="36" x2="395" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="55" class="body-txt">• Cause: Millions of small Java objects trigger 60s Stop-The-World pause</text>
+    <text x="20" y="71" class="body-txt" fill="#6EE7B7">Fix: Switch to G1GC (-XX:+UseG1GC), cap executor cores at 4-5</text>
+  </g>
+</svg>

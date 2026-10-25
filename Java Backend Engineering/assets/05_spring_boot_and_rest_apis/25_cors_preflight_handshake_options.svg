@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CORS Preflight Handshake: OPTIONS Method &amp; Security Headers</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Cross-Origin Resource Sharing protocol: Browser preflight handshake, CORS filter validation, and preflight caching</text>
+<rect x="100" y="85" width="240" height="36" rx="6" fill="#1e293b" stroke="#38BDF8" stroke-width="1.5"/>
+<text x="220" y="107" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Web Browser (https://app.com)</text>
+<line x1="220" y1="121" x2="220" y2="510" stroke="#334155" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arr-s)"/>
+<rect x="700" y="85" width="240" height="36" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<text x="820" y="107" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Boot API (https://api.com)</text>
+<line x1="820" y1="121" x2="820" y2="510" stroke="#334155" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arr-s)"/>
+<rect x="40" y="135" width="960" height="160" rx="6" fill="#1a1c12" stroke="#f59e0b" stroke-width="1"/>
+<text x="55" y="155" fill="#FDE68A" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Phase 1: CORS Preflight Handshake (OPTIONS)</text>
+<line x1="220" y1="180" x2="820" y2="180" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<text x="520" y="172" fill="#FBBF24" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OPTIONS /api/v1/orders (Cross-Origin Request)</text>
+<text x="520" y="194" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Origin: https://app.com | Access-Control-Request-Method: POST | Headers: Authorization, Idempotency-Key</text>
+<line x1="820" y1="240" x2="220" y2="240" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="520" y="232" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">HTTP 204 No Content (Preflight Allowed!)</text>
+<text x="520" y="254" fill="#A7F3D0" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Access-Control-Allow-Origin: https://app.com | Allow-Methods: GET, POST, PUT... | Max-Age: 3600 (Cache 1 hr)</text>
+<rect x="40" y="315" width="960" height="165" rx="6" fill="#0c1d1a" stroke="#10b981" stroke-width="1"/>
+<text x="55" y="335" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Phase 2: Actual Business Request (POST Payload)</text>
+<line x1="220" y1="365" x2="820" y2="365" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<text x="520" y="357" fill="#38BDF8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POST /api/v1/orders (with Authorization &amp; Idempotency-Key headers)</text>
+<text x="520" y="379" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Payload: {"orderId": "101", "amount": 250.00} (Executed through DispatcherServlet)</text>
+<line x1="820" y1="435" x2="220" y2="435" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="520" y="427" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">HTTP 201 Created (Order Response JSON)</text>
+<text x="520" y="449" fill="#D1FAE5" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Access-Control-Allow-Origin: https://app.com | Body: {"status": "SUCCESS", "orderId": "101"}</text>
+</svg>

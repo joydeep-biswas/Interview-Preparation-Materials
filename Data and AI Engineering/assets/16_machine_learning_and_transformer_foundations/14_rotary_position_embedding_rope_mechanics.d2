@@ -1,0 +1,18 @@
+classes: {
+  vec_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  rot_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  dot_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+rope: "Rotary Position Embedding (RoPE) Mechanics" {
+  q_vec: "Query Vector q at Position m\n[q0, q1, q2, q3, ...]" { class: vec_box }
+  k_vec: "Key Vector k at Position n\n[k0, k1, k2, k3, ...]" { class: vec_box }
+
+  q_rot: "Rotate 2D pairs by angle m * theta\nq_m = R_m * q" { class: rot_box }
+  k_rot: "Rotate 2D pairs by angle n * theta\nk_n = R_n * k" { class: rot_box }
+
+  dot: "Dot Product: <q_m, k_n> = q^T * R_(n - m) * k\nScore depends strictly on RELATIVE distance (n - m)!" { class: dot_box }
+
+  q_vec -> q_rot -> dot
+  k_vec -> k_rot -> dot
+}

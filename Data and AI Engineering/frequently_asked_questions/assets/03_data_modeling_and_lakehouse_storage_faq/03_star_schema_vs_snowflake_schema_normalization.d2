@@ -1,0 +1,19 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+star: "Star Schema (Denormalized)" {
+  fs: "fact_sales\nCentral transaction table" { class: box; style.stroke: "#3B82F6" }
+  dc: "dim_customer\nDenormalized: City, State, Country" { class: box; style.stroke: "#10B981" }
+  dp: "dim_product\nDenormalized: Category, Brand" { class: box; style.stroke: "#10B981" }
+  fs -> dc
+  fs -> dp
+}
+
+snowflake: "Snowflake Schema (Normalized)" {
+  fss: "fact_sales\nCentral transaction table" { class: box; style.stroke: "#3B82F6" }
+  dcs: "dim_customer\nNormalized customer keys" { class: box; style.stroke: "#F59E0B" }
+  dgeo: "dim_geography\nCity, State, Country hierarchy" { class: box; style.stroke: "#F59E0B" }
+  fss -> dcs -> dgeo
+}

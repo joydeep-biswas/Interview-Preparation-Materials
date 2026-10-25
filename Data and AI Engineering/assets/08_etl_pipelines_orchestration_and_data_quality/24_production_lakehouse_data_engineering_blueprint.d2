@@ -1,0 +1,26 @@
+direction: right
+title: End-to-End Production Lakehouse Data Engineering Blueprint
+
+ingestion: 1. Ingestion & Network Resiliency {
+  inlet: External APIs / Kafka
+  buffer: Kafka / Event Hubs Buffer
+  bronze: Bronze Raw Lakehouse (Captures DLQ)
+  inlet -> buffer -> bronze
+}
+
+processing: 2. Processing & Compute Optimization {
+  compute: Spark / Databricks Compute (Instance Pools)
+  transform: Data Transformation Engine (Salting & Bucketing)
+  silver: Silver Clean Lakehouse
+  compute -> transform -> silver
+}
+
+governance: 3. Governance, Serving & Reliability {
+  gold: Gold Marts (Kimball Star & SCD2)
+  semantic: Semantic Layer (Metric Standardization)
+  bi: Executive BI & Reverse ETL
+  gold -> semantic -> bi
+}
+
+ingestion.bronze -> processing.compute: "Auto Loader / CDF"
+processing.silver -> governance.gold: "Idempotent MERGE"

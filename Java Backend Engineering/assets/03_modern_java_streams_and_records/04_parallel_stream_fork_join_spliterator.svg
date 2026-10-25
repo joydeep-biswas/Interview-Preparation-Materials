@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1200" height="540" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Parallel Stream Execution: Fork-Join Spliterator &amp; Work-Stealing</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Fork Phase (Recursive Decomposition) -&gt; Execution (Worker Pool) -&gt; Join Phase (Reduction)</text>
+
+  <!-- Top Root Dataset Card -->
+  <rect x="420" y="90" width="360" height="50" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="600" y="112" font-size="12" font-weight="700" fill="#60A5FA" text-anchor="middle">Parallel Stream: 10,000,000 Records</text>
+  <text x="600" y="130" font-size="9" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">list.parallelStream().map().reduce()</text>
+
+  <!-- Phase 1: Fork Phase -->
+  <rect x="50" y="165" width="340" height="345" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="165" width="340" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="220" y="185" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Fork Phase (Recursive Spliterator)</text>
+
+  <rect x="70" y="210" width="300" height="75" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="85" y="235" font-size="11" font-weight="700" fill="#38BDF8">Spliterator.trySplit():</text>
+  <text x="85" y="255" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Split 1: Left [5M] | Right [5M]</text>
+  <text x="85" y="272" font-size="9" fill="#94A3B8">Divides array bounds at midpoint in O(1)</text>
+
+  <rect x="70" y="295" width="300" height="75" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="85" y="320" font-size="11" font-weight="700" fill="#38BDF8">Recursive Sub-Splits:</text>
+  <text x="85" y="340" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Chunks: 2.5M -&gt; 1.25M -&gt; Threshold</text>
+  <text x="85" y="358" font-size="9" fill="#94A3B8">Splits until threshold size reached</text>
+
+  <rect x="70" y="380" width="300" height="115" rx="6" fill="#1E293B" stroke="#0284C7" stroke-width="1"/>
+  <text x="85" y="405" font-size="11" font-weight="700" fill="#7DD3FC">Spliterator Characteristics:</text>
+  <text x="85" y="425" font-size="10" fill="#CBD5E1">&#x2022; <tspan font-weight="700">SUBSIZED:</tspan> Size known precisely</text>
+  <text x="85" y="443" font-size="10" fill="#CBD5E1">&#x2022; <tspan font-weight="700">ORDERED:</tspan> Preserves encounter order</text>
+  <text x="85" y="461" font-size="10" fill="#CBD5E1">&#x2022; <tspan font-weight="700">IMMUTABLE:</tspan> Backing data untouched</text>
+  <text x="85" y="482" font-size="9" fill="#A7F3D0">&#x2714; ArrayList splits perfectly; LinkedList fails</text>
+
+  <!-- Phase 2: Execution Phase -->
+  <rect x="420" y="165" width="360" height="345" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="420" y="165" width="360" height="30" rx="8" fill="#78350F"/>
+  <text x="600" y="185" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">2. Execution Phase: ForkJoinPool</text>
+
+  <rect x="440" y="210" width="320" height="150" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+  <text x="455" y="235" font-size="11" font-weight="700" fill="#FBBF24">ForkJoinPool.commonPool() Workers:</text>
+  <text x="455" y="260" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Worker-1: Process Chunk A [0 - 2.5M]</text>
+  <text x="455" y="280" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Worker-2: Process Chunk B [2.5M - 5M]</text>
+  <text x="455" y="300" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Worker-3: Process Chunk C [5M - 7.5M]</text>
+  <text x="455" y="320" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Worker-4: Process Chunk D [7.5M - 10M]</text>
+  <text x="455" y="345" font-size="9" fill="#94A3B8">Default parallelism = Runtime.availableProcessors() - 1</text>
+
+  <rect x="440" y="370" width="320" height="125" rx="6" fill="#1E293B" stroke="#F59E0B" stroke-width="1"/>
+  <text x="455" y="395" font-size="11" font-weight="700" fill="#FBBF24">Work-Stealing Architecture:</text>
+  <text x="455" y="418" font-size="10" fill="#CBD5E1">Each worker thread owns a dual-ended Deque.</text>
+  <text x="455" y="438" font-size="10" fill="#CBD5E1">If a thread empties its own deque, it <tspan fill="#FBBF24" font-weight="700">STEALS</tspan></text>
+  <text x="455" y="456" font-size="10" fill="#CBD5E1">tasks from the TAIL of another busy thread's deque!</text>
+  <text x="455" y="478" font-size="9" fill="#FDE68A">&#x2714; Automatically balances CPU core utilization</text>
+
+  <!-- Phase 3: Join Phase -->
+  <rect x="810" y="165" width="340" height="345" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
+  <rect x="810" y="165" width="340" height="30" rx="8" fill="#064E3B"/>
+  <text x="980" y="185" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">3. Join Phase: Recursive Reduction</text>
+
+  <rect x="830" y="210" width="300" height="120" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="845" y="235" font-size="11" font-weight="700" fill="#34D399">Binary Associative Merge:</text>
+  <text x="845" y="260" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Partial A + Partial B -&gt; LeftSum</text>
+  <text x="845" y="280" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Partial C + Partial D -&gt; RightSum</text>
+  <text x="845" y="305" font-size="10" font-family="'JetBrains Mono', monospace" fill="#34D399">LeftSum + RightSum   -&gt; FinalSum</text>
+
+  <rect x="830" y="340" width="300" height="155" rx="6" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="845" y="365" font-size="11" font-weight="700" fill="#34D399">Parallel Stream Rules of Thumb:</text>
+  <text x="845" y="388" font-size="10" fill="#CBD5E1">&#x2022; <tspan font-weight="700">NQ Model:</tspan> N * Q &gt; 10,000</text>
+  <text x="855" y="405" font-size="9" fill="#94A3B8">(N = items, Q = cost per item computation)</text>
+  <text x="845" y="425" font-size="10" fill="#F87171">&#x2022; NEVER use parallel streams for I/O</text>
+  <text x="855" y="442" font-size="9" fill="#94A3B8">(Ties up commonPool worker threads!)</text>
+  <text x="845" y="465" font-size="10" fill="#CBD5E1">&#x2022; Reducer accumulator must be strictly</text>
+  <text x="855" y="482" font-size="9" fill="#34D399"><tspan font-weight="700">associative</tspan> and <tspan font-weight="700">stateless</tspan>!</text>
+
+  <!-- Connectors -->
+  <path d="M 600 140 L 600 155 L 220 155 L 220 165" stroke="#0284C7" stroke-width="2" fill="none" marker-end="url(#arr-c)"/>
+  <path fill="none" d="M 390 280 L 420 280" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <path fill="none" d="M 780 280 L 810 280" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+</svg>

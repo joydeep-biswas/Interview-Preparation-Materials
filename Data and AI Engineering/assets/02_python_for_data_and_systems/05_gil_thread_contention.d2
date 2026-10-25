@@ -1,0 +1,10 @@
+# The Global Interpreter Lock: Contention vs Release
+direction: right
+
+cpu: "CPU-Bound Contention\n• 1 Thread holds GIL lock\n• Other cores spin idle\n• Context switch overhead slows multi-threading\n✓ Fix: multiprocessing" {
+  style.stroke: "#EF4444"
+}
+
+io: "I/O-Bound Release\n• Threads drop GIL during blocking OS calls\n• Sockets & disk I/O run in parallel\n✓ Ideal for ThreadPool & Asyncio" {
+  style.stroke: "#10B981"
+}

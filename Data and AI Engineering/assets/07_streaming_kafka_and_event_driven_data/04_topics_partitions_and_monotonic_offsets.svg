@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Topics, Partitions, and Monotonic Sequential Offsets</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Horizontal scalability via partitioned commit logs: Strict total order within partitions, Murmur2 key routing</text>
+<rect x="30" y="85" width="980" height="410" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="520" y="112" fill="#60A5FA" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Topic: commerce.orders (3 Physical Partitions)</text>
+<rect x="420" y="122" width="200" height="18" rx="9" fill="#1d4ed8"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Murmur2(key) % 3 Partitioning</text>
+<rect x="50" y="155" width="940" height="90" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="65" y="178" fill="#FBBF24" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partition 0 (Assigned to Broker 1 Leader)</text>
+<text x="65" y="195" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key hash range: user_id % 3 == 0 (e.g., user_102, user_306)</text>
+<rect x="65" y="205" width="115" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="122" y="224" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 0</text>
+<rect x="190" y="205" width="115" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="247" y="224" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 1</text>
+<rect x="315" y="205" width="115" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="372" y="224" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 2</text>
+<rect x="440" y="205" width="115" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="497" y="224" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 3</text>
+<rect x="565" y="205" width="115" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="622" y="224" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 4</text>
+<rect x="690" y="205" width="115" height="30" rx="8" fill="#0b2a4a" stroke="#38bdf8" stroke-width="1"/>
+<text x="747" y="224" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 5</text>
+<rect x="815" y="205" width="115" height="30" rx="8" fill="#0b2a4a" stroke="#38bdf8" stroke-width="1"/>
+<text x="872" y="224" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 6</text>
+<rect x="50" y="260" width="940" height="90" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<text x="65" y="283" fill="#34D399" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partition 1 (Assigned to Broker 2 Leader)</text>
+<text x="65" y="300" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key hash range: user_id % 3 == 1 (e.g., user_103, user_502)</text>
+<rect x="65" y="310" width="115" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="122" y="329" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 0</text>
+<rect x="190" y="310" width="115" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="247" y="329" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 1</text>
+<rect x="315" y="310" width="115" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="372" y="329" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 2</text>
+<rect x="440" y="310" width="115" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="497" y="329" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 3</text>
+<rect x="565" y="310" width="115" height="30" rx="8" fill="#0b2a4a" stroke="#38bdf8" stroke-width="1"/>
+<text x="622" y="329" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 4</text>
+<rect x="690" y="310" width="115" height="30" rx="8" fill="#0b2a4a" stroke="#38bdf8" stroke-width="1"/>
+<text x="747" y="329" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 5</text>
+<rect x="50" y="365" width="940" height="90" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="65" y="388" fill="#C084FC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partition 2 (Assigned to Broker 3 Leader)</text>
+<text x="65" y="405" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key hash range: user_id % 3 == 2 (e.g., user_104, user_701)</text>
+<rect x="65" y="415" width="105" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="117" y="434" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 0</text>
+<rect x="180" y="415" width="105" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="232" y="434" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 1</text>
+<rect x="295" y="415" width="105" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="347" y="434" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 2</text>
+<rect x="410" y="415" width="105" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="462" y="434" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 3</text>
+<rect x="525" y="415" width="105" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="577" y="434" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 4</text>
+<rect x="640" y="415" width="105" height="30" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="692" y="434" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 5</text>
+<rect x="755" y="415" width="105" height="30" rx="8" fill="#0b2a4a" stroke="#38bdf8" stroke-width="1"/>
+<text x="807" y="434" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 6</text>
+<rect x="870" y="415" width="105" height="30" rx="8" fill="#0b2a4a" stroke="#38bdf8" stroke-width="1"/>
+<text x="922" y="434" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Offset 7</text>
+<rect x="50" y="465" width="940" height="22" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="520" y="480" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Key Guarantees: Total ordering strictly within a partition. No global order across partitions without single partition bottleneck.</text>
+</svg>

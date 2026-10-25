@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 580" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="580" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Producer ACKs &amp; Replication Durability Matrix</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Trade-offs between throughput and zero data loss: acks=0, acks=1, and acks=all with min.insync.replicas</text>
+<rect x="30" y="85" width="980" height="135" rx="8" fill="#1a1116" stroke="#ef4444" stroke-width="1.5"/>
+<text x="50" y="110" fill="#FCA5A5" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Case 1: acks=0 (Fire &amp; Forget — Maximum Throughput / High Data Loss Risk)</text>
+<rect x="50" y="125" width="230" height="80" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
+<text x="65" y="147" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Producer Client</text>
+<text x="65" y="167" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Calls send() -&gt; returns 0ms</text>
+<text x="65" y="183" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero network wait for ACK</text>
+<line x1="280" y1="165" x2="370" y2="165" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<text x="325" y="155" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">send(batch)</text>
+<rect x="370" y="125" width="260" height="80" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
+<text x="385" y="147" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Leader Broker</text>
+<text x="385" y="167" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Pushes to socket buffer</text>
+<text x="385" y="183" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Does NOT wait for disk append!</text>
+<rect x="660" y="125" width="330" height="80" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="675" y="147" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Risk &amp; Guarantees</text>
+<text x="675" y="167" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• If broker crashes before write: DATA LOST FOREVER</text>
+<text x="675" y="183" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Producer never learns about the failure (Silent loss)</text>
+<rect x="30" y="235" width="980" height="145" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="50" y="260" fill="#FDE68A" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Case 2: acks=1 (Leader Local Write — Balanced Default)</text>
+<rect x="50" y="275" width="230" height="90" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="65" y="297" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Producer Client</text>
+<text x="65" y="317" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Waits for Leader ACK</text>
+<text x="65" y="333" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Retries on socket error</text>
+<line x1="280" y1="310" x2="370" y2="310" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<line x1="370" y1="330" x2="280" y2="330" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<text x="325" y="303" fill="#FBBF24" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">send()</text>
+<text x="325" y="343" fill="#FBBF24" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ACK(off=42)</text>
+<rect x="370" y="275" width="260" height="90" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="385" y="297" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Leader Broker</text>
+<text x="385" y="317" fill="#6EE7B7" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Appends to local OS PageCache</text>
+<text x="385" y="333" fill="#FBBF24" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Returns ACK BEFORE ISR replicates</text>
+<text x="385" y="347" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Followers fetch asynchronously</text>
+<rect x="660" y="275" width="330" height="90" rx="8" fill="#2e2108" stroke="#d97706" stroke-width="1"/>
+<text x="675" y="297" fill="#FDE68A" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Risk &amp; Guarantees</text>
+<text x="675" y="317" fill="#FBBF24" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Window of Vulnerability: If leader dies BEFORE</text>
+<text x="675" y="331" fill="#FBBF24" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  followers fetch, message is lost on failover!</text>
+<text x="675" y="347" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Sufficient for non-critical telemetry metrics</text>
+<rect x="30" y="395" width="980" height="155" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="50" y="420" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Case 3: acks=all / -1 with min.insync.replicas=2 (Zero Data Loss Quorum)</text>
+<rect x="50" y="435" width="230" height="100" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="65" y="457" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Producer Client</text>
+<text x="65" y="477" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Waits for Quorum ACK</text>
+<text x="65" y="493" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">enable.idempotence=true</text>
+<text x="65" y="509" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Guarantees exact-once write</text>
+<line x1="280" y1="470" x2="360" y2="470" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="360" y1="490" x2="280" y2="490" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="320" y="463" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">send()</text>
+<text x="320" y="503" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ACK(off=43)</text>
+<rect x="360" y="435" width="280" height="100" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="375" y="457" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Leader Broker &amp; ISR Quorum</text>
+<text x="375" y="477" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Writes local page cache</text>
+<text x="375" y="493" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. ISR Followers (Node 2, 3) fetch &amp; ACK</text>
+<text x="375" y="509" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. min.insync.replicas satisfied -&gt; Send ACK</text>
+<rect x="660" y="435" width="330" height="100" rx="8" fill="#0f2e28" stroke="#059669" stroke-width="1"/>
+<text x="675" y="457" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Risk &amp; Guarantees</text>
+<text x="675" y="477" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ ZERO DATA LOSS even if leader broker hardware dies</text>
+<text x="675" y="495" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Follower promotes to leader with identical offset log</text>
+<text x="675" y="511" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Essential for financial transactions, billing, and orders</text>
+</svg>

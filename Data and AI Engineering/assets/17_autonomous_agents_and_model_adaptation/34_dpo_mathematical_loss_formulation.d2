@@ -1,0 +1,19 @@
+direction: down
+classes: {
+  chosen: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  rejected: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+  margin: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  loss: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+}
+
+rw: "Implicit Reward (Chosen)
+r_w = β · log( π_θ(y_w|x) / π_ref(y_w|x) )" { class: chosen }
+rl: "Implicit Reward (Rejected)
+r_l = β · log( π_θ(y_l|x) / π_ref(y_l|x) )" { class: rejected }
+diff: "Margin = (r_w - r_l)" { class: margin }
+loss: "Loss = -log σ( r_w - r_l )
+Increases y_w prob / decreases y_l prob" { class: loss }
+
+rw -> diff
+rl -> diff
+diff -> loss

@@ -1,0 +1,30 @@
+direction: right
+title: Sort-Merge Join (SMJ) Architecture
+
+Shuffle: 1. Hash Shuffle Phase {
+  style.stroke: "#FBBF24"
+  T1: Table 1 (Orders - 2TB)
+  T2: Table 2 (Customers - 500GB)
+  Net: Cluster Network Hash Shuffle
+
+  T1 -> Net: Hash(key) % 200
+  T2 -> Net: Hash(key) % 200
+}
+
+Sort: 2. Local Sort Phase {
+  style.stroke: "#38BDF8"
+  Sort1: Sort Table 1 Keys on Worker
+  Sort2: Sort Table 2 Keys on Worker
+}
+
+Merge: 3. Sequential Merge Phase {
+  style.stroke: "#34D399"
+  TwoPointer: Linear Pointer Merge: O(N + M)
+  Out: Joined Stream Output
+  TwoPointer -> Out
+}
+
+Shuffle.Net -> Sort.Sort1: Delivers key partitions { style.stroke: "#38BDF8" }
+Shuffle.Net -> Sort.Sort2: Delivers key partitions { style.stroke: "#38BDF8" }
+Sort.Sort1 -> Merge.TwoPointer: Sorted stream 1 { style.stroke: "#34D399" }
+Sort.Sort2 -> Merge.TwoPointer: Sorted stream 2 { style.stroke: "#34D399" }

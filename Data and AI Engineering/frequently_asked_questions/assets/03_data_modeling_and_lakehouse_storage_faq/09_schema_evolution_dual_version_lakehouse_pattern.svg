@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-red { stroke: #EF4444; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-red { stroke: #EF4444; }
+      .edge-green { stroke: #10B981; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-a9lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-r9lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-g9lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-b9lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">Schema Evolution: Registry Governance &amp; Dual-Version Serving Views</text>
+
+  <!-- Step 1 -->
+  <rect x="25" y="80" width="200" height="110" class="card card-blue"/>
+  <text x="125" y="108" class="card-title" fill="#93C5FD">Producer Evolution</text>
+  <text x="40" y="133" class="card-body">• Microservice API change</text>
+  <text x="40" y="153" class="card-body">• Renamed / added fields</text>
+  <text x="40" y="173" class="card-body">• Triggers CI schema gate</text>
+
+  <!-- Step 2: Registry Gate -->
+  <rect x="265" y="80" width="200" height="110" class="card card-amber"/>
+  <text x="365" y="108" class="card-title" fill="#FDE68A">Schema Registry Gate</text>
+  <text x="280" y="133" class="card-body">• BACKWARD compatibility</text>
+  <text x="280" y="153" class="card-body">• Verifies consumer impact</text>
+  <text x="280" y="173" class="card-body">• Blocks arbitrary breaking</text>
+
+  <!-- Branch Reject -->
+  <rect x="505" y="55" width="230" height="75" class="card card-red"/>
+  <text x="620" y="80" class="card-title" fill="#FCA5A5">Reject Incompatible</text>
+  <text x="520" y="105" class="card-body" fill="#EF4444">• Blocks pipeline deployment</text>
+
+  <!-- Base Physical Table -->
+  <rect x="505" y="150" width="230" height="150" class="card card-blue"/>
+  <text x="620" y="178" class="card-title" fill="#93C5FD">Base Physical Table</text>
+  <text x="520" y="203" class="card-body">• Superset of all columns</text>
+  <text x="520" y="223" class="card-body">• v1 + v2 columns in Parquet</text>
+  <text x="520" y="243" class="card-body">• Nullable defaults for new</text>
+  <text x="520" y="263" class="card-body" fill="#34D399">• Zero consumer outage</text>
+
+  <!-- Right: 2 Decoupled Views -->
+  <rect x="785" y="110" width="250" height="95" class="card card-green"/>
+  <text x="910" y="135" class="card-title" fill="#6EE7B7">view_events_v1 (Legacy)</text>
+  <text x="800" y="160" class="card-body">• SELECT original columns</text>
+  <text x="800" y="180" class="card-body" fill="#34D399">• Preserves contract for BI dashboards</text>
+
+  <rect x="785" y="230" width="250" height="95" class="card card-green"/>
+  <text x="910" y="255" class="card-title" fill="#6EE7B7">view_events_v2 (Modern)</text>
+  <text x="800" y="280" class="card-body">• SELECT new transformed fields</text>
+  <text x="800" y="300" class="card-body" fill="#34D399">• Serves modern ML pipelines</text>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 225 135 L 265 135" class="edge edge-amber" marker-end="url(#arr-a9lk)"/>
+
+  <!-- Gate to Reject: exit 465,135 -> curve -> enter 505,92 with runway dx>=14 -->
+  <path fill="none" d="M 465 135 C 480 135, 485 92, 491 92 L 505 92" class="edge edge-red" marker-end="url(#arr-r9lk)"/>
+  <text x="480" y="110" class="edge-label" fill="#EF4444">Fail</text>
+
+  <!-- Gate to Base: exit 465,135 -> curve -> enter 505,225 with runway dx>=14 -->
+  <path fill="none" d="M 465 135 C 480 135, 485 225, 491 225 L 505 225" class="edge edge-green" marker-end="url(#arr-g9lk)"/>
+  <text x="480" y="190" class="edge-label" fill="#6EE7B7">Pass</text>
+
+  <!-- Base to v1: exit 735,225 -> curve -> enter 785,157 with runway dx>=14 -->
+  <path fill="none" d="M 735 225 C 755 225, 765 157, 771 157 L 785 157" class="edge edge-green" marker-end="url(#arr-g9lk)"/>
+
+  <!-- Base to v2: exit 735,225 -> curve -> enter 785,277 with runway dx>=14 -->
+  <path fill="none" d="M 735 225 C 755 225, 765 277, 771 277 L 785 277" class="edge edge-green" marker-end="url(#arr-g9lk)"/>
+</svg>

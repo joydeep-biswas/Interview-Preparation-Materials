@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 280" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Cost Matrix Asymmetry -->
+  <rect x="30" y="40" width="280" height="200" rx="10" ry="10" fill="#0D1526" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="50" y="66" class="title-txt" fill="#FCA5A5">Cost Matrix Asymmetry</text>
+  <rect x="45" y="85" width="250" height="55" rx="6" ry="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
+  <text x="55" y="108" class="title-txt" fill="#FECACA">Cost of False Positive (C_FP): $500</text>
+  <text x="55" y="126" class="sub-txt">Customer churn, support overhead</text>
+  <rect x="45" y="155" width="250" height="55" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="55" y="178" class="title-txt" fill="#93C5FD">Cost of False Negative (C_FN): $50</text>
+  <text x="55" y="196" class="sub-txt">Single transaction chargeback</text>
+
+  <path d="M 310 140 L 360 140" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- Calibration Sweep -->
+  <rect x="360" y="40" width="310" height="200" rx="10" ry="10" fill="#0D1526" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="380" y="66" class="title-txt" fill="#FDE68A">Threshold Sweep (tau in [0.0, 1.0])</text>
+  <rect x="375" y="85" width="280" height="55" rx="6" ry="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
+  <text x="385" y="108" class="title-txt" fill="#FECACA">tau = 0.50 (Naive Default)</text>
+  <text x="385" y="126" class="mono-txt">Expected Cost = $14,500</text>
+  <rect x="375" y="155" width="280" height="55" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="385" y="178" class="title-txt" fill="#A7F3D0">tau = 0.82 (Calibrated Optimum)</text>
+  <text x="385" y="196" class="mono-txt">Expected Cost = $4,200 (71% Reduction!)</text>
+
+  <path d="M 670 140 L 720 140" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Production Deployment -->
+  <rect x="720" y="40" width="210" height="200" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="825" y="66" class="title-txt" text-anchor="middle" fill="#A7F3D0">Production Serving</text>
+  <text x="735" y="100" class="body-txt">• Deploy tau = 0.82</text>
+  <text x="735" y="120" class="body-txt">• Minimizes Bayes risk</text>
+  <text x="735" y="140" class="body-txt">• Protects VIP customers</text>
+  <text x="735" y="160" class="mono-txt">P(Fraud) &gt; 0.82</text>
+  <text x="735" y="200" class="badge-txt" fill="#10B981">✓ Business Optimal</text>
+</svg>

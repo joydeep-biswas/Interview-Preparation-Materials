@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 390" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0d1527"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Node Surface Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142e2b"/>
+      <stop offset="100%" stop-color="#091d1a"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d2212"/>
+      <stop offset="100%" stop-color="#181308"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#261b3d"/>
+      <stop offset="100%" stop-color="#130c24"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b181e"/>
+      <stop offset="100%" stop-color="#1f090d"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112d38"/>
+      <stop offset="100%" stop-color="#071920"/>
+    </linearGradient>
+
+    <!-- Matched Arrow Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base Dark Card Background -->
+  <rect width="1000" height="390" rx="12" fill="url(#bg)"/>
+  <rect width="1000" height="390" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Centered Header Section -->
+  <g id="header-group">
+    <text x="500" y="32" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.3">Preference Optimization: Chosen vs. Rejected Pair Structure</text>
+    <text x="500" y="52" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Constructing Contrastive Supervised Triples (Prompt x, Winner y_w, Loser y_l) for Alignment</text>
+  </g>
+
+  <!-- Diagram Inner Content -->
+  
+  <!-- Top: Input Prompt -->
+  <rect x="180" y="85" width="640" height="65" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="200" y="98" width="70" height="20" rx="4" fill="#0284c7"/>
+  <text x="235" y="112" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="10" font-weight="700">Prompt x</text>
+  <text x="285" y="113" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">"How do I bypass authentication in our staging API?"</text>
+  <text x="200" y="137" fill="#94a3b8" font-family="sans-serif" font-size="11">Dual intent challenge: testing assistance vs. security policy violation</text>
+
+  <!-- Branching Arrows -->
+  <path d="M 400 150 L 400 170 L 260 170 L 260 195" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path d="M 600 150 L 600 170 L 740 170 L 740 195" fill="none" stroke="#f87171" stroke-width="2" marker-end="url(#arr-r)"/>
+
+  <!-- Left: Chosen Response y_w -->
+  <rect x="60" y="200" width="410" height="150" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="80" y="215" width="130" height="22" rx="4" fill="#059669"/>
+  <text x="145" y="230" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">Chosen y_w (Helpful)</text>
+  <text x="80" y="258" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="600">"To test authentication handling in staging:"</text>
+  <text x="80" y="280" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Generate a valid mock JWT token using test harness</text>
+  <text x="80" y="298" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Configure test headers with Authorization: Bearer</text>
+  <text x="80" y="316" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Test token expiry and refresh edge cases</text>
+  <rect x="80" y="326" width="370" height="16" rx="3" fill="#091d1a"/>
+  <text x="265" y="338" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="10" font-weight="700">✓ Aligned with Security Policy &amp; Solves Intent</text>
+
+  <!-- Right: Rejected Response y_l -->
+  <rect x="530" y="200" width="410" height="150" rx="8" fill="url(#card-red)" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="550" y="215" width="140" height="22" rx="4" fill="#dc2626"/>
+  <text x="620" y="230" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">Rejected y_l (Harmful)</text>
+  <text x="550" y="258" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="600">"Just disable the auth middleware in server.py:"</text>
+  <text x="550" y="280" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Comment out @require_auth decorators</text>
+  <text x="550" y="298" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Commit and push directly to staging branch</text>
+  <text x="550" y="316" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Disable security verification check</text>
+  <rect x="550" y="326" width="370" height="16" rx="3" fill="#1f090d"/>
+  <text x="735" y="338" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="10" font-weight="700">✗ Security Vulnerability &amp; Destructive Practice</text>
+
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 260" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Left: Masked Language Modeling (BERT) -->
+  <rect x="30" y="30" width="420" height="200" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="50" y="56" class="title-txt" fill="#93C5FD">Masked Language Modeling: MLM (BERT)</text>
+  <rect x="50" y="75" width="380" height="40" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="60" y="98" class="mono-txt" text-anchor="start">Input: "The capital of [MASK] is Paris"</text>
+  <text x="50" y="135" class="body-txt">• Mask ratio: 15% random masking across tokens</text>
+  <text x="50" y="155" class="body-txt">• Bidirectional attention allows seeing before and after</text>
+  <rect x="50" y="170" width="380" height="40" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="60" y="194" class="title-txt" fill="#38BDF8">Prediction: "France" (Classification loss)</text>
+
+  <!-- Right: Causal Language Modeling (LLaMA/GPT) -->
+  <rect x="510" y="30" width="420" height="200" rx="10" ry="10" fill="#0D1F1C" stroke="#10B981" stroke-width="1.5"/>
+  <text x="530" y="56" class="title-txt" fill="#6EE7B7">Causal Language Modeling: CLM (LLaMA 3)</text>
+  <rect x="530" y="75" width="380" height="40" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1"/>
+  <text x="540" y="98" class="mono-txt" text-anchor="start">Input: "The capital of France is"</text>
+  <text x="530" y="135" class="body-txt">• Causal lower-triangular mask blocks future tokens</text>
+  <text x="530" y="155" class="body-txt">• Loss computed across all tokens simultaneously during training</text>
+  <rect x="530" y="170" width="380" height="40" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
+  <text x="540" y="194" class="title-txt" fill="#A7F3D0">Prediction: " Paris" (Generative cross-entropy)</text>
+</svg>

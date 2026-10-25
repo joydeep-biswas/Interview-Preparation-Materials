@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="560" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Distributed Event Streaming Platform Architecture</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">End-to-end event fabric: Ingress publishers, KRaft-coordinated Kafka cluster, streaming compute, and storage sinks</text>
+<rect x="30" y="85" width="200" height="445" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="130" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Ingress Publishers</text>
+<rect x="60" y="122" width="140" height="18" rx="9" fill="#1d4ed8"/><text x="130" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Producers &amp; Gateways</text>
+<rect x="45" y="155" width="170" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">IoT Telemetry Gateways</text>
+<text x="55" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• 100k+ events/sec</text>
+<text x="55" y="214" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Sensor readings &amp; metrics</text>
+<rect x="45" y="245" width="170" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="268" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Clickstream Collectors</text>
+<text x="55" y="288" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Frontend HTTP webhooks</text>
+<text x="55" y="304" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Page views &amp; user actions</text>
+<rect x="45" y="335" width="170" height="85" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="358" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">CDC / Debezium</text>
+<text x="55" y="378" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Postgres / MySQL WAL</text>
+<text x="55" y="394" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Row mutations to events</text>
+<text x="55" y="408" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Low-latency DB replication</text>
+<rect x="45" y="435" width="170" height="80" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="130" y="458" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Producer Routing</text>
+<text x="130" y="478" fill="#FBBF24" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Murmur2(key) % partitions</text>
+<text x="130" y="495" fill="#94A3B8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Guarantees per-key ordering</text>
+<rect x="260" y="85" width="260" height="445" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="390" y="112" fill="#FBBF24" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Kafka Cluster Core</text>
+<rect x="310" y="122" width="160" height="18" rx="9" fill="#b45309"/><text x="390" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Distributed Commit Log</text>
+<rect x="275" y="155" width="230" height="50" rx="8" fill="#1e293b" stroke="#94a3b8" stroke-width="1"/>
+<text x="285" y="175" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">KRaft Controller Quorum</text>
+<text x="285" y="193" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Raft consensus metadata (No ZooKeeper)</text>
+<rect x="275" y="215" width="230" height="295" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="1"/>
+<text x="390" y="235" fill="#FDE68A" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Topic: commerce.orders</text>
+<text x="390" y="250" fill="#94A3B8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3 Partitions with RF=3 (In-Sync Replicas)</text>
+<rect x="285" y="260" width="210" height="70" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="295" y="280" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partition 0</text>
+<text x="295" y="298" fill="#6EE7B7" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Leader: Broker 1</text>
+<text x="295" y="314" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Replicas: Broker 2, Broker 3</text>
+<rect x="285" y="340" width="210" height="70" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="295" y="360" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partition 1</text>
+<text x="295" y="378" fill="#6EE7B7" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Leader: Broker 2</text>
+<text x="295" y="394" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Replicas: Broker 1, Broker 3</text>
+<rect x="285" y="420" width="210" height="75" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="295" y="440" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partition 2</text>
+<text x="295" y="458" fill="#6EE7B7" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Leader: Broker 3</text>
+<text x="295" y="474" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Replicas: Broker 1, Broker 2</text>
+<rect x="550" y="85" width="220" height="445" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="660" y="112" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Stream Processing</text>
+<rect x="580" y="122" width="160" height="18" rx="9" fill="#6d28d9"/><text x="660" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spark Streaming / Flink</text>
+<rect x="565" y="155" width="190" height="65" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="575" y="178" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Stream Coordinator</text>
+<text x="575" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Driver / JobManager</text>
+<text x="575" y="212" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Manages checkpoint state store</text>
+<rect x="565" y="260" width="190" height="70" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="575" y="280" fill="#DDD6FE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Executor 1 (Task P0)</text>
+<text x="575" y="298" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Processes P0 stream</text>
+<text x="575" y="314" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Continuous micro-batches</text>
+<rect x="565" y="340" width="190" height="70" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="575" y="360" fill="#DDD6FE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Executor 2 (Task P1)</text>
+<text x="575" y="378" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Processes P1 stream</text>
+<text x="575" y="394" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Stateful tumbling windows</text>
+<rect x="565" y="420" width="190" height="75" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="575" y="440" fill="#DDD6FE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Executor 3 (Task P2)</text>
+<text x="575" y="458" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Processes P2 stream</text>
+<text x="575" y="474" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Anomaly detection scoring</text>
+<rect x="800" y="85" width="210" height="445" rx="8" fill="#062e22" stroke="#10b981" stroke-width="1.5"/>
+<text x="905" y="112" fill="#34D399" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Real-Time Sinks</text>
+<rect x="830" y="122" width="150" height="18" rx="9" fill="#059669"/><text x="905" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Persistent Serving Layer</text>
+<rect x="815" y="155" width="180" height="80" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="825" y="178" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Delta Lake Silver</text>
+<text x="825" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">ACID Upsert &amp; De-dup</text>
+<text x="825" y="214" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Incremental lakehouse sync</text>
+<text x="825" y="226" fill="#64748B" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">via structured streaming sink</text>
+<rect x="815" y="255" width="180" height="80" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="825" y="278" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">ClickHouse OLAP</text>
+<text x="825" y="298" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Sub-50ms query response</text>
+<text x="825" y="314" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Real-time user dashboards</text>
+<text x="825" y="326" fill="#64748B" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Columnar real-time ingress</text>
+<rect x="815" y="355" width="180" height="80" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="825" y="378" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Fraud Alerts / PagerDuty</text>
+<text x="825" y="398" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Critical anomaly triggers</text>
+<text x="825" y="414" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Immediate webhook egress</text>
+<text x="825" y="426" fill="#64748B" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Sub-second incident routing</text>
+<rect x="815" y="450" width="180" height="65" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+<text x="905" y="472" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">End-to-End Latency</text>
+<text x="905" y="492" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt; 200 Milliseconds</text>
+<line x1="230" y1="295" x2="260" y2="295" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="495" y1="295" x2="565" y2="295" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<line x1="495" y1="375" x2="565" y2="375" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<line x1="495" y1="455" x2="565" y2="455" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<path d="M 755.0 295.0 L 765.0 295.0 C 783.0 295.0, 783.0 200.0, 801.0 200.0 L 815.0 200.0" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<path d="M 755.0 375.0 L 765.0 375.0 C 783.0 375.0, 783.0 295.0, 801.0 295.0 L 815.0 295.0" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<path d="M 755.0 455.0 L 765.0 455.0 C 783.0 455.0, 783.0 395.0, 801.0 395.0 L 815.0 395.0" fill="none" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+</svg>

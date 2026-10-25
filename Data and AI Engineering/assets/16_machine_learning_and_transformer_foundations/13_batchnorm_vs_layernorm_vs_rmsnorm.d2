@@ -1,0 +1,12 @@
+classes: {
+  bn_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  ln_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  rms_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+bn: "1. Batch Normalization (BN)\nNormalizes across BATCH (B)\nBreaks on dynamic NLP lengths & small batch sizes" { class: bn_box }
+ln: "2. Layer Normalization (LN)\nNormalizes across FEATURES (D) per token\nIndependent of batch size (BERT, GPT-2)" { class: ln_box }
+rmsnorm: "3. RMSNorm (Root Mean Square)\nSkips mean calculation entirely: y = x / RMS(x)\nSaves 7-10% GPU memory bandwidth (LLaMA-3)" { class: rms_box }
+
+bn -> ln: "Solve dynamic length issue"
+ln -> rmsnorm: "Eliminate mean calculation overhead"

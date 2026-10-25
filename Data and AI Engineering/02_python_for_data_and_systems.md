@@ -8,59 +8,9 @@ A comprehensive, production-grade guide to Python for high-performance data engi
 
 Python is the lingua franca of data engineering. However, writing production-grade Python that processes hundreds of gigabytes of data requires understanding how the Python runtime manages memory, threads, and I/O under the hood.
 
-```mermaid
-flowchart TD
-    subgraph MemoryManagement ["1. CPython Runtime & Memory Architecture"]
-        direction TD
-        GIL["Global Interpreter Lock (GIL)<br/>(CPython thread serialization & PEP 703 free-threading)"]
-        PyMalloc["PyMalloc Memory Allocator<br/>(Arenas -> Pools -> Blocks for objects <= 512B)"]
-        GC["Generational Garbage Collection<br/>(Reference Counting + Gen 0, 1, 2 Cyclic Collector)"]
-        PyMalloc --> GIL
-        GC --> GIL
-    end
+![CPython Runtime, Memory Architecture & Execution Model](assets/02_python_for_data_and_systems/01_cpython_runtime_memory_architecture.svg)
 
-    subgraph LanguageConstructs ["2. Advanced Language & Memory Constructs"]
-        direction TD
-        Generators["Generators & Iterators<br/>(O(1) memory lazy streaming)"]
-        Decorators["Custom Decorators<br/>(Backoff retries, metrics, caching)"]
-        ContextMgr["Context Managers<br/>(Deterministic resource teardown)"]
-        Pydantic["Pydantic v2 Models<br/>(Rust-core schema & type contracts)"]
-    end
-
-    subgraph AnalyticalEngines ["3. Vectorized & In-Memory Analytical Engines"]
-        direction TD
-        Polars["Polars Engine<br/>(Rust multi-core Arrow expressions)"]
-        DuckDB["DuckDB OLAP<br/>(Embedded vectorized columnar SQL)"]
-        Arrow["PyArrow Tables<br/>(Zero-copy IPC & Parquet mapping)"]
-    end
-
-    subgraph ConcurrencySystems ["4. Concurrency & Production Systems Engineering"]
-        direction TD
-        AsyncIO["Asyncio Coroutines (High-concurrency network I/O)"]
-        ProcessPool["Multiprocessing Pools (CPU-bound parsing bypassing GIL)"]
-        ThreadPool["Thread Pools (I/O-bound disk & database queries)"]
-    end
-
-    MemoryManagement --> LanguageConstructs --> AnalyticalEngines --> ConcurrencySystems
-
-    style MemoryManagement fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LanguageConstructs fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style AnalyticalEngines fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ConcurrencySystems fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style GIL fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style PyMalloc fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style GC fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Generators fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Decorators fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ContextMgr fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Pydantic fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Polars fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style DuckDB fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Arrow fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style AsyncIO fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style ProcessPool fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style ThreadPool fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source: [`01_cpython_runtime_memory_architecture.d2`](assets/02_python_for_data_and_systems/01_cpython_runtime_memory_architecture.d2)*
 
 ---
 
@@ -116,23 +66,9 @@ flowchart TD
 
 In Python, **everything is an object allocated on the heap**. Unlike C or Rust where an integer is a raw 4-byte or 8-byte primitive stored in a CPU register, in CPython an integer is a heavy C struct called `PyLongObject`:
 
-```mermaid
-flowchart LR
-    subgraph PyLongStructure ["CPython 64-bit PyLongObject (28 Bytes Minimum)"]
-        direction LR
-        Header1["ob_refcnt (8 Bytes): 64-bit Reference Counter"]
-        Header2["ob_type (8 Bytes): Pointer to Type Object (PyTypeObject*)"]
-        Header3["ob_size (8 Bytes): Number of 30-bit Digits Allocated"]
-        Value["ob_digit[0] (4 Bytes): Actual Integer Value Bits"]
-        Header1 --- Header2 --- Header3 --- Value
-    end
+![The Anatomy of a Python Object: C Primitive vs. CPython PyLongObject](assets/02_python_for_data_and_systems/02_pyobject_anatomy.svg)
 
-    style PyLongStructure fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Header1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Header2 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Header3 fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-    style Value fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [`02_pyobject_anatomy.d2`](assets/02_python_for_data_and_systems/02_pyobject_anatomy.d2)*
 
 ```python
 import sys
@@ -158,22 +94,9 @@ print(f"Size of empty list: {sys.getsizeof(empty_list)} bytes")
 
 CPython uses an optimized hierarchical memory allocator called **PyMalloc** to bypass OS kernel `malloc()` calls for small objects ($\le 512$ bytes):
 
-```mermaid
-flowchart LR
-    subgraph PyMallocHierarchy ["PyMalloc Small Object Allocator (<= 512 Bytes)"]
-        direction LR
-        Arena["<b>Arena (256 KB)</b><br/>Allocated directly from OS heap via malloc(). Subdivided into Pools."]
-        Pool["<b>Pool (4 KB = 1 Memory Page)</b><br/>Belongs to an Arena. Dedicated to ONE specific Block Size (e.g., 32-byte pool)."]
-        Block["<b>Blocks (8 to 512 Bytes)</b><br/>Carved from Pools in multiples of 8 bytes (Size classes: 8, 16, 24... 512)."]
+![PyMalloc Memory Allocator: Arenas, Pools, and Blocks Hierarchy](assets/02_python_for_data_and_systems/03_pymalloc_arenas_pools_blocks.svg)
 
-        Arena --> Pool --> Block
-    end
-
-    style PyMallocHierarchy fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Arena fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Pool fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Block fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`03_pymalloc_arenas_pools_blocks.d2`](assets/02_python_for_data_and_systems/03_pymalloc_arenas_pools_blocks.d2)*
 
 1. **Arenas (256 KB):** Contiguous chunks of memory mapped from the OS.
 2. **Pools (4 KB):** Equal to one system virtual memory page. A pool only holds blocks of a single size class.
@@ -202,17 +125,9 @@ Every Python object (`PyObject`) maintains an internal counter field, `ob_refcnt
 #### 2. The Cyclic Garbage Collector: Generational Tri-Color Mark-and-Sweep
 When two or more container objects reference each other, their reference counts can never reach zero through normal reference decrements, even after all application pointers to them have been dropped:
 
-```mermaid
-flowchart LR
-    NodeA["Object A<br/>refcnt = 1 (from B)"] <--> NodeB["Object B<br/>refcnt = 1 (from A)"]
-    Deleted["del a, b<br/>(External pointers dropped)"] -.-> NodeA
-    CycleNotice["Both objects have refcnt = 1,<br/>yet neither is reachable by application code!<br/><b>Memory Leak without Cyclic GC!</b>"]
+![The Cyclic Garbage Collector: Reference Cycles & Generational Collection](assets/02_python_for_data_and_systems/04_cyclic_gc_generations.svg)
 
-    style NodeA fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style NodeB fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Deleted fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style CycleNotice fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-```
+*D2 Source: [`04_cyclic_gc_generations.d2`](assets/02_python_for_data_and_systems/04_cyclic_gc_generations.d2)*
 
 To reclaim orphaned reference cycles, CPython runs a specialized cyclic garbage collector (`gc` module) that tracks all container objects (lists, dictionaries, custom class instances, tuples holding mutable objects) using doubly-linked list nodes.
 
@@ -257,25 +172,9 @@ The **Global Interpreter Lock (GIL)** is a mutual-exclusion lock protecting CPyt
 - **Single-Thread Execution:** In standard CPython, **only ONE native OS thread can execute Python bytecode at any given millisecond**, even on a 64-core machine.
 - **CPU-Bound Concurrency Penalty:** Running CPU-intensive data parsing (e.g., regex matching or string manipulation) across multiple Python threads does **not** speed up execution—it often slows execution down due to OS thread context-switching overhead and lock contention.
 
-```mermaid
-flowchart TD
-    subgraph MultiCoreCPU ["64-Core Hardware CPU Server"]
-        Core1["Core 1: Running Thread 1"]
-        Core2["Core 2: IDLE (Waiting for GIL)"]
-        Core3["Core 3: IDLE (Waiting for GIL)"]
-        CoreN["Core 64: IDLE (Waiting for GIL)"]
-    end
+![The Global Interpreter Lock (GIL): CPU-Bound Contention vs. I/O Release](assets/02_python_for_data_and_systems/05_gil_thread_contention.svg)
 
-    GIL_Lock["<b>The CPython Global Interpreter Lock (GIL)</b><br/>Only 1 thread holds the lock at a time!"]
-    GIL_Lock --> Core1
-
-    style MultiCoreCPU fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style GIL_Lock fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Core1 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Core2 fill:#1e293b,stroke:#64748b,stroke-width:1px,color:#94a3b8
-    style Core3 fill:#1e293b,stroke:#64748b,stroke-width:1px,color:#94a3b8
-    style CoreN fill:#1e293b,stroke:#64748b,stroke-width:1px,color:#94a3b8
-```
+*D2 Source: [`05_gil_thread_contention.d2`](assets/02_python_for_data_and_systems/05_gil_thread_contention.d2)*
 
 #### 2. Bytecode Evaluation & Thread Switching Mechanics
 CPython threads switch execution through cooperative preemption governed by a time-based interval (`sys.getswitchinterval()`):
@@ -386,19 +285,9 @@ print(f"Generator Expression Memory: {sys.getsizeof(numbers_gen)} Bytes")
 In big data ingestion, attempting to load a 50 GB log file using `file.readlines()` or `json.load()` causes an immediate **Out-Of-Memory (OOM) Kernel Panic**. 
 Using **Chained Generators**, Python streams data record-by-record through transformation pipelines using constant in-memory buffers:
 
-```mermaid
-flowchart LR
-    File["50 GB Raw File on Disk"] -->|"Line by Line"| G1["Generator 1: stream_lines()<br/>Memory: 4 KB Buffer"]
-    G1 -->|"Regex Extract"| G2["Generator 2: parse_json()<br/>Memory: 8 KB Dict"]
-    G2 -->|"Filter Dropped"| G3["Generator 3: filter_anomalies()<br/>Memory: 8 KB Dict"]
-    G3 -->|"Micro-Batch"| Sink[("PostgreSQL / Delta Sink<br/>(Flushes 5,000 records)")]
+![Generators & Streaming Iterators: Processing 50GB Files in 15MB RAM](assets/02_python_for_data_and_systems/06_generator_streaming_pipeline.svg)
 
-    style File fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style G1 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style G2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style G3 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Sink fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source: [`06_generator_streaming_pipeline.d2`](assets/02_python_for_data_and_systems/06_generator_streaming_pipeline.d2)*
 
 ```python
 import json
@@ -628,37 +517,9 @@ print(f"Cleaned Email: {validated_order.customer_email}")
 
 For over a decade, **Pandas** was the default Python data tool. However, Pandas was architected in 2008 for single-core financial modeling and struggles on modern big data:
 
-```mermaid
-flowchart LR
-    subgraph PandasArch ["Pandas (Legacy Architecture)"]
-        direction LR
-        P_GIL["Subject to Python GIL"]
-        P_Eager["Strictly Eager Execution (Every line creates temporary memory copies)"]
-        P_NumPy["NumPy Array Backend (Poor support for Strings and NULLs)"]
-        P_Single["Single-Threaded CPU Execution"]
-        P_GIL --- P_Eager --- P_NumPy --- P_Single
-    end
+![Pandas vs. Polars: Architectural Deep Dive & Memory Representation](assets/02_python_for_data_and_systems/07_pandas_vs_polars_architecture.svg)
 
-    subgraph PolarsArch ["Polars (Modern Next-Gen Architecture)"]
-        direction LR
-        PL_Rust["Engine written in 100% Rust (Zero GIL during execution)"]
-        PL_Lazy["Lazy Execution (Optimizes query plan before computing)"]
-        PL_Arrow["Apache Arrow Backend (Native columnar binary, zero-copy, fast strings)"]
-        PL_Multi["Multi-Threaded Vectorized SIMD across ALL CPU cores"]
-        PL_Rust --- PL_Lazy --- PL_Arrow --- PL_Multi
-    end
-
-    style PandasArch fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style PolarsArch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style P_GIL fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style P_Eager fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style P_NumPy fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style P_Single fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style PL_Rust fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style PL_Lazy fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style PL_Arrow fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style PL_Multi fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [`07_pandas_vs_polars_architecture.d2`](assets/02_python_for_data_and_systems/07_pandas_vs_polars_architecture.d2)*
 
 #### First-Principles Architectural Analysis: Why Pandas Hits Memory Walls
 
@@ -776,17 +637,9 @@ print(query_result)
 
 Apache Arrow is the universal in-memory columnar standard. **PyArrow** enables zero-copy memory transfers between systems:
 
-```mermaid
-flowchart LR
-    ParquetFile[Parquet File on Disk] -->|Zero-Copy Memory Map| ArrowMemory[PyArrow Table in RAM]
-    ArrowMemory -->|Zero-Copy Pointer Sharing| PolarsEngine[Polars Engine]
-    ArrowMemory -->|Zero-Copy Pointer Sharing| DuckDBEngine[DuckDB SQL Engine]
+![PyArrow: Zero-Copy Memory Sharing & Parquet Inter-Process Communication](assets/02_python_for_data_and_systems/08_pyarrow_zero_copy_ipc.svg)
 
-    style ParquetFile fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ArrowMemory fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style PolarsEngine fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style DuckDBEngine fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source: [`08_pyarrow_zero_copy_ipc.d2`](assets/02_python_for_data_and_systems/08_pyarrow_zero_copy_ipc.d2)*
 
 ```python
 import pyarrow.parquet as pq
@@ -955,19 +808,9 @@ class DataPipelineConfig(BaseSettings):
 
 ### 4.4 Concurrency Deep Dive: Multiprocessing vs. Multithreading vs. AsyncIO
 
-```mermaid
-flowchart TD
-    Bottleneck{"What is the Primary Bottleneck of your Pipeline Task?"}
-    
-    Bottleneck -- CPU-Bound: JSON Parsing, Compression, Math --> MP["Multiprocessing<br/>ProcessPoolExecutor<br/>Spawns separate OS processes to bypass the GIL"]
-    Bottleneck -- I/O-Bound: SQL Queries, Disk I/O --> TP["Multithreading<br/>ThreadPoolExecutor<br/>Threads release GIL during blocking OS I/O wait"]
-    Bottleneck -- Network-Bound: Scraping 5,000 Web APIs --> AS["Asyncio Coroutines<br/>Single-threaded non-blocking event loop"]
+![Python Concurrency Selection Matrix: Architecture, GIL & Memory](assets/02_python_for_data_and_systems/09_concurrency_selection_matrix.svg)
 
-    style Bottleneck fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style MP fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style TP fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style AS fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source: [`09_concurrency_selection_matrix.d2`](assets/02_python_for_data_and_systems/09_concurrency_selection_matrix.d2)*
 
 #### 1. High-Concurrency REST Extraction (AsyncIO)
 ```python

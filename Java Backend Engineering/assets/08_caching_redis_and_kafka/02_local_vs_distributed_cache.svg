@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1100" height="480" rx="10" fill="url(#bg)"/>
+  <rect width="1100" height="480" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="550" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Local In-Memory Cache (Caffeine) vs. Distributed Cache (Redis)</text>
+  <text x="550" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Nanosecond In-Process Heap Access with Consistency Divergence vs. Millisecond Network State with Cluster-Wide Consistency</text>
+  <line x1="40" y1="68" x2="1060" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Left Side: Local Cache -->
+  <rect x="50" y="105" width="460" height="325" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="105" width="460" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="280" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">Local In-Memory Cache (Caffeine / Guava)</text>
+
+  <!-- Node 1 -->
+  <rect x="75" y="150" width="410" height="75" rx="6" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="90" y="175" font-size="11" font-weight="700" fill="#38BDF8">App Pod 1 (JVM Heap Memory):</text>
+  <text x="90" y="195" font-size="9" fill="#CBD5E1">&#x2022; Local Caffeine Cache: Key="item:1" &#x2192; Value="Price: $100"</text>
+  <text x="90" y="212" font-size="8" fill="#34D399">&#x2714; Latency: ~50 nanoseconds (ZERO network overhead)</text>
+
+  <!-- Node 2 Divergence -->
+  <rect x="75" y="240" width="410" height="75" rx="6" fill="#1E293B" stroke="#EF4444" stroke-width="1"/>
+  <text x="90" y="265" font-size="11" font-weight="700" fill="#F87171">App Pod 2 (Independent JVM Heap):</text>
+  <text x="90" y="285" font-size="9" fill="#CBD5E1">&#x2022; Local Caffeine Cache: Key="item:1" &#x2192; Value="Price: $90" (STALE!)</text>
+  <text x="90" y="302" font-size="8" fill="#FCA5A5">&#x2718; Data Divergence: Inconsistent across nodes without invalidation</text>
+
+  <rect x="75" y="330" width="410" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="90" y="355" font-size="10" font-weight="700" fill="#CBD5E1">Trade-offs &amp; Sweet Spot:</text>
+  <text x="90" y="375" font-size="9" fill="#CBD5E1">&#x2022; JVM Garbage Collection pressure (Large heap impact)</text>
+  <text x="90" y="395" font-size="9" fill="#FBBF24">&#x2022; Best For: Static lookup data, country codes, immutable configs</text>
+
+  <!-- Right Side: Distributed Cache -->
+  <rect x="590" y="105" width="460" height="325" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="590" y="105" width="460" height="30" rx="8" fill="#064E3B"/>
+  <text x="820" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">Distributed Cache (Redis Enterprise)</text>
+
+  <!-- Pods -->
+  <rect x="615" y="150" width="190" height="60" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="710" y="175" font-size="10" font-weight="700" fill="#E2E8F0" text-anchor="middle">App Pod 1</text>
+  <text x="710" y="195" font-size="8" fill="#94A3B8" text-anchor="middle">Reads/Writes Redis</text>
+
+  <rect x="835" y="150" width="190" height="60" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="930" y="175" font-size="10" font-weight="700" fill="#E2E8F0" text-anchor="middle">App Pod 2</text>
+  <text x="930" y="195" font-size="8" fill="#94A3B8" text-anchor="middle">Reads/Writes Redis</text>
+
+  <!-- Shared Redis Cluster -->
+  <rect x="615" y="240" width="410" height="85" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+  <text x="820" y="265" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Central Redis Cluster (Shared State of Record)</text>
+  <text x="630" y="288" font-size="9" fill="#CBD5E1">&#x2022; Single source of cache truth across all pods</text>
+  <text x="630" y="306" font-size="8" fill="#34D399">&#x2714; Perfect consistency: Pod 1 write is immediately visible to Pod 2!</text>
+
+  <path fill="none" d="M 710 210 L 710 240" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path fill="none" d="M 930 210 L 930 240" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <rect x="615" y="340" width="410" height="75" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="630" y="365" font-size="10" font-weight="700" fill="#CBD5E1">Trade-offs &amp; Sweet Spot:</text>
+  <text x="630" y="385" font-size="9" fill="#CBD5E1">&#x2022; Latency: ~0.5ms - 2ms (TCP network round-trip overhead)</text>
+  <text x="630" y="403" font-size="9" fill="#FBBF24">&#x2022; Best For: User sessions, shopping carts, volatile shared counts</text>
+
+  <!-- Bottom Invariant Banner -->
+  <rect x="50" y="445" width="1000" height="25" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="550" y="462" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Hybrid Pattern: Combine L1 (Caffeine) for read-heavy hot items with Redis Pub/Sub invalidation to achieve nanosecond speeds with cluster consistency.</text>
+</svg>

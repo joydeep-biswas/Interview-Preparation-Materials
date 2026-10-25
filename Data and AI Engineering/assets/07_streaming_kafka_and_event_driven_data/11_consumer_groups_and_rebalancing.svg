@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Consumer Groups &amp; Partition Assignment Dynamics</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Horizontal scaling bounds: 1-to-1 partition-to-consumer exclusivity, rebalance protocols, and consumer starvation</text>
+<rect x="30" y="85" width="980" height="115" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="520" y="112" fill="#60A5FA" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Topic: commerce.orders (4 Partitions)</text>
+<rect x="420" y="122" width="200" height="18" rx="9" fill="#1d4ed8"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Parallel Scalability Unit</text>
+<rect x="50" y="145" width="215" height="45" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="157" y="172" fill="#38BDF8" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Partition 0</text>
+<rect x="290" y="145" width="215" height="45" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="397" y="172" fill="#38BDF8" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Partition 1</text>
+<rect x="530" y="145" width="215" height="45" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="637" y="172" fill="#38BDF8" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Partition 2</text>
+<rect x="770" y="145" width="220" height="45" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="880" y="172" fill="#38BDF8" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Partition 3</text>
+<rect x="30" y="230" width="980" height="210" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="520" y="255" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Consumer Group: order-processing-group (Cooperative Sticky Assignor)</text>
+<rect x="410" y="265" width="220" height="18" rx="9" fill="#6d28d9"/><text x="520" y="277" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Max Active Consumers = 4</text>
+<rect x="50" y="295" width="170" height="125" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<text x="65" y="318" fill="#34D399" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Consumer C1</text>
+<text x="65" y="338" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Assigned: Partition 0</text>
+<text x="65" y="356" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Dedicated thread</text>
+<text x="65" y="372" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Monotonic offset commits</text>
+<text x="65" y="388" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Heartbeat every 3s</text>
+<rect x="60" y="396" width="150" height="16" rx="8" fill="#059669"/><text x="135" y="407" fill="#ffffff" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">100% UTILIZATION</text>
+<rect x="240" y="295" width="170" height="125" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<text x="255" y="318" fill="#34D399" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Consumer C2</text>
+<text x="255" y="338" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Assigned: Partition 1</text>
+<text x="255" y="356" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Dedicated thread</text>
+<text x="255" y="372" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Monotonic offset commits</text>
+<text x="255" y="388" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Heartbeat every 3s</text>
+<rect x="250" y="396" width="150" height="16" rx="8" fill="#059669"/><text x="325" y="407" fill="#ffffff" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">100% UTILIZATION</text>
+<rect x="430" y="295" width="170" height="125" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<text x="445" y="318" fill="#34D399" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Consumer C3</text>
+<text x="445" y="338" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Assigned: Partition 2</text>
+<text x="445" y="356" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Dedicated thread</text>
+<text x="445" y="372" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Monotonic offset commits</text>
+<text x="445" y="388" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Heartbeat every 3s</text>
+<rect x="440" y="396" width="150" height="16" rx="8" fill="#059669"/><text x="515" y="407" fill="#ffffff" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">100% UTILIZATION</text>
+<rect x="620" y="295" width="170" height="125" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<text x="635" y="318" fill="#34D399" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Consumer C4</text>
+<text x="635" y="338" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Assigned: Partition 3</text>
+<text x="635" y="356" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Dedicated thread</text>
+<text x="635" y="372" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Monotonic offset commits</text>
+<text x="635" y="388" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Heartbeat every 3s</text>
+<rect x="630" y="396" width="150" height="16" rx="8" fill="#059669"/><text x="705" y="407" fill="#ffffff" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">100% UTILIZATION</text>
+<rect x="810" y="295" width="180" height="125" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="825" y="318" fill="#FCA5A5" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Consumer C5 (IDLE)</text>
+<text x="825" y="338" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Assigned: NONE (0 Partitions)</text>
+<text x="825" y="356" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Starved hot-standby</text>
+<text x="825" y="372" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Receives no records!</text>
+<text x="825" y="388" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Activates only if C1-C4 dies</text>
+<rect x="820" y="396" width="160" height="16" rx="8" fill="#991b1b"/><text x="900" y="407" fill="#ffffff" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ZERO PARTITIONS</text>
+<path d="M 157.0 190.0 L 157.0 200.0 C 157.0 240.5, 135.0 240.5, 135.0 281.0 L 135.0 295.0" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<path d="M 397.0 190.0 L 397.0 200.0 C 397.0 240.5, 325.0 240.5, 325.0 281.0 L 325.0 295.0" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<path d="M 637.0 190.0 L 637.0 200.0 C 637.0 240.5, 515.0 240.5, 515.0 281.0 L 515.0 295.0" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<path d="M 880.0 190.0 L 880.0 200.0 C 880.0 240.5, 705.0 240.5, 705.0 281.0 L 705.0 295.0" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<rect x="30" y="460" width="980" height="60" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="520" y="483" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Golden Rule of Kafka Scalability</text>
+<text x="520" y="503" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">A single partition can be consumed by at most ONE consumer within the same consumer group.</text>
+</svg>

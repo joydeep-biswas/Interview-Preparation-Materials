@@ -1,0 +1,26 @@
+direction: right
+classes: {
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  diamond_box: { shape: diamond, style: { fill: "#111827", stroke: "#F59E0B", stroke-width: 2 } }
+  green_box: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
+  red_box: { style: { fill: "#111827", stroke: "#EF4444", stroke-width: 2 } }
+  purple_box: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
+  cyan_box: { style: { fill: "#111827", stroke: "#06B6D4", stroke-width: 2 } }
+  sink_box: { style: { fill: "#064E3B", stroke: "#10B981", stroke-width: 2 } }
+}
+
+RawDoc: "Raw Enterprise Documents\nScanned PDFs, 10-Ks" { class: blue_box }
+DocType: "Document Classifier" { class: diamond_box }
+PyMu: "PyMuPDF / pdfplumber" { class: green_box }
+LayoutEngine: "LayoutLMv3 / PaddleOCR" { class: red_box }
+Normalizer: "Reading Order Normalizer\nMarkdown & tables" { class: green_box }
+ChunkRouter: "Chunking Router\nSemantic / Parent-Child" { class: purple_box }
+MinHash: "MinHash LSH Dedup\nNear-duplicate filter" { class: cyan_box }
+VectorSink: "Vector Database\npgvector / Qdrant" { class: sink_box }
+
+RawDoc -> DocType
+DocType -> PyMu: "Digital"
+DocType -> LayoutEngine: "Scanned"
+PyMu -> Normalizer
+LayoutEngine -> Normalizer
+Normalizer -> ChunkRouter -> MinHash -> VectorSink

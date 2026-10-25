@@ -1,0 +1,21 @@
+direction: right
+title: PySpark Runtime Architecture & Py4J Interop
+
+DriverSide: Driver Layer (Py4J Gateway) {
+  style.stroke: "#38BDF8"
+  PyDriver: Python Driver Script (DataFrame API calls)
+  Py4J: Py4J Gateway (Localhost Socket 25333)
+  JVMDriver: JVM Spark Driver (Catalyst & DAGScheduler)
+
+  PyDriver -> Py4J: Method Invocations
+  Py4J -> JVMDriver: Compiles Execution Plan
+}
+
+WorkerSide: Worker Execution Mechanics {
+  style.stroke: "#34D399"
+  NativeDF: Path A: Native DataFrame Operations (100% JVM Tungsten)
+  CustomUDF: Path B: Python UDF (IPC Socket + Python Worker Daemon)
+}
+
+DriverSide.JVMDriver -> WorkerSide.NativeDF: Dispatches Whole-Stage CodeGen Tasks { style.stroke: "#34D399" }
+DriverSide.JVMDriver -> WorkerSide.CustomUDF: Dispatches Tasks Requiring Python Daemon { style.stroke: "#EF4444" }

@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 580" width="1100" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="580" rx="10" fill="url(#bg)"/>
+  <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Production Observability: Metrics vs Logs vs Traces Comparison Matrix</text>
+  <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Cardinality Risks, Retention Policies, Storage Cost, and Operational Triage Roles</text>
+<rect x="40" y="100" width="320" height="360" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<rect x="40" y="100" width="320" height="55" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="200" y="122" fill="#F8FAFC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Metrics (Micrometer)</text>
+<text x="200" y="142" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Aggregatable Numeric Time-Series</text>
+<text x="55" y="175" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Data Structure:</text>
+<text x="60" y="189" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Timestamp + Metric Name + Labels + F</text>
+<text x="65" y="202" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">loat Value</text>
+<text x="55" y="220" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Cardinality:</text>
+<text x="60" y="234" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• MUST BE LOW: Never put user_id or uu</text>
+<text x="65" y="247" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">id in labels!</text>
+<text x="55" y="265" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Storage Cost:</text>
+<text x="60" y="279" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Extremely Low (~bytes per sample, co</text>
+<text x="65" y="292" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">mpressed)</text>
+<text x="55" y="310" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Retention Period:</text>
+<text x="60" y="324" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Long-Term (13 to 24 Months in Promet</text>
+<text x="65" y="337" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">heus/M3DB)</text>
+<text x="55" y="355" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Primary Purpose:</text>
+<text x="60" y="369" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Real-Time Alerting, SLO/SLA tracking</text>
+<text x="65" y="382" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">, P99 dashboards</text>
+<text x="55" y="400" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Operational Role:</text>
+<text x="60" y="414" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Detects: 'SOMETHING IS BROKEN RIGHT </text>
+<text x="65" y="427" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">NOW'</text>
+<rect x="390" y="100" width="320" height="360" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<rect x="390" y="100" width="320" height="55" rx="8" fill="#083344" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="550" y="122" fill="#F8FAFC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Logs (MDC / Logback)</text>
+<text x="550" y="142" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Discrete Structured Text Events</text>
+<text x="405" y="175" fill="#06b6d4" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Data Structure:</text>
+<text x="410" y="189" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Timestamp + Severity + Message + JSO</text>
+<text x="415" y="202" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">N Key-Values</text>
+<text x="405" y="220" fill="#06b6d4" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Cardinality:</text>
+<text x="410" y="234" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Unbounded / High: Safe for user_id, </text>
+<text x="415" y="247" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">order_id, stack traces</text>
+<text x="405" y="265" fill="#06b6d4" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Storage Cost:</text>
+<text x="410" y="279" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• High (Requires heavy indexing in Ela</text>
+<text x="415" y="292" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">sticsearch/OpenSearch)</text>
+<text x="405" y="310" fill="#06b6d4" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Retention Period:</text>
+<text x="410" y="324" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Short to Medium (7 to 30 Days in hot</text>
+<text x="415" y="337" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start"> index)</text>
+<text x="405" y="355" fill="#06b6d4" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Primary Purpose:</text>
+<text x="410" y="369" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Detailed post-mortem investigation &amp;</text>
+<text x="415" y="382" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start"> forensic audit</text>
+<text x="405" y="400" fill="#06b6d4" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Operational Role:</text>
+<text x="410" y="414" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Explains: 'WHY DID IT BREAK?' (Root </text>
+<text x="415" y="427" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">cause context)</text>
+<rect x="740" y="100" width="320" height="360" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+<rect x="740" y="100" width="320" height="55" rx="8" fill="#2e1065" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="900" y="122" fill="#F8FAFC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Distributed Traces</text>
+<text x="900" y="142" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">End-to-End Request Call Tree</text>
+<text x="755" y="175" fill="#8b5cf6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Data Structure:</text>
+<text x="760" y="189" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• TraceID + SpanID + ParentID + Timest</text>
+<text x="765" y="202" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">amps + Span Attributes</text>
+<text x="755" y="220" fill="#8b5cf6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Cardinality:</text>
+<text x="760" y="234" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• High (Requires Head/Tail Sampling: 1</text>
+<text x="765" y="247" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">-5% of requests)</text>
+<text x="755" y="265" fill="#8b5cf6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Storage Cost:</text>
+<text x="760" y="279" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Moderate to High (Heavy network band</text>
+<text x="765" y="292" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">width without sampling)</text>
+<text x="755" y="310" fill="#8b5cf6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Retention Period:</text>
+<text x="760" y="324" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Short (3 to 14 Days in Jaeger / Tempo)</text>
+<text x="755" y="342" fill="#8b5cf6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Primary Purpose:</text>
+<text x="760" y="356" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Pinpointing cross-microservice laten</text>
+<text x="765" y="369" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">cy &amp; network stalls</text>
+<text x="755" y="387" fill="#8b5cf6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Operational Role:</text>
+<text x="760" y="401" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Isolates: 'WHERE IN THE CALL CHAIN D</text>
+<text x="765" y="414" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">ID IT STALL?'</text>
+<rect x="40" y="475" width="1020" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="498" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">The Unified Observability Correlation Flywheel:</text>
+<text x="65" y="518" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Never treat the 3 pillars as isolated silos. By propagating trace_id in OpenTelemetry and logging it in MDC (Mapped Diagnostic Context),</text>
+<text x="65" y="535" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  Grafana can seamlessly jump from a Metric alert -&gt; Jaeger trace span -&gt; Loki log lines with a single click!</text>
+</svg>

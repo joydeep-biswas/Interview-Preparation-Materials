@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  d: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  maxsim: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+q_tokens: "Query Token Vectors E_q" {
+  q1: "q_1: 'restart'" { class: q }
+  q2: "q_2: 'k8s'" { class: q }
+  q3: "q_3: 'pod'" { class: q }
+}
+
+d_tokens: "Doc Token Vectors E_d" {
+  d1: "d_1: 'kubectl'" { class: d }
+  d2: "d_2: 'delete'" { class: d }
+  d3: "d_3: 'pod'" { class: d }
+}
+
+maxsim: "ColBERT MaxSim Operator\nScore = Sigma_q max_d (E_q . E_d)\n(Fast late interaction)" { class: maxsim }
+
+q_tokens -> maxsim: "Query tokens"
+d_tokens -> maxsim: "Doc tokens"

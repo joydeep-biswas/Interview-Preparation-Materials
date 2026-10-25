@@ -1,0 +1,14 @@
+direction: down
+classes: {
+  root_box: { shape: diamond, style: { fill: "#111827", stroke: "#F59E0B" } }
+  sup_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  unsup_box: { style: { fill: "#0D1526", stroke: "#10B981" } }
+}
+
+Check: "Data Ground Truth?\nLabeled vs Unlabeled" { class: root_box }
+
+Supervised: "Supervised Learning\n• Regression: LightGBM, RMSE\n• Classification: XGBoost, PR-AUC" { class: sup_box }
+Unsupervised: "Unsupervised & RL\n• Clustering: K-Means, HDBSCAN\n• RL: PPO, DPO Policy Gradients" { class: unsup_box }
+
+Check -> Supervised: "Labeled"
+Check -> Unsupervised: "Unlabeled / Reward"

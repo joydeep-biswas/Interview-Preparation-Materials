@@ -1,0 +1,46 @@
+direction: right
+title: Modern Java Language & Functional Pipeline Architecture
+
+TypeSystem: Modern Type System (Java 16 - 21+) {
+  style.fill: "#0B132B"
+  style.stroke: "#1D4ED8"
+  
+  Records: Records (JEP 395) {
+    code: "record Order(UUID id, double total) {}"
+    desc: "Immutable data carriers; compiler-generated invariants"
+  }
+  
+  Sealed: Sealed Interfaces (JEP 409) {
+    code: "sealed interface Payment permits Card, Crypto {}"
+    desc: "Exhaustive domain restriction"
+  }
+  
+  PatternMatching: Pattern Matching (JEP 441) {
+    code: "switch (payment) { case Card(var n) -> ... }"
+    desc: "Exhaustive record deconstruction"
+  }
+  
+  Records -> PatternMatching
+  Sealed -> PatternMatching
+}
+
+StreamPipeline: Functional Stream Engine {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  
+  Source: 1. Stream Source {
+    desc: "orders.stream(); backed by Spliterator"
+  }
+  
+  Intermediate: 2. Intermediate Operations (Lazy) {
+    desc: ".filter().map().sorted(); Sink chaining"
+  }
+  
+  Terminal: 3. Terminal Operation (Eager) {
+    desc: ".collect(toList()); pulls elements through pipeline"
+  }
+  
+  Source -> Intermediate -> Terminal
+}
+
+TypeSystem -> StreamPipeline: Data carriers processed via stream pipelines

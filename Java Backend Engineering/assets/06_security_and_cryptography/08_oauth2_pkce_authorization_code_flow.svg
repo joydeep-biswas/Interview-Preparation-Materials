@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1140" height="600" rx="10" fill="url(#bg)"/>
+  <rect width="1140" height="600" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="570" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">OAuth 2.0 PKCE (Proof Key for Code Exchange) Flow</text>
+  <text x="570" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Securing Single-Page Apps (React/Angular) and Mobile Clients Without Embedding Static Client Secrets</text>
+  <line x1="40" y1="68" x2="1100" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Actor 1: Browser Client (SPA) -->
+  <rect x="60" y="95" width="220" height="45" rx="6" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="170" y="122" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Browser SPA (React / Mobile)</text>
+  <line x1="170" y1="140" x2="170" y2="530" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Actor 2: Authorization Server -->
+  <rect x="470" y="95" width="220" height="45" rx="6" fill="#1E293B" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="580" y="122" font-size="11" font-weight="700" fill="#C084FC" text-anchor="middle">Authorization Server (IdP)</text>
+  <line x1="580" y1="140" x2="580" y2="530" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Actor 3: Backend Resource Server -->
+  <rect x="860" y="95" width="220" height="45" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+  <text x="970" y="122" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Spring Backend Resource Server</text>
+  <line x1="970" y1="140" x2="970" y2="530" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Step 1: PKCE Pair Generation in Browser -->
+  <rect x="70" y="155" width="200" height="50" rx="4" fill="#0F172A" stroke="#38BDF8" stroke-width="1"/>
+  <text x="170" y="172" font-size="8" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Generates PKCE Secrets:</text>
+  <text x="170" y="186" font-size="8" font-family="'JetBrains Mono', monospace" fill="#CBD5E1" text-anchor="middle">code_verifier = random_secret</text>
+  <text x="170" y="198" font-size="8" font-family="'JetBrains Mono', monospace" fill="#34D399" text-anchor="middle">challenge = SHA256(verifier)</text>
+
+  <!-- Step 2: Authorization Request -->
+  <path fill="none" d="M 170 220 L 580 220" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <text x="375" y="212" font-size="9" fill="#7DD3FC" text-anchor="middle">2. GET /authorize?response_type=code&amp;code_challenge=xyz&amp;method=S256</text>
+
+  <!-- Step 3: Auth &amp; Consent -->
+  <rect x="470" y="235" width="220" height="30" rx="4" fill="#0F172A" stroke="#C084FC" stroke-width="1"/>
+  <text x="580" y="254" font-size="8" fill="#DDD6FE" text-anchor="middle">3. Prompts User Login &amp; Consent Screen</text>
+
+  <!-- Step 4: Auth Code Redirect -->
+  <path fill="none" d="M 580 280 L 170 280" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr-a)"/>
+  <text x="375" y="272" font-size="9" fill="#FBBF24" text-anchor="middle">4. 302 Redirect with temporary ?code=AUTH_CODE_123</text>
+
+  <!-- Step 5: Token Exchange with Verifier -->
+  <path fill="none" d="M 170 320 L 580 320" stroke="#C084FC" stroke-width="2" marker-end="url(#arr-p)"/>
+  <text x="375" y="312" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle">5. POST /token (code=AUTH_CODE_123 &amp; code_verifier=random_secret)</text>
+
+  <!-- Step 6: Auth Server Cryptographic Validation -->
+  <rect x="450" y="340" width="260" height="40" rx="4" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="580" y="357" font-size="8" font-weight="700" fill="#34D399" text-anchor="middle">6. Computes SHA-256(code_verifier)</text>
+  <text x="580" y="371" font-size="8" fill="#CBD5E1" text-anchor="middle">Matches stored code_challenge &#x2192; Proves authenticity!</text>
+
+  <!-- Step 7: Emits Tokens -->
+  <path fill="none" d="M 580 400 L 170 400" stroke="#34D399" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arr-g)"/>
+  <text x="375" y="392" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">7. Returns Access Token (JWT) + Refresh Token</text>
+
+  <!-- Step 8: Resource Access -->
+  <path fill="none" d="M 170 445 L 970 445" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <text x="570" y="437" font-size="9" fill="#7DD3FC" text-anchor="middle">8. GET /api/v1/profile (Header: Authorization: Bearer &lt;JWT&gt;)</text>
+
+  <path fill="none" d="M 970 480 L 170 480" stroke="#34D399" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr-g)"/>
+  <text x="570" y="472" font-size="9" fill="#34D399" text-anchor="middle">9. Validates signature via JWKS &amp; Returns Protected User Profile</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="50" y="550" width="1040" height="30" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="570" y="570" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">PKCE Security Principle: An attacker intercepting AUTH_CODE_123 cannot exchange it for tokens because they do not have the transient in-memory code_verifier.</text>
+</svg>

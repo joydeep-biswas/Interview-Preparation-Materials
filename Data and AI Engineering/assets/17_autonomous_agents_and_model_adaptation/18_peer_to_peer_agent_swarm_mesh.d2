@@ -1,0 +1,13 @@
+classes: {
+  peer_box: { style: { fill: "#1e293b"; stroke: "#fbbf24"; stroke-width: 2 } }
+}
+
+mesh: "Peer-to-Peer Agent Mesh (Swarm)" {
+  agent_a: "Agent A: Sales Specialist" { class: peer_box }
+  agent_b: "Agent B: Tech Support" { class: peer_box }
+  agent_c: "Agent C: Incident Escalation" { class: peer_box }
+
+  agent_a <-> agent_b: "Dynamic handoff"
+  agent_b <-> agent_c: "Dynamic handoff"
+  agent_c <-> agent_a: "Dynamic handoff"
+}

@@ -1,0 +1,24 @@
+direction: right
+classes: {
+  cell: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  match: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  pruned: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  nprobe: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
+
+voronoi: "IVF-Flat Voronoi Tessellation" {
+  c1: "Cell 1 (Centroid C1)" { class: cell }
+  c2: "Cell 2 (Centroid C2 - Query Match)" { class: match }
+  c3: "Cell 3 (Centroid C3 - Pruned)" { class: pruned }
+  c4: "Cell 4 (Centroid C4 - nprobe Neighbor)" { class: nprobe }
+}
+
+execution: "Query Execution Flow" {
+  centroid_scan: "1. Scan Centroids Only (K=1024)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  cell_search: "2. Scan nprobe Cells (C2 & C4)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  result: "3. 98% Database Pruned!" { class: match }
+
+  centroid_scan -> cell_search -> result
+}
+
+voronoi.c2 -> execution.centroid_scan: "Closest Centroid"

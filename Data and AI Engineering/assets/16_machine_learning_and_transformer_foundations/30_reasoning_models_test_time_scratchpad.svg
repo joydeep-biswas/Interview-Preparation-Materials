@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+    </marker>
+    <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Base Background -->
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+
+  <!-- Diagram Header -->
+  <g id="header">
+    <text x="490" y="36" fill="#f8fafc" font-size="18" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Reasoning Models: Test-Time Scratchpad Architecture</text>
+    <text x="490" y="58" fill="#94a3b8" font-size="12" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Scaling Test-Time Compute: Internal Hidden Thinking Tokens (&lt;think&gt;...&lt;/think&gt;) Before Emitting User Output</text>
+  </g>
+
+  <!-- Diagram Body -->
+  <g id="diagram-elements">
+    
+    <rect x="40" y="165" width="200" height="70" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="140" y="187" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">User Query Ingress</text>
+<text x="52" y="207" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">'Prove that sqrt(2) is irrational.'</text>
+
+    <rect x="270" y="95" width="410" height="290" rx="8" fill="#0f172a" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4,4"/>
+<text x="475" y="115" fill="#c084fc" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Hidden Test-Time Compute (&lt;think&gt; Tokens)</text>
+<text x="475" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Chain-of-thought scratchpad hidden from customer UI</text>
+    <rect x="290" y="140" width="370" height="35" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+<text x="475" y="162" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Step 1: Assumption</text>
+<text x="302" y="182" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Let us assume sqrt(2) is rational.</text>
+    <rect x="290" y="185" width="370" height="35" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+<text x="475" y="207" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Step 2: Fraction Definition</text>
+<text x="302" y="227" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Then sqrt(2) = a / b in lowest terms (gcd(a,b)=1).</text>
+    <rect x="290" y="230" width="370" height="35" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+<text x="475" y="252" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Step 3: Algebraic Parity</text>
+<text x="302" y="272" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">2 = a^2 / b^2 -&gt; a^2 = 2b^2 -&gt; a is even (a=2k).</text>
+    <rect x="290" y="275" width="370" height="35" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+<text x="475" y="297" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Step 4: Contradiction</text>
+<text x="302" y="317" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">4k^2 = 2b^2 -&gt; b^2 = 2k^2 -&gt; b is even.</text>
+    <rect x="290" y="320" width="370" height="45" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+<text x="475" y="342" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Step 5: Verified Proof</text>
+<text x="302" y="362" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Contradiction: both a and b are even! Violates gcd=1.</text>
+
+    <rect x="710" y="155" width="230" height="90" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+<text x="825" y="177" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Final Response Emitted</text>
+<text x="722" y="197" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">User-Facing Output:</text>
+<text x="722" y="215" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">'Here is the formal proof by</text>
+<text x="722" y="233" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">contradiction that sqrt(2) is</text>
+<text x="722" y="251" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">irrational...'</text>
+<text x="722" y="269" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">100% verified &amp; accurate</text>
+
+    <line x1="240" y1="200" x2="270" y2="200" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+    <line x1="680" y1="200" x2="710" y2="200" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="695" y="190" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">&lt;/think&gt;</text>
+
+  </g>
+</svg>

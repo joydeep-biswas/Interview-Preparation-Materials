@@ -1,0 +1,18 @@
+classes: {
+  check_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  yellow_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+ci: "CI/CD Pipeline\nFeature release ready"
+check: "Check 30-Day Rolling Error Budget" { class: check_box }
+
+tier1: "Tier 1: > 50% Budget (Green)\nRapid deploys, experiments, full velocity" { class: green_box }
+tier2: "Tier 2: 10-50% Budget (Yellow)\nLonger canary soak, SRE reviews required" { class: yellow_box }
+tier3: "Tier 3: < 0% Budget (Red Freeze)\nAUTOMATED RELEASE FREEZE\n100% bandwidth pivots to reliability" { class: red_box }
+
+ci -> check: "Evaluate budget health"
+check -> tier1: "> 50% budget"
+check -> tier2: "10-50% budget"
+check -> tier3: "< 0% budget"

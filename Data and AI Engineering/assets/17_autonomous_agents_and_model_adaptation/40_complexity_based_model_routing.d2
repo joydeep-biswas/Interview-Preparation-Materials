@@ -1,0 +1,27 @@
+direction: down
+classes: {
+  query: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  router: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  tier1: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  tier2: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  tier3: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+}
+
+q: "Incoming User Request" { class: query }
+r: "Classifier Router (DistilBERT)
+Latency < 10ms" { class: router }
+
+t1: "Tier 1: Small SLM (8B)
+Simple FAQ & summarization
+Cost: $0.05 / 1M tokens" { class: tier1 }
+t2: "Tier 2: Mid LLM
+JSON extraction & dialogue
+Cost: $0.15 / 1M tokens" { class: tier2 }
+t3: "Tier 3: Frontier Model
+Architecture & deep code
+Cost: $3.00 / 1M tokens" { class: tier3 }
+
+q -> r
+r -> t1: "Simple (70% traffic)"
+r -> t2: "Moderate (20% traffic)"
+r -> t3: "Complex (10% traffic)"

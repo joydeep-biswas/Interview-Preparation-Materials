@@ -1,0 +1,35 @@
+direction: right
+title: BlockingQueue Producer-Consumer Concurrency Architecture
+
+Producers: Producer Threads {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  call: "queue.put(item)"
+  flow: "while (count == items.length) notFull.await()"
+  signal: "enqueue(item); notEmpty.signal()"
+}
+
+Buffer: ArrayBlockingQueue (Capacity N) {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  lock: "ReentrantLock lock"
+  cond1: "Condition notFull (Blocks producers when full)"
+  cond2: "Condition notEmpty (Blocks consumers when empty)"
+  backpressure: "Enforces backpressure; prevents OOM"
+}
+
+Consumers: Consumer Threads {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  call: "queue.take()"
+  flow: "while (count == 0) notEmpty.await()"
+  signal: "dequeue(item); notFull.signal()"
+}
+
+Producers -> Buffer: put() blocks if full {
+  style.stroke: "#3B82F6"
+}
+
+Buffer -> Consumers: take() blocks if empty {
+  style.stroke: "#10B981"
+}

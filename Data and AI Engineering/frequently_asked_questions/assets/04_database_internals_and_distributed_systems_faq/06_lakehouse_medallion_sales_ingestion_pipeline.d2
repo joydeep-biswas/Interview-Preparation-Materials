@@ -1,0 +1,11 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+source: "Daily Sales Feed\nPOS, Web, ERP" { class: card; style.stroke: "#3B82F6" }
+bronze: "Bronze: Raw Ingestion\nAppend-Only Delta Table\nRaw JSON/CSV + Audit Metadata" { class: card; style.stroke: "#F59E0B" }
+silver: "Silver: Cleansed & Curated\nDeduplicated on transaction_id\nSchema Enforced & Dim SK Lookup" { class: card; style.stroke: "#06B6D4" }
+gold: "Gold: Business Aggregates\nKimball Fact Tables\nDaily Store & Category Sales" { class: card; style.stroke: "#10B981" }
+
+source -> bronze -> silver -> gold

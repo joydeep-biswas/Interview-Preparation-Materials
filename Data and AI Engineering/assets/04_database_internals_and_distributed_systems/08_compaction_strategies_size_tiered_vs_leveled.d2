@@ -1,0 +1,20 @@
+direction: right
+title: Compaction Strategies: Size-Tiered vs. Leveled
+
+stcs: Size-Tiered Compaction Strategy (STCS - Cassandra Default) {
+  files: "Accumulate 4 SSTables of Similar Size (100MB each)"
+  merge: "Sequential Read & Merge Sort"
+  output: "New Tier SSTable (400MB)"
+  tradeoff: "High write throughput, high space amplification (50% headroom needed)"
+  files -> merge -> output -> tradeoff
+}
+
+lcs: Leveled Compaction Strategy (LCS - RocksDB Default) {
+  l0: "Level 0 (MemTable Flush): Overlapping Keys"
+  l1: "Level 1 (Target: 10MB): [A-G] | [H-N] | [O-Z] (Non-Overlapping)"
+  l2: "Level 2 (Target: 100MB): 10x Capacity, Non-Overlapping"
+  tradeoff: "Predictable reads (1 SSTable/level), low space overhead (<10%)"
+  l0 -> l1: "Merge"
+  l1 -> l2: "Cascading Merge"
+  l2 -> tradeoff
+}

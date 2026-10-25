@@ -1,0 +1,35 @@
+direction: right
+title: "Interface Segregation Principle (ISP): Granular Single-Purpose Contracts"
+
+http: "HttpRequestHandler <<interface>>
++handleRequest(req)" {
+  style.fill: "#1e3a8a"
+  style.stroke: "#3b82f6"
+}
+ctrl: "WebApiController" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+ctrl -> http: "implements"
+
+kafka: "KafkaMessageListener <<interface>>
++onMessage(record)" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+consumer: "StreamEventConsumer" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+consumer -> kafka: "implements"
+
+batch: "BatchReportGenerator <<interface>>
++generateReport()" {
+  style.fill: "#78350f"
+  style.stroke: "#f59e0b"
+}
+job: "NightlyReportingJob" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+job -> batch: "implements"

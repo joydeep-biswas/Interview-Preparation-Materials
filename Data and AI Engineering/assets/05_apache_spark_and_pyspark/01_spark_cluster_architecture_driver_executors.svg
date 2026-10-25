@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Apache Spark Distributed Cluster Architecture</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Driver Node Master Pipeline, Cluster Manager Allocation, and Distributed Worker Executors</text>
+
+  <!-- Column 1: Spark Driver Node -->
+  <rect x="40" y="85" width="340" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="340" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="210" y="108" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">SPARK DRIVER NODE (MASTER COORDINATOR)</text>
+
+  <!-- SparkSession &amp; User App -->
+  <rect x="55" y="135" width="310" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="157" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">1. SparkSession &amp; User Program</text>
+  <text x="70" y="174" font-size="10" fill="#94A3B8" text-anchor="start">• PySpark / Spark SQL application entry point</text>
+  <text x="70" y="189" font-size="10" fill="#94A3B8" text-anchor="start">• Builds DataFrame transformation DAG lazily</text>
+
+  <!-- Catalyst Optimizer -->
+  <rect x="55" y="210" width="310" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="232" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">2. Catalyst Optimizer Engine</text>
+  <text x="70" y="249" font-size="10" fill="#94A3B8" text-anchor="start">• Analysis &amp; catalog column/type resolution</text>
+  <text x="70" y="264" font-size="10" fill="#94A3B8" text-anchor="start">• Predicate pushdown, projection pruning, CBO</text>
+
+  <!-- DAG Scheduler -->
+  <rect x="55" y="285" width="310" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="307" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="start">3. DAG Scheduler (Stage Boundaries)</text>
+  <text x="70" y="324" font-size="10" fill="#94A3B8" text-anchor="start">• Splits query plan into Stages at shuffle barriers</text>
+  <text x="70" y="339" font-size="10" fill="#94A3B8" text-anchor="start">• Emits TaskSets with partition locality preferences</text>
+
+  <!-- Task Scheduler -->
+  <rect x="55" y="360" width="310" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="382" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">4. Task Scheduler &amp; Heartbeat Monitor</text>
+  <text x="70" y="399" font-size="10" fill="#94A3B8" text-anchor="start">• Assigns tasks to executor CPU slots</text>
+  <text x="70" y="414" font-size="10" fill="#94A3B8" text-anchor="start">• Manages speculative retries &amp; stragglers</text>
+  <text x="70" y="429" font-size="10" fill="#94A3B8" text-anchor="start">• Tracks BlockManager metadata &amp; shuffle states</text>
+
+  <!-- Internal Driver Pipeline Arrows -->
+  <line x1="210" y1="200" x2="210" y2="210" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <line x1="210" y1="275" x2="210" y2="285" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <line x1="210" y1="350" x2="210" y2="360" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- Middle: Cluster Manager (Positioned Top, Aligned with Driver Session) -->
+  <rect x="420" y="115" width="200" height="150" rx="8" fill="#1E293B" fill-opacity="0.8" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="420" y="115" width="200" height="32" rx="8" fill="#3B0764" fill-opacity="0.8" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="520" y="136" font-size="11" font-weight="700" fill="#C084FC" text-anchor="middle">CLUSTER MANAGER</text>
+  
+  <text x="520" y="162" font-size="10" font-weight="600" fill="#CBD5E1" text-anchor="middle">Kubernetes / YARN / Standalone</text>
+  <text x="520" y="180" font-size="9.5" fill="#94A3B8" text-anchor="middle">• Allocates worker containers</text>
+  <text x="520" y="197" font-size="9.5" fill="#94A3B8" text-anchor="middle">• Allocates CPU cores &amp; RAM</text>
+  <text x="520" y="214" font-size="9.5" fill="#94A3B8" text-anchor="middle">• Monitors node host health</text>
+  <text x="520" y="238" font-size="9" font-weight="600" fill="#34D399" text-anchor="middle">Dynamic Resource Allocation</text>
+
+  <!-- Connectors Driver Session <-> Cluster Manager -->
+  <line x1="365" y1="165" x2="420" y2="165" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  <text x="392" y="157" font-size="8.5" fill="#C084FC" text-anchor="middle">Request</text>
+
+  <!-- Column 3: Distributed Spark Executors -->
+  <rect x="660" y="85" width="420" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="660" y="85" width="420" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="870" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">DISTRIBUTED SPARK EXECUTORS (WORKER FLEET)</text>
+
+  <!-- Executor 1 -->
+  <rect x="680" y="135" width="380" height="145" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="695" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Executor 1 (JVM Container / Pod)</text>
+  <text x="695" y="174" font-size="10" fill="#94A3B8" text-anchor="start">• Memory: 16 GB Heap (Tungsten Off-Heap + Execution + Storage)</text>
+
+  <!-- Slots Exec 1 -->
+  <rect x="695" y="185" width="75" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="732" y="202" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">Slot 1</text>
+  <text x="732" y="216" font-size="8.5" fill="#94A3B8" text-anchor="middle">Core 1</text>
+
+  <rect x="780" y="185" width="75" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="817" y="202" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">Slot 2</text>
+  <text x="817" y="216" font-size="8.5" fill="#94A3B8" text-anchor="middle">Core 2</text>
+
+  <rect x="865" y="185" width="75" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="902" y="202" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">Slot 3</text>
+  <text x="902" y="216" font-size="8.5" fill="#94A3B8" text-anchor="middle">Core 3</text>
+
+  <rect x="950" y="185" width="95" height="40" rx="4" fill="#1E293B" stroke="#FBBF24" stroke-width="1"/>
+  <text x="997" y="202" font-size="9.5" font-weight="700" fill="#FBBF24" text-anchor="middle">BlockManager</text>
+  <text x="997" y="216" font-size="8.5" fill="#CBD5E1" text-anchor="middle">Shuffle &amp; Cache</text>
+
+  <text x="695" y="245" font-size="9.5" fill="#94A3B8" text-anchor="start">• Running Task: <tspan font-family="monospace" fill="#38BDF8">Stage1_Task04(part_04.parquet)</tspan></text>
+  <text x="695" y="262" font-size="9.5" fill="#94A3B8" text-anchor="start">• Storage: Spills shuffle sort data to local NVMe SSD</text>
+
+  <!-- Executor 2 -->
+  <rect x="680" y="295" width="380" height="145" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="695" y="317" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Executor 2 (JVM Container / Pod)</text>
+  <text x="695" y="334" font-size="10" fill="#94A3B8" text-anchor="start">• Memory: 16 GB Heap (Tungsten Off-Heap + Execution + Storage)</text>
+
+  <!-- Slots Exec 2 -->
+  <rect x="695" y="345" width="75" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="732" y="362" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">Slot 1</text>
+  <text x="732" y="376" font-size="8.5" fill="#94A3B8" text-anchor="middle">Core 1</text>
+
+  <rect x="780" y="345" width="75" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="817" y="362" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">Slot 2</text>
+  <text x="817" y="376" font-size="8.5" fill="#94A3B8" text-anchor="middle">Core 2</text>
+
+  <rect x="865" y="345" width="75" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="902" y="362" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle">Slot 3</text>
+  <text x="902" y="376" font-size="8.5" fill="#94A3B8" text-anchor="middle">Core 3</text>
+
+  <rect x="950" y="345" width="95" height="40" rx="4" fill="#1E293B" stroke="#FBBF24" stroke-width="1"/>
+  <text x="997" y="362" font-size="9.5" font-weight="700" fill="#FBBF24" text-anchor="middle">BlockManager</text>
+  <text x="997" y="376" font-size="8.5" fill="#CBD5E1" text-anchor="middle">Shuffle &amp; Cache</text>
+
+  <text x="695" y="405" font-size="9.5" fill="#94A3B8" text-anchor="start">• Running Task: <tspan font-family="monospace" fill="#38BDF8">Stage1_Task05(part_05.parquet)</tspan></text>
+  <text x="695" y="422" font-size="9.5" fill="#94A3B8" text-anchor="start">• Storage: Spills shuffle sort data to local NVMe SSD</text>
+
+  <!-- Cluster Manager -> Launch Containers (Horizontal to E1, Smooth Curve to E2) -->
+  <line x1="620" y1="165" x2="680" y2="165" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  <path d="M 620 200 L 628 200 C 646 200, 652 320, 668 320 L 680 320" fill="none" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  <text x="650" y="155" font-size="8" fill="#C084FC" text-anchor="middle">Launch</text>
+
+  <!-- Connectors TaskScheduler -> Executors (Smooth Curves passing cleanly through lower channel below Cluster Manager) -->
+  <path d="M 365 395 L 377 395 C 520 410, 640 240, 666 240 L 680 240" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path d="M 365 415 L 377 415 C 500 415, 550 395, 666 395 L 680 395" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="520" y="425" font-size="9" font-weight="600" fill="#34D399" text-anchor="middle">Task Launch Direct RPC</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Cluster Architecture Invariant: The Driver compiles high-level DataFrame code into physical task DAGs; Executors execute isolated tasks against partition blocks with zero driver intervention during compute.</text>
+</svg>

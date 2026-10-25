@@ -1,0 +1,27 @@
+direction: right
+title: Adaptive Query Execution (AQE) Architecture
+
+Traditional: Static Execution (Pre-Spark 3) {
+  style.stroke: "#EF4444"
+  Compile: Static Compile Plan (Fixed 200 partitions)
+  Execute: Executes blindly (Skew stragglers & partition explosion)
+  Compile -> Execute
+}
+
+AQE: Adaptive Query Execution (Spark 3+) {
+  style.stroke: "#34D399"
+  Stage1: Stage 1 Completes (Shuffle files written)
+  Stats: Real Runtime Statistics Analyzed
+
+  ReOpt: Runtime Optimizations {
+    A: Dynamically Coalesce Partitions
+    B: Switch SMJ to Broadcast Join
+    C: Dynamically Split Skewed Partitions
+  }
+
+  Stage2: Stage 2 Executes with Optimized Plan
+
+  Stage1 -> Stats: Ground truth partition sizes
+  Stats -> ReOpt: Triggers rules
+  ReOpt -> Stage2: Dispatches balanced tasks
+}

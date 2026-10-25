@@ -1,0 +1,27 @@
+direction: right
+title: Circular Dependencies: The Three-Level Cache Resolution Architecture
+
+cycle: "Circular Dependency Cycle" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  order: "OrderService"
+  billing: "BillingService"
+  deadlock: "Constructor Injection = DEADLOCK\n(BeanCurrentlyInCreationException)"
+
+  order -> billing: "Autowired"
+  billing -> order: "Autowired"
+}
+
+caches: "DefaultSingletonBeanRegistry" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  l1: "1st Level: singletonObjects\n(Fully initialized production beans)"
+  l2: "2nd Level: earlySingletonObjects\n(Exposed early references / proxies)"
+  l3: "3rd Level: singletonFactories\n(ObjectFactory lambdas: getEarlyBeanReference)"
+}
+
+cycle.order -> caches.l3: "1. Raw instance registered in L3"
+caches.l3 -> caches.l2: "2. Evaluated when Billing requires Order"
+caches.l2 -> caches.l1: "3. Promoted to L1 on complete init"

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 2; fill: none; }
+      .lbl { fill: #64748B; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="380" fill="#0B0F19"/>
+
+  <!-- Left: Source DML -->
+  <g transform="translate(30, 95)">
+    <rect width="250" height="190" rx="10" ry="10" fill="#111827" stroke="#64748B" stroke-width="2"/>
+    <text x="125" y="32" class="title" fill="#CBD5E1">Source Database DML</text>
+    <line x1="15" y1="44" x2="235" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="20" y="55" width="210" height="34" rx="6" ry="6" fill="#1E293B"/>
+    <text x="30" y="76" class="body-txt" fill="#F1F5F9">T1: INSERT Row 101 = $100</text>
+
+    <rect x="20" y="97" width="210" height="34" rx="6" ry="6" fill="#1E293B"/>
+    <text x="30" y="118" class="body-txt" fill="#F1F5F9">T2: UPDATE Row 101 = $150</text>
+
+    <rect x="20" y="139" width="210" height="34" rx="6" ry="6" fill="#1E293B"/>
+    <text x="30" y="160" class="body-txt" fill="#F1F5F9">T3: UPDATE Row 101 = $200</text>
+  </g>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 280 150 L 320 150 C 350 150, 360 100, 380 100 L 400 100" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <path fill="none" d="M 280 230 L 320 230 C 350 230, 360 280, 380 280 L 400 280" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- Top Right: CDC Engine -->
+  <g transform="translate(400, 25)">
+    <rect width="590" height="150" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="295" y="30" class="title" fill="#93C5FD">Log-Based Change Data Capture (CDC: Debezium / GoldenGate)</text>
+    <line x1="20" y1="42" x2="570" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+
+    <text x="25" y="65" class="body-txt" fill="#93C5FD">• Continuous asynchronous reader of Database Transaction WAL / Redo Log</text>
+    <text x="25" y="85" class="body-txt">• Captures ALL intermediate state transitions for full audit lineage:</text>
+    <text x="45" y="105" class="body-txt" fill="#E2E8F0">Event 1: INSERT val=$100</text>
+    <text x="45" y="123" class="body-txt" fill="#E2E8F0">Event 2: UPDATE before=$100, after=$150</text>
+    <text x="45" y="141" class="body-txt" fill="#E2E8F0">Event 3: UPDATE before=$150, after=$200</text>
+  </g>
+
+  <!-- Bottom Right: Change Tracking (CDT) -->
+  <g transform="translate(400, 205)">
+    <rect width="590" height="150" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="295" y="30" class="title" fill="#6EE7B7">Change Tracking / CDT (Lightweight Sync)</text>
+    <line x1="20" y1="42" x2="570" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+
+    <text x="25" y="65" class="body-txt" fill="#6EE7B7">• Synchronous internal table tracking (sys.change_tracking_tables)</text>
+    <text x="25" y="85" class="body-txt">• Stores ONLY row primary key and latest change version:</text>
+    <text x="45" y="105" class="body-txt" fill="#E2E8F0">Row 101: Operation='U', CommitVersion=42 (Zero historical values recorded)</text>
+    <text x="25" y="130" class="body-txt">• ETL must JOIN back to base table to extract current row ($200)</text>
+  </g>
+</svg>

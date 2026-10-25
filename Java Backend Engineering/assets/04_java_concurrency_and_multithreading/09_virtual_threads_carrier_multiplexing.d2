@@ -1,0 +1,24 @@
+direction: down
+title: Java 21 Virtual Threads (Project Loom) Carrier Multiplexing
+
+VirtualThreads: Millions of Lightweight Virtual Threads (JVM Heap) {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  vt1: "VT 1 (Running on Carrier 1)"
+  vt2: "VT 2 (Running on Carrier 2)"
+  vt3: "VT 3 (Parked on Heap; unmounted on socket.read())"
+  vtn: "1,000,000+ concurrent threads"
+}
+
+CarrierPool: Small Pool of OS Carrier Threads (Platform Threads) {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  c1: "Carrier Thread 1 (Core 1)"
+  c2: "Carrier Thread 2 (Core 2)"
+  c3: "Carrier Thread 3 (Core 3)"
+  c4: "Carrier Thread 4 (Core 4)"
+}
+
+VirtualThreads.vt1 -> CarrierPool.c1: Mounted when executing CPU code { style.stroke: "#10B981" }
+VirtualThreads.vt2 -> CarrierPool.c2: Mounted when executing CPU code { style.stroke: "#10B981" }
+VirtualThreads.vt3 -> CarrierPool.c3: Unmounted on blocking I/O (continuation to heap) { style.stroke: "#F59E0B" }

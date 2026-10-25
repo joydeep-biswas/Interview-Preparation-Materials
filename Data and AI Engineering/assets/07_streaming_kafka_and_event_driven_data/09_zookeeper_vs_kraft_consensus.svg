@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Metadata Architecture: Legacy ZooKeeper vs. Modern KRaft</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Eliminating external dependencies: Event-driven Raft controller quorum (KIP-500) vs. ZooKeeper watch trees</text>
+<rect x="30" y="85" width="460" height="410" rx="8" fill="#1a1116" stroke="#ef4444" stroke-width="1.5"/>
+<text x="260" y="112" fill="#FCA5A5" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Legacy ZooKeeper Architecture</text>
+<rect x="170" y="122" width="180" height="18" rx="9" fill="#991b1b"/><text x="260" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">External Ensemble &amp; Watch Trees</text>
+<rect x="50" y="155" width="420" height="80" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="65" y="178" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">External ZooKeeper Ensemble (3-5 Nodes)</text>
+<text x="65" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• ZK Node 1, ZK Node 2, ZK Node 3 (ZAB consensus)</text>
+<text x="65" y="214" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Dual security model, separate configs, JVM JVM overhead</text>
+<rect x="50" y="250" width="420" height="65" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="65" y="272" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Single Active Controller Broker</text>
+<text x="65" y="292" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Loads entire cluster metadata into RAM, updates ZK via RPCs</text>
+<text x="65" y="304" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Failover requires full ZK tree reload (minutes!)</text>
+<rect x="50" y="330" width="420" height="60" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="65" y="350" fill="#CBD5E1" font-size="11" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Data Brokers (Broker 1, 2, 3)</text>
+<text x="65" y="368" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Receive LeaderAndIsrRequest and UpdateMetadataRequest via RPC</text>
+<rect x="50" y="405" width="420" height="75" rx="8" fill="#2d1215" stroke="#dc2626" stroke-width="1"/>
+<text x="260" y="425" fill="#F87171" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ZooKeeper Bottlenecks</text>
+<text x="65" y="445" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✗ Maximum ~100k-200k partitions before ZK watches choke</text>
+<text x="65" y="461" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✗ Slow controller failovers cause prolonged cluster unavailability</text>
+<line x1="260" y1="235" x2="260" y2="250" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<line x1="260" y1="315" x2="260" y2="330" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<rect x="550" y="85" width="460" height="410" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="780" y="112" fill="#6EE7B7" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Modern KRaft Architecture (KIP-500)</text>
+<rect x="690" y="122" width="180" height="18" rx="9" fill="#047857"/><text x="780" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Native Raft Consensus Quorum</text>
+<rect x="570" y="155" width="420" height="80" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="585" y="178" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">KRaft Controller Quorum (Embedded Raft)</text>
+<text x="585" y="198" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Active Controller (Raft Leader) + Follower Controllers</text>
+<text x="585" y="214" fill="#A7F3D0" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Raft leader election completes in milliseconds!</text>
+<rect x="570" y="250" width="420" height="65" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="585" y="272" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Internal Event Log: @metadata Topic</text>
+<text x="585" y="292" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Single-partition replicated log storing all metadata records</text>
+<text x="585" y="304" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Metadata changes are committed as immutable log events</text>
+<rect x="570" y="330" width="420" height="60" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="585" y="350" fill="#34D399" font-size="11" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Data Brokers (Broker 1, 2, 3)</text>
+<text x="585" y="368" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Replicate @metadata log locally: zero RPC lag for state queries</text>
+<rect x="570" y="405" width="420" height="75" rx="8" fill="#0f2e28" stroke="#059669" stroke-width="1"/>
+<text x="780" y="425" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The KRaft Advantage</text>
+<text x="585" y="445" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Scales easily to 1,000,000+ partitions per cluster</text>
+<text x="585" y="461" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Instant controller failover (Followers already have full state)</text>
+<line x1="780" y1="235" x2="780" y2="250" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="780" y1="315" x2="780" y2="330" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

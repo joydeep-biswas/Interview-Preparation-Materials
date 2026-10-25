@@ -1,0 +1,38 @@
+direction: right
+title: "Chain of Responsibility Pattern: Sequential Decoupled Pipeline"
+
+req: "OrderRequest
+user_id=42
+amount=$12.5k" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+f1: "1. BlacklistFilter
+OFAC sanction check" {
+  style.fill: "#1e293b"
+  style.stroke: "#ef4444"
+}
+
+f2: "2. CreditLimitFilter
+Exposure threshold check" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+
+f3: "3. FraudDetectionFilter
+ML fraud scoring < 0.8" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+
+core: "4. OrderExecutionService
+Persists order to DB" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+req -> f1: "Enters chain"
+f1 -> f2: "Passes"
+f2 -> f3: "Passes"
+f3 -> core: "Passes (Completes)"

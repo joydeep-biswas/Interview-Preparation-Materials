@@ -1,0 +1,20 @@
+# The Gaps & Islands Problem: Difference-of-Ranks
+direction: down
+
+concept: "Mathematical Difference-of-Ranks\n• date_val increments by 1\n• row_number() increments by 1\n• (date_val - rn) remains CONSTANT across streak!" {
+  style.stroke: "#3B82F6"
+}
+
+islandA: "Island A (Contiguous)\n• 2026-03-01 - 1 = 2026-02-28\n• 2026-03-02 - 2 = 2026-02-28\n• 2026-03-03 - 3 = 2026-02-28" {
+  style.stroke: "#10B981"
+}
+
+gap: "--- 2-Day Gap Occurs ---" {
+  style.stroke: "#EF4444"
+}
+
+islandB: "Island B (New Streak)\n• 2026-03-06 - 4 = 2026-03-02 (Difference changes!)" {
+  style.stroke: "#F59E0B"
+}
+
+concept -> islandA -> gap -> islandB

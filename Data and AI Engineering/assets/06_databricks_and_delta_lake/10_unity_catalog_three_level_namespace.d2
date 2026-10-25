@@ -1,0 +1,33 @@
+direction: right
+title: Unity Catalog 3-Level Namespace Architecture
+
+Metastore: Unity Catalog Metastore (Central Root) {
+  style.stroke: "#38BDF8"
+}
+
+Catalogs: Catalogs (1st Level) {
+  style.stroke: "#8B5CF6"
+  Dev: dev_catalog (Sandbox)
+  Prod: prod_catalog (Governed Production)
+}
+
+Schemas: Schemas / Databases (2nd Level) {
+  style.stroke: "#FBBF24"
+  Sales: sales_schema
+  HR: hr_schema
+}
+
+Assets: Securable Assets (3rd Level) {
+  style.stroke: "#34D399"
+  Table: fact_orders (Managed Table)
+  Volume: raw_landing (/Volumes/ Non-tabular files)
+  View: vw_vip_customers (Column-Masked View)
+}
+
+Metastore -> Catalogs.Dev
+Metastore -> Catalogs.Prod
+Catalogs.Prod -> Schemas.Sales
+Catalogs.Prod -> Schemas.HR
+Schemas.Sales -> Assets.Table
+Schemas.Sales -> Assets.Volume
+Schemas.Sales -> Assets.View

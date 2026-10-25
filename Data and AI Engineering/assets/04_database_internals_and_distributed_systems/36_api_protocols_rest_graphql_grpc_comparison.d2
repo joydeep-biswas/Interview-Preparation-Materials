@@ -1,0 +1,23 @@
+direction: right
+title: API Protocols: REST vs. GraphQL vs. gRPC
+
+rest: 1. REST (HTTP/1.1 JSON Text) {
+  client: Client App
+  server: REST Server
+  client -> server: "GET /api/v1/users/501"
+  server -> client: "Returns all 45 columns in JSON text (Heavy Over-Fetching)"
+}
+
+graphql: 2. GraphQL (Dynamic Query) {
+  gclient: Client App
+  gserver: GraphQL Server
+  gclient -> gserver: "POST /graphql: query { user { name ltv } }"
+  gserver -> gclient: "Returns exact requested fields (Zero Over-Fetching)"
+}
+
+grpc: 3. gRPC (HTTP/2 Multiplexed Protobuf) {
+  pclient: Worker Microservice
+  pserver: gRPC Server
+  pclient -> pserver: "UserRequest(id=501) via compiled RPC stub"
+  pserver -> pclient: "Binary compressed Protobuf byte buffer (10x faster)"
+}

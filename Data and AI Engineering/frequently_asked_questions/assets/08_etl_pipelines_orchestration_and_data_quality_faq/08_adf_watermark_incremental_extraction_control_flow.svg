@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Step 1: Old Watermark -->
+  <rect x="30" y="30" width="200" height="95" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="130" y="56" class="title-txt" text-anchor="middle">1. Lookup Old Watermark</text>
+  <text x="42" y="80" class="mono-txt" text-anchor="start">SELECT WatermarkValue</text>
+  <text x="42" y="98" class="mono-txt" text-anchor="start">FROM WatermarkTable</text>
+  <text x="42" y="116" class="body-txt" text-anchor="start">• Last committed timestamp</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 230 77 L 270 77" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Step 2: New Watermark -->
+  <rect x="270" y="30" width="200" height="95" rx="10" ry="10" fill="#111827" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="370" y="56" class="title-txt" text-anchor="middle">2. Lookup Max Watermark</text>
+  <text x="282" y="80" class="mono-txt" text-anchor="start">SELECT MAX(LastModified)</text>
+  <text x="282" y="98" class="mono-txt" text-anchor="start">AS NewWatermark FROM Src</text>
+  <text x="282" y="116" class="body-txt" text-anchor="start">• Current high watermark</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 470 77 L 510 77" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Step 3: Copy Activity -->
+  <rect x="510" y="30" width="200" height="95" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="610" y="56" class="title-txt" text-anchor="middle">3. Incremental Extract</text>
+  <text x="522" y="80" class="mono-txt" text-anchor="start">WHERE LastModified &gt; Old</text>
+  <text x="522" y="98" class="mono-txt" text-anchor="start">AND LastModified &lt;= New</text>
+  <text x="522" y="116" class="body-txt" text-anchor="start">• Streams delta rows to sink</text>
+
+  <!-- Arrow 3 -> 4 (Curved to bottom row) -->
+  <path d="M 710 77 L 770 77 Q 785 77 785 92 L 785 145 Q 785 160 770 160 L 610 160 Q 595 160 595 175 L 595 185" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- Step 4: Write ADLS / Delta -->
+  <rect x="495" y="185" width="200" height="95" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="595" y="211" class="title-txt" text-anchor="middle" fill="#10B981">4. Write Delta / Parquet</text>
+  <text x="507" y="235" class="body-txt" text-anchor="start">• Land in ADLS Gen2</text>
+  <text x="507" y="253" class="mono-txt" text-anchor="start">MERGE INTO target_table</text>
+  <text x="507" y="271" class="body-txt" text-anchor="start">• ACID idempotent commit</text>
+
+  <!-- Arrow 4 -> 5 -->
+  <path d="M 495 232 L 440 232" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Step 5: Update Stored Procedure -->
+  <rect x="230" y="185" width="210" height="95" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="335" y="211" class="title-txt" text-anchor="middle">5. Advance Watermark SP</text>
+  <text x="242" y="235" class="mono-txt" text-anchor="start">EXEC sp_update_watermark</text>
+  <text x="242" y="253" class="mono-txt" text-anchor="start">@Table, @NewWatermark</text>
+  <text x="242" y="271" class="body-txt" text-anchor="start">• Atomically advances state</text>
+</svg>

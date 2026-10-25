@@ -1,0 +1,11 @@
+classes: {
+  swe_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  toil_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  train_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+sre_budget: "Google SRE Workload Allocation (<= 50% Toil Rule)" {
+  swe: "Software Engineering (55%)\nAutomation, self-healing, tooling & chaos testing\nPermanently eliminates toil" { class: swe_box }
+  toil: "Operational Toil (30%)\nTickets, manual runs, on-call pages\nHard-capped at 50% max" { class: toil_box }
+  training: "Governance & Training (15%)\nProduction readiness reviews & disaster drills" { class: train_box }
+}

@@ -1,0 +1,27 @@
+direction: right
+
+ack0: "acks = 0 (Fire & Forget)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  behavior: "No ACK waited"
+  risk: "Silent data loss on crash"
+  latency: "Fastest (< 1ms)"
+}
+
+ack1: "acks = 1 (Leader Only)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  behavior: "Leader writes & ACKs immediately"
+  risk: "Data lost if Leader dies before replication"
+}
+
+ack_all: "acks = all / -1 (Zero Loss)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  behavior: "Leader waits for all ISR replicas (min.insync.replicas=2)"
+  durability: "Zero data loss guaranteed across crashes"
+  use: "Payments, financial transactions"
+}
+
+ack0 -> ack1: "Low durability"
+ack1 -> ack_all: "Maximum durability"

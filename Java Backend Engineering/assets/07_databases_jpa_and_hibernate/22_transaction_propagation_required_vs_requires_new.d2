@@ -1,0 +1,32 @@
+direction: right
+title: "Spring Transaction Propagation: REQUIRED vs REQUIRES_NEW"
+
+svcA: "ServiceA (REQUIRED)
+Tx 1 Scope" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+pool: "HikariCP Pool" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+audit: "AuditService (REQUIRES_NEW)
+Tx 2 Scope" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+db: "PostgreSQL Database" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+
+svcA -> pool: "1. Borrows Conn 1 (Tx 1)"
+svcA -> db: "2. INSERT orders (Tx 1)"
+svcA -> audit: "3. Invokes log() [Suspends Tx 1]"
+audit -> pool: "4. Borrows Conn 2 (Tx 2) [DEADLOCK RISK!]"
+audit -> db: "5. INSERT audit_log"
+audit -> pool: "6. Commit Tx 2 & release Conn 2"
+svcA -> pool: "7. Rollback Tx 1 on Exception & release Conn 1"

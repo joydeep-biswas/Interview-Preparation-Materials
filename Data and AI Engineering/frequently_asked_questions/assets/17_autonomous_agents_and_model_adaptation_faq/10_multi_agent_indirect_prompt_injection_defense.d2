@@ -1,0 +1,14 @@
+direction: right
+classes: {
+  hazard_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+  parse_box: { style: { fill: "#111827", stroke: "#F59E0B" } }
+  xml_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  hitl_box: { style: { fill: "#064E3B", stroke: "#10B981" } }
+}
+
+Input: "Untrusted Input\nEmail / Web Scrape" { class: hazard_box }
+PreParser: "1. Pre-Parser\nStrip HTML & invisible chars" { class: parse_box }
+XML: "2. XML Delimiting\n<untrusted_content> framing" { class: xml_box }
+HITL: "3. Scope & HITL\nRead-only + Human approval" { class: hitl_box }
+
+Input -> PreParser -> XML -> HITL

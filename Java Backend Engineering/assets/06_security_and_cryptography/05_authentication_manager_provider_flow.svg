@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1200" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1200" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="600" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Spring Security Authentication Flow: Manager &amp; Provider Architecture</text>
+  <text x="600" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">AuthenticationFilter -&gt; AuthenticationManager Facade -&gt; ProviderManager Iteration Loop -&gt; Validated Token vs Exception</text>
+  <line x1="40" y1="68" x2="1160" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Top: Authentication Filter -->
+  <rect x="50" y="100" width="300" height="95" rx="6" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <text x="200" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. AuthenticationFilter</text>
+  <text x="70" y="150" font-size="10" fill="#CBD5E1">Extracts credentials from request</text>
+  <text x="70" y="170" font-size="9" fill="#94A3B8">Creates unauthenticated UsernamePasswordAuthenticationToken</text>
+
+  <!-- Top Center: AuthenticationManager &amp; ProviderManager -->
+  <rect x="430" y="100" width="340" height="95" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="600" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. AuthenticationManager (Facade)</text>
+  <text x="450" y="150" font-size="10" font-weight="700" fill="#34D399">ProviderManager (Default Implementation)</text>
+  <text x="450" y="170" font-size="9" fill="#CBD5E1">Holds List&lt;AuthenticationProvider&gt; and queries each in order</text>
+
+  <path fill="none" d="M 350 147 L 430 147" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <text x="390" y="140" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle">Passes token</text>
+
+  <!-- Middle: Provider Loop Box -->
+  <rect x="50" y="235" width="720" height="190" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="50" y="235" width="720" height="30" rx="8" fill="#0369A1"/>
+  <text x="410" y="255" font-size="12" font-weight="700" fill="#E0F2FE" text-anchor="middle">3. Provider Evaluation Zone: ProviderManager Iteration Loop</text>
+
+  <!-- Provider 1 -->
+  <rect x="70" y="280" width="200" height="130" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="170" y="305" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">DaoAuthenticationProvider</text>
+  <text x="80" y="330" font-size="9" fill="#CBD5E1">&#x2022; UserDetailsService</text>
+  <text x="80" y="350" font-size="9" fill="#CBD5E1">&#x2022; PasswordEncoder</text>
+  <text x="80" y="370" font-size="8" font-family="'JetBrains Mono', monospace" fill="#94A3B8">BCrypt / Argon2id</text>
+  <text x="80" y="395" font-size="8" fill="#34D399">&#x2714; Matches DB hash</text>
+
+  <!-- Provider 2 -->
+  <rect x="310" y="280" width="200" height="130" rx="6" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="410" y="305" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">JwtAuthenticationProvider</text>
+  <text x="320" y="330" font-size="9" fill="#CBD5E1">&#x2022; JwtDecoder validation</text>
+  <text x="320" y="350" font-size="9" fill="#CBD5E1">&#x2022; RSA-256 / EdDSA</text>
+  <text x="320" y="370" font-size="8" fill="#CBD5E1">Extracts scopes/roles</text>
+  <text x="320" y="395" font-size="8" fill="#34D399">&#x2714; JWKS cached check</text>
+
+  <!-- Provider 3 -->
+  <rect x="550" y="280" width="200" height="130" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="650" y="305" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">LdapAuthenticationProvider</text>
+  <text x="560" y="330" font-size="9" fill="#CBD5E1">&#x2022; Active Directory</text>
+  <text x="560" y="350" font-size="9" fill="#CBD5E1">&#x2022; LDAP Bind auth</text>
+  <text x="560" y="370" font-size="8" fill="#CBD5E1">Corporate intranet</text>
+  <text x="560" y="395" font-size="8" fill="#94A3B8">&#x2022; Fallback provider</text>
+
+  <path fill="none" d="M 600 195 L 600 235" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Right Side: Outcomes -->
+  <!-- Success Outcome -->
+  <rect x="850" y="140" width="310" height="120" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="1005" y="165" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">&#x2714; Authentication Success</text>
+  <text x="865" y="190" font-size="9" font-weight="700" fill="#CBD5E1">Authenticated Token Created:</text>
+  <text x="865" y="210" font-size="9" fill="#CBD5E1">&#x2022; Credentials wiped (for security)</text>
+  <text x="865" y="228" font-size="9" fill="#CBD5E1">&#x2022; Populates GrantedAuthorities</text>
+  <text x="865" y="246" font-size="9" fill="#34D399">&#x2022; Saved to SecurityContextHolder (ThreadLocal)</text>
+
+  <!-- Failure Outcome -->
+  <rect x="850" y="295" width="310" height="130" rx="6" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="1005" y="320" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">&#x2718; Authentication Failure</text>
+  <text x="865" y="345" font-size="9" font-weight="700" fill="#FCA5A5">AuthenticationException Thrown:</text>
+  <text x="865" y="365" font-size="9" fill="#CBD5E1">&#x2022; BadCredentialsException / AccountExpired</text>
+  <text x="865" y="383" font-size="9" fill="#CBD5E1">&#x2022; Dispatched to AuthenticationEntryPoint</text>
+  <text x="865" y="403" font-size="9" fill="#EF4444">&#x2022; Generates HTTP 401 Unauthorized response</text>
+
+  <!-- Connectors from Providers to Outcomes -->
+  <path fill="none" d="M 770.0 300.0 L 780.0 300.0 C 808.0 300.0, 808.0 200.0, 836.0 200.0 L 850.0 200.0" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path fill="none" d="M 770 360 L 850 360" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+
+  <!-- Bottom Invariant Banner -->
+  <rect x="50" y="455" width="1110" height="35" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="605" y="477" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Design Pattern: ProviderManager implements Chain of Responsibility. The first provider to support the token validates it; unhandled tokens cascade.</text>
+</svg>

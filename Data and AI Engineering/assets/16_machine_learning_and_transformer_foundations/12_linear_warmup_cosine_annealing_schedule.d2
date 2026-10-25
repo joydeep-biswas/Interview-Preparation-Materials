@@ -1,0 +1,16 @@
+classes: {
+  warmup_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  cosine_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+warmup: "1. Linear Warmup (0 -> T_warmup)\nScales lr linearly from 0 to eta_max\nStabilizes random initial weight distributions" {
+  class: warmup_box
+}
+
+cosine: "2. Cosine Annealing (T_warmup -> T_max)\nSmooth cosine decay from eta_max to eta_min\nSettles weights into flat, optimal minima" {
+  class: cosine_box
+}
+
+warmup -> cosine: "Peak LR reached (T_warmup)" {
+  style: { stroke: "#fbbf24"; stroke-width: 2 }
+}

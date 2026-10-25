@@ -1,0 +1,33 @@
+direction: right
+title: Production Circular Dependency Remediation Patterns
+
+p1: "Pattern 1: Extract Shared Service (Recommended)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  order: "OrderService"
+  billing: "BillingService"
+  shared: "InvoiceGenerationService (Shared)"
+
+  order -> shared
+  billing -> shared
+}
+
+p2: "Pattern 2: Event-Driven Decoupling" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+
+  pub: "OrderService\n(publishes OrderCreatedEvent)"
+  bus: "ApplicationEventPublisher"
+  sub: "BillingService\n(@EventListener)"
+
+  pub -> bus -> sub
+}
+
+p3: "Pattern 3: @Lazy Proxy Deferral (Quick Fix)" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  lazy: "@Lazy BillingService proxy"
+  warn: "Masks architectural smell; prohibited in Boot 2.6+"
+}

@@ -1,0 +1,27 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+stage1: "Stage 1: Incremental Extraction" {
+  class: box
+  style.stroke: "#3B82F6"
+  src: "Source DB / CDC Feed"
+  filt: "Watermark Filter\n(modified_time > last_watermark)"
+  stg: "Staging DataFrame (Raw Batch)"
+  src -> filt -> stg
+}
+
+stage2: "Stage 2: Deduplication & Idempotent Upsert" {
+  class: box
+  style.stroke: "#10B981"
+  dedup: "Deduplicate by Natural Key\n(Window / ROW_NUMBER = 1)"
+  merge: "Delta MERGE INTO Target\nWHEN MATCHED UPDATE / NOT MATCHED INSERT"
+  target: "Target Delta Table (Silver/Gold)"
+  meta: "Watermark Control Table"
+  dedup -> merge
+  merge -> target
+  merge -> meta
+}
+
+stage1.stg -> stage2.dedup

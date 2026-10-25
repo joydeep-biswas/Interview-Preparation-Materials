@@ -1,0 +1,35 @@
+direction: down
+classes: {
+  masked: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 1.5; border-radius: 6 } }
+  active: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 6 } }
+  tok: { style: { fill: "#1e293b"; stroke: "#64748b"; stroke-width: 1; border-radius: 6 } }
+}
+
+tokens: "Token Sequence" {
+  direction: right
+  t0: "Tok 0: System" { class: tok }
+  t1: "Tok 1: Prompt" { class: tok }
+  t2: "Tok 2: User" { class: tok }
+  t3: "Tok 3: Question" { class: tok }
+  t4: "Tok 4: Assistant" { class: tok }
+  t5: "Tok 5: Target" { class: active }
+  t6: "Tok 6: Answer" { class: active }
+  t7: "Tok 7: <|eot|>" { class: active }
+}
+
+labels: "Labels Array" {
+  direction: right
+  l0: "-100 (Ignored)" { class: masked }
+  l1: "-100 (Ignored)" { class: masked }
+  l2: "-100 (Ignored)" { class: masked }
+  l3: "-100 (Ignored)" { class: masked }
+  l4: "-100 (Ignored)" { class: masked }
+  l5: "Target ID (Loss)" { class: active }
+  l6: "Answer ID (Loss)" { class: active }
+  l7: "EOT ID (Loss)" { class: active }
+}
+
+tokens.t0 -> labels.l0
+tokens.t4 -> labels.l4
+tokens.t5 -> labels.l5
+tokens.t7 -> labels.l7

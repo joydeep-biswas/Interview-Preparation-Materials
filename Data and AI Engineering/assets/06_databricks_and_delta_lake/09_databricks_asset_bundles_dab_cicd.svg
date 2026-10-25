@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Databricks Asset Bundles (DAB) CI/CD Architecture</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Declarative infrastructure-as-code for deploying pipelines, workflows, and ML models across dev, staging, and prod</text>
+
+  <!-- Step 1: Local Developer Repo -->
+  <rect x="40" y="85" width="245" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="245" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="162" y="108" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">1. DEVELOPER WORKSPACE</text>
+
+  <!-- databricks.yml -->
+  <rect x="55" y="135" width="215" height="120" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="68" y="157" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="start">databricks.yml (IaC Bundle)</text>
+  <text x="68" y="177" font-size="9" font-family="monospace" fill="#93C5FD" text-anchor="start">bundle:</text>
+  <text x="78" y="192" font-size="9" font-family="monospace" fill="#93C5FD" text-anchor="start">  name: my_etl_pipeline</text>
+  <text x="68" y="207" font-size="9" font-family="monospace" fill="#93C5FD" text-anchor="start">targets:</text>
+  <text x="78" y="222" font-size="9" font-family="monospace" fill="#93C5FD" text-anchor="start">  dev: ...</text>
+  <text x="78" y="237" font-size="9" font-family="monospace" fill="#93C5FD" text-anchor="start">  prod: ...</text>
+
+  <!-- Local Validation -->
+  <rect x="55" y="270" width="215" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="68" y="292" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="start">Local Validation CLI</text>
+  <text x="68" y="312" font-size="9" font-family="monospace" fill="#34D399" text-anchor="start">$ databricks bundle validate</text>
+  <text x="68" y="329" font-size="9" fill="#94A3B8" text-anchor="start">Validates syntax, cluster configs,</text>
+  <text x="68" y="344" font-size="9" fill="#94A3B8" text-anchor="start">and resource JSON schemas.</text>
+
+  <rect x="55" y="370" width="215" height="75" rx="6" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1"/>
+  <text x="68" y="392" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Deploy to Dev Target</text>
+  <text x="68" y="412" font-size="9" font-family="monospace" fill="#A7F3D0" text-anchor="start">$ databricks bundle deploy -t dev</text>
+  <text x="68" y="429" font-size="8.5" fill="#CBD5E1" text-anchor="start">Deploys to sandbox workspace</text>
+
+  <line x1="162" y1="255" x2="162" y2="270" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <line x1="162" y1="355" x2="162" y2="370" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- Step 2: Git Version Control -->
+  <rect x="300" y="85" width="245" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="300" y="85" width="245" height="36" rx="8" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="422" y="108" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle">2. GIT PR &amp; CODE REVIEW</text>
+
+  <rect x="315" y="135" width="215" height="135" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="328" y="157" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="start">Pull Request / Merge Request</text>
+  <text x="328" y="177" font-size="9" fill="#CBD5E1" text-anchor="start">• Branch protection rules</text>
+  <text x="328" y="194" font-size="9" fill="#CBD5E1" text-anchor="start">• Mandatory peer code review</text>
+  <text x="328" y="211" font-size="9" fill="#CBD5E1" text-anchor="start">• Automated linting (ruff, black)</text>
+  <text x="328" y="228" font-size="9" fill="#CBD5E1" text-anchor="start">• Unit tests via pytest</text>
+  <text x="328" y="248" font-size="8.5" fill="#34D399" text-anchor="start">Guarantees zero untracked code!</text>
+
+  <rect x="315" y="285" width="215" height="160" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="328" y="307" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="start">Why DAB Beats UI Jobs:</text>
+  <text x="328" y="327" font-size="9" fill="#CBD5E1" text-anchor="start">In classic Databricks, jobs were</text>
+  <text x="328" y="342" font-size="9" fill="#CBD5E1" text-anchor="start">configured manually in the UI.</text>
+  <text x="328" y="357" font-size="9" fill="#F87171" text-anchor="start">If an engineer left, jobs failed</text>
+  <text x="328" y="372" font-size="9" fill="#F87171" text-anchor="start">due to deactivated credentials!</text>
+  <text x="328" y="392" font-size="9" fill="#34D399" text-anchor="start">DAB codifies 100% of jobs in YAML</text>
+  <text x="328" y="407" font-size="9" fill="#34D399" text-anchor="start">and deploys via Service Principal.</text>
+
+  <!-- Link Step 1 -> Step 2 -->
+  <line x1="270" y1="200" x2="315" y2="200" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+
+  <!-- Step 3: CI/CD Automation -->
+  <rect x="560" y="85" width="250" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="560" y="85" width="250" height="36" rx="8" fill="#3B0764" fill-opacity="0.8" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="685" y="108" font-size="11" font-weight="700" fill="#C084FC" text-anchor="middle">3. GITHUB ACTIONS / AZURE DEVOPS</text>
+
+  <!-- CI Test Phase -->
+  <rect x="575" y="135" width="220" height="135" rx="6" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="588" y="157" font-size="10" font-weight="700" fill="#C084FC" text-anchor="start">Automated CI Runner</text>
+  <text x="588" y="177" font-size="9" fill="#CBD5E1" text-anchor="start">• Authenticates via OIDC token</text>
+  <text x="588" y="194" font-size="9" fill="#CBD5E1" text-anchor="start">• Zero stored passwords/tokens!</text>
+  <text x="588" y="211" font-size="9" fill="#CBD5E1" text-anchor="start">• Runs integration tests</text>
+  <text x="588" y="228" font-size="9" fill="#CBD5E1" text-anchor="start">• Ephemeral test cluster</text>
+  <text x="588" y="248" font-size="8.5" fill="#34D399" text-anchor="start">PR check must pass before merge</text>
+
+  <!-- CD Deploy Phase -->
+  <rect x="575" y="285" width="220" height="160" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="588" y="307" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">CD Production Deployment</text>
+  <text x="588" y="327" font-size="9" fill="#CBD5E1" text-anchor="start">• Triggers on merge to main</text>
+  <text x="588" y="344" font-size="9" font-family="monospace" fill="#34D399" text-anchor="start">databricks bundle deploy</text>
+  <text x="588" y="359" font-size="9" font-family="monospace" fill="#34D399" text-anchor="start">  --target prod</text>
+  <text x="588" y="379" font-size="9" fill="#CBD5E1" text-anchor="start">• Deploys as Service Principal</text>
+  <text x="588" y="396" font-size="9" fill="#CBD5E1" text-anchor="start">• Atomic asset synchronization</text>
+  <text x="588" y="416" font-size="8.5" font-weight="600" fill="#34D399" text-anchor="start">Zero Manual Production Access!</text>
+
+  <!-- Link Step 2 -> Step 3 -->
+  <line x1="530" y1="200" x2="575" y2="200" stroke="#C084FC" stroke-width="2" marker-end="url(#arr-p)"/>
+
+  <!-- Step 4: Governed Production Workspace -->
+  <rect x="825" y="85" width="255" height="375" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="825" y="85" width="255" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="952" y="108" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">4. PRODUCTION WORKSPACE</text>
+
+  <!-- Production Assets -->
+  <rect x="840" y="135" width="225" height="310" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="853" y="157" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Governed Production Objects</text>
+
+  <rect x="853" y="175" width="200" height="50" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="865" y="195" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="start">Databricks Workflows</text>
+  <text x="865" y="210" font-size="8.5" fill="#CBD5E1" text-anchor="start">Owned by: sp-lakehouse-prod</text>
+
+  <rect x="853" y="235" width="200" height="50" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="865" y="255" font-size="9.5" font-weight="700" fill="#34D399" text-anchor="start">Delta Live Tables (DLT)</text>
+  <text x="865" y="270" font-size="8.5" fill="#CBD5E1" text-anchor="start">Declarative Medallion DAG</text>
+
+  <rect x="853" y="295" width="200" height="50" rx="4" fill="#1E293B" stroke="#C084FC" stroke-width="1"/>
+  <text x="865" y="315" font-size="9.5" font-weight="700" fill="#C084FC" text-anchor="start">Unity Catalog Assets</text>
+  <text x="865" y="330" font-size="8.5" fill="#CBD5E1" text-anchor="start">prod_catalog.gold_sales</text>
+
+  <text x="853" y="375" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Fully audited in Git history</text>
+  <text x="853" y="392" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Drift detection &amp; rollback</text>
+  <text x="853" y="415" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">Production Rigor Achieved!</text>
+
+  <!-- Link Step 3 -> Step 4 -->
+  <line x1="795" y1="365" x2="840" y2="365" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="468" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="484" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">DAB Invariant: Databricks Asset Bundles (DAB) replaces manual UI-configured jobs with version-controlled YAML infrastructure, deployed safely via CI/CD pipelines under Service Principal identities.</text>
+</svg>

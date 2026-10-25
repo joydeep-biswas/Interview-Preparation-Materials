@@ -1,0 +1,20 @@
+direction: right
+title: AQE Skew Join Optimization
+
+WithoutAQE: Skewed Join: Single Reducer Overloaded {
+  style.stroke: "#EF4444"
+  SkewKey: Customer 1: 50,000,000 Rows (Partition 42)
+  Worker1: Worker 1: Spills & Runs 4 Hours (Straggler)
+  Worker2: Worker 2: Finished in 1 Second (Idle)
+
+  SkewKey -> Worker1: Giant single task { style.stroke: "#EF4444" }
+}
+
+WithAQE: AQE Skew Join: Dynamic Splitting {
+  style.stroke: "#34D399"
+  Chunk1: Chunk 42A (10M Rows) -> WorkerA: Worker A
+  Chunk2: Chunk 42B (10M Rows) -> WorkerB: Worker B
+  Chunk3: Chunk 42C (10M Rows) -> WorkerC: Worker C
+  Chunk4: Chunk 42D (10M Rows) -> WorkerD: Worker D
+  Chunk5: Chunk 42E (10M Rows) -> WorkerE: Worker E
+}

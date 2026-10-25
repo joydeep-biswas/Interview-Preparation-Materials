@@ -1,0 +1,37 @@
+direction: right
+title: Database Normalization Pipeline: 1NF to BCNF Theory
+
+unf: "UNF (Unnormalized Form)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+  flaws: "Repeating groups & comma-separated strings\n(Update/Delete Anomalies)"
+}
+
+n1: "1st Normal Form (1NF)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+  rule: "Atomic scalar values & Primary Key identified"
+}
+
+n2: "2nd Normal Form (2NF)" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+  rule: "1NF + Remove partial dependencies on composite PK"
+}
+
+n3: "3rd Normal Form (3NF)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+  rule: "2NF + Remove transitive dependencies (Nothing But The Key)"
+}
+
+bcnf: "Boyce-Codd Normal Form (BCNF)" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+  rule: "Every determinant X in X -> Y must be a Candidate Key"
+}
+
+unf -> n1: "Eliminate repeating groups"
+n1 -> n2: "Remove partial PK dependencies"
+n2 -> n3: "Remove transitive dependencies"
+n3 -> bcnf: "Enforce superkey determinants"

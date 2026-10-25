@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+dim: "Dimension Table\n< autoBroadcastThreshold" { class: box; style.stroke: "#3B82F6" }
+drv_collect: "1. Driver Collects Table\nDeserializes into Driver RAM" { class: box; style.stroke: "#8B5CF6" }
+torrent: "2. Torrent Broadcast\nPeer-to-peer distribution to executors" { class: box; style.stroke: "#10B981" }
+exec_hash: "3. In-Memory Hash Build\nWorker stores hash map in memory" { class: box; style.stroke: "#10B981" }
+stream_fact: "4. Stream Fact Table\nO(1) local hash probe, zero network shuffle" { class: box; style.stroke: "#10B981" }
+
+dim -> drv_collect -> torrent -> exec_hash -> stream_fact

@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  cyan_box: { style: { fill: "#111827", stroke: "#06B6D4", stroke-width: 2 } }
+  amber_box: { style: { fill: "#111827", stroke: "#F59E0B", stroke-width: 2 } }
+  green_box: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
+  purple_box: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
+}
+
+S1: "1. Lookup Old Watermark\n• SELECT WatermarkValue\n• FROM WatermarkTable" { class: blue_box }
+S2: "2. Lookup Current Max\n• SELECT MAX(LastModified)\n• AS NewWatermark FROM Src" { class: cyan_box }
+S3: "3. Copy Activity\n• WHERE LastModified > Old\n• AND LastModified <= New" { class: amber_box }
+S4: "4. Write Delta / Parquet\n• MERGE INTO target\n• ACID commit" { class: green_box }
+S5: "5. Advance Watermark SP\n• EXEC sp_update_watermark\n• @NewWatermark" { class: purple_box }
+
+S1 -> S2 -> S3 -> S4 -> S5

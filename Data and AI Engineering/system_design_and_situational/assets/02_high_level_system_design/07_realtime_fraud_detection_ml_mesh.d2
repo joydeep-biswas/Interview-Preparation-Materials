@@ -1,0 +1,46 @@
+direction: right
+
+scoring: "1. Live Scoring Service" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  inference: "ONNX Runtime Fraud Model (<25ms)"
+  telemetry: "Streaming Telemetry Logger to Kafka"
+}
+
+online_store: "2. Online Feature Store" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  redis: "Redis Low-Latency In-Memory Cluster"
+  flink: "Flink Real-Time Window Features"
+}
+
+offline_store: "3. Offline Lakehouse Store" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  delta: "Delta Lake Point-in-Time Correct Dataset"
+  ground_truth: "True Fraud Chargeback Labels"
+}
+
+drift_loop: "4. Drift & Retraining" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  monitoring: "KS-Test & PSI Distribution Shift"
+  retrain: "Airflow Automated Champion/Challenger"
+}
+
+scoring -> online_store: "Fetch Features (<2ms)" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+online_store -> offline_store: "Daily Snapshot Sink" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+offline_store -> drift_loop: "Generate Training Batches" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

@@ -1,0 +1,32 @@
+direction: right
+title: Cloud Native Enterprise Delivery Architecture
+
+Container: 1. Containerization & Layering {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  app: Spring Boot Application
+  docker: Multi-Stage Distroless Dockerfile
+  oci: OCI Hardened Container Image
+  app -> docker -> oci
+}
+
+GitOps: 2. CI/CD & GitOps Automation {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  git: Git Repository (K8s Manifests)
+  argo: ArgoCD Controller
+  rollouts: Automated Canary Rollouts
+  git -> argo -> rollouts
+}
+
+K8s: 3. Kubernetes Orchestration {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  ingress: Ingress Controller (TLS)
+  pods: Java Pods (HPA, Probes, Workload Identity)
+  telemetry: OpenTelemetry & Prometheus
+  ingress -> pods -> telemetry
+}
+
+Container.oci -> GitOps.git: Image tag updated { style.stroke: "#38BDF8" }
+GitOps.argo -> K8s.pods: Reconciles live cluster state { style.stroke: "#10B981" }

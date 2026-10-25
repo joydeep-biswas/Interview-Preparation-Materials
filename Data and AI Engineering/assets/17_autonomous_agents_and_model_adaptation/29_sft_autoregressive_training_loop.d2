@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  purple: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  amber: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+}
+
+ingress: "1. Masked Batch Ingress
+[B, Seq_Len] (Prompt=-100)" { class: blue }
+forward: "2. Forward Pass
+Logits: [B, Seq_Len, Vocab]" { class: blue }
+shift: "3. 1-Token Shift
+Preds vs Targets" { class: purple }
+loss: "4. Cross-Entropy Loss
+Masked prompt tokens" { class: green }
+backprop: "5. Backward Pass
+∇_θ L across adapters" { class: green }
+optim: "6. Paged AdamW
+Parameter update" { class: amber }
+
+ingress -> forward -> shift -> loss -> backprop -> optim
+optim -> ingress: "Next Batch" { style: { stroke-dash: 4 } }

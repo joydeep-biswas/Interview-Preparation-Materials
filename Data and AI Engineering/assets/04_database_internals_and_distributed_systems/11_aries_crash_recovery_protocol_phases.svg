@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">The Three Phases of ARIES Crash Recovery Protocol</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Analysis, Redo ('Repeat History'), and Undo with Compensation Log Records (CLRs)</text>
+  
+  
+    <rect x="30" y="95" width="280" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Phase 1: Analysis</text>
+  
+    <rect x="45" y="135" width="250" height="235" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="170.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Analysis Phase Invariant</text>
+    <text x="170.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Forward Scan from Checkpoint</text>
+    <rect x="223" y="145" width="66" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="256.0" y="157" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ANALYSIS</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Starts at the most recent Checkpoint record</text>
+    <circle cx="61" cy="206" r="2" fill="#3b82f6"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scans WAL forward to end of log</text>
+    <circle cx="61" cy="222" r="2" fill="#3b82f6"/>
+    <text x="69" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reconstructs Dirty Page Table (DPT):</text>
+    <circle cx="61" cy="238" r="2" fill="#3b82f6"/>
+    <text x="69" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Identifies smallest RecLSN on unwritten pages</text>
+    <circle cx="61" cy="254" r="2" fill="#3b82f6"/>
+    <text x="69" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reconstructs Transaction Table (TxTable):</text>
+    <circle cx="61" cy="270" r="2" fill="#3b82f6"/>
+    <text x="69" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Identifies all active 'Loser' transactions</text>
+    <circle cx="61" cy="286" r="2" fill="#3b82f6"/>
+    <text x="69" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">that were in-flight at moment of crash</text>
+
+  
+    <rect x="350" y="95" width="280" height="290" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="366" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Phase 2: Redo ('Repeat History')</text>
+  
+    <rect x="365" y="135" width="250" height="235" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="161" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Redo Phase Invariant</text>
+    <text x="490.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Forward Scan from Min RecLSN</text>
+    <rect x="571" y="145" width="38" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="590.0" y="157" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">REDO</text>
+    <circle cx="381" cy="190" r="2" fill="#8b5cf6"/>
+    <text x="389" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scans forward starting from smallest RecLSN</text>
+    <circle cx="381" cy="206" r="2" fill="#8b5cf6"/>
+    <text x="389" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Replays ALL changes for ALL transactions</text>
+    <circle cx="381" cy="222" r="2" fill="#8b5cf6"/>
+    <text x="389" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">(both committed AND loser uncommitted txs!)</text>
+    <circle cx="381" cy="238" r="2" fill="#8b5cf6"/>
+    <text x="389" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Restores the exact physical memory state</text>
+    <circle cx="381" cy="254" r="2" fill="#8b5cf6"/>
+    <text x="389" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">to the precise millisecond of crash</text>
+    <circle cx="381" cy="270" r="2" fill="#8b5cf6"/>
+    <text x="389" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Checks page.PageLSN &amp;gt;= record.LSN</text>
+    <circle cx="381" cy="286" r="2" fill="#8b5cf6"/>
+    <text x="389" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">before applying each redo (idempotent)</text>
+
+  
+    <rect x="670" y="95" width="280" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="686" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Phase 3: Undo</text>
+  
+    <rect x="685" y="135" width="250" height="235" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="810.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Undo Phase Invariant</text>
+    <text x="810.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Backward Scan from Log End</text>
+    <rect x="891" y="145" width="38" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="910.0" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">UNDO</text>
+    <circle cx="701" cy="190" r="2" fill="#10b981"/>
+    <text x="709" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scans backward from end of WAL log</text>
+    <circle cx="701" cy="206" r="2" fill="#10b981"/>
+    <text x="709" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rolls back all changes made by 'loser' txs</text>
+    <circle cx="701" cy="222" r="2" fill="#10b981"/>
+    <text x="709" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Restores old values for uncommitted rows</text>
+    <circle cx="701" cy="238" r="2" fill="#10b981"/>
+    <text x="709" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Writes Compensation Log Records (CLRs):</text>
+    <circle cx="701" cy="254" r="2" fill="#10b981"/>
+    <text x="709" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">CLRs guarantee that if system crashes</text>
+    <circle cx="701" cy="270" r="2" fill="#10b981"/>
+    <text x="709" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">DURING recovery, recovery will NEVER</text>
+    <circle cx="701" cy="286" r="2" fill="#10b981"/>
+    <text x="709" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">repeat already undone work!</text>
+
+  
+    <line x1="295" y1="250" x2="365" y2="250" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="330.0" y="242" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Reconstruct State</text>
+  
+    <line x1="615" y1="250" x2="685" y2="250" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="650.0" y="242" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Replay History</text>
+
+</svg>

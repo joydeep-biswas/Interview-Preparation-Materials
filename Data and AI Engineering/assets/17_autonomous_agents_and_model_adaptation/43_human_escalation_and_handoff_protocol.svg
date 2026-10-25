@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0d1527"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Node Surface Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142e2b"/>
+      <stop offset="100%" stop-color="#091d1a"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d2212"/>
+      <stop offset="100%" stop-color="#181308"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#261b3d"/>
+      <stop offset="100%" stop-color="#130c24"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b181e"/>
+      <stop offset="100%" stop-color="#1f090d"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112d38"/>
+      <stop offset="100%" stop-color="#071920"/>
+    </linearGradient>
+
+    <!-- Matched Arrow Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base Dark Card Background -->
+  <rect width="1000" height="480" rx="12" fill="url(#bg)"/>
+  <rect width="1000" height="480" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Centered Header Section -->
+  <g id="header-group">
+    <text x="500" y="32" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.3">Human Escalation &amp; Seamless Handoff Sequence</text>
+    <text x="500" y="52" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Automated Sentiment &amp; Financial Threshold Triggers Passing Structured JSON Context to Human Desk</text>
+  </g>
+
+  <!-- Diagram Inner Content -->
+  
+  <!-- 4 Actor Boxes Across Top -->
+  <!-- Actor 1: Customer -->
+  <rect x="60" y="85" width="160" height="40" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="140" y="110" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">Customer Shopper</text>
+  <line x1="140" y1="125" x2="140" y2="440" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Actor 2: AI Copilot -->
+  <rect x="300" y="85" width="160" height="40" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="380" y="110" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">AI Support Copilot</text>
+  <line x1="380" y1="125" x2="380" y2="440" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Actor 3: Sentiment Tracker -->
+  <rect x="540" y="85" width="160" height="40" rx="6" fill="#1e293b" stroke="#c084fc" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="620" y="110" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="12" font-weight="700">Sentiment Evaluator</text>
+  <line x1="620" y1="125" x2="620" y2="440" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Actor 4: Human Agent Desk -->
+  <rect x="780" y="85" width="160" height="40" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="860" y="110" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="12" font-weight="700">Zendesk Human Desk</text>
+  <line x1="860" y1="125" x2="860" y2="440" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Message 1: Customer -> Copilot -->
+  <path d="M 140 155 L 380 155" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <rect x="150" y="137" width="220" height="18" rx="3" fill="#0f172a"/>
+  <text x="260" y="150" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="10">1. "Third time wrong item! Want my money now!"</text>
+
+  <!-- Message 2: Copilot -> Sentiment Tracker -->
+  <path d="M 380 185 L 620 185" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  <rect x="390" y="167" width="220" height="18" rx="3" fill="#0f172a"/>
+  <text x="500" y="180" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="10">2. Evaluate sentiment &amp; refund threshold</text>
+
+  <!-- Self evaluation call on Tracker -->
+  <rect x="550" y="205" width="200" height="40" rx="4" fill="#130c24" stroke="#c084fc" stroke-width="1"/>
+  <text x="650" y="222" text-anchor="middle" fill="#6ee7b7" font-family="sans-serif" font-size="10" font-weight="700">Sentiment: Frustrated (0.92)</text>
+  <text x="650" y="238" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="10" font-weight="700">Refund: $450 (Threshold &gt; $100)</text>
+
+  <!-- Escalation Highlight Box -->
+  <rect x="340" y="260" width="560" height="120" rx="8" fill="#3b181e" fill-opacity="0.25" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="620" y="280" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="11" font-weight="700">AUTOMATED HUMAN ESCALATION TRIGGERED</text>
+
+  <!-- Message 3: Copilot -> Zendesk -->
+  <path d="M 380 305 L 860 305" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arr-r)"/>
+  <rect x="440" y="292" width="360" height="20" rx="3" fill="#1f090d"/>
+  <text x="620" y="306" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="10" font-weight="700">3. Enqueue Priority Ticket with Full State &amp; JSON Summary</text>
+
+  <!-- Message 4: Copilot -> Customer -->
+  <path d="M 380 350 L 140 350" fill="none" stroke="#34d399" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#arr-g)"/>
+  <rect x="150" y="335" width="220" height="18" rx="3" fill="#091d1a"/>
+  <text x="260" y="348" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="10">4. "Transferring you to senior specialist..."</text>
+
+  <!-- Result Banner -->
+  <rect x="180" y="400" width="680" height="35" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1"/>
+  <text x="520" y="422" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="600">Human Specialist accepts live chat pre-populated with order history, sentiment metrics, and context!</text>
+
+</svg>

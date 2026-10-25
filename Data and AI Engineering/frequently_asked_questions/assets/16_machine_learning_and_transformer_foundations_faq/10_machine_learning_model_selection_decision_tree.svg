@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Root -->
+  <polygon points="480,20 600,55 480,90 360,55" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="480" y="50" class="title-txt" text-anchor="middle">Data Ground Truth</text>
+  <text x="480" y="66" class="sub-txt" text-anchor="middle">Labeled vs Unlabeled?</text>
+
+  <!-- Left: Supervised -->
+  <path d="M 360 55 L 245 55 Q 230 55 230 75 L 230 110" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <rect x="245" y="42" width="90" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="290" y="55" class="edge-txt" text-anchor="middle" fill="#38BDF8">Supervised</text>
+
+  <rect x="25" y="110" width="410" height="220" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="45" y="136" class="title-txt" fill="#93C5FD">Supervised Learning Branch</text>
+  <rect x="45" y="150" width="370" height="70" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="55" y="172" class="title-txt" text-anchor="start">Continuous Target (Regression):</text>
+  <text x="55" y="190" class="body-txt" text-anchor="start">• Tabular: LightGBM / Ridge / ElasticNet</text>
+  <text x="55" y="206" class="mono-txt" text-anchor="start">Metrics: RMSE, MAE, R-Squared</text>
+
+  <rect x="45" y="230" width="370" height="85" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1"/>
+  <text x="55" y="252" class="title-txt" text-anchor="start">Categorical Target (Classification):</text>
+  <text x="55" y="270" class="body-txt" text-anchor="start">• High-dim text: Logistic Regression / Linear SVM</text>
+  <text x="55" y="286" class="body-txt" text-anchor="start">• Tabular: XGBoost / CatBoost</text>
+  <text x="55" y="302" class="mono-txt" text-anchor="start">Metrics: ROC-AUC, PR-AUC, F1-Score</text>
+
+  <!-- Right: Unsupervised & RL -->
+  <path d="M 600 55 L 715 55 Q 730 55 730 75 L 730 110" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="625" y="42" width="90" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="670" y="55" class="edge-txt" text-anchor="middle" fill="#10B981">Unsupervised / RL</text>
+
+  <rect x="520" y="110" width="415" height="220" rx="10" ry="10" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="540" y="136" class="title-txt" fill="#6EE7B7">Unsupervised &amp; Reinforcement Branch</text>
+  <rect x="540" y="150" width="375" height="70" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1"/>
+  <text x="550" y="172" class="title-txt" text-anchor="start" fill="#A7F3D0">Grouping &amp; Dimensionality (Clustering):</text>
+  <text x="550" y="190" class="body-txt" text-anchor="start">• Spherical: K-Means | Arbitrary density: HDBSCAN</text>
+  <text x="550" y="206" class="mono-txt" text-anchor="start">Compression: PCA, UMAP, t-SNE</text>
+
+  <rect x="540" y="230" width="375" height="85" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="550" y="252" class="title-txt" text-anchor="start" fill="#C4B5FD">Interactive Environment (Reinforcement):</text>
+  <text x="550" y="270" class="body-txt" text-anchor="start">• Markov Decision Process, Policy Gradients</text>
+  <text x="550" y="286" class="mono-txt" text-anchor="start">PPO, DPO for LLM Alignment</text>
+  <text x="550" y="302" class="badge-txt" fill="#C4B5FD">Reward Optimization</text>
+</svg>

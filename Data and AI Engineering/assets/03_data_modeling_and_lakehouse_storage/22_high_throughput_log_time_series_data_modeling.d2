@@ -1,0 +1,24 @@
+direction: right
+title: High-Throughput Log & Time-Series Data Modeling
+
+ingest: Raw Stream: 1M events/sec {
+  buffer: Kafka Commit Log
+}
+
+bronze: Delta Bronze: Append-Only Parquet {
+  partition: "date=2026-10-15/hour=14/"
+  throughput: "High write throughput, append-only"
+}
+
+compaction: Nightly OPTIMIZE + Liquid Clustering {
+  keys: "Clustered by tenant_id, event_type"
+  size: "Compacted to 1GB target file size"
+}
+
+serving: Analytical Queries {
+  speed: "Partition Pruning + Column Skipping (Sub-second)"
+}
+
+ingest.buffer -> bronze: "Append raw"
+bronze -> compaction: "Scheduled batch compaction"
+compaction -> serving: "Optimized read scans"

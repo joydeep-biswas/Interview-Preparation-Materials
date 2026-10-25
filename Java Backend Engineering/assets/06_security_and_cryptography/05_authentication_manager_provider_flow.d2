@@ -1,0 +1,32 @@
+direction: right
+title: Spring Security Authentication Flow: Manager & Provider Architecture
+
+Filter: 1. AuthenticationFilter {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  token: "Creates unauthenticated UsernamePasswordAuthenticationToken"
+}
+
+Manager: 2. AuthenticationManager (ProviderManager) {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  p1: DaoAuthenticationProvider (DB + BCrypt)
+  p2: JwtAuthenticationProvider (JWKS + RS256)
+  p3: LdapAuthenticationProvider (Active Directory)
+}
+
+Success: Authentication Success {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  result: "GrantedAuthorities populated -> SecurityContextHolder"
+}
+
+Failure: Authentication Failure {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  error: "BadCredentialsException -> HTTP 401 Unauthorized"
+}
+
+Filter -> Manager: Delegates token authentication { style.stroke: "#38BDF8" }
+Manager.p2 -> Success: Credentials valid { style.stroke: "#10B981" }
+Manager.p1 -> Failure: Bad password { style.stroke: "#EF4444" }

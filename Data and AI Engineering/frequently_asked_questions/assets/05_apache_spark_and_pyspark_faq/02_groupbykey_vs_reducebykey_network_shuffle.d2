@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  box_red: { style: { fill: "#111827"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+groupby: "groupByKey: Massive Network Transfer (Anti-Pattern)" {
+  class: box_red
+  m1: "Mapper: ('a', 1), ('a', 1), ('a', 1)"
+  s1: "Shuffle ALL 3 records over Network"
+  r1: "Reducer: ('a', [1, 1, 1])"
+  m1 -> s1 -> r1
+}
+
+reduceby: "reduceByKey: Map-Side Combiner (Optimized)" {
+  class: box_green
+  m2: "Mapper: ('a', 1), ('a', 1), ('a', 1)"
+  c1: "Map-Side Combiner: ('a', 3)"
+  s2: "Shuffle ONLY 1 record over Network"
+  r2: "Reducer: ('a', 3)"
+  m2 -> c1 -> s2 -> r2
+}

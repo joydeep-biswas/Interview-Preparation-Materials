@@ -1,0 +1,58 @@
+direction: right
+title: Movie Ticket Booking Relational Schema
+
+theater: THEATER {
+  theater_id: bigint [pk]
+  name: varchar
+}
+
+auditorium: AUDITORIUM {
+  auditorium_id: bigint [pk]
+  theater_id: bigint [fk]
+}
+
+seat: SEAT {
+  seat_id: bigint [pk]
+  auditorium_id: bigint [fk]
+}
+
+movie: MOVIE {
+  movie_id: bigint [pk]
+  title: varchar
+}
+
+showtime: SHOWTIME {
+  showtime_id: bigint [pk]
+  movie_id: bigint [fk]
+  auditorium_id: bigint [fk]
+}
+
+show_seat: SHOW_SEAT {
+  shape: sql_table
+  show_seat_id: bigint [pk]
+  showtime_id: bigint [fk]
+  seat_id: bigint [fk]
+  seat_status: varchar
+  lock_expiration: timestamp
+  booking_id: bigint [fk]
+  version: int
+}
+
+booking: BOOKING {
+  booking_id: bigint [pk]
+  user_id: bigint [fk]
+}
+
+user: USER {
+  user_id: bigint [pk]
+  email: varchar
+}
+
+theater -> auditorium: "contains"
+auditorium -> seat: "has"
+movie -> showtime: "schedules"
+auditorium -> showtime: "hosts"
+showtime -> show_seat: "allocates"
+seat -> show_seat: "referenced"
+booking -> show_seat: "reserves"
+user -> booking: "places"

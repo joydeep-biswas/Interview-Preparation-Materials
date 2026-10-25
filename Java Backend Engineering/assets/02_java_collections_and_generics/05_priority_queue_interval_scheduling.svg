@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1200" height="540" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">PriorityQueue Min-Heap for Interval Scheduling (Meeting Rooms II)</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Min-Heap Tracks Earliest End Time: Reusing Available Resources in O(N log N) Time</text>
+
+  <!-- Left: Input Intervals -->
+  <rect x="50" y="95" width="340" height="420" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="50" y="95" width="340" height="32" rx="8" fill="#0C4A6E"/>
+  <text x="220" y="117" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Input: Intervals Sorted by Start Time</text>
+
+  <rect x="70" y="145" width="300" height="70" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="85" y="170" font-size="12" font-weight="700" fill="#60A5FA">Interval 1: [0, 30]</text>
+  <text x="85" y="190" font-size="10" fill="#94A3B8">Starts at t=0, Ends at t=30</text>
+  <text x="85" y="205" font-size="10" fill="#38BDF8">Allocates Room 1</text>
+
+  <rect x="70" y="230" width="300" height="70" rx="6" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="85" y="255" font-size="12" font-weight="700" fill="#FBBF24">Interval 2: [5, 10]</text>
+  <text x="85" y="275" font-size="10" fill="#94A3B8">Starts at t=5 &lt; 30 (Overlap!)</text>
+  <text x="85" y="290" font-size="10" fill="#FBBF24">Allocates NEW Room 2</text>
+
+  <rect x="70" y="315" width="300" height="70" rx="6" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="85" y="340" font-size="12" font-weight="700" fill="#34D399">Interval 3: [15, 20]</text>
+  <text x="85" y="360" font-size="10" fill="#94A3B8">Starts at t=15 &gt;= 10 (Room 2 is FREE!)</text>
+  <text x="85" y="375" font-size="10" fill="#34D399">Reuses Room 2 (Poll 10, Offer 20)</text>
+
+  <rect x="70" y="400" width="300" height="95" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="85" y="422" font-size="11" font-weight="700" fill="#F8FAFC">Pre-Sorting Logic:</text>
+  <text x="85" y="445" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Arrays.sort(intervals, </text>
+  <text x="85" y="460" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">  Comparator.comparingInt(a -&gt; a[0]));</text>
+  <text x="85" y="480" font-size="10" fill="#94A3B8">Time: O(N log N) sorting step</text>
+
+  <!-- Center: Min-Heap State Progression -->
+  <rect x="420" y="95" width="410" height="420" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
+  <rect x="420" y="95" width="410" height="32" rx="8" fill="#064E3B"/>
+  <text x="625" y="117" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Min-Heap: PriorityQueue&lt;Integer&gt; (Tracks End Times)</text>
+
+  <!-- Heap State 1 -->
+  <rect x="440" y="145" width="370" height="70" rx="6" fill="#0F172A" stroke="#3B82F6" stroke-width="1"/>
+  <text x="455" y="168" font-size="11" font-weight="700" fill="#60A5FA">Step 1: Offer [0, 30] -&gt; Heap: [30]</text>
+  <text x="455" y="188" font-size="10" fill="#CBD5E1">Earliest room free at: <tspan fill="#38BDF8" font-weight="700">t = 30</tspan></text>
+  <text x="455" y="202" font-size="9" fill="#94A3B8">Rooms in use: 1</text>
+
+  <!-- Heap State 2 -->
+  <rect x="440" y="230" width="370" height="70" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+  <text x="455" y="253" font-size="11" font-weight="700" fill="#FBBF24">Step 2: Start 5 &lt; Peek(30) -&gt; Offer 10</text>
+  <text x="455" y="273" font-size="10" fill="#CBD5E1">Heap: <tspan fill="#FBBF24" font-weight="700">[10, 30]</tspan> (10 at root of min-heap)</text>
+  <text x="455" y="287" font-size="9" fill="#94A3B8">Rooms in use: 2 (Max count so far!)</text>
+
+  <!-- Heap State 3 -->
+  <rect x="440" y="315" width="370" height="70" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="455" y="338" font-size="11" font-weight="700" fill="#34D399">Step 3: Start 15 &gt;= Peek(10) -&gt; Poll 10, Offer 20</text>
+  <text x="455" y="358" font-size="10" fill="#CBD5E1">Heap: <tspan fill="#34D399" font-weight="700">[20, 30]</tspan> (Room reused!)</text>
+  <text x="455" y="372" font-size="9" fill="#94A3B8">Rooms in use remains: 2</text>
+
+  <!-- Final Heap Result -->
+  <rect x="440" y="400" width="370" height="95" rx="6" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="455" y="425" font-size="12" font-weight="700" fill="#34D399">Final Output: minMeetingRooms = 2</text>
+  <text x="455" y="445" font-size="10" fill="#CBD5E1">Heap size represents the maximum simultaneous rooms!</text>
+  <text x="455" y="465" font-size="10" fill="#94A3B8">Time Complexity: O(N log N) | Auxiliary Space: O(N)</text>
+
+  <!-- Right: Min-Heap Array Backing -->
+  <rect x="850" y="95" width="300" height="420" rx="8" fill="#0B132B" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="850" y="95" width="300" height="32" rx="8" fill="#1E3A8A"/>
+  <text x="1000" y="117" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">PriorityQueue Array Backing</text>
+
+  <rect x="865" y="145" width="270" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="1000" y="170" font-size="12" font-weight="700" fill="#60A5FA" text-anchor="middle">Binary Min-Heap Index Math</text>
+  <text x="880" y="200" font-size="11" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">parent(i) = (i - 1) &gt;&gt; 1;</text>
+  <text x="880" y="225" font-size="11" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">left(i)   = (i &lt;&lt; 1) + 1;</text>
+  <text x="880" y="250" font-size="11" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">right(i)  = (i &lt;&lt; 1) + 2;</text>
+  <text x="880" y="275" font-size="10" fill="#94A3B8">Root element is ALWAYS at index 0</text>
+
+  <rect x="865" y="310" width="270" height="185" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="1"/>
+  <text x="1000" y="335" font-size="12" font-weight="700" fill="#60A5FA" text-anchor="middle">Sift-Up &amp; Sift-Down</text>
+  <text x="880" y="360" font-size="10" fill="#CBD5E1">&#x2022; <tspan fill="#38BDF8" font-weight="700">offer():</tspan> Appends to leaf, sifts UP O(log N)</text>
+  <text x="880" y="380" font-size="10" fill="#CBD5E1">&#x2022; <tspan fill="#38BDF8" font-weight="700">poll():</tspan> Swaps root with leaf, sifts DOWN O(log N)</text>
+  <text x="880" y="400" font-size="10" fill="#CBD5E1">&#x2022; <tspan fill="#38BDF8" font-weight="700">peek():</tspan> Reads table[0] in <tspan fill="#34D399" font-weight="700">O(1)</tspan> time</text>
+  <text x="880" y="430" font-size="9" fill="#94A3B8">Contiguous array buffer minimizes pointer chasing overhead</text>
+
+  <!-- Connector Left to Center -->
+  <path fill="none" d="M 370 180 L 440 180" stroke="#3B82F6" stroke-width="2" marker-end="url(#arr-b)"/>
+  <path fill="none" d="M 370 265 L 440 265" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <path fill="none" d="M 370 350 L 440 350" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+</svg>

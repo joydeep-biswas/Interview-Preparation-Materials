@@ -1,0 +1,23 @@
+# Relational Query Execution & Processing Architecture
+direction: right
+
+compilation: "1. Compilation Pipeline" {
+  sql: "Declarative SQL (What)\n• High-level relational algebra\n• Abstract tuple calculus"
+  cbo: "Cost-Based Optimizer\n• Evaluates cardinality stats\n• Selects join order & algorithms"
+  engine: "Imperative Engine (How)\n• Vectorized batch scans\n• Hardware SIMD execution"
+  sql -> cbo -> engine
+}
+
+volcano: "2. Volcano Iterator Model" {
+  direction: up
+  scan: "Table Scan (I/O)\n• Leaf sequential or B-Tree scan"
+  join: "Hash Join Node\n• In-memory build & probe"
+  project: "Projection Node\n• Root operator pulling tuples"
+  scan -> join: "tuples"
+  join -> project: "tuples"
+}
+
+storage: "3. Physical Storage Engine" {
+  row: "Row-Store (OLTP)\n• 8KB slotted disk pages\n• B+Tree point lookups\n• Ideal for ACID CRUD"
+  col: "Columnar-Store (OLAP)\n• Striped column arrays\n• RLE & Dictionary compression\n• SIMD analytical scans"
+}

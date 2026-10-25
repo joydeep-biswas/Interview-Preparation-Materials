@@ -1,0 +1,40 @@
+direction: down
+title: "Enterprise Design Patterns Architecture: End-to-End Orchestration"
+
+ingress: "1. Ingress & API Contract Layer" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  client: "HTTP Client"
+  controller: "Spring RestController"
+  mapper: "MapStruct DTO Mapper"
+
+  client -> controller -> mapper
+}
+
+domain: "2. Business Logic & Coordination" {
+  style.fill: "#1a140b"
+  style.stroke: "#f59e0b"
+
+  facade: "OrderServiceFacade"
+  strategy: "Strategy Pattern
+Map<String, PaymentStrategy>"
+  template: "OrderFulfillmentTemplate
+& Aggregate Root"
+
+  facade -> strategy -> template
+}
+
+persistence: "3. Persistence & Event Boundary" {
+  style.fill: "#062533"
+  style.stroke: "#06b6d4"
+
+  repo: "OrderRepository"
+  db: "PostgreSQL Database"
+  events: "EventPublisher (Observer & Outbox)"
+
+  events -> db -> repo
+}
+
+ingress.controller -> domain.facade: "Delegates"
+domain.template -> persistence.events: "Emits Domain Events"

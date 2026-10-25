@@ -1,0 +1,18 @@
+classes: {
+  cause_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  sym_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+causes: "Anti-Pattern: Cause-Based Alerting" {
+  c_triggers: "CPU > 85%\nDisk IOPS > 1200\nThread Count > 250" { class: cause_box }
+  c_pager: "False Alarm Pager Storm\nWoken at 3 AM for harmless batch job\nCauses alert fatigue" { class: cause_box }
+
+  c_triggers -> c_pager
+}
+
+symptoms: "Best Practice: Symptom-Based Alerting" {
+  s_triggers: "HTTP 5xx Error Rate > SLO\nP99 Checkout Latency > 1.5s\nDrop in completed orders" { class: sym_box }
+  s_pager: "Actionable High-Priority Page\nEngineers paged ONLY when users suffer\nZero noise" { class: sym_box }
+
+  s_triggers -> s_pager
+}

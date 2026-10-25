@@ -1,0 +1,22 @@
+direction: down
+classes: {
+  alert: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+  decision: { shape: diamond; style: { fill: "#1e293b"; stroke: "#fbbf24"; stroke-width: 2 } }
+  ttft: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  itl: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+}
+
+alert: "Alert: p99 Latency > 10,000ms" { class: alert }
+q: "Is Time-to-First-Token
+(TTFT > 3,000ms)?" { class: decision }
+
+ttft_box: "TTFT Bottlenecks (Prefill)
+1. Queue Saturation -> Scale GPU pods
+2. Long Prompt Stalls -> Chunked Prefill" { class: ttft }
+itl_box: "ITL Bottlenecks (Generation)
+1. KV-Cache Thrashing -> PagedAttention
+2. Runaway Response -> max_tokens cap" { class: itl }
+
+alert -> q
+q -> ttft_box: "YES (High TTFT)"
+q -> itl_box: "NO (High ITL)"

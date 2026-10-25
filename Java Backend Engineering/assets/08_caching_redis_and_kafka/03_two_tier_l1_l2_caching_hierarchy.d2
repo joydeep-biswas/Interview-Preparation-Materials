@@ -1,0 +1,18 @@
+direction: right
+title: Two-Tier L1/L2 Caching Pipeline Architecture
+
+App: Application Code
+L1: Tier 1: Local L1 Cache (Caffeine ~50ns) {
+  shape: diamond
+}
+L2: Tier 2: Distributed L2 Cache (Redis ~1ms) {
+  shape: diamond
+}
+DB: Tier 3: Database (PostgreSQL ~20ms)
+
+App -> L1: 1. Check local cache { style.stroke: "#38BDF8" }
+L1 -> App: Hit: Return value (~50ns) { style.stroke: "#10B981" }
+L1 -> L2: Miss: Check Redis { style.stroke: "#F59E0B" }
+L2 -> L1: Hit: Populate L1 and return { style.stroke: "#8B5CF6" }
+L2 -> DB: Miss: Query DB { style.stroke: "#EF4444" }
+DB -> L2: Backfill L2 and L1 { style.stroke: "#34D399" }

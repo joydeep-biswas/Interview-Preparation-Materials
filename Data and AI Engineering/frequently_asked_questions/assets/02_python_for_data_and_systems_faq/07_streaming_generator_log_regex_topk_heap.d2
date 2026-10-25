@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+log: "100 GB Server Log\n/var/log/query_audit.log" { class: box; style.stroke: "#64748B" }
+stream: "1. Line Generator\nBuffer: 64 KB in RAM" { class: box; style.stroke: "#3B82F6" }
+regex: "2. Precompiled Regex\nExtracts table names from queries" { class: box; style.stroke: "#F59E0B" }
+counter: "3. collections.Counter\nO(U) unique tables (&lt; 10 MB RAM)" { class: box; style.stroke: "#10B981" }
+topk: "4. most_common(10)\nHeap-based Top K tables output" { class: box; style.stroke: "#10B981" }
+
+log -> stream -> regex -> counter -> topk

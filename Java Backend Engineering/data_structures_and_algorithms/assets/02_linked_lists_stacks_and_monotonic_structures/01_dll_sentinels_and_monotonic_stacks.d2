@@ -1,0 +1,18 @@
+direction: down
+title: Doubly-Linked Sentinels & Monotonic Stack Architecture
+
+DLL: 1. Doubly-Linked List with Sentinels {
+  Head: "Head Dummy (null <-)"
+  N1: "Node 1 (MRU)"
+  N2: "Node 2 (LRU)"
+  Tail: "Tail Dummy (-> null)"
+  Head <-> N1 <-> N2 <-> Tail
+}
+
+StackCache: 2. Monotonic Stack & LRU Cache {
+  Stack: "Monotonic Stack\n(Base: 9 > Mid: 5 > Top: 3)"
+  Map: "HashMap<Key, Node*>"
+  Map -> DLL.N1: "Direct O(1) pointer lookup"
+}
+
+DLL -> StackCache: O(1) pointer mutations

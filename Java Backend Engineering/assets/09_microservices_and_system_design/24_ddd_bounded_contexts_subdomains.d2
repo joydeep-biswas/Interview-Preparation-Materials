@@ -1,0 +1,29 @@
+direction: right
+title: "Domain-Driven Design (DDD): Strategic Decomposition & Bounded Contexts"
+
+order: "Order Processing Context (Core)
+Customer = 'Purchaser'
+OrderAggregate
+OrderCreatedEvent" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+payment: "Payment & Billing Context
+Customer = 'Payer'
+PaymentTransaction
+PaymentAuthorizedEvent" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+inventory: "Inventory & Warehouse Context
+Customer = 'Consignee'
+StockAllocation
+StockReservedEvent" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+order -> payment: "Async Events (Customer/Supplier)"
+order -> inventory: "Async Events (Customer/Supplier)"

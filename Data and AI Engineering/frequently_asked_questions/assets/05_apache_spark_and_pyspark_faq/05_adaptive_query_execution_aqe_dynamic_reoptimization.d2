@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+s1: "Stage 1 Finishes\nMaterializes intermediate shuffle files" { class: box; style.stroke: "#3B82F6" }
+aqe: "AQE Runtime Evaluator\nInspects true partition byte sizes" { class: box; style.stroke: "#8B5CF6" }
+
+opt1: "1. Coalesce Shuffle Partitions\nMerges tiny post-shuffle partitions to ~64MB target" { class: box; style.stroke: "#10B981" }
+opt2: "2. Dynamic Join Strategy Switch\nConverts Sort-Merge to Broadcast Join if table < 10MB" { class: box; style.stroke: "#06B6D4" }
+opt3: "3. Dynamic Skew Join Splitting\nSplits skewed hot partition into parallel sub-tasks" { class: box; style.stroke: "#F59E0B" }
+
+s1 -> aqe
+aqe -> opt1
+aqe -> opt2
+aqe -> opt3

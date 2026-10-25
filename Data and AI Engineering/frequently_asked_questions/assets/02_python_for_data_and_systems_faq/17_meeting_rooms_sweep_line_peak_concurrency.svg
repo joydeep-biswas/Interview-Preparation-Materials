@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 260" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-g17py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="32" class="title-text">Interval Sweep-Line: Peak Concurrent Fleet Sizing</text>
+
+  <!-- Step 1 -->
+  <rect x="30" y="65" width="220" height="165" class="card card-blue"/>
+  <text x="140" y="92" class="card-title" fill="#93C5FD">Raw Delivery Windows</text>
+  <text x="45" y="120" class="card-body">• Order 1: [10, 30]</text>
+  <text x="45" y="145" class="card-body">• Order 2: [20, 40]</text>
+  <text x="45" y="170" class="card-body">• Order 3: [25, 35]</text>
+  <text x="45" y="195" class="card-body">• Total: 3 Orders</text>
+
+  <!-- Step 2 -->
+  <rect x="290" y="65" width="360" height="165" class="card card-green"/>
+  <text x="470" y="92" class="card-title" fill="#6EE7B7">Sweep-Line Timeline</text>
+  <text x="310" y="117" class="card-body">• t=10: (+1) -&gt; Active: 1</text>
+  <text x="310" y="137" class="card-body">• t=20: (+1) -&gt; Active: 2</text>
+  <text x="310" y="157" class="card-body" fill="#FDE68A">• t=25: (+1) -&gt; Active: 3 (PEAK CONCURRENCY!)</text>
+  <text x="310" y="177" class="card-body">• t=30: (-1) -&gt; Active: 2</text>
+  <text x="310" y="197" class="card-body">• t=35: (-1) -&gt; Active: 1 | t=40: (-1) -&gt; Active: 0</text>
+
+  <!-- Step 3 -->
+  <rect x="690" y="65" width="240" height="165" class="card card-green"/>
+  <text x="810" y="92" class="card-title" fill="#6EE7B7">Fleet Sizing Result</text>
+  <text x="705" y="125" class="card-body" fill="#34D399">• Peak Concurrent = 3</text>
+  <text x="705" y="150" class="card-body">• Window = [25, 30]</text>
+  <text x="705" y="175" class="card-body">• Min Drivers Required = 3</text>
+  <text x="705" y="200" class="card-body" fill="#34D399">• O(N log N) Sort &amp; Scan</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 250 147 L 290 147" class="edge edge-green" marker-end="url(#arr-g17py)"/>
+  <path fill="none" d="M 650 147 L 690 147" class="edge edge-green" marker-end="url(#arr-g17py)"/>
+</svg>

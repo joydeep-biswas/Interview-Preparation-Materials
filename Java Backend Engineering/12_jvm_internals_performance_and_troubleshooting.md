@@ -6,35 +6,9 @@ A comprehensive, production-grade guide to JVM runtime data areas, ClassLoaders,
 
 ## Architectural Overview: JVM Runtime Architecture
 
-```mermaid
-flowchart TD
-    subgraph ClassLoader_Subsystem ["1. ClassLoader Subsystem"]
-        Bootstrap["Bootstrap ClassLoader (lib/modules)"] --> Extension["Platform ClassLoader"]
-        Extension --> Application["Application ClassLoader (Classpath)"]
-    end
+![JVM Runtime Architecture Overview](assets/12_jvm_internals_performance_and_troubleshooting/01_jvm_runtime_architecture_overview.svg)
 
-    subgraph Runtime_Data_Areas ["2. JVM Memory & Runtime Data Areas"]
-        direction LR
-        Heap["Heap (Young Gen: Eden/Surv + Old Gen)"]
-        Meta["Metaspace (Off-Heap Class Metadata)"]
-        Stacks["Thread Stacks (Stack Frames, Local Vars, Operand Stack)"]
-        CodeCache["Code Cache (JIT Compiled Native Code)"]
-    end
-
-    subgraph Execution_Engine ["3. Execution Engine & Garbage Collectors"]
-        direction LR
-        Interpreter["Bytecode Interpreter"]
-        JIT["Tiered JIT (C1 / C2 Compilers)"]
-        GC["GC Algorithms (G1, ZGC, Shenandoah)"]
-    end
-
-    ClassLoader_Subsystem --> Runtime_Data_Areas
-    Runtime_Data_Areas --> Execution_Engine
-
-    style ClassLoader_Subsystem fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Runtime_Data_Areas fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Execution_Engine fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/01_jvm_runtime_architecture_overview.d2](assets/12_jvm_internals_performance_and_troubleshooting/01_jvm_runtime_architecture_overview.d2)
 
 ---
 
@@ -221,21 +195,9 @@ public class DynamicCalculatorGenerator {
 
 ### 1.3 The ClassLoader Subsystem & Parent Delegation Model
 
-```mermaid
-flowchart TD
-    AppCL["Application / System ClassLoader<br/>(Classpath, App JARs, dependencies)"]
-    -->|"1. Delegates UP"| PlatCL["Platform ClassLoader (formerly Extension)<br/>(JDK platform modules, java.sql, etc.)"]
-    PlatCL -->|"2. Delegates UP"| BootCL["Bootstrap ClassLoader (C++ Native Core)<br/>(java.base, java.lang.*, rt.jar)"]
+![ClassLoader Parent Delegation Model](assets/12_jvm_internals_performance_and_troubleshooting/02_classloader_parent_delegation_model.svg)
 
-    BootCL -.->|"3. If not found in java.base, searches DOWN"| PlatCL
-    PlatCL -.->|"4. If not found, searches DOWN"| AppCL
-    AppCL -.->|"5. If not found, throws"| CNF["ClassNotFoundException"]
-
-    style AppCL fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style PlatCL fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style BootCL fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CNF fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/02_classloader_parent_delegation_model.d2](assets/12_jvm_internals_performance_and_troubleshooting/02_classloader_parent_delegation_model.d2)
 
 #### The 3 Stages of Class Loading:
 1. **Loading**:
@@ -324,29 +286,9 @@ In application servers (Tomcat, WebLogic), deploying and undeploying web applica
 
 The JVM Heap is the shared memory pool holding all active object instances and arrays:
 
-```mermaid
-flowchart LR
-    subgraph YoungGen ["Young Generation (Frequent, Fast Minor GCs)"]
-        Eden["Eden Space (New object allocations)"]
-        S0["Survivor 0 (From)"]
-        S1["Survivor 1 (To)"]
-    end
+![JVM Heap Memory Generations Layout](assets/12_jvm_internals_performance_and_troubleshooting/03_jvm_heap_generations_memory_layout.svg)
 
-    subgraph OldGen ["Old / Tenured Generation (Major / Full GCs)"]
-        Tenured["Tenured Space<br/>(Long-lived domain entities, singletons, caches)"]
-    end
-
-    Eden -->|"Survives Minor GC (Age=1)"| S0
-    S0 <-->|"Alternates copying on each Minor GC"| S1
-    S0 -->|"Age >= -XX:MaxTenuringThreshold (Default: 15)"| Tenured
-
-    style YoungGen fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style OldGen fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Eden fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S0 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Tenured fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/03_jvm_heap_generations_memory_layout.d2](assets/12_jvm_internals_performance_and_troubleshooting/03_jvm_heap_generations_memory_layout.d2)
 
 #### Thread-Local Allocation Buffers (TLAB):
 In high-throughput enterprise systems with hundreds of concurrent threads, multiple threads allocating objects simultaneously on the shared heap would create massive lock contention.
@@ -357,29 +299,9 @@ In high-throughput enterprise systems with hundreds of concurrent threads, multi
 #### Object Layout in Heap Memory (JOL - Java Object Layout):
 Every object instance stored on the JVM heap consists of three distinct segments:
 
-```mermaid
-flowchart TD
-    subgraph ObjectLayout ["HotSpot Heap: Java Object Layout (JOL)"]
-        direction TB
-        subgraph Header ["Object Header (12B to 16B)"]
-            direction LR
-            MW["Mark Word (64b / 8B)<br/>HashCode · GC Age · Biased · Lock Bits"]
-            KW["Klass Word (32b / 4B Compressed)<br/>Points to Metaspace InstanceKlass"]
-            AL["Array Length (32b / 4B)<br/>Present only in array instances"]
-        end
-        ID["Instance Fields Data (Variable Size)<br/>Primitive fields and reference pointers (Compressed OOPs)"]
-        PAD["Padding (0 to 7 Bytes)<br/>Rounds total object size to 8-byte boundary"]
-        Header --> ID --> PAD
-    end
+![HotSpot Java Object Layout Header](assets/12_jvm_internals_performance_and_troubleshooting/04_hotspot_object_header_jol.svg)
 
-    style ObjectLayout fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Header fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style MW fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style KW fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style AL fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ID fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style PAD fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#94a3b8
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/04_hotspot_object_header_jol.d2](assets/12_jvm_internals_performance_and_troubleshooting/04_hotspot_object_header_jol.d2)
 
 | Object Layout Segment | Bit / Byte Width | Lock State / Encoding Rules |
 | :--- | :---: | :--- |
@@ -413,23 +335,9 @@ Modern CPUs transfer memory between RAM and L1/L2 caches in **64-byte Cache Line
 
 Each active Java thread possesses its own private execution stack. Every method invocation pushes a new **Stack Frame**, which is popped when the method returns or throws an unhandled exception:
 
-```mermaid
-flowchart TD
-    subgraph StackFrame ["JVM Thread Stack Frame Architecture"]
-        direction TB
-        LVA["1. Local Variables Array (LVA)<br/>(Slot 0: 'this' reference pointer (non-static methods); Slots 1..N: Method parameters & local variables (32-bit = 1 slot, 64-bit long/double = 2 slots))"]
-        OS["2. Operand Stack (LIFO Scratchpad)<br/>(Pushes variables (iload, aload), evaluates bytecode opcodes (iadd, invokevirtual), pops results)"]
-        FD["3. Frame Data & Control Links<br/>(Dynamic Linking: Pointer to Metaspace Runtime Constant Pool, Normal Method Completion Return PC (Program Counter), Exception Dispatch & Catch Handling Table)"]
-        LVA -->|"iload_1: Push Variable"| OS
-        OS -->|"istore_2: Store Result"| LVA
-        OS <-->|"invokevirtual: Dynamic Linking & Return PC"| FD
-    end
+![JVM Thread Stack Frame Architecture](assets/12_jvm_internals_performance_and_troubleshooting/05_jvm_stack_frame_internals.svg)
 
-    style StackFrame fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LVA fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style OS fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style FD fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/05_jvm_stack_frame_internals.d2](assets/12_jvm_internals_performance_and_troubleshooting/05_jvm_stack_frame_internals.d2)
 
 | Frame Subsystem | Data Structure / Sizing | Low-Level JVM Mechanics & Execution Invariants |
 | :--- | :---: | :--- |
@@ -458,18 +366,9 @@ Java 8 completely removed PermGen, replacing it with **Metaspace**:
 
 HotSpot utilizes **Tiered Compilation** (`-XX:+TieredCompilation`, enabled by default):
 
-```mermaid
-flowchart TD
-    Tier0["Tier 0: Bytecode Interpreter<br/>(Zero compilation lag, gathers profiling telemetry)"]
-    -->|"Method invocation threshold exceeded"| Tier1["Tier 1-3: C1 Client Compiler<br/>(Fast compilation with basic profiling instrumentation)"]
-    Tier1 -->|"Peak optimization threshold reached"| Tier4["Tier 4: C2 Server Compiler<br/>(Aggressive optimizations: Escape Analysis, Inlining, Loop Unrolling)"]
-    Tier4 --> CodeCache[("Code Cache (Native Assembly RAM)")]
+![HotSpot Tiered Compilation Execution Path](assets/12_jvm_internals_performance_and_troubleshooting/06_tiered_compilation_interpreter_c1_c2.svg)
 
-    style Tier0 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Tier1 fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Tier4 fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style CodeCache fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/06_tiered_compilation_interpreter_c1_c2.d2](assets/12_jvm_internals_performance_and_troubleshooting/06_tiered_compilation_interpreter_c1_c2.d2)
 
 * **Method Inlining**: C2 replaces method calls with the actual method bytecode, eliminating call stack overhead.
 * **Dead Code Elimination & Loop Unrolling**: Removes unreachable conditional branches and unrolls loops for SIMD vectorization.
@@ -503,33 +402,9 @@ Therefore, segregating memory into **Young Generation** (collected frequently wi
 
 Java uses **Tracing Garbage Collection** based on **GC Roots Reachability**:
 
-```mermaid
-flowchart TD
-    subgraph Roots ["GC Root Set"]
-        R1["Active Thread Stack Frames (Local Variables)"]
-        R2["Static Variables in Metaspace"]
-        R3["JNI Native Method Pointers"]
-        R4["JVM System Classes & Synchronization Monitors"]
-    end
+![HotSpot GC Reachability Analysis & Root Sets](assets/12_jvm_internals_performance_and_troubleshooting/07_gc_roots_reachability_graph.svg)
 
-    R1 --> A["Live Object A"]
-    A --> B["Live Object B"]
-    B --> C["Live Object C"]
-
-    subgraph DeadIsland ["Unreachable Island of Isolation (Dead Objects)"]
-        D["Object D"] <--> E["Object E"]
-    end
-
-    Roots -.-> DeadIsland
-
-    style Roots fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style A fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style C fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DeadIsland fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style D fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style E fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/07_gc_roots_reachability_graph.d2](assets/12_jvm_internals_performance_and_troubleshooting/07_gc_roots_reachability_graph.d2)
 
 * An object is alive if and only if there is an unbroken chain of references from at least one **GC Root**.
 * Notice that Objects D and E point to each other in a circular reference. Under primitive **Reference Counting**, their reference count is 1, so they would never be collected (a severe memory leak). Under HotSpot's **Reachability Analysis**, because no GC Root reaches them, they are reclaimed cleanly!
@@ -560,39 +435,9 @@ flowchart TD
 
 ### 3.5 Deep-Dive into Modern Collectors: G1, ZGC, Shenandoah, and Parallel
 
-```mermaid
-flowchart TD
-    GCs["<b>HotSpot Garbage Collectors</b><br/>Java Virtual Machine memory management"]
+![HotSpot Garbage Collector Comparison Matrix](assets/12_jvm_internals_performance_and_troubleshooting/08_garbage_collectors_comparison.svg)
 
-    subgraph ThroughputZone ["Throughput-Optimized (Batch Jobs)"]
-        direction TB
-        Parallel["<b>Parallel GC</b> (-XX:+UseParallelGC)<br/>Max throughput, stop-the-world pauses acceptable"]
-    end
-
-    subgraph LowLatencyZone ["Low-Latency & Balance (General Web APIs)"]
-        direction TB
-        G1["<b>G1 GC</b> (-XX:+UseG1GC)<br/>Default since Java 9; regional incremental compaction"]
-    end
-
-    subgraph UltraLowLatencyZone ["Sub-Millisecond Pauses (Large Heaps > 32GB)"]
-        direction TB
-        ZGC["<b>ZGC</b> (-XX:+UseZGC)<br/>Generational in Java 21; concurrent color pointers"]
-        Shenandoah["<b>Shenandoah GC</b> (-XX:+UseShenandoahGC)<br/>Concurrent Brooks forwarding pointers"]
-    end
-
-    GCs --> ThroughputZone
-    GCs --> LowLatencyZone
-    GCs --> UltraLowLatencyZone
-
-    style GCs fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style ThroughputZone fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LowLatencyZone fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style UltraLowLatencyZone fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Parallel fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style G1 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style ZGC fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Shenandoah fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/08_garbage_collectors_comparison.d2](assets/12_jvm_internals_performance_and_troubleshooting/08_garbage_collectors_comparison.d2)
 
 #### 1. Garbage-First (G1) GC Internals
 G1 splits the Heap into ~2048 dynamically assigned regions (ranging from 1 MB to 32 MB each, power of 2):
@@ -613,27 +458,9 @@ Finalized in Java 21 (JEP 439), Generational ZGC achieves **sub-millisecond maxi
 * **Colored Pointers (Reference Metadata Embedding)**:
   ZGC uses reference pointers where the lower 44 bits hold the object's virtual memory address (supporting 16 TB address space), and the upper bits encode GC state flags:
 
-```mermaid
-flowchart LR
-    subgraph PointerLayout ["ZGC 64-bit Colored Pointer Bitmask Layout"]
-        direction LR
-        Unused["Bits 48-63: Unused / Reserved (16 bits)"]
-        Finalizable["Bit 47: Finalizable (1 bit)"]
-        Remapped["Bit 46: Remapped (1 bit)"]
-        Marked1["Bit 45: Marked1 (1 bit)"]
-        Marked0["Bit 44: Marked0 (1 bit)"]
-        Address["Bits 0-43: Object Virtual Address (44 bits = 16 TB Max Heap)"]
-        Unused --- Finalizable --- Remapped --- Marked1 --- Marked0 --- Address
-    end
+![ZGC Colored Pointer Bitmask & Load Barrier](assets/12_jvm_internals_performance_and_troubleshooting/09_zgc_colored_pointers_bitmask.svg)
 
-    style PointerLayout fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Unused fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#94a3b8
-    style Finalizable fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Remapped fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Marked1 fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-    style Marked0 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Address fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/09_zgc_colored_pointers_bitmask.d2](assets/12_jvm_internals_performance_and_troubleshooting/09_zgc_colored_pointers_bitmask.d2)
 
 | Bit Position | Bit Flag / Field Name | Width | Architectural Function in ZGC Relocation & Marking |
 | :---: | :--- | :---: | :--- |
@@ -913,26 +740,9 @@ Classic Java I/O (`java.io`) is **stream-oriented and synchronous/blocking**:
 
 Java NIO (`java.nio`) introduces **buffer-oriented, non-blocking I/O multiplexing**:
 
-```mermaid
-flowchart TD
-    subgraph MultiplexerEngine ["Java NIO Multiplexed Event Engine"]
-        Ch1["SocketChannel 1"]
-        Ch2["SocketChannel 2"]
-        Ch3["SocketChannel 3"]
+![Java NIO Selector Multiplexing Architecture](assets/12_jvm_internals_performance_and_troubleshooting/10_java_nio_multiplexing_selector.svg)
 
-        Selector["NIO Selector (Linux epoll / macOS kqueue)<br/>Monitors OP_READ, OP_WRITE, OP_ACCEPT"]
-        DispatcherThread["Single Event Dispatcher Thread"]
-    end
-
-    Ch1 -->|Registers with| Selector
-    Ch2 -->|Registers with| Selector
-    Ch3 -->|Registers with| Selector
-    Selector -->|"selector.select() returns ready channels"| DispatcherThread
-
-    style MultiplexerEngine fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Selector fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style DispatcherThread fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/10_java_nio_multiplexing_selector.d2](assets/12_jvm_internals_performance_and_troubleshooting/10_java_nio_multiplexing_selector.d2)
 
 1. **Channels**: Open connections to hardware devices, files, or network sockets (`SocketChannel`, `ServerSocketChannel`). Channels are bidirectional (can both read and write).
 2. **Buffers**: Data containers (`ByteBuffer`). Operations revolve around 3 pointers:
@@ -952,20 +762,9 @@ flowchart TD
 * **Zero-Copy Transfer (`FileChannel.transferTo`)**:
   Leverages the Linux kernel `sendfile()` system call. Bytes transfer directly from disk cache to the network socket buffer **inside kernel space**, bypassing user-space RAM entirely!
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Disk as Physical Disk Cache
-    participant Kernel as OS Kernel Buffer
-    participant Socket as Network Socket Buffer
-    participant NIC as Network Interface Card
+![Zero-Copy Transfer Architecture vs Traditional IO](assets/12_jvm_internals_performance_and_troubleshooting/11_zero_copy_sendfile_kernel_bypass.svg)
 
-    Note over Disk,NIC: ZERO-COPY TRANSFER (FileChannel.transferTo)
-    Disk->>Kernel: DMA copy file data to OS page cache
-    Kernel->>Socket: Kernel passes descriptor references (Zero CPU data copy!)
-    Socket->>NIC: DMA gathers data directly to network card!
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/11_zero_copy_sendfile_kernel_bypass.d2](assets/12_jvm_internals_performance_and_troubleshooting/11_zero_copy_sendfile_kernel_bypass.d2)
 
 ---
 

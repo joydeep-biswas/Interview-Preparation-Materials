@@ -1,0 +1,35 @@
+direction: right
+
+creation: "1. Creation & DI" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  instantiate: "Constructor reflection"
+  populate: "Populate properties & @Autowired"
+  aware: "Aware interfaces (setBeanName, setContext)"
+}
+
+init: "2. Initialization" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  bpp_before: "postProcessBeforeInitialization()"
+  post_construct: "@PostConstruct & afterPropertiesSet()"
+  bpp_after: "postProcessAfterInitialization() [AOP Proxy!]"
+}
+
+active: "3. Ready in Service" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  registry: "Stored in singletonObjects cache"
+  serving: "Handles concurrent requests"
+}
+
+destruction: "4. Destruction" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  close: "context.close() on shutdown"
+  pre_destroy: "@PreDestroy & DisposableBean.destroy()"
+}
+
+creation -> init: "Properties injected"
+init -> active: "AOP proxy ready"
+active -> destruction: "Application stops"

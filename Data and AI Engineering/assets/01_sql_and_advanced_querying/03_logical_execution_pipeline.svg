@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="430" viewBox="0 0 1180 430">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1180" height="430" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">The 9-Stage Logical Execution Pipeline</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">ANSI SQL logical evaluation order: Why syntactic order differs completely from operational processing</text>
+
+  <!-- 3 Logical Tiers (Heights matched to internal items) -->
+
+  <!-- Tier 1: Ingestion &amp; Row Filtering (Stages 1-2) -->
+  <g transform="translate(30, 80)">
+    <rect width="360" height="310" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
+    <text x="180" y="28" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">Tier 1: Ingestion &amp; Row Filtering</text>
+
+    <!-- Stage 1 -->
+    <rect x="15" y="45" width="330" height="110" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
+    <text x="180" y="70" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Stage 1: FROM &amp; JOIN</text>
+    <text x="30" y="93" font-size="11" fill="#94A3B8" text-anchor="start">• Identifies base tables &amp; external sources</text>
+    <text x="30" y="112" font-size="11" fill="#94A3B8" text-anchor="start">• Evaluates ON join predicates &amp; Cartesian sets</text>
+    <text x="30" y="131" font-size="11" fill="#94A3B8" text-anchor="start">• Produces initial working table VT1</text>
+
+    <!-- Stage 2 -->
+    <rect x="15" y="180" width="330" height="110" rx="6" fill="#1C2541" stroke="#EF4444" stroke-width="1.2"/>
+    <text x="180" y="205" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Stage 2: WHERE</text>
+    <text x="30" y="228" font-size="11" fill="#FCA5A5" text-anchor="start">• Applies row-level boolean predicates</text>
+    <text x="30" y="247" font-size="11" fill="#FCA5A5" text-anchor="start">• Discards non-matching rows (Produces VT2)</text>
+    <text x="30" y="266" font-size="11" fill="#EF4444" font-weight="600" text-anchor="start">⚠️ Cannot access SELECT aliases or window funcs!</text>
+
+    <path d="M 180 155 L 180 178" fill="none" stroke="#3B82F6" stroke-width="2" marker-end="url(#arr-b)"/>
+  </g>
+
+  <!-- Flow 1 to 2 -->
+  <path d="M 390 235 L 418 235" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+
+  <!-- Tier 2: Grouping &amp; Analytical Functions (Stages 3-5) -->
+  <g transform="translate(420, 80)">
+    <rect width="360" height="310" rx="8" fill="#2E1C05" stroke="#F59E0B" stroke-width="2"/>
+    <text x="180" y="28" font-size="13" font-weight="700" fill="#FDE68A" text-anchor="middle">Tier 2: Aggregation &amp; Analytics</text>
+
+    <!-- Stage 3 -->
+    <rect x="15" y="42" width="330" height="70" rx="6" fill="#451A03" stroke="#F59E0B" stroke-width="1.2"/>
+    <text x="180" y="64" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Stage 3: GROUP BY</text>
+    <text x="30" y="84" font-size="11" fill="#FDE68A" text-anchor="start">• Collapses rows into distinct key buckets (VT3)</text>
+    <text x="30" y="100" font-size="11" fill="#FDE68A" text-anchor="start">• Non-grouped columns now require aggregate wrapper</text>
+
+    <!-- Stage 4 -->
+    <rect x="15" y="127" width="330" height="75" rx="6" fill="#451A03" stroke="#F59E0B" stroke-width="1.2"/>
+    <text x="180" y="150" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Stage 4: HAVING</text>
+    <text x="30" y="171" font-size="11" fill="#FDE68A" text-anchor="start">• Filters aggregated buckets (COUNT, SUM &gt; val)</text>
+    <text x="30" y="188" font-size="11" fill="#FDE68A" text-anchor="start">• Discards entire groups failing condition (VT4)</text>
+
+    <!-- Stage 5 -->
+    <rect x="15" y="217" width="330" height="75" rx="6" fill="#451A03" stroke="#10B981" stroke-width="1.2"/>
+    <text x="180" y="240" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Stage 5: WINDOW (OVER)</text>
+    <text x="30" y="261" font-size="11" fill="#A7F3D0" text-anchor="start">• Evaluates OVER (PARTITION BY ... ORDER BY ...)</text>
+    <text x="30" y="278" font-size="11" fill="#A7F3D0" text-anchor="start">• Preserves row identity; appends analytic metrics</text>
+
+    <path d="M 180 112 L 180 125" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+    <path d="M 180 202 L 180 215" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+  </g>
+
+  <!-- Flow 2 to 3 -->
+  <path d="M 780 235 L 808 235" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Tier 3: Projection &amp; Output Shaping (Stages 6-9) -->
+  <g transform="translate(810, 80)">
+    <rect width="340" height="310" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <text x="170" y="28" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">Tier 3: Projection &amp; Shaping</text>
+
+    <!-- Stage 6 -->
+    <rect x="15" y="42" width="310" height="55" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+    <text x="170" y="63" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Stage 6: SELECT</text>
+    <text x="25" y="82" font-size="11" fill="#A7F3D0" text-anchor="start">• Evaluates expressions &amp; column aliases (VT6)</text>
+
+    <!-- Stage 7 -->
+    <rect x="15" y="107" width="310" height="55" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+    <text x="170" y="128" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Stage 7: DISTINCT</text>
+    <text x="25" y="147" font-size="11" fill="#A7F3D0" text-anchor="start">• Deduplicates materialized projection rows (VT7)</text>
+
+    <!-- Stage 8 -->
+    <rect x="15" y="172" width="310" height="55" rx="6" fill="#064E3B" stroke="#8B5CF6" stroke-width="1.2"/>
+    <text x="170" y="193" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Stage 8: ORDER BY</text>
+    <text x="25" y="212" font-size="11" fill="#C4B5FD" text-anchor="start">• Sorts surviving rows (O(N log N) cost) (VT8)</text>
+
+    <!-- Stage 9 -->
+    <rect x="15" y="237" width="310" height="55" rx="6" fill="#064E3B" stroke="#3B82F6" stroke-width="1.2"/>
+    <text x="170" y="258" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Stage 9: LIMIT / OFFSET</text>
+    <text x="25" y="277" font-size="11" fill="#93C5FD" text-anchor="start">• Paginates final rows for network return (VT9)</text>
+
+    <path d="M 170 97 L 170 105" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 170 162 L 170 170" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-p)"/>
+    <path d="M 170 227 L 170 235" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  </g>
+</svg>

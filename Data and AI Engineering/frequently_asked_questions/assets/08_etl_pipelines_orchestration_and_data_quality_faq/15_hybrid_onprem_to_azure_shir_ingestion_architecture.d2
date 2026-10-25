@@ -1,0 +1,29 @@
+direction: right
+classes: {
+  onprem_box: { style: { fill: "#0D1526", stroke: "#64748B" } }
+  azure_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+OnPremDatacenter: "On-Premises Datacenter" {
+  class: onprem_box
+  SQL1: "SQL DB: ERP" { class: card_dark }
+  SQL2: "SQL DB: CRM" { class: card_dark }
+  SQL3: "SQL DB: Inventory" { class: card_dark }
+  SHIR: "Self-Hosted IR (SHIR)\n• HA 4-Node Cluster\n• Outbound 443 only" { class: card_dark }
+
+  SQL1 -> SHIR
+  SQL2 -> SHIR
+  SQL3 -> SHIR
+}
+
+AzureCloud: "Microsoft Azure Cloud" {
+  class: azure_box
+  ADF: "Azure Data Factory\n• Parameterized Ingestion" { class: card_dark }
+  ADLS: "ADLS Gen2 Bronze\n• Parquet staging" { class: card_dark }
+  Synapse: "Synapse Dedicated Pool\n• COPY INTO / PolyBase" { class: card_dark }
+
+  ADF -> ADLS -> Synapse
+}
+
+OnPremDatacenter.SHIR -> AzureCloud.ADF: "ExpressRoute / TLS"

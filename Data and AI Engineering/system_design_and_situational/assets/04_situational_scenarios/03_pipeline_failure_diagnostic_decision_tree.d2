@@ -1,0 +1,45 @@
+direction: down
+
+root: "Pipeline Failed / Breached SLA" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  check: "Diagnostic Check: Where is failure logged?"
+}
+
+infra: "Suspect: Infrastructure Layer" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  err: "ExecutorLostFailure, OOMKilled Exit 137"
+  fix: "Increase memory overhead, on-demand nodes"
+}
+
+data: "Suspect: Data & Schema Layer" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  err: "CastError, Schema Mismatch, NPE"
+  fix: "Quarantine to DLQ, Enforce Data Contracts"
+}
+
+skew: "Suspect: Data Skew / Stragglers" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  err: "Single Task hangs for 45m then OOMs"
+  fix: "Enable AQE Skew Join, Salt Hotspot Keys"
+}
+
+root -> infra: "Node Evicted / Exit 137" {
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+}
+root -> data: "Schema Mismatch / Parse Failure" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+root -> skew: "Straggler Task / Skewed Partition" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}

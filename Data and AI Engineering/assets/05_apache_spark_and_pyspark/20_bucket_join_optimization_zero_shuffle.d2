@@ -1,0 +1,20 @@
+direction: right
+title: Bucket Join Optimization: Zero Shuffle
+
+Storage: Pre-Bucketed Storage (32 Buckets on customer_id) {
+  style.stroke: "#22D3EE"
+  FactTable: fact_orders (Buckets 0..31 sorted)
+  DimTable: dim_customers (Buckets 0..31 sorted)
+}
+
+JoinExecution: Co-Located Join Execution (Zero Shuffle) {
+  style.stroke: "#34D399"
+  Task0: Task 0: SMJ(Fact Bucket 0, Dim Bucket 0)
+  Task1: Task 1: SMJ(Fact Bucket 1, Dim Bucket 1)
+  TaskN: Task 31: SMJ(Fact Bucket 31, Dim Bucket 31)
+}
+
+Storage.FactTable -> JoinExecution.Task0: Local Bucket Read { style.stroke: "#34D399" }
+Storage.DimTable -> JoinExecution.Task0: Local Bucket Read { style.stroke: "#34D399" }
+Storage.FactTable -> JoinExecution.Task1: Local Bucket Read { style.stroke: "#34D399" }
+Storage.DimTable -> JoinExecution.Task1: Local Bucket Read { style.stroke: "#34D399" }

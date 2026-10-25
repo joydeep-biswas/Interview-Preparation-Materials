@@ -1,0 +1,33 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+oom: "OutOfMemoryError Detected" { class: box; style.stroke: "#EF4444" }
+type: "Driver or Executor OOM?" { class: box; style.stroke: "#F59E0B" }
+
+driver_fix: "Driver OOM Root Cause\ncollect(), oversized broadcast, or huge lineage.\nFix: take(10) instead of collect(); bump spark.driver.memory." {
+  class: box
+  style.stroke: "#3B82F6"
+}
+
+skew_fix: "Executor OOM: Data Skew\nOne hot partition too large for executor core.\nFix: Salting, AQE skew join, broadcast hash join." {
+  class: box
+  style.stroke: "#EF4444"
+}
+
+shuffle_fix: "Executor OOM: Heavy Shuffle Spill\nFix: Increase spark.sql.shuffle.partitions\nor enable Tungsten off-heap memory." {
+  class: box
+  style.stroke: "#8B5CF6"
+}
+
+gc_fix: "Executor OOM: GC Thrashing\nFix: Switch to G1GC, reduce executor cores from 8 to 4-5." {
+  class: box
+  style.stroke: "#10B981"
+}
+
+oom -> type
+type -> driver_fix: "Driver Failure"
+type -> skew_fix: "Data Skew (Straggler)"
+type -> shuffle_fix: "Shuffle Spill"
+type -> gc_fix: "GC Thrashing"

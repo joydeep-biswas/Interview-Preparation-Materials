@@ -1,0 +1,21 @@
+direction: right
+title: Delta Lake Time Travel & Checkpoint Reconstruction
+
+Timeline: Historical Delta Log Timeline {
+  style.stroke: "#38BDF8"
+  Commits09: 0.json .. 9.json (Early commits)
+  Check10: 10.checkpoint.parquet (Consolidated Snapshot v10)
+  Commits1112: 11.json -> 12.json (Recent changes)
+  Head12: Head Snapshot (Version 12)
+
+  Commits09 -> Check10 -> Commits1112 -> Head12
+}
+
+TimeTravel: Time Travel Production Capabilities {
+  style.stroke: "#C084FC"
+  QueryVer: VERSION AS OF 10 (Replays Checkpoint 10 directly)
+  QueryTime: TIMESTAMP AS OF '2023-10-25' (Resolves historical timestamp)
+  Restore: RESTORE TABLE TO VERSION AS OF 10 (Instant Zero-Copy Disaster Recovery)
+}
+
+Timeline.Check10 -> TimeTravel.QueryVer: Direct resolution { style.stroke: "#34D399" }

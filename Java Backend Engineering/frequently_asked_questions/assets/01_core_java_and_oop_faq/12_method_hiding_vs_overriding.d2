@@ -1,0 +1,22 @@
+direction: right
+
+hiding: "Method Hiding (static methods)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  bytecode: "invokestatic (Compile-Time Resolution)"
+  rule: "Bound to declared Reference Type"
+}
+
+overriding: "Method Overriding (instance methods)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  bytecode: "invokevirtual (Runtime vtable Dispatch)"
+  rule: "Bound to actual Heap Object Type"
+}
+
+hiding -> overriding: "Compare Mechanics" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

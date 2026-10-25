@@ -1,0 +1,35 @@
+direction: down
+title: "Single Responsibility Principle (SRP): Cohesive Decomposition"
+
+processor: "OrderProcessor
+Single Responsibility: Orchestration
+processOrder(request)" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+val: "OrderValidator
+Validation rules" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+repo: "OrderRepository
+Persistence rules" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+pay: "PaymentGatewayClient
+Stripe API integration" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+notif: "NotificationService
+Customer receipts" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+
+processor -> val: "1. validates"
+processor -> repo: "2. saves"
+processor -> pay: "3. charges"
+processor -> notif: "4. notifies"

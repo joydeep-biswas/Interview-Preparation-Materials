@@ -6,38 +6,9 @@ A comprehensive guide answering all 26 questions on microservice patterns, Domai
 
 ## Architectural Overview: Production Microservices Reference Architecture
 
-```mermaid
-flowchart TD
-    Client["Clients (Mobile / Web)"] -->|"HTTPS"| Gateway["API Gateway"]
-    
-    subgraph ControlPlane["Control Plane & Observability"]
-        Registry["Service Registry (Consul / Eureka)"]
-        Trace["Distributed Tracing (OpenTelemetry)"]
-    end
+![Edge API Gateway Architecture](assets/09_microservices_and_system_design_faq/01_microservices_edge_api_gateway_architecture.svg)
 
-    subgraph ServiceMesh["Microservices Mesh"]
-        AuthSvc["Auth Service (JWT / OAuth2)"]
-        OrderSvc["Order Service (Outbox Pattern)"]
-        PaymentSvc["Payment Service (Idempotent)"]
-    end
-
-    subgraph EventStream["Distributed Event Bus"]
-        Kafka[("Apache Kafka Cluster")]
-    end
-
-    Gateway --> Registry
-    Gateway --> OrderSvc
-    OrderSvc -->|"Writes Outbox & Emits"| Kafka
-    Kafka -->|"Consumes Event"| PaymentSvc
-    OrderSvc -.-> Trace
-    PaymentSvc -.-> Trace
-
-    style Client fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Gateway fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style ControlPlane fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style ServiceMesh fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style EventStream fill:#3b0764,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-```
+*D2 Source:* [assets/09_microservices_and_system_design_faq/01_microservices_edge_api_gateway_architecture.d2](assets/09_microservices_and_system_design_faq/01_microservices_edge_api_gateway_architecture.d2)
 
 ---
 
@@ -240,30 +211,9 @@ Maintain a 5-minute sliding window over event amounts. Calculate running Mean ($
 #### Architectural Overview
 When defending APIs against abusive clients, a distributed Token Bucket or Sliding Window algorithm tracks client request rates in Redis via atomic Lua scripts. If Redis becomes unreachable (network partition or outage), the system must **fail open or degrade gracefully** to an in-memory local cache (Caffeine / Guava) rather than dropping 100% of legitimate client traffic:
 
-```mermaid
-flowchart TD
-    Client["<b>Inbound Client Request</b>"] --> RLFilter["<b>Rate Limiter Gateway Filter</b>"]
+![Token Bucket vs Leaky Bucket Rate Limiting](assets/09_microservices_and_system_design_faq/02_token_bucket_vs_leaky_bucket_rate_limiting.svg)
 
-    subgraph PrimaryRateLimitZone ["Primary Enforcement: Distributed Redis"]
-        direction TB
-        RLFilter <-->|"1. Check Tokens via Lua Script"| RedisCluster[("<b>Redis Cluster</b><br/>Atomic token deduction")]
-    end
-
-    subgraph CircuitBreakerFallbackZone ["Resilience: Circuit Breaker & Fallback"]
-        direction LR
-        Circuit["<b>Resilience4j Circuit Breaker</b><br/>Trips open on Redis socket timeout"] --> FailOpen["<b>Fail-Open Strategy</b><br/>Degrade gracefully; bypass rate limiting to protect user SLA"]
-    end
-
-    RedisCluster -.->|"Timeout / Exception"| Circuit
-
-    style Client fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style RLFilter fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style PrimaryRateLimitZone fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CircuitBreakerFallbackZone fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style RedisCluster fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Circuit fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style FailOpen fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source:* [assets/09_microservices_and_system_design_faq/02_token_bucket_vs_leaky_bucket_rate_limiting.d2](assets/09_microservices_and_system_design_faq/02_token_bucket_vs_leaky_bucket_rate_limiting.d2)
 
 ---
 
@@ -358,40 +308,9 @@ Handling tens of thousands of concurrent requests without server thread pool col
 #### Architectural Overview
 Designing a payment platform handling 50,000 TPS with zero double-charging under crash failures or network timeouts requires decoupling API ingress, distributed state machines, and reconciliation:
 
-```mermaid
-flowchart TD
-    Client["Client / Merchant App<br/>(Header: Idempotency-Key: UUIDv4)"] --> APIGW["API Gateway & Envoy Rate Limiter"]
-    
-    subgraph IngressTier ["1. Edge Idempotency Guard"]
-        APIGW --> RedisCheck{"Redis Distributed Lock<br/>SET key PROCESSING NX EX 120"}
-        RedisCheck -->|"Exists"| RetConflict["Return 409 Conflict / Cached Response"]
-        RedisCheck -->|"Acquired"| PersistOutbox["Write to Database:<br/>Payments (UNIQUE idempotency_key)<br/>+ Transactional Outbox Table"]
-    end
+![Distributed Idempotent Payment Pipeline](assets/09_microservices_and_system_design_faq/03_distributed_idempotent_payment_pipeline.svg)
 
-    subgraph KafkaStream ["2. Partitioned Asynchronous Backplane"]
-        PersistOutbox --> Debezium["Debezium CDC (WAL)"]
-        Debezium --> KafkaTopic["Kafka: payment-requests<br/>(Partition Key = account_id)"]
-    end
-
-    subgraph SagaExecution ["3. Orchestration & Gateway Interfacing"]
-        KafkaTopic --> Worker["Saga Payment Worker"]
-        Worker --> QueryGate{"Verify Gateway Status First<br/>GET /charges?idemp_key=..."}
-        QueryGate -->|"Already Charged"| UpdateDB["Mark DB as SETTLED (Skip charge)"]
-        QueryGate -->|"Not Charged"| ExecCharge["Invoke Card Network / Gateway"]
-    end
-
-    subgraph FailureRecovery ["4. Recovery & Reconciliation"]
-        ExecCharge -->|Timeout / 504| SetPending["Transition to GATEWAY_PENDING"]
-        ReconCron["Scheduled Reconciliation Worker"] --> PollStuck["Query Unresolved PENDING Records"]
-        PollStuck --> QueryGate
-    end
-
-    style Client fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style IngressTier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style KafkaStream fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style SagaExecution fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style FailureRecovery fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-```
+*D2 Source:* [assets/09_microservices_and_system_design_faq/03_distributed_idempotent_payment_pipeline.d2](assets/09_microservices_and_system_design_faq/03_distributed_idempotent_payment_pipeline.d2)
 
 #### Production Problem-Solution Breakdown:
 1. **Preventing Duplicate Payments:**
@@ -461,42 +380,9 @@ A Trailing Stop-Loss engine continuously monitors incoming market data ticks and
    - The engine restores state by hydrating the latest checkpoint snapshot from cold storage (RocksDB / Redis), then replaying uncompacted order events from Kafka up to the current offset.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph MarketTickIngress ["1. Market Tick Ingress (5,000 ticks/sec)"]
-        Tick["Incoming Price Tick: Rs 1,140"] --> SkipList["ConcurrentSkipListMap<br/>headMap(1140, true)<br/>O(log N + K) Retrieval"]
-    end
+![Real-time Orderbook Matching Engine](assets/09_microservices_and_system_design_faq/04_realtime_orderbook_matching_engine.svg)
 
-    subgraph EvaluationPlane ["2. In-Memory Evaluation Engine"]
-        SkipList -->|K Triggered Orders| TriggerPool["Trigger Dispatcher (Worker Pool)"]
-        SkipList -.->|Un-triggered 199,000 orders| Idle["Bypassed (Zero CPU scan!)"]
-    end
-
-    subgraph ExchangeEgress ["3. Exchange Execution & Fallback"]
-        TriggerPool --> OrderGateway["Exchange Order Gateway (FIX/REST)"]
-        OrderGateway -->|Fill OK| Completed["Order FILLED at Market Price"]
-        OrderGateway -->|Exchange Reject| DLQ["Dead-Letter Queue & Broker Intervention"]
-    end
-
-    subgraph StatePersistence ["4. Write-Behind Persistence"]
-        TriggerPool -.->|Async Event| KafkaWAL["Kafka Commit Log (WAL)"]
-        KafkaWAL --> Snapshot["RocksDB Local Snapshot (Restart Recovery)"]
-    end
-
-    style MarketTickIngress fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style EvaluationPlane fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ExchangeEgress fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#f472b6
-    style StatePersistence fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-
-    style Tick fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SkipList fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style TriggerPool fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style OrderGateway fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style Completed fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style DLQ fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style KafkaWAL fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style Snapshot fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/09_microservices_and_system_design_faq/04_realtime_orderbook_matching_engine.d2](assets/09_microservices_and_system_design_faq/04_realtime_orderbook_matching_engine.d2)
 
 #### Production Implementation / Java Engine Code
 ```java
@@ -599,34 +485,9 @@ When an upstream API Gateway receives requests that fan out to three downstream 
    - Subsequent calls fail fast immediately (0ms latency), returning cached fallback data or degraded responses without executing any remote network call.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Ingress ["API Gateway Ingress (200 Threads)"]
-        ClientReq["Client Traffic"] --> Gateway["API Gateway Core"]
-    end
+![Bulkhead Pattern: Thread Pool Isolation vs Exhaustion](assets/09_microservices_and_system_design_faq/05_bulkhead_pattern_thread_pool_isolation.svg)
 
-    subgraph BulkheadPillars ["Bulkhead Partitioning (Isolated Thread Pools)"]
-        Gateway -->|Pool A: 50 threads| S1["Service 1 (Fast: 20ms) -> OK"]
-        Gateway -->|Pool B: 50 threads| S2["Service 2 (Fast: 30ms) -> OK"]
-        Gateway -->|Pool C: 20 threads| CB3["Circuit Breaker (Service 3)"]
-    end
-
-    subgraph SlowService ["Service 3 Degradation"]
-        CB3 -->|Saturated (30s delay)| S3["Service 3 (Degraded)"]
-        CB3 -->|Trips OPEN (Fail Fast)| Fallback["Local Fallback DTO (0ms)"]
-    end
-
-    style Ingress fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BulkheadPillars fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SlowService fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-
-    style Gateway fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S1 fill:#064e3b,stroke:#10b981,stroke-width:1px,color:#a7f3d0
-    style S2 fill:#064e3b,stroke:#10b981,stroke-width:1px,color:#a7f3d0
-    style CB3 fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
-    style S3 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Fallback fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/09_microservices_and_system_design_faq/05_bulkhead_pattern_thread_pool_isolation.d2](assets/09_microservices_and_system_design_faq/05_bulkhead_pattern_thread_pool_isolation.d2)
 
 #### Production Implementation / Resilience4j Configuration
 ```yaml
@@ -680,29 +541,9 @@ When a downstream microservice experiences high load or temporary database throt
    - Configure a client-side retry budget (e.g., maximum 10% of overall traffic can be retries). If the budget is exhausted, fail fast immediately.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph SynchronizedRetries ["Naive Retry Storm (Thundering Herd)"]
-        direction LR
-        Fail1["Initial Call Fails"] --> R1["1,000 clients retry at exactly +1s"]
-        R1 --> R2["1,000 clients retry at exactly +2s (Downstream Crashes!)"]
-    end
+![Exponential Backoff with Full Jitter vs Synchronized Retry Storm](assets/09_microservices_and_system_design_faq/06_exponential_backoff_jitter_retry_storm.svg)
 
-    subgraph JitteredRetries ["Safe Retries with Full Jitter"]
-        direction LR
-        Fail2["Initial Call Fails"] --> J1["Randomized Sleep: Uniform(0, base * 2^attempt)"]
-        J1 --> J2["Traffic spread smoothly over time (Downstream Recovers!)"]
-    end
-
-    style SynchronizedRetries fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style JitteredRetries fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Fail1 fill:#7f1d1d,stroke:#ef4444,stroke-width:1px,color:#fff
-    style R1 fill:#7f1d1d,stroke:#ef4444,stroke-width:1px,color:#fff
-    style R2 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Fail2 fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style J1 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style J2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/09_microservices_and_system_design_faq/06_exponential_backoff_jitter_retry_storm.d2](assets/09_microservices_and_system_design_faq/06_exponential_backoff_jitter_retry_storm.d2)
 
 #### Production Implementation / Java Code
 ```java
@@ -753,36 +594,9 @@ A **Distributed Monolith** is an architectural anti-pattern where a system posse
 4. **Domain-Driven Design (DDD) Context Alignment:** Re-align service boundaries to business domains rather than technical layers.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph DistMonolith ["Anti-Pattern: Distributed Monolith"]
-        S1["Order Service"] --> SharedDB[("Shared PostgreSQL Database")]
-        S2["Inventory Service"] --> SharedDB
-        S3["Billing Service"] --> SharedDB
-        S1 -->|"Sync REST Chain"| S2 -->|"Sync REST Chain"| S3
-    end
+![Distributed Monolith Anti-Pattern vs Decoupled Microservices](assets/09_microservices_and_system_design_faq/07_distributed_monolith_anti_pattern.svg)
 
-    subgraph AutonomousMicroservices ["Target: Autonomous Microservices"]
-        direction LR
-        OrderPod["Order Service"] --> OrderDB[("Order DB")]
-        OrderDB --> Outbox["Debezium CDC"]
-        Outbox --> KafkaStream[("Kafka Event Bus")]
-        KafkaStream --> BillingPod["Billing Service"]
-        KafkaStream --> InvPod["Inventory Service"]
-        BillingPod --> BillDB[("Billing DB")]
-        InvPod --> InvDB[("Inventory DB")]
-    end
-
-    DistMonolith -->|Refactor via DDD & Outbox| AutonomousMicroservices
-
-    style DistMonolith fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style AutonomousMicroservices fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SharedDB fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style OrderDB fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style BillDB fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style InvDB fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style KafkaStream fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/09_microservices_and_system_design_faq/07_distributed_monolith_anti_pattern.d2](assets/09_microservices_and_system_design_faq/07_distributed_monolith_anti_pattern.d2)
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [13. Microservices & Distributed System Design: Monolith vs Microservices](../09_microservices_and_system_design.md#91-monolith-vs-microservices-architecture-deep-dive)*
@@ -817,34 +631,9 @@ $$T_C = (1 + 3) \times (1 + 3) \times (1 + 3) = 64\times \text{ inbound volume}$
 
 #### Visual Flow
 
-```mermaid
-flowchart TD
-    subgraph PathologicalMeltdown ["Pathological Meltdown: Multiplicative Retry Storm (16x - 64x Load)"]
-        direction TB
-        ClientReq["1 Client Request"] -->|"1x"| SvcA["Service A (Retries = 3)"]
-        SvcA -->|"4x Requests"| SvcB["Service B (Retries = 3)"]
-        SvcB -->|"16x Requests (4 x 4)"| SvcC["Service C (Saturated DB / GC)"]
-        SvcC -.->|"Timeouts & Drops"| SvcB
-        SvcB -.->|"Timeouts & Drops"| SvcA
-    end
+![Cascading Meltdown Failure vs Circuit Breaker Mitigation](assets/09_microservices_and_system_design_faq/08_cascading_failure_circuit_breaker_mitigation.svg)
 
-    subgraph ResilientRedesign ["Production Redesign: Single-Point Retries + Budgets + Deadlines"]
-        direction TB
-        SafeClient["Client / Gateway"] -->|"1x (Deadline: 1500ms)"| EdgeA["Service A (No Retries, Propagates Deadline)"]
-        EdgeA -->|"1x (Remaining: 1200ms)"| EdgeB["Service B (Retry Budget Token Bucket)"]
-        EdgeB -->|"1x + Jittered Retry if Budget Available"| EdgeC["Service C (Circuit Breaker Protected)"]
-        EdgeB -.->|"Circuit Open / Fast Fail"| EdgeA
-    end
-
-    style PathologicalMeltdown fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style ResilientRedesign fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SvcC fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style EdgeC fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style SvcB fill:#1f2937,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style SvcA fill:#1f2937,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style EdgeA fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style EdgeB fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/09_microservices_and_system_design_faq/08_cascading_failure_circuit_breaker_mitigation.d2](assets/09_microservices_and_system_design_faq/08_cascading_failure_circuit_breaker_mitigation.d2)
 
 #### Production Architectural Redesign (The 5 Canonical Principles)
 1. **Single-Point Retry Invariant:** Never retry at intermediate hops ($B \to C$ and $A \to B$). Retries must occur **only at the immediate caller** (Service $B$ to $C$) OR at the **system edge** (API Gateway / Client), never both.

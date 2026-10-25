@@ -1,0 +1,42 @@
+direction: right
+
+stage1: "Stage 1: Map Stage" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  map1: "Map Worker 1: Hash Partitioner (Key % R)"
+  map2: "Map Worker 2: In-Memory Sort Buffer"
+}
+
+shuffle_disk: "Local NVMe Shuffle Boundary" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  data_file: "shuffle_X_Y_0.data: Consolidated partition blocks"
+  index_file: "shuffle_X_Y_0.index: 8-byte byte-offset table"
+}
+
+stage2: "Stage 2: Reduce Stage" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  red1: "Reducer 1: Netty chunk fetch for Partition 0"
+  red2: "Reducer 2: Hash aggregate & spill-to-disk"
+}
+
+stage1.map1 -> shuffle_disk: "Spill & Consolidate" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+stage1.map2 -> shuffle_disk: "Spill & Consolidate" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+shuffle_disk -> stage2.red1: "Netty Asynchronous RPC Fetch" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+shuffle_disk -> stage2.red2: "Netty Asynchronous RPC Fetch" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

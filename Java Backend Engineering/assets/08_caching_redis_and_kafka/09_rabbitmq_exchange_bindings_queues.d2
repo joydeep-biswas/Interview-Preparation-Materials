@@ -1,0 +1,22 @@
+direction: right
+title: RabbitMQ AMQP Architecture: Exchanges, Topic Bindings & Queues
+
+Producer: Producer (Publishes order.eu.created)
+Exchange: Topic Exchange (orders.topic)
+
+Q1: BillingQueue (order.*.created)
+Q2: WarehouseQueue (order.#)
+Q3: AuditQueue (#)
+
+C1: Billing Service
+C2: Warehouse Service
+C3: Audit SIEM
+
+Producer -> Exchange: Routing key: order.eu.created { style.stroke: "#38BDF8" }
+Exchange -> Q1: Matches order.*.created { style.stroke: "#F59E0B" }
+Exchange -> Q2: Matches order.# { style.stroke: "#F59E0B" }
+Exchange -> Q3: Matches # { style.stroke: "#F59E0B" }
+
+Q1 -> C1: Consumes { style.stroke: "#8B5CF6" }
+Q2 -> C2: Consumes { style.stroke: "#8B5CF6" }
+Q3 -> C3: Consumes { style.stroke: "#8B5CF6" }

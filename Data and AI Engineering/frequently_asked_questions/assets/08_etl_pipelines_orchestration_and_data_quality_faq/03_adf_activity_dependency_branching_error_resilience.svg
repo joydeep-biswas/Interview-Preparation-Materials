@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Container -->
+  <rect x="40" y="30" width="800" height="260" rx="14" ry="14" fill="#0D1526" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="60" y="58" class="title-txt" fill="#93C5FD">ADF Activity Dependency Branching &amp; Error Resilience</text>
+
+  <!-- Act 1 -->
+  <rect x="60" y="115" width="160" height="85" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="140" y="142" class="title-txt" text-anchor="middle">Activity 1</text>
+  <text x="72" y="165" class="body-txt" text-anchor="start">• Ingest Customers Table</text>
+  <text x="72" y="183" class="mono-txt" text-anchor="start">Copy_Customer_Data</text>
+
+  <!-- Path Success to Act 2 -->
+  <path d="M 220 135 L 280 135 Q 295 135 295 125 L 295 95 Q 295 85 310 85 L 360 85" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="240" y="112" width="80" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="280" y="125" class="edge-txt" text-anchor="middle" fill="#10B981">Upon Success</text>
+
+  <!-- Act 2 (Success Path) -->
+  <rect x="360" y="50" width="180" height="80" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="450" y="76" class="title-txt" text-anchor="middle" fill="#10B981">Activity 2 (Normal Path)</text>
+  <text x="372" y="98" class="body-txt" text-anchor="start">• Transform &amp; Standardize</text>
+  <text x="372" y="116" class="body-txt" text-anchor="start">• Run data validations</text>
+
+  <!-- Path Failure to ErrLog -->
+  <path d="M 220 180 L 280 180 Q 295 180 295 190 L 295 220 Q 295 230 310 230 L 360 230" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <rect x="240" y="195" width="80" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="280" y="208" class="edge-txt" text-anchor="middle" fill="#EF4444">Upon Failure</text>
+
+  <!-- ErrLog (Failure Path) -->
+  <rect x="360" y="190" width="180" height="80" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="450" y="216" class="title-txt" text-anchor="middle" fill="#EF4444">Log Error &amp; Alert</text>
+  <text x="372" y="238" class="body-txt" text-anchor="start">• Write error to SQL log</text>
+  <text x="372" y="256" class="body-txt" text-anchor="start">• Send Webhook to Teams</text>
+
+  <!-- Connectors into Act 3 (Both Upon Completion) -->
+  <path d="M 540 90 L 590 90 Q 605 90 605 110 L 605 135 L 640 135" fill="none" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+  <rect x="550" y="95" width="95" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="597" y="108" class="edge-txt" text-anchor="middle" fill="#94A3B8">Upon Completion</text>
+
+  <path d="M 540 230 L 590 230 Q 605 230 605 200 L 605 175 L 640 175" fill="none" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+  <rect x="550" y="195" width="95" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="597" y="208" class="edge-txt" text-anchor="middle" fill="#94A3B8">Upon Completion</text>
+
+  <!-- Act 3 -->
+  <rect x="640" y="115" width="180" height="85" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="730" y="142" class="title-txt" text-anchor="middle">Activity 3</text>
+  <text x="652" y="165" class="body-txt" text-anchor="start">• Next Pipeline Stage</text>
+  <text x="652" y="183" class="body-txt" text-anchor="start">• Pipeline doesn't abort</text>
+</svg>

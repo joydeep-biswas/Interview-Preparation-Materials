@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  route: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  auth: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  db: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  perm: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  cfg: { fill: "#1e293b"; stroke: "#64748b"; color: "#94a3b8" }
+}
+
+route: "GET /orders/{id}" { class: route }
+auth_dep: "get_current_active_user\n(Validates JWT)" { class: auth }
+db_dep: "get_async_db_session\n(Connection Pool)" { class: db }
+perm_dep: "verify_tenant_access\n(Checks Tenant ID)" { class: perm }
+cfg_dep: "get_app_settings\n(Singleton Config)" { class: cfg }
+
+route -> auth_dep
+route -> db_dep
+auth_dep -> cfg_dep
+auth_dep -> perm_dep
+perm_dep -> db_dep: "Reuses cached session!"

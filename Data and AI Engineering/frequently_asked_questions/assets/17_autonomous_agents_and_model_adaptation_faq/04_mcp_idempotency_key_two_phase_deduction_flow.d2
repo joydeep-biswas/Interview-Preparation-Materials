@@ -1,0 +1,17 @@
+direction: right
+classes: {
+  agent_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  mcp_box: { style: { fill: "#0D1F1C", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+Agent: "1. Client Idempotency\nDeterministic UUIDv5(task, step)\nAttached to tool payload" { class: agent_box }
+
+MCP: "2. MCP Server Guarantees" {
+  class: mcp_box
+  P1: "Phase 1: Check existing key in ledger" { class: card_dark }
+  P2: "Phase 2: Atomic Insert with UNIQUE constraint" { class: card_dark }
+  P1 -> P2
+}
+
+Agent -> MCP.P1: "Tool Request"

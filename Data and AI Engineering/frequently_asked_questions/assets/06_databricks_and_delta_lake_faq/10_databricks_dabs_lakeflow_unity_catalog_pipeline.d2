@@ -1,0 +1,11 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+dev: "Developer IDE\ndatabricks.yml" { class: card; style.stroke: "#3B82F6" }
+dabs: "1. Asset Bundles (DABs)\nbundle validate && deploy" { class: card; style.stroke: "#F59E0B" }
+lakeflow: "2. Databricks Lakeflow\nLakeflow Connect (CDC)\nLakeflow Pipelines (DLT)\nLakeflow Jobs" { class: card; style.stroke: "#10B981" }
+uc: "3. Unity Catalog Metastore\nGoverned Medallion Architecture" { class: card; style.stroke: "#8B5CF6" }
+
+dev -> dabs -> lakeflow -> uc

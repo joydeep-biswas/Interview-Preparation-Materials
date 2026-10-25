@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="560" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Write-Ahead Logging (WAL / Redo Log): How Durability is Guaranteed</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The physical mechanism of ACID: Modifying memory buffers, synchronous WAL fsync() on commit, and asynchronous dirty checkpoints</text>
+<rect x="25" y="85" width="150" height="36" rx="6" fill="#1e293b" stroke="#38BDF8" stroke-width="1.5"/>
+<text x="100" y="107" fill="#F8FAFC" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring App</text>
+<line x1="100" y1="121" x2="100" y2="530" stroke="#334155" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arr-s)"/>
+<rect x="225" y="85" width="150" height="36" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="300" y="107" fill="#F8FAFC" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Query Engine</text>
+<line x1="300" y1="121" x2="300" y2="530" stroke="#334155" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arr-s)"/>
+<rect x="445" y="85" width="150" height="36" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<text x="520" y="107" fill="#F8FAFC" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Buffer Pool (RAM)</text>
+<line x1="520" y1="121" x2="520" y2="530" stroke="#334155" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arr-s)"/>
+<rect x="665" y="85" width="150" height="36" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="740" y="107" fill="#F8FAFC" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">WAL Disk (NVMe)</text>
+<line x1="740" y1="121" x2="740" y2="530" stroke="#334155" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arr-s)"/>
+<rect x="865" y="85" width="150" height="36" rx="6" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="940" y="107" fill="#F8FAFC" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Data Heap Disk</text>
+<line x1="940" y1="121" x2="940" y2="530" stroke="#334155" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arr-s)"/>
+<line x1="100" y1="150" x2="300" y2="150" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<text x="200" y="144" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. UPDATE accounts SET balance = balance + 50</text>
+<line x1="300" y1="190" x2="520" y2="190" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="410" y="184" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Modifies 8KB Page in RAM (Marked 'DIRTY')</text>
+<line x1="300" y1="230" x2="740" y2="230" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<text x="520" y="224" fill="#FBBF24" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Writes Redo change record to WAL Buffer in RAM</text>
+<line x1="100" y1="280" x2="300" y2="280" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<text x="200" y="274" fill="#38BDF8" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. COMMIT TRANSACTION</text>
+<line x1="300" y1="325" x2="740" y2="325" stroke="#FBBF24" stroke-width="2.5" marker-end="url(#arr-a)"/>
+<text x="520" y="317" fill="#FBBF24" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">5. CRITICAL: Synchronous fsync() flushes WAL buffer to physical disk!</text>
+<rect x="420" y="329" width="200" height="20" rx="4" fill="#332408" stroke="#f59e0b" stroke-width="1"/>
+<text x="520" y="342" fill="#FDE68A" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Sequential Write: 0.1ms latency</text>
+<line x1="300" y1="380" x2="100" y2="380" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="200" y="374" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">6. Commit Acknowledged (DURABILITY GUARANTEED!)</text>
+<rect x="380" y="415" width="480" height="34" rx="6" fill="#1a1116" stroke="#ef4444" stroke-width="1"/>
+<text x="620" y="431" fill="#FCA5A5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Notice: Table Data Heap file on disk is STILL 100% UNCHANGED at commit time!</text>
+<text x="620" y="443" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">If database crashes right now, WAL replay restores the committed balance on reboot!</text>
+<line x1="520" y1="485" x2="940" y2="485" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arr-p)"/>
+<text x="730" y="479" fill="#C084FC" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">7. Background Checkpointer asynchronously flushes dirty 8KB pages to Table Heap Disk</text>
+</svg>

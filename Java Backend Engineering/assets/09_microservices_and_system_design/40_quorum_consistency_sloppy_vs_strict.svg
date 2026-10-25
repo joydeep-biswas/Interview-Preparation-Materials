@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Quorum Consistency Guarantee: Strict Quorums &amp; The Overlap Principle</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">How R + W &gt; N Mathematically Guarantees Strong Read Consistency in Leaderless Distributed Systems</text>
+<rect x="40" y="140" width="160" height="170" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<rect x="50" y="152" width="140" height="20" rx="10" fill="#0f172a"/><text x="120" y="165" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Node 1</text>
+<text x="120" y="200" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Value: v2 (Latest)</text>
+<text x="120" y="225" fill="#10b981" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">In Write Set (W)</text>
+<text x="120" y="255" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Replica Node</text>
+<text x="120" y="275" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Port: 7001</text>
+<rect x="245" y="140" width="160" height="170" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<rect x="255" y="152" width="140" height="20" rx="10" fill="#0f172a"/><text x="325" y="165" fill="#10b981" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Node 2</text>
+<text x="325" y="200" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Value: v2 (Latest)</text>
+<text x="325" y="225" fill="#10b981" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">In Write Set (W)</text>
+<text x="325" y="255" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Replica Node</text>
+<text x="325" y="275" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Port: 7002</text>
+<rect x="450" y="140" width="160" height="170" rx="8" fill="#78350f" stroke="#f59e0b" stroke-width="2"/>
+<rect x="460" y="152" width="140" height="20" rx="10" fill="#0f172a"/><text x="530" y="165" fill="#f59e0b" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Node 3 (OVERLAP!)</text>
+<text x="530" y="200" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Value: v2 (Latest)</text>
+<text x="530" y="225" fill="#f59e0b" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">IN BOTH READ &amp; WRITE!</text>
+<text x="530" y="255" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Replica Node</text>
+<text x="530" y="275" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Port: 7003</text>
+<rect x="655" y="140" width="160" height="170" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+<rect x="665" y="152" width="140" height="20" rx="10" fill="#0f172a"/><text x="735" y="165" fill="#64748b" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Node 4</text>
+<text x="735" y="200" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Value: v1 (Stale)</text>
+<text x="735" y="225" fill="#64748b" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">In Read Set (R)</text>
+<text x="735" y="255" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Replica Node</text>
+<text x="735" y="275" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Port: 7004</text>
+<rect x="860" y="140" width="160" height="170" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+<rect x="870" y="152" width="140" height="20" rx="10" fill="#0f172a"/><text x="940" y="165" fill="#64748b" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Node 5</text>
+<text x="940" y="200" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Value: v1 (Stale)</text>
+<text x="940" y="225" fill="#64748b" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">In Read Set (R)</text>
+<text x="940" y="255" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Replica Node</text>
+<text x="940" y="275" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Port: 7005</text>
+<rect x="40" y="75" width="570" height="45" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="325" y="95" fill="#D1FAE5" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Write Client (W = 3): Writes latest version (v2) to Nodes 1, 2, 3</text>
+<text x="325" y="110" fill="#A7F3D0" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Awaits ACK from 3 nodes before returning success to caller</text>
+<rect x="450" y="335" width="570" height="45" rx="6" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="735" y="355" fill="#EDE9FE" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Read Client (R = 3): Reads from Nodes 3, 4, 5 -&gt; Sees versions [v2, v1, v1]</text>
+<text x="735" y="370" fill="#C4B5FD" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client picks v2 (highest timestamp) and issues Read Repair to Nodes 4 &amp; 5!</text>
+<rect x="40" y="400" width="1000" height="130" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="425" fill="#38BDF8" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">The Pigeonhole Principle Behind Quorums:</text>
+<text x="540" y="455" fill="#FDE68A" font-size="14" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">R + W &gt; N  ==&gt;  (3 + 3 = 6 &gt; 5)  ==&gt;  GUARANTEED OVERLAP!</text>
+<text x="65" y="485" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• By the pigeonhole principle, any read set of R nodes and any write set of W nodes MUST intersect in at least one node (Node 3).</text>
+<text x="65" y="502" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Because Node 3 witnessed the latest write, the reader is mathematically guaranteed to observe version 2.</text>
+<text x="65" y="518" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Sloppy Quorum &amp; Hinted Handoff: Under severe partitions, DynamoDB writes to non-designated nodes temporarily, accepting stale reads for availability.</text>
+</svg>

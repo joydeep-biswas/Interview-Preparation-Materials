@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 580" width="1100" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="580" rx="10" fill="url(#bg)"/>
+  <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Hibernate Caching Architecture: L1 Session Cache vs L2 Distributed Cache</text>
+  <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Transactional Boundary Scope vs Cluster-Wide Multi-Node Cache Sharing (Redis, Ehcache, Hazelcast)</text>
+<rect x="40" y="95" width="320" height="330" rx="8" fill="#062e3d" stroke="#06b6d4" stroke-width="2"/>
+<rect x="55" y="110" width="220" height="22" rx="11" fill="#0891b2"/><text x="165" y="124" fill="#ECFEFF" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. First-Level (L1) Cache</text>
+<text x="60" y="155" fill="#67E8F9" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Scope: Single EntityManager / Session</text>
+<text x="60" y="173" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Mandatory &amp; Always Enabled (Cannot disable)</text>
+<text x="60" y="191" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Thread-Bound (Never shared across threads)</text>
+<text x="60" y="209" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Storage: Live Java Object references in heap</text>
+<text x="60" y="227" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Guarantees Identity: a == b within transaction</text>
+<text x="60" y="245" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cleared automatically when Session closes</text>
+<rect x="55" y="270" width="290" height="135" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="1"/>
+<text x="65" y="290" fill="#22D3EE" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Internal Structure: IdentityMap</text>
+<text x="65" y="310" fill="#F8FAFC" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Map&lt;EntityKey, Object&gt;</text>
+<text x="65" y="328" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">EntityKey(Order.class, 101L) -&gt; Order@0x7a</text>
+<text x="65" y="346" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">EntityKey(User.class, 42L) -&gt; User@0x3f</text>
+<text x="65" y="370" fill="#34D399" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Latency: ~10-50 nanoseconds (Direct RAM)</text>
+<text x="65" y="390" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Prevents repeat queries in same Tx</text>
+<rect x="390" y="95" width="330" height="330" rx="8" fill="#1a102f" stroke="#8b5cf6" stroke-width="2"/>
+<rect x="405" y="110" width="230" height="22" rx="11" fill="#6d28d9"/><text x="520" y="124" fill="#EDE9FE" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Second-Level (L2) Cache</text>
+<text x="410" y="155" fill="#C4B5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Scope: SessionFactory / Cluster-Wide</text>
+<text x="410" y="173" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Optional (Disabled by default; opt-in per entity)</text>
+<text x="410" y="191" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Shared across ALL threads &amp; application nodes</text>
+<text x="410" y="209" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Storage: Disassembled primitive hydrated arrays</text>
+<text x="410" y="227" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• No reference equality: a != b (New POJO built)</text>
+<text x="410" y="245" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Providers: Redis, Ehcache, Hazelcast, Infinispan</text>
+<rect x="405" y="270" width="300" height="135" rx="6" fill="#2e1065" stroke="#8b5cf6" stroke-width="1"/>
+<text x="415" y="290" fill="#C084FC" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Storage Format: Dehydrated Arrays</text>
+<text x="415" y="310" fill="#F8FAFC" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key: 'Order#101'</text>
+<text x="415" y="328" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Value: [ 'CONFIRMED', 150.00, 42L, 1.0 ]</text>
+<text x="415" y="346" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Concurreny: READ_ONLY, READ_WRITE</text>
+<text x="415" y="370" fill="#34D399" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Latency: ~200µs (In-Memory) to 1-2ms (Redis)</text>
+<text x="415" y="390" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Supports Hibernate Query Cache</text>
+<rect x="750" y="95" width="310" height="330" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<rect x="765" y="110" width="200" height="22" rx="11" fill="#047857"/><text x="865" y="124" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Relational Database</text>
+<text x="770" y="155" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Scope: Persistent Disk Storage (ACID)</text>
+<text x="770" y="173" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Single Source of Truth for system state</text>
+<text x="770" y="191" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Reached only on L1 Miss AND L2 Miss</text>
+<text x="770" y="209" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Queries parsed, planned, and executed</text>
+<text x="770" y="227" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• High disk I/O &amp; network round-trip overhead</text>
+<text x="770" y="245" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Row lock contention under concurrent writes</text>
+<rect x="765" y="270" width="280" height="135" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="775" y="290" fill="#6EE7B7" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Disk / SSD Block Storage</text>
+<text x="775" y="310" fill="#F8FAFC" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">PostgreSQL 8KB Heap Blocks &amp; WAL</text>
+<text x="775" y="328" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SELECT * FROM orders WHERE id = 101;</text>
+<text x="775" y="350" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Connection Pool Borrow Required</text>
+<text x="775" y="370" fill="#F87171" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Latency: 2ms - 50ms+ (Network + Disk I/O)</text>
+<text x="775" y="390" fill="#FCA5A5" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Expensive resource bottleneck</text>
+<line x1="360" y1="215" x2="390" y2="215" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<rect x="365" y="200" width="50" height="18" rx="9" fill="#78350f"/><text x="390" y="212" fill="#FDE68A" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">L1 Miss</text>
+<line x1="720" y1="215" x2="750" y2="215" stroke="#F87171" stroke-width="2" marker-end="url(#arr-r)"/>
+<rect x="725" y="200" width="50" height="18" rx="9" fill="#7f1d1d"/><text x="750" y="212" fill="#FECACA" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">L2 Miss</text>
+<line x1="750" y1="335" x2="720" y2="335" stroke="#34D399" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arr-g)"/>
+<rect x="725" y="320" width="50" height="18" rx="9" fill="#064e3b"/><text x="750" y="332" fill="#6EE7B7" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Populates</text>
+<line x1="390" y1="335" x2="360" y2="335" stroke="#34D399" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arr-g)"/>
+<rect x="365" y="320" width="50" height="18" rx="9" fill="#064e3b"/><text x="390" y="332" fill="#6EE7B7" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Populates</text>
+<rect x="40" y="445" width="1020" height="115" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="470" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Architectural Comparison Matrix:</text>
+<text x="65" y="490" fill="#F87171" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Query Cache Trap: Hibernate's Query Cache only stores IDs, not entity bodies! If L2 entity cache is NOT configured, running a cached query causes N separate SQL lookups (N+1 disaster)!</text>
+<text x="65" y="510" fill="#CBD5E1" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Direct DB Mutation Warning: If external services or batch jobs modify tables directly in SQL, L2 cache becomes stale unless invalidated via Redis PUB/SUB or TTL.</text>
+<text x="65" y="530" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Best Practice: Use L2 cache for high-read, low-write lookup tables (Country, Currency, Category) with @Cache(usage = CacheConcurrencyStrategy.READ_ONLY).</text>
+</svg>

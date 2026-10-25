@@ -1,0 +1,25 @@
+direction: right
+title: Virtual Machine vs Container Architecture
+
+VM: Virtual Machines (Hardware Virtualization) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  hw: Physical Hardware
+  hyp: Hypervisor (ESXi / KVM)
+  vm1: "Guest VM 1 (Full OS 2-10GB + App)"
+  vm2: "Guest VM 2 (Full OS 2-10GB + App)"
+  hw -> hyp -> vm1
+  hyp -> vm2
+}
+
+Container: Containers (OS-Level Virtualization) {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  hw: Physical Hardware
+  kernel: Shared Linux Host Kernel
+  runtime: Container Runtime (containerd)
+  c1: "Container 1 (Distroless 140MB)"
+  c2: "Container 2 (Distroless 140MB)"
+  hw -> kernel -> runtime -> c1
+  runtime -> c2
+}

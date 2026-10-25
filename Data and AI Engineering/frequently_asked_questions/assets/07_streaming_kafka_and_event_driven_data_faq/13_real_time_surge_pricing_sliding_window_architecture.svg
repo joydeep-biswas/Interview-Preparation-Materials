@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 320" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="320" fill="#0B0F19"/>
+
+  <!-- Col 1: Streams -->
+  <g transform="translate(30, 40)">
+    <rect width="220" height="240" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="110" y="30" class="title" fill="#93C5FD">High-Throughput Streams</text>
+    <line x1="15" y1="42" x2="205" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="15" y="60" width="190" height="70" rx="6" ry="6" fill="#1E293B"/>
+    <text x="105" y="85" class="title" font-size="11" fill="#FCD34D">Demand: Ride Searches</text>
+    <text x="105" y="105" class="body-txt" text-anchor="middle">50,000 Events / Sec</text>
+
+    <rect x="15" y="145" width="190" height="70" rx="6" ry="6" fill="#1E293B"/>
+    <text x="105" y="170" class="title" font-size="11" fill="#6EE7B7">Supply: Driver GPS</text>
+    <text x="105" y="190" class="body-txt" text-anchor="middle">120,000 Events / Sec</text>
+  </g>
+
+  <path fill="none" d="M 250 160 L 305 160" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+
+  <!-- Col 2: Spark Processing Engine -->
+  <g transform="translate(305, 30)">
+    <rect width="360" height="260" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="180" y="30" class="title" fill="#6EE7B7">Spark Structured Streaming (30s Window)</text>
+    <line x1="20" y1="42" x2="340" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="20" y="55" width="320" height="52" rx="6" ry="6" fill="#1E293B"/>
+    <text x="180" y="76" class="title" font-size="11" fill="#93C5FD">Uber H3 Spatial Hex Indexing (Res 8)</text>
+    <text x="180" y="94" class="body-txt" text-anchor="middle">Converts (lat, lon) → h3_hex_id partition</text>
+
+    <rect x="20" y="120" width="320" height="52" rx="6" ry="6" fill="#1E293B"/>
+    <text x="180" y="141" class="title" font-size="11" fill="#FCD34D">30-Second Sliding Window Aggregation</text>
+    <text x="180" y="159" class="body-txt" text-anchor="middle">Group by (h3_hex_id, window) in RocksDB</text>
+
+    <rect x="20" y="185" width="320" height="52" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="180" y="206" class="title" font-size="11" fill="#A7F3D0">Surge Multiplier Calculation</text>
+    <text x="180" y="224" class="body-txt" text-anchor="middle" fill="#A7F3D0">M = 1.0 + alpha * (Demand - Supply)/(Supply + 5)</text>
+  </g>
+
+  <path fill="none" d="M 665 160 L 720 160" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- Col 3: Ultra-Low Latency Serving Tier -->
+  <g transform="translate(720, 40)">
+    <rect width="270" height="240" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="135" y="30" class="title" fill="#C4B5FD">Serving Tier (&lt; 2ms)</text>
+    <line x1="15" y1="42" x2="255" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="15" y="60" width="240" height="75" rx="6" ry="6" fill="#1E293B"/>
+    <text x="135" y="85" class="title" font-size="11" fill="#C4B5FD">Redis Cluster Sink</text>
+    <text x="135" y="105" class="body-txt" text-anchor="middle">Key: surge:{hex_id}</text>
+    <text x="135" y="122" class="body-txt" text-anchor="middle">Val: {multiplier: 1.8, ttl: 45s}</text>
+
+    <rect x="15" y="150" width="240" height="65" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="135" y="178" class="title" font-size="11" fill="#A7F3D0">Mobile Consumer Apps</text>
+    <text x="135" y="198" class="body-txt" text-anchor="middle" fill="#A7F3D0">Instant real-time surge pricing</text>
+  </g>
+</svg>

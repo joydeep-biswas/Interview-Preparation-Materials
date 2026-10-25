@@ -1,0 +1,42 @@
+direction: right
+classes: {
+  c_blue: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  c_purple: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  c_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  c_amber: { style: { fill: "#0D1526", stroke: "#F59E0B" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+ML: "1. Loss Surfaces & ML" {
+  class: c_blue
+  Loss: "Loss Formulations (MSE, Focal)" { class: card_dark }
+  Opt: "Optimization (SGD, AdamW)" { class: card_dark }
+  Calib: "Calibration & Thresholds" { class: card_dark }
+  Loss -> Opt -> Calib
+}
+
+Deep: "2. Gradients & Norms" {
+  class: c_purple
+  Backprop: "Autograd Backpropagation" { class: card_dark }
+  Norms: "BatchNorm vs LayerNorm" { class: card_dark }
+  ResFlow: "Residual Flow & Clipping" { class: card_dark }
+  Backprop -> Norms -> ResFlow
+}
+
+Attn: "3. Attention Foundations" {
+  class: c_green
+  QKV: "Q, K, V Projections" { class: card_dark }
+  MHA: "Multi-Head (MHA, GQA)" { class: card_dark }
+  PosEnc: "Positional (RoPE, ALiBi)" { class: card_dark }
+  QKV -> MHA -> PosEnc
+}
+
+Scale: "4. Inference Scaling" {
+  class: c_amber
+  KVCache: "KV Cache & PagedAttention" { class: card_dark }
+  Flash: "FlashAttention-2 SRAM Tiling" { class: card_dark }
+  Dist: "Distributed (TP, PP, ZeRO-3)" { class: card_dark }
+  KVCache -> Flash -> Dist
+}
+
+ML -> Deep -> Attn -> Scale

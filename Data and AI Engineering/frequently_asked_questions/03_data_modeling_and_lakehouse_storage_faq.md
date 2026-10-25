@@ -109,41 +109,9 @@ In relational theory, 3NF ensures no data redundancy by splitting entities into 
 **Question:** How do you design a data lake vs a data warehouse, and when would you use each?
 
 #### Architectural Evolution & Comparison
-```mermaid
-flowchart TD
-    subgraph StorageLayer ["Physical Cloud Storage Substrate (ADLS Gen2 / AWS S3 / Google Cloud Storage)"]
-        RawFiles["Immutable Columnar Parquet Files + Unstructured Data Blobs"]
-    end
+![Cloud Storage Metadata ACID Lakehouse Architecture](assets/03_data_modeling_and_lakehouse_storage_faq/01_cloud_storage_metadata_acid_lakehouse_architecture.svg)
 
-    subgraph MetadataLayer ["ACID Transaction & Metadata Layer (Delta Lake / Apache Iceberg)"]
-        direction TB
-        CommitLog["ACID Transaction Log (_delta_log / metadata.json)<br/>Serializes Concurrent Commits & Idempotent Writes"]
-        Stats["Parquet Column-Level Min/Max Stats<br/>Enables File Pruning & Data Skipping"]
-        TimeTravel["Snapshot Versioning<br/>Enables Zero-Copy Time Travel & Auditing"]
-        CommitLog --- Stats --- TimeTravel
-    end
-
-    subgraph ComputeEngines ["Decoupled Multi-Engine Processing Tier"]
-        direction LR
-        SQLBI["SQL & BI Engines<br/>(Trino, Databricks SQL, Synapse)"]
-        DistributedBatch["Distributed ETL Engines<br/>(Apache Spark, Ray)"]
-        MLInference["Data Science & ML<br/>(PyTorch, TensorFlow, BigQuery ML)"]
-    end
-
-    RawFiles -->|"Direct File Layout"| MetadataLayer
-    MetadataLayer -->|"Zero-Copy Table Virtualization"| ComputeEngines
-
-    style StorageLayer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MetadataLayer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ComputeEngines fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style RawFiles fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style CommitLog fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Stats fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style TimeTravel fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style SQLBI fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style DistributedBatch fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style MLInference fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/01_cloud_storage_metadata_acid_lakehouse_architecture.d2](assets/03_data_modeling_and_lakehouse_storage_faq/01_cloud_storage_metadata_acid_lakehouse_architecture.d2)
 
 #### Decision Matrix: When to Use Which
 | Scenario / Requirement | Data Lake | Data Warehouse | Data Lakehouse |
@@ -178,17 +146,9 @@ The Medallion Architecture is a data design pattern that logically organizes dat
    - Directly feeds executive dashboards, BI tools (PowerBI, Tableau), and ML feature stores.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    Source["Data Sources<br/>(Kafka, REST APIs, OLTP DBs)"] --> Bronze[("1. Bronze Tier<br/>(Raw Append-Only, Preserves Full History, Schema-on-Read / Rescue)")]
-    Bronze --> Silver[("2. Silver Tier<br/>(Cleaned & Deduplicated, Schema Enforced, SCD Types 1 & 2 Merged)")]
-    Silver --> Gold[("3. Gold Tier<br/>(Star Schema / Aggregated KPIs, Sub-Second BI Querying, Feature Stores for ML)")]
+![Medallion Architecture Bronze Silver Gold](assets/03_data_modeling_and_lakehouse_storage_faq/02_medallion_architecture_bronze_silver_gold.svg)
 
-    style Source fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Bronze fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Silver fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
-    style Gold fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/02_medallion_architecture_bronze_silver_gold.d2](assets/03_data_modeling_and_lakehouse_storage_faq/02_medallion_architecture_bronze_silver_gold.d2)
 
 #### Production PySpark Delta Implementation
 ```python
@@ -253,35 +213,9 @@ gold_daily_kpi.write.format("delta").mode("overwrite").saveAsTable("gold.daily_s
 4. **Identify the Numeric Facts:** Quantity Sold, Unit Selling Price, Discount Amount, Net Extended Sales Amount, Tax Amount.
 
 #### Star Schema vs Snowflake Schema Comparison
-```mermaid
-flowchart TD
-    subgraph Star ["Star Schema (Denormalized Dimensions)"]
-        FS[("fact_sales<br/>(Central Fact)")] --> DC["dim_customer<br/>(Contains City, State, Country)"]
-        FS --> DP["dim_product<br/>(Contains Category, Brand)"]
-        FS --> DD["dim_date"]
-    end
+![Star Schema vs Snowflake Schema Normalization](assets/03_data_modeling_and_lakehouse_storage_faq/03_star_schema_vs_snowflake_schema_normalization.svg)
 
-    subgraph Snowflake ["Snowflake Schema (Normalized Dimensions)"]
-        FSS[("fact_sales<br/>(Central Fact)")] --> DCS["dim_customer"]
-        DCS --> DGeo["dim_geography<br/>(City, State, Country)"]
-        FSS --> DPS["dim_product"]
-        DPS --> DSub["dim_subcategory"]
-        DSub --> DCat["dim_category"]
-    end
-
-    style Star fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Snowflake fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style FS fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DC fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DP fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DD fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style FSS fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style DCS fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style DGeo fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style DPS fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style DSub fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style DCat fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/03_star_schema_vs_snowflake_schema_normalization.d2](assets/03_data_modeling_and_lakehouse_storage_faq/03_star_schema_vs_snowflake_schema_normalization.d2)
 
 | Dimension | Star Schema | Snowflake Schema |
 | :--- | :--- | :--- |
@@ -400,21 +334,9 @@ In big data distributed storage (Hive, Spark, Presto/Trino, Databricks), physica
    - **Best for:** High-cardinality join/group-by keys (e.g., `user_id`, `device_id`) allowing **Bucket-to-Bucket Sort-Merge Joins** that eliminate network shuffles.
 
 #### Visual Architecture
-```mermaid
-flowchart TD
-    Data["Enterprise Event Stream"] --> Part["1. Partition by Low-Cardinality Key: event_date<br/>Directory: /lake/events/event_date=2024-06-01/"]
-    Part --> Buck["2. Bucket by High-Cardinality Key: user_id into 32 Buckets<br/>Hash: murmur3(user_id) % 32"]
-    Buck --> F0["File: bucket_0000.parquet"]
-    Buck --> F1["File: bucket_0001.parquet"]
-    Buck --> FN["File: bucket_0031.parquet"]
+![Partitioning and Bucketing Physical Storage Layout](assets/03_data_modeling_and_lakehouse_storage_faq/04_partitioning_and_bucketing_physical_storage_layout.svg)
 
-    style Data fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Part fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Buck fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style F0 fill:#0f172a,stroke:#38bdf8,stroke-width:1px,color:#e2e8f0
-    style F1 fill:#0f172a,stroke:#38bdf8,stroke-width:1px,color:#e2e8f0
-    style FN fill:#0f172a,stroke:#38bdf8,stroke-width:1px,color:#e2e8f0
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/04_partitioning_and_bucketing_physical_storage_layout.d2](assets/03_data_modeling_and_lakehouse_storage_faq/04_partitioning_and_bucketing_physical_storage_layout.d2)
 
 #### Production PySpark Implementation: Co-located Bucket Joins
 ```python
@@ -474,42 +396,9 @@ In enterprise ERPs (SAP, NetSuite), the Procure-to-Pay lifecycle involves distin
   3. `bridge_payment_invoice`: Bridge table resolving the Many-to-Many ($M:N$) settlement mapping between payment allocations and invoices.
 
 #### Relational Architecture Diagram
-```mermaid
-flowchart TD
-    subgraph Dimensions ["Conformed Dimensions"]
-        DimVendor["dim_vendor<br/>(Vendor SK, Bank Info, Tax ID)"]
-        DimDate["dim_date"]
-        DimAccount["dim_chart_of_accounts"]
-    end
+![Conformed Dimensions Dual Fact Architecture](assets/03_data_modeling_and_lakehouse_storage_faq/05_conformed_dimensions_dual_fact_architecture.svg)
 
-    subgraph FactTables ["Dual Fact Architecture"]
-        FactInvoice[("fact_vendor_invoice_line<br/>Grain: 1 Invoice Line Item<br/>(invoice_number, po_number, line_amount)")]
-        FactPayment[("fact_vendor_payment_batch<br/>Grain: 1 Payment Disbursement<br/>(batch_id, disbursement_amount, bank_ref_code)")]
-    end
-
-    subgraph SettlementBridge ["M:N Resolution Layer"]
-        Bridge["bridge_payment_invoice_allocation<br/>(payment_batch_sk, invoice_line_sk, settled_amount)"]
-    end
-
-    DimVendor --> FactInvoice
-    DimVendor --> FactPayment
-    DimDate --> FactInvoice
-    DimDate --> FactPayment
-    DimAccount --> FactInvoice
-    FactPayment --> Bridge
-    FactInvoice --> Bridge
-
-    style Dimensions fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FactTables fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SettlementBridge fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-
-    style DimVendor fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DimDate fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DimAccount fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style FactInvoice fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style FactPayment fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Bridge fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/05_conformed_dimensions_dual_fact_architecture.d2](assets/03_data_modeling_and_lakehouse_storage_faq/05_conformed_dimensions_dual_fact_architecture.d2)
 
 ---
 
@@ -684,33 +573,9 @@ In distributed pipelines, events arrive out of sequence. An order event containi
 If the fact load enforces strict foreign key constraints or relies on inner joins for surrogate key lookups, the order is dropped or the pipeline fails.
 
 #### Production Solution: Inferred Member Pattern
-```mermaid
-flowchart TD
-    subgraph FactIngestion ["Fact Ingestion & Dimension Lookup"]
-        A["<b>Order Ingested</b><br/>customer_id = 999"] --> B{"Lookup customer_id<br/>in dim_customer"}
-        C["<b>Assign Existing Key</b><br/>Attach customer_sk"]
-        B -- "Found" --> C
-    end
+![Inferred Dimension Member Resolution Pipeline](assets/03_data_modeling_and_lakehouse_storage_faq/06_inferred_dimension_member_resolution_pipeline.svg)
 
-    subgraph InferredResolution ["Inferred Member Creation & Reconciliation"]
-        D["<b>Create Inferred Placeholder</b><br/>customer_sk = Hash(999), is_inferred = TRUE, name = 'UNKNOWN'"]
-        E["<b>Attach Inferred Key</b><br/>Fact row written with inferred customer_sk"]
-        F["<b>Late Registration Arrival (11:30 AM)</b><br/>SCD 1 overwrites 'UNKNOWN' with real customer data, is_inferred = FALSE"]
-
-        B -- "Not Found" --> D
-        D --> E
-        E --> F
-    end
-
-    style FactIngestion fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style InferredResolution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style A fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style C fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style D fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style E fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style F fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/06_inferred_dimension_member_resolution_pipeline.d2](assets/03_data_modeling_and_lakehouse_storage_faq/06_inferred_dimension_member_resolution_pipeline.d2)
 
 #### SQL Implementation
 ```sql
@@ -819,45 +684,9 @@ Global video streaming platforms (e.g. Netflix, YouTube) serve 100M+ concurrent 
 3. **Partitioning & Clustering:** Hash partition on `user_id` (for fast point-lookups) and range partition on `date` (for chronological pruning).
 
 #### Visual Flow
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'attributeBackgroundColorOdd': '#1e293b', 'attributeBackgroundColorEven': '#0f172a', 'entityBackgroundColor': '#1e293b', 'entityBorderColor': '#3b82f6', 'entityTextColor': '#ffffff' }}}%%
-erDiagram
-    DIM_USER ||--o{ FACT_WATCH_EVENT : "streams"
-    DIM_CONTENT ||--o{ FACT_WATCH_EVENT : "consumed in"
-    DIM_DEVICE ||--o{ FACT_WATCH_EVENT : "played on"
+![OTT Media Streaming Dimensional ER Model](assets/03_data_modeling_and_lakehouse_storage_faq/07_ott_media_streaming_dimensional_er_model.svg)
 
-    DIM_USER {
-        bigint user_sk PK
-        uuid user_id
-        string country_code
-        string subscription_tier
-    }
-
-    DIM_CONTENT {
-        bigint content_sk PK
-        uuid show_id
-        uuid episode_id
-        string title
-        int duration_seconds
-    }
-
-    DIM_DEVICE {
-        int device_sk PK
-        string device_type
-        string os_version
-    }
-
-    FACT_WATCH_EVENT {
-        bigint event_id PK
-        bigint user_sk FK
-        bigint content_sk FK
-        int device_sk FK
-        timestamp event_timestamp
-        int watch_duration_seconds
-        int playback_offset_seconds
-        boolean is_completed
-    }
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/07_ott_media_streaming_dimensional_er_model.d2](assets/03_data_modeling_and_lakehouse_storage_faq/07_ott_media_streaming_dimensional_er_model.d2)
 
 #### Production DDL Implementation
 ```sql
@@ -897,18 +726,9 @@ Logging architectures (security audits, clickstreams, distributed traces) ingest
 - **Fast Read Architecture:** Columnar compression, physical folder partitioning on `date` and `hour` (`date=YYYY-MM-DD/hour=HH/`), and metadata statistics (min/max dictionaries per Parquet file) to skip non-matching chunks during queries.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    Ingest["Log Ingestion Stream (100k events/sec)"] --> MemBuffer["In-Memory Buffer (Micro-Batch)"]
-    MemBuffer --> Write["Append-Only Parquet Chunk (Unindexed)<br/>date=2024-10-15/hour=14/<br/>(Instant O(1) Write Speed)"]
-    Write --> AutoOpt["Nightly Background Compact (OPTIMIZE)<br/>Merge small files to 512MB & generate Bloom Filters"]
-    AutoOpt --> Read["Analytical Filtered Reads (Fast Pruning)"]
+![High Throughput Log Append Compaction Pipeline](assets/03_data_modeling_and_lakehouse_storage_faq/08_high_throughput_log_append_compaction_pipeline.svg)
 
-    style Ingest fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Write fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AutoOpt fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Read fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/08_high_throughput_log_append_compaction_pipeline.d2](assets/03_data_modeling_and_lakehouse_storage_faq/08_high_throughput_log_append_compaction_pipeline.d2)
 
 #### Production DDL Implementation
 ```sql
@@ -955,36 +775,9 @@ To guarantee zero-downtime evolution:
 3. **Rescued Data Quarantine:** Catch unexpected producer columns in `_rescued_data` to prevent pipeline failures.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph SchemaGovernance ["Schema Registry Governance"]
-        Producer["Producer Pushes Breaking Schema Change"] --> Gate{"Schema Registry Check"}
-        Block["Reject Producer Deployment"]
-        Dual["Dual-Version Lakehouse Pattern"]
-        Gate -->|Incompatible| Block
-        Gate -->|Approved Breaking Evolution| Dual
-    end
+![Schema Evolution Dual Version Lakehouse Pattern](assets/03_data_modeling_and_lakehouse_storage_faq/09_schema_evolution_dual_version_lakehouse_pattern.svg)
 
-    subgraph DecoupledViews ["Decoupled Analytical Serving Views"]
-        Dual --> BaseTable[("<b>Base Physical Table</b><br/>Contains unioned super-schema columns")]
-        BaseTable --> ViewV1["<b>View v1.orders</b><br/>Legacy contract: user_id mapped"]
-        BaseTable --> ViewV2["<b>View v2.orders</b><br/>New contract: account_uuid mapped"]
-        ViewV1 --> TeamA["Analytics Team A (Legacy Dashboards)"]
-        ViewV2 --> TeamB["Analytics Team B (Modern Pipelines)"]
-    end
-
-    style SchemaGovernance fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DecoupledViews fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Producer fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Gate fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Block fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Dual fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style BaseTable fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ViewV1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ViewV2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style TeamA fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style TeamB fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/09_schema_evolution_dual_version_lakehouse_pattern.d2](assets/03_data_modeling_and_lakehouse_storage_faq/09_schema_evolution_dual_version_lakehouse_pattern.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -1044,29 +837,9 @@ Enterprise data governance requires verifiable auditability and data consistency
    - **Durability:** Committed financial transactions survive infrastructure crashes.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    subgraph OLTP ["Production OLTP"]
-        DB["PostgreSQL Master"] --> Debezium["Debezium CDC Engine<br/>(Reads WAL / binlog)"]
-    end
+![OLTP CDC Debezium to Lakehouse Audit Lineage](assets/03_data_modeling_and_lakehouse_storage_faq/10_oltp_cdc_debezium_to_lakehouse_audit_lineage.svg)
 
-    subgraph KafkaBridge ["Distributed Log Bridge"]
-        Debezium --> KafkaTopic["Kafka: cdc.orders.events<br/>(Transactional Producer)"]
-    end
-
-    subgraph OLAP ["Analytical Lakehouse"]
-        KafkaTopic --> SparkStream["Spark Structured Streaming"]
-        SparkStream --> AuditTable[("Audit Lineage Table<br/>(batch_id, record_count, hash_sum)")]
-        SparkStream --> TargetDelta[("Target Delta Table<br/>(Atomic MERGE via ACID Log)")]
-    end
-
-    TargetDelta -.-> Reconcile["Nightly Reconciliation Job:<br/>Assert sum(OLTP) == sum(Delta)"]
-
-    style OLTP fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style KafkaBridge fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style OLAP fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Reconcile fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/10_oltp_cdc_debezium_to_lakehouse_audit_lineage.d2](assets/03_data_modeling_and_lakehouse_storage_faq/10_oltp_cdc_debezium_to_lakehouse_audit_lineage.d2)
 
 #### Production Implementation: Automated Audit & Lineage Tracking Table
 ```sql
@@ -1123,25 +896,9 @@ Modern enterprise data lakehouses store petabytes of sensitive customer records 
 4. **Tokenization / Format-Preserving Encryption (FPE) & Cryptographic Shredding:** Replaces PII with non-sensitive surrogate tokens at ingestion. Under GDPR/CCPA "Right to be Forgotten", destroying the customer's encryption key mathematically renders historical backup lake files irreversibly shredded without running massive rewrite jobs.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    User["Analyst / ML Query<br/>SELECT * FROM customers"] --> Gov["Unity Catalog / Policy Engine<br/>Evaluates User Roles & Entitlements"]
-    
-    subgraph GovernancePolicy ["Automated Policy Enforcement"]
-        Gov --> RLS["Row-Level Filter (RLS)<br/>WHERE market = session_user_market()"]
-        Gov --> DDM["Dynamic Column Masking (DDM)<br/>IF IS_ACCOUNT_GROUP_MEMBER('pii_admin')<br/>THEN email ELSE sha256(email)"]
-    end
+![Unity Catalog Row Level Security Column Masking](assets/03_data_modeling_and_lakehouse_storage_faq/11_unity_catalog_row_level_security_column_masking.svg)
 
-    RLS & DDM --> Storage[("Encrypted Parquet in ADLS / S3<br/>Storage Credential Isolation (No Direct IAM Access)")]
-    Storage --> CleanData["Sanitized Analytical Dataset<br/>(Authorized Analysis Without Exposure)"]
-
-    style User fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Gov fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RLS fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style DDM fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Storage fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#cbd5e1
-    style CleanData fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/11_unity_catalog_row_level_security_column_masking.d2](assets/03_data_modeling_and_lakehouse_storage_faq/11_unity_catalog_row_level_security_column_masking.d2)
 
 #### Production Implementation: Unity Catalog Dynamic Masking & Row-Filter SQL
 ```sql
@@ -1201,25 +958,9 @@ High-volume retail requires balancing fine-grained transactional analysis with f
 - **Schema Selection:** Star Schema with a **Periodic Snapshot Fact Table** (`fact_monthly_sales_snapshot`) joined to conforming dimension tables: `dim_date`, `dim_product`, `dim_vendor`, and `dim_location`.
 
 #### Visual Flow
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'attributeBackgroundColorOdd': '#1e293b', 'attributeBackgroundColorEven': '#0f172a', 'entityBackgroundColor': '#1e293b', 'entityBorderColor': '#3b82f6', 'entityTextColor': '#ffffff' }}}%%
-erDiagram
-    DIM_DATE ||--o{ FACT_MONTHLY_SALES : "temporal axis"
-    DIM_PRODUCT ||--o{ FACT_MONTHLY_SALES : "merchandise"
-    DIM_VENDOR ||--o{ FACT_MONTHLY_SALES : "supplier"
-    DIM_LOCATION ||--o{ FACT_MONTHLY_SALES : "fulfillment node"
+![Retail Analytics Star Schema ER Model](assets/03_data_modeling_and_lakehouse_storage_faq/12_retail_analytics_star_schema_er_model.svg)
 
-    FACT_MONTHLY_SALES {
-        int date_sk FK
-        int product_sk FK
-        int vendor_sk FK
-        int location_sk FK
-        bigint units_sold
-        decimal gross_sales_amount
-        decimal total_cost_amount
-        decimal net_profit_margin
-    }
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/12_retail_analytics_star_schema_er_model.d2](assets/03_data_modeling_and_lakehouse_storage_faq/12_retail_analytics_star_schema_er_model.d2)
 
 #### Production DDL & Query Implementation
 ```sql
@@ -1266,17 +1007,9 @@ GROUP BY d.year, d.month_name, v.vendor_name, p.category_name, l.country, l.stat
 #### Architecture & Optimization Playbook
 Managing a 1-billion-row dataset requires defense-in-depth across storage layout, metadata pruning, and query routing:
 
-```mermaid
-flowchart TD
-    RawData["1 Billion Rows (10 TB+)"] --> Layout["1. Physical Storage Layout<br/>(Parquet / Delta Lake Columnar, Snappy / ZSTD High Compression, 128 MB - 512 MB Target File Size)"]
-    Layout --> Pruning["2. Intelligent Pruning<br/>(Partition by Low Cardinality (event_date), Liquid Clustering / Z-Order on Join Keys (user_id))"]
-    Pruning --> Serving["3. Serving Optimization<br/>(Pre-aggregated Materialized Views, Result Caching in RAM / SSD, Projection Pushdown (Avoid SELECT *))"]
+![Large Scale Analytical Table Query Optimization](assets/03_data_modeling_and_lakehouse_storage_faq/13_large_scale_analytical_table_query_optimization.svg)
 
-    style RawData fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Layout fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Pruning fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Serving fill:#064e3b,stroke:#8b5cf6,stroke-width:2px,color:#c084fc
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/13_large_scale_analytical_table_query_optimization.d2](assets/03_data_modeling_and_lakehouse_storage_faq/13_large_scale_analytical_table_query_optimization.d2)
 
 #### Production Action Checklist
 1. **Partition Pruning:** Enforce coarse partition boundaries (e.g., `date(event_timestamp)`). A billion rows across 3 years is $\sim 1\text{M}$ rows/day—ideal for partition pruning.
@@ -1340,27 +1073,9 @@ flowchart TD
 - **Showtimes:** A movie is scheduled on an auditorium for a specific datetime.
 - **Seat States:** `AVAILABLE` $\to$ `LOCKED` (10-minute payment hold) $\to$ `BOOKED`.
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'attributeBackgroundColorOdd': '#1e293b', 'attributeBackgroundColorEven': '#0f172a', 'entityBackgroundColor': '#1e293b', 'entityBorderColor': '#3b82f6', 'entityTextColor': '#ffffff' }}}%%
-erDiagram
-    THEATER ||--o{ AUDITORIUM : houses
-    AUDITORIUM ||--o{ SEAT : contains
-    MOVIE ||--o{ SHOWTIME : schedules
-    AUDITORIUM ||--o{ SHOWTIME : hosts
-    SHOWTIME ||--o{ SHOW_SEAT : creates
-    BOOKING ||--o{ SHOW_SEAT : claims
-    USER ||--o{ BOOKING : places
+![Movie Ticket Booking System ER Model](assets/03_data_modeling_and_lakehouse_storage_faq/14_movie_ticket_booking_system_er_model.svg)
 
-    SHOW_SEAT {
-        bigint show_seat_id PK
-        bigint showtime_id FK
-        bigint seat_id FK
-        varchar status "AVAILABLE, LOCKED, BOOKED"
-        timestamp hold_expiry
-        bigint booking_id FK
-        int version "Optimistic lock counter"
-    }
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/14_movie_ticket_booking_system_er_model.d2](assets/03_data_modeling_and_lakehouse_storage_faq/14_movie_ticket_booking_system_er_model.d2)
 
 #### Preventing Double-Booking via Optimistic Locking
 ```sql
@@ -1390,24 +1105,9 @@ WHERE show_seat_id = :seat_id
 #### The Expand/Contract Migration Methodology
 Never apply in-place destructive DDL (`ALTER TABLE ... DROP COLUMN` or changing column data types) on active data pipelines:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Prod as Upstream ETL
-    participant DB as Production Lakehouse / Warehouse
-    participant View as Semantic Views Layer (v1)
-    participant BI as Downstream Reports
+![Blue Green Lakehouse Table Zero Downtime Swap](assets/03_data_modeling_and_lakehouse_storage_faq/15_blue_green_lakehouse_table_zero_downtime_swap.svg)
 
-    Note over DB,View: Phase 1: Expand Phase (Additive Only)
-    Prod->>DB: Add new column 'customer_address_v2' (Keep old 'address')
-    Prod->>DB: Dual-write to both old and new columns
-    Note over View,BI: Phase 2: Translation & Deprecation Notice
-    View->>BI: Expose 'v2_orders' view incorporating customer_address_v2
-    BI->>BI: Downstream BI dashboards migrate from v1 to v2 on 60-day window
-    Note over DB,View: Phase 3: Contract Phase
-    Prod->>DB: Drop dual-write; archive & retire old column
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/15_blue_green_lakehouse_table_zero_downtime_swap.d2](assets/03_data_modeling_and_lakehouse_storage_faq/15_blue_green_lakehouse_table_zero_downtime_swap.d2)
 
 #### Production Playbook Rules
 1. **Additive-Only Changes:** Add new columns as optional/nullable. Let upstream pipelines populate new fields while legacy columns remain functional.
@@ -1440,30 +1140,9 @@ Cloud data warehouses manage table durability, session binding, and disaster rec
    - **Use Case:** Daily ETL staging tables, ODS (Operational Data Stores), and intermediate medallion tables that can be easily recreated from source in the event of an outage.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph PermanentTable ["Permanent Table (Full Disaster Recovery)"]
-        P1["Visible: All Sessions"]
-        P2["Time Travel: 0 to 90 Days"]
-        P3["Fail-Safe: Mandatory 7 Days (Highest Storage Cost)"]
-    end
+![Snowflake Table Types Permanent Transient Temporary](assets/03_data_modeling_and_lakehouse_storage_faq/16_snowflake_table_types_permanent_transient_temporary.svg)
 
-    subgraph TransientTable ["Transient Table (Cost-Optimized ETL)"]
-        T1["Visible: All Sessions"]
-        T2["Time Travel: 0 to 1 Day"]
-        T3["Fail-Safe: NONE (Zero Fail-Safe Storage Fees)"]
-    end
-
-    subgraph TemporaryTable ["Temporary Table (Session Scratchpad)"]
-        Temp1["Visible: ONLY Creating Session"]
-        Temp2["Time Travel: 0 to 1 Day (Session Bound)"]
-        Temp3["Fail-Safe: NONE (Dropped Automatically on Disconnect)"]
-    end
-
-    style PermanentTable fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TransientTable fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style TemporaryTable fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/16_snowflake_table_types_permanent_transient_temporary.d2](assets/03_data_modeling_and_lakehouse_storage_faq/16_snowflake_table_types_permanent_transient_temporary.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -1523,27 +1202,9 @@ Modeling card-present (Point of Sale / POS) payments requires zero loss toleranc
    $$\sum 	ext{Debits} = \sum 	ext{Credits}$$
 
 #### Visual Flow
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Customer as 💳 Customer / POS Terminal
-    participant API as 🚀 Payment Gateway API
-    participant DB as 🗄️ Relational Core (Postgres/Spanner)
-    participant Ledger as 📚 Double-Entry Ledger
+![Double Entry Ledger Payment Idempotency Flow](assets/03_data_modeling_and_lakehouse_storage_faq/17_double_entry_ledger_payment_idempotency_flow.svg)
 
-    Customer->>API: POST /v1/payments/swipe (idempotency_key="pos_terminal_942_tx_881")
-    API->>DB: Check idempotency_key in payment_intents table
-    alt Key Exists
-        DB-->>API: Return existing payment_intent (Status: AUTHORIZED)
-        API-->>Customer: 200 OK (Cached Response)
-    else New Request
-        API->>DB: INSERT payment_intent (Status: PENDING)
-        API->>API: Execute Card Network Handshake (Visa/Mastercard)
-        API->>DB: UPDATE payment_intent (Status: AUTHORIZED)
-        API->>Ledger: INSERT journal_entry & 2 ledger_lines (Debit Customer Hold, Credit Clearing)
-        API-->>Customer: 201 Created (Authorization Code: "AUTH77281")
-    end
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/17_double_entry_ledger_payment_idempotency_flow.d2](assets/03_data_modeling_and_lakehouse_storage_faq/17_double_entry_ledger_payment_idempotency_flow.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -1632,59 +1293,9 @@ To achieve Third Normal Form (3NF) without data redundancy:
 3. **Enrollments:** A Student enrolls in multiple Course Sections, and each Section contains multiple Students ($M:N$). This requires a bridge/junction table (`enrollments`) with a composite key or unique constraint on `(student_id, section_id)`.
 
 #### Visual Flow
-```mermaid
-erDiagram
-    COLLEGES ||--o{ DEPARTMENTS : contains
-    DEPARTMENTS ||--o{ PROFESSORS : employs
-    DEPARTMENTS ||--o{ COURSES : offers
-    COURSES ||--o{ SECTIONS : schedules
-    PROFESSORS ||--o{ SECTIONS : instructs
-    STUDENTS ||--o{ ENROLLMENTS : registers
-    SECTIONS ||--o{ ENROLLMENTS : fulfills
+![University Course Registration ER Model](assets/03_data_modeling_and_lakehouse_storage_faq/18_university_course_registration_er_model.svg)
 
-    COLLEGES {
-        uuid college_id PK
-        string name
-        string dean_name
-    }
-    DEPARTMENTS {
-        uuid department_id PK
-        uuid college_id FK
-        string department_name
-    }
-    PROFESSORS {
-        uuid professor_id PK
-        uuid department_id FK
-        string full_name
-        string email
-    }
-    COURSES {
-        uuid course_id PK
-        uuid department_id FK
-        string course_code
-        int credit_hours
-    }
-    SECTIONS {
-        uuid section_id PK
-        uuid course_id FK
-        uuid professor_id FK
-        string semester
-        int academic_year
-    }
-    STUDENTS {
-        uuid student_id PK
-        uuid major_department_id FK
-        string full_name
-        date enrollment_date
-    }
-    ENROLLMENTS {
-        uuid enrollment_id PK
-        uuid student_id FK
-        uuid section_id FK
-        string letter_grade
-        timestamp enrolled_at
-    }
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/18_university_course_registration_er_model.d2](assets/03_data_modeling_and_lakehouse_storage_faq/18_university_course_registration_er_model.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -1782,29 +1393,9 @@ The optimal architectural design employs:
 4. **Semi-Structured Payload Isolation:** Extract top-level query filters (`event_type`, `user_id`, `device_os`, `url_path`) as typed columns, leaving dynamic event-specific attributes inside a compressed `JSON` / `VARIANT` column.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    Events["📱 Web Clients & Mobile Apps (50k Events/Sec)"] --> Broker["1. Ingestion Broker (Kafka / Event Hubs)"]
-    Broker --> StreamEngine["2. Spark Streaming / Auto Loader"]
-    StreamEngine --> DeltaTable["3. Partitioned Lakehouse Storage (Delta Lake / Parquet)"]
+![High Throughput Event Stream Columnar Storage](assets/03_data_modeling_and_lakehouse_storage_faq/19_high_throughput_event_stream_columnar_storage.svg)
 
-    subgraph SchemaLayout ["Optimal Columnar Schema Architecture"]
-        Col1["event_timestamp (TimestampNTZ)"]
-        Col2["event_date (Date - Partition Key)"]
-        Col3["event_id (UUID / Hash)"]
-        Col4["user_id (String - Z-ORDER / Clustered)"]
-        Col5["event_name (String: 'click', 'swipe')"]
-        Col6["device_category (Low-cardinality enum)"]
-        Col7["properties_payload (VARIANT / JSON Compressed)"]
-    end
-
-    DeltaTable --> SchemaLayout
-
-    style Events fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Broker fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style StreamEngine fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style DeltaTable fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/19_high_throughput_event_stream_columnar_storage.d2](assets/03_data_modeling_and_lakehouse_storage_faq/19_high_throughput_event_stream_columnar_storage.d2)
 
 #### Production Implementation / Code Solution
 ```sql
@@ -1871,35 +1462,9 @@ Data reconciliation discrepancies between source OLTP databases and target OLAP 
    Joining against an unversioned dimensional table during extraction captures dimensional attributes that changed mid-flight, causing metric divergence.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph DiscrepancyAlert ["Alert & Initial Triage"]
-        Alert["🚨 <b>Metric Discrepancy Alert</b><br/>Source Total = $1,050,000 vs DW Total = $1,020,000 (-$30k)"] --> Step1["<b>1. Quantify Granularity</b><br/>Isolate discrepancy to specific hour, tenant, or status"]
-    end
+![Data Warehouse Metric Discrepancy Triage Flow](assets/03_data_modeling_and_lakehouse_storage_faq/20_data_warehouse_metric_discrepancy_triage_flow.svg)
 
-    subgraph InvestigationChecks ["Root Cause Analysis Paths"]
-        Step1 --> Step2{"2. Check Hard Deletes"}
-        HardDelete["<b>Root Cause: Unrecorded Hard Deletes</b><br/>Source deleted rows without tombstone &rarr; Enable CDC"]
-        Step2 -- "Source Count < DW Count" --> HardDelete
-
-        Step2 -- "Source Count > DW Count" --> Step3{"3. Audit In-Flight Transactions"}
-        WatermarkLag["<b>Root Cause: Watermark Lag</b><br/>Long transaction committed post-watermark &rarr; Add lookback buffer"]
-        Step3 -- "Timestamp Gap Found" --> WatermarkLag
-
-        Step4["<b>4. Precision / Multi-Currency Skew</b><br/>Floating-point drift or stale FX rate join"]
-        Step3 -- "Counts Match, Revenue Differs" --> Step4
-    end
-
-    style DiscrepancyAlert fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style InvestigationChecks fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Alert fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Step1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Step2 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Step3 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style HardDelete fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-    style WatermarkLag fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fef3c7
-    style Step4 fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/20_data_warehouse_metric_discrepancy_triage_flow.d2](assets/03_data_modeling_and_lakehouse_storage_faq/20_data_warehouse_metric_discrepancy_triage_flow.d2)
 
 #### Production Implementation / Diagnostic Playbook
 ```sql
@@ -1972,27 +1537,9 @@ In Ralph Kimball's dimensional modeling methodology, **Step 2** (immediately fol
 - **Aggregation Level (The Summarized Perspective):** A roll-up or summary calculation performed across one or more dimensional hierarchies above the atomic grain.
   - *Example:* "Total sales revenue rolled up by Store, Category, and Calendar Month."
 
-```mermaid
-flowchart TD
-    subgraph AtomicGrain ["1. Atomic Transaction Grain (fact_sales_line_item)"]
-        direction TB
-        R1["Row 1: Receipt #101, Item: Milk, Qty: 2, Amt: $6.00"]
-        R2["Row 2: Receipt #101, Item: Bread, Qty: 1, Amt: $3.50"]
-        R3["Row 3: Receipt #102, Item: Milk, Qty: 1, Amt: $3.00"]
-    end
+![Atomic Transaction Grain vs Aggregation Rollups](assets/03_data_modeling_and_lakehouse_storage_faq/21_atomic_transaction_grain_vs_aggregation_rollups.svg)
 
-    subgraph AggregationRollup ["2. Summarized Aggregation Levels"]
-        direction LR
-        RollupStore["Store-Level Rollup<br/>Store #1: $12.50"]
-        RollupProd["Product-Level Rollup<br/>Milk: $9.00<br/>Bread: $3.50"]
-    end
-
-    AtomicGrain --> RollupStore
-    AtomicGrain --> RollupProd
-
-    style AtomicGrain fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AggregationRollup fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/21_atomic_transaction_grain_vs_aggregation_rollups.d2](assets/03_data_modeling_and_lakehouse_storage_faq/21_atomic_transaction_grain_vs_aggregation_rollups.d2)
 
 #### The Lethal Multi-Grain Join Trap (Metric Duplication Hazard)
 A catastrophic data engineering antipattern is joining facts of different grains in a single query:
@@ -2081,19 +1628,9 @@ def generate_enterprise_date_dimension(spark: SparkSession, start_date: str, end
 When retroactively adjusted transactions (e.g. chargebacks, court-ordered adjustments, or late partner uploads) arrive, rebuilding a 10-year data warehouse from scratch costs tens of thousands of dollars in cloud compute. 
 Instead, production lakehouses employ **Partition-Scoped Change Capture & Targeted Restatement**:
 
-```mermaid
-flowchart TD
-    Ingress["Late-Arriving / Corrected Records Ingress"] --> DetectMonths{"Step 1: Identify Affected Months<br/>SELECT DISTINCT DATE_TRUNC('month', txn_date)"}
-    DetectMonths --> ScopedExtract["Step 2: Extract ALL Historical Transactions<br/>STRICTLY for Affected Months from Silver Layer"]
-    ScopedExtract --> Recalc["Step 3: Recompute Monthly Aggregates<br/>for Affected Months"]
-    Recalc --> DeltaMerge[("Step 4: Targeted Dynamic Partition Overwrite<br/>or Delta Lake MERGE INTO monthly_sales_summary")]
+![Late Arriving Data Monthly Recomputation Merge](assets/03_data_modeling_and_lakehouse_storage_faq/22_late_arriving_data_monthly_recomputation_merge.svg)
 
-    style Ingress fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DetectMonths fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style ScopedExtract fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Recalc fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style DeltaMerge fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/22_late_arriving_data_monthly_recomputation_merge.d2](assets/03_data_modeling_and_lakehouse_storage_faq/22_late_arriving_data_monthly_recomputation_merge.d2)
 
 #### Production Delta Lake Implementation
 ```sql
@@ -2144,28 +1681,9 @@ In poorly governed organizations, Finance, Marketing, and Operations each write 
 - Result: Executive leadership receives contradictory revenue and churn totals from different dashboards.
 
 #### The 3-Tier Gold Architecture
-```mermaid
-flowchart TD
-    Silver[("Silver Layer: Cleaned, Deduplicated Entities & Dimensions")] --> SemanticCore["Gold Layer: Centralized Metric Marts"]
+![Governed Gold Layer Semantic Metric Fabric](assets/03_data_modeling_and_lakehouse_storage_faq/23_governed_gold_layer_semantic_metric_fabric.svg)
 
-    subgraph GoldLayer ["Governed Gold Layer & Semantic Fabric"]
-        direction TB
-        DimConformed["Conformed Dimensions<br/>(dim_customer, dim_product, dim_date)"]
-        FactStar["Kimball Fact Tables<br/>(fact_subscription_mrr, fact_orders)"]
-        OBT["Curated Wide Analytical Mart (OBT)<br/>Clustered via Liquid Clustering / Z-ORDER"]
-    end
-
-    SemanticCore --> GoldLayer
-    GoldLayer --> SemanticLayer["Semantic Layer / Metric Layer<br/>(dbt Semantic Layer / Cube / Power BI Shared Datasets)"]
-    
-    SemanticLayer --> BI1["Finance Dashboards"]
-    SemanticLayer --> BI2["Marketing Self-Service BI"]
-    SemanticLayer --> BI3["Executive KPI Scorecards"]
-
-    style Silver fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style GoldLayer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style SemanticLayer fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/23_governed_gold_layer_semantic_metric_fabric.d2](assets/03_data_modeling_and_lakehouse_storage_faq/23_governed_gold_layer_semantic_metric_fabric.d2)
 
 #### Production Engineering Rules for Gold-Layer Self-Service:
 1. **Conformed Dimensions as the Canonical Backbone:**
@@ -2197,68 +1715,9 @@ To support both with optimal performance, we deploy a **Hybrid Fact Architecture
 - **Periodic Snapshot Fact (`fact_merchant_payout_settlement`):** Exactly **one row per merchant per payout cycle** capturing gross receipts, commission deductions, customer dispute clawbacks, and net bank ACH wire amounts.
 
 #### Visual Flow: Dimensional Topology (Entity-Relationship Diagram)
-```mermaid
-erDiagram
-    dim_customer ||--o{ fact_delivery_lifecycle : places
-    dim_dasher ||--o{ fact_delivery_lifecycle : delivers
-    dim_merchant_store ||--o{ fact_delivery_lifecycle : prepares
-    dim_geo_zone ||--o{ fact_delivery_lifecycle : located_in
-    dim_date ||--o{ fact_delivery_lifecycle : placed_on
+![Food Delivery Platform Multi Fact ER Model](assets/03_data_modeling_and_lakehouse_storage_faq/24_food_delivery_platform_multi_fact_er_model.svg)
 
-    fact_delivery_lifecycle ||--|| fact_order_financials : reconciles_with
-    dim_merchant_store ||--o{ fact_merchant_payout_settlement : settles_for
-    dim_date ||--o{ fact_merchant_payout_settlement : settled_on
-
-    fact_delivery_lifecycle {
-        bigint delivery_key PK
-        string order_id
-        bigint customer_key FK
-        bigint dasher_key FK
-        bigint store_key FK
-        bigint geo_zone_key FK
-        int order_date_key FK
-        timestamp order_placed_at
-        timestamp store_accepted_at
-        timestamp dasher_assigned_at
-        timestamp dasher_arrived_store_at
-        timestamp order_picked_up_at
-        timestamp order_delivered_at
-        timestamp order_cancelled_at
-        string cancellation_reason_code
-        int merchant_prep_seconds
-        int driver_transit_seconds
-        int total_fulfillment_seconds
-    }
-
-    fact_order_financials {
-        bigint order_key PK
-        bigint delivery_key FK
-        decimal gross_food_amount
-        decimal tax_amount
-        decimal base_delivery_fee
-        decimal dynamic_surge_fee
-        decimal platform_service_fee
-        decimal driver_tip_amount
-        decimal total_consumer_paid
-        decimal merchant_commission_amount
-        decimal net_merchant_receivable
-        decimal driver_base_earnings
-        decimal total_driver_payout
-        decimal platform_net_margin
-    }
-
-    fact_merchant_payout_settlement {
-        bigint settlement_key PK
-        bigint store_key FK
-        int settlement_date_key FK
-        string settlement_batch_id
-        decimal total_gross_sales
-        decimal total_platform_commission
-        decimal total_refund_deductions
-        decimal net_payout_amount
-        string ach_transfer_status
-    }
-```
+*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/24_food_delivery_platform_multi_fact_er_model.d2](assets/03_data_modeling_and_lakehouse_storage_faq/24_food_delivery_platform_multi_fact_er_model.d2)
 
 #### Production DDL & Delta Lake / Snowflake Table Definitions
 ```sql

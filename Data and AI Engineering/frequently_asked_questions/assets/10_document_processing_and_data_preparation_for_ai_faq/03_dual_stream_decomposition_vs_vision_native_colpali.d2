@@ -1,0 +1,29 @@
+direction: down
+classes: {
+  pdf_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  container_blue: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  container_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+PDF: "Input PDF Page\nText + Charts + Tables" { class: pdf_box }
+
+DualStreamApproach: "Approach 1: Dual-Stream Decomposition" {
+  class: container_blue
+  Text: "Text Extraction (PyMuPDF)" { class: card_dark }
+  VLM: "Visual Stream (VLM Captioning)" { class: card_dark }
+  Store1: "Standard Vector Store" { class: card_dark }
+  Text -> Store1
+  VLM -> Store1
+}
+
+VisionNativeApproach: "Approach 2: Vision-Native RAG (ColPali)" {
+  class: container_green
+  Raster: "Rasterize PDF Page to Image" { class: card_dark }
+  ColPali: "ColPali Multi-Vector Patch Embeddings" { class: card_dark }
+  Store2: "Multi-Vector Visual Store" { class: card_dark }
+  Raster -> ColPali -> Store2
+}
+
+PDF -> DualStreamApproach: "Cost-Sensitive"
+PDF -> VisionNativeApproach: "Complex Diagrams"

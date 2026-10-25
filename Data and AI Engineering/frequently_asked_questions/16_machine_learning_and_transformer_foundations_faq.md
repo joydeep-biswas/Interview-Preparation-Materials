@@ -6,35 +6,9 @@ A comprehensive, production-grade guide to real-world interview scenarios and en
 
 ## Architectural Overview: From Loss Surfaces to Distributed Transformer Inference
 
-```mermaid
-flowchart TD
-    subgraph Classical_ML ["1. Optimization & Loss Surfaces"]
-        Loss["Loss Formulations (MSE, Cross-Entropy, Focal)"] --> Opt["Optimization (SGD, Momentum, AdamW Decoupled Decay)"]
-        Opt --> Tradeoff["Bias-Variance & PR-AUC Threshold Calibration"]
-    end
+![From Loss Surfaces to Distributed Attention Architecture](assets/16_machine_learning_and_transformer_foundations_faq/01_loss_surfaces_to_distributed_attention_overview.svg)
 
-    subgraph Deep_Learning ["2. Deep Representations & Gradients"]
-        Backprop["Autograd Computational Graph & Backpropagation"] --> Norm["Normalization (BatchNorm vs LayerNorm vs RMSNorm)"]
-        Norm --> GradFlow["Gradient Stabilization (Residuals, Gradient Clipping)"]
-    end
-
-    subgraph Attention_Foundations ["3. Transformer Architecture & Attention"]
-        QKV["Q, K, V Projections & Scaled Dot-Product"] --> MultiHead["Attention Variants (MHA, MQA, GQA)"]
-        MultiHead --> PosEnc["Positional Encodings (Sinusoidal, RoPE, ALiBi)"]
-    end
-
-    subgraph Inference_Scaling ["4. High-Throughput Inference & Parallelisms"]
-        KVCache["KV Cache Footprint & PagedAttention"] --> FlashAttn["FlashAttention-1/2 (SRAM Tiling & Recomputation)"]
-        FlashAttn --> Dist["Distributed Parallelisms (Tensor, Pipeline, ZeRO-3)"]
-    end
-
-    Classical_ML --> Deep_Learning --> Attention_Foundations --> Inference_Scaling
-
-    style Classical_ML fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Deep_Learning fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Attention_Foundations fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Inference_Scaling fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/01_loss_surfaces_to_distributed_attention_overview.d2](assets/16_machine_learning_and_transformer_foundations_faq/01_loss_surfaces_to_distributed_attention_overview.d2)
 
 ---
 
@@ -99,39 +73,9 @@ In high-scale enterprise systems, engineers diagnose bias vs variance by plottin
 - **High Variance Signature:** Training Loss is near zero, while Validation Loss remains significantly higher, exhibiting a persistent generalization gap ($\Delta L = L_{\text{val}} - L_{\text{train}} \gg 0$).
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    subgraph Underfit ["High Bias (Underfitting)"]
-        direction TB
-        UB1["High Training Error"]
-        UB2["High Validation Error"]
-        UB3["Minimal Gap Between Curves"]
-        UB1 --- UB2 --- UB3
-    end
+![Bias-Variance Tradeoff Decomposition: Underfitting vs Optimal vs Overfitting](assets/16_machine_learning_and_transformer_foundations_faq/02_bias_variance_tradeoff_decomposition.svg)
 
-    subgraph Optimal ["Optimal Balance (Low Bias, Low Variance)"]
-        direction TB
-        OB1["Low Training Error"]
-        OB2["Low Validation Error"]
-        OB3["Acceptable Generalization Margin"]
-        OB1 --- OB2 --- OB3
-    end
-
-    subgraph Overfit ["High Variance (Overfitting)"]
-        direction TB
-        OV1["Near-Zero Training Error"]
-        OV2["High Validation Error"]
-        OV3["Massive Generalization Gap"]
-        OV1 --- OV2 --- OV3
-    end
-
-    Underfit -->|"Add Model Capacity / Features"| Optimal
-    Optimal -->|"Excessive Capacity / Insufficient Data"| Overfit
-
-    style Underfit fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style Optimal fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Overfit fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/02_bias_variance_tradeoff_decomposition.d2](assets/16_machine_learning_and_transformer_foundations_faq/02_bias_variance_tradeoff_decomposition.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -215,25 +159,9 @@ Regularization prevents high variance by augmenting the loss objective $\mathcal
 3. **ElasticNet:** Linearly blends both penalties ($\alpha L_1 + (1-\alpha) L_2$) to retain sparsity while maintaining group stability across correlated features.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph L1_Diamond ["L1 (Lasso) Constraint: Diamond Corner Intersection"]
-        direction TB
-        L1_Desc["Contour intersections occur at axis vertices where w1=0 or w2=0.<br/>Result: Exact Zero Sparsity & Automatic Feature Pruning."]
-    end
+![L1 (Lasso) vs L2 (Ridge) Geometric Constraint Spaces](assets/16_machine_learning_and_transformer_foundations_faq/03_l1_lasso_vs_l2_ridge_geometric_constraints.svg)
 
-    subgraph L2_Circle ["L2 (Ridge) Constraint: Smooth Circular Tangent"]
-        direction TB
-        L2_Desc["Contour intersections occur along smooth spherical surfaces.<br/>Result: Uniform Weight Shrinkage without strict zeros."]
-    end
-
-    SelectionCheck{"Feature Space Characteristic"}
-    SelectionCheck -->|High Dimensionality & Sparse Signals| L1_Diamond
-    SelectionCheck -->|Collinear Features & Dense Continuous Signals| L2_Circle
-
-    style L1_Diamond fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style L2_Circle fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/03_l1_lasso_vs_l2_ridge_geometric_constraints.d2](assets/16_machine_learning_and_transformer_foundations_faq/03_l1_lasso_vs_l2_ridge_geometric_constraints.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -317,43 +245,9 @@ In high-scale banking platforms (e.g., Visa/Mastercard processing 50,000 transac
 - A gradient-boosted decision tree (LightGBM/XGBoost) or Real-Time Graph Neural Network (GNN) evaluates non-linear interactions across 300+ features (velocity of transactions in the last 10 minutes, IP subnet entropy, merchant category distance, device fingerprinting) in $< 15\text{ ms}$, predicting a calibrated fraud probability $P(\text{fraud} \mid \mathbf{x})$.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    Tx["<b>Incoming Transaction</b><br/>Card, Amount, Merchant, IP"] --> RulesEngine{"Deterministic Blacklist & Rules?"}
+![Hybrid Fraud Detection: Deterministic Rules vs ML Inference Pipeline](assets/16_machine_learning_and_transformer_foundations_faq/04_fraud_detection_rules_engine_vs_ml_inference_pipeline.svg)
 
-    subgraph FastRuleZone ["Deterministic Rule Gate"]
-        HardBlock["<b>Immediate Rejection</b><br/>Stolen card / high-risk sanction"]
-    end
-
-    subgraph FeatureModelZone ["ML Inference Pipeline"]
-        direction LR
-        FeatureStore["<b>Feature Store Lookup</b><br/>Redis / Feast sliding window aggregations"] --> Model["<b>XGBoost / LightGBM</b><br/>Compute fraud probability score"]
-        Model --> ScoreDecision{"Fraud Score > 0.85?"}
-    end
-
-    subgraph DecisionOutcomes ["Transaction Resolution"]
-        direction LR
-        Approve["<b>Approve Transaction</b><br/>p99 latency < 30ms"]
-        StepUp["<b>Step-Up 2FA Challenge</b><br/>SMS / biometric push verification"]
-    end
-
-    RulesEngine -- "Rule Matched" --> HardBlock
-    RulesEngine -- "Rule Passed" --> FeatureModelZone
-    ScoreDecision -- "Low Score" --> Approve
-    ScoreDecision -- "Medium/High Score" --> StepUp
-
-    style Tx fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style RulesEngine fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style FastRuleZone fill:#1e1e2e,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style FeatureModelZone fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DecisionOutcomes fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style HardBlock fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style FeatureStore fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Model fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ScoreDecision fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Approve fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style StepUp fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/04_fraud_detection_rules_engine_vs_ml_inference_pipeline.d2](assets/16_machine_learning_and_transformer_foundations_faq/04_fraud_detection_rules_engine_vs_ml_inference_pipeline.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -440,27 +334,9 @@ Where $\eta > 0$ is the learning rate, and $\mathbf{g}_t$ is the gradient estima
 | **Mini-Batch Gradient Descent** | $1 < B < N$ (Typically 32, 64, 256, 512) | Optimal hardware alignment. Fully utilizes GPU Tensor Cores via parallel vectorized `GEMM` matrix operations. | Balances trajectory smoothness with stochastic noise. Standard default for virtually all modern deep learning. |
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph BGD ["Batch Gradient Descent (B=N)"]
-        direction TB
-        B1["All N samples evaluated"] --> B2["Exact true gradient computed"] --> B3["Single deterministic step"]
-    end
+![Gradient Descent Learning Rate Dynamics & Convergence](assets/16_machine_learning_and_transformer_foundations_faq/05_gradient_descent_learning_rate_dynamics.svg)
 
-    subgraph SGD ["Stochastic Gradient Descent (B=1)"]
-        direction TB
-        S1["Single sample evaluated"] --> S2["Extremely noisy gradient"] --> S3["Erratic oscillatory step"]
-    end
-
-    subgraph MBGD ["Mini-Batch Gradient Descent (B=32..512)"]
-        direction TB
-        M1["Mini-batch of B samples"] --> M2["Vectorized GPU matrix op"] --> M3["Smooth, fast converging step"]
-    end
-
-    style BGD fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SGD fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style MBGD fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/05_gradient_descent_learning_rate_dynamics.d2](assets/16_machine_learning_and_transformer_foundations_faq/05_gradient_descent_learning_rate_dynamics.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -545,28 +421,9 @@ Engineers address class imbalance across three complementary architectural tiers
    - When a sample is well-classified ($p_t \to 1$), the modulating factor $(1 - p_t)^\gamma \to 0$, down-weighting the loss contribution of easy majority examples and focusing the gradient strictly on hard, ambiguous minority samples.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph DataTier ["1. Data Tier Resampling"]
-        Raw["Imbalanced Dataset (99:1)"] --> SMOTE["SMOTE: Synthesize minority points along k-NN vectors"]
-    end
+![Class Imbalance Pipeline: Resampling, Focal Loss & Cost Thresholding](assets/16_machine_learning_and_transformer_foundations_faq/06_class_imbalance_smote_undersampling_focal_loss_pipeline.svg)
 
-    subgraph LossTier ["2. Cost-Sensitive Loss Tier"]
-        Raw --> ClassWeight["Inverse Class Weighting: alpha_minority = N / (2 * N_minority)"]
-        Raw --> FocalLoss["Focal Loss: -(1 - pt)^gamma * log(pt) down-weights easy negatives"]
-    end
-
-    subgraph EvalTier ["3. Metric Tier (Strict Prohibition of Accuracy)"]
-        direction TB
-        SMOTE --> MetricSelect["Evaluate PR-AUC, F1-Score (Macro), Recall@K"]
-        ClassWeight --> MetricSelect
-        FocalLoss --> MetricSelect
-    end
-
-    style DataTier fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LossTier fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style EvalTier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/06_class_imbalance_smote_undersampling_focal_loss_pipeline.d2](assets/16_machine_learning_and_transformer_foundations_faq/06_class_imbalance_smote_undersampling_focal_loss_pipeline.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -651,23 +508,9 @@ $$\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(1)}} = \left( \prod_{k=1}^{L
    - **Consequence:** Loss explodes to `NaN`, weight tensors overflow to `Inf`, and model weights diverge catastrophically.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    subgraph ForwardPass ["Forward Pass: Activations Flow Left to Right"]
-        direction LR
-        In[x] --> L1[Layer 1: a1] --> L2[Layer 2: a2] --> LL[Layer L: aL] --> Loss[Loss L]
-    end
+![Backpropagation Computational Graph & Vanishing Gradient Anatomy](assets/16_machine_learning_and_transformer_foundations_faq/07_backpropagation_computational_graph_vanishing_gradient.svg)
 
-    subgraph BackwardPass ["Backward Pass: Gradients Propagate Right to Left"]
-        direction RL
-        Loss -->|dLoss| dLL[delta L] -->|Repeated * W^T * sigma'| dL2[delta 2] -->|Exponetial Decay or Explosion| dL1[delta 1]
-    end
-
-    ForwardPass --> BackwardPass
-
-    style ForwardPass fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BackwardPass fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/07_backpropagation_computational_graph_vanishing_gradient.d2](assets/16_machine_learning_and_transformer_foundations_faq/07_backpropagation_computational_graph_vanishing_gradient.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -758,24 +601,9 @@ Given an activation tensor of shape $(B, T, C)$ where $B$ is batch size, $T$ is 
 | **Primary Domain** | Computer Vision (CNNs, ResNets) | Natural Language Processing (Transformers, LLMs) |
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph BN ["Batch Normalization: Normalizes ACROSS the Batch"]
-        direction TB
-        BN_Box["Calculates mean and variance over (B, H, W) for each channel C.<br/>Inter-sample dependency: Sample 1 output depends on Sample 2!"]
-    end
+![Feature Normalization Topologies: BatchNorm vs LayerNorm vs RMSNorm](assets/16_machine_learning_and_transformer_foundations_faq/08_batch_norm_vs_layer_norm_vs_rmsnorm_tensors.svg)
 
-    subgraph LN ["Layer Normalization: Normalizes ACROSS the Features"]
-        direction TB
-        LN_Box["Calculates mean and variance over (C) for each individual sample b.<br/>Zero inter-sample dependency: Invariant to batch size!"]
-    end
-
-    TensorInput["Input Tensor: (Batch, Sequence, Channels)"] --> BN
-    TensorInput --> LN
-
-    style BN fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LN fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/08_batch_norm_vs_layer_norm_vs_rmsnorm_tensors.d2](assets/16_machine_learning_and_transformer_foundations_faq/08_batch_norm_vs_layer_norm_vs_rmsnorm_tensors.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -848,27 +676,9 @@ Every deep learning architecture embeds specific **Inductive Biases** (assumptio
 | **Optimal Production Domain** | Edge Vision, Mobile Inference | Microcontroller IoT Sensors | NLP, GenAI, Vision Foundation Models |
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    subgraph CNN_Flow ["CNN: Local Receptive Field"]
-        direction TB
-        C1["3x3 Kernel slides over local patches.<br/>High inductive bias. Fast edge inference."]
-    end
+![Inductive Bias Spectrum: CNNs vs RNNs vs Transformers](assets/16_machine_learning_and_transformer_foundations_faq/09_inductive_bias_cnn_vs_rnn_vs_transformer.svg)
 
-    subgraph RNN_Flow ["RNN: Sequential Hidden State"]
-        direction TB
-        R1["h(t-1) -> h(t) -> h(t+1).<br/>Sequential bottleneck. Vanishing memory."]
-    end
-
-    subgraph Trans_Flow ["Transformer: Global All-to-All Attention"]
-        direction TB
-        T1["Every token attends to every token directly.<br/>O(N^2) complexity. Massive parallelism."]
-    end
-
-    style CNN_Flow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RNN_Flow fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style Trans_Flow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/09_inductive_bias_cnn_vs_rnn_vs_transformer.d2](assets/16_machine_learning_and_transformer_foundations_faq/09_inductive_bias_cnn_vs_rnn_vs_transformer.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -938,42 +748,9 @@ Model selection in enterprise engineering is an optimization problem balancing *
    - Cloud GPU instances (A100/H100) cost $\$2\text{–}\$4/\text{hour}$ vs CPU instances at $\$0.10/\text{hour}$. High-volume throughput on CPUs frequently demands quantized small models.
 
 #### Decision Flowchart: Model Selection Architecture
-```mermaid
-flowchart TD
-    Start["<b>Analyze Problem & Data Modality</b><br/>Framing ML task"] --> DataCheck{"Is Historical Labeled Data Available?"}
+![Machine Learning Algorithm Selection Decision Tree](assets/16_machine_learning_and_transformer_foundations_faq/10_machine_learning_model_selection_decision_tree.svg)
 
-    subgraph SupervisedZone ["Supervised Learning"]
-        direction TB
-        Continuous{"Continuous or Categorical Target?"}
-        Regression["<b>Regression Pipeline</b><br/>Linear, Ridge, XGBoost, LightGBM"]
-        Classification["<b>Classification Pipeline</b><br/>Logistic, Random Forest, GBDT, ResNet"]
-        Continuous -- "Continuous (Price/Time)" --> Regression
-        Continuous -- "Categorical (Class/Flag)" --> Classification
-    end
-
-    subgraph UnsupervisedZone ["Unsupervised / Self-Supervised"]
-        direction TB
-        Feedback{"Agent Interaction Feedback Available?"}
-        Clustering["<b>Clustering & Dimensionality Reduction</b><br/>K-Means, HDBSCAN, PCA, Autoencoders"]
-        RL["<b>Reinforcement Learning</b><br/>Q-Learning, PPO, Actor-Critic"]
-        Feedback -- "No (Find Latent Structure)" --> Clustering
-        Feedback -- "Yes (Policy Optimization)" --> RL
-    end
-
-    DataCheck -- "Yes (Labeled Data)" --> SupervisedZone
-    DataCheck -- "No (Unlabeled / Agent)" --> UnsupervisedZone
-
-    style Start fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style DataCheck fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style SupervisedZone fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style UnsupervisedZone fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Continuous fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Regression fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Classification fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Feedback fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Clustering fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style RL fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/10_machine_learning_model_selection_decision_tree.d2](assets/16_machine_learning_and_transformer_foundations_faq/10_machine_learning_model_selection_decision_tree.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1059,26 +836,9 @@ A catastrophic drop in production model performance (e.g. $95\% \to 60\%$) is al
    - Implement **Great Expectations** or **Evidently AI** contract tests in CI/CD feature pipelines.
 
 #### Visual Flow
-```mermaid
-sequenceDiagram
-    autonumber
-    participant OnCall as On-Call AI Engineer
-    participant Rollout as Model Registry (MLflow)
-    participant FeatureStore as Feast Feature Store
-    participant DataDog as APM / Prometheus Metrics
+![Production Model Accuracy Drop Triage Sequence](assets/16_machine_learning_and_transformer_foundations_faq/11_production_model_accuracy_drop_triage_sequence.svg)
 
-    DataDog->>OnCall: P0 ALERT: Production Model Accuracy dropped to 60%!
-    OnCall->>Rollout: Check recent model rollouts within last 24h
-    alt Recent Model Deployed
-        OnCall->>Rollout: Instant Canary Rollback to previous checkpoint v1.4.2
-        Rollout-->>DataDog: Traffic routed to v1.4.2. Verify metric recovery.
-    else No Model Change
-        OnCall->>FeatureStore: Run Feature Null-Rate & Distribution Profiling
-        FeatureStore-->>OnCall: ALERT: feature_income null_rate jumped from 0.01% to 84.2%!
-        Note over OnCall, FeatureStore: Upstream DB migration changed column 'annual_income' to 'income_usd'!
-        OnCall->>FeatureStore: Deploy Hotfix Alias in Feature Ingestion Pipeline
-    end
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/11_production_model_accuracy_drop_triage_sequence.d2](assets/16_machine_learning_and_transformer_foundations_faq/11_production_model_accuracy_drop_triage_sequence.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1143,27 +903,9 @@ A performance discrepancy between weekdays and weekends is classic **Temporal Di
 3. **Concept Drift ($P(Y \mid X)$ changes):** A feature value that indicates fraud on a Tuesday (e.g. a transaction at 3:00 AM) may be standard consumer activity on a Saturday night.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Analysis ["Step 1: Temporal Slice Profiling"]
-        Split["Segment Production Telemetry: Mon-Fri vs Sat-Sun"]
-        Compare["Compare Error Rates: Accuracy, F1, Log-Loss per Day"]
-        FeatureShift["Inspect Feature Value Distributions by Day of Week"]
-        Split --> Compare --> FeatureShift
-    end
+![Temporal Slicing & Cyclical Feature Engineering Framework](assets/16_machine_learning_and_transformer_foundations_faq/12_temporal_seasonality_and_cyclical_feature_engineering.svg)
 
-    subgraph Solution ["Step 2: Cyclical Feature Engineering & Time-Series CV"]
-        Cyclic["Encode Cyclical Sine/Cosine Features: sin(2pi*d/7), cos(2pi*d/7)"]
-        Flag["Add Binary Indicator: is_weekend (0 or 1)"]
-        CV["Switch to TimeSeriesSplit Cross-Validation"]
-        Cyclic --> Flag --> CV
-    end
-
-    Analysis --> Solution
-
-    style Analysis fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Solution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/12_temporal_seasonality_and_cyclical_feature_engineering.d2](assets/16_machine_learning_and_transformer_foundations_faq/12_temporal_seasonality_and_cyclical_feature_engineering.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1263,27 +1005,9 @@ $$\{\text{Low Latency (Fast)}, \quad \text{Low Cost (Cheap)}, \quad \text{High P
    - **Trade-Off:** Latency is high ($5\text{–}30\text{ seconds}$ per response). Completely unsuitable for real-time web UI interactions, but ideal for asynchronous legal document analysis, medical diagnosis report generation, and automated code review pipelines.
 
 #### Visual Flow: The Production Pareto Frontier
-```mermaid
-flowchart TD
-    subgraph FastCheap ["1. Fast + Cheap (Edge SLMs / Heuristics)"]
-        FC1["Latency: 5ms | Cost: $0.00005/req | Accuracy: 82%"]
-        FC2["Use Case: Email auto-complete, high-volume ad filtering"]
-    end
+![The Fast, Cheap, Accurate Production ML Pareto Frontier](assets/16_machine_learning_and_transformer_foundations_faq/13_fast_cheap_accurate_ml_pareto_front.svg)
 
-    subgraph FastAccurate ["2. Fast + Accurate (Over-Provisioned H100 Clusters)"]
-        FA1["Latency: 45ms | Cost: $0.04/req | Accuracy: 96%"]
-        FA2["Use Case: Real-time autonomous robotics, high-touch voice VIP support"]
-    end
-
-    subgraph CheapAccurate ["3. Cheap + Accurate (Agentic Loops & Test-Time Compute)"]
-        CA1["Latency: 15,000ms | Cost: $0.002/req | Accuracy: 98.5%"]
-        CA2["Use Case: Asynchronous contract auditing, deep research reports"]
-    end
-
-    style FastCheap fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FastAccurate fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style CheapAccurate fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/13_fast_cheap_accurate_ml_pareto_front.d2](assets/16_machine_learning_and_transformer_foundations_faq/13_fast_cheap_accurate_ml_pareto_front.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1372,25 +1096,9 @@ Defaulting to $\tau = 0.5$ assumes symmetric error costs ($C(\text{FP}) = C(\tex
   - *Real-World Example 2:* **AML (Anti-Money Laundering) Sanction Screening.** Missing an oligarch transaction triggers multi-million dollar regulatory fines from FinCEN.
 
 #### Visual Flow: Optimal Threshold Selection via Expected Cost Minimization
-```mermaid
-flowchart TD
-    subgraph MatrixAsymmetry ["Enterprise Cost Asymmetry"]
-        FP["Cost of False Positive: $C_{FP} = $500<br/>(Customer Churn & Support Overhead)"]
-        FN["Cost of False Negative: $C_{FN} = $50<br/>(Transaction Loss)"]
-    end
+![Cost-Sensitive Optimal Classification Threshold Calibration](assets/16_machine_learning_and_transformer_foundations_faq/14_cost_sensitive_threshold_calibration_sweep.svg)
 
-    subgraph ThresholdSweep ["Threshold Calibration Sweep (tau in [0.0, 1.0])"]
-        T05["tau = 0.50 (Default)<br/>Expected Total Cost = $14,500"]
-        T08["tau = 0.82 (Calibrated Optimum)<br/>Expected Total Cost = $4,200 <-- 71% Cost Reduction!"]
-    end
-
-    MatrixAsymmetry --> ThresholdSweep
-    ThresholdSweep --> Deploy["Deploy tau = 0.82 into Production Serving Model"]
-
-    style MatrixAsymmetry fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ThresholdSweep fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Deploy fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/14_cost_sensitive_threshold_calibration_sweep.d2](assets/16_machine_learning_and_transformer_foundations_faq/14_cost_sensitive_threshold_calibration_sweep.d2)
 
 #### Production Python Implementation: Cost-Sensitive Threshold Optimizer
 ```python
@@ -1497,30 +1205,9 @@ In deep neural networks, a single optimization iteration transforms input tensor
      $$\theta_t = \theta_{t-1} - \underbrace{\eta \lambda \theta_{t-1}}_{\text{Direct Weight Decay}} - \underbrace{\frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t}_{\text{Adaptive Gradient Step}}$$
 
 #### Visual Flow: Gradient Descent Trajectory across Non-Convex Loss Surface
-```mermaid
-flowchart TD
-    subgraph LossLandscape ["Non-Convex Loss Surface Traversal"]
-        SGD["Standard SGD:<br/>Oscillates wildly in steep ravines;<br/>Stalls in flat saddle points (grad = 0)"]
-        AdamW["AdamW Trajectory:<br/>Momentum (m_t) glides through saddle points;<br/>Variance scaling (v_t) dampens oscillation"]
-    end
+![Production Gradient Descent Mechanics & AdamW Memory Buffers](assets/16_machine_learning_and_transformer_foundations_faq/15_production_gradient_descent_adamw_optimizer_dynamics.svg)
 
-    subgraph InternalState ["PyTorch Optimizer Memory State (Per Parameter Tensor)"]
-        W["Parameter Tensor: theta (e.g. 100M FP32 = 400 MB)"]
-        Grad["Gradient Tensor: grad (400 MB)"]
-        M1["First Moment Buffer: m_t (400 MB)"]
-        V2["Second Moment Buffer: v_t (400 MB)"]
-    end
-
-    Grad --> M1
-    Grad --> V2
-    M1 --> Update["Weight Update: theta = theta - lr*decay*theta - lr*m / (sqrt(v) + eps)"]
-    V2 --> Update
-    Update --> W
-
-    style LossLandscape fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style InternalState fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Update fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/15_production_gradient_descent_adamw_optimizer_dynamics.d2](assets/16_machine_learning_and_transformer_foundations_faq/15_production_gradient_descent_adamw_optimizer_dynamics.d2)
 
 #### Production Python Implementation: Standalone AdamW Step Implementation
 ```python
@@ -1653,29 +1340,9 @@ Introduced in *Attention Is All You Need* (Vaswani et al., 2017), the Transforme
    $$P(t_{T+1} = v \mid t_{\le T}) = \frac{\exp(z_{T, v} / \tau)}{\sum_{j=1}^V \exp(z_{T, j} / \tau)}$$
 
 #### Visual Flow
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as User Input Prompt
-    participant Tok as BPE Tokenizer
-    participant Emb as Embedding Matrix (W_e)
-    participant Block as L Transformer Blocks
-    participant Norm as Final RMSNorm
-    participant Head as LM Head (W_head)
-    participant Sampler as Sampler (Softmax / Top-p)
+![Transformer Full Request Lifecycle & Feed-Forward Sequence](assets/16_machine_learning_and_transformer_foundations_faq/16_transformer_encoder_decoder_inference_lifecycle.svg)
 
-    User->>Tok: "The capital of France is"
-    Tok-->>Emb: Token IDs: [791, 6864, 315, 9552, 374]
-    Emb-->>Block: Hidden Activations: Tensor [B=1, T=5, D=4096]
-    loop For l = 1 to L (e.g. 32 Layers)
-        Block->>Block: RMSNorm -> Self-Attention (GQA) -> Residual Add
-        Block->>Block: RMSNorm -> SwiGLU Feed-Forward -> Residual Add
-    end
-    Block-->>Norm: Final Layer Representations [1, 5, 4096]
-    Norm-->>Head: Normalized Vector for last token (t=5)
-    Head-->>Sampler: Unscaled Logits Vector [1, 128256]
-    Sampler-->>User: Emits Token: " Paris" (ID: 4031)
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/16_transformer_encoder_decoder_inference_lifecycle.d2](assets/16_machine_learning_and_transformer_foundations_faq/16_transformer_encoder_decoder_inference_lifecycle.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1753,27 +1420,9 @@ $$\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\fr
    - **Optimal Use Cases:** Strict sequence-to-sequence transformations where input and output lengths diverge: language translation, abstractive summarization, speech-to-text (Whisper).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph EncOnly ["1. Encoder-Only (BERT)"]
-        direction TB
-        E1["Bidirectional Mask: Full Matrix 1s"] --> E2["Every token attends to all tokens"] --> E3["Target: Embedding / Classification"]
-    end
+![Architectural Comparison: Encoder-Only vs Decoder-Only vs Encoder-Decoder](assets/16_machine_learning_and_transformer_foundations_faq/17_encoder_only_vs_decoder_only_vs_encoder_decoder.svg)
 
-    subgraph DecOnly ["2. Decoder-Only (LLaMA / GPT)"]
-        direction TB
-        D1["Causal Mask: Lower Triangular"] --> D2["Tokens only attend to past tokens"] --> D3["Target: Autoregressive Text Generation"]
-    end
-
-    subgraph EncDec ["3. Encoder-Decoder (T5 / Whisper)"]
-        direction TB
-        ED1["Encoder: Full Bidirectional Context"] --> ED2["Cross-Attention Projection"] --> ED3["Decoder: Causal Target Generation"]
-    end
-
-    style EncOnly fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DecOnly fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style EncDec fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/17_encoder_only_vs_decoder_only_vs_encoder_decoder.d2](assets/16_machine_learning_and_transformer_foundations_faq/17_encoder_only_vs_decoder_only_vs_encoder_decoder.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1839,37 +1488,9 @@ Developing a production Large Language Model follows a two-stage thermodynamic k
 | **Primary Goal** | Knowledge compression & representation | Instruction following & formatting | Human alignment & hallucination suppression |
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph PretrainingPhase ["Phase 1: Foundation Pre-Training"]
-        direction LR
-        RawWeb["<b>Raw Web Crawl</b><br/>15T tokens"] --> PreTrain["<b>Self-Supervised Causal LM</b><br/>Predict next token on massive GPU cluster"] --> BaseLLM["<b>Base Foundation LLM</b><br/>Raw text predictor"]
-    end
+![LLM Lifecycle: Pre-Training, Supervised Fine-Tuning & Alignment](assets/16_machine_learning_and_transformer_foundations_faq/18_llm_pretraining_instruction_tuning_alignment_phases.svg)
 
-    subgraph AlignmentPhase ["Phase 2: Post-Training Instruction & Preference Tuning"]
-        direction LR
-        subgraph SFTZone ["Instruction Tuning"]
-            Curated["<b>Curated QA Pairs</b><br/>100k conversations"] --> SFT["<b>Supervised Fine-Tuning</b><br/>Teaches conversational format"]
-        end
-        subgraph PrefZone ["Preference Alignment"]
-            PrefPairs["<b>Chosen / Rejected Pairs</b>"] --> DPO["<b>DPO / RLHF</b><br/>Align with safety & helpfulness"]
-        end
-        BaseLLM --> SFTZone
-        SFT --> PrefZone
-    end
-
-    style PretrainingPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AlignmentPhase fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SFTZone fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#93c5fd
-    style PrefZone fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#6ee7b7
-    style RawWeb fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style PreTrain fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style BaseLLM fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Curated fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style SFT fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style PrefPairs fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style DPO fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/18_llm_pretraining_instruction_tuning_alignment_phases.d2](assets/16_machine_learning_and_transformer_foundations_faq/18_llm_pretraining_instruction_tuning_alignment_phases.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1938,31 +1559,9 @@ Before 2017, sequential modeling was dominated by Recurrent Neural Networks (RNN
    - **Transformer Solution:** Direct $O(1)$ pairwise attention links every token to every other token regardless of distance, eliminating the fixed-vector compression bottleneck.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph RNN_Bottleneck ["Recurrent Bottleneck: O(T) Sequential Chain"]
-        direction LR
-        x1[x1] --> h1[h1]
-        x2[x2] --> h2[h2]
-        x3[x3] --> h3[h3]
-        xT[xT] --> hT["hT: Fixed Vector (Severe Loss of Early Information)"]
-        h1 -->|Sequential Dependency| h2
-        h2 -->|Sequential Dependency| h3
-        h3 -.->|Cannot Parallelize| hT
-    end
+![Transition from Sequential RNN/LSTM Bottlenecks to Self-Attention](assets/16_machine_learning_and_transformer_foundations_faq/19_rnn_lstm_sequential_bottleneck_to_self_attention.svg)
 
-    subgraph Attention_Solution ["Transformer Solution: O(1) Direct Path Matrix Multiply"]
-        direction TB
-        QKT["Q * K^T Parallel Matrix Multiplication"]
-        DirectRoute["Direct O(1) connection between Token 1 and Token 10,000.<br/>Zero sequential chain. Full GPU parallelism."]
-        QKT --> DirectRoute
-    end
-
-    RNN_Bottleneck -->|Replaced By| Attention_Solution
-
-    style RNN_Bottleneck fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style Attention_Solution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/19_rnn_lstm_sequential_bottleneck_to_self_attention.d2](assets/16_machine_learning_and_transformer_foundations_faq/19_rnn_lstm_sequential_bottleneck_to_self_attention.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2034,23 +1633,9 @@ $$\frac{\partial \text{Context}_{1000}}{\partial \mathbf{v}_1} = A_{1000, 1} \cd
 If $A_{1000, 1} > 0$, the gradient flows instantaneously without vanishing.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph RNN_Path ["RNN Path: O(N) Sequential Links"]
-        T1["Token 1"] --> T2["Token 2"] --> TDots["..."] --> T1000["Token 1000"]
-        NoteRNN["Path Length = 999 hops.<br/>Gradient decays exponentially."]
-    end
+![Self-Attention Mechanics: Q, K, V Projections & Attention Maps](assets/16_machine_learning_and_transformer_foundations_faq/20_self_attention_matrix_multiplication_qkv_geometry.svg)
 
-    subgraph Attention_Path ["Self-Attention Path: O(1) Direct Link"]
-        Tok1["Token 1"]
-        Tok1000["Token 1000"]
-        Tok1 <==>|"Direct Attention Score A(1000, 1)"| Tok1000
-        NoteAttn["Path Length = 1 hop.<br/>Gradient flows directly without decay."]
-    end
-
-    style RNN_Path fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style Attention_Path fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/20_self_attention_matrix_multiplication_qkv_geometry.d2](assets/16_machine_learning_and_transformer_foundations_faq/20_self_attention_matrix_multiplication_qkv_geometry.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2123,27 +1708,9 @@ Because the self-attention operation is **permutation-equivariant** ($\text{Atte
    - **Benefit:** Exceptional context extrapolation without any positional training, but weaker expressiveness on complex in-context retrieval tasks.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Sinusoidal ["1. Absolute Sinusoidal (Vaswani 2017)"]
-        direction TB
-        S1["x_final = x_token + PE(pos)"] --> S2["Additive distortion of semantic embedding.<br/>Poor length extrapolation."]
-    end
+![Positional Encoding Foundations: Sinusoidal vs Rotary Embeddings (RoPE)](assets/16_machine_learning_and_transformer_foundations_faq/21_positional_encoding_sinusoidal_vs_rotary_rope.svg)
 
-    subgraph RoPE ["2. Rotary Position Embedding - RoPE (LLaMA / Mistral)"]
-        direction TB
-        R1["q_rotated = R(pos) * q, k_rotated = R(pos) * k"] --> R2["Inner product depends strictly on relative offset (m - n).<br/>Norm-preserving rotation in complex 2D planes."]
-    end
-
-    subgraph ALiBi ["3. ALiBi (Press 2021)"]
-        direction TB
-        A1["Score = Q*K^T - m * |i - j|"] --> A2["Linear distance decay directly in attention matrix.<br/>Extrapolates out-of-the-box."]
-    end
-
-    style Sinusoidal fill:#1e293b,stroke:#64748b,stroke-width:1px,color:#fff
-    style RoPE fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style ALiBi fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/21_positional_encoding_sinusoidal_vs_rotary_rope.d2](assets/16_machine_learning_and_transformer_foundations_faq/21_positional_encoding_sinusoidal_vs_rotary_rope.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2206,26 +1773,9 @@ $$\text{head}_i = \text{Attention}(\mathbf{Q}\mathbf{W}_i^Q, \mathbf{K}\mathbf{W
    It provides significantly greater representation power at zero additional FLOP cost.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    In[Input Hidden State X: d_model = 4096] --> Proj[Linear Projections W_q, W_k, W_v]
-    
-    subgraph Subspaces ["Split into h=32 Independent Attention Heads (d_k = 128)"]
-        direction LR
-        H1["Head 1: Syntactic Subject-Verb Dependency"]
-        H2["Head 2: Semantic Pronoun Resolution"]
-        HDots["..."]
-        H32["Head 32: Factual Knowledge Retrieval"]
-    end
+![Multi-Head Attention Subspace Projection & Projection Matrices](assets/16_machine_learning_and_transformer_foundations_faq/22_multi_head_attention_subspace_projection_concatenation.svg)
 
-    Proj --> Subspaces
-    Subspaces --> Concat["Concatenate 32 Heads: [B, T, 4096]"]
-    Concat --> OutProj["Output Projection W_O"]
-
-    style In fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Subspaces fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Concat fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/22_multi_head_attention_subspace_projection_concatenation.d2](assets/16_machine_learning_and_transformer_foundations_faq/22_multi_head_attention_subspace_projection_concatenation.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2307,21 +1857,9 @@ The difference between **Masked Language Modeling (MLM)** and **Causal Language 
 | **Downstream Strengths** | Embeddings, Classification, Re-ranking | Generative Reasoning, Dialogue, Coding |
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph MLM_Obj ["Masked Language Modeling (BERT)"]
-        direction LR
-        MIn["The capital of [MASK] is Paris"] --> MBidirectional["Bidirectional Self-Attention"] --> MOut["Predicts: 'France'"]
-    end
+![Masked Language Modeling (BERT) vs Causal Language Modeling (GPT)](assets/16_machine_learning_and_transformer_foundations_faq/23_masked_language_modeling_vs_causal_language_modeling.svg)
 
-    subgraph CLM_Obj ["Causal Language Modeling (LLaMA / GPT)"]
-        direction LR
-        CIn["The capital of France is"] --> CCausal["Causal Lower-Triangular Mask"] --> COut["Predicts: 'Paris'"]
-    end
-
-    style MLM_Obj fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CLM_Obj fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/23_masked_language_modeling_vs_causal_language_modeling.d2](assets/16_machine_learning_and_transformer_foundations_faq/23_masked_language_modeling_vs_causal_language_modeling.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2394,30 +1932,9 @@ The system crashes with `CUDA Out of Memory` before even serving a single concur
    - Recovers 99.5% of MHA accuracy while achieving MQA inference throughput!
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph MHA ["Multi-Head Attention (MHA)"]
-        direction TB
-        Q_MHA["Queries: 8 Heads"] <--> KV_MHA["Keys/Values: 8 Heads"]
-        NoteMHA["1:1 Ratio. Highest VRAM Memory Consumption."]
-    end
+![KV Cache Memory Architecture: Multi-Head vs Grouped-Query (GQA) vs MQA](assets/16_machine_learning_and_transformer_foundations_faq/24_kv_cache_mha_vs_gqa_vs_mqa_memory_scaling.svg)
 
-    subgraph GQA ["Grouped-Query Attention (GQA - LLaMA 3)"]
-        direction TB
-        Q_GQA["Queries: 8 Heads (Divided into 2 Groups)"] <--> KV_GQA["Keys/Values: 2 Shared Heads"]
-        NoteGQA["4:1 Ratio. 8x KV Cache Reduction with 99.5% MHA Quality."]
-    end
-
-    subgraph MQA ["Multi-Query Attention (MQA)"]
-        direction TB
-        Q_MQA["Queries: 8 Heads"] <--> KV_MQA["Keys/Values: 1 Single Shared Head"]
-        NoteMQA["8:1 Ratio. Minimal VRAM. High memory bandwidth speedup."]
-    end
-
-    style MHA fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style GQA fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style MQA fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/24_kv_cache_mha_vs_gqa_vs_mqa_memory_scaling.d2](assets/16_machine_learning_and_transformer_foundations_faq/24_kv_cache_mha_vs_gqa_vs_mqa_memory_scaling.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2488,27 +2005,9 @@ Developed by Tri Dao et al., **FlashAttention** does NOT alter the mathematical 
 3. **Recomputation in Backward Pass:** Discards intermediate attention weights during forward pass and recomputes them on-the-fly in SRAM during backpropagation, slashing VRAM consumption from $O(N^2)$ to $O(N)$!
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph StandardAttn ["Standard PyTorch Attention (HBM Memory Bottleneck)"]
-        direction TB
-        Q1["Q, K in HBM"] -->|"Slow HBM Write"| SMat["Write N x N Scores S to HBM (32GB)"]
-        SMat -->|"Slow HBM Read"| SoftP["Read S, Softmax -> Write P to HBM"]
-        SoftP -->|"Slow HBM Read"| VMat["Read P, Multiply V -> Write O to HBM"]
-    end
+![Attention Complexity: O(N^2) HBM Memory Bottleneck vs FlashAttention-2 SRAM Tiling](assets/16_machine_learning_and_transformer_foundations_faq/25_attention_quadratic_complexity_vs_flashattention_sram.svg)
 
-    subgraph FlashAttn ["FlashAttention-2 (SRAM Tiling & Online Softmax)"]
-        direction TB
-        SRAM_Block["Load Small 64x64 Tile into Fast 19 TB/s On-Chip SRAM"]
-        OnlineSoft["Compute Online Softmax incrementally in SRAM"]
-        Accumulate["Accumulate Output Tile directly into Output O"]
-        SRAM_Block --> OnlineSoft --> Accumulate
-        NoteFA["Never writes N x N matrix to HBM! O(N) Memory footprint. 3-4x Speedup."]
-    end
-
-    style StandardAttn fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style FlashAttn fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/25_attention_quadratic_complexity_vs_flashattention_sram.d2](assets/16_machine_learning_and_transformer_foundations_faq/25_attention_quadratic_complexity_vs_flashattention_sram.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2570,29 +2069,9 @@ Since an NVIDIA H100 has 80GB VRAM, the model **cannot fit onto a single GPU**. 
    - Weights are gathered on-demand via `All-Gather` during forward/backward passes and immediately discarded.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph TP ["1. Tensor Parallelism (Intra-Node NVLink)"]
-        direction LR
-        ColSplit["Column-Parallel Q, K, V Projections"] --> AllReduce["All-Reduce Sum via 900 GB/s NVLink"] --> RowSplit["Row-Parallel Output Projection"]
-    end
+![Distributed Training Parallelisms: Tensor, Pipeline & ZeRO-3 / FSDP](assets/16_machine_learning_and_transformer_foundations_faq/26_distributed_training_tensor_pipeline_fsdp_zero.svg)
 
-    subgraph PP ["2. Pipeline Parallelism (Inter-Node)"]
-        direction LR
-        Node1["GPU Node 1: Layers 1-20"] -->|Activations| Node2["GPU Node 2: Layers 21-40"] -->|Activations| Node3["GPU Node 3: Layers 41-80"]
-    end
-
-    subgraph FSDP ["3. ZeRO-3 / FSDP (All Nodes)"]
-        direction TB
-        Shard["Each GPU holds only 1/N of Model Weights & Adam States"]
-        OnDemand["All-Gather parameters on-the-fly during forward pass -> Free immediately"]
-        Shard --> OnDemand
-    end
-
-    style TP fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PP fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style FSDP fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/26_distributed_training_tensor_pipeline_fsdp_zero.d2](assets/16_machine_learning_and_transformer_foundations_faq/26_distributed_training_tensor_pipeline_fsdp_zero.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2657,21 +2136,9 @@ LLM inference generation is **memory-bandwidth bound**: reading 70B parameters f
 4. **Mathematical Guarantee:** If a token is rejected, a sample is drawn from the residual distribution $\max(0, P_{\text{target}} - P_{\text{draft}})$. **Theorem:** The generated output distribution is mathematically identical to sampling directly from the target model!
 
 #### Visual Flow
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Draft as Fast Draft Model (8B)
-    participant Target as Target Model (70B)
-    participant Verified as Emitted Tokens
+![Speculative Decoding: Draft Model Proposal & Target Rejection Sampling](assets/16_machine_learning_and_transformer_foundations_faq/27_speculative_decoding_draft_target_verification_flow.svg)
 
-    Note over Draft: Generates K=4 candidate tokens quickly (SRAM cached)
-    Draft->>Target: Candidate Tokens: [" artificial", " intelligence", " will", " change"]
-    Note over Target: Single Forward Pass evaluates all 4 tokens simultaneously!
-    Target->>Target: Evaluate Rejection Sampling: min(1, P_target / P_draft)
-    Note over Target: Tokens 1, 2, 3 ACCEPTED! Token 4 REJECTED.
-    Target->>Verified: Emits: [" artificial", " intelligence", " will"] + 1 Resampled Token
-    Note over Verified: 4 Tokens emitted in the time of 1 Target Forward Pass! (2.8x Speedup)
-```
+*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/27_speculative_decoding_draft_target_verification_flow.d2](assets/16_machine_learning_and_transformer_foundations_faq/27_speculative_decoding_draft_target_verification_flow.d2)
 
 #### Production Implementation / Code Solution
 ```python

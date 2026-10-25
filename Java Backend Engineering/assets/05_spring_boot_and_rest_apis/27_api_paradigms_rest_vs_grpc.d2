@@ -1,0 +1,22 @@
+direction: right
+title: API Communication Paradigms: Resource REST vs. Action gRPC
+
+rest: "Resource-Oriented: REST (HTTP/1.1 & JSON)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  uri: "Noun-based URI: /orders/123"
+  json: "Text-based JSON (human-readable, large size)"
+  verbs: "HTTP Verbs: GET, POST, PUT, DELETE"
+  fit: "Best for Public Web APIs & Browser UI"
+}
+
+grpc: "Action-Oriented: gRPC (HTTP/2 & Protobuf)" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  rpc: "Method-based: OrderService.CreateOrder()"
+  proto: "Protobuf Binary (10x smaller, 7x faster)"
+  mux: "HTTP/2 multiplexing over 1 connection"
+  fit: "Best for Low-Latency Microservice IPC"
+}

@@ -1,0 +1,39 @@
+direction: right
+title: Non-Static Inner Class Memory Leak: Hidden Outer.this Reference
+
+ThreadPool: Long-Lived ThreadPool Queue (GC Root) {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  status: "Active GC Root (Never collected)"
+  holds: "Queue retains submitted Runnable task references"
+}
+
+InnerTask: Anonymous Runnable Instance {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  task: "executor.submit(new Runnable() { ... })"
+  syntheticField: "final HeavyProcessingService this$0 (Compiler injected)"
+}
+
+HeavyService: HeavyProcessingService (100MB Retained) {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  cache: "byte[] cache = 100MB"
+  gc: "Uncollectible due to unbroken GC Root chain"
+  error: "Triggers java.lang.OutOfMemoryError"
+}
+
+Solution: Architectural Fix {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  fix1: "Use static nested class: static classes do NOT capture this$0"
+  fix2: "Use standalone lambdas that capture only explicit parameters"
+}
+
+ThreadPool -> InnerTask: Holds task reference {
+  style.stroke: "#EF4444"
+}
+
+InnerTask -> HeavyService: Implicit Outer.this pointer (this$0) {
+  style.stroke: "#EF4444"
+}

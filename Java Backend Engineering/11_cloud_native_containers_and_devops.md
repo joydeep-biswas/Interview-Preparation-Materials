@@ -6,31 +6,9 @@ A comprehensive, production-grade guide to containerization, Kubernetes orchestr
 
 ## Architectural Overview: Cloud Native Enterprise Delivery
 
-```mermaid
-flowchart TD
-    subgraph Containerization ["1. Containerization & Layering"]
-        Code["Spring Boot Application"] --> MultiStage["Multi-Stage Distroless Dockerfile"]
-        MultiStage --> Image["OCI Hardened Container Image"]
-    end
+![Cloud Native Enterprise Delivery Architecture](assets/11_cloud_native_containers_and_devops/01_cloud_native_delivery_overview.svg)
 
-    subgraph Orchestration ["2. Kubernetes Deployment Topology"]
-        Ingress["Ingress Controller (TLS Termination)"] --> Service["ClusterIP Service"]
-        Service --> Pods["Java Pods (HPA, Startup/Liveness/Readiness Probes)"]
-    end
-
-    subgraph Delivery ["3. CI/CD & GitOps Automation"]
-        Repo["Git Repository"] --> Actions["GitHub Actions / Azure DevOps"]
-        Actions --> ACR["Container Registry"]
-        ACR --> Argo["ArgoCD GitOps Reconciliation"]
-        Argo --> Pods
-    end
-
-    Image --> ACR
-
-    style Containerization fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Orchestration fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Delivery fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/01_cloud_native_delivery_overview.d2](assets/11_cloud_native_containers_and_devops/01_cloud_native_delivery_overview.d2)
 
 ---
 
@@ -102,66 +80,9 @@ Virtual Machines (VMs) virtualize physical hardware through a **Hypervisor** (Ty
 
 Containers virtualize the operating system. All containers running on a host share the **single underlying Linux Host Kernel**. Isolation is achieved through native Linux kernel primitives (`namespaces` and `control groups`). Containers bundle only the application bytecode, runtime binaries, and dependencies, yielding megabyte footprints and sub-second startup times.
 
-```mermaid
-flowchart LR
-    subgraph VMArchitecture["Virtual Machine Architecture (Hardware Virtualization)"]
-		direction LR
-        Hardware1["Physical Server (Bare Metal)"]
-        HostOS1["Host OS (Optional in Type 1)"]
-        Hypervisor["Hypervisor (Type 1 KVM/ESXi or Type 2)"]
-        subgraph VM1["Guest VM 1 (Order Service)"]
-			direction LR
-            GOS1["Guest OS Kernel (2-10 GB)"]
-            Bins1["System Libs & JRE"]
-            App1["Spring Boot App 1"]
-        end
-        subgraph VM2["Guest VM 2 (Payment Service)"]
-			direction LR
-            GOS2["Guest OS Kernel (2-10 GB)"]
-            Bins2["System Libs & JRE"]
-            App2["Spring Boot App 2"]
-        end
-        Hardware1 --> HostOS1 --> Hypervisor --> VM1
-        Hypervisor --> VM2
-    end
+![Virtual Machine vs. Container Architecture](assets/11_cloud_native_containers_and_devops/02_vm_vs_container_architecture.svg)
 
-    subgraph ContainerArchitecture["Container Architecture (OS-Level Virtualization)"]
-		direction LR
-        Hardware2["Physical Server (Bare Metal)"]
-        HostOS2["Host Linux Kernel (Shared Kernel)"]
-        ContainerEngine["Container Runtime (containerd / runc)"]
-        subgraph C1["Container 1 (Order Service)"]
-            AppC1["Minimal RootFS + JRE + App 1 (150 MB)"]
-        end
-        subgraph C2["Container 2 (Payment Service)"]
-            AppC2["Minimal RootFS + JRE + App 2 (150 MB)"]
-        end
-        Hardware2 --> HostOS2 --> ContainerEngine --> C1
-        ContainerEngine --> C2
-    end
-
-    style VMArchitecture fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style VM1 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style VM2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ContainerArchitecture fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style C1 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style C2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style Hardware1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style HostOS1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Hypervisor fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style GOS1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Bins1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style App1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style GOS2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Bins2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style App2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Hardware2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style HostOS2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ContainerEngine fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style AppC1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style AppC2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/02_vm_vs_container_architecture.d2](assets/11_cloud_native_containers_and_devops/02_vm_vs_container_architecture.d2)
 
 #### Detailed Architectural Comparison
 
@@ -181,61 +102,9 @@ flowchart LR
 
 A Docker container is not a magical virtual computer; it is simply a standard Linux process constrained by three foundational kernel subsystems:
 
-```mermaid
-flowchart LR
-    subgraph LinuxKernel["Linux Kernel Isolation Engine"]
-        direction TB
-        subgraph Namespaces["1. Namespaces (Visibility & Scoping)"]
-            PID["PID: Process Tree Isolation"]
-            NET["NET: Dedicated Virtual NIC & Loopback"]
-            MNT["MNT: Private Filesystem Mountpoints"]
-            IPC["IPC: Isolated Inter-Process Comm"]
-            UTS["UTS: Isolated Hostname & Domain"]
-            USER["USER: Map Root inside to Non-Root outside"]
-        end
+![Linux Kernel Container Primitives: Namespaces, Cgroups & OverlayFS](assets/11_cloud_native_containers_and_devops/03_linux_kernel_container_primitives.svg)
 
-        subgraph Cgroups["2. Control Groups / cgroups v2 (Resource Quotas)"]
-            CPU["CPU Quotas: CFS bandwidth limit"]
-            MEM["Memory Limits: Hard limit & OOM Killer"]
-            BLK["BlkIO: Read/Write Disk Throughput"]
-        end
-
-        subgraph OverlayFS["3. OverlayFS (Layered Union Filesystem)"]
-			direction LR
-            Merged["Merged View: Unified Container Filesystem"]
-            Upper["UpperDir: Read-Write Container Layer"]
-            Lower["LowerDir: Read-Only Base Image Layers"]
-            Work["WorkDir: OverlayFS Scratchpad"]
-            Merged --- Upper
-            Upper --- Work
-            Work --- Lower
-        end
-    end
-
-    Process["Isolated Java Process (PID 1 inside container)"] --> Namespaces
-    Process --> Cgroups
-    Process --> OverlayFS
-
-    style LinuxKernel fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Namespaces fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Cgroups fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style OverlayFS fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-
-    style PID fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style NET fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style MNT fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style IPC fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style UTS fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style USER fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CPU fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style MEM fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style BLK fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Merged fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Upper fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Lower fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Work fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Process fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/03_linux_kernel_container_primitives.d2](assets/11_cloud_native_containers_and_devops/03_linux_kernel_container_primitives.d2)
 
 1. **Linux Namespaces (What the Process Can See)**:
    - **`pid`**: Isolates process IDs. The Java process sees itself as `PID 1` inside the container, while the host kernel tracks it as an arbitrary PID (e.g. `PID 48291`).
@@ -261,47 +130,9 @@ flowchart LR
 
 Understanding container states is essential for diagnosing operational production failures:
 
-```mermaid
-flowchart LR
-    subgraph Instantiation ["Container Initialization"]
-        Created["CREATED State<br/>(Filesystem & namespaces allocated, no active PID)"]
-    end
+![Docker / OCI Container Lifecycle State Machine](assets/11_cloud_native_containers_and_devops/04_container_lifecycle_state_machine.svg)
 
-    subgraph ActiveState ["Runtime Execution"]
-        Running["RUNNING State<br/>(PID 1 active in namespaces, processing requests)"]
-        Paused["PAUSED State<br/>(Process frozen via cgroup freezer, zero CPU)"]
-    end
-
-    subgraph Termination ["Shutdown & Cleanup"]
-        Stopped["STOPPED State<br/>(Graceful SIGTERM exit, status code 0)"]
-        Killed["KILLED State<br/>(Immediate SIGKILL via docker kill)"]
-        OOMKilled["OOMKILLED State<br/>(Exceeded memory ceiling, Exit Code 137)"]
-        Removed["REMOVED<br/>(Metadata and writable layer deleted via docker rm)"]
-    end
-
-    Created -->|"docker run / docker start"| Running
-    Running -->|"docker pause (SIGSTOP)"| Paused
-    Paused -->|"docker unpause (SIGCONT)"| Running
-    Running -->|"docker stop (SIGTERM -> Grace -> SIGKILL)"| Stopped
-    Running -->|"docker kill (Instant SIGKILL)"| Killed
-    Running -->|"Kernel cgroup memory breach"| OOMKilled
-    Stopped -->|"docker start"| Running
-    Stopped -->|"docker rm"| Removed
-    Killed -->|"docker rm"| Removed
-    OOMKilled -->|"docker rm"| Removed
-
-    style Instantiation fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ActiveState fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Termination fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-
-    style Created fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Running fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Paused fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Stopped fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Killed fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style OOMKilled fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Removed fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/04_container_lifecycle_state_machine.d2](assets/11_cloud_native_containers_and_devops/04_container_lifecycle_state_machine.d2)
 
 - **`Created`**: Container filesystem and metadata prepared; no active running processes.
 - **`Running`**: Main process (`PID 1`) executing actively within isolated namespaces.
@@ -563,67 +394,9 @@ networks:
 
 Kubernetes is an open-source distributed system for orchestrating containerized workloads. It maintains the desired state of a cluster declaratively:
 
-```mermaid
-flowchart TD
-    subgraph ControlPlane["Kubernetes Control Plane (Master Node)"]
-        APIServer["kube-apiserver<br/>(REST API Gateway, AuthN, AuthZ, Admission Control)"]
-        etcd[("etcd v3<br/>(Distributed Key-Value Store, Raft Consensus)")]
-        Scheduler["kube-scheduler<br/>(Pod Placement: Nodes, Affinity, Taints)"]
-        KCM["kube-controller-manager<br/>(Node, Deployment, EndpointSlice Controllers)"]
-        CCM["cloud-controller-manager<br/>(Azure/AWS Cloud Provider Integration)"]
-        
-        APIServer <--> etcd
-        Scheduler <--> APIServer
-        KCM <--> APIServer
-        CCM <--> APIServer
-    end
+![Kubernetes Cluster Architecture: Control Plane & Worker Node Subsystems](assets/11_cloud_native_containers_and_devops/05_kubernetes_control_plane_and_worker_nodes.svg)
 
-    subgraph Worker1["Worker Node 1"]
-        Kubelet1["kubelet<br/>(Node Agent, CRI/CNI/CSI Lifecycle)"]
-        KubeProxy1["kube-proxy<br/>(iptables / IPVS Service Routing)"]
-        CR1["CRI: containerd"]
-        Pod1["Pod: Order-Svc Replica 1"]
-        Pod2["Pod: Auth-Svc Replica 1"]
-        
-        Kubelet1 --> CR1 --> Pod1
-        CR1 --> Pod2
-        KubeProxy1 -.-> Pod1
-    end
-
-    subgraph Worker2["Worker Node 2"]
-        Kubelet2["kubelet"]
-        KubeProxy2["kube-proxy"]
-        CR2["CRI: containerd"]
-        Pod3["Pod: Order-Svc Replica 2"]
-        
-        Kubelet2 --> CR2 --> Pod3
-        KubeProxy2 -.-> Pod3
-    end
-
-    Admin["kubectl / CI/CD"] -->|HTTPS / REST| APIServer
-    APIServer <--> Kubelet1
-    APIServer <--> Kubelet2
-
-    style ControlPlane fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Worker1 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Worker2 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style APIServer fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style etcd fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Scheduler fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style KCM fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style CCM fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Kubelet1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style KubeProxy1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CR1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Pod1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Pod2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Kubelet2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style KubeProxy2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CR2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Pod3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Admin fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/05_kubernetes_control_plane_and_worker_nodes.d2](assets/11_cloud_native_containers_and_devops/05_kubernetes_control_plane_and_worker_nodes.d2)
 
 #### Control Plane Components Breakdown
 1. **`kube-apiserver`**: The front door of the cluster. All internal components and external `kubectl` clients communicate exclusively through this RESTful API. Validates requests, authenticates, authorizes (RBAC), and writes state mutations directly to `etcd`.
@@ -641,56 +414,9 @@ flowchart TD
 
 ### 2.2 Pod Lifecycle State Machine & Deep Troubleshooting
 
-```mermaid
-flowchart TD
-    subgraph SubmissionPhase ["Manifest Admission & Scheduling"]
-        Pending["PENDING Phase<br/>(Manifest accepted by API server, waiting for scheduling)"]
-        Creating["CONTAINER_CREATING<br/>(Kubelet pulling image, attaching CNI & CSI volumes)"]
-    end
+![Kubernetes Pod Lifecycle State Machine & Diagnostic Troubleshooting](assets/11_cloud_native_containers_and_devops/06_pod_lifecycle_and_troubleshooting.svg)
 
-    subgraph InitializationPhase ["Pod Initialization"]
-        InitRunning["INIT_CONTAINERS<br/>(Sequential execution of pre-bootstrap setup tasks)"]
-    end
-
-    subgraph ExecutionPhase ["Application Serving & Health Checking"]
-        Starting["APP_STARTING<br/>(Startup Probe checking if JVM is initialized)"]
-        Running["RUNNING & READY<br/>(Readiness & Liveness probes passing, serving endpoint traffic)"]
-    end
-
-    subgraph FailureModes ["Common Production Diagnostic States"]
-        CrashLoop["CRASH_LOOP_BACKOFF<br/>(App crashes on startup, restarting with exponential backoff)"]
-        OOMState["OOM_KILLED (Exit 137)<br/>(Container exceeded hard memory limit ceiling)"]
-    end
-
-    subgraph DeletionPhase ["Graceful Termination"]
-        Terminating["TERMINATING Phase<br/>(PreStop hook -> Endpoint removed -> SIGTERM -> SIGKILL)"]
-    end
-
-    Pending -->|"Scheduler binds node"| Creating
-    Creating -->|"Volumes mounted"| InitRunning
-    InitRunning -->|"Init containers succeed (exit 0)"| Starting
-    Starting -->|"Startup & Readiness probes pass"| Running
-    Starting -->|"App crashes on boot (exit != 0)"| CrashLoop
-    CrashLoop -->|"Kubelet retries"| Starting
-    Running -->|"Memory exceeds container limit"| OOMState
-    OOMState -->|"Restart policy triggered"| Starting
-    Running -->|"kubectl delete / deployment rolling update"| Terminating
-
-    style SubmissionPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style InitializationPhase fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ExecutionPhase fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style FailureModes fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style DeletionPhase fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style Pending fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Creating fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style InitRunning fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Starting fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Running fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CrashLoop fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style OOMState fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Terminating fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/06_pod_lifecycle_and_troubleshooting.d2](assets/11_cloud_native_containers_and_devops/06_pod_lifecycle_and_troubleshooting.d2)
 
 #### Diagnostic State Troubleshooting Guide
 - **`Pending`**: Pod cannot be scheduled. Run `kubectl describe pod <name>` to view `Events`. Common causes: insufficient node CPU/memory requests, node selector mismatches, or unbound PersistentVolumeClaims (PVCs).
@@ -733,32 +459,9 @@ In Kubernetes, applications are orchestrated through declarative state machines.
 
 ### 2.4 Kubernetes Networking & Service Routing (ClusterIP, NodePort, LoadBalancer, Ingress)
 
-```mermaid
-flowchart TD
-    Client["External Public Internet Client"] --> CloudLB["Cloud External Load Balancer (Azure LB / AWS NLB)"]
-    CloudLB --> Ingress["Ingress Controller (NGINX / Envoy Pod)"]
-    
-    subgraph K8sCluster["Kubernetes Cluster Network (Pod CIDR: 10.244.0.0/16)"]
-        Ingress -->|L7 Path Routing: /api/v1/orders| SvcOrders["Service: order-service (ClusterIP: 10.96.0.40)"]
-        Ingress -->|L7 Path Routing: /api/v1/payments| SvcPayments["Service: payment-service (ClusterIP: 10.96.0.85)"]
-        
-        SvcOrders -.->|iptables DNAT load balancing| PodO1["Pod: order-service-pod-1 (10.244.1.12:8080)"]
-        SvcOrders -.->|iptables DNAT load balancing| PodO2["Pod: order-service-pod-2 (10.244.2.18:8080)"]
-        
-        SvcPayments -.->|iptables DNAT load balancing| PodP1["Pod: payment-service-pod-1 (10.244.1.19:8080)"]
-    end
+![Kubernetes Networking & Traffic Routing: Ingress, ClusterIP & iptables DNAT](assets/11_cloud_native_containers_and_devops/07_k8s_networking_service_routing.svg)
 
-    style K8sCluster fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-
-    style Client fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style CloudLB fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Ingress fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style SvcOrders fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style SvcPayments fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style PodO1 fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style PodO2 fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style PodP1 fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/07_k8s_networking_service_routing.d2](assets/11_cloud_native_containers_and_devops/07_k8s_networking_service_routing.d2)
 
 #### Service Types Explained
 1. **`ClusterIP` (Default)**: Assigns a stable internal virtual IP address visible only within the cluster. Internal microservices reach each other via CoreDNS (`http://order-service.production.svc.cluster.local:80`).
@@ -1076,37 +779,9 @@ In modern production Kubernetes clusters, manual SSL certificate renewal is a cr
 > [!NOTE]
 > For foundational PKI concepts, X.509 chains, TLS 1.3 handshakes, Java KeyStore vs TrustStore architecture, and `keytool`/`openssl` commands, see [10. Security, Identity & Cryptographic Certificate Management - Section 3: Certificate Management, SSL/TLS, Keystores & mTLS](06_security_and_cryptography.md#5-public-key-infrastructure-pki-tls-13--certificate-management).
 
-```mermaid
-flowchart TD
-    subgraph Pattern1["Pattern A: Kubernetes cert-manager (Let's Encrypt / ACME)"]
-        direction TB
-        IngressAnnot["Ingress Resource with Annotation:<br/>cert-manager.io/cluster-issuer: letsencrypt-prod"] --> CertManagerController["cert-manager Controller"]
-        CertManagerController -->|ACME HTTP-01 / DNS-01 Challenge| LetsEncrypt["Let's Encrypt ACME Server"]
-        LetsEncrypt -- Issues Signed X.509 Cert --> CertManagerController
-        CertManagerController -->|Stores tls.crt & tls.key| K8sSecretTLS["K8s Secret (Type: kubernetes.io/tls)"]
-        K8sSecretTLS --> IngressTLS["Ingress Controller (Terminates HTTPS Traffic)"]
-    end
+![Automated TLS Certificate Management in Kubernetes](assets/11_cloud_native_containers_and_devops/08_automated_tls_cert_manager_patterns.svg)
 
-    subgraph Pattern2["Pattern B: Azure Key Vault CSI Driver (Enterprise PKI)"]
-        direction TB
-        AKVCert["Enterprise Certificate in Azure Key Vault<br/>(Auto-Renewed via Corporate CA)"] --> CSIDriver["Secrets Store CSI Driver (Azure Provider)"]
-        CSIDriver -->|Workload Identity Token| MountVol["Mounted as In-Memory Volume in Spring Boot Pod"]
-        CSIDriver -->|secretObjects Sync| NativeK8sSecret["K8s TLS Secret (Auto-Rotated periodically)"]
-    end
-
-    style Pattern1 fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-    style Pattern2 fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-
-    style IngressAnnot fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style CertManagerController fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style LetsEncrypt fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style K8sSecretTLS fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style IngressTLS fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style AKVCert fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style CSIDriver fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style MountVol fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style NativeK8sSecret fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/08_automated_tls_cert_manager_patterns.d2](assets/11_cloud_native_containers_and_devops/08_automated_tls_cert_manager_patterns.d2)
 
 #### 1. Production `ClusterIssuer` Manifest (Let's Encrypt Production)
 
@@ -1163,49 +838,9 @@ The generated Kubernetes Secret holds two Base64-encoded keys required by standa
 
 ### 3.1 CI vs CD (Continuous Integration, Delivery, and Deployment)
 
-```mermaid
-flowchart TD
-    subgraph CI["Continuous Integration (CI)"]
-        direction LR
-        Code["Code Commit"] --> Build["Maven Compile"]
-        Build --> Unit["Unit Tests"]
-        Unit --> Int["Integration Tests (Testcontainers)"]
-        Int --> Qual["Quality & Security Gates (Sonar/Trivy)"]
-    end
+![Continuous Integration (CI) vs. Delivery vs. Deployment (CD)](assets/11_cloud_native_containers_and_devops/09_ci_cd_continuous_delivery_pipeline.svg)
 
-    subgraph CDelivery["Continuous Delivery (CD)"]
-        direction TB
-        OCI["Package OCI Image & Push ACR"] --> Stage["Deploy to Staging Environment"]
-        Stage --> E2E["End-to-End Automated Testing"]
-        E2E --> Gate{"Manual Approval / Business Sign-off"}
-    end
-
-    subgraph CDeployment["Continuous Deployment (CD)"]
-        direction TB
-        Prod["Automated Production Deployment"]
-        Monitor["Observability Verification & Auto-Rollback"]
-    end
-
-    Qual --> OCI
-    Gate -->|Approved| Prod
-    Prod --> Monitor
-
-    style CI fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CDelivery fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style CDeployment fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style Code fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Build fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Unit fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Int fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Qual fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style OCI fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Stage fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style E2E fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Gate fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Prod fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Monitor fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/09_ci_cd_continuous_delivery_pipeline.d2](assets/11_cloud_native_containers_and_devops/09_ci_cd_continuous_delivery_pipeline.d2)
 
 - **Continuous Integration (CI)**: Developers commit code to the trunk frequently. Every commit automatically triggers a pipeline that compiles code, executes unit tests, runs integration tests against real databases (via Testcontainers), and enforces static security analysis.
 - **Continuous Delivery (CD)**: Extends CI by automatically packaging deployable release artifacts (Docker images, Helm charts) and deploying them to staging/UAT environments. Deployment to production requires human approval.
@@ -1229,60 +864,9 @@ flowchart TD
 
 ### 3.3 Zero-Downtime Deployment Strategies: Rolling vs Blue-Green vs Canary vs Shadow
 
-```mermaid
-flowchart LR
-    subgraph RollingDeploy["1. Rolling Deployment (Default Kubernetes)"]
-        direction LR
-        R_v1["v1 (Active)"] --- R_v2["v2 (New)"] --- R_v3["v2 (New)"]
-        NoteR["Gradually replaces instances; zero extra infra cost"]
-    end
+![Zero-Downtime Deployment Strategies: Rolling, Blue-Green, Canary & Shadow](assets/11_cloud_native_containers_and_devops/10_zero_downtime_deployment_strategies.svg)
 
-    subgraph BlueGreenDeploy["2. Blue-Green Deployment (Instant Switch)"]
-        direction TB
-        RouterBG["L7 Ingress / Load Balancer"]
-        RouterBG -->|100% Live Traffic| Green["Active Environment (v1.0.0)"]
-        RouterBG -.->|"0% Idle Traffic (Pre-warmed)"| Blue["Staging Environment (v2.0.0)"]
-        NoteBG["Instant rollback by switching router; requires 2x infrastructure capacity"]
-    end
-
-    subgraph CanaryDeploy["3. Canary Deployment (Incremental Traffic Weighting)"]
-        direction TB
-        RouterCanary["Canary Traffic Router (Argo Rollouts / Istio)"]
-        RouterCanary -->|90% Traffic| Stable["Stable Replica Set (v1.0.0)"]
-        RouterCanary -->|10% Traffic| Canary["Canary Replica Set (v2.0.0)"]
-        NoteC["Minimizes blast radius; metric-driven automatic promotion or rollback"]
-    end
-
-    subgraph ShadowDeploy["4. Shadow / Dark Launch (Mirrored Traffic)"]
-        direction TB
-        RouterShadow["Traffic Duplicator (Envoy / Service Mesh)"]
-        RouterShadow -->|Live Response| ProdService["Live Production (v1.0.0)"]
-        RouterShadow -.->|"Duplicate Request (Async Dropped)"| ShadowService["Shadow Service (v2.0.0)"]
-        NoteS["Zero user impact; validates production load & performance under real traffic"]
-    end
-
-    style RollingDeploy fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style BlueGreenDeploy fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style CanaryDeploy fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style ShadowDeploy fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-
-    style R_v1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style R_v2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style R_v3 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style NoteR fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style RouterBG fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Green fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Blue fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style NoteBG fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style RouterCanary fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Stable fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Canary fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style NoteC fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style RouterShadow fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ProdService fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ShadowService fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style NoteS fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/10_zero_downtime_deployment_strategies.d2](assets/11_cloud_native_containers_and_devops/10_zero_downtime_deployment_strategies.d2)
 
 #### In-Depth Architectural Comparison
 
@@ -1501,26 +1085,9 @@ jobs:
 
 GitOps is an operational framework that takes DevOps best practices used for application development (version control, collaboration, compliance, and CI/CD) and applies them to infrastructure and deployment automation.
 
-```mermaid
-flowchart LR
-    Dev["Developer"] -->|git commit & push| GitRepo["Git Repository<br/>(Single Source of Truth: K8s Manifests)"]
-    
-    subgraph K8sCluster["Target Kubernetes Cluster"]
-        ArgoAgent["ArgoCD Controller Agent<br/>(Runs inside the cluster)"]
-        LiveState["Live Cluster Workloads<br/>(Deployments, Services, Ingress)"]
-        
-        ArgoAgent -->|1. Continuous Polling / Webhook| GitRepo
-        ArgoAgent -->|2. Inspect Actual Cluster State| LiveState
-        ArgoAgent -->|3. Auto-Sync Drift Reconciliation| LiveState
-    end
+![GitOps Declarative Delivery: Automated Reconciliation via ArgoCD](assets/11_cloud_native_containers_and_devops/11_gitops_argocd_declarative_reconciliation.svg)
 
-    style K8sCluster fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-
-    style Dev fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style GitRepo fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style ArgoAgent fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style LiveState fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/11_gitops_argocd_declarative_reconciliation.d2](assets/11_cloud_native_containers_and_devops/11_gitops_argocd_declarative_reconciliation.d2)
 
 1. **Declarative State**: The entire desired system state (applications, networking, ingress, resource quotas) is declared declaratively via Kubernetes manifests, Kustomize, or Helm charts.
 2. **Version-Controlled Single Source of Truth**: The Git repository is the sole authority for what is allowed to run in the cluster.
@@ -1646,78 +1213,9 @@ spec:
 
 In an enterprise Microsoft Azure deployment, zero-trust network isolation, managed identity security, and multi-region resilience form the foundation of a modern Java backend:
 
-```mermaid
-flowchart TD
-    subgraph Public_Internet["Public Internet & Edge Layer"]
-        User["End Users / Mobile / Browser Clients"] --> AFD["Azure Front Door (Global Anycast, L7 CDN, WAF, SSL Termination)"]
-    end
+![Enterprise Microsoft Azure Cloud Architecture for Java Backends](assets/11_cloud_native_containers_and_devops/12_azure_enterprise_cloud_mesh.svg)
 
-    subgraph Hub_Virtual_Network["Hub VNet: Enterprise Shared Network (10.0.0.0/16)"]
-        AFD -->|Private Link / Public IP| AzFirewall["Azure Firewall Premium (Inspection & IDS/IPS)"]
-        AzBastion["Azure Bastion (Secure VM Access)"]
-        PrivateDNS["Azure Private DNS Zones (privatelink.azure.com)"]
-    end
-
-    subgraph Spoke_Compute_VNet["Spoke Compute VNet: Application Tier (10.1.0.0/16)"]
-        AzFirewall --> AppGW["Azure Application Gateway v2 (WAF, Private Ingress)"]
-        
-        subgraph AKS_Cluster["Azure Kubernetes Service (AKS Cluster)"]
-            AppGW --> Ingress["Internal NGINX Ingress Controller"]
-            Ingress --> Pod_Order["Spring Boot: Order Service Pod"]
-            Ingress --> Pod_Payment["Spring Boot: Payment Service Pod"]
-            Ingress --> Pod_User["Spring Boot: User Service Pod"]
-        end
-    end
-
-    subgraph Spoke_Data_VNet["Spoke Data VNet: Private Link Data Tier (10.2.0.0/16)"]
-        PE_DB["Private Endpoint: Azure PostgreSQL Flexible Server"]
-        PE_Redis["Private Endpoint: Azure Cache for Redis"]
-        PE_SB["Private Endpoint: Azure Service Bus"]
-        PE_EH["Private Endpoint: Azure Event Hubs"]
-        PE_KV["Private Endpoint: Azure Key Vault"]
-        PE_Blob["Private Endpoint: Azure Blob Storage (ADLS Gen2)"]
-    end
-
-    Pod_Order -->|JDBC over PE| PE_DB
-    Pod_Order -->|Lettuce over PE| PE_Redis
-    Pod_Order -->|AMQP over PE| PE_SB
-    Pod_Payment -->|Kafka Protocol over PE| PE_EH
-    Pod_Order & Pod_Payment -->|Workload Identity over PE| PE_KV
-    Pod_User -->|ABFSS Protocol over PE| PE_Blob
-
-    subgraph Security_Identity["Identity & Observability (Control Plane)"]
-        EntraID["Microsoft Entra ID (Azure AD)<br/>Workload Identity & RBAC"] -.-> AKS_Cluster
-        AppInsights["Azure Application Insights<br/>(JVM Auto-Instrumentation)"] <--- AKS_Cluster
-        LogAnalytics["Azure Log Analytics Workspace"] <--- AKS_Cluster
-    end
-
-    style Public_Internet fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Hub_Virtual_Network fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Spoke_Compute_VNet fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style AKS_Cluster fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Spoke_Data_VNet fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Security_Identity fill:#0f172a,stroke:#64748b,stroke-width:1.5px,color:#cbd5e1
-
-    style User fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style AFD fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style AzFirewall fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style AzBastion fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style PrivateDNS fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style AppGW fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Ingress fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Pod_Order fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Pod_Payment fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Pod_User fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style PE_DB fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style PE_Redis fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style PE_SB fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style PE_EH fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style PE_KV fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style PE_Blob fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style EntraID fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style AppInsights fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style LogAnalytics fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/12_azure_enterprise_cloud_mesh.d2](assets/11_cloud_native_containers_and_devops/12_azure_enterprise_cloud_mesh.d2)
 
 ---
 
@@ -1758,38 +1256,9 @@ flowchart TD
 
 ### 5.5 Azure Service Bus vs Azure Event Hubs: Deep Architectural Comparison
 
-```mermaid
-flowchart LR
-    subgraph ServiceBusModel["Azure Service Bus: Individual Message Broker (Smart Broker, Dumb Consumer)"]
-        direction LR
-        App1["Producer App"] --> Queue["Service Bus Queue"]
-        Queue -->|Destructive Read / Ack| C1["Consumer 1"]
-        Queue -->|Destructive Read / Ack| C2["Consumer 2"]
-        NoteSB["Messages deleted upon completion; supports transactions, sessions, DLQ"]
-    end
+![Azure Service Bus vs. Azure Event Hubs: Architectural Comparison](assets/11_cloud_native_containers_and_devops/13_azure_service_bus_vs_event_hubs.svg)
 
-    subgraph EventHubsModel["Azure Event Hubs: Partitioned Append-Only Log (Dumb Broker, Smart Consumer)"]
-        direction LR
-        App2["Telemetry Producers"] --> Log["Event Hub (Partitions 0, 1, 2)"]
-        Log -->|Read Offset 104| CG1["Consumer Group: Analytics"]
-        Log -->|Read Offset 104| CG2["Consumer Group: Long-term Archival"]
-        NoteEH["Messages immutable in log based on retention; Kafka-compatible high throughput"]
-    end
-
-    style ServiceBusModel fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style EventHubsModel fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-
-    style App1 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Queue fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style C1 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style C2 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style NoteSB fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style App2 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Log fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style CG1 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style CG2 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style NoteEH fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/13_azure_service_bus_vs_event_hubs.d2](assets/11_cloud_native_containers_and_devops/13_azure_service_bus_vs_event_hubs.d2)
 
 | Architectural Dimension | Azure Service Bus | Azure Event Hubs |
 | :--- | :--- | :--- |
@@ -1807,23 +1276,9 @@ flowchart LR
 
 Hardcoding database passwords or API keys in configuration files is a critical vulnerability. Azure **Workload Identity** federates Kubernetes ServiceAccounts with **Microsoft Entra ID (Azure AD)** using OpenID Connect (OIDC):
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Pod as Java Pod on AKS
-    participant K8s as Kubernetes API Server (OIDC Issuer)
-    participant Entra as Microsoft Entra ID (Azure AD)
-    participant AKV as Azure Key Vault
+![Azure Workload Identity: Passwordless OIDC Cloud Federation](assets/11_cloud_native_containers_and_devops/14_azure_workload_identity_oidc_federation.svg)
 
-    Pod->>K8s: Request projected service account token
-    K8s-->>Pod: Return signed K8s JWT token
-    Pod->>Entra: Exchange K8s JWT for Azure AD OAuth2 Access Token (Federation)
-    Entra->>K8s: Validate K8s OIDC public keys
-    Entra-->>Pod: Return Azure AD Access Token
-    Pod->>AKV: HTTP GET /secrets/db-password with Bearer Token
-    AKV-->>Pod: Return secret value
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops/14_azure_workload_identity_oidc_federation.d2](assets/11_cloud_native_containers_and_devops/14_azure_workload_identity_oidc_federation.d2)
 
 #### Production Java Code: Zero-Credential Key Vault Access via `DefaultAzureCredential`
 

@@ -1,0 +1,25 @@
+direction: right
+title: Relational Optimization Primitives: Pushdowns & Partition Pruning
+
+unoptimized: 1. Unoptimized Relational Algebra Tree {
+  proj: Project (name, SUM(amount))
+  filter: Filter (date >= 2026-01-01 AND country = 'US')
+  join: Join (customer_id = id)
+  scan_orders: Scan (orders: all columns, all partitions)
+  scan_cust: Scan (customers: all columns)
+  proj -> filter -> join
+  join -> scan_orders
+  join -> scan_cust
+}
+
+optimized: 2. CBO Optimized Plan (Pushed Down to Physical Storage) {
+  o_proj: Project (name, SUM(amount))
+  o_join: Hash Join (customer_id = id)
+  o_scan_orders: Scan orders (Partition Pruning + Projection + Predicate)
+  o_scan_cust: Scan customers (WHERE country = 'US' + Index Scan)
+  o_proj -> o_join
+  o_join -> o_scan_orders
+  o_join -> o_scan_cust
+}
+
+unoptimized -> optimized: "CBO Transformation"

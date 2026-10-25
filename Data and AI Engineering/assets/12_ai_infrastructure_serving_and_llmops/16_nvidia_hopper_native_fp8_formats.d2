@@ -1,0 +1,10 @@
+direction: right
+classes: {
+  e4: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  e5: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+e4m3: "FP8 E4M3\n1 Sign | 4 Exponent | 3 Mantissa\nRange: [-448, 448]\n(Forward GEMM & Weights)" { class: e4 }
+e5m2: "FP8 E5M2\n1 Sign | 5 Exponent | 2 Mantissa\nRange: [-57344, 57344]\n(Gradients & Softmax)" { class: e5 }
+
+e4m3 -> e5m2: "Transformer Engine Hybrid Switching"

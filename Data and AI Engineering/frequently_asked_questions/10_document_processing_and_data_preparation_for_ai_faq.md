@@ -6,35 +6,9 @@ A comprehensive guide to real-world interview scenarios and production failure p
 
 ## Architectural Overview: Multi-Modal Document Ingestion & Chunking Pipeline
 
-```mermaid
-flowchart TD
-    RawDoc["Raw Enterprise Documents<br/>(Scanned PDFs, SEC 10-Ks, Technical Manuals)"] --> DocType{"Document Classifier<br/>Native Digital or Scanned Raster?"}
-    
-    DocType -->|Native Digital| PyMu["PyMuPDF / pdfplumber<br/>(Extract Text Spans & Vector Tables)"]
-    DocType -->|Scanned / Complex Layout| LayoutEngine["Document Layout Engine<br/>(LayoutLMv3 / PaddleOCR / Table Transformer)"]
+![Multi-Modal Document Ingestion & Chunking Pipeline](assets/10_document_processing_and_data_preparation_for_ai_faq/01_multimodal_document_ingestion_chunking_pipeline.svg)
 
-    PyMu --> LayoutAssembler["Reading Order & Table Normalizer<br/>(Convert tables to Markdown/HTML, stitch multi-column text)"]
-    LayoutEngine --> LayoutAssembler
-
-    LayoutAssembler --> ChunkingRouter{"Chunking Strategy Selection"}
-    
-    ChunkingRouter -->|Structured Reports| HeaderChunk["Header & Markdown-Aware Chunking<br/>(Inject H1/H2/H3 breadcrumbs)"]
-    ChunkingRouter -->|Narrative Literature| SemanticChunk["Semantic Chunking<br/>(Split on embedding cosine drop)"]
-    ChunkingRouter -->|Legal Contracts| HierarchicalChunk["Hierarchical Parent-Child Chunking<br/>(200-token child vectors -> 1500-token parent context)"]
-
-    HeaderChunk --> MinHashDedup["MinHash LSH Near-Duplicate Deduplication"]
-    SemanticChunk --> MinHashDedup
-    HierarchicalChunk --> MinHashDedup
-
-    MinHashDedup --> VectorSink[("Vector Database & Document Store<br/>(Dense Vectors + Chunk Metadata + Parent Store)")]
-
-    style RawDoc fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DocType fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style LayoutAssembler fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style ChunkingRouter fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
-    style MinHashDedup fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style VectorSink fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/10_document_processing_and_data_preparation_for_ai_faq/01_multimodal_document_ingestion_chunking_pipeline.d2](assets/10_document_processing_and_data_preparation_for_ai_faq/01_multimodal_document_ingestion_chunking_pipeline.d2)
 
 ---
 
@@ -82,22 +56,9 @@ flowchart TD
 
 #### Technical Breakdown of the 5 Core Chunking Paradigms
 
-```mermaid
-flowchart TD
-    subgraph Strategies ["Chunking Paradigms"]
-        Fixed["1. Fixed-Size Token Chunking<br/>(e.g., 512 tokens + 50 overlap)"]
-        Recursive["2. Recursive Character Splitting<br/>(Separators: \n\n, \n, ' ', '')"]
-        Structural["3. Document-Structure-Aware<br/>(Markdown headings, HTML tags, JSON keys)"]
-        Semantic["4. Semantic Embedding Chunking<br/>(Split at cosine similarity inflection points)"]
-        Hierarchical["5. Parent-Child / Multi-Vector<br/>(Small 150-token child -> 1200-token parent)"]
-    end
+![5 Core Document Chunking Paradigms](assets/10_document_processing_and_data_preparation_for_ai_faq/02_five_core_chunking_paradigms.svg)
 
-    style Fixed fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style Recursive fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fde68a
-    style Structural fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#93c5fd
-    style Semantic fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#c4b5fd
-    style Hierarchical fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source:* [assets/10_document_processing_and_data_preparation_for_ai_faq/02_five_core_chunking_paradigms.d2](assets/10_document_processing_and_data_preparation_for_ai_faq/02_five_core_chunking_paradigms.d2)
 
 1. **Fixed-Size Token Chunking:**
    - **How it Works:** Slices raw token streams into arbitrary blocks (e.g., 512 tokens with 50-token overlap).
@@ -135,34 +96,9 @@ flowchart TD
 
 #### Architectural Overview: The 2 Competing Production Paradigms
 
-```mermaid
-flowchart TD
-    PDF["Input PDF Page<br/>(Text + Embedded Diagram + Table)"] --> ApproachCheck{"Architecture Decision"}
+![Dual-Stream Decomposition vs Vision-Native Document RAG](assets/10_document_processing_and_data_preparation_for_ai_faq/03_dual_stream_decomposition_vs_vision_native_colpali.svg)
 
-    subgraph DualStreamApproach ["Approach 1: Dual-Stream Decomposition (Text + OCR + VLM Captioning)"]
-        direction TB
-        LayoutParser["Layout Analysis Model<br/>(Extracts Text, Figures, Tables)"]
-        TextStream["Text Extraction<br/>(PyMuPDF)"]
-        ImageStream["Image Cropping<br/>(Diagrams & Charts)"]
-        VLMCaption["VLM Captioner (GPT-4o / Claude 3.5)<br/>Generates dense text descriptions of figures"]
-        TextStream --> VectorStore1[("Standard Text Vector Store")]
-        VLMCaption --> VectorStore1
-    end
-
-    subgraph VisionNativeApproach ["Approach 2: Vision-Native Document RAG (ColPali / Patch Embeddings)"]
-        direction TB
-        Rasterize["Rasterize PDF Page to 300 DPI Image"]
-        VisionModel["Vision-Language Embedding (ColPali / PaliGemma)<br/>Computes late-interaction multi-vector image patch embeddings"]
-        VisionModel --> VectorStore2[("Multi-Vector Index<br/>(Direct Visual Search)")]
-    end
-
-    ApproachCheck -->|Cost-Sensitive / Standard Text Embeddings| DualStreamApproach
-    ApproachCheck -->|Complex Visual Layouts / Infographics| VisionNativeApproach
-
-    style PDF fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DualStreamApproach fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style VisionNativeApproach fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/10_document_processing_and_data_preparation_for_ai_faq/03_dual_stream_decomposition_vs_vision_native_colpali.d2](assets/10_document_processing_and_data_preparation_for_ai_faq/03_dual_stream_decomposition_vs_vision_native_colpali.d2)
 
 #### Approach 1: Dual-Stream Decomposition & VLM Figure Captioning (Production Workhorse)
 1. **Layout Decomposition:** Pass each PDF page through a layout model (e.g. `unstructured` or `MinerU`). Detect bounding boxes categorized as `text`, `table`, or `figure`.

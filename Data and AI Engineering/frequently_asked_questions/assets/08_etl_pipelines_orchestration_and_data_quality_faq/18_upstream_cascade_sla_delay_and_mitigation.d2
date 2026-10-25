@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  delay_box: { style: { fill: "#0D1526", stroke: "#EF4444" } }
+  mitigate_box: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+CascadeDelay: "Dependency Delay Propagation" {
+  class: delay_box
+  C: "Pipeline C (Raw): 20m -> 240m (4 Hours!)" { class: card_dark }
+  B: "Pipeline B (Silver): Starts 3.5 Hours Late!" { class: card_dark }
+  A: "Pipeline A (Gold): Misses SLA by 3 Hours!" { class: card_dark }
+  C -> B -> A
+}
+
+Mitigation: "Decoupling & SLA Insulation" {
+  class: mitigate_box
+  M1: "1. Deferrable Event Sensors" { class: card_dark }
+  M2: "2. Partial-Load Fallback (T-1)" { class: card_dark }
+  M3: "3. Autoscaling Ingestion Tier" { class: card_dark }
+}
+
+CascadeDelay -> Mitigation: "Resolved By"

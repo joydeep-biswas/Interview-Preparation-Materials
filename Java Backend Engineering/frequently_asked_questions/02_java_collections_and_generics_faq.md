@@ -6,67 +6,9 @@ A comprehensive guide answering all 34 frequently asked interview questions on t
 
 ## Architectural Overview: Java Collections Hierarchy & Map Tree
 
-```mermaid
-flowchart TD
-    subgraph IterableTree ["Iterable Hierarchy"]
-        Iterable["Iterable&lt;E&gt;<br/>(Root cursor contract: iterator())"]
-        Collection["Collection&lt;E&gt;<br/>(Core container contract: add, remove, size)"]
-        
-        Iterable --> Collection
-        
-        ListInterface["List&lt;E&gt;<br/>(Ordered, indexed sequence)"]
-        SetInterface["Set&lt;E&gt;<br/>(Unique elements contract)"]
-        QueueInterface["Queue&lt;E&gt;<br/>(FIFO / processing buffer)"]
-        DequeInterface["Deque&lt;E&gt;<br/>(Double-ended queue / stack)"]
+![Iterable & Collection Core Interface Hierarchy](assets/02_java_collections_and_generics_faq/01_iterable_collection_hierarchy.svg)
 
-        Collection --> ListInterface
-        Collection --> SetInterface
-        Collection --> QueueInterface
-        QueueInterface --> DequeInterface
-
-        ArrayListNode["ArrayList&lt;E&gt;<br/>(Dynamic array, O(1) random read)"]
-        LinkedListNode["LinkedList&lt;E&gt;<br/>(Doubly linked nodes, Deque/List)"]
-        HashSetNode["HashSet&lt;E&gt;<br/>(Backed by HashMap, O(1) lookups)"]
-        TreeSetNode["TreeSet&lt;E&gt;<br/>(Red-Black tree, NavigableSet O(log N))"]
-        PriorityQueueNode["PriorityQueue&lt;E&gt;<br/>(Min-binary heap, O(log N) poll)"]
-
-        ListInterface -.-> ArrayListNode
-        ListInterface -.-> LinkedListNode
-        DequeInterface -.-> LinkedListNode
-        SetInterface -.-> HashSetNode
-        SetInterface -.-> TreeSetNode
-        QueueInterface -.-> PriorityQueueNode
-    end
-
-    subgraph MapTree ["Map Hierarchy (Separate Root)"]
-        MapInterface["Map&lt;K,V&gt;<br/>(Key-Value associative mapping)"]
-        HashMapNode["HashMap&lt;K,V&gt;<br/>(Array of bins + TreeBin, O(1) avg)"]
-        ConcurrentHashMapNode["ConcurrentHashMap&lt;K,V&gt;<br/>(Lock-free CAS + synchronized bins)"]
-        TreeMapNode["TreeMap&lt;K,V&gt;<br/>(Red-Black tree, O(log N) sorted keys)"]
-
-        MapInterface -.-> HashMapNode
-        MapInterface -.-> ConcurrentHashMapNode
-        MapInterface -.-> TreeMapNode
-    end
-
-    style IterableTree fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MapTree fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Iterable fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Collection fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style ListInterface fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SetInterface fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style QueueInterface fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DequeInterface fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ArrayListNode fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style LinkedListNode fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style HashSetNode fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style TreeSetNode fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style PriorityQueueNode fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style MapInterface fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style HashMapNode fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style ConcurrentHashMapNode fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style TreeMapNode fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/02_java_collections_and_generics_faq/01_iterable_collection_hierarchy.d2](assets/02_java_collections_and_generics_faq/01_iterable_collection_hierarchy.d2)
 
 ---
 
@@ -127,19 +69,9 @@ flowchart TD
 **Difficulty:** [Easy]
 **Topic Covered:** Sequential Data Structures & Memory Locality  
 
-```mermaid
-flowchart TD
-    subgraph AL["ArrayList: Contiguous Memory (Array)"]
-        A0["[0] Item A"] --- A1["[1] Item B"] --- A2["[2] Item C"]
-    end
+![Memory Layout & Cache Locality: ArrayList vs LinkedList](assets/02_java_collections_and_generics_faq/02_arraylist_vs_linkedlist_memory.svg)
 
-    subgraph LL["LinkedList: Dispersed Heap Nodes (Doubly-Linked)"]
-        N1["Node A<br/>[prev|item|next]"] <--> N2["Node B<br/>[prev|item|next]"]
-    end
-
-    style AL fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LL fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_java_collections_and_generics_faq/02_arraylist_vs_linkedlist_memory.d2](assets/02_java_collections_and_generics_faq/02_arraylist_vs_linkedlist_memory.d2)
 
 | Operation | `ArrayList` | `LinkedList` |
 | :--- | :--- | :--- |
@@ -208,43 +140,9 @@ Every `HashSet` wraps an internal `HashMap<E, Object>` instance. Adding element 
 *(Grouped together: Complete HashMap Deep Dive)*  
 **Topic Covered:** `HashMap` Internal Architecture  
 
-```mermaid
-flowchart TD
-    subgraph HashStage ["1. Hash & Bucket Indexing"]
-        direction LR
-        HashCalc["<b>Hash Computation</b><br/>h = key.hashCode() ^ (h &gt;&gt;&gt; 16)"] --> BucketIdx["<b>Array Index Calculation</b><br/>index = (n - 1) & hash"]
-    end
+![Java HashMap Internal Mechanics & Collision Handling](assets/02_java_collections_and_generics_faq/03_hashmap_internal_mechanics_collision.svg)
 
-    subgraph ResolutionStage ["2. Collision Resolution Logic"]
-        direction TB
-        CheckEmpty{"Bucket Empty?"}
-        InsertNode["<b>Direct Array Insert</b><br/>newNode placed at tab[index]"]
-        Traverse{"Collision Encountered:<br/>Bin Head Type?"}
-        CheckEmpty -- "Yes" --> InsertNode
-        CheckEmpty -- "No" --> Traverse
-    end
-
-    subgraph TreeifyZone ["3. Collision Structure"]
-        direction LR
-        LL["<b>Linked List Chain</b><br/>Traverse up to 8 nodes"]
-        Tree["<b>Red-Black Tree</b><br/>Treeify when length ≥ 8 & tab.len ≥ 64"]
-    end
-
-    HashStage --> ResolutionStage
-    Traverse -- "Node is TreeNode" --> Tree
-    Traverse -- "Standard Node" --> LL
-
-    style HashStage fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ResolutionStage fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style TreeifyZone fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style HashCalc fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style BucketIdx fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style CheckEmpty fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style InsertNode fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Traverse fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style LL fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Tree fill:#1e293b,stroke:#ec4899,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/02_java_collections_and_generics_faq/03_hashmap_internal_mechanics_collision.d2](assets/02_java_collections_and_generics_faq/03_hashmap_internal_mechanics_collision.d2)
 
 - **Initial Capacity:** 16 (always a power of 2).
 - **Load Factor:** 0.75.
@@ -484,31 +382,9 @@ public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, 
 #### Architectural Overview
 When allocating concurrent resources (e.g., meeting rooms, thread workers, database connections) across overlapping intervals, sort the intervals by `start_time` ascending. Use a `PriorityQueue<Integer>` (min-heap) to track the active intervals' `end_time` values. If the meeting starting now begins after the earliest ending meeting (`start >= heap.peek()`), the room can be reused (`heap.poll()`). The peak size of the heap represents the minimum concurrent resources required.
 
-```mermaid
-flowchart TD
-    subgraph Intervals ["Sorted Task / Meeting Intervals"]
-        direction TB
-        M1["M1: [9:00, 10:00]"]
-        M2["M2: [9:30, 11:00]"]
-        M3["M3: [10:00, 12:00]"]
-    end
+![Meeting Rooms II: Min-Heap Resource Allocation Topology](assets/02_java_collections_and_generics_faq/04_meeting_rooms_min_heap_allocation.svg)
 
-    subgraph MinHeap ["PriorityQueue (Min-Heap: End Times)"]
-        direction TB
-        R1["Room 1: ends at 10:00 -> Reused by M3"]
-        R2["Room 2: ends at 11:00"]
-    end
-
-    Intervals -->|"Greedy Start-Time Evaluation"| MinHeap
-
-    style Intervals fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MinHeap fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style M1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style M2 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style M3 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style R1 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style R2 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/02_java_collections_and_generics_faq/04_meeting_rooms_min_heap_allocation.d2](assets/02_java_collections_and_generics_faq/04_meeting_rooms_min_heap_allocation.d2)
 
 #### Production Code
 ```java
@@ -594,17 +470,9 @@ public final class TopKSelector {
 #### Architectural Overview
 While Java permits using mutable objects as `HashMap` keys, it is an **enterprise anti-pattern**. When an object's fields mutate after being inserted into a `HashMap`, its `hashCode()` changes. When searching with `map.get(key)`, the map calculates the *new* hash code and looks in the wrong bucket, returning `null` even though the key-value pair exists in memory! Furthermore, the entry can never be removed or evicted, creating a silent **memory leak**.
 
-```mermaid
-flowchart TD
-    Insert["1. map.put(userKey, data)<br/>hashCode = 100 -> Bucket 4"] --> Mutate["2. userKey.setName('Updated')<br/>Mutates fields -> hashCode changes to 520!"]
-    Mutate --> Lookup["3. map.get(userKey)<br/>Looks at hashCode 520 -> Bucket 8 (Empty!) -> Returns NULL!"]
-    Lookup --> Leak["4. Original entry remains permanently unreachable in Bucket 4 (Memory Leak!)"]
+![The Hazard of Mutable HashMap Keys & Lookup Failure](assets/02_java_collections_and_generics_faq/05_mutable_hashmap_keys_lookup_failure.svg)
 
-    style Insert fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Mutate fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Lookup fill:#1e293b,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Leak fill:#0f172a,stroke:#ef4444,stroke-width:2px,color:#f87171
-```
+*D2 Source:* [assets/02_java_collections_and_generics_faq/05_mutable_hashmap_keys_lookup_failure.d2](assets/02_java_collections_and_generics_faq/05_mutable_hashmap_keys_lookup_failure.d2)
 
 * **Production Rule**: Always make `Map` keys strictly **immutable** (e.g., `String`, `UUID`, `Long`, or Java 17+ `record` with primitive/immutable components).
 
@@ -619,17 +487,9 @@ When `size > capacity * loadFactor` (default threshold $= 16 \times 0.75 = 12$ e
 Because table size is always a power of 2, the bucket index is computed via bitwise AND: `index = (n - 1) & hash`.
 During resizing, elements either stay at the same index or move to `index + oldCapacity`, determined by whether the next bit in the hash is 0 or 1 (`(e.hash & oldCap) == 0`). This eliminates recalculating expensive modulo operations during rehashing.
 
-```mermaid
-flowchart LR
-    OldTable["Old Table (Cap = 16)<br/>Index = hash & 15"] --> Rehash["resize() Doubling<br/>New Cap = 32<br/>Check bit: (hash & 16)"]
-    Rehash --> LowNode["Bit = 0: Remains at original index"]
-    Rehash --> HighNode["Bit = 1: Moves to index + 16"]
+![HashMap Doubling & Bit Partitioning During resize()](assets/02_java_collections_and_generics_faq/06_hashmap_resize_bit_partitioning.svg)
 
-    style OldTable fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Rehash fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style LowNode fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style HighNode fill:#1f2937,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/02_java_collections_and_generics_faq/06_hashmap_resize_bit_partitioning.d2](assets/02_java_collections_and_generics_faq/06_hashmap_resize_bit_partitioning.d2)
 
 * **Complexity**: Resizing takes $O(N)$ amortized over insertions; single `put()` operation remains $O(1)$.
 * **Production Rule**: When expected element count $E$ is known upfront, initialize map with `new HashMap<>((int) (E / 0.75f) + 1)` to eliminate all resizing pauses.
@@ -663,49 +523,9 @@ To re-introduce flexible polymorphism, Java provides wildcard variance using Jos
   - Never call `optional.get()` without checking `optional.isPresent()`; use `.orElseThrow()`, `.map()`, `.flatMap()`, or `.orElseGet()`.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph PECS_Hierarchy ["PECS Variance Hierarchy"]
-        ObjectNode["Object (Supertype)"]
-        AnimalNode["Animal (Base Type T)"]
-        DogNode["Dog (Subtype)"]
+![Generics Variance & PECS: Producer Extends, Consumer Super](assets/02_java_collections_and_generics_faq/07_pecs_variance_producer_extends_consumer_super.svg)
 
-        ObjectNode --> AnimalNode --> DogNode
-    end
-
-    subgraph ProducerRole ["Producer Extends (<? extends Animal>)"]
-        direction TB
-        ExtendsDef["ReadOnly Collection<br/>Accepts: List&lt;Dog&gt;, List&lt;Animal&gt;"]
-        ReadElem["item = list.get(0)<br/>Guaranteed: Animal or subtype"]
-        WriteElemErr["list.add(new Dog()) -> COMPILE ERROR!<br/>(Unknown concrete subtype at runtime)"]
-        ExtendsDef --> ReadElem
-        ExtendsDef --> WriteElemErr
-    end
-
-    subgraph ConsumerRole ["Consumer Super (<? super Dog>)"]
-        direction TB
-        SuperDef["WriteSafe Collection<br/>Accepts: List&lt;Dog&gt;, List&lt;Animal&gt;, List&lt;Object&gt;"]
-        WriteElem["list.add(new Dog()) -> COMPILE OK!<br/>Guaranteed to hold Dog instances"]
-        ReadElemObj["item = list.get(0) -> Returns Object<br/>(Specific type erased)"]
-        SuperDef --> WriteElem
-        SuperDef --> ReadElemObj
-    end
-
-    PECS_Hierarchy --> ProducerRole
-    PECS_Hierarchy --> ConsumerRole
-
-    style PECS_Hierarchy fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ProducerRole fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ConsumerRole fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-
-    style ObjectNode fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style AnimalNode fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DogNode fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style ReadElem fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style WriteElemErr fill:#7f1d1d,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style WriteElem fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style ReadElemObj fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/02_java_collections_and_generics_faq/07_pecs_variance_producer_extends_consumer_super.d2](assets/02_java_collections_and_generics_faq/07_pecs_variance_producer_extends_consumer_super.d2)
 
 #### Production Implementation / Code Solution
 ```java
@@ -774,35 +594,9 @@ public final class PecsAndOptionalDemo {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph SinglePassScan ["Single-Pass State Machine: first & second Tracking"]
-        direction TB
-        Num["Current Element: x"] --> Check1{"x > first?"}
-        Check1 -->|"Yes"| UpdateBoth["second = first<br/>first = x"]
-        Check1 -->|"No"| Check2{"x > second && x != first?"}
-        Check2 -->|"Yes"| UpdateSecond["second = x"]
-        Check2 -->|"No"| Ignore["Skip (Duplicate or Smaller)"]
-    end
+![Second Largest Element: Single-Pass State Machine](assets/02_java_collections_and_generics_faq/08_second_largest_single_pass_state_machine.svg)
 
-    subgraph DutchFlag3Way ["Dutch National Flag 3-Way In-Place Partitioning"]
-        direction LR
-        LowArea["[0..low-1]: 0s"] --> MidArea["[low..mid-1]: 1s"] --> Unseen["[mid..high]: Unsorted"] --> HighArea["[high+1..N-1]: 2s"]
-    end
-
-    style SinglePassScan fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DutchFlag3Way fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Num fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Check1 fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style UpdateBoth fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Check2 fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style UpdateSecond fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Ignore fill:#1e293b,stroke:#64748b,stroke-width:1px,color:#fff
-    style LowArea fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style MidArea fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Unseen fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style HighArea fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/02_java_collections_and_generics_faq/08_second_largest_single_pass_state_machine.d2](assets/02_java_collections_and_generics_faq/08_second_largest_single_pass_state_machine.d2)
 
 #### Production-Grade Implementation
 
@@ -890,39 +684,9 @@ public final class ArrayManipulationAlgorithms {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph HashMapTopology ["1. HashMap (Hash Table + Red-Black Trees)"]
-        direction LR
-        HM_Buckets["Bucket Array: Node<K,V>[]"] --> HM_List["Linked Nodes (or TreeNode if bucket > 8)"]
-    end
+![Comparative Topologies: HashMap vs LinkedHashMap vs TreeMap](assets/02_java_collections_and_generics_faq/09_map_topology_hashmap_linkedhashmap_treemap.svg)
 
-    subgraph LinkedHashMapTopology ["2. LinkedHashMap (Hash Table + Doubly-Linked List)"]
-        direction LR
-        LHM_Hash["Hash Table Buckets"] --> LHM_Nodes["Entry<K,V> with before & after pointers"]
-        LHM_Nodes --> LHM_Head["head <--> node1 <--> node2 <--> tail"]
-    end
-
-    subgraph TreeMapTopology ["3. TreeMap (Red-Black Self-Balancing BST)"]
-        direction TB
-        TM_Root["Root Node (Black)"] --> TM_L["Left Child"] & TM_R["Right Child"]
-        TM_L --> TM_LL["Red Node"] & TM_LR["Black Node"]
-    end
-
-    style HashMapTopology fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LinkedHashMapTopology fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style TreeMapTopology fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style HM_Buckets fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style HM_List fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style LHM_Hash fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style LHM_Nodes fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style LHM_Head fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style TM_Root fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style TM_L fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style TM_R fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style TM_LL fill:#7f1d1d,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style TM_LR fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/02_java_collections_and_generics_faq/09_map_topology_hashmap_linkedhashmap_treemap.d2](assets/02_java_collections_and_generics_faq/09_map_topology_hashmap_linkedhashmap_treemap.d2)
 
 Detailed Comparison Matrix:
 

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" width="1080" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Transactional Outbox Pattern: Debezium CDC Sequence</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Guaranteed Dual-Write Atomicity via Database WAL Log Mining and Kafka Streaming</text>
+<rect x="50" y="100" width="150" height="50" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="125" y="121" fill="#3b82f6" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Customer Client</text>
+<text x="125" y="138" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Browser / App</text>
+<line x1="125" y1="150" x2="125" y2="470" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<rect x="260" y="100" width="150" height="50" rx="6" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="335" y="121" fill="#06b6d4" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Order Service</text>
+<text x="335" y="138" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Boot App</text>
+<line x1="335" y1="150" x2="335" y2="470" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<rect x="490" y="100" width="150" height="50" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<text x="565" y="121" fill="#10b981" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL Database</text>
+<text x="565" y="138" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">orders + outbox_table</text>
+<line x1="565" y1="150" x2="565" y2="470" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<rect x="720" y="100" width="150" height="50" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="795" y="121" fill="#f59e0b" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Debezium CDC</text>
+<text x="795" y="138" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Connect Engine</text>
+<line x1="795" y1="150" x2="795" y2="470" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<rect x="910" y="100" width="150" height="50" rx="6" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="985" y="121" fill="#8b5cf6" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Cluster</text>
+<text x="985" y="138" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">'orders.events' Topic</text>
+<line x1="985" y1="150" x2="985" y2="470" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<line x1="125" y1="175" x2="335" y2="175" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<text x="230" y="167" fill="#93C5FD" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. POST /orders</text>
+<line x1="335" y1="215" x2="565" y2="215" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="450" y="207" fill="#6EE7B7" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. BEGIN TRANSACTION</text>
+<rect x="460" y="235" width="210" height="50" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="470" y="253" fill="#A7F3D0" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• INSERT INTO orders (...) </text>
+<text x="470" y="267" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• INSERT INTO outbox_table (...) </text>
+<text x="470" y="281" fill="#6EE7B7" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">COMMIT TRANSACTION (WAL Flush)</text>
+<line x1="335" y1="305" x2="125" y2="305" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-b)"/>
+<text x="230" y="297" fill="#93C5FD" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. 201 Created (Order confirmed to user in 15ms!)</text>
+<line x1="565" y1="345" x2="795" y2="345" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<text x="680" y="337" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Debezium reads pg_wal (Replication Slot)</text>
+<line x1="795" y1="390" x2="985" y2="390" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<text x="890" y="382" fill="#C4B5FD" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">5. Publishes event to 'orders.events'</text>
+<rect x="860" y="430" width="200" height="34" rx="4" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="960" y="446" fill="#EDE9FE" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Consumed by Inventory &amp; Email</text>
+<text x="960" y="458" fill="#CBD5E1" font-size="7.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Guaranteed At-Least-Once Delivery</text>
+<rect x="40" y="485" width="1000" height="75" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="508" fill="#F87171" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why Dual-Writing (DB + KafkaTemplate) in Application Code is a Fatal Anti-Pattern:</text>
+<text x="65" y="526" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• If the DB insert succeeds but Kafka is temporarily down, the event is permanently lost. If Kafka succeeds but DB rolls back, phantom events trigger duplicate charges.</text>
+<text x="65" y="542" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• The Transactional Outbox pattern guarantees 100% atomicity by piggybacking on the database's own local ACID transaction.</text>
+</svg>

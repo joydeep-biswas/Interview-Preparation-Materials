@@ -1,0 +1,24 @@
+direction: right
+title: "Consistent Hashing Ring & Virtual Nodes (Vnodes)"
+
+ring: "Consistent Hash Ring [0 .. 2^32-1]" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+
+  s1_v1: "Node 1 (vnode 1)"
+  s2_v1: "Node 2 (vnode 1)"
+  s3_v1: "Node 3 (vnode 1)"
+  s1_v2: "Node 1 (vnode 2)"
+
+  s1_v1 -> s2_v1 -> s3_v1 -> s1_v2 -> s1_v1: "Clockwise Token Ring"
+}
+
+mechanics: "Virtual Node Mechanics" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+
+  formula: "Keys Moved = K / (N + 1)
+Traditional modulo moves 100% of keys!"
+  routing: "TreeMap.ceilingEntry(hash)
+O(log M) Clockwise Lookup"
+}

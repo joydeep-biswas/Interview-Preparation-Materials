@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  fp: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  batch: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  moe: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+c1: "1. Floating-Point Non-Associativity\n(A+B)+C != A+(B+C)\nAtomic warp sum order varies" { class: fp }
+c2: "2. Continuous Batching Dynamic Tiling\nKernel reduction trees change per tick" { class: batch }
+c3: "3. MoE Token Dropping\nExpert buffer overflow alters output" { class: moe }
+
+jitter: "Logit Jitter (+-1e-6) -> Flips Argmax Decision Boundaries!" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+
+c1 -> jitter
+c2 -> jitter
+c3 -> jitter

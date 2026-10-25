@@ -1,0 +1,46 @@
+direction: right
+
+young: "Young Gen (-Xmn)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  eden: "Eden Space (Bump Pointer)"
+  survivor: "Survivor Spaces (S0/S1)"
+}
+
+old: "Old Gen (Tenured)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  oom_heap: "OOM: Java heap space"
+  leaks: "Static Caches & ThreadLocals"
+}
+
+meta: "Metaspace & Stacks" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  oom_meta: "OOM: Metaspace"
+  so_err: "StackOverflowError (Recursion)"
+}
+
+direct: "Direct Memory (Off-Heap)" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  oom_direct: "OOM: Direct buffer memory"
+  netty: "Netty Zero-Copy NIO Buffers"
+}
+
+young -> old: "Promote Survivors" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}
+old -> meta: "Non-Heap Allocation" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+meta -> direct: "Native Buffer Allocation" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

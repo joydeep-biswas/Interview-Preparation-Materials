@@ -1,0 +1,19 @@
+direction: right
+
+sync: "synchronized (Object Monitor)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  mark_word: "Biased -> Thin CAS -> Fat OS Mutex inflation"
+  safety: "Auto-unlocks on block exit (cannot leak)"
+  limits: "No timeout, no interruption, unfair only"
+}
+
+reentrant: "ReentrantLock (AQS Machine)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  aqs: "volatile int state + CLH Wait Queue"
+  features: "tryLock(timeout), lockInterruptibly(), Fair FIFO"
+  danger: "MUST unlock in finally block or leaks forever"
+}
+
+sync -> reentrant: "Comparison of locking primitives"

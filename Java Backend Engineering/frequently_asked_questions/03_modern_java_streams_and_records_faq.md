@@ -6,35 +6,9 @@ A comprehensive guide answering all 14 questions on functional programming in Ja
 
 ## Architectural Overview: Stream Pipeline Execution Mechanics
 
-```mermaid
-flowchart LR
-    subgraph Source["1. Data Source"]
-        Coll["Collection / Array / I/O Channel"]
-    end
+![Java Stream Pipeline Lifecycle & Lazy Evaluation](assets/03_modern_java_streams_and_records_faq/01_stream_pipeline_lifecycle_lazy_evaluation.svg)
 
-    subgraph Pipeline["2. Intermediate Operations (Lazy Evaluation)"]
-        Op1["filter(Predicate)"]
-        Op2["map(Function)"]
-        Op3["sorted(Comparator)"]
-        Op1 --> Op2 --> Op3
-    end
-
-    subgraph Terminal["3. Terminal Operation (Execution Trigger)"]
-        TermOp["collect() / forEach() / reduce()"]
-    end
-
-    Coll -->|"Spliterator Stream Creation"| Op1
-    Op3 -->|"Fused Pipeline Traversal"| TermOp
-
-    style Source fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Pipeline fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style Terminal fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Coll fill:#1f2937,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Op1 fill:#1f2937,stroke:#06b6d4,stroke-width:1px,color:#fff
-    style Op2 fill:#1f2937,stroke:#06b6d4,stroke-width:1px,color:#fff
-    style Op3 fill:#1f2937,stroke:#06b6d4,stroke-width:1px,color:#fff
-    style TermOp fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/03_modern_java_streams_and_records_faq/01_stream_pipeline_lifecycle_lazy_evaluation.d2](assets/03_modern_java_streams_and_records_faq/01_stream_pipeline_lifecycle_lazy_evaluation.d2)
 
 ---
 
@@ -108,20 +82,9 @@ Syntactic shorthand for lambda expressions referring directly to existing method
 **Topic Covered:** Monadic Null Handling  
 `java.util.Optional<T>` is an immutable value-based container designed specifically as a **method return type** to signify that a result may be absent.
 
-```mermaid
-flowchart TD
-    MethodCall["findUserById(10)"] --> Ret{"Returns Optional<User>"}
-    Ret -->|Present| Val["Optional.of(user)"]
-    Ret -->|Absent| Empty["Optional.empty()"]
-    Val --> SafeFlow["userOpt.map(User::getEmail).orElse('default@email.com')"]
-    Empty --> SafeFlow
+![Java Optional Monadic Operations Pipeline](assets/03_modern_java_streams_and_records_faq/02_optional_monadic_operations_pipeline.svg)
 
-    style MethodCall fill:#0f172a,stroke:#3b82f6,stroke-width:1px,color:#93c5fd
-    style Ret fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#c4b5fd
-    style Val fill:#064e3b,stroke:#10b981,stroke-width:1px,color:#a7f3d0
-    style Empty fill:#3b0764,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style SafeFlow fill:#0f172a,stroke:#06b6d4,stroke-width:1px,color:#67e8f9
-```
+*D2 Source:* [assets/03_modern_java_streams_and_records_faq/02_optional_monadic_operations_pipeline.d2](assets/03_modern_java_streams_and_records_faq/02_optional_monadic_operations_pipeline.d2)
 
 #### Production Rules:
 1. Avoid `Optional.get()` without checking; prefer `orElse()`, `orElseGet()`, or `orElseThrow()`.
@@ -242,17 +205,9 @@ When processing relational employee collections in memory, finding the top earne
 1. `Collectors.groupingBy(Employee::department)` groups records by department identifier.
 2. Downstream collector `Collectors.collectingAndThen(Collectors.maxBy(Comparator.comparing(Employee::salary)), Optional::orElseThrow)` extracts the unboxed `Employee` record directly instead of leaving wrapped `Optional<Employee>` values in the resulting map.
 
-```mermaid
-flowchart LR
-    Stream["Stream<Employee>"] --> Group["Collectors.groupingBy(Employee::department)"]
-    Group --> Downstream["Collectors.collectingAndThen(<br/>Collectors.maxBy(Comparator.comparing(Employee::salary)),<br/>Optional::get<br/>)"]
-    Downstream --> ResultMap["Map<String, Employee> (Dept -> Top Earner)"]
+![Java Stream Collectors & Multi-Level Downstream Aggregation](assets/03_modern_java_streams_and_records_faq/03_stream_collectors_downstream_aggregation.svg)
 
-    style Stream fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Group fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Downstream fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ResultMap fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/03_modern_java_streams_and_records_faq/03_stream_collectors_downstream_aggregation.d2](assets/03_modern_java_streams_and_records_faq/03_stream_collectors_downstream_aggregation.d2)
 
 #### Production Code
 ```java
@@ -376,35 +331,9 @@ public final class FirstUniqueCharacterFinder {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph StreamSource ["IntStream source: str.chars()"]
-        Chars["Primitive Codepoints (ASCII / UTF-16)"]
-    end
+![First Non-Repeating Character: IntStream & Frequency Map](assets/03_modern_java_streams_and_records_faq/04_intstream_character_frequency_counting.svg)
 
-    subgraph ForkPath ["Stream Processing Branches"]
-        direction LR
-        Branch1["Frequency Collector:<br/>mapToObj(c -> (char) c)<br/>groupingBy(identity(), counting())"]
-        Branch2["Special Char Filter:<br/>filter(c -> !isLetterOrDigit(c) && !isWhitespace(c))<br/>count()"]
-    end
-
-    subgraph OutputPayload ["Analysis DTO Record"]
-        Record["Record AnalysisResult(<br/>Map&lt;Character, Long&gt; duplicates,<br/>long specialCharCount)"]
-    end
-
-    Chars --> Branch1
-    Chars --> Branch2
-    Branch1 --> Record
-    Branch2 --> Record
-
-    style StreamSource fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ForkPath fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style OutputPayload fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Chars fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Branch1 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Branch2 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Record fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/03_modern_java_streams_and_records_faq/04_intstream_character_frequency_counting.d2](assets/03_modern_java_streams_and_records_faq/04_intstream_character_frequency_counting.d2)
 
 #### Production-Grade Implementation
 
@@ -483,31 +412,9 @@ public final class StringAnalyticsService {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph ReduceModel ["reduce(): Immutable Folding (New Object per Element)"]
-        direction LR
-        R_In1["Accumulator: String('a')"] --> R_Op1["+ 'b'"] --> R_New1["New String('ab')"]
-        R_New1 --> R_Op2["+ 'c'"] --> R_New2["New String('abc')"]
-    end
+![Reduction Mechanics: reduce() vs collect() Memory Allocation](assets/03_modern_java_streams_and_records_faq/05_reduce_vs_collect_memory_mechanics.svg)
 
-    subgraph CollectModel ["collect(): Mutable Accumulation (In-Place Mutation)"]
-        direction LR
-        C_Container["Single StringBuilder Container"] --> C_Op1[".append('a')"] --> C_Op2[".append('b')"] --> C_Op3[".append('c')"]
-    end
-
-    style ReduceModel fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style CollectModel fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style R_In1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style R_Op1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style R_New1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style R_Op2 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style R_New2 fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style C_Container fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style C_Op1 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style C_Op2 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style C_Op3 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/03_modern_java_streams_and_records_faq/05_reduce_vs_collect_memory_mechanics.d2](assets/03_modern_java_streams_and_records_faq/05_reduce_vs_collect_memory_mechanics.d2)
 
 Detailed Comparison:
 

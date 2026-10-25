@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  container: { style: { fill: "#0D1526", stroke: "#1E293B" } }
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  green_box: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
+  red_box: { style: { fill: "#111827", stroke: "#EF4444", stroke-width: 2 } }
+  purple_box: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
+}
+
+DependencyBranching: "ADF Activity Dependency Branching & Error Resilience" {
+  class: container
+  Act1: "Activity 1\n• Ingest Customers Table" { class: blue_box }
+  Act2: "Activity 2 (Normal Path)\n• Transform & Standardize" { class: green_box }
+  ErrLog: "Log Error & Alert\n• Write error to SQL log\n• Send Webhook to Teams" { class: red_box }
+  Act3: "Activity 3\n• Next Pipeline Stage\n• Continues Execution" { class: purple_box }
+
+  Act1 -> Act2: "Upon Success" { style: { stroke: "#10B981" } }
+  Act1 -> ErrLog: "Upon Failure" { style: { stroke: "#EF4444" } }
+  Act2 -> Act3: "Upon Completion" { style: { stroke: "#94A3B8" } }
+  ErrLog -> Act3: "Upon Completion" { style: { stroke: "#94A3B8" } }
+}

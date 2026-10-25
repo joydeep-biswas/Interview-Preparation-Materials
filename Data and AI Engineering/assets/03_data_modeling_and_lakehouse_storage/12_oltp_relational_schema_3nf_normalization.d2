@@ -1,0 +1,43 @@
+direction: right
+title: OLTP Relational Schema: 3NF & BCNF Normalization
+
+zip_codes: ZIP_CODES {
+  shape: sql_table
+  zip_code: varchar [pk]
+  city: varchar
+  state: varchar
+}
+
+customers: CUSTOMERS {
+  shape: sql_table
+  customer_id: varchar [pk]
+  customer_name: varchar
+  street_address: varchar
+  zip_code: varchar [fk]
+}
+
+orders: ORDERS {
+  shape: sql_table
+  order_id: bigint [pk]
+  customer_id: varchar [fk]
+  order_date: timestamp
+}
+
+order_items: ORDER_ITEMS {
+  shape: sql_table
+  order_id: bigint [pk, fk]
+  item_id: varchar [pk, fk]
+  quantity: int
+}
+
+items: ITEMS {
+  shape: sql_table
+  item_id: varchar [pk]
+  item_name: varchar
+  current_price: decimal
+}
+
+zip_codes -> customers: "locates (1:N)"
+customers -> orders: "places (1:N)"
+orders -> order_items: "contains (1:N)"
+items -> order_items: "included_in (1:N)"

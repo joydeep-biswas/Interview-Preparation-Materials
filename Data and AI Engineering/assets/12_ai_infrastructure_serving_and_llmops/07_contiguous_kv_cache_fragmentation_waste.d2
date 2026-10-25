@@ -1,0 +1,17 @@
+direction: right
+classes: {
+  used: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  waste: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+}
+
+alloc: "Static Request Allocation\n(Pre-allocates 4096 tokens)" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+
+vram_box: "GPU VRAM Buffer (4096 tokens)" {
+  used_tokens: "Used: 42 Tokens (1%)\nActual generated KV cache" { class: used }
+  internal_waste: "Internal Fragmentation (75%)\n4054 tokens locked & unused!" { class: waste }
+  external_waste: "External Fragmentation (24%)\nNon-contiguous memory holes causing OOM" { class: waste }
+
+  used_tokens -> internal_waste -> external_waste
+}
+
+alloc -> vram_box.used_tokens

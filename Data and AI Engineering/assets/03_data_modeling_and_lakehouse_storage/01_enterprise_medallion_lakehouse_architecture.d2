@@ -1,0 +1,42 @@
+direction: right
+title: Enterprise Medallion Lakehouse Architecture (Bronze -> Silver -> Gold)
+
+bronze: Bronze Layer (Raw Ingestion) {
+  raw_events: Raw Event Streams {
+    shape: rectangle
+    type: "Kafka / CDC"
+    format: "Append-only JSON / Parquet"
+  }
+  cdc_data: Change Data Capture {
+    shape: rectangle
+    source: "Postgres / MySQL WAL"
+    drift: "Tolerant"
+  }
+}
+
+silver: Silver Layer (Cleansed & Enriched) {
+  cleansed: Cleansed & Deduplicated {
+    shape: rectangle
+    rules: "Schema enforced, dead-letter DLQ"
+  }
+  data_vault: Data Vault 2.0 Core {
+    shape: rectangle
+    structure: "Hubs, Links, Satellites"
+  }
+}
+
+gold: Gold Layer (Curated Serving) {
+  star_schema: Kimball Star Schema {
+    shape: rectangle
+    structure: "Facts & Dimensions"
+  }
+  semantic_layer: Enterprise Semantic Layer {
+    shape: rectangle
+    metrics: "Single source of truth"
+  }
+}
+
+bronze.raw_events -> silver.cleansed: "Schema Enforce"
+bronze.cdc_data -> silver.data_vault: "Audit Merge"
+silver.cleansed -> gold.star_schema: "Dimensionalize"
+silver.data_vault -> gold.semantic_layer: "Standardize KPIs"

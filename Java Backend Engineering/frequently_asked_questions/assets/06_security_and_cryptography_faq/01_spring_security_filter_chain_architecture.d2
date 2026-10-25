@@ -1,0 +1,29 @@
+direction: right
+
+servlet_bridge: "1. Servlet Bridge" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  proxy: "DelegatingFilterProxy bridges Servlet to Spring"
+}
+
+hub: "2. FilterChainProxy Hub" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  matcher: "Matches request URL to specific SecurityFilterChain"
+}
+
+chain: "3. SecurityFilterChain" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  filters: "SecurityContext -> AuthFilter -> ExceptionTranslation -> AuthorizationFilter"
+}
+
+target: "4. Target Controller" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  auth: "Authenticated SecurityContext available"
+}
+
+servlet_bridge -> hub: "Delegate doFilter()"
+hub -> chain: "Route to matching chain"
+chain -> target: "Pass authorized request"

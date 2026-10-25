@@ -1,0 +1,15 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+issue: "Slow JDBC Read\nSingle core saturated\nCluster idling" { class: box; style.stroke: "#EF4444" }
+s1: "1. Partitioning Strategy Check\nAre numPartitions & partitionColumn set?" { class: box; style.stroke: "#3B82F6" }
+s2: "2. Column Distribution Check\nIs column uniformly distributed integer/date?" { class: box; style.stroke: "#F59E0B" }
+s3: "3. FetchSize Parameter Check\nDefault fetchsize=10 causes millions of roundtrips" { class: box; style.stroke: "#10B981" }
+s4: "4. Database Index & Query Check\nSource database performing full table scan" { class: box; style.stroke: "#8B5CF6" }
+
+issue -> s1
+s1 -> s2: "Partitioned"
+s2 -> s3: "Evenly Distributed"
+s3 -> s4: "FetchSize OK"

@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1240" height="600" rx="10" fill="url(#bg)"/>
+  <rect width="1240" height="600" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="620" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Enterprise Caching, Messaging &amp; Event Mesh Architecture</text>
+  <text x="620" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Zero-Bottleneck Topology: Multi-Tiered In-Memory Caching (Caffeine + Redis) &amp; Event Mesh (RabbitMQ + Kafka KRaft)</text>
+  <line x1="40" y1="68" x2="1200" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Section 1: Application Tier &amp; Distributed Caching -->
+  <rect x="40" y="95" width="560" height="425" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="40" y="95" width="560" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="320" y="115" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Application Tier &amp; Multi-Tier Caching</text>
+
+  <!-- Spring Boot Services -->
+  <rect x="60" y="145" width="230" height="110" rx="6" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="175" y="170" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Spring Boot 3 Services</text>
+  <text x="75" y="195" font-size="9" fill="#CBD5E1">&#x2022; REST &amp; gRPC Controllers</text>
+  <text x="75" y="215" font-size="9" fill="#CBD5E1">&#x2022; @Cacheable Service Layer</text>
+  <text x="75" y="235" font-size="9" fill="#CBD5E1">&#x2022; Redlock Distributed Locks</text>
+
+  <!-- L1 Caffeine Cache -->
+  <rect x="330" y="145" width="245" height="110" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+  <text x="452" y="170" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">L1 Local Cache (Caffeine)</text>
+  <text x="345" y="195" font-size="9" fill="#CBD5E1">&#x2022; In-process JVM Heap (~50ns)</text>
+  <text x="345" y="215" font-size="9" fill="#CBD5E1">&#x2022; Window-TinyLFU Eviction</text>
+  <text x="345" y="235" font-size="9" fill="#34D399">&#x2714; Zero network serialization</text>
+
+  <path fill="none" d="M 290 200 L 330 200" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- L2 Redis Enterprise Cluster -->
+  <rect x="60" y="280" width="515" height="110" rx="6" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="317" y="305" font-size="11" font-weight="700" fill="#C4B5FD" text-anchor="middle">L2 Distributed Cache: Redis Enterprise Cluster</text>
+  <text x="75" y="330" font-size="9" fill="#CBD5E1">&#x2022; Master-Replica Sharding (16,384 Hash Slots) + Sentinel Auto-Failover</text>
+  <text x="75" y="350" font-size="9" fill="#CBD5E1">&#x2022; Sliding Window Rate Limiting, Redlock distributed coordination</text>
+  <text x="75" y="370" font-size="9" fill="#CBD5E1">&#x2022; Invalidation Bus: Redis Pub/Sub syncs L1 cache invalidation across all pods</text>
+
+  <path fill="none" d="M 175 255 L 175 280" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+
+  <!-- PostgreSQL Primary DB -->
+  <rect x="60" y="415" width="515" height="85" rx="6" fill="#0F172A" stroke="#0284C7" stroke-width="1"/>
+  <text x="317" y="440" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Primary System of Record: PostgreSQL (ACID)</text>
+  <text x="75" y="465" font-size="9" fill="#CBD5E1">&#x2022; Read-Write Primary + Streaming Read Replicas (Row-level Locking)</text>
+  <text x="75" y="485" font-size="9" fill="#94A3B8">&#x2022; Updated via Cache-Aside / Write-Through; Protected from Thundering Herds</text>
+
+  <path fill="none" d="M 317 390 L 317 415" stroke="#0284C7" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Section 2: Messaging &amp; Streaming Mesh -->
+  <rect x="640" y="95" width="560" height="425" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="640" y="95" width="560" height="30" rx="8" fill="#78350F"/>
+  <text x="920" y="115" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">2. Asynchronous Messaging &amp; Event Mesh</text>
+
+  <!-- RabbitMQ AMQP Work Queues -->
+  <rect x="660" y="145" width="240" height="150" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+  <text x="780" y="170" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle">RabbitMQ (AMQP 0-9-1)</text>
+  <text x="675" y="195" font-size="9" fill="#CBD5E1">&#x2022; Point-to-Point Task Distribution</text>
+  <text x="675" y="215" font-size="9" fill="#CBD5E1">&#x2022; Direct, Fanout &amp; Topic Exchanges</text>
+  <text x="675" y="235" font-size="9" fill="#CBD5E1">&#x2022; Consumer basicQos (Prefetch)</text>
+  <text x="675" y="255" font-size="9" fill="#CBD5E1">&#x2022; Dead Letter Exchanges (DLX)</text>
+  <text x="675" y="275" font-size="9" fill="#FDE68A">Use: Background async jobs, emails</text>
+
+  <!-- Kafka Event Log -->
+  <rect x="940" y="145" width="240" height="150" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1"/>
+  <text x="1060" y="170" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">Apache Kafka (KRaft)</text>
+  <text x="955" y="195" font-size="9" fill="#CBD5E1">&#x2022; High-Throughput Event Log</text>
+  <text x="955" y="215" font-size="9" fill="#CBD5E1">&#x2022; Partitioned Immutable Log Stream</text>
+  <text x="955" y="235" font-size="9" fill="#CBD5E1">&#x2022; Exactly-Once Semantics (EOS)</text>
+  <text x="955" y="255" font-size="9" fill="#CBD5E1">&#x2022; Independent Consumer Groups</text>
+  <text x="955" y="275" font-size="9" fill="#6EE7B7">Use: Auditing, analytics, CDC</text>
+
+  <!-- Downstream Consumer Services -->
+  <rect x="660" y="325" width="520" height="175" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="920" y="350" font-size="11" font-weight="700" fill="#E2E8F0" text-anchor="middle">Downstream Decoupled Consumer Groups</text>
+  
+  <rect x="680" y="370" width="150" height="60" rx="4" fill="#0F172A" stroke="#F59E0B"/>
+  <text x="755" y="392" font-size="9" font-weight="700" fill="#FBBF24" text-anchor="middle">Task Workers</text>
+  <text x="755" y="410" font-size="8" fill="#CBD5E1" text-anchor="middle">Competing Consumers</text>
+
+  <rect x="850" y="370" width="150" height="60" rx="4" fill="#0F172A" stroke="#10B981"/>
+  <text x="925" y="392" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">Billing Group</text>
+  <text x="925" y="410" font-size="8" fill="#CBD5E1" text-anchor="middle">Consumer Offset 102</text>
+
+  <rect x="1015" y="370" width="150" height="60" rx="4" fill="#0F172A" stroke="#38BDF8"/>
+  <text x="1090" y="392" font-size="9" font-weight="700" fill="#7DD3FC" text-anchor="middle">Analytics Group</text>
+  <text x="1090" y="410" font-size="8" fill="#CBD5E1" text-anchor="middle">Consumer Offset 102</text>
+
+  <rect x="680" y="445" width="485" height="40" rx="4" fill="#1C1917" stroke="#EF4444"/>
+  <text x="922" y="468" font-size="9" font-weight="700" fill="#F87171" text-anchor="middle">&#x26A0; Dead Letter Topic (DLT): Unprocessable Poison Pills diverted after max retries</text>
+
+  <!-- Connectors from Brokers to Consumers -->
+  <path fill="none" d="M 755 295 L 755 370" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <path fill="none" d="M 1030.0 295.0 L 1030.0 305.0 C 1030.0 330.5, 925.0 330.5, 925.0 356.0 L 925.0 370.0" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <path fill="none" d="M 1090 295 L 1090 370" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  <!-- Bridge connector between App and Event Mesh -->
+  <path fill="none" d="M 290 170 L 660 170" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <text x="475" y="162" font-size="9" font-weight="700" fill="#FDE68A" text-anchor="middle">Publishes Events</text>
+
+  <!-- Bottom Invariant Banner -->
+  <rect x="40" y="540" width="1160" height="35" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="620" y="562" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Architectural Separation: Use Redis for ephemeral mutable state and microsecond caching. Use Kafka for immutable ordered event streaming and multi-subscriber pub/sub.</text>
+</svg>

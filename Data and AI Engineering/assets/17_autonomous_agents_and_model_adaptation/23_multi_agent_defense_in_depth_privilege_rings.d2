@@ -1,0 +1,14 @@
+classes: {
+  r0_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  r1_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  r2_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+rings: "Multi-Agent Security Blast Radius Rings" {
+  r0: "Ring 0: Public Web Worker\nWeb Search; ZERO internal DB access\nPrompt injection contained here" { class: r0_box }
+  r1: "Ring 1: Internal Read-Only\nSELECT access only; zero mutation tools" { class: r1_box }
+  r2: "Ring 2: Privileged Action Agent\nDB migration specialist\nRequires signed JWT & human sign-off" { class: r2_box }
+
+  r0 -> r1: "Sanitized findings only"
+  r1 -> r2: "Audit proposals only"
+}

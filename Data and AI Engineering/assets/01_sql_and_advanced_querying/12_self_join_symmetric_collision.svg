@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="360" viewBox="0 0 1040 360">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1040" height="360" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Self-Joins &amp; Avoiding Mirrored Duplicate Pairs</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Joining a table to itself: Why strict inequality (a.id &lt; b.id) eliminates mirrored duplicate tuples</text>
+
+  <!-- Top: The Anti-Pattern (<>) -->
+  <g transform="translate(30, 80)">
+    <rect width="980" height="110" rx="8" fill="#2A0B0B" stroke="#EF4444" stroke-width="2"/>
+    <text x="490" y="26" font-size="13" font-weight="700" fill="#FCA5A5" text-anchor="middle">❌ The Anti-Pattern: ON a.id &lt;&gt; b.id (Produces Mirrored Collisions)</text>
+
+    <rect x="20" y="38" width="440" height="58" rx="4" fill="#4C0505" stroke="#EF4444"/>
+    <text x="35" y="60" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">Candidate Pair: Alice (ID=1) &amp; Bob (ID=2)</text>
+    <text x="35" y="80" font-size="11" fill="#FCA5A5" text-anchor="start">Evaluates twice: 1 &lt;&gt; 2 (TRUE) and 2 &lt;&gt; 1 (TRUE)</text>
+
+    <path d="M 470 67 L 515 67" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+
+    <rect x="525" y="38" width="435" height="58" rx="4" fill="#4C0505" stroke="#EF4444"/>
+    <text x="540" y="60" font-size="11" font-weight="700" fill="#FCA5A5" text-anchor="start">Result Set Contains Duplicate Mirrored Rows:</text>
+    <text x="540" y="80" font-size="11" fill="#FFFFFF" text-anchor="start">Row 1: (Alice, Bob)   |   Row 2: (Bob, Alice)  [Duplicated!]</text>
+  </g>
+
+  <!-- Bottom: The Production Pattern (<) -->
+  <g transform="translate(30, 210)">
+    <rect width="980" height="120" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <text x="490" y="26" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">✓ The Production Pattern: ON a.id &lt; b.id (Strict Canonical Ordering)</text>
+
+    <rect x="20" y="38" width="440" height="68" rx="4" fill="#064E3B" stroke="#10B981"/>
+    <text x="35" y="60" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">Candidate Pair: Alice (ID=1) &amp; Bob (ID=2)</text>
+    <text x="35" y="78" font-size="11" fill="#A7F3D0" text-anchor="start">1 &lt; 2 is TRUE  (Alice, Bob is emitted)</text>
+    <text x="35" y="94" font-size="11" fill="#A7F3D0" text-anchor="start">2 &lt; 1 is FALSE (Bob, Alice is discarded!)</text>
+
+    <path d="M 470 72 L 515 72" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+    <rect x="525" y="38" width="435" height="68" rx="4" fill="#064E3B" stroke="#10B981"/>
+    <text x="540" y="60" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="start">Result Set Contains Exactly ONE Canonical Row:</text>
+    <text x="540" y="78" font-size="11" fill="#FFFFFF" text-anchor="start">Row 1: (Alice, Bob)  [Clean, Unique 2-combination]</text>
+    <text x="540" y="94" font-size="10" fill="#6EE7B7" text-anchor="start">Eliminates mirrored duplicates AND self-pairs (1 &lt; 1 is FALSE)</text>
+  </g>
+</svg>

@@ -1,0 +1,32 @@
+direction: right
+title: Medallion Architecture & Lakeflow Platform
+
+Sources: Upstream Sources {
+  style.stroke: "#64748B"
+  DB: OLTP Databases (CDC)
+  SaaS: Enterprise SaaS (Salesforce)
+}
+
+Lakeflow: Databricks Lakeflow Platform {
+  style.stroke: "#38BDF8"
+  Connect: 1. Lakeflow Connect (Serverless Ingestion)
+  Pipelines: 2. Lakeflow Pipelines (DLT Engine)
+  Jobs: 3. Lakeflow Jobs (Orchestration)
+
+  Connect -> Pipelines
+  Jobs -> Pipelines
+}
+
+Medallion: Unity Catalog Medallion Storage {
+  style.stroke: "#34D399"
+  Bronze: Bronze Tables (Raw Append Log)
+  Silver: Silver Tables (Cleaned & Conformed)
+  Gold: Gold Tables (Aggregated KPI Marts)
+
+  Bronze -> Silver -> Gold
+}
+
+Sources.DB -> Lakeflow.Connect: Change Data Capture { style.stroke: "#22D3EE" }
+Lakeflow.Pipelines -> Medallion.Bronze: Writes Raw Data { style.stroke: "#FBBF24" }
+Lakeflow.Pipelines -> Medallion.Silver: Cleanses & Validates { style.stroke: "#34D399" }
+Lakeflow.Pipelines -> Medallion.Gold: Aggregates Marts { style.stroke: "#C084FC" }

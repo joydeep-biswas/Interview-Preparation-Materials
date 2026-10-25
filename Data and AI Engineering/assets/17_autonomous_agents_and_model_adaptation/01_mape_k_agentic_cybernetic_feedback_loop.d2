@@ -1,0 +1,20 @@
+classes: {
+  kb_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  monitor_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  analyze_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  plan_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  execute_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+kb: "Shared Knowledge Base (K)\nVectors, Episodic Logs, Procedural Directives" { class: kb_box }
+
+monitor: "1. MONITOR (Perceive)\nIngests environment & tool stdout" { class: monitor_box }
+analyze: "2. ANALYZE (Reason)\nSynthesizes current state vs goal" { class: analyze_box }
+plan: "3. PLAN (Decide)\nDecomposes tasks & selects tools" { class: plan_box }
+execute: "4. EXECUTE (Act)\nDispatches API calls & scripts" { class: execute_box }
+
+monitor -> analyze -> plan -> execute -> monitor: "Cybernetic Feedback Loop"
+kb <-> monitor
+kb <-> analyze
+kb <-> plan
+kb <-> execute

@@ -1,0 +1,32 @@
+direction: right
+title: "The Object-Relational Impedance Mismatch in Enterprise Systems"
+
+java: "Java OOP Domain Model" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+  obj: "User Object
+UUID id
+Address address (Value Object)
+List<Order> orders
+SavingsAccount (Polymorphism)"
+}
+
+orm: "JPA / Hibernate ORM Bridge" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+  map: "@Embeddable Address
+@Inheritance SINGLE_TABLE
+@OneToMany(mappedBy)
+L1 Identity Map & Dirty Checking"
+}
+
+sql: "Relational Database (SQL)" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+  tables: "users (id, name, street, city)
+accounts (id, dtype, interest_rate, user_id FK)
+orders (id, user_id FK, total)"
+}
+
+java <-> orm: "Translates object graph"
+orm <-> sql: "Generates SQL queries & updates"

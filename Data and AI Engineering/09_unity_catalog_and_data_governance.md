@@ -8,50 +8,48 @@ A comprehensive, production-grade guide to enterprise data governance, zero-trus
 
 Data platforms do not operate in a vacuum. A platform that processes petabytes of data at millisecond latencies is an organizational liability if it leaks sensitive customer information, violates international privacy laws, or delivers corrupted metrics to business stakeholders.
 
-```mermaid
-flowchart TD
-    subgraph GovernancePlane ["1. Enterprise Governance & Zero-Trust Control Plane"]
-        direction TB
-        Catalog["Enterprise Data Catalog<br/>(Unity Catalog / Purview / OpenMetadata)"]
-        AccessEngine["Access Control Engine<br/>(RBAC vs ABAC, Dynamic Context Evaluation)"]
-        Encryption["Cryptographic Security<br/>(Envelope Encryption, KMS, mTLS 1.3)"]
-        Catalog <--> AccessEngine <--> Encryption
-    end
+![Enterprise Governance And Lakehouse Architecture](assets/09_unity_catalog_and_data_governance/01_enterprise_governance_and_lakehouse_architecture.svg)
 
-    subgraph DataLakehousePlane ["2. Lakehouse Execution & Storage Layer"]
-        direction LR
-        Bronze[("Bronze Layer<br/>Raw Ingestion")] --> Silver[("Silver Layer<br/>Cleaned & Masked")] --> Gold[("Gold Layer<br/>Aggregated Business Marts")]
-    end
+<details>
+<summary>D2 Source</summary>
 
-    subgraph ObservabilityPlane ["3. Data Reliability Engineering & Observability"]
-        direction TB
-        FivePillars["The 5 Pillars of Observability<br/>(Freshness, Volume, Quality, Schema, Lineage)"]
-        AnomalyEngine["Statistical Anomaly Engine<br/>(Rolling Z-Scores, IQR, Seasonality)"]
-        CircuitBreaker{"Pipeline Circuit Breaker<br/>(Closed / Tripped / Open)"}
-        FivePillars --> AnomalyEngine --> CircuitBreaker
-    end
+```d2
+direction: right
+classes: {
+  gov: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  lake: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  obs: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
 
-    AccessEngine -->|"Enforce RLS / CLS"| Silver
-    AccessEngine -->|"Dynamic Masking"| Gold
-    Silver & Gold --> FivePillars
-    CircuitBreaker -- Passed --> Consumers["Downstream BI & AI Models"]
-    CircuitBreaker -- Anomaly Detected --> Alert["Halt Downstream & Page On-Call"]
+gov_plane: "1. Enterprise Governance & Zero-Trust Control Plane" {
+  catalog: "Enterprise Data Catalog\n(Unity Catalog / Purview)" { class: gov }
+  access: "Access Control Engine\n(RBAC / ABAC Context)" { class: gov }
+  crypto: "Cryptographic Security\n(Envelope KMS & DDM)" { class: gov }
 
-    style GovernancePlane fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style DataLakehousePlane fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ObservabilityPlane fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Catalog fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style AccessEngine fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Encryption fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Bronze fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Silver fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Gold fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style FivePillars fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style AnomalyEngine fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CircuitBreaker fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Consumers fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Alert fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
+  catalog -> access -> crypto
+}
+
+lake_plane: "2. Lakehouse Storage Layer" {
+  bronze: "Bronze Layer\n(Raw Ingestion)" { class: lake }
+  silver: "Silver Layer\n(Cleaned & Masked)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  gold: "Gold Layer\n(Aggregated Marts)" { class: obs }
+
+  bronze -> silver -> gold
+}
+
+obs_plane: "3. Data Reliability & Observability" {
+  pillars: "5 Pillars of Observability\n(Freshness, Volume, Quality, Schema, Lineage)" { class: obs }
+  anomaly: "Statistical Anomaly Engine\n(Rolling Z-Scores)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  breaker: "Pipeline Circuit Breaker\n(Closed / Tripped / Open)" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+
+  pillars -> anomaly -> breaker
+}
+
+gov_plane.access -> lake_plane.silver: "Enforce RLS / CLS"
+lake_plane.silver -> obs_plane.pillars: "Audit metrics"
+lake_plane.gold -> obs_plane.pillars: "Audit metrics"
 ```
+</details>
 
 ---
 
@@ -119,39 +117,42 @@ Access control paradigms define *how* authorization rules are established, maint
 
 ### 1.2 RBAC vs ABAC: Architecture, Mechanics & Role Explosion
 
-```mermaid
-flowchart LR
-    subgraph RBAC_Architecture ["1. RBAC: Role-Based Access Control (Static)"]
-        direction TB
-        UserA["User: Alice"] --> RoleA["Role: Finance_Analyst"]
-        RoleA --> Perm1["SELECT ON marts.fct_revenue"]
-        RoleA --> Perm2["SELECT ON marts.dim_gl_codes"]
-    end
+![Rbac Vs Abac Security Models](assets/09_unity_catalog_and_data_governance/02_rbac_vs_abac_security_models.svg)
 
-    subgraph ABAC_Architecture ["2. ABAC: Attribute-Based Access Control (Dynamic)"]
-        direction TB
-        UserB["User: Bob<br/>Attrs: Dept=Marketing, Clearance=L2"]
-        Env["Environment Context<br/>IP=10.0.4.12 (VPN), Time=14:30 EST"]
-        Res["Target Resource<br/>Table: customers, Col: pii_ssn"]
-        PolicyEngine{"Policy Engine<br/>Evaluates Rules"}
-        UserB & Env & Res --> PolicyEngine
-        PolicyEngine -- All Criteria Match --> Grant["Grant Access with Column Masking"]
-        PolicyEngine -- Criteria Fail --> Deny["Deny 403 Forbidden"]
-    end
+<details>
+<summary>D2 Source</summary>
 
-    style RBAC_Architecture fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ABAC_Architecture fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style UserA fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style RoleA fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Perm1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Perm2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style UserB fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Env fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Res fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style PolicyEngine fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Grant fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Deny fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
+```d2
+direction: right
+classes: {
+  rbac: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  abac: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  policy: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
+
+rbac_box: "1. RBAC: Role-Based Access Control (Static)" {
+  user_a: "User: Alice" { class: rbac }
+  role_a: "Role: Finance_Analyst" { class: rbac }
+  perm1: "SELECT ON marts.fct_revenue" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  perm2: "SELECT ON marts.dim_gl_codes" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+
+  user_a -> role_a: "Assigned"
+  role_a -> perm1
+  role_a -> perm2
+}
+
+abac_box: "2. ABAC: Attribute-Based Access Control (Dynamic)" {
+  user_b: "User: Bob (Dept=Mktg, L2)" { class: abac }
+  env: "Context (VPN, 14:30 EST)" { class: abac }
+  res: "Resource (customers.pii_ssn)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  engine: "Policy Engine Decision" { class: policy }
+
+  user_b -> engine
+  env -> engine
+  res -> engine
+}
 ```
+</details>
 
 #### 1. RBAC (Role-Based Access Control)
 - **Mechanism:** Permissions are attached to static **Roles** (e.g., `DATA_SCIENTIST`, `BI_ANALYST`, `FINANCE_AUDITOR`). Users are assigned membership to one or more roles.
@@ -217,37 +218,31 @@ Even if a query originates from an internal workstation within the corporate hea
 
 Data masking replaces sensitive information (Social Security Numbers, credit card numbers, home addresses) with realistic-looking dummy data.
 
-```mermaid
-flowchart TD
-    subgraph DDM_Workflow ["2. Dynamic Data Masking (DDM) - Runtime Projection"]
-        direction TB
-        Lake[(Lakehouse Storage<br/>Real SSN stored on disk)]
-        QueryEngine{"Query Engine<br/>Evaluates Caller Role"}
-        Lake --> QueryEngine
-        QueryEngine -- Role: HR_Executive --> ViewReal["Sees: 123-45-6789 (Plaintext)"]
-        QueryEngine -- Role: Data_Analyst --> ViewMask["Sees: ***-**-6789 (Dynamically Redacted)"]
-        note2["Storage on disk is untouched.<br/>Masking occurs on-the-fly in RAM."]
-        QueryEngine --- note2
-    end
+![Dynamic Data Masking Runtime Projection](assets/09_unity_catalog_and_data_governance/03_dynamic_data_masking_runtime_projection.svg)
 
-    subgraph SDM_Workflow ["1. Static Data Masking (SDM) - Irreversible Transformation"]
-        direction TB
-        Prod[(Production Database<br/>Real SSN: 123-45-6789)] --> MaskingJob["ETL Batch Masking Engine<br/>(Overwrites or transforms bytes)"]
-        MaskingJob --> Dev[(QA / Dev / Staging DB<br/>Fake SSN: 999-99-9999)]
-        note1["Underlying disk blocks overwritten.<br/>Irreversible! Safe for offshore developers."]
-        Dev --- note1
-    end
+<details>
+<summary>D2 Source</summary>
 
-    style SDM_Workflow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DDM_Workflow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Prod fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style MaskingJob fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Dev fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Lake fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style QueryEngine fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ViewReal fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style ViewMask fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  store: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  engine: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  auth: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  mask: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
+
+lake: "Lakehouse Storage\n(Real SSN stored encrypted on disk)" { class: store }
+engine: "Query Engine Gatekeeper\n(Evaluates Caller Role & Token)" { class: engine }
+
+auth_caller: "Authorized: Compliance / HR\n(Full Plaintext: '123-45-6789')" { class: auth }
+unauth_caller: "Unauthorized: Analytics\n(Masked: '***-**-6789')" { class: mask }
+
+lake -> engine: "Reads Parquet"
+engine -> auth_caller: "Authorized Role"
+engine -> unauth_caller: "Standard Role (Masked)"
 ```
+</details>
 
 #### Comparison Matrix
 | Feature | Static Data Masking (SDM) | Dynamic Data Masking (DDM) |
@@ -354,25 +349,43 @@ Data stored on persistent cloud disk drives must be protected against physical t
 Why doesn't AWS KMS encrypt every single 100GB Parquet file directly?
 Because transferring gigabytes of raw data over the network to KMS for encryption is slow and causes extreme network bottlenecks. Modern systems use **Envelope Encryption**:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant App as Data Ingestion Engine
-    participant KMS as AWS KMS / Azure Key Vault
-    participant Storage as Cloud Storage (S3 / ADLS)
+![Envelope Encryption Kms Data Keys](assets/09_unity_catalog_and_data_governance/04_envelope_encryption_kms_data_keys.svg)
 
-    Note over App,KMS: Phase 1: Generating Keys
-    App->>KMS: RequestDataKey(KeyEncryptionKey_ID)
-    KMS-->>App: Returns:<br/>1. Plaintext DEK (Data Encryption Key)<br/>2. Encrypted DEK (Ciphertext)
+<details>
+<summary>D2 Source</summary>
 
-    Note over App,Storage: Phase 2: High-Speed Local Encryption
-    App->>App: Encrypts 10GB Parquet file locally using Plaintext DEK (AES-GCM-256)
-    App->>App: Memory Wipe: Purges Plaintext DEK from RAM!
-    App->>Storage: Writes Encrypted Parquet Data + Prepends Encrypted DEK to Header
+```d2
+direction: right
+classes: {
+  kms: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  ram: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  store: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
 
-    Note over Storage: Data is completely safe.<br/>Even if file is stolen, attacker lacks master KEK in KMS!
+kms_hsm: "Cloud KMS (Hardware HSM)" {
+  kek: "Master Key (KEK)\n(Never leaves HSM)" { class: kms }
+  gen_api: "kms.generate_data_key()" { class: kms }
+
+  kek -> gen_api
+}
+
+compute: "Compute Memory (Spark Node)" {
+  dek_plain: "Plaintext DEK (RAM only)" { class: ram }
+  crypto_engine: "AES-GCM Local Streaming" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+
+  dek_plain -> crypto_engine
+}
+
+storage: "Lakehouse Storage (Disk)" {
+  cipher: "Encrypted Data Files (Ciphertext)" { class: store }
+  dek_enc: "Encrypted DEK Header" { class: store }
+}
+
+kms_hsm.gen_api -> compute.dek_plain: "Plain DEK"
+kms_hsm.gen_api -> storage.dek_enc: "Encrypted DEK"
+compute.crypto_engine -> storage.cipher: "Writes Ciphertext"
 ```
+</details>
 
 1. The data platform calls KMS: *"Generate a Data Encryption Key (DEK)."*
 2. KMS returns **two items**:
@@ -429,38 +442,33 @@ Traditional data lakes (Hadoop HDFS, AWS S3 with Parquet) were designed to be **
 
 Modern table formats (Delta Lake, Apache Iceberg) solve the GDPR deletion crisis through advanced storage mechanics:
 
-```mermaid
-flowchart TD
-    subgraph DeletionVectors ["1. Deletion Vectors (Near-Instant Soft Delete)"]
-        direction TB
-        FileA["Parquet File A<br/>Rows: 0, 1, 2, 3, 4, 5"]
-        DV["Deletion Vector Bitmap<br/>[Row 3 Marked DEAD]"]
-        FileA --- DV
-        Query["Query: SELECT *"] --> Engine["Engine reads Parquet + applies Bitmap"]
-        Engine --> Output["Returns Rows: 0, 1, 2, 4, 5<br/>(Row 3 skipped without rewriting Parquet!)"]
-    end
+![Gdpr Rtbf Crypto Shredding Vs Physical Vacuum](assets/09_unity_catalog_and_data_governance/05_gdpr_rtbf_crypto_shredding_vs_physical_vacuum.svg)
 
-    subgraph PhysicalPurge ["2. Physical File Purge (GDPR Compliance Window)"]
-        direction LR
-        Step1["Run OPTIMIZE / Compaction<br/>Rewrites Parquet files without dead rows"]
-        Step2["Old Parquet files remain in storage for Time-Travel audits"]
-        Step3["Execute VACUUM RETAIN 0 HOURS<br/>(Hard deletes physical underlying files from cloud bucket)"]
-        Step1 --> Step2 --> Step3
-    end
+<details>
+<summary>D2 Source</summary>
 
-    DeletionVectors --> PhysicalPurge
+```d2
+direction: right
+classes: {
+  slow: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  fast: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
 
-    style DeletionVectors fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PhysicalPurge fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style FileA fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DV fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Query fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Engine fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Output fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Step1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Step2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Step3 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
+vacuum_approach: "Approach A: Physical VACUUM Rewrite" {
+  scan: "1. Locate User in 500k Files" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  rewrite: "2. Spark MERGE Rewrite + Vacuum\n(Rewrites 14k files, $10,000s compute\nWaits 30-day tombstone)" { class: slow }
+
+  scan -> rewrite: "Triggers Heavy Job"
+}
+
+crypto_approach: "Approach B: Crypto-Shredding (Zero Rewrite)" {
+  key_store: "1. Dedicated Per-User AES-256 Key" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  shred: "2. RTBF Deletion: Destroy Key Entry\n(Takes &lt;5ms! Zero Parquet files modified\nCryptographically shredded)" { class: fast }
+
+  key_store -> shred: "Drop Key Record"
+}
 ```
+</details>
 
 #### Production GDPR Deletion Lifecycle
 1. **Soft Delete via Deletion Vectors:**
@@ -558,42 +566,42 @@ SET MASKING POLICY security.mask_pii_ssn;
 
 A **Data Clean Room** allows multiple distinct enterprises (e.g., Disney and Target, or an Airline and a Bank) to collaborate, join their first-party customer datasets, and measure advertising ROI **without either company sharing, viewing, or exporting the other's raw customer data**.
 
-```mermaid
-flowchart TD
-    subgraph DisneyCorp ["Disney+ (Streaming Platform)"]
-        D_Data["Raw Subscriber Table<br/>User ID, Email, Shows Watched"]
-    end
+![Cloud Data Clean Room Architecture](assets/09_unity_catalog_and_data_governance/06_cloud_data_clean_room_architecture.svg)
 
-    subgraph TargetCorp ["Target (Retailer)"]
-        T_Data["Raw Purchase Table<br/>User ID, Email, Merchandise Bought"]
-    end
+<details>
+<summary>D2 Source</summary>
 
-    subgraph CleanRoom ["Cloud Data Clean Room (Snowflake / Databricks)"]
-        direction TB
-        CryptographicJoin["Encrypted Inner Match on Hashed Email"]
-        QueryContract{"Query Template Gatekeeper<br/>(Only approved aggregate queries allowed)"}
-        NoiseEngine["Differential Privacy Engine<br/>Injects Laplace Noise"]
-        ThresholdGate{"Threshold Check:<br/>Returned Audience >= 100 Individuals?"}
-        
-        CryptographicJoin --> QueryContract --> NoiseEngine --> ThresholdGate
-    end
+```d2
+direction: right
+classes: {
+  disney: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  target: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  clean: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  block: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+}
 
-    D_Data & T_Data --> CryptographicJoin
-    ThresholdGate -- Passed --> Output["Aggregated Insight:<br/>'Subscribers who watched Star Wars spent $1.4M on toys.'"]
-    ThresholdGate -- Failed (<100 rows) --> Block["Blocked! Prevents individual tracking."]
+disney: "Disney+ (Subscriber Data)" { class: disney }
+target: "Target (Retail Purchase Data)" { class: target }
 
-    style DisneyCorp fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TargetCorp fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style CleanRoom fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style D_Data fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style T_Data fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CryptographicJoin fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style QueryContract fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style NoiseEngine fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ThresholdGate fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Output fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Block fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
+clean_room: "Cloud Data Clean Room" {
+  join: "1. Cryptographic Hash Match" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  gate: "2. Query Template Gatekeeper" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  dp: "3. Differential Privacy Engine" { class: target }
+  threshold: "4. Threshold Check (>=100 Users)" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+
+  join -> gate -> dp -> threshold
+}
+
+disney -> clean_room.join
+target -> clean_room.join
+
+output: "Aggregated Insight (Zero PII)" { class: clean }
+blocked: "Blocked! (&lt;100 Rows)" { class: block }
+
+clean_room.threshold -> output: "Passed (>=100)"
+clean_room.threshold -> blocked: "Failed (&lt;100)"
 ```
+</details>
 
 #### The Three Core Technical Pillars of Clean Rooms
 1. **No Data Movement / Zero Copy:** Raw records never leave the owner's cloud storage account. Queries execute across virtual shared shares.
@@ -701,18 +709,27 @@ Where $\text{Impact Factor}$ can be measured as the number of broken downstream 
 
 Modern data platforms establish formal reliability agreements with their internal consumers:
 
-```mermaid
-flowchart LR
-    SLI["1. SLI (Service Level Indicator)<br/>The Actual Measurement<br/>e.g. 99.2% of orders loaded <15 mins"]
-    SLO["2. SLO (Service Level Objective)<br/>The Internal Target<br/>e.g. Target = 99.5% compliance"]
-    SLA["3. SLA (Service Level Agreement)<br/>The Contractual Promise<br/>e.g. Financial penalty if < 98.0%"]
+![Sli Slo Sla Relationship Pyramid](assets/09_unity_catalog_and_data_governance/07_sli_slo_sla_relationship_pyramid.svg)
 
-    SLI -->|"Measured against"| SLO -->|"Provides safety margin over"| SLA
+<details>
+<summary>D2 Source</summary>
 
-    style SLI fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SLO fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SLA fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  sli: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  slo: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  sla: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+}
+
+sli: "1. SLI (Service Level Indicator)\nActual Measurement\ne.g. 99.2% loaded &lt;15m" { class: sli }
+slo: "2. SLO (Service Level Objective)\nInternal Engineering Target\ne.g. 99.5% compliance" { class: slo }
+sla: "3. SLA (Service Level Agreement)\nContractual Commitment\ne.g. Penalty if &lt;98.0%" { class: sla }
+
+sli -> slo: "Measured against"
+slo -> sla: "Safety margin buffer"
 ```
+</details>
 
 1. **SLI (Service Level Indicator):** A quantifiable, real-time metric of data pipeline performance.
    - *Example:* *"% of daily batch orders materialized in `fct_sales` before 06:00 AM UTC."*
@@ -858,41 +875,32 @@ A **Pipeline Circuit Breaker** borrows from electrical engineering: when a short
 
 In data engineering, if raw or staging data contains critical corruptions (e.g., 20% NULL primary keys or volume drops by 80%), the circuit breaker **trips**, halting downstream DAG execution and preventing corrupted data from polluting clean production Gold reporting tables.
 
-```mermaid
-stateDiagram-v2
-    classDef operational fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#ffffff
-    classDef tripped fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#ffffff
-    classDef trial fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#ffffff
+![Pipeline Circuit Breaker State Machine](assets/09_unity_catalog_and_data_governance/08_pipeline_circuit_breaker_state_machine.svg)
 
-    [*] --> CLOSED
+<details>
+<summary>D2 Source</summary>
 
-    CLOSED --> TRIPPED: Quality assertion fails OR volume anomaly detected
-    note right of CLOSED
-        State: Normal Operations
-        Data flows from Staging -> Gold.
-        Assertions pass continuously.
-    end note
+```d2
+direction: right
+classes: {
+  closed: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  tripped: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  open: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  half: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
 
-    TRIPPED --> OPEN: Automated DAG halt & PagerDuty notification triggered
-    note right of OPEN
-        State: Quarantine & Safe Halt
-        Downstream Gold updates blocked.
-        Corrupt records diverted to Quarantine Table.
-        Dashboard consumers protected from corrupt data!
-    end note
+closed: "CLOSED (Normal Operations)\nData flows clean -> Gold" { class: closed }
+tripped: "TRIPPED (Anomaly Detected)\nAssertion fails or Z-score > 3" { class: tripped }
+open: "OPEN (Quarantine & Safe Halt)\nDownstream blocked; DLQ divert" { class: open }
+half_open: "HALF-OPEN (Trial Run)\nSingle partition test validation" { class: half }
 
-    OPEN --> HALF_OPEN: On-call engineer fixes code / upstream re-syncs batch
-    HALF_OPEN --> CLOSED: Validation dry-run passes on trial batch
-    HALF_OPEN --> OPEN: Validation fails on trial batch
-    note right of HALF_OPEN
-        State: Trial Validation Run
-        Processes single test partition.
-    end note
-
-    class CLOSED operational
-    class TRIPPED,OPEN tripped
-    class HALF_OPEN trial
+closed -> tripped: "Quality assertion fails"
+tripped -> open: "Automated DAG halt"
+open -> half_open: "Engineer deploys fix"
+half_open -> closed: "Trial batch passes"
+half_open -> open: "Trial batch fails"
 ```
+</details>
 
 #### Production SQL Implementation: Quarantine Diversion Pattern
 Rather than letting a batch job simply crash, a resilient pipeline diverts bad records into a `quarantine` table while promoting clean records:
@@ -1018,20 +1026,28 @@ One of the greatest operational failures in data engineering is **Alert Fatigue*
 
 When a P1 data incident strikes, follow this 4-step triage sequence:
 
-```mermaid
-flowchart LR
-    A["1. Triage & Impact Containment<br/>Identify affected downstream dashboards; notify stakeholders; trip circuit breaker."]
-    B["2. Upstream Lineage Inspection<br/>Trace broken Gold table back through Silver to Bronze source connectors."]
-    C["3. Root Cause Identification<br/>Inspect logs: Was it infrastructure (OOM), upstream schema change, or credential expiry?"]
-    D["4. Backfill, Verify & Post-Mortem<br/>Fix root cause, re-run DAG with idempotent backfill, publish 5-Whys Post-Mortem."]
+![Data Pipeline Incident Response Lifecycle](assets/09_unity_catalog_and_data_governance/09_data_pipeline_incident_response_lifecycle.svg)
 
-    A --> B --> C --> D
+<details>
+<summary>D2 Source</summary>
 
-    style A fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style C fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style D fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
+```d2
+direction: right
+classes: {
+  triage: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  lineage: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  rca: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  post: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+s1: "1. Triage & Containment\n(Trip breaker, halt corrupt DAG)" { class: triage }
+s2: "2. Lineage Inspection\n(Trace Gold -> Silver -> Bronze)" { class: lineage }
+s3: "3. Root Cause Analysis\n(OOM vs Schema Drift vs Auth)" { class: rca }
+s4: "4. Backfill & Post-Mortem\n(Idempotent fix & 5-Whys report)" { class: post }
+
+s1 -> s2 -> s3 -> s4
 ```
+</details>
 
 1. **Containment:** Trip the circuit breaker to prevent bad records from propagating further. Post a message to `#data-status` informing stakeholders that the dashboard is currently paused for maintenance.
 2. **Lineage Tracing:** Use the lineage graph to determine the earliest upstream point of failure. If `fct_revenue` is wrong, check `stg_payments`. If `stg_payments` is fine, the bug is inside your transformation SQL logic.

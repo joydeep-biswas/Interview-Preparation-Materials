@@ -1,0 +1,24 @@
+direction: down
+title: Paradigm Shift: Static Tables vs. Infinite Unbounded Streams
+
+batch: "1. Traditional Batch Paradigm (Bounded Static Snapshot)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  snap: "Static Database Snapshot\n(Accumulated data, locked at night)"
+  etl: "Nightly ETL Job (02:00 AM)\n(Monolithic batch compute)"
+  lag: "24-Hour Business Latency!\n(Yesterday's data, stale decisions)"
+
+  snap -> etl -> lag
+}
+
+stream: "2. Modern Event Streaming Paradigm (Infinite Unbounded Log)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  events: "Continuous Event Stream\n(e1 -> e2 -> e3... append-only)"
+  engine: "Real-Time Engine (Kafka + Flink / Spark)\n(Incremental stateful processing)"
+  action: "Immediate Business Action!\n(Sub-second fraud prevention, dynamic pricing)"
+
+  events -> engine -> action
+}

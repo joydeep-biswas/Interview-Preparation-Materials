@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+alert: "Gold Missing 50k Records\nExpected 1,000,000 -> Found 950,000" { class: box; style.stroke: "#EF4444" }
+t1: "1. Audit Bronze Raw Table\nInspect Auto Loader _rescued_data" { class: box; style.stroke: "#3B82F6" }
+t2: "2. Audit Silver Quarantine\nsilver.quarantine_orders (DLQ)" { class: box; style.stroke: "#F59E0B" }
+t3: "3. Check Inner Join Attrition\nAnti-join Silver fact vs Dimensions" { class: box; style.stroke: "#8B5CF6" }
+
+bronze_loss: "Root Cause: Source Ingest Drop (Missed 10k files)" { class: box; style.stroke: "#EF4444" }
+quar_loss: "Root Cause: Quality Rules Caught Violations (30k rows)" { class: box; style.stroke: "#F59E0B" }
+dim_loss: "Root Cause: Missing Dimension Key (20k rows dropped on INNER JOIN)" { class: box; style.stroke: "#8B5CF6" }
+
+alert -> t1
+t1 -> bronze_loss: "Missing in Bronze"
+t1 -> t2: "Bronze Complete"
+t2 -> quar_loss: "In Silver Quarantine"
+t2 -> t3: "Silver Valid"
+t3 -> dim_loss: "Unmatched Dim Keys"

@@ -1,0 +1,30 @@
+direction: right
+title: Data Fabric Architecture & Active Metadata Engine
+
+sources: Distributed Hybrid Sources {
+  oracle: On-Premises Oracle DB
+  s3: AWS S3 Data Lake
+  bq: Google BigQuery
+  kafka: Kafka Event Bus
+}
+
+metadata_layer: Active Metadata & Knowledge Graph {
+  graph: Enterprise Knowledge Graph {
+    shape: rectangle
+    details: "Tracks cross-silo column lineage & access patterns"
+  }
+  ai_recommender: AI / ML Recommendation Engine {
+    shape: rectangle
+    details: "Predictive caching & automated pipeline synthesis"
+  }
+  graph <-> ai_recommender: "Continuous learning"
+}
+
+delivery: Automated Virtualization & Pipelines {
+  virtualization: Data Virtualization (Trino/Starburst)
+  auto_pipeline: Dynamic Automated Data Pipeline Generation
+}
+
+sources -> metadata_layer.graph: "Active metadata harvesting"
+metadata_layer.ai_recommender -> delivery.virtualization: "Optimized pushdown queries"
+metadata_layer.ai_recommender -> delivery.auto_pipeline: "Self-healing pipeline execution"

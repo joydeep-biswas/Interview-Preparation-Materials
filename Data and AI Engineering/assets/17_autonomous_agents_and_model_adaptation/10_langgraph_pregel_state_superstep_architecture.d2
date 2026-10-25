@@ -1,0 +1,20 @@
+classes: {
+  channel_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  node_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  reducer_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+channels: "State Channels\nShared State Dictionary" { class: channel_box }
+
+nodes: {
+  node_a: "Node A: Retriever\nPure function" { class: node_box }
+  node_b: "Node B: Guardrail\nPure function" { class: node_box }
+}
+
+reducer: "Channel Reducer\n(e.g., operator.add)\nApplies delta deterministically" { class: reducer_box }
+
+channels -> nodes.node_a: "Read state"
+channels -> nodes.node_b: "Read state"
+nodes.node_a -> reducer: "Emit state update"
+nodes.node_b -> reducer: "Emit state update"
+reducer -> channels: "Commit new superstep state"

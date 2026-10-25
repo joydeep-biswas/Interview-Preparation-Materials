@@ -1,0 +1,22 @@
+direction: right
+title: Watermarking Mechanics & Allowed Lateness
+
+watermark: Moving Watermark Window (Allowed Lateness = 20 Mins) {
+  max_time: "Max Event Time Seen: 10:40 AM"
+  threshold: "Watermark Threshold: 10:20 AM (10:40 - 20 mins)"
+  max_time -> threshold
+}
+
+records: Arriving Records Evaluation {
+  rec_a: Record A: Event Time 10:25 AM {
+    eval: "10:25 > 10:20 -> ACCEPTED into aggregation window"
+    style.stroke: "#10b981"
+  }
+  rec_b: Record B: Event Time 10:15 AM {
+    eval: "10:15 < 10:20 -> DROPPED or routed to DLQ"
+    style.stroke: "#ef4444"
+  }
+}
+
+watermark.threshold -> records.rec_a: "Evaluates"
+watermark.threshold -> records.rec_b: "Evaluates"

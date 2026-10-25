@@ -1,0 +1,36 @@
+direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; rx: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke: "#4B5563"; stroke-width: 1; rx: 8 } }
+}
+
+ci_cd: "1. CI/CD & Artifact Supply Chain" {
+  class: pillar
+  git: "Developer Git Push\nCommit triggers GitHub Actions workflow" { class: stage }
+  ci: "GitHub Actions CI\nMaven clean verify + SonarQube quality gate" { class: stage }
+  docker: "Distroless Docker Build\nMulti-stage distroless build + Trivy CVE scan" { class: stage }
+  ecr: "Container Registry (ECR / ACR)\nSigned immutable image tag (Cosign / Notary)" { class: stage }
+
+  git -> ci -> docker -> ecr
+}
+
+gitops: "2. GitOps Deployment Plane" {
+  class: pillar
+  repo: "GitOps Config Repository\nHelm / Kustomize manifests & sealed secrets" { class: stage }
+  argo: "ArgoCD GitOps Controller\nContinuous reconciliation loop (drift detection)" { class: stage }
+  sync: "Automated Sync & Prune\nProgressive rollout with canary analysis" { class: stage }
+
+  repo -> argo -> sync
+}
+
+k8s: "3. High-Resilience Kubernetes Runtime" {
+  class: pillar
+  ingress: "Ingress / AWS ALB Controller\nTLS termination & WAF inspection" { class: stage }
+  pods: "Spring Boot Microservice Pods\nHorizontal Pod Autoscaler + PodDisruptionBudget" { class: stage }
+  probes: "Kubernetes Probes\nStartup, Liveness & Readiness checks" { class: stage }
+
+  ingress -> pods -> probes
+}
+
+ci_cd.ecr -> gitops.argo: "Image Tag Event"
+gitops.sync -> k8s.ingress: "Apply Manifests"

@@ -1,0 +1,13 @@
+direction: down
+title: Mutual TLS (mTLS) Zero-Trust Handshake Architecture
+
+Client: API Partner / Service Mesh Pod
+Server: Enterprise Banking Gateway
+
+Client -> Server: 1. ClientHello { style.stroke: "#38BDF8" }
+Server -> Client: 2. Server Certificate + CertificateRequest { style.stroke: "#34D399" }
+Client -> Client: 3. Validates Server Cert against TrustStore
+Client -> Server: 4. Client Certificate + CertificateVerify { style.stroke: "#C084FC" }
+Server -> Server: 5. Validates Client Cert against TrustStore
+Client -> Server: 6. Mutual Trust Established: Encrypted Wire Transfer { style.stroke: "#10B981" }
+Server -> Client: 7. 200 OK Response { style.stroke: "#10B981" }

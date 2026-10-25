@@ -1,0 +1,24 @@
+classes: {
+  root_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  bad_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  good_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  mid_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+root: "Root: Diagnose 504 Timeout" { class: root_box }
+
+branch_a: "Path A: 'Optimize SQL Index'\nScore = 0.30 (Poor fit)" { class: bad_box }
+branch_b: "Path B: 'Pool & Cache Resiliency'\nScore = 0.90 (Promising)" { class: good_box }
+branch_c: "Path C: 'Scale Pod Replicas'\nScore = 0.60 (Secondary)" { class: mid_box }
+
+pruned_a: "[PRUNED BRANCH]" { class: bad_box }
+
+sub_b1: "Sub-Thought B.1: PgBouncer\nScore = 0.95 -> Selected for Execution!" { class: good_box }
+sub_b2: "Sub-Thought B.2: Redis Cache\nScore = 0.75 -> Kept as Fallback" { class: mid_box }
+
+root -> branch_a -> pruned_a
+root -> branch_b
+root -> branch_c
+
+branch_b -> sub_b1
+branch_b -> sub_b2

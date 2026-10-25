@@ -1,0 +1,40 @@
+direction: right
+classes: {
+  c_blue: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  c_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  c_purple: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  c_pink: { style: { fill: "#0D1526", stroke: "#EC4899" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+P1: "Pillar 1: Latency" {
+  class: c_blue
+  TTFT: "TTFT (< 400ms)" { class: card_dark }
+  TPOT: "TPOT (< 30ms)" { class: card_dark }
+  E2E: "E2E (< 2.5s)" { class: card_dark }
+  TTFT -> TPOT -> E2E
+}
+
+P2: "Pillar 2: FinOps" {
+  class: c_green
+  InTokens: "Prompt Tokens" { class: card_dark }
+  OutTokens: "Completion Tokens" { class: card_dark }
+  UnitCost: "Cost / Tenant" { class: card_dark }
+  InTokens -> OutTokens -> UnitCost
+}
+
+P3: "Pillar 3: Retrieval" {
+  class: c_purple
+  VecLat: "Vector Latency" { class: card_dark }
+  CacheRatio: "Cache Hit Ratio" { class: card_dark }
+  PrecRec: "Precision / Recall" { class: card_dark }
+  VecLat -> CacheRatio -> PrecRec
+}
+
+P4: "Pillar 4: Safety" {
+  class: c_pink
+  Ground: "Groundedness" { class: card_dark }
+  Toxic: "Toxicity / PII" { class: card_dark }
+  Feedback: "Feedback Flywheel" { class: card_dark }
+  Ground -> Toxic -> Feedback
+}

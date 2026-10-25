@@ -1,0 +1,24 @@
+classes: {
+  classical_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  ml_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  opt_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+classical: "Classical Software Engineering" {
+  data: "Input Data (X)" { class: classical_box }
+  code: "Handcrafted Code\nif/else algorithms" { class: classical_box }
+  out: "Output Predictions (Y)" { class: classical_box }
+
+  data -> code -> out
+}
+
+ml: "Machine Learning Paradigm" {
+  data_x: "Input Data (X)" { class: ml_box }
+  data_y: "Target Labels (Y)" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  opt: "Optimization Algorithm\nAdjusts parameters theta" { class: opt_box }
+  model: "Learned Model f_theta(X)\nWeight matrices & biases" { class: ml_box }
+
+  data_x -> opt
+  data_y -> opt
+  opt -> model: "Synthesizes rules"
+}

@@ -1,0 +1,56 @@
+direction: right
+
+edge: "Global Edge Layer" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  dns: "Anycast Geo-DNS Routing"
+}
+
+us: "Region 1: US-East" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  kgs_us: "KGS Range: 00..31"
+  redis_us: "Redis L1 Cache US"
+  crdb_us: "CockroachDB Raft Leader"
+}
+
+eu: "Region 2: EU-Central" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  kgs_eu: "KGS Range: 32..63"
+  redis_eu: "Redis L1 Cache EU"
+  crdb_eu: "CockroachDB Raft Peer"
+}
+
+apac: "Region 3: APAC" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  kgs_apac: "KGS Range: 64..95"
+  redis_apac: "Redis L1 Cache APAC"
+  crdb_apac: "CockroachDB Raft Peer"
+}
+
+edge -> us: "US Client Ingress" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+edge -> eu: "EU Client Ingress" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+edge -> apac: "APAC Client Ingress" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}
+us.crdb_us -> eu.crdb_eu: "Cross-Region Raft Sync" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+eu.crdb_eu -> apac.crdb_apac: "Cross-Region Raft Sync" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

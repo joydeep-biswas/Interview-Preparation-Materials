@@ -6,28 +6,9 @@ A comprehensive, production-grade guide to real-world interview scenarios and en
 
 ## Architectural Overview: Cloud Native Enterprise Architecture
 
-```mermaid
-flowchart TD
-    subgraph CI_CD ["1. CI/CD & Artifact Supply Chain"]
-        GitCommit["Developer Git Commit"] --> CI["GitHub Actions / Jenkins CI<br/>(Maven Build + Testcontainers + SonarQube)"]
-        CI --> DockerBuild["Multi-Stage Distroless Docker Build"]
-        DockerBuild --> Registry["Container Registry (ACR / ECR)"]
-    end
+![Enterprise Cloud Native CI/CD & GitOps Kubernetes Pipeline](assets/11_cloud_native_containers_and_devops_faq/01_enterprise_cloud_native_cicd_gitops_kubernetes_pipeline.svg)
 
-    subgraph GitOps_Sync ["2. GitOps Deployment Plane"]
-        Registry --> ArgoCD["ArgoCD GitOps Controller"]
-        ArgoCD --> K8sCluster["Kubernetes Cluster (AKS / EKS)"]
-    end
-
-    subgraph K8s_Runtime ["3. High-Resilience Kubernetes Runtime"]
-        K8sCluster --> Ingress["Ingress Controller / Cloud Load Balancer"]
-        Ingress --> Pods["Spring Boot Pods (HPA Autoscaling + Startup/Liveness Probes)"]
-    end
-
-    style CI_CD fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style GitOps_Sync fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style K8s_Runtime fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops_faq/01_enterprise_cloud_native_cicd_gitops_kubernetes_pipeline.d2](assets/11_cloud_native_containers_and_devops_faq/01_enterprise_cloud_native_cicd_gitops_kubernetes_pipeline.d2)
 
 ---
 
@@ -261,31 +242,9 @@ VPCs isolate cloud resources using Public Subnets (connected to Internet Gateway
 3. **Registry Push**: CI logs in to **AWS Elastic Container Registry (ECR)** via IAM OIDC role and pushes the tagged image (`sha-commit`).
 4. **GitOps Rollout**: ArgoCD / Helm detects the new image tag and applies rolling updates to **Amazon Elastic Kubernetes Service (EKS)** pods.
 
-```mermaid
-flowchart TD
-    subgraph CIPhase ["Phase 1: Continuous Integration & Verification"]
-        direction LR
-        Dev["<b>Developer Git Push</b><br/>Commit triggers workflow"] --> CI["<b>GitHub Actions CI</b><br/>Build, JUnit & SonarQube quality gate"]
-        CI --> DockerBuild["<b>Distroless Docker Build</b><br/>Multi-stage build & Trivy CVE scan"]
-    end
+![GitOps Continuous Delivery: ECR -> ArgoCD -> EKS](assets/11_cloud_native_containers_and_devops_faq/02_gitops_continuous_delivery_ecr_argocd_eks.svg)
 
-    subgraph CDPhase ["Phase 2: GitOps & Kubernetes Delivery"]
-        direction LR
-        ECR["<b>Container Registry (ECR)</b><br/>Signed immutable image tag"] --> Argo["<b>ArgoCD GitOps</b><br/>Reconciles target cluster state"]
-        Argo --> EKS["<b>AWS EKS Cluster</b><br/>Rolling deployment with PDB"]
-    end
-
-    DockerBuild --> ECR
-
-    style CIPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CDPhase fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Dev fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style CI fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style DockerBuild fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ECR fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Argo fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style EKS fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops_faq/02_gitops_continuous_delivery_ecr_argocd_eks.d2](assets/11_cloud_native_containers_and_devops_faq/02_gitops_continuous_delivery_ecr_argocd_eks.d2)
 
 ---
 
@@ -365,46 +324,9 @@ Historically, Java 8 was unaware of container cgroups and calculated heap size b
 
 #### Visual Flow
 
-```mermaid
-flowchart TD
-    subgraph ComputeContinuum ["AWS Compute Continuum for Java Backend Services"]
-        direction LR
-        EC2["Amazon EC2 (IaaS)<br/>• Full OS/Kernel Tuning<br/>• Monoliths & Stateful"]
-        Fargate["Amazon ECS Fargate (CaaS)<br/>• Dockerized Microservices<br/>• 24/7 Steady APIs & Daemons"]
-        Lambda["AWS Lambda (FaaS)<br/>• SnapStart / GraalVM<br/>• Event-Driven & Scale-to-Zero"]
-    end
+![AWS Compute Continuum & Enterprise Observability Pipeline](assets/11_cloud_native_containers_and_devops_faq/03_aws_compute_continuum_and_observability_pipeline.svg)
 
-    subgraph ObservabilityArchitecture ["Enterprise AWS Observability Pipeline"]
-        direction TB
-        ALB["Application Load Balancer<br/>(Generates X-Amzn-Trace-Id)"] --> Ingress["Java Spring Boot App (ECS / Lambda)"]
-        
-        subgraph AppRuntime ["JVM Telemetry Ingress"]
-            Filter["AWS X-Ray / OTel Filter<br/>(Extracts Trace ID & Span)"]
-            Micro["Micrometer MeterRegistry<br/>(JVM & Business Counters)"]
-            LogWriter["SLF4J Structured Logging<br/>(Includes TraceId in MDC)"]
-        end
-
-        Ingress --> Filter
-        Filter --> Micro
-        Filter --> LogWriter
-
-        Micro -->|"Async STDOUT (EMF)"| CWMetrics["Amazon CloudWatch Metrics<br/>(Zero-Overhead EMF Extractor)"]
-        LogWriter -->|"Fluent Bit / FireLens"| CWLogs["Amazon CloudWatch Logs Insights"]
-        Filter -->|"AWS OTel UDP / Daemon"| XRay["AWS X-Ray Distributed Traces<br/>(Service Map & Subsegment Timing)"]
-    end
-
-    ComputeContinuum --> Ingress
-
-    style ComputeContinuum fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ObservabilityArchitecture fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style AppRuntime fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style EC2 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Fargate fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#a5f3fc
-    style Lambda fill:#1e293b,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-    style CWMetrics fill:#064e3b,stroke:#10b981,stroke-width:1px,color:#fff
-    style CWLogs fill:#064e3b,stroke:#10b981,stroke-width:1px,color:#fff
-    style XRay fill:#064e3b,stroke:#10b981,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/11_cloud_native_containers_and_devops_faq/03_aws_compute_continuum_and_observability_pipeline.d2](assets/11_cloud_native_containers_and_devops_faq/03_aws_compute_continuum_and_observability_pipeline.d2)
 
 #### Production Implementation / Java Code
 

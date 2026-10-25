@@ -1,0 +1,49 @@
+direction: right
+title: Data Vault 2.0: Hubs, Links, and Satellites
+
+hubs: Core Hubs {
+  hub_customer: HUB_CUSTOMER {
+    shape: sql_table
+    customer_hk: char32 [pk]
+    customer_id: varchar [business key]
+  }
+  hub_order: HUB_ORDER {
+    shape: sql_table
+    order_hk: char32 [pk]
+    order_id: varchar [business key]
+  }
+}
+
+links: Unit of Work Links {
+  link_customer_order: LINK_CUSTOMER_ORDER {
+    shape: sql_table
+    link_hk: char32 [pk]
+    customer_hk: char32 [fk]
+    order_hk: char32 [fk]
+  }
+}
+
+sats: Context Satellites {
+  sat_customer: SAT_CUSTOMER {
+    shape: sql_table
+    customer_hk: char32 [pk, fk]
+    load_date: timestamp [pk]
+    name: varchar
+  }
+  sat_link: SAT_LINK_FULFILLMENT {
+    shape: sql_table
+    link_hk: char32 [pk, fk]
+    load_date: timestamp [pk]
+  }
+  sat_order: SAT_ORDER_DETAILS {
+    shape: sql_table
+    order_hk: char32 [pk, fk]
+    load_date: timestamp [pk]
+  }
+}
+
+hubs.hub_customer -> links.link_customer_order: "Participates"
+hubs.hub_order -> links.link_customer_order: "Associates"
+hubs.hub_customer -> sats.sat_customer: "Describes"
+links.link_customer_order -> sats.sat_link: "Tracks context"
+hubs.hub_order -> sats.sat_order: "Describes"

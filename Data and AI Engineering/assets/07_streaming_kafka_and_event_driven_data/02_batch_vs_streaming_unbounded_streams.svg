@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="500" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Paradigm Shift: Static Tables vs. Infinite Unbounded Streams</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Comparison of batch snapshot computation vs continuous real-time stream processing</text>
+<rect x="30" y="85" width="980" height="190" rx="8" fill="#1a1116" stroke="#ef4444" stroke-width="1.5"/>
+<text x="520" y="112" fill="#FCA5A5" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Traditional Batch Paradigm (Bounded Static Snapshot)</text>
+<rect x="410" y="122" width="220" height="18" rx="9" fill="#991b1b"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">High Latency &amp; Periodic Compute</text>
+<rect x="60" y="155" width="270" height="95" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
+<text x="195" y="178" fill="#F8FAFC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Static Database Snapshot</text>
+<text x="75" y="200" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Data accumulated during the day</text>
+<text x="75" y="218" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Bounded set of immutable records</text>
+<text x="75" y="234" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Locked or snapshotted at midnight</text>
+<rect x="385" y="155" width="270" height="95" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
+<text x="520" y="178" fill="#F8FAFC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Scheduled Nightly ETL Job</text>
+<text x="400" y="200" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Triggered at 02:00 AM off-peak</text>
+<text x="400" y="218" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Heavy monolithic cluster spinning</text>
+<text x="400" y="234" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Hours of bulk join &amp; shuffle execution</text>
+<rect x="710" y="155" width="270" height="95" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="845" y="178" fill="#FCA5A5" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">24-Hour Business Latency!</text>
+<text x="725" y="200" fill="#FCA5A5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Decisions based on yesterday's data</text>
+<text x="725" y="218" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Missed fraud window &amp; churn risks</text>
+<text x="725" y="234" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Massive morning dashboard spike</text>
+<line x1="330" y1="202" x2="385" y2="202" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<line x1="655" y1="202" x2="710" y2="202" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<rect x="30" y="290" width="980" height="190" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="520" y="317" fill="#6EE7B7" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Modern Event Streaming Paradigm (Infinite Unbounded Log)</text>
+<rect x="410" y="327" width="220" height="18" rx="9" fill="#047857"/><text x="520" y="339" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Sub-Second Continuous Compute</text>
+<rect x="60" y="360" width="270" height="95" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="195" y="383" fill="#F8FAFC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Continuous Event Stream</text>
+<text x="75" y="405" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Events: e1 -&gt; e2 -&gt; e3 -&gt; ... en</text>
+<text x="75" y="423" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Never-ending append-only stream</text>
+<text x="75" y="439" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Arrives in order with event timestamps</text>
+<rect x="385" y="360" width="270" height="95" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="520" y="383" fill="#F8FAFC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Real-Time Streaming Engine</text>
+<text x="400" y="405" fill="#38BDF8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Apache Kafka + Spark / Flink</text>
+<text x="400" y="423" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Sliding windows &amp; watermarking</text>
+<text x="400" y="439" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Incremental stateful aggregation</text>
+<rect x="710" y="360" width="270" height="95" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="845" y="383" fill="#A7F3D0" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Immediate Business Action!</text>
+<text x="725" y="405" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Sub-second fraud blocking in flight</text>
+<text x="725" y="423" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Dynamic ride/hotel price adjustments</text>
+<text x="725" y="439" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Continuous real-time operational BI</text>
+<line x1="330" y1="407" x2="385" y2="407" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="655" y1="407" x2="710" y2="407" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

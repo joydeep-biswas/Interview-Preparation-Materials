@@ -1,0 +1,25 @@
+classes: {
+  topic_container: { style: { fill: "#0f172a"; stroke: "#38bdf8"; stroke-width: 2; stroke-dash: 4 } }
+  part_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  worker_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+topic: "Kafka Topic 'order-events'\n(Distributed Commit Log)" {
+  class: topic_container
+
+  p0: "Partition 0\nOffsets [0]..[N]\nLeader: Broker 1" { class: part_box }
+  p1: "Partition 1\nOffsets [0]..[N]\nLeader: Broker 2" { class: part_box }
+  p2: "Partition 2\nOffsets [0]..[N]\nLeader: Broker 3" { class: part_box }
+}
+
+group: "Consumer Group 'order-processors'\n(Max concurrency = partition count)" {
+  class: topic_container
+
+  w1: "Worker Pod 1\nAssigned: Partition 0" { class: worker_box }
+  w2: "Worker Pod 2\nAssigned: Partition 1" { class: worker_box }
+  w3: "Worker Pod 3\nAssigned: Partition 2" { class: worker_box }
+}
+
+topic.p0 -> group.w1: "Sequential poll() stream" { style: { stroke: "#4ade80"; stroke-width: 2 } }
+topic.p1 -> group.w2: "Sequential poll() stream" { style: { stroke: "#4ade80"; stroke-width: 2 } }
+topic.p2 -> group.w3: "Sequential poll() stream" { style: { stroke: "#4ade80"; stroke-width: 2 } }

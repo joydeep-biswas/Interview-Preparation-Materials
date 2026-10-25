@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">The Query Execution Pipeline: Declarative SQL to Physical Execution</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Lexer, AST Generation, Relational Rewriter, Cost-Based Optimizer, and Physical Engine</text>
+  
+  
+    <rect x="30" y="115" width="160" height="140" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="110.0" y="141" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SQL String</text>
+    <text x="110.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Declarative Query</text>
+    <circle cx="46" cy="170" r="2" fill="#3b82f6"/>
+    <text x="54" y="173" fill="#cbd5e1" font-size="10" font-family="system-ui, sans-serif" text-anchor="start">SELECT c.name, SUM(amount)</text>
+    <circle cx="46" cy="186" r="2" fill="#3b82f6"/>
+    <text x="54" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">FROM customers c</text>
+    <circle cx="46" cy="202" r="2" fill="#3b82f6"/>
+    <text x="54" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">JOIN orders o</text>
+    <circle cx="46" cy="218" r="2" fill="#3b82f6"/>
+    <text x="54" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">ON c.id = o.cust_id</text>
+    <circle cx="46" cy="234" r="2" fill="#3b82f6"/>
+    <text x="54" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">GROUP BY c.name;</text>
+
+  
+    <rect x="215" y="115" width="165" height="140" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="297.5" y="141" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. Lexer &amp; Parser</text>
+    <text x="297.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Grammar &amp; AST</text>
+    <circle cx="231" cy="170" r="2" fill="#3b82f6"/>
+    <text x="239" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Tokens parsed</text>
+    <circle cx="231" cy="186" r="2" fill="#3b82f6"/>
+    <text x="239" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Abstract Syntax Tree</text>
+    <circle cx="231" cy="202" r="2" fill="#3b82f6"/>
+    <text x="239" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Catalog validation</text>
+    <circle cx="231" cy="218" r="2" fill="#3b82f6"/>
+    <text x="239" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Type resolution</text>
+    <circle cx="231" cy="234" r="2" fill="#3b82f6"/>
+    <text x="239" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rejects invalid syntax</text>
+
+  
+    <rect x="405" y="115" width="175" height="140" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="492.5" y="141" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. Query Rewriter</text>
+    <text x="492.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Relational Algebra</text>
+    <circle cx="421" cy="170" r="2" fill="#8b5cf6"/>
+    <text x="429" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">View expansion</text>
+    <circle cx="421" cy="186" r="2" fill="#8b5cf6"/>
+    <text x="429" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Constant folding (2+2-&amp;gt;4)</text>
+    <circle cx="421" cy="202" r="2" fill="#8b5cf6"/>
+    <text x="429" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Subquery unnesting</text>
+    <circle cx="421" cy="218" r="2" fill="#8b5cf6"/>
+    <text x="429" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Predicate pushdown</text>
+    <circle cx="421" cy="234" r="2" fill="#8b5cf6"/>
+    <text x="429" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Simplifies expressions</text>
+
+  
+    <rect x="605" y="115" width="185" height="140" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="697.5" y="141" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. Cost-Based Optimizer</text>
+    <text x="697.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Dynamic Plan Search</text>
+    <circle cx="621" cy="170" r="2" fill="#f59e0b"/>
+    <text x="629" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Explores join permutations</text>
+    <circle cx="621" cy="186" r="2" fill="#f59e0b"/>
+    <text x="629" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Hash Join vs Nested Loop</text>
+    <circle cx="621" cy="202" r="2" fill="#f59e0b"/>
+    <text x="629" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Index Scan vs Seq Scan</text>
+    <circle cx="621" cy="218" r="2" fill="#f59e0b"/>
+    <text x="629" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cost Model = I/O + CPU</text>
+    <circle cx="621" cy="234" r="2" fill="#f59e0b"/>
+    <text x="629" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Chooses lowest cost plan</text>
+
+  
+    <rect x="815" y="115" width="135" height="140" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="882.5" y="141" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">4. Executor</text>
+    <text x="882.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Execution Engine</text>
+    <circle cx="831" cy="170" r="2" fill="#10b981"/>
+    <text x="839" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Volcano Next()</text>
+    <circle cx="831" cy="186" r="2" fill="#10b981"/>
+    <text x="839" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">SIMD Vector loop</text>
+    <circle cx="831" cy="202" r="2" fill="#10b981"/>
+    <text x="839" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">JIT machine code</text>
+    <circle cx="831" cy="218" r="2" fill="#10b981"/>
+    <text x="839" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scans pages</text>
+    <circle cx="831" cy="234" r="2" fill="#10b981"/>
+    <text x="839" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Emits tuples</text>
+
+  
+    <line x1="190" y1="185" x2="215" y2="185" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <line x1="380" y1="185" x2="405" y2="185" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  
+    <line x1="580" y1="185" x2="605" y2="185" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  
+    <line x1="790" y1="185" x2="815" y2="185" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  
+    <rect x="30" y="285" width="920" height="105" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="490.0" y="311" fill="#67e8f9" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CBO Optimization Objective: Minimum Global Resource Consumption</text>
+    <text x="490.0" y="327" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Evaluating Search Space Permutations via Real Database Statistics</text>
+    <circle cx="46" cy="340" r="2" fill="#06b6d4"/>
+    <text x="54" y="343" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">The CBO relies on table statistics (pg_statistic / histograms / distinct values) to estimate the selectivity of every filter predicate.</text>
+    <circle cx="46" cy="356" r="2" fill="#06b6d4"/>
+    <text x="54" y="359" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cost Formula: Cost = (Disk_Blocks_Read * 1.0) + (CPU_Tuple_Cost * 0.01) + (CPU_Operator_Cost * 0.0025).</text>
+    <circle cx="46" cy="372" r="2" fill="#06b6d4"/>
+    <text x="54" y="375" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">A single poor estimate on a join cardinality can cause the optimizer to select a Nested Loop Join over a Hash Join, resulting in a 1,000x execution slowdown!</text>
+
+</svg>

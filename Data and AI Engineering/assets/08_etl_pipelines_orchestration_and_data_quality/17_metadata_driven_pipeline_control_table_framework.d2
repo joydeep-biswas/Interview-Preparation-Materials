@@ -1,0 +1,28 @@
+direction: right
+title: Metadata-Driven Pipelines & Control Table Framework
+
+catalog: Metadata Control Catalog {
+  schema: "table_name, primary_key, watermark_col, sync_type"
+}
+
+engine: Central Metadata Pipeline Orchestrator {
+  logic: "Reads catalog & generates parameterized SQL queries dynamically"
+}
+
+workers: Parallel Worker Threads {
+  w1: "Worker 1: Sync customers (Watermark: updated_at)"
+  w2: "Worker 2: Sync orders (Watermark: order_ts)"
+  w3: "Worker 3: Sync products (Full Table Snapshot)"
+}
+
+audit: Pipeline Audit & Watermark Log {
+  schema: "last_successful_sync, rows_loaded, execution_status"
+}
+
+catalog -> engine: "Fetch Active Configs"
+engine -> workers.w1
+engine -> workers.w2
+engine -> workers.w3
+workers.w1 -> audit: "Update Watermark"
+workers.w2 -> audit: "Update Watermark"
+workers.w3 -> audit: "Update Watermark"

@@ -1,0 +1,30 @@
+direction: right
+title: Zero-Copy Network I/O: Traditional Read/Write vs. OS sendfile()
+
+trad: "1. Traditional Read/Write (4 Switches / 4 Copies)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  disk1: "Storage Disk"
+  page1: "Kernel PageCache"
+  jvm: "JVM User Memory Buffer\n(Heavy GC & CPU Copy!)"
+  sock1: "Kernel Socket Buffer"
+  nic1: "NIC Interface Card"
+
+  disk1 -> page1: "1. DMA Copy"
+  page1 -> jvm: "2. CPU Copy"
+  jvm -> sock1: "3. CPU Copy"
+  sock1 -> nic1: "4. DMA Copy"
+}
+
+zero: "2. Kafka Zero-Copy via sendfile() (2 Switches / 0 CPU Copies)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  disk2: "Storage Disk"
+  page2: "Kernel PageCache\n(Zero JVM User Space Entry!)"
+  nic2: "NIC Interface Card\n(Direct DMA Gather Copy)"
+
+  disk2 -> page2: "1. DMA Copy"
+  page2 -> nic2: "2. Direct DMA Gather Copy via sendfile()"
+}

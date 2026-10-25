@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  container_purple: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+Config: "YAML Metadata Config\n• source: postgres\n• target: delta_silver\n• rules: not_null, min_val" { class: card_dark }
+
+EngineInternals: "Engine Processing Lifecycle" {
+  class: container_purple
+  Factory: "1. Connector Factory\n• JDBC / Cloud Object\n• df = read(source)" { class: card_dark }
+  Validator: "2. Quality Validator\n• Great Expectations\n• Quarantine bad records" { class: card_dark }
+  Committer: "3. Sink Committer\n• Delta MERGE\n• OpenLineage emit" { class: card_dark }
+
+  Factory -> Validator -> Committer
+}
+
+Config -> EngineInternals.Factory

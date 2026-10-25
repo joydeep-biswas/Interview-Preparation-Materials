@@ -1,0 +1,25 @@
+direction: right
+title: Key Salting Technique for Skew Mitigation
+
+FactSide: Skewed Fact Table (Random Salting K=4) {
+  style.stroke: "#EF4444"
+  SkewRow: Skewed Row: Key = 'NULL' (50M rows)
+  SaltGen: concat(key, '_', floor(rand() * 4))
+  Buckets: Produces 4 Even Buckets ('NULL_0' .. 'NULL_3')
+  SkewRow -> SaltGen -> Buckets
+}
+
+DimSide: Small Dimension Table (Explode K=4) {
+  style.stroke: "#34D399"
+  DimRow: Dimension Row: Key = 'NULL'
+  Explode: explode(array(0, 1, 2, 3))
+  RepRows: 4 Replicated Rows ('NULL_0' .. 'NULL_3')
+  DimRow -> Explode -> RepRows
+}
+
+BalancedJoin: Balanced Join Across 4 Workers {
+  style.stroke: "#34D399"
+}
+
+FactSide.Buckets -> BalancedJoin: Even 12.5M partitions { style.stroke: "#34D399" }
+DimSide.RepRows -> BalancedJoin: Matched replicated keys { style.stroke: "#34D399" }

@@ -1,0 +1,20 @@
+classes: {
+  rate_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  irate_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+rate_flow: "rate(v[5m]): Linear Extrapolation" {
+  r1: "Calculates delta across entire 5-minute range" { class: rate_box }
+  r2: "Smooths micro-spikes & handles counter resets" { class: rate_box }
+  r3: "MANDATORY: Use for alerting & SLO tracking" { class: rate_box }
+
+  r1 -> r2 -> r3
+}
+
+irate_flow: "irate(v[5m]): Instantaneous Rate" {
+  i1: "Calculates delta strictly between last 2 points" { class: irate_box }
+  i2: "Extremely volatile & blind to earlier counter resets" { class: irate_box }
+  i3: "WARNING: High-res dashboard zoom ONLY. Never alert." { class: irate_box }
+
+  i1 -> i2 -> i3
+}

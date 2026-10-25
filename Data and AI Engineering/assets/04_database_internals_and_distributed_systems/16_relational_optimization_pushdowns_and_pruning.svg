@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Relational Optimization Primitives: Pushdowns &amp; Partition Pruning</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Transforming High-Overhead Unoptimized Plans into Performance-Optimized Physical Plans</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#260b0b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#fca5a5" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">1. Unoptimized Relational Algebra Tree</text>
+  
+    <rect x="45" y="135" width="400" height="45" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="161" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Project (name, SUM(amount))</text>
+    
+  
+    <rect x="45" y="190" width="400" height="45" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="216" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Filter (date &amp;gt;= 2026-01-01 AND country = 'US')</text>
+    
+  
+    <rect x="45" y="245" width="400" height="45" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245.0" y="271" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Cartesian / Hash Join (customer_id = id)</text>
+    
+  
+    <rect x="45" y="300" width="195" height="65" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="142.5" y="326" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Scan (orders)</text>
+    
+    <circle cx="61" cy="343" r="2" fill="#ef4444"/>
+    <text x="69" y="346" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scans ALL 100 columns!</text>
+    <circle cx="61" cy="359" r="2" fill="#ef4444"/>
+    <text x="69" y="362" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero partition pruning</text>
+  
+    <rect x="250" y="300" width="195" height="65" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="347.5" y="326" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Scan (customers)</text>
+    
+    <circle cx="266" cy="343" r="2" fill="#ef4444"/>
+    <text x="274" y="346" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scans ALL columns off disk!</text>
+    <circle cx="266" cy="359" r="2" fill="#ef4444"/>
+    <text x="274" y="362" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero filtering applied</text>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. CBO Optimized Plan (Pushed Down to Storage)</text>
+  
+    <rect x="535" y="135" width="400" height="45" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Project (name, SUM(amount))</text>
+    
+  
+    <rect x="535" y="190" width="400" height="45" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="216" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Hash Join (customer_id = id) - 100x Smaller Hash Table</text>
+    
+  
+    <rect x="535" y="245" width="195" height="120" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="632.5" y="271" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Scan (orders)</text>
+    <text x="632.5" y="287" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Pushed Down</text>
+    <rect x="672" y="255" width="52" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="698.0" y="267" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PRUNED</text>
+    <circle cx="551" cy="300" r="2" fill="#10b981"/>
+    <text x="559" y="303" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Partition Pruning:</text>
+    <circle cx="551" cy="316" r="2" fill="#10b981"/>
+    <text x="559" y="319" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Skips date &amp;lt; 2026</text>
+    <circle cx="551" cy="332" r="2" fill="#10b981"/>
+    <text x="559" y="335" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Projection Pushdown:</text>
+    <circle cx="551" cy="348" r="2" fill="#10b981"/>
+    <text x="559" y="351" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scans ONLY 2 cols!</text>
+    <circle cx="551" cy="364" r="2" fill="#10b981"/>
+    <text x="559" y="367" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Predicate Pushdown</text>
+  
+    <rect x="740" y="245" width="195" height="120" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="837.5" y="271" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Scan (customers)</text>
+    <text x="837.5" y="287" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Pushed Down</text>
+    <rect x="863" y="255" width="66" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="896.0" y="267" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">FILTERED</text>
+    <circle cx="756" cy="300" r="2" fill="#10b981"/>
+    <text x="764" y="303" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Predicate Pushdown:</text>
+    <circle cx="756" cy="316" r="2" fill="#10b981"/>
+    <text x="764" y="319" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">WHERE country = 'US'</text>
+    <circle cx="756" cy="332" r="2" fill="#10b981"/>
+    <text x="764" y="335" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Projection Pushdown:</text>
+    <circle cx="756" cy="348" r="2" fill="#10b981"/>
+    <text x="764" y="351" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scans ONLY (id, name)</text>
+    <circle cx="756" cy="364" r="2" fill="#10b981"/>
+    <text x="764" y="367" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Index Range Scan</text>
+
+</svg>

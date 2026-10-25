@@ -1,0 +1,29 @@
+direction: right
+title: Apache Spark Distributed Architecture
+
+Driver: Spark Driver Node {
+  style.stroke: "#38BDF8"
+  Session: SparkSession & User Code
+  Catalyst: Catalyst Optimizer (Plan Generation)
+  DAGSched: DAG Scheduler (Stage Boundaries)
+  TaskSched: Task Scheduler (Task Dispatcher)
+
+  Session -> Catalyst -> DAGSched -> TaskSched
+}
+
+ClusterMgr: Cluster Manager (K8s / YARN / Standalone) {
+  style.stroke: "#C084FC"
+  Alloc: Container Resource Allocator
+}
+
+Executors: Distributed Executors {
+  style.stroke: "#34D399"
+  E1: Executor 1 (JVM Container, Task Slots, BlockManager)
+  E2: Executor 2 (JVM Container, Task Slots, BlockManager)
+}
+
+Driver.Session -> ClusterMgr.Alloc: Container Allocation Request { style.stroke: "#C084FC" }
+ClusterMgr.Alloc -> Executors.E1: Launches Pod / Container { style.stroke: "#C084FC" }
+ClusterMgr.Alloc -> Executors.E2: Launches Pod / Container { style.stroke: "#C084FC" }
+Driver.TaskSched -> Executors.E1: Dispatches TaskSet { style.stroke: "#34D399" }
+Driver.TaskSched -> Executors.E2: Dispatches TaskSet { style.stroke: "#34D399" }

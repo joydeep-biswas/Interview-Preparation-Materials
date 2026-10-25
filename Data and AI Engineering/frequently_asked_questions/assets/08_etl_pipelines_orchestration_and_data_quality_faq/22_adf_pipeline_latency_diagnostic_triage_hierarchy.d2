@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  alert_box: { style: { fill: "#7F1D1D", stroke: "#EF4444" } }
+  step_box: { style: { fill: "#111827", stroke: "#3B82F6" } }
+  diag_box: { style: { fill: "#111827", stroke: "#10B981" } }
+}
+
+Alert: "🚨 Pipeline Duration Jumped 20m -> 120m" { class: alert_box }
+S1: "Step 1: Check Activity Breakdown" { class: step_box }
+S2: "Step 2: Inspect Copy Queue vs Transfer" { class: step_box }
+S3: "Step 3: Throughput & File Count Analysis" { class: step_box }
+
+C1: "Queue = 95m -> Scale SHIR Cluster" { class: diag_box }
+C2: "Read = 150 KB/s -> Source DB Lock / Missing Index" { class: diag_box }
+C3: "500k files -> Small File HTTP Metadata Overhead" { class: diag_box }
+
+Alert -> S1 -> S2 -> S3
+S2 -> C1: "Queue Time High"
+S3 -> C2: "Low Read Speed"
+S3 -> C3: "High File Count"

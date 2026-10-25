@@ -1,0 +1,37 @@
+direction: down
+title: Producer ACKs & Replication Durability Matrix
+
+case0: "Case 1: acks=0 (Fire & Forget)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  p0: "Producer (0ms wait)"
+  l0: "Leader (Does NOT wait for write)"
+  risk0: "Extreme data loss risk on broker crash"
+
+  p0 -> l0: "send()"
+}
+
+case1: "Case 2: acks=1 (Leader Local Write)" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  p1: "Producer (Waits for Leader)"
+  l1: "Leader (Appends to local PageCache)"
+  risk1: "Data lost if Leader dies before ISR fetch"
+
+  p1 -> l1: "send()"
+  l1 -> p1: "ACK"
+}
+
+caseall: "Case 3: acks=all with min.insync.replicas=2" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  pall: "Producer (Waits for Quorum)"
+  lall: "Leader + ISR Followers"
+  safe: "ZERO DATA LOSS GUARANTEE"
+
+  pall -> lall: "send()"
+  lall -> pall: "Quorum ACK"
+}

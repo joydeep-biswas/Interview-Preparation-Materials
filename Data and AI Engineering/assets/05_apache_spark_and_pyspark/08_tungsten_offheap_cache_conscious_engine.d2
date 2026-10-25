@@ -1,0 +1,26 @@
+direction: right
+title: Project Tungsten Execution Engine Architecture
+
+OffHeap: 1. Off-Heap Memory {
+  style.stroke: "#38BDF8"
+  Problem: Heavy JVM object headers (16B) & GC pauses
+  Solution: Binary format via sun.misc.Unsafe
+  Benefit: Zero Java object allocations & Zero GC pauses
+}
+
+CacheAware: 2. Cache-Conscious Computation {
+  style.stroke: "#FBBF24"
+  Problem: Memory fetch latency (100ns) & CPU cache misses
+  Solution: 64-byte cache line alignment + 8-byte key prefix
+  Benefit: Sort & search execute entirely in CPU L1/L2 cache
+}
+
+CodeGen: 3. Whole-Stage CodeGen {
+  style.stroke: "#C084FC"
+  Problem: Volcano iterator next() virtual function calls
+  Solution: Janino compiles entire stage into a single loop
+  Benefit: Data stays in CPU registers; SIMD vectorized speed
+}
+
+OffHeap -> CacheAware: Binary pointers { style.stroke: "#FBBF24" }
+CacheAware -> CodeGen: L1 cache residency { style.stroke: "#C084FC" }

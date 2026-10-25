@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-blue { stroke: #3B82F6; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-green { stroke: #10B981; }
+      .card-red { stroke: #EF4444; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-p8" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-g8" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Col 1: CTE Source -->
+  <rect x="25" y="25" width="300" height="350" class="pillar-box" stroke="#3B82F6"/>
+  <text x="175" y="55" class="title-text" fill="#60A5FA">1. CTE: RunningTotalsByDept</text>
+
+  <rect x="45" y="80" width="260" height="75" class="card card-blue"/>
+  <text x="175" y="105" class="card-title" fill="#93C5FD">Alice (Dept 10)</text>
+  <text x="60" y="130" class="card-body">Salary: $5,000 (Base Row)</text>
+
+  <rect x="45" y="175" width="260" height="75" class="card card-blue"/>
+  <text x="175" y="200" class="card-title" fill="#93C5FD">Bob (Dept 10)</text>
+  <text x="60" y="225" class="card-body">Salary: $6,000 (Base Row)</text>
+
+  <rect x="45" y="270" width="260" height="75" class="card card-blue"/>
+  <text x="175" y="295" class="card-title" fill="#93C5FD">Carol (Dept 20)</text>
+  <text x="60" y="320" class="card-body">Salary: $7,000 (Base Row)</text>
+
+  <!-- Col 2: Window Calculation -->
+  <rect x="380" y="25" width="310" height="350" class="pillar-box" stroke="#8B5CF6"/>
+  <text x="535" y="55" class="title-text" fill="#C4B5FD">2. Window Frame Execution</text>
+
+  <rect x="400" y="80" width="270" height="75" class="card card-purple"/>
+  <text x="535" y="105" class="card-title" fill="#D8B4FE">Alice (Dept 10)</text>
+  <text x="415" y="130" class="card-body">Cumulative Sum: $5,000</text>
+
+  <rect x="400" y="175" width="270" height="75" class="card card-purple"/>
+  <text x="535" y="200" class="card-title" fill="#D8B4FE">Bob (Dept 10)</text>
+  <text x="415" y="225" class="card-body">Cumulative Sum: $11,000</text>
+
+  <rect x="400" y="270" width="270" height="75" class="card card-purple"/>
+  <text x="535" y="295" class="card-title" fill="#D8B4FE">Carol (Dept 20)</text>
+  <text x="415" y="320" class="card-body">Cumulative Sum: $7,000</text>
+
+  <!-- Col 3: Final Filter -->
+  <rect x="745" y="25" width="290" height="350" class="pillar-box" stroke="#10B981"/>
+  <text x="890" y="55" class="title-text" fill="#6EE7B7">3. WHERE RunningTotal &lt;= 10k</text>
+
+  <rect x="765" y="80" width="250" height="75" class="card card-green"/>
+  <text x="890" y="105" class="card-title" fill="#6EE7B7">Alice: Keep</text>
+  <text x="780" y="130" class="card-body" fill="#34D399">• Running $5,000 &lt;= $10,000</text>
+
+  <rect x="765" y="175" width="250" height="75" class="card card-red"/>
+  <text x="890" y="200" class="card-title" fill="#FCA5A5">Bob: DISCARDED</text>
+  <text x="780" y="130" class="card-body" fill="#EF4444">• Running $11,000 &gt; $10,000</text>
+
+  <rect x="765" y="270" width="250" height="75" class="card card-green"/>
+  <text x="890" y="295" class="card-title" fill="#6EE7B7">Carol: Keep</text>
+  <text x="780" y="320" class="card-body" fill="#34D399">• Running $7,000 &lt;= $10,000</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 305 117 L 400 117" class="edge edge-purple" marker-end="url(#arr-p8)"/>
+  <path fill="none" d="M 305 212 L 400 212" class="edge edge-purple" marker-end="url(#arr-p8)"/>
+  <path fill="none" d="M 305 307 L 400 307" class="edge edge-purple" marker-end="url(#arr-p8)"/>
+
+  <path fill="none" d="M 670 117 L 765 117" class="edge edge-green" marker-end="url(#arr-g8)"/>
+  <path fill="none" d="M 670 212 L 765 212" class="edge edge-green" marker-end="url(#arr-g8)"/>
+  <path fill="none" d="M 670 307 L 765 307" class="edge edge-green" marker-end="url(#arr-g8)"/>
+</svg>

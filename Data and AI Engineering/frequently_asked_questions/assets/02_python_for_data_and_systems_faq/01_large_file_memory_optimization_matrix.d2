@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+file: "10 GB CSV / JSON File\nExceeds available single-core RAM" { class: box; style.stroke: "#3B82F6" }
+
+s1: "Strategy 1: Native Streaming\nGenerators / csv.reader\nMemory: O(1) row buffer (~10 KB)" { class: box; style.stroke: "#10B981" }
+s2: "Strategy 2: Pandas Chunksize\nProcess batch-by-batch (chunksize=100_000)\nBounded RAM consumption" { class: box; style.stroke: "#10B981" }
+s3: "Strategy 3: Downcasting Types\nint64 -> int16, float64 -> float32\nobject -> category (70% savings)" { class: box; style.stroke: "#F59E0B" }
+s4: "Strategy 4: Column Projection\nusecols parameter eliminates unneeded fields" { class: box; style.stroke: "#8B5CF6" }
+s5: "Strategy 5: Out-of-Core Engines\nPolars streaming engine or PyArrow datasets\nMulti-threaded vectorization" { class: box; style.stroke: "#10B981" }
+
+file -> s1
+file -> s2
+file -> s3
+file -> s4
+file -> s5

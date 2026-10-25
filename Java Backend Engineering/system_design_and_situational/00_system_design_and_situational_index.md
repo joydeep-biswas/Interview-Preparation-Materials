@@ -6,65 +6,9 @@ A comprehensive, production-grade guide covering distributed system design found
 
 ## Master Architecture & Preparation Roadmap
 
-```mermaid
-flowchart TD
-    subgraph Pillar1 ["Phase 1: Distributed Foundations (01)"]
-        direction TB
-        FND["01. System Design Foundations<br/>(Scalability Primitives, CAP/PACELC, Raft Consensus, 2PC, B+ vs LSM Trees, Consistent Hashing, Caching Topologies, Resilience4j)"]
-    end
+![Master Architecture & Preparation Roadmap](assets/00_system_design_and_situational_index/01_master_architecture_and_preparation_roadmap.svg)
 
-    subgraph Pillar2 ["Phase 2: High-Level Architecture HLD (02)"]
-        direction TB
-        HLD_Scale["Web Scale & Edge (URL Shortener, CDN, Snowflake ID, Rate Limiter)"]
-        HLD_Realtime["Real-Time & Events (Chat, Notifications, Video Streaming)"]
-        HLD_Fintech["Transactional & Commerce (Stripe Payments, Flash Sale, Uber Ride-Hailing, Uber Eats)"]
-        HLD_Systems["Distributed Storage & Workflows (Dropbox, Job Scheduler, Temporal Engine, Graph Search)"]
-        HLD_MissionCritical["Mission-Critical Enterprise (UK Faster Payments 24/7, Card Fraud <100ms, Open Banking API, Mainframe Migration)"]
-        
-        HLD_Scale --> HLD_Realtime --> HLD_Fintech --> HLD_Systems --> HLD_MissionCritical
-    end
-
-    subgraph Pillar3 ["Phase 3: Low-Level Design & Machine Coding LLD (03)"]
-        direction TB
-        LLD_Concurrency["Concurrency Primitives (Custom Bounded Queue, ThreadPool, ReadWriteLock List)"]
-        LLD_Storage["Storage & Scheduling (Segmented File Manager, DAG Job Scheduler, Train Scheduler)"]
-        LLD_Apps["Application Machine Coding (In-Memory Twitter, In-Memory Message Queue, In-Memory Filesystem, Rule Engine AST, Spotify)"]
-        
-        LLD_Concurrency --> LLD_Storage --> LLD_Apps
-    end
-
-    subgraph Pillar4 ["Phase 4: Situational & Engineering Leadership (04)"]
-        direction TB
-        SIT_Incidents["Sev-1 Outage Command (Cascading Failures, JVM Memory Leaks, HikariCP Deadlocks)"]
-        SIT_Architecture["Technical Pushback (Monolith vs Microservices, REST vs Events, Premature Optimization)"]
-        SIT_Execution["Execution & Governance (Unrealistic Deadlines, Technical Debt, Breaking API Contracts)"]
-        SIT_Leadership["People & Strategy (Mentorship, Code Review Deadlocks, Project Failures, Radical Ownership, Speed vs Accuracy)"]
-        
-        SIT_Incidents --> SIT_Architecture --> SIT_Execution --> SIT_Leadership
-    end
-
-    Pillar1 --> Pillar2
-    Pillar2 --> Pillar3
-    Pillar3 --> Pillar4
-
-    style Pillar1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Pillar2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Pillar3 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Pillar4 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style FND fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style HLD_Scale fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style HLD_Realtime fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style HLD_Fintech fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style HLD_Systems fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style HLD_MissionCritical fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style LLD_Concurrency fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style LLD_Storage fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style LLD_Apps fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SIT_Incidents fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style SIT_Architecture fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style SIT_Execution fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style SIT_Leadership fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/00_system_design_and_situational_index/01_master_architecture_and_preparation_roadmap.d2](assets/00_system_design_and_situational_index/01_master_architecture_and_preparation_roadmap.d2)
 
 ---
 

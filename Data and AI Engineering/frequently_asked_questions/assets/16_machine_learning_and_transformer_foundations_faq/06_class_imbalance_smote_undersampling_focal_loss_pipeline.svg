@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Imbalanced Data -->
+  <rect x="25" y="80" width="170" height="90" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="110" y="106" class="title-txt" text-anchor="middle" fill="#FECACA">Imbalanced Dataset</text>
+  <text x="35" y="130" class="mono-txt" text-anchor="start">Ratio 99.8% : 0.2%</text>
+  <text x="35" y="150" class="body-txt" text-anchor="start">Fraud / Rare Disease</text>
+
+  <path d="M 195 125 L 245 125" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+  <!-- Step 1: Resampling -->
+  <rect x="245" y="65" width="200" height="120" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="345" y="90" class="title-txt" text-anchor="middle" fill="#93C5FD">1. Data Resampling</text>
+  <text x="257" y="112" class="body-txt" text-anchor="start">• <tspan font-weight="700">SMOTE:</tspan> Synthetic KNN</text>
+  <text x="257" y="128" class="body-txt" text-anchor="start">  minority oversampling</text>
+  <text x="257" y="146" class="body-txt" text-anchor="start">• <tspan font-weight="700">Tomek Links:</tspan> Undersampling</text>
+  <text x="257" y="164" class="mono-txt" text-anchor="start">Balanced mini-batches</text>
+
+  <path d="M 445 125 L 495 125" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Step 2: Loss Function -->
+  <rect x="495" y="65" width="200" height="120" rx="10" ry="10" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="595" y="90" class="title-txt" text-anchor="middle" fill="#C4B5FD">2. Cost &amp; Focal Loss</text>
+  <text x="507" y="112" class="body-txt" text-anchor="start">• <tspan font-weight="700">Focal Loss:</tspan> Downweights</text>
+  <text x="507" y="128" class="body-txt" text-anchor="start">  easy negative examples</text>
+  <text x="507" y="146" class="mono-txt" text-anchor="start">FL = -alpha*(1-p)^gamma*log(p)</text>
+  <text x="507" y="164" class="body-txt" text-anchor="start">• Class-weighted gradient</text>
+
+  <path d="M 695 125 L 745 125" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- Step 3: Evaluation -->
+  <rect x="745" y="65" width="190" height="120" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="840" y="90" class="title-txt" text-anchor="middle" fill="#A7F3D0">3. Metric Evaluation</text>
+  <text x="757" y="112" class="body-txt" text-anchor="start">• <tspan fill="#EF4444">Avoid Accuracy</tspan> (99.8% naive)</text>
+  <text x="757" y="132" class="body-txt" text-anchor="start">• <tspan fill="#10B981">Use PR-AUC</tspan> (Precision-Recall)</text>
+  <text x="757" y="152" class="mono-txt" text-anchor="start">Tune Decision Threshold</text>
+  <text x="757" y="170" class="badge-txt" fill="#10B981">✓ Calibrated Payoff</text>
+</svg>

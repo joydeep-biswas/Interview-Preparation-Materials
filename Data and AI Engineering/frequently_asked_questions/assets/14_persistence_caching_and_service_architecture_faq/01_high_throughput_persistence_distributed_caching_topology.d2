@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  app_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  red_box: { style: { fill: "#111827", stroke: "#EF4444" } }
+  green_box: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  purple_box: { style: { fill: "#111827", stroke: "#8B5CF6" } }
+  amber_box: { style: { fill: "#0D1526", stroke: "#F59E0B" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+AppCluster: "Application Cluster" {
+  class: app_box
+  F1: "FastAPI Instance 1" { class: card_dark }
+  F2: "FastAPI Instance 2" { class: card_dark }
+}
+
+RedisTier: "Redis Cluster / Redlock\nCache-aside & distributed locks" { class: red_box }
+PostgresTier: "PostgreSQL Storage\nWrite Master + Read Replicas" { class: green_box }
+CeleryTier: "Celery Worker Fleet\nRabbitMQ broker (Bounded)" { class: purple_box }
+Guarantees: "Operational Guarantees\nPgBouncer & Replica lag check" { class: amber_box }
+
+AppCluster.F1 -> RedisTier
+AppCluster.F1 -> PostgresTier
+AppCluster.F1 -> CeleryTier
+PostgresTier -> Guarantees

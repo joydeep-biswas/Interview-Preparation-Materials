@@ -1,0 +1,46 @@
+direction: right
+
+sender: "1. Sender & Gateway" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  client: "Sender Mobile Client"
+  netty: "Netty WebSocket Gateway (Epoll)"
+}
+
+registry: "2. Session Registry" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  redis: "Redis Session Table (User -> Gateway Pod)"
+  heartbeat: "30s Heartbeat & Presence"
+}
+
+router: "3. Message Router" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  online: "Online: Inter-Pod gRPC & WebSocket Push"
+  offline: "Offline: Kafka Topic & APNs/FCM Push"
+}
+
+cassandra: "4. Cassandra History" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  schema: "PRIMARY KEY ((chat_id), msg_id DESC)"
+  sstable: "High-Throughput Append-Only SSTables"
+}
+
+sender -> registry: "Lookup Recipient Pod" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+registry -> router: "Route to Destination" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+router -> cassandra: "Persist Chat Message" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

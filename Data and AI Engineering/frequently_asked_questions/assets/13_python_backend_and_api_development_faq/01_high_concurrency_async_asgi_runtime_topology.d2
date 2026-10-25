@@ -1,0 +1,45 @@
+direction: right
+classes: {
+  c_blue: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  c_purple: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  c_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  c_amber: { style: { fill: "#0D1526", stroke: "#F59E0B" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+Clients: "1. Client Requests" {
+  class: c_blue
+  HTTP: "REST / HTTP Ingress" { class: card_dark }
+  SSE: "SSE Token Stream" { class: card_dark }
+  WS: "Bidirectional WebSocket" { class: card_dark }
+}
+
+ASGI: "2. FastAPI / ASGI" {
+  class: c_purple
+  Uvicorn: "Uvicorn (uvloop epoll)" { class: card_dark }
+  Middleware: "Tracing & Rate-Limiting" { class: card_dark }
+  Pydantic: "Pydantic v2 (Rust Core)" { class: card_dark }
+  Uvicorn -> Middleware -> Pydantic
+}
+
+Isolation: "3. Event Loop Isolation" {
+  class: c_green
+  AsyncIO: "AsyncIO Event Loop" { class: card_dark }
+  Threads: "ThreadPool (Tokenizers)" { class: card_dark }
+  Processes: "ProcessPool (Heavy Tensor)" { class: card_dark }
+  AsyncIO -> Threads
+  AsyncIO -> Processes
+}
+
+Downstream: "4. Downstream Tier" {
+  class: c_amber
+  vLLM: "vLLM Model Gateway" { class: card_dark }
+  Redis: "Redis Distributed Locks" { class: card_dark }
+  Postgres: "PostgreSQL via Asyncpg" { class: card_dark }
+}
+
+Clients -> ASGI.Uvicorn
+ASGI.Pydantic -> Isolation.AsyncIO
+Isolation.AsyncIO -> Downstream.vLLM
+Isolation.AsyncIO -> Downstream.Redis
+Isolation.AsyncIO -> Downstream.Postgres

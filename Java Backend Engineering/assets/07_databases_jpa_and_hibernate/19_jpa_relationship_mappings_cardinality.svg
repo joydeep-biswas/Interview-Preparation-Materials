@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 580" width="1100" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="580" rx="10" fill="url(#bg)"/>
+  <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">JPA Relationship Mappings &amp; Fetch Strategies</text>
+  <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Owning Side (@JoinColumn) vs Inverse Side (mappedBy), Cardinality Rules, and N+1 Prevention</text>
+<rect x="40" y="100" width="310" height="330" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+<rect x="55" y="115" width="200" height="22" rx="11" fill="#1e3a8a"/><text x="155" y="129" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CustomerEntity (1)</text>
+<text x="60" y="160" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Inverse (Non-Owning) Side</text>
+<text x="60" y="180" fill="#CBD5E1" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@Id @GeneratedValue Long id;</text>
+<text x="60" y="198" fill="#CBD5E1" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">String name;</text>
+<text x="60" y="220" fill="#FBBF24" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@OneToMany(mappedBy = 'customer',</text>
+<text x="75" y="238" fill="#FDE68A" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">cascade = CascadeType.ALL,</text>
+<text x="75" y="254" fill="#FDE68A" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">orphanRemoval = true)</text>
+<text x="60" y="272" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">List&lt;OrderEntity&gt; orders = new ArrayList&lt;&gt;();</text>
+<rect x="55" y="295" width="280" height="120" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+<text x="65" y="315" fill="#38BDF8" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key Mechanics:</text>
+<text x="65" y="333" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• mappedBy points to the field on Order</text>
+<text x="65" y="351" fill="#F87171" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Modifying orders list alone does NOT</text>
+<text x="65" y="367" fill="#F87171" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  update the database foreign key!</text>
+<text x="65" y="385" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Must provide helper: addOrder(order)</text>
+<text x="65" y="401" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  setting order.setCustomer(this)</text>
+<rect x="395" y="100" width="310" height="330" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+<rect x="410" y="115" width="200" height="22" rx="11" fill="#064e3b"/><text x="510" y="129" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderEntity (N)</text>
+<text x="415" y="160" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Owning Side of Customer FK</text>
+<text x="415" y="180" fill="#CBD5E1" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@Id @GeneratedValue Long id;</text>
+<text x="415" y="198" fill="#CBD5E1" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BigDecimal totalAmount;</text>
+<text x="415" y="220" fill="#38BDF8" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@ManyToOne(fetch = FetchType.LAZY)</text>
+<text x="415" y="238" fill="#22D3EE" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@JoinColumn(name = 'customer_id')</text>
+<text x="415" y="254" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">CustomerEntity customer; // OWNS FK</text>
+<text x="415" y="272" fill="#FBBF24" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@OneToMany(mappedBy = 'order') items;</text>
+<rect x="410" y="295" width="280" height="120" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+<text x="420" y="315" fill="#34D399" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">FetchType Best Practices:</text>
+<text x="420" y="333" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• ALWAYS override @ManyToOne default!</text>
+<text x="420" y="351" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  Default is EAGER -&gt; Causes hidden</text>
+<text x="420" y="367" fill="#F87171" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  N+1 joins or queries!</text>
+<text x="420" y="385" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Use LAZY + JOIN FETCH in repository</text>
+<text x="420" y="401" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  when Customer data is genuinely needed</text>
+<rect x="750" y="100" width="310" height="330" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+<rect x="765" y="115" width="200" height="22" rx="11" fill="#78350f"/><text x="865" y="129" fill="#FDE68A" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderItemEntity (N)</text>
+<text x="770" y="160" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Owning Side of Order FK</text>
+<text x="770" y="180" fill="#CBD5E1" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@Id @GeneratedValue Long id;</text>
+<text x="770" y="198" fill="#CBD5E1" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">String productSku; int quantity;</text>
+<text x="770" y="220" fill="#38BDF8" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@ManyToOne(fetch = FetchType.LAZY)</text>
+<text x="770" y="238" fill="#22D3EE" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@JoinColumn(name = 'order_id')</text>
+<text x="770" y="254" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">OrderEntity order;</text>
+<rect x="765" y="295" width="280" height="120" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+<text x="775" y="315" fill="#FBBF24" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Cascade &amp; Orphan Removal:</text>
+<text x="775" y="333" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• orphanRemoval = true:</text>
+<text x="775" y="351" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  order.getItems().remove(item) triggers</text>
+<text x="775" y="367" fill="#F87171" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  SQL DELETE FROM order_items</text>
+<text x="775" y="385" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• CascadeType.ALL persists children</text>
+<text x="775" y="401" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  when parent is saved</text>
+<line x1="350" y1="240" x2="395" y2="240" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<line x1="395" y1="255" x2="350" y2="255" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="705" y1="240" x2="750" y2="240" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<line x1="750" y1="255" x2="705" y2="255" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="40" y="455" width="1020" height="105" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="480" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Golden Rules for JPA Entity Relationships:</text>
+<text x="65" y="500" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Always set fetch = FetchType.LAZY on @ManyToOne and @OneToOne. The JPA specification defaults them to EAGER, causing catastrophic query storms.</text>
+<text x="65" y="518" fill="#FDE68A" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Only the Owning Side (@JoinColumn) updates the DB foreign key column. Setting customer.getOrders().add(order) without order.setCustomer(customer) writes NULL FK!</text>
+<text x="65" y="536" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. Avoid bidirectional @ManyToMany. It forces Hibernate to delete and re-insert the entire join table on collection modification; decompose into an explicit entity.</text>
+</svg>

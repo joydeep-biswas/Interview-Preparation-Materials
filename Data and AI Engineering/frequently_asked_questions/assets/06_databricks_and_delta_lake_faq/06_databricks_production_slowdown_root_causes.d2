@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+slow: "Job Takes 3x Longer in Prod\nSudden Performance Degradation" {
+  class: box
+  style.stroke: "#EF4444"
+}
+
+c1: "1. Cloud Spot Instance Eviction\nCloud reclaimed spot workers; cluster recomputes lost stages." { class: box; style.stroke: "#F59E0B" }
+c2: "2. Input Volume Spike\nData volume increased 5x (month-end spike / upstream backfill)." { class: box; style.stroke: "#3B82F6" }
+c3: "3. Small File Accumulation\nTable accumulated 100,000 files; scan phase choked on LIST API." { class: box; style.stroke: "#EF4444" }
+c4: "4. Severe Data Skew\nSingle key received millions of rows; straggler blocked stage." { class: box; style.stroke: "#F59E0B" }
+c5: "5. Checkpoint Overhead\n_delta_log lacks checkpoint; reads thousands of JSON files." { class: box; style.stroke: "#8B5CF6" }
+
+slow -> c1
+slow -> c2
+slow -> c3
+slow -> c4
+slow -> c5

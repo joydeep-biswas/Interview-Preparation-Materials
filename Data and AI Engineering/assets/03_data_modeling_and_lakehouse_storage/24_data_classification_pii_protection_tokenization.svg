@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 390" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="390" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Cryptographic PII Protection: Masking vs. Deterministic Tokenization</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Preserving Relational Joinability while Guaranteeing Zero Plaintext Leakage</text>
+  
+  
+    <rect x="40" y="130" width="230" height="150" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="155.0" y="156" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Raw Ingested PII</text>
+    <text x="155.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Restricted / Sensitive Data</text>
+    <rect x="170" y="140" width="94" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="217.0" y="152" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CONFIDENTIAL</text>
+    <circle cx="56" cy="185" r="2" fill="#ef4444"/>
+    <text x="64" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Direct cleartext sensitive data</text>
+    <circle cx="56" cy="201" r="2" fill="#ef4444"/>
+    <text x="64" y="204" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">SSN: 123-45-6789</text>
+    <circle cx="56" cy="217" r="2" fill="#ef4444"/>
+    <text x="64" y="220" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Email: alice@corp.com</text>
+    <circle cx="56" cy="233" r="2" fill="#ef4444"/>
+    <text x="64" y="236" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">High compliance liability (GDPR/HIPAA)</text>
+    <circle cx="56" cy="249" r="2" fill="#ef4444"/>
+    <text x="64" y="252" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Forbidden in raw form for analysts</text>
+
+  
+    <rect x="340" y="130" width="260" height="150" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="470.0" y="156" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Cryptographic Token Engine</text>
+    <text x="470.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">KMS / Vault Protected Engine</text>
+    <rect x="493" y="140" width="101" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="543.5" y="152" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CRYPTO ENGINE</text>
+    <circle cx="356" cy="185" r="2" fill="#3b82f6"/>
+    <text x="364" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Performs AES-256 / SHA-256 hashing</text>
+    <circle cx="356" cy="201" r="2" fill="#3b82f6"/>
+    <text x="364" y="204" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Access to HSM secret salt</text>
+    <circle cx="356" cy="217" r="2" fill="#3b82f6"/>
+    <text x="364" y="220" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero plain-text storage</text>
+    <circle cx="356" cy="233" r="2" fill="#3b82f6"/>
+    <text x="364" y="236" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Splits into Masked View vs Token</text>
+    <circle cx="356" cy="249" r="2" fill="#3b82f6"/>
+    <text x="364" y="252" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Enforces strict RBAC access</text>
+
+  
+    <rect x="670" y="95" width="270" height="115" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="805.0" y="121" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Dynamic Masked View</text>
+    <text x="805.0" y="137" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Analyst &amp; BI Layer (Safe Display)</text>
+    <rect x="882" y="105" width="52" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="908.0" y="117" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MASKED</text>
+    <circle cx="686" cy="150" r="2" fill="#10b981"/>
+    <text x="694" y="153" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">SSN: ***-**-6789</text>
+    <circle cx="686" cy="166" r="2" fill="#10b981"/>
+    <text x="694" y="169" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Email: a****@corp.com</text>
+    <circle cx="686" cy="182" r="2" fill="#10b981"/>
+    <text x="694" y="185" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Safe for dashboards &amp; reports</text>
+    <circle cx="686" cy="198" r="2" fill="#10b981"/>
+    <text x="694" y="201" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">No reverse engineering possible</text>
+
+  
+    <rect x="670" y="230" width="270" height="125" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="805.0" y="256" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Deterministic Salted Token</text>
+    <text x="805.0" y="272" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Joinable Key for Internal Pipelines</text>
+    <rect x="861" y="240" width="73" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="897.5" y="252" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">TOKENIZED</text>
+    <circle cx="686" cy="285" r="2" fill="#8b5cf6"/>
+    <text x="694" y="288" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Token: SHA256(email + secret_salt)</text>
+    <circle cx="686" cy="301" r="2" fill="#8b5cf6"/>
+    <text x="694" y="304" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Hash: e3b0c44298fc1c149afbf4c8...</text>
+    <circle cx="686" cy="317" r="2" fill="#8b5cf6"/>
+    <text x="694" y="320" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Preserves relational joinability across tables</text>
+    <circle cx="686" cy="333" r="2" fill="#8b5cf6"/>
+    <text x="694" y="336" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero plaintext leakage to downstream</text>
+
+  
+    <line x1="270" y1="205" x2="340" y2="205" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/><text x="305.0" y="197.0" fill="#ef4444" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Encrypted Tunnel</text>
+  
+    <path d="M 600.0 175.0 L 610.0 175.0 C 633.0 175.0, 633.0 152.0, 656.0 152.0 L 670.0 152.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="635.0" y="155.5" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Dynamic Masking</text>
+  
+    <path d="M 600.0 235.0 L 610.0 235.0 C 633.0 235.0, 633.0 280.0, 656.0 280.0 L 670.0 280.0" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="635.0" y="249.5" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Deterministic Hash</text>
+
+</svg>

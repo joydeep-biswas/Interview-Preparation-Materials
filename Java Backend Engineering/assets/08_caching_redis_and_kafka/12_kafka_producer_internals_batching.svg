@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1240" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1240" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="620" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Kafka Producer Internals: Ingestion, Batching &amp; Network Transmission</text>
+  <text x="620" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">ProducerRecord -&gt; Serialization &amp; Partitioning (Murmur2) -&gt; RecordAccumulator Buffer Pool -&gt; Sender Thread (linger.ms &amp; batch.size)</text>
+  <line x1="40" y1="68" x2="1200" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Phase 1: Client Ingestion -->
+  <rect x="40" y="105" width="340" height="340" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="40" y="105" width="340" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="210" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">Phase 1: Ingestion &amp; Serialization</text>
+
+  <rect x="60" y="150" width="300" height="75" rx="6" fill="#1E293B" stroke="#38BDF8"/>
+  <text x="210" y="175" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">1. ProducerRecord</text>
+  <text x="75" y="195" font-size="8" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Topic: "orders"</text>
+  <text x="75" y="210" font-size="8" font-family="'JetBrains Mono', monospace" fill="#FDE68A">Key: "user-404" | Value: &lt;OrderPayload&gt;</text>
+
+  <rect x="60" y="240" width="300" height="75" rx="6" fill="#0F172A" stroke="#0284C7"/>
+  <text x="210" y="265" font-size="10" font-weight="700" fill="#7DD3FC" text-anchor="middle">2. Key &amp; Value Serializers</text>
+  <text x="75" y="285" font-size="8" fill="#CBD5E1">&#x2022; Converts object to raw byte[]</text>
+  <text x="75" y="302" font-size="8" fill="#34D399">&#x2714; StringSerializer / KafkaAvroSerializer</text>
+
+  <rect x="60" y="330" width="300" height="95" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="210" y="355" font-size="10" font-weight="700" fill="#E2E8F0" text-anchor="middle">3. Partitioner Engine</text>
+  <text x="75" y="375" font-size="8" font-family="'JetBrains Mono', monospace" fill="#FBBF24">partition = Murmur2(key) % N</text>
+  <text x="75" y="395" font-size="8" fill="#CBD5E1">Guarantees same key &#x2192; same partition (strict ordering!)</text>
+  <text x="75" y="412" font-size="8" fill="#94A3B8">Null key: StickyPartitioner batches across partitions</text>
+
+  <!-- Connectors Phase 1 -->
+  <path fill="none" d="M 210 225 L 210 240" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <path fill="none" d="M 210 315 L 210 330" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  <!-- Phase 2: Buffering in RecordAccumulator -->
+  <rect x="420" y="105" width="400" height="340" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="420" y="105" width="400" height="30" rx="8" fill="#4C1D95"/>
+  <text x="620" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">Phase 2: RecordAccumulator (Memory Pools)</text>
+
+  <rect x="440" y="150" width="360" height="150" rx="6" fill="#0F172A" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="620" y="172" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">Partition Batch Buffers</text>
+  
+  <rect x="455" y="185" width="330" height="30" rx="4" fill="#1E293B" stroke="#334155"/>
+  <text x="470" y="204" font-size="8" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Partition 0 Queue: [Batch 1 (16KB)] [Batch 2]</text>
+
+  <rect x="455" y="220" width="330" height="30" rx="4" fill="#1E293B" stroke="#334155"/>
+  <text x="470" y="239" font-size="8" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Partition 1 Queue: [Batch 1 (16KB)]</text>
+
+  <rect x="455" y="255" width="330" height="30" rx="4" fill="#1E293B" stroke="#334155"/>
+  <text x="470" y="274" font-size="8" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">Partition 2 Queue: [Batch 1 (16KB)] [Batch 2]</text>
+
+  <rect x="440" y="315" width="360" height="110" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="455" y="338" font-size="9" font-weight="700" fill="#F8FAFC">Buffer Pool Configuration:</text>
+  <text x="455" y="358" font-size="8" font-family="'JetBrains Mono', monospace" fill="#C4B5FD">buffer.memory = 33554432 (32 MB)</text>
+  <text x="455" y="375" font-size="8" font-family="'JetBrains Mono', monospace" fill="#C4B5FD">batch.size = 16384 (16 KB)</text>
+  <text x="455" y="395" font-size="8" fill="#CBD5E1">Reuses ByteBuffer objects directly; eliminates JVM GC overhead!</text>
+  <text x="455" y="412" font-size="8" fill="#FCA5A5">Blocks producer if buffer.memory exhausted (max.block.ms)</text>
+
+  <path fill="none" d="M 380 275 L 420 275" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Phase 3: Sender Thread &amp; Network -->
+  <rect x="860" y="105" width="340" height="340" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="860" y="105" width="340" height="30" rx="8" fill="#064E3B"/>
+  <text x="1030" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">Phase 3: Sender Thread &amp; NetworkClient</text>
+
+  <rect x="880" y="150" width="300" height="120" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="1030" y="172" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Sender Background Thread</text>
+  <text x="895" y="195" font-size="8" font-weight="700" fill="#E2E8F0">Dispatch Triggers (Whichever hits first):</text>
+  <text x="895" y="213" font-size="8" fill="#CBD5E1">1. <tspan font-family="'JetBrains Mono', monospace" fill="#34D399">batch.size</tspan> fills to 16KB</text>
+  <text x="895" y="230" font-size="8" fill="#CBD5E1">2. <tspan font-family="'JetBrains Mono', monospace" fill="#FBBF24">linger.ms</tspan> timer expires (e.g. 20ms)</text>
+  <text x="895" y="252" font-size="8" fill="#34D399">&#x2714; Dramatically boosts I/O throughput</text>
+
+  <rect x="880" y="285" width="300" height="140" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="895" y="310" font-size="9" font-weight="700" fill="#F8FAFC">Socket Transmission &amp; ACKs:</text>
+  <text x="895" y="330" font-size="8" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">acks = all (-1)</text>
+  <text x="895" y="347" font-size="8" fill="#CBD5E1">Leader waits for all ISR replicas to write before ACK</text>
+  <text x="895" y="367" font-size="8" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">enable.idempotence = true</text>
+  <text x="895" y="384" font-size="8" fill="#34D399">&#x2714; Producer assigns PID + Sequence Number</text>
+  <text x="895" y="401" font-size="8" fill="#A7F3D0">Broker rejects retried duplicate network packets!</text>
+
+  <path fill="none" d="M 820 275 L 860 275" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="465" width="1160" height="35" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="620" y="487" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Throughput Tuning Rule: Setting linger.ms=20 allows the producer to pause slightly, grouping individual records into compact 16KB batches and achieving 100x network efficiency.</text>
+</svg>

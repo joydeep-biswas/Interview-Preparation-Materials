@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Producer Architecture: RecordAccumulator &amp; Micro-Batching</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Decoupled threading model: Application producer thread, RAM buffer pool, and background Java NIO Sender thread</text>
+<rect x="30" y="85" width="190" height="410" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="125" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Application Thread</text>
+<rect x="55" y="122" width="140" height="18" rx="9" fill="#1d4ed8"/><text x="125" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">producer.send(record)</text>
+<rect x="45" y="155" width="160" height="85" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">ProducerRecord</text>
+<text x="55" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Topic: orders</text>
+<text x="55" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Key: user_42</text>
+<text x="55" y="230" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Value: JSON / Avro</text>
+<rect x="45" y="255" width="160" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="278" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partitioner &amp; Interceptors</text>
+<text x="55" y="298" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Murmur2(key) hash</text>
+<text x="55" y="314" fill="#6EE7B7" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Assigns Partition P1</text>
+<rect x="45" y="345" width="160" height="130" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="125" y="368" fill="#CBD5E1" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Async Non-Blocking</text>
+<text x="55" y="390" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">App thread does NOT wait</text>
+<text x="55" y="406" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">for broker network roundtrip!</text>
+<text x="55" y="426" fill="#FBBF24" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Appends to accumulator</text>
+<text x="55" y="442" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">and immediately returns</text>
+<text x="55" y="458" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Future / Callback handle</text>
+<rect x="250" y="85" width="340" height="410" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="420" y="112" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">RecordAccumulator (RAM Buffer Pool)</text>
+<rect x="330" y="122" width="180" height="18" rx="9" fill="#6d28d9"/><text x="420" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">buffer.memory = 32 MB</text>
+<rect x="270" y="155" width="300" height="70" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="285" y="178" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partition 0 In-Flight Batch</text>
+<text x="285" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Accumulating: 8 KB / 16 KB (Waiting for linger.ms)</text>
+<text x="285" y="214" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Record count: 12 messages queued</text>
+<rect x="270" y="240" width="300" height="80" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="285" y="263" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partition 1 Batch (READY TO FLUSH)</text>
+<text x="285" y="283" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Size: 16.2 KB &gt;= batch.size (16384 bytes)!</text>
+<text x="285" y="302" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Trigger: batch.size full -&gt; Immediate flush to sender</text>
+<rect x="270" y="335" width="300" height="70" rx="8" fill="#1e293b" stroke="#c084fc" stroke-width="1"/>
+<text x="285" y="358" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partition 2 In-Flight Batch</text>
+<text x="285" y="378" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Timer: linger.ms (10ms) expired -&gt; Trigger flush</text>
+<text x="285" y="394" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Size: 4 KB (Sent early due to latency timeout)</text>
+<rect x="270" y="420" width="300" height="60" rx="8" fill="#111827" stroke="#475569" stroke-width="1"/>
+<text x="420" y="442" fill="#CBD5E1" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Throughput vs Latency Tuning</text>
+<text x="420" y="462" fill="#FBBF24" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Higher linger.ms &amp; batch.size = Higher throughput, higher latency</text>
+<rect x="620" y="85" width="190" height="410" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="715" y="112" fill="#34D399" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Background Sender</text>
+<rect x="645" y="122" width="140" height="18" rx="9" fill="#047857"/><text x="715" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">KafkaThread (Java NIO)</text>
+<rect x="635" y="155" width="160" height="100" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="645" y="178" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Batch Drainer</text>
+<text x="645" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Drains ready batches</text>
+<text x="645" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">from accumulator per</text>
+<text x="645" y="230" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">destination broker node</text>
+<text x="645" y="244" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">(groups by node ID)</text>
+<rect x="635" y="270" width="160" height="100" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="645" y="293" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SocketChannel</text>
+<text x="645" y="313" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Non-blocking NIO</text>
+<text x="645" y="329" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">In-flight requests:</text>
+<text x="645" y="345" fill="#38BDF8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">max.in.flight.requests</text>
+<text x="645" y="359" fill="#38BDF8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">.per.connection = 5</text>
+<rect x="635" y="385" width="160" height="95" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="645" y="408" fill="#CBD5E1" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">ACK Response</text>
+<text x="645" y="428" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Receives leader ACK,</text>
+<text x="645" y="444" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">executes RecordMetadata</text>
+<text x="645" y="460" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">app callback async</text>
+<rect x="840" y="85" width="170" height="410" rx="8" fill="#0b1329" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="925" y="112" fill="#38BDF8" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Broker Leader</text>
+<rect x="865" y="122" width="120" height="18" rx="9" fill="#0284c7"/><text x="925" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">TCP Port 9092</text>
+<rect x="855" y="155" width="140" height="120" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="865" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Leader Socket</text>
+<text x="865" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">NetworkProcessor</text>
+<text x="865" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Pushes batch to</text>
+<text x="865" y="230" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">request queue for</text>
+<text x="865" y="246" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">log append</text>
+<rect x="855" y="290" width="140" height="100" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="865" y="312" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">OS Page Cache</text>
+<text x="865" y="332" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Appends batch</text>
+<text x="865" y="348" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">to sequential</text>
+<text x="865" y="364" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">segment file</text>
+<text x="865" y="378" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero-copy write</text>
+<line x1="220" y1="280" x2="250" y2="280" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="570" y1="280" x2="620" y2="280" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="810" y1="280" x2="840" y2="280" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

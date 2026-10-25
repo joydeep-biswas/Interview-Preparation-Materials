@@ -1,0 +1,18 @@
+# Hash Aggregation vs Sort/Stream Aggregation
+direction: right
+
+hash: "Strategy A: Hash Aggregation" {
+  style.stroke: "#3B82F6"
+  s1: "1. Build Hash Table\n• In-memory hash map of keys"
+  s2: "2. Memory Check\n• If keys > work_mem: spills to disk!"
+  s3: "3. Emit Tuples\n• Best for low/med cardinality unsorted data"
+  s1 -> s2 -> s3
+}
+
+sort: "Strategy B: Sort/Stream Aggregation" {
+  style.stroke: "#10B981"
+  s1: "1. Presorted Stream\n• Fed via B+Tree index scan"
+  s2: "2. Streaming Accumulator\n• Constant O(1) RAM footprint; no spills"
+  s3: "3. Pipeline Emit\n• Best for massive cardinality pre-indexed data"
+  s1 -> s2 -> s3
+}

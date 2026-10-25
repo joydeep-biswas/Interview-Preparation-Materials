@@ -1,0 +1,46 @@
+direction: right
+
+ingestion: "1. Event Ingestion" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  api: "Notification Ingestion API"
+  kafka: "Kafka Topic: notifications (Key: user_id)"
+}
+
+fanout: "2. Fanout & Workers" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  workers: "Priority Workers (High/Med/Low)"
+  prefs: "User Preferences & Channel Selector"
+}
+
+ratelimit: "3. Rate Limiter & Queue" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  redis: "Redis Token Bucket Gatekeeper"
+  fatigue: "User Notification Fatigue Limits"
+}
+
+delivery: "4. Gateways & Tracking" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  gateways: "APNs, FCM, Twilio & SendGrid"
+  history: "Cassandra Notification History & DLQ"
+}
+
+ingestion -> fanout: "Consume User Events" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+fanout -> ratelimit: "Enforce Limits" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+ratelimit -> delivery: "Dispatch to External Providers" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

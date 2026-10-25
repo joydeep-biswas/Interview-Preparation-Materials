@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-red { stroke: #EF4444; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-red { stroke: #EF4444; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-b22" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-a22" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g22" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Col 1: Query Analysis -->
+  <rect x="25" y="25" width="460" height="350" class="pillar-box" stroke="#3B82F6"/>
+  <text x="255" y="55" class="title-text" fill="#60A5FA">1. Query Analysis &amp; Execution Inspection</text>
+
+  <rect x="45" y="80" width="420" height="75" class="card card-red"/>
+  <text x="255" y="105" class="card-title" fill="#FCA5A5">🚨 Query Latency Alert</text>
+  <text x="60" y="130" class="card-body">p99 Latency &gt; 8,000ms | CPU spike / client timeout</text>
+
+  <rect x="45" y="180" width="420" height="85" class="card card-blue"/>
+  <text x="255" y="205" class="card-title" fill="#93C5FD">1. EXPLAIN (ANALYZE, BUFFERS)</text>
+  <text x="60" y="230" class="card-body">• Inspect actual vs estimated cost &amp; rows</text>
+  <text x="60" y="248" class="card-body">• Measure disk reads vs shared buffer hits</text>
+
+  <rect x="45" y="285" width="420" height="70" class="card card-amber"/>
+  <text x="255" y="310" class="card-title" fill="#FDE68A">Sequential Scan on Large Table?</text>
+  <text x="60" y="333" class="card-body">Checks if filter reads millions of raw heap pages</text>
+
+  <path fill="none" d="M 255 155 L 255 180" class="edge edge-blue" marker-end="url(#arr-b22)"/>
+  <path fill="none" d="M 255 265 L 255 285" class="edge edge-blue" marker-end="url(#arr-b22)"/>
+
+  <!-- Col 2: Remediation Strategies -->
+  <rect x="525" y="25" width="510" height="350" class="pillar-box" stroke="#10B981"/>
+  <text x="780" y="55" class="title-text" fill="#6EE7B7">2. Remediation Strategies</text>
+
+  <!-- Fix 1: Missing Index -->
+  <rect x="545" y="75" width="470" height="80" class="card card-green"/>
+  <text x="780" y="100" class="card-title" fill="#6EE7B7">Fix 1: CREATE INDEX CONCURRENTLY</text>
+  <text x="560" y="125" class="card-body">• Add B-tree / BRIN index on filter predicate columns</text>
+  <text x="560" y="143" class="card-body">• Non-blocking index creation without table lock</text>
+
+  <!-- Fix 2: Stale Stats -->
+  <rect x="545" y="170" width="470" height="85" class="card card-green"/>
+  <text x="780" y="195" class="card-title" fill="#6EE7B7">Fix 2: Run ANALYZE (Refresh Stats)</text>
+  <text x="560" y="220" class="card-body">• Updates MCV (Most Common Values) &amp; histograms</text>
+  <text x="560" y="238" class="card-body">• Fixes planner row estimates from 1 to 5,000,000</text>
+
+  <!-- Fix 3: Query Rewrite -->
+  <rect x="545" y="270" width="470" height="85" class="card card-amber"/>
+  <text x="780" y="295" class="card-title" fill="#FDE68A">Fix 3: Query Rewrite / CTE Materialization</text>
+  <text x="560" y="320" class="card-body">• Replace correlated subqueries with JOIN</text>
+  <text x="560" y="338" class="card-body">• Use MATERIALIZED CTE to prevent repeated scans</text>
+
+  <!-- Connectors with straight runways -->
+  <!-- Scan -> Fix 1: exit 465,320 -> curve -> enter 545,115 with runway dx>=14 -->
+  <path fill="none" d="M 465 320 C 495 320, 505 115, 531 115 L 545 115" class="edge edge-green" marker-end="url(#arr-g22)"/>
+  <text x="495" y="210" class="edge-label" fill="#6EE7B7">Yes (Missing)</text>
+
+  <!-- Scan -> Fix 2: exit 465,320 -> curve -> enter 545,212 with runway dx>=14 -->
+  <path fill="none" d="M 465 320 C 495 320, 505 212, 531 212 L 545 212" class="edge edge-green" marker-end="url(#arr-g22)"/>
+
+  <!-- Scan -> Fix 3: exit 465,320 -> horizontal straight to 545,312 -->
+  <path fill="none" d="M 465 320 L 545 320" class="edge edge-amber" marker-end="url(#arr-a22)"/>
+</svg>

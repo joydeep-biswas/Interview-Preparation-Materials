@@ -1,0 +1,19 @@
+direction: right
+
+unchecked: "Unchecked Exception (Auto-Rollback)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  types: "RuntimeException, Error"
+  action: "TransactionInterceptor triggers rollback()"
+  safety: "Automatic clean recovery"
+}
+
+checked: "Checked Exception (Silent Commit Trap)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  types: "Exception, IOException, CustomCheckedException"
+  trap: "By default, Spring COMMITS the transaction!"
+  fix: "Must use @Transactional(rollbackFor = Exception.class)"
+}
+
+unchecked -> checked: "Default Spring rollback rules"

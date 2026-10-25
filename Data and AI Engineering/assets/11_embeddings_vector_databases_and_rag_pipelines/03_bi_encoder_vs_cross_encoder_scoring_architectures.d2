@@ -1,0 +1,27 @@
+direction: right
+classes: {
+  bi: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  cross: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  score: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+bi_encoder: "1. Bi-Encoder Architecture (Fast Search)" {
+  q: "Query: 'How to restart pod?'" { class: bi }
+  d: "Doc: 'kubectl delete pod...'" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  vq: "v_q in R^1536" { class: bi }
+  vd: "v_d in R^1536" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  dot: "Cosine / Dot Product\n(&lt;2ms latency)" { class: score }
+
+  q -> vq
+  d -> vd
+  vq -> dot
+  vd -> dot
+}
+
+cross_encoder: "2. Cross-Encoder Architecture (Re-Ranking)" {
+  concat: "[CLS] Query [SEP] Document [SEP]" { class: cross }
+  attn: "Full Joint Cross-Attention\nEvery token attends to all tokens" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  rel: "Scalar Relevance Score\n(High precision, ~50ms)" { class: score }
+
+  concat -> attn -> rel
+}

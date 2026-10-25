@@ -1,0 +1,26 @@
+direction: right
+title: gRPC Communication Modes: Unary, Server, Client & Bidirectional
+
+m1: "1. Unary RPC (1-to-1)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+  flow: "Single Request -> Single Response"
+}
+
+m2: "2. Server Streaming (1-to-Many)" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+  flow: "Single Request -> Stream of Responses"
+}
+
+m3: "3. Client Streaming (Many-to-1)" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+  flow: "Stream of Requests -> Single Response"
+}
+
+m4: "4. Bidirectional Streaming (Full-Duplex)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+  flow: "Full-Duplex Concurrent Streams (Chat, Gaming)"
+}

@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PACELC Theorem: Real-World Distributed Trade-Offs</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">If Partitioned (P): Availability (A) vs. Consistency (C); Else (E): Latency (L) vs. Consistency (C)</text>
+  
+  
+    <rect x="350" y="95" width="280" height="45" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="490.0" y="121" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Is Cluster Currently Partitioned?</text>
+    
+    <rect x="579" y="105" width="45" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="601.5" y="117" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">STATE</text>
+
+  
+    <rect x="30" y="170" width="430" height="220" rx="10" fill="#260b0b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="46" y="192" fill="#fca5a5" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Partition Mode (P): Network Split Occurs</text>
+  
+    <rect x="45" y="210" width="195" height="160" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="142.5" y="236" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PA: High Availability</text>
+    <text x="142.5" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cassandra / DynamoDB</text>
+    <rect x="210" y="220" width="24" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="222.0" y="232" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PA</text>
+    <circle cx="61" cy="265" r="2" fill="#f59e0b"/>
+    <text x="69" y="268" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Accepts writes on both sides</text>
+    <circle cx="61" cy="281" r="2" fill="#f59e0b"/>
+    <text x="69" y="284" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Returns stale data</text>
+    <circle cx="61" cy="297" r="2" fill="#f59e0b"/>
+    <text x="69" y="300" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero user downtime</text>
+    <circle cx="61" cy="313" r="2" fill="#f59e0b"/>
+    <text x="69" y="316" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Eventual reconciliation</text>
+  
+    <rect x="250" y="210" width="195" height="160" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="347.5" y="236" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PC: Strong Consistency</text>
+    <text x="347.5" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Spanner / CockroachDB</text>
+    <rect x="415" y="220" width="24" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="427.0" y="232" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PC</text>
+    <circle cx="266" cy="265" r="2" fill="#3b82f6"/>
+    <text x="274" y="268" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rejects writes on split</text>
+    <circle cx="266" cy="281" r="2" fill="#3b82f6"/>
+    <text x="274" y="284" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Preserves correctness</text>
+    <circle cx="266" cy="297" r="2" fill="#3b82f6"/>
+    <text x="274" y="300" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero stale reads allowed</text>
+    <circle cx="266" cy="313" r="2" fill="#3b82f6"/>
+    <text x="274" y="316" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Minority returns 503 error</text>
+
+  
+    <rect x="520" y="170" width="430" height="220" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="192" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Else Normal Operation (E): Low Latency vs Consistency</text>
+  
+    <rect x="535" y="210" width="195" height="160" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="632.5" y="236" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">EL: Low Latency</text>
+    <text x="632.5" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cassandra ONE / Redis</text>
+    <rect x="700" y="220" width="24" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="712.0" y="232" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">EL</text>
+    <circle cx="551" cy="265" r="2" fill="#10b981"/>
+    <text x="559" y="268" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sub-2ms response time</text>
+    <circle cx="551" cy="281" r="2" fill="#10b981"/>
+    <text x="559" y="284" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reads single local replica</text>
+    <circle cx="551" cy="297" r="2" fill="#10b981"/>
+    <text x="559" y="300" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Does not wait for quorum</text>
+    <circle cx="551" cy="313" r="2" fill="#10b981"/>
+    <text x="559" y="316" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">May read stale data</text>
+  
+    <rect x="740" y="210" width="195" height="160" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="837.5" y="236" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">EC: Strong Consistency</text>
+    <text x="837.5" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Postgres Sync / Spanner</text>
+    <rect x="905" y="220" width="24" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="917.0" y="232" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">EC</text>
+    <circle cx="756" cy="265" r="2" fill="#8b5cf6"/>
+    <text x="764" y="268" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">30ms+ response time</text>
+    <circle cx="756" cy="281" r="2" fill="#8b5cf6"/>
+    <text x="764" y="284" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Synchronous 2PC commit</text>
+    <circle cx="756" cy="297" r="2" fill="#8b5cf6"/>
+    <text x="764" y="300" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Waits for cross-DC ACK</text>
+    <circle cx="756" cy="313" r="2" fill="#8b5cf6"/>
+    <text x="764" y="316" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Guaranteed latest data</text>
+
+  
+    <path d="M 420.0 140.0 L 420.0 149.0 Q 420.0 155.0 414.0 155.0 L 251.0 155.0 Q 245.0 155.0 245.0 161.0 L 245.0 170.0" fill="none" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/><text x="332.5" y="147.0" fill="#ef4444" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">YES (Partitioned)</text>
+  
+    <path d="M 560.0 140.0 L 560.0 149.0 Q 560.0 155.0 566.0 155.0 L 729.0 155.0 Q 735.0 155.0 735.0 161.0 L 735.0 170.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="647.5" y="147.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">NO (Normal Operation)</text>
+
+</svg>

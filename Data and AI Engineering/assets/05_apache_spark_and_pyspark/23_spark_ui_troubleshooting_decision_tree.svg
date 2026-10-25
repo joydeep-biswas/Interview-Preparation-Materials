@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="540" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="540" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Spark Performance Diagnostics &amp; Troubleshooting Decision Tree</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Systematic flowchart for diagnosing data skew, memory starvation, executor loss, and GC bottlenecks</text>
+
+  <!-- Entry Node: Stages Tab Event Timeline -->
+  <rect x="40" y="90" width="220" height="75" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="150" y="112" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Spark UI Stages Tab</text>
+  <text x="150" y="130" font-size="9.5" fill="#CBD5E1" text-anchor="middle">Inspect Task Event Timeline</text>
+  <text x="150" y="147" font-size="9" fill="#94A3B8" text-anchor="middle">&amp; Task Metrics Table</text>
+
+  <!-- Decision 1: Task Durations Equal? -->
+  <polygon points="380,90 490,127 380,165 270,127" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="380" y="123" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">Task Durations</text>
+  <text x="380" y="137" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">Uniform?</text>
+
+  <!-- Connect Entry -> Decision 1 -->
+  <line x1="260" y1="127" x2="270" y2="127" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Branch 1: NO -> DATA SKEW -->
+  <!-- Label No -->
+  <text x="380" y="190" font-size="10" font-weight="700" fill="#EF4444" text-anchor="middle">NO (One task runs 10x longer!)</text>
+
+  <rect x="250" y="210" width="260" height="110" rx="6" fill="#450A0A" fill-opacity="0.3" stroke="#EF4444" stroke-width="2"/>
+  <text x="380" y="232" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">ROOT CAUSE: SEVERE DATA SKEW</text>
+  <text x="380" y="254" font-size="9.5" fill="#CBD5E1" text-anchor="middle">Max task duration &gt;&gt; 75th percentile</text>
+  <text x="380" y="274" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Actionable Fixes:</text>
+  <text x="380" y="292" font-size="9" fill="#CBD5E1" text-anchor="middle">1. Enable AQE: <tspan font-family="monospace">spark.sql.adaptive.skewJoin.enabled</tspan></text>
+  <text x="380" y="307" font-size="9" fill="#CBD5E1" text-anchor="middle">2. Salt hot keys: <tspan font-family="monospace">concat(key, '_', rand()*K)</tspan></text>
+
+  <line x1="380" y1="165" x2="380" y2="210" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+
+  <!-- Branch 2: YES -> Decision 2: GC Overhead? -->
+  <text x="520" y="120" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">YES</text>
+
+  <polygon points="650,90 760,127 650,165 540,127" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="650" y="123" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">GC Time &gt; 10%</text>
+  <text x="650" y="137" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">of Task Time?</text>
+
+  <line x1="490" y1="127" x2="540" y2="127" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Decision 2: YES -> GC THRASHING -->
+  <text x="650" y="190" font-size="10" font-weight="700" fill="#EF4444" text-anchor="middle">YES (High GC)</text>
+
+  <rect x="530" y="210" width="240" height="110" rx="6" fill="#450A0A" fill-opacity="0.3" stroke="#EF4444" stroke-width="2"/>
+  <text x="650" y="232" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">ROOT CAUSE: GC THRASHING</text>
+  <text x="650" y="254" font-size="9.5" fill="#CBD5E1" text-anchor="middle">JVM heap exhausted by object headers</text>
+  <text x="650" y="274" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Actionable Fixes:</text>
+  <text x="650" y="292" font-size="9" fill="#CBD5E1" text-anchor="middle">1. Replace standard UDF with @pandas_udf</text>
+  <text x="650" y="307" font-size="9" fill="#CBD5E1" text-anchor="middle">2. Switch from G1 to Generational ZGC</text>
+
+  <line x1="650" y1="165" x2="650" y2="210" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+
+  <!-- Decision 2: NO -> Decision 3: Shuffle Disk Spill? -->
+  <text x="790" y="120" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">NO</text>
+
+  <polygon points="920,90 1030,127 920,165 810,127" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="920" y="123" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">Spill (Memory)</text>
+  <text x="920" y="137" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">&amp; Disk &gt; 0?</text>
+
+  <line x1="760" y1="127" x2="810" y2="127" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Decision 3: YES -> SHUFFLE SPILL -->
+  <text x="920" y="190" font-size="10" font-weight="700" fill="#EF4444" text-anchor="middle">YES (Spill &gt; 0)</text>
+
+  <rect x="800" y="210" width="240" height="110" rx="6" fill="#450A0A" fill-opacity="0.3" stroke="#EF4444" stroke-width="2"/>
+  <text x="920" y="232" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">ROOT CAUSE: MEMORY STARVATION</text>
+  <text x="920" y="254" font-size="9.5" fill="#CBD5E1" text-anchor="middle">Execution memory pool full during sort</text>
+  <text x="920" y="274" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Actionable Fixes:</text>
+  <text x="920" y="292" font-size="9" fill="#CBD5E1" text-anchor="middle">1. Increase <tspan font-family="monospace">spark.sql.shuffle.partitions</tspan></text>
+  <text x="920" y="307" font-size="9" fill="#CBD5E1" text-anchor="middle">2. Increase <tspan font-family="monospace">spark.executor.memory</tspan></text>
+
+  <line x1="920" y1="165" x2="920" y2="210" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+
+  <!-- Bottom Flow: Decision 4: Exit Code 137 / Lost Executors? -->
+  <rect x="250" y="355" width="790" height="115" rx="6" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="270" y="380" font-size="11" font-weight="700" fill="#C084FC" text-anchor="start">Did Executors Die with Exit Code 137 (OOMKilled by YARN / Kubernetes)?</text>
+  
+  <text x="270" y="405" font-size="10" fill="#CBD5E1" text-anchor="start">• <tspan fill="#EF4444" font-weight="700">Root Cause:</tspan> Off-Heap memory leak! PySpark Python daemon, Apache Arrow, or native C code</text>
+  <text x="270" y="422" font-size="10" fill="#CBD5E1" text-anchor="start">  exceeded container memory limits outside the JVM heap.</text>
+  <text x="270" y="445" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Actionable Fix:</text>
+  <text x="370" y="445" font-size="10" fill="#A7F3D0" text-anchor="start">Increase <tspan font-family="monospace" fill="#38BDF8">spark.executor.memoryOverhead</tspan> from default (10%) to 25% or 4GB!</text>
+
+  <line x1="1030" y1="127" x2="1060" y2="127" stroke="#34D399" stroke-width="2"/>
+  <line x1="1060" y1="127" x2="1060" y2="412" stroke="#34D399" stroke-width="2"/>
+  <line x1="1060" y1="412" x2="1040" y2="412" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="488" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="504" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Diagnostics Invariant: Always isolate performance bottlenecks systematically: Data Skew (task timeline) -&gt; GC Thrashing (time ratio) -&gt; Memory Spill (NVMe) -&gt; Off-Heap Overheads (Exit 137).</text>
+</svg>

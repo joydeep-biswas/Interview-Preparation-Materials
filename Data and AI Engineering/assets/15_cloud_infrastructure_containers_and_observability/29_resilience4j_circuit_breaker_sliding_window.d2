@@ -1,0 +1,17 @@
+classes: {
+  closed_state: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  open_state: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  half_open_state: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+init: "" { shape: circle }
+
+closed: "1. CLOSED\nNormal traffic flow\nSliding window records failure %" { class: closed_state }
+open: "2. OPEN (Tripped)\nFail fast locally\nZero network traffic sent downstream\nExecutes fallback" { class: open_state }
+half_open: "3. HALF_OPEN (Canary)\nAllows limited probe traffic\nEvaluates remote service recovery" { class: half_open_state }
+
+init -> closed: "start"
+closed -> open: "Failure rate > 50% in window" { style: { stroke: "#f87171"; stroke-width: 2 } }
+open -> half_open: "Reset timeout (60s) expires" { style: { stroke: "#fbbf24"; stroke-width: 2 } }
+half_open -> closed: "Canary probes succeed\nCircuit healed" { style: { stroke: "#4ade80"; stroke-width: 2 } }
+half_open -> open: "Canary probe fails\nTrip back immediately" { style: { stroke: "#f87171"; stroke-width: 2 } }

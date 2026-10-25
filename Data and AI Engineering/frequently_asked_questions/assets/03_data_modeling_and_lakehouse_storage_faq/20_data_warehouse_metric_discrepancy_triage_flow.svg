@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 420" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .decision-txt { fill: #FCD34D; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+      .edge { stroke-width: 1.5; fill: none; }
+      .lbl { fill: #CBD5E1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    </style>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="420" fill="#0B0F19"/>
+
+  <!-- Left: Alert & Step 1 -->
+  <g transform="translate(30, 40)">
+    <rect width="230" height="90" rx="10" ry="10" fill="#1F2937" stroke="#EF4444" stroke-width="2"/>
+    <text x="115" y="28" class="title" fill="#FCA5A5">Metric Discrepancy Alert</text>
+    <line x1="15" y1="38" x2="215" y2="38" stroke="#374151" stroke-width="1"/>
+    <text x="20" y="58" class="body-txt">• Source Total: $1,050,000</text>
+    <text x="20" y="76" class="body-txt">• Lakehouse Total: $1,020,000 (-$30k)</text>
+  </g>
+
+  <g transform="translate(30, 180)">
+    <rect width="230" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="115" y="28" class="title" fill="#93C5FD">1. Quantify Granularity</text>
+    <line x1="15" y1="38" x2="215" y2="38" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="58" class="body-txt">• Isolate delta to specific hour</text>
+    <text x="20" y="76" class="body-txt">• Filter by tenant, status, or currency</text>
+  </g>
+
+  <!-- Step 2: Check Deletes -->
+  <g transform="translate(320, 175)">
+    <rect width="210" height="95" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="105" y="28" class="decision-txt">2. Check Hard Deletes</text>
+    <line x1="15" y1="38" x2="195" y2="38" stroke="#1F2937" stroke-width="1"/>
+    <text x="105" y="60" class="body-txt" text-anchor="middle">Compare exact row counts</text>
+    <text x="105" y="78" class="body-txt" text-anchor="middle">Source vs Data Warehouse</text>
+  </g>
+
+  <!-- Hard Delete Root Cause (Upwards branch) -->
+  <g transform="translate(610, 40)">
+    <rect width="380" height="95" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <text x="190" y="28" class="title" fill="#FCA5A5">Root Cause: Unrecorded Hard Deletes</text>
+    <line x1="15" y1="38" x2="365" y2="38" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="58" class="body-txt">• Source DB purged rows physically without tombstone</text>
+    <text x="20" y="78" class="body-txt" fill="#FCA5A5">Fix: Switch to CDC (Debezium/Goldengate) or Soft Deletes</text>
+  </g>
+
+  <!-- Step 3: Audit In-Flight Transactions -->
+  <g transform="translate(610, 175)">
+    <rect width="210" height="95" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="105" y="28" class="decision-txt">3. In-Flight Transactions</text>
+    <line x1="15" y1="38" x2="195" y2="38" stroke="#1F2937" stroke-width="1"/>
+    <text x="105" y="60" class="body-txt" text-anchor="middle">Audit watermark boundaries</text>
+    <text x="105" y="78" class="body-txt" text-anchor="middle">&amp; transaction commit lags</text>
+  </g>
+
+  <!-- Watermark Lag Cause -->
+  <g transform="translate(610, 305)">
+    <rect width="380" height="85" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="190" y="26" class="title" fill="#FCD34D">Root Cause: Watermark / Commit Lag</text>
+    <line x1="15" y1="36" x2="365" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="55" class="body-txt">• Long-running transaction committed post extraction window</text>
+    <text x="20" y="73" class="body-txt" fill="#FCD34D">Fix: Add lookback buffer window &amp; idempotent MERGE</text>
+  </g>
+
+  <!-- Precision Skew Cause -->
+  <g transform="translate(860, 175)">
+    <rect width="130" height="95" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="65" y="26" class="title" fill="#C4B5FD" font-size="11">4. FX / Float</text>
+    <line x1="10" y1="34" x2="120" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <text x="12" y="52" class="body-txt">Float skew</text>
+    <text x="12" y="68" class="body-txt">Stale FX rates</text>
+    <text x="12" y="84" class="body-txt" fill="#C4B5FD">Use DECIMAL</text>
+  </g>
+
+  <!-- Edges -->
+  <path fill="none" d="M 145 130 L 145 180" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+  <path fill="none" d="M 260 222.5 L 320 222.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-amber)"/>
+
+  <!-- Step 2 -> Hard Delete (Curved) -->
+  <path fill="none" d="M 425 175 L 425 87.5 C 425 87.5, 480 87.5, 595 87.5 L 610 87.5" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+  <text x="440" y="80" class="lbl" fill="#FCA5A5">Source &lt; DW Count</text>
+
+  <!-- Step 2 -> Step 3 -->
+  <path fill="none" d="M 530 222.5 L 610 222.5" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <text x="535" y="215" class="lbl" fill="#FCD34D">Source &gt; DW Count</text>
+
+  <!-- Step 3 -> Watermark Lag (Curved) -->
+  <path fill="none" d="M 715 270 L 715 305" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <text x="725" y="292" class="lbl" fill="#FCD34D">Timestamp Gap</text>
+
+  <!-- Step 3 -> Precision Skew -->
+  <path fill="none" d="M 820 222.5 L 860 222.5" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
+  <text x="825" y="215" class="lbl" fill="#C4B5FD">Counts Match</text>
+</svg>

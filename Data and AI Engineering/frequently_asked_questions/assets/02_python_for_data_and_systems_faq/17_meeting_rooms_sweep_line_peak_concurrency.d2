@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+intervals: "Raw Order Intervals\nOrder 1: [10, 30]\nOrder 2: [20, 40]\nOrder 3: [25, 35]" {
+  class: box
+  style.stroke: "#3B82F6"
+}
+
+sweep: "Chronological Event Timeline (Sweep-Line)\nt=10: +1 (Active: 1)\nt=20: +1 (Active: 2)\nt=25: +1 (Active: 3) <-- PEAK CONCURRENCY!\nt=30: -1 (Active: 2)\nt=35: -1 (Active: 1)\nt=40: -1 (Active: 0)" {
+  class: box
+  style.stroke: "#10B981"
+}
+
+result: "Global Peak Concurrency = 3 Deliveries\nPeak Time Interval = [25, 30]\nMinimum Dasher Fleet Capacity Needed: 3" {
+  class: box
+  style.stroke: "#10B981"
+}
+
+intervals -> sweep -> result

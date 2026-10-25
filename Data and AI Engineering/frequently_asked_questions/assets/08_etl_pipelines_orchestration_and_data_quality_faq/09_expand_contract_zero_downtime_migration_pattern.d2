@@ -1,0 +1,13 @@
+direction: right
+classes: {
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  amber_box: { style: { fill: "#111827", stroke: "#F59E0B", stroke-width: 2 } }
+  green_box: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
+}
+
+Phase1: "Phase 1: Expand\n• Add client_uuid (NULLable)\n• Dual-write old & new\n• Zero consumer impact" { class: blue_box }
+Phase2: "Phase 2: Backfill\n• Async batch update\n• UPDATE orders\n• SET client_uuid = id" { class: amber_box }
+Phase3: "Phase 3: Abstraction\n• Expose compatibility view\n• 30-day deprecation notice\n• Migrate dashboards" { class: green_box }
+Phase4: "Phase 4: Contract\n• DROP COLUMN old_id\n• Set NOT NULL on UUID\n• Zero downtime achieved!" { class: green_box }
+
+Phase1 -> Phase2 -> Phase3 -> Phase4

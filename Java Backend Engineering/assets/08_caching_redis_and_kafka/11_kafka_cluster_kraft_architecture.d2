@@ -1,0 +1,20 @@
+direction: down
+title: Apache Kafka KRaft Architecture
+
+Quorum: KRaft Controller Quorum (Internal Metadata Raft) {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  c1: Controller 1 (Leader)
+  c2: Controller 2 (Follower)
+  c3: Controller 3 (Follower)
+}
+
+Brokers: Kafka Data Brokers {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  b101: "Broker 101: P0 (Leader), P1 (Follower)"
+  b102: "Broker 102: P1 (Leader), P2 (Follower)"
+  b103: "Broker 103: P2 (Leader), P0 (Follower)"
+}
+
+Quorum -> Brokers: Metadata event log synchronization { style.stroke: "#8B5CF6" }

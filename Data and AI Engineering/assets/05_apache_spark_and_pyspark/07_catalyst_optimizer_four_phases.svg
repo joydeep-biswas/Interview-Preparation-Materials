@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Catalyst Optimizer Architecture: The 4 Query Compilation Phases</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">From Unresolved Abstract Syntax Tree to Janino Whole-Stage Code-Generated Physical Execution</text>
+
+  <!-- Phase 1: Analysis -->
+  <rect x="40" y="85" width="245" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="245" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="162" y="108" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">1. ANALYSIS &amp; CATALOG</text>
+
+  <!-- Input AST -->
+  <rect x="55" y="135" width="215" height="70" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="68" y="157" font-size="10" font-weight="700" fill="#F8FAFC" text-anchor="start">Unresolved Logical Plan</text>
+  <text x="68" y="174" font-size="9" fill="#94A3B8" text-anchor="start">• Code parsed into AST nodes</text>
+  <text x="68" y="189" font-size="9" fill="#F87171" text-anchor="start">• Table &amp; column types unknown</text>
+
+  <!-- Catalog Resolution -->
+  <rect x="55" y="220" width="215" height="85" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="68" y="242" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="start">Catalog / Metastore</text>
+  <text x="68" y="259" font-size="9" fill="#CBD5E1" text-anchor="start">• Looks up table schemas</text>
+  <text x="68" y="274" font-size="9" fill="#CBD5E1" text-anchor="start">• Verifies column names &amp; types</text>
+  <text x="68" y="289" font-size="9" fill="#CBD5E1" text-anchor="start">• Resolves function signatures</text>
+
+  <!-- Output Resolved -->
+  <rect x="55" y="320" width="215" height="70" rx="6" fill="#064E3B" fill-opacity="0.3" stroke="#34D399" stroke-width="1"/>
+  <text x="68" y="342" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Resolved Logical Plan</text>
+  <text x="68" y="359" font-size="9" fill="#A7F3D0" text-anchor="start">• All attributes validated</text>
+  <text x="68" y="374" font-size="9" fill="#A7F3D0" text-anchor="start">• Types bound to relations</text>
+
+  <line x1="162" y1="205" x2="162" y2="220" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <line x1="162" y1="305" x2="162" y2="320" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- Phase 2: Logical Optimization -->
+  <rect x="300" y="85" width="245" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="300" y="85" width="245" height="36" rx="8" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="422" y="108" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle">2. LOGICAL OPTIMIZATION</text>
+
+  <!-- Rule Engine -->
+  <rect x="315" y="135" width="215" height="155" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="328" y="157" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="start">Rule-Based Transformation</text>
+  <text x="328" y="177" font-size="9" fill="#CBD5E1" text-anchor="start">• <tspan fill="#34D399" font-weight="600">Predicate Pushdown:</tspan> Pushes</text>
+  <text x="328" y="192" font-size="9" fill="#CBD5E1" text-anchor="start">  filters directly to storage layer</text>
+  <text x="328" y="210" font-size="9" fill="#CBD5E1" text-anchor="start">• <tspan fill="#38BDF8" font-weight="600">Projection Pruning:</tspan> Discards</text>
+  <text x="328" y="225" font-size="9" fill="#CBD5E1" text-anchor="start">  unreferenced columns early</text>
+  <text x="328" y="243" font-size="9" fill="#CBD5E1" text-anchor="start">• <tspan fill="#C084FC" font-weight="600">Constant Folding:</tspan> Evaluates</text>
+  <text x="328" y="258" font-size="9" fill="#CBD5E1" text-anchor="start">  static math (1+1 -&gt; 2) at compile</text>
+  <text x="328" y="275" font-size="9" fill="#CBD5E1" text-anchor="start">• Null-propagation &amp; simplification</text>
+
+  <!-- Output Optimized Logical -->
+  <rect x="315" y="320" width="215" height="70" rx="6" fill="#064E3B" fill-opacity="0.3" stroke="#34D399" stroke-width="1"/>
+  <text x="328" y="342" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Optimized Logical Plan</text>
+  <text x="328" y="359" font-size="9" fill="#A7F3D0" text-anchor="start">• Minimal scan requirements</text>
+  <text x="328" y="374" font-size="9" fill="#A7F3D0" text-anchor="start">• Simplified relational algebra</text>
+
+  <line x1="422" y1="290" x2="422" y2="320" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <!-- Link Phase 1 -> Phase 2 -->
+  <line x1="270" y1="355" x2="315" y2="355" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Phase 3: Physical Planning -->
+  <rect x="560" y="85" width="250" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="560" y="85" width="250" height="36" rx="8" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="685" y="108" font-size="11" font-weight="700" fill="#C084FC" text-anchor="middle">3. PHYSICAL PLANNING &amp; CBO</text>
+
+  <!-- Strategies &amp; CBO -->
+  <rect x="575" y="135" width="220" height="155" rx="6" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="588" y="157" font-size="10" font-weight="700" fill="#C084FC" text-anchor="start">Physical Strategy Selection</text>
+  <text x="588" y="177" font-size="9" fill="#CBD5E1" text-anchor="start">• Generates candidate plans:</text>
+  <text x="588" y="192" font-size="9" fill="#CBD5E1" text-anchor="start">  - BroadcastHashJoin (BHJ)</text>
+  <text x="588" y="207" font-size="9" fill="#CBD5E1" text-anchor="start">  - ShuffledHashJoin (SHJ)</text>
+  <text x="588" y="222" font-size="9" fill="#CBD5E1" text-anchor="start">  - SortMergeJoin (SMJ)</text>
+  <text x="588" y="240" font-size="9" fill="#FBBF24" text-anchor="start">• <tspan font-weight="700">Cost-Based Optimizer (CBO):</tspan></text>
+  <text x="588" y="255" font-size="9" fill="#CBD5E1" text-anchor="start">  Uses table size &amp; histograms</text>
+  <text x="588" y="270" font-size="9" fill="#CBD5E1" text-anchor="start">  to choose lowest-cost execution</text>
+
+  <!-- Selected Physical Plan -->
+  <rect x="575" y="320" width="220" height="70" rx="6" fill="#064E3B" fill-opacity="0.3" stroke="#34D399" stroke-width="1"/>
+  <text x="588" y="342" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Selected Physical SparkPlan</text>
+  <text x="588" y="359" font-size="9" fill="#A7F3D0" text-anchor="start">• Specific algorithm chosen</text>
+  <text x="588" y="374" font-size="9" fill="#A7F3D0" text-anchor="start">• Ready for code generation</text>
+
+  <line x1="685" y1="290" x2="685" y2="320" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <!-- Link Phase 2 -> Phase 3 -->
+  <line x1="530" y1="355" x2="575" y2="355" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Phase 4: Whole-Stage CodeGen -->
+  <rect x="825" y="85" width="255" height="385" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="825" y="85" width="255" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="952" y="108" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">4. WHOLE-STAGE CODEGEN</text>
+
+  <!-- Janino Compiler -->
+  <rect x="840" y="135" width="225" height="155" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="853" y="157" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Janino Bytecode Compiler</text>
+  <text x="853" y="177" font-size="9" fill="#CBD5E1" text-anchor="start">• Collapses entire Stage query</text>
+  <text x="853" y="192" font-size="9" fill="#CBD5E1" text-anchor="start">  pipeline into a single Java for-loop</text>
+  <text x="853" y="210" font-size="9" fill="#CBD5E1" text-anchor="start">• Eliminates Volcano iterator</text>
+  <text x="853" y="225" font-size="9" fill="#CBD5E1" text-anchor="start">  virtual function calls</text>
+  <text x="853" y="243" font-size="9" fill="#34D399" text-anchor="start">• Places records directly into CPU</text>
+  <text x="853" y="258" font-size="9" fill="#34D399" text-anchor="start">  registers &amp; L1 cache</text>
+  <text x="853" y="275" font-size="9" fill="#CBD5E1" text-anchor="start">• Emits native Java bytecode</text>
+
+  <!-- Worker Fleet Execution -->
+  <rect x="840" y="320" width="225" height="70" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="2"/>
+  <text x="853" y="342" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Tungsten Worker Execution</text>
+  <text x="853" y="359" font-size="9" fill="#A7F3D0" text-anchor="start">• Tasks run compiled loop</text>
+  <text x="853" y="374" font-size="9" fill="#A7F3D0" text-anchor="start">• Off-heap binary memory</text>
+
+  <line x1="952" y1="290" x2="952" y2="320" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <!-- Link Phase 3 -> Phase 4 -->
+  <line x1="795" y1="355" x2="840" y2="355" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Catalyst Invariant: Catalyst transforms unresolved declarative user intent through Analysis, Logical Rule Optimization, and Cost-Based Physical Planning into hand-optimized compiled Java loops.</text>
+</svg>

@@ -1,0 +1,26 @@
+direction: right
+title: Databricks Serverless Compute Architecture
+
+Customer: Customer Environment {
+  style.stroke: "#38BDF8"
+  Query: User Query / BI Tool / API
+  Storage: Customer Cloud Storage (S3 / ADLS Gen2)
+}
+
+PrivateNet: Private Connectivity {
+  style.stroke: "#FBBF24"
+  Tunnel: AWS PrivateLink / Azure VNet Peering
+}
+
+Serverless: Databricks Serverless Compute {
+  style.stroke: "#34D399"
+  WarmPool: Pre-Warmed MicroVM Fleet (<2s boot)
+  IsolatedPods: Sandboxed Customer Containers
+  ScaleZero: Scale-to-Zero Auto Termination
+
+  WarmPool -> IsolatedPods -> ScaleZero
+}
+
+Customer.Query -> PrivateNet.Tunnel: Submits SQL/Task { style.stroke: "#FBBF24" }
+PrivateNet.Tunnel -> Serverless.WarmPool: Direct connection { style.stroke: "#34D399" }
+Serverless.IsolatedPods -> Customer.Storage: Reads Parquet & Delta via PrivateLink { style.stroke: "#22D3EE" }

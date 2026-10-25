@@ -1,0 +1,35 @@
+direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke-width: 1.5; rx: 8 } }
+}
+
+raw: "1. Raw Employee History Audit" {
+  class: pillar
+  style.stroke: "#3B82F6"
+  e1: "Emp 101 | Junior Analyst | 2021-06-01 | id: 1" { class: stage; style.stroke: "#3B82F6" }
+  e2: "Emp 101 | Senior Analyst | 2023-01-15 | id: 14" { class: stage; style.stroke: "#3B82F6" }
+  e3: "Emp 101 | Lead Engineer  | 2024-05-10 | id: 42" { class: stage; style.stroke: "#3B82F6" }
+  e4: "Emp 102 | Associate Data | 2023-09-01 | id: 22" { class: stage; style.stroke: "#3B82F6" }
+}
+
+win: "2. Window Ordering" {
+  class: pillar
+  style.stroke: "#8B5CF6"
+  w1: "Emp 101: Lead Engineer (2024) -> rn = 1" { class: stage; style.stroke: "#10B981" }
+  w2: "Emp 101: Senior Analyst (2023) -> rn = 2" { class: stage; style.stroke: "#8B5CF6" }
+  w3: "Emp 101: Junior Analyst (2021) -> rn = 3" { class: stage; style.stroke: "#8B5CF6" }
+  w4: "Emp 102: Associate Data (2023) -> rn = 1" { class: stage; style.stroke: "#10B981" }
+}
+
+filt: "3. Current State Output (WHERE rn = 1)" {
+  class: pillar
+  style.stroke: "#10B981"
+  f1: "Emp 101: Lead Engineer (Active Snapshot)" { class: stage; style.stroke: "#10B981" }
+  f2: "Emp 102: Associate Data (Active Snapshot)" { class: stage; style.stroke: "#10B981" }
+}
+
+raw.e3 -> win.w1
+raw.e4 -> win.w4
+win.w1 -> filt.f1
+win.w4 -> filt.f2

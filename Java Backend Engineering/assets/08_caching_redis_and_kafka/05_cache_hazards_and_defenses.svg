@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1220" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1220" height="560" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="610" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Production Caching Hazards &amp; Hardened Defenses</text>
+  <text x="610" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Thundering Herd (Stampede), Cache Penetration, Avalanche &amp; Dual-Write Inconsistencies</text>
+  <line x1="40" y1="68" x2="1180" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Hazard 1: Cache Stampede -->
+  <rect x="40" y="105" width="270" height="400" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
+  <rect x="40" y="105" width="270" height="30" rx="8" fill="#7F1D1D"/>
+  <text x="175" y="125" font-size="11" font-weight="700" fill="#FCA5A5" text-anchor="middle">1. Cache Stampede (Herd)</text>
+
+  <rect x="55" y="150" width="240" height="120" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>
+  <text x="65" y="172" font-size="10" font-weight="700" fill="#F87171">Failure Mechanics:</text>
+  <text x="65" y="195" font-size="9" fill="#CBD5E1">&#x2022; Super-hot key expires (TTL)</text>
+  <text x="65" y="215" font-size="9" fill="#CBD5E1">&#x2022; 10,000 concurrent threads miss</text>
+  <text x="65" y="235" font-size="9" fill="#CBD5E1">&#x2022; All simultaneously hammer DB</text>
+  <text x="65" y="255" font-size="9" fill="#EF4444">&#x2718; DB connection pool exhausted!</text>
+
+  <rect x="55" y="285" width="240" height="205" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="65" y="310" font-size="10" font-weight="700" fill="#34D399">&#x2714; Engineering Defenses:</text>
+  <text x="65" y="332" font-size="9" font-weight="700" fill="#CBD5E1">1. Redisson Distributed Lock:</text>
+  <text x="75" y="348" font-size="8" fill="#CBD5E1">Only 1 thread acquires lock to recalculate;</text>
+  <text x="75" y="360" font-size="8" fill="#CBD5E1">others wait &amp; read warm cache.</text>
+  <text x="65" y="375" font-size="9" font-weight="700" fill="#CBD5E1">2. Probabilistic Early Refresh:</text>
+  <text x="75" y="393" font-size="8" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">XFetch Algorithm:</text>
+  <text x="75" y="410" font-size="8" fill="#CBD5E1">Background thread recomputes key when near expiry.</text>
+  <text x="65" y="435" font-size="9" font-weight="700" fill="#CBD5E1">3. Logical Expiry:</text>
+  <text x="75" y="453" font-size="8" fill="#CBD5E1">Store data + logical_ts; serve stale while async thread refreshes.</text>
+
+  <!-- Hazard 2: Cache Penetration -->
+  <rect x="330" y="105" width="270" height="400" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
+  <rect x="330" y="105" width="270" height="30" rx="8" fill="#7F1D1D"/>
+  <text x="465" y="125" font-size="11" font-weight="700" fill="#FCA5A5" text-anchor="middle">2. Cache Penetration</text>
+
+  <rect x="345" y="150" width="240" height="120" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>
+  <text x="355" y="172" font-size="10" font-weight="700" fill="#F87171">Failure Mechanics:</text>
+  <text x="355" y="195" font-size="9" fill="#CBD5E1">&#x2022; Malicious queries for non-existent IDs (e.g. ID = -99999)</text>
+  <text x="355" y="215" font-size="9" fill="#CBD5E1">&#x2022; Data absent in cache AND DB</text>
+  <text x="355" y="235" font-size="9" fill="#EF4444">&#x2718; Every call penetrates directly</text>
+  <text x="355" y="255" font-size="9" fill="#EF4444">  to database disk, bypassing cache!</text>
+
+  <rect x="345" y="285" width="240" height="205" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="355" y="310" font-size="10" font-weight="700" fill="#34D399">&#x2714; Engineering Defenses:</text>
+  <text x="355" y="332" font-size="9" font-weight="700" fill="#CBD5E1">1. Bloom Filter Ingress Check:</text>
+  <text x="365" y="348" font-size="8" fill="#CBD5E1">Guarantees 100% true negatives; rejects</text>
+  <text x="365" y="360" font-size="8" fill="#CBD5E1">bogus IDs before query hits Redis or DB.</text>
+  <text x="355" y="380" font-size="9" font-weight="700" fill="#CBD5E1">2. Null Object Caching:</text>
+  <text x="365" y="398" font-size="8" fill="#CBD5E1">Store empty value:</text>
+  <text x="365" y="415" font-size="8" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">SET key:bad_id "" EX 60</text>
+  <text x="365" y="435" font-size="8" fill="#CBD5E1">Subsequent queries hit empty cache; protect DB.</text>
+
+  <!-- Hazard 3: Cache Avalanche -->
+  <rect x="620" y="105" width="270" height="400" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="620" y="105" width="270" height="30" rx="8" fill="#78350F"/>
+  <text x="755" y="125" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">3. Cache Avalanche</text>
+
+  <rect x="635" y="150" width="240" height="120" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+  <text x="645" y="172" font-size="10" font-weight="700" fill="#FBBF24">Failure Mechanics:</text>
+  <text x="645" y="195" font-size="8.5" fill="#CBD5E1">&#x2022; Millions of keys seeded with</text>
+  <text x="645" y="208" font-size="8.5" fill="#CBD5E1">  identical TTL (e.g. midnight 24h)</text>
+  <text x="645" y="215" font-size="9" fill="#CBD5E1">&#x2022; Mass simultaneous expiration</text>
+  <text x="645" y="235" font-size="9" fill="#EF4444">&#x2718; Huge traffic tsunami cascades</text>
+  <text x="645" y="255" font-size="9" fill="#EF4444">  onto DB simultaneously!</text>
+
+  <rect x="635" y="285" width="240" height="205" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="645" y="310" font-size="10" font-weight="700" fill="#34D399">&#x2714; Engineering Defenses:</text>
+  <text x="645" y="332" font-size="9" font-weight="700" fill="#CBD5E1">1. Randomized TTL Jitter:</text>
+  <text x="655" y="350" font-size="8" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">TTL = baseTTL + rand(0, 300s)</text>
+  <text x="655" y="368" font-size="8" fill="#CBD5E1">Spreads expirations smoothly over time.</text>
+  <text x="645" y="395" font-size="9" font-weight="700" fill="#CBD5E1">2. Redis High Availability:</text>
+  <text x="655" y="410" font-size="8" fill="#CBD5E1">Multi-AZ Master-Replica cluster</text>
+  <text x="655" y="422" font-size="8" fill="#CBD5E1">prevents total cache node outages.</text>
+  <text x="645" y="440" font-size="9" font-weight="700" fill="#CBD5E1">3. Circuit Breaker Fallback:</text>
+  <text x="655" y="458" font-size="8" fill="#CBD5E1">Resilience4j throttles requests to DB.</text>
+
+  <!-- Hazard 4: Dual-Write Inconsistency -->
+  <rect x="910" y="105" width="270" height="400" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="910" y="105" width="270" height="30" rx="8" fill="#4C1D95"/>
+  <text x="1045" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">4. Dual-Write Inconsistency</text>
+
+  <rect x="925" y="150" width="240" height="120" rx="6" fill="#0F172A" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="935" y="172" font-size="10" font-weight="700" fill="#C084FC">Failure Mechanics:</text>
+  <text x="935" y="195" font-size="9" fill="#CBD5E1">&#x2022; Out-of-order execution between DB and Redis writes:</text>
+  <text x="935" y="210" font-size="8" fill="#CBD5E1">Thread A writes DB, Thread B writes DB,</text>
+  <text x="935" y="222" font-size="8" fill="#CBD5E1">B writes Cache, A writes Cache!</text>
+  <text x="935" y="235" font-size="9" fill="#EF4444">&#x2718; Permanent stale cache desync!</text>
+
+  <rect x="925" y="285" width="240" height="205" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="935" y="310" font-size="10" font-weight="700" fill="#34D399">&#x2714; Engineering Defenses:</text>
+  <text x="935" y="332" font-size="9" font-weight="700" fill="#CBD5E1">1. Cache Eviction over Update:</text>
+  <text x="945" y="350" font-size="8" fill="#34D399">&#x2714; Never update cache on write; DELETE key instead!</text>
+  <text x="935" y="375" font-size="9" font-weight="700" fill="#CBD5E1">2. Transactional CDC (Debezium):</text>
+  <text x="945" y="390" font-size="8" fill="#CBD5E1">Read DB WAL and invalidate Redis</text>
+  <text x="945" y="402" font-size="8" fill="#CBD5E1">via Kafka asynchronously.</text>
+  <text x="935" y="420" font-size="9" font-weight="700" fill="#CBD5E1">3. Delayed Double Deletion:</text>
+  <text x="945" y="435" font-size="8" fill="#CBD5E1">Delete cache, commit DB, sleep 500ms,</text>
+  <text x="945" y="447" font-size="8" fill="#CBD5E1">delete cache again to purge race reads.</text>
+
+  <!-- Bottom Invariant Banner -->
+  <rect x="40" y="520" width="1140" height="25" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="610" y="537" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Golden Rule: In high concurrency systems, always evict (DELETE) cache keys upon database updates rather than attempting to update cache values in-place.</text>
+</svg>

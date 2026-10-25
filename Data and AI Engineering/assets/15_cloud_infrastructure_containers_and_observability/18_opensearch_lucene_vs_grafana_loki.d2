@@ -1,0 +1,23 @@
+classes: {
+  es_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  loki_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+log: "Structured Log Event\n{level: 'error', app: 'payment', msg: 'db timeout'}"
+
+es: "OpenSearch / Elasticsearch (Full Inverted Index)" {
+  token: "Lucene Tokenizer\nBreaks EVERY word into tokens" { class: es_box }
+  index: "Inverted Index Dictionary\nIndex size >= 120% raw logs\nHigh RAM & NVMe SSD cost" { class: es_box }
+
+  token -> index
+}
+
+loki: "Grafana Loki (Index-Free Label Store)" {
+  labels: "Extract Metadata Labels ONLY\n{app='payment', env='prod'}\nZero payload tokenization" { class: loki_box }
+  chunks: "Compressed Chunk Store (S3/GCS)\n90% cheaper object storage\nLogQL regex evaluation" { class: loki_box }
+
+  labels -> chunks
+}
+
+log -> es: "Tokenize everything"
+log -> loki: "Index labels only"

@@ -1,0 +1,30 @@
+direction: down
+title: Kafka Consumer Groups & Partition Assignment Dynamics
+
+topic: "Topic: commerce.orders (4 Partitions)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  p0: "Partition 0"
+  p1: "Partition 1"
+  p2: "Partition 2"
+  p3: "Partition 3"
+}
+
+group: "Consumer Group: order-processing-group" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+
+  c1: "Consumer 1 (Assigned P0)"
+  c2: "Consumer 2 (Assigned P1)"
+  c3: "Consumer 3 (Assigned P2)"
+  c4: "Consumer 4 (Assigned P3)"
+  c5: "Consumer 5 (STARVED / IDLE - 0 Partitions)" {
+    style.stroke: "#ef4444"
+  }
+}
+
+topic.p0 -> group.c1
+topic.p1 -> group.c2
+topic.p2 -> group.c3
+topic.p3 -> group.c4

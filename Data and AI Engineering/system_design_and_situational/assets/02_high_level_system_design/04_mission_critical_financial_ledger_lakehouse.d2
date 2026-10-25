@@ -1,0 +1,47 @@
+direction: right
+
+sources: "1. Core Banking Ledgers" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  db2: "IBM DB2 Core Banking CDC"
+  payments: "Payment Processing Kafka Stream"
+  zero_loss: "Zero-Loss Transactional Spooler"
+}
+
+balancing: "2. Double-Entry Validation" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  invariant: "Invariant: Sum(Debits) == Sum(Credits)"
+  reconciler: "Flink Streaming Balance Validator"
+}
+
+delta_storage: "3. Delta Lake Storage" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  worm: "Immutable WORM Append-Only Log"
+  time_travel: "Time Travel As-Of Millisecond Queries"
+}
+
+regulatory: "4. Regulatory & Audit" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  compliance: "FINRA / SEC & Basel III Reporting"
+  attestation: "Cryptographic End-of-Day Attestation"
+}
+
+sources -> balancing: "Strict Exactly-Once Push" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+balancing -> delta_storage: "Verified Journal Entries" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+delta_storage -> regulatory: "Immutable Audit Extract" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

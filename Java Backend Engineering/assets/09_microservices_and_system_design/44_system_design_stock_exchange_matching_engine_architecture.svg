@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" width="1080" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">System Design: High-Frequency Stock Exchange Matching Engine Architecture</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Sub-Microsecond Order Book Matching via LMAX Disruptor RingBuffer, Zero-GC Off-Heap Memory, and Price-Time Priority</text>
+<rect x="40" y="110" width="270" height="320" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="125" width="200" height="20" rx="10" fill="#1e3a8a"/><text x="155" y="138" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. INGRESS &amp; RINGBUFFER</text>
+<text x="175" y="165" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Market Ingress Gateway</text>
+<text x="55" y="195" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• 10GbE Solarflare Kernel Bypass (Solarflare OpenOnload)</text>
+<text x="55" y="212" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Ingests 500,000+ orders/sec (FIX Protocol)</text>
+<rect x="52" y="240" width="246" height="110" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+<text x="175" y="262" fill="#38BDF8" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">LMAX Disruptor RingBuffer</text>
+<text x="62" y="282" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Pre-allocated circular array (power of 2)</text>
+<text x="62" y="298" fill="#34D399" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Zero Garbage Collection (Zero-GC)</text>
+<text x="62" y="314" fill="#FDE68A" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cache-line padded atomic sequence cursor</text>
+<text x="62" y="330" fill="#6EE7B7" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Inter-thread latency: &lt; 50 nanoseconds!</text>
+<rect x="340" y="110" width="400" height="320" rx="10" fill="#062e24" stroke="#10b981" stroke-width="2.5"/>
+<rect x="355" y="125" width="260" height="20" rx="10" fill="#047857"/><text x="485" y="138" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. IN-MEMORY ORDER BOOK ENGINE</text>
+<text x="540" y="165" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Single-Threaded Core Matching Engine</text>
+<text x="540" y="182" fill="#A7F3D0" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Runs on dedicated CPU core pinned via taskset / isolcpus</text>
+<rect x="355" y="200" width="175" height="120" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="442" y="220" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">BIDS (Buy Orders)</text>
+<text x="365" y="240" fill="#A7F3D0" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Price (High -&gt; Low):</text>
+<text x="365" y="256" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">$150.05 : 1,200 sh (FIFO)</text>
+<text x="365" y="272" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">$150.00 : 4,500 sh (FIFO)</text>
+<text x="365" y="288" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">$149.95 : 8,000 sh</text>
+<rect x="550" y="200" width="175" height="120" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="637" y="220" fill="#FCA5A5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ASKS (Sell Orders)</text>
+<text x="560" y="240" fill="#FECACA" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Price (Low -&gt; High):</text>
+<text x="560" y="256" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">$150.10 : 800 sh (FIFO)</text>
+<text x="560" y="272" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">$150.15 : 2,300 sh (FIFO)</text>
+<text x="560" y="288" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">$150.20 : 6,100 sh</text>
+<rect x="355" y="335" width="370" height="45" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+<text x="540" y="355" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Bid-Ask Spread: $0.05 | Matching Latency: &lt; 400 Nanoseconds</text>
+<text x="540" y="370" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Matches crossing orders immediately based on Price-Time Priority</text>
+<rect x="770" y="110" width="270" height="320" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+<rect x="785" y="125" width="200" height="20" rx="10" fill="#78350f"/><text x="885" y="138" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. SETTLEMENT &amp; DROP-COPY</text>
+<text x="905" y="165" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Post-Match Telemetry</text>
+<rect x="785" y="195" width="240" height="65" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+<text x="905" y="215" fill="#FDE68A" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">UDP Multicast Market Feed</text>
+<text x="905" y="235" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Publishes Level 2 book ticks to traders</text>
+<rect x="785" y="275" width="240" height="65" rx="4" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
+<text x="905" y="295" fill="#22D3EE" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">NVMe Journal / Raft WAL</text>
+<text x="905" y="315" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Disk commit for regulatory compliance</text>
+<line x1="310" y1="260" x2="340" y2="260" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="740" y1="260" x2="770" y2="260" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="40" y="455" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="478" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why Single-Threaded Matching Engines Beat Multi-Threaded Locking:</text>
+<text x="65" y="498" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Multi-threaded engines spend 90% of their time thrashing CPU cache lines, waiting on mutexes, and stalling during context switches.</text>
+<text x="65" y="515" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Pinned single-threaded engines (like LMAX Disruptor / NASDAQ INET) keep the entire active order book in L1/L2 CPU cache, matching 1M+ orders/sec with zero lock contention.</text>
+</svg>

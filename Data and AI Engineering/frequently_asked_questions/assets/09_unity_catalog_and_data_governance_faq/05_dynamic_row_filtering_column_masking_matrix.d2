@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  purple_box: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
+  fin_box: { style: { fill: "#064E3B", stroke: "#10B981", stroke-width: 2 } }
+  mkt_box: { style: { fill: "#111827", stroke: "#F59E0B", stroke-width: 2 } }
+  ops_box: { style: { fill: "#111827", stroke: "#06B6D4", stroke-width: 2 } }
+}
+
+Dataset: "Single Curated Gold Table\nprod.commercial.sales_orders" { class: blue_box }
+PolicyEngine: "Dynamic Policy Engine\nInjects filters & masks" { class: purple_box }
+
+FinView: "Finance Entitlement\n• Bank Details: CLEARTEXT\n• All rows visible" { class: fin_box }
+MktView: "Marketing Entitlement\n• Bank Details: REDACTED\n• Opt-in rows only" { class: mkt_box }
+OpsView: "Operations Entitlement\n• PII: MASKED\n• Pending & Shipped only" { class: ops_box }
+
+Dataset -> PolicyEngine
+PolicyEngine -> FinView: "finance_team"
+PolicyEngine -> MktView: "marketing"
+PolicyEngine -> OpsView: "operations"

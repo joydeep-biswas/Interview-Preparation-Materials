@@ -1,0 +1,14 @@
+# Python Concurrency Selection Matrix
+direction: right
+
+mp: "1. Multiprocessing (CPU-Bound)\n• ProcessPoolExecutor\n• Spawns separate OS processes\n• Bypasses GIL completely\n• High RAM; IPC pickle overhead" {
+  style.stroke: "#10B981"
+}
+
+tp: "2. Multithreading (I/O-Bound)\n• ThreadPoolExecutor\n• Preemptive OS threads\n• GIL released during blocking I/O\n• Shared memory; race condition risk" {
+  style.stroke: "#F59E0B"
+}
+
+asyncio: "3. Asyncio (High Network I/O)\n• async / await Event Loop\n• Single-threaded non-blocking cooperative\n• 50k+ sockets in low RAM\n• Blocking call halts entire loop" {
+  style.stroke: "#8B5CF6"
+}

@@ -1,0 +1,26 @@
+direction: down
+title: "The Automated Testing Pyramid: Speed, Cost, and Fidelity Trade-Offs"
+
+e2e: "End-to-End (E2E) Tests (5-10%)
+Minutes runtime | High Cost | Brittle
+Tests full user journeys through UI/Gateway" {
+  style.fill: "#450a0a"
+  style.stroke: "#ef4444"
+}
+
+integration: "Integration Tests (20-30%)
+Seconds runtime | Real DB & Kafka (Testcontainers)
+Verifies service interactions & repository queries" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+unit: "Unit Tests (60-70%)
+Milliseconds runtime | 100% Deterministic
+Tests isolated domain business logic in memory" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+unit -> integration: "Broad foundation"
+integration -> e2e: "Selective apex"

@@ -1,0 +1,25 @@
+direction: right
+
+core1: "CPU Core 1 (Thread 1)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  reg: "flag = true (Local write)"
+  barrier: "Volatile write (StoreLoad barrier)"
+}
+
+bus: "MESI Bus & Shared L3 Cache" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  mesi: "Invalidates Core 2 cache line"
+  l3: "Shared L3 cache holds synchronized data"
+}
+
+core2: "CPU Core 2 (Thread 2)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  stale: "Cannot use stale L1 cache"
+  read: "Volatile read reloads from shared memory"
+}
+
+core1 -> bus: "Flush on volatile write"
+bus -> core2: "Invalidate cache line"

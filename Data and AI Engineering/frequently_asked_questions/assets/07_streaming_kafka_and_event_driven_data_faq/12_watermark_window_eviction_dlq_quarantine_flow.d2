@@ -1,0 +1,15 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+ingress: "Kafka Ingress Stream\nMax Event Time: 12:30 PM\nWatermark: 12:15 PM (15m delay)" { class: box; style.stroke: "#3B82F6" }
+w1: "Window [12:00 - 12:15]\n⛔ CLOSED & EVICTED from State Memory!" { class: box; style.stroke: "#EF4444" }
+w2: "Window [12:15 - 12:30]\n🟢 OPEN in RocksDB (Accepts Events A & B)" { class: box; style.stroke: "#10B981" }
+
+sink: "Clean Lakehouse Target\nDelta Lake Streaming Sink" { class: box; style.stroke: "#10B981" }
+dlq: "DLQ Quarantine Store\nLate Events (< 12:15 PM) for Batch Replay" { class: box; style.stroke: "#EF4444" }
+
+ingress -> w2: "Event A (12:22), Event B (12:18)"
+ingress -> dlq: "Event C (12:08 PM - LATE!)"
+w2 -> sink

@@ -1,0 +1,35 @@
+direction: down
+title: Streaming Windowing Strategies: Tumbling, Sliding, and Session Windows
+
+tumble: "1. Tumbling Window (Fixed-Size, Non-Overlapping: 10m)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  w1: "10:00 - 10:10 (3 events)"
+  w2: "10:10 - 10:20 (2 events)"
+  w3: "10:20 - 10:30 (4 events)"
+  w1 -> w2 -> w3: "Zero Overlap"
+}
+
+slide: "2. Sliding Window (10m Window, 5m Slide Step)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  s1: "10:00 - 10:10"
+  s2: "10:05 - 10:15 (5m overlap with s1 & s3)"
+  s3: "10:10 - 10:20"
+  s1 -> s2 -> s3: "Moving Averages"
+}
+
+sess: "3. Session Window (Dynamic Inactivity Gap: 15m)" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  act1: "Session 1: Active clicks (<15m gap)"
+  gap: "15-Min Idle Gap (Closes Session 1)" {
+    style.stroke: "#ef4444"
+  }
+  act2: "Session 2: New Session at 10:45"
+
+  act1 -> gap -> act2
+}

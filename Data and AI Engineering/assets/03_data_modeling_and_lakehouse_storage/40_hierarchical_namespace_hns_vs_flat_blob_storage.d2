@@ -1,0 +1,16 @@
+direction: right
+title: Hierarchical Namespace (HNS) vs. Flat Blob Storage
+
+flat: Flat Blob Storage (No HNS) {
+  structure: "Directory is a virtual prefix: 'stage/orders/file1.parquet'"
+  rename: "Rename '/stage/' to '/prod/': COPY all 100,000 files, then DELETE 100,000 originals"
+  complexity: "O(N) Complexity: Takes 1 Hour!"
+  structure -> rename -> complexity
+}
+
+hns: ADLS Gen2 with Hierarchical Namespace (HNS) {
+  structure: "Directory is a real metadata inode object"
+  rename: "Rename '/stage/' to '/prod/': Atomic Metadata Pointer Update"
+  complexity: "O(1) Complexity: Takes 15 Milliseconds!"
+  structure -> rename -> complexity
+}

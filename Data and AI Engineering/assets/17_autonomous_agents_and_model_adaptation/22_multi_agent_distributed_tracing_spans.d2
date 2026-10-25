@@ -1,0 +1,24 @@
+classes: {
+  super_span: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  worker_a_span: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  worker_b_span: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  crit_span: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+trace: "Multi-Agent Distributed Trace Span Tree (Total: 3,450ms)" {
+  root: "Root Mission Span (Supervisor) [0..3450ms]" { class: super_span }
+  decompose: "Decompose Sub-Task [10..180ms]" { class: super_span }
+  
+  worker_a: "Worker A (Finance) [190..1420ms]" { class: worker_a_span }
+  sql_tool: "SQL Ledger Execution [250..680ms]" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  
+  worker_b: "Worker B (Compliance) [190..1680ms]" { class: worker_b_span }
+  edgar_tool: "SEC EDGAR Vector Search [240..820ms]" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+
+  synthesis: "Supervisor Final Memo Synthesis [1690..3450ms]" { class: crit_span }
+
+  root -> decompose
+  root -> worker_a -> sql_tool
+  root -> worker_b -> edgar_tool
+  root -> synthesis
+}

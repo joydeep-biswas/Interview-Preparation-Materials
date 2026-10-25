@@ -1,0 +1,43 @@
+direction: right
+
+new_state: "NEW" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  created: "Thread instantiated, not started"
+}
+
+runnable: "RUNNABLE" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  running: "Executing bytecode or in OS I/O"
+}
+
+blocked: "BLOCKED" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  lock: "Waiting on synchronized object monitor"
+}
+
+waiting: "WAITING" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  park: "wait(), join(), LockSupport.park()"
+}
+
+timed_waiting: "TIMED_WAITING" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  sleep: "sleep(ms), wait(timeout), parkNanos()"
+}
+
+terminated: "TERMINATED" {
+  style.fill: "#111827"
+  style.stroke: "#6B7280"
+  dead: "run() completed or unhandled exception"
+}
+
+new_state -> runnable: "thread.start()"
+runnable -> blocked: "synchronized lock contention"
+runnable -> waiting: "wait() / park()"
+runnable -> timed_waiting: "sleep() / timeout"
+runnable -> terminated: "run() finished"

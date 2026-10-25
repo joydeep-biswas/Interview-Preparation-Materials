@@ -1,0 +1,13 @@
+direction: right
+classes: {
+  draft: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  target: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  out: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+draft_m: "1. Draft Model (1B)\nGenerates K=4 speculative tokens\n['The', ' capital', ' of', ' France']" { class: draft }
+target_m: "2. Target Model (70B)\nSingle parallel forward pass\nAccepts 3 tokens, replaces 4th!" { class: target }
+stream: "3. Output Stream\nEmits 4 tokens in time of 1!\n(2.5x - 3.2x speedup)" { class: out }
+
+draft_m -> target_m: "Validate K tokens"
+target_m -> stream: "Accept/Reject sample"

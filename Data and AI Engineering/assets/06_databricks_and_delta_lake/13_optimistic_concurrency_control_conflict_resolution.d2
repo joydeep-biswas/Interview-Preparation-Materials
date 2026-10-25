@@ -1,0 +1,39 @@
+direction: right
+title: Delta Lake Optimistic Concurrency Control (OCC) & Conflict Resolution
+
+tx1: "Transaction 1 (Batch Job)" {
+  shape: rectangle
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  read_v5: "1. Read Snapshot (v5)"
+  stage: "2. Stage writes in memory"
+  conflict: "4. Put 000006.json -> 409 Conflict"
+  eval: "5. OCC Conflict Check\n- Disjoint files: Auto-rebase to v7\n- Same files: Throw CME"
+}
+
+delta_log: "Delta Log Engine (_delta_log/)" {
+  shape: rectangle
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+
+  v5: "Version 5 Active Snapshot"
+  v6: "000006.json Committed by Tx 2"
+  v7: "000007.json Committed by Tx 1 (Rebased)"
+}
+
+tx2: "Transaction 2 (Streaming App)" {
+  shape: rectangle
+  style.fill: "#111827"
+  style.stroke: "#8b5cf6"
+
+  read_v5_tx2: "1. Read Snapshot (v5)"
+  stage_tx2: "2. Stage micro-batch"
+  commit_tx2: "3. Atomic Put 000006.json (Wins v6!)"
+}
+
+tx1.read_v5 -> delta_log.v5: "Snapshot Read"
+tx2.read_v5_tx2 -> delta_log.v5: "Concurrent Read"
+tx2.commit_tx2 -> delta_log.v6: "Atomic Put (200 OK)"
+tx1.conflict -> delta_log.v6: "Put Conflict (409)"
+tx1.eval -> delta_log.v7: "Auto-rebase commit"

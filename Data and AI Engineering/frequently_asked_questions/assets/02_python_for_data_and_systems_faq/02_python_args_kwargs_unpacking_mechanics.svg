@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-blue { stroke: #3B82F6; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-green { stroke: #10B981; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-b2py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g2py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="32" class="title-text">Python Argument Unpacking Mechanics: *args vs **kwargs</text>
+
+  <!-- Left: Invocation -->
+  <rect x="30" y="80" width="340" height="150" class="card card-purple"/>
+  <text x="200" y="110" class="card-title" fill="#D8B4FE">Function Invocation</text>
+  <text x="45" y="135" class="card-body" font-family="monospace">my_func(</text>
+  <text x="60" y="155" class="card-body" font-family="monospace">'bronze', 100,</text>
+  <text x="60" y="175" class="card-body" font-family="monospace">cluster='prod', retries=3</text>
+  <text x="45" y="195" class="card-body" font-family="monospace">)</text>
+
+  <!-- Right Top: *args -->
+  <rect x="520" y="60" width="400" height="95" class="card card-blue"/>
+  <text x="720" y="85" class="card-title" fill="#93C5FD">*args (Tuple Container)</text>
+  <text x="535" y="110" class="card-body" font-family="monospace">('bronze', 100)</text>
+  <text x="535" y="130" class="card-body">• Immutable sequence of variable positional arguments</text>
+
+  <!-- Right Bottom: **kwargs -->
+  <rect x="520" y="175" width="400" height="95" class="card card-green"/>
+  <text x="720" y="200" class="card-title" fill="#6EE7B7">**kwargs (Dict Container)</text>
+  <text x="535" y="225" class="card-body" font-family="monospace">{'cluster': 'prod', 'retries': 3}</text>
+  <text x="535" y="245" class="card-body">• Mutable dictionary mapping of keyword arguments</text>
+
+  <!-- Connectors with straight runways -->
+  <!-- Invocation to args: exit 370,155 -> curve -> enter 520,107 with runway dx>=14 -->
+  <path fill="none" d="M 370 155 C 430 155, 460 107, 506 107 L 520 107" class="edge edge-blue" marker-end="url(#arr-b2py)"/>
+  <text x="445" y="120" class="edge-label" fill="#93C5FD">Positional</text>
+
+  <!-- Invocation to kwargs: exit 370,155 -> curve -> enter 520,222 with runway dx>=14 -->
+  <path fill="none" d="M 370 155 C 430 155, 460 222, 506 222 L 520 222" class="edge edge-green" marker-end="url(#arr-g2py)"/>
+  <text x="445" y="200" class="edge-label" fill="#6EE7B7">Keyword</text>
+</svg>

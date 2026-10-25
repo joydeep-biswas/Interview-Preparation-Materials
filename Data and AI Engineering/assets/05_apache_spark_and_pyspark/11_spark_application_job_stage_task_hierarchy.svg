@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Spark Execution Hierarchy: Application, Job, Stage, and Task</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">The 4 nesting levels of execution in Apache Spark from user script submission down to CPU core execution</text>
+
+  <!-- Level 1: Application -->
+  <rect x="40" y="85" width="245" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="245" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="162" y="108" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">1. APPLICATION LEVEL</text>
+
+  <!-- App Info -->
+  <rect x="55" y="135" width="215" height="110" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1"/>
+  <text x="68" y="157" font-size="10" font-weight="700" fill="#F8FAFC" text-anchor="start">spark-submit Application</text>
+  <text x="68" y="177" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Lifetime: From start to exit</text>
+  <text x="68" y="194" font-size="9.5" fill="#CBD5E1" text-anchor="start">• 1 Driver Node process</text>
+  <text x="68" y="211" font-size="9.5" fill="#CBD5E1" text-anchor="start">• N Executor worker processes</text>
+  <text x="68" y="228" font-size="9" fill="#38BDF8" text-anchor="start">Single SparkContext / Web UI</text>
+
+  <!-- Jobs within App -->
+  <rect x="55" y="260" width="215" height="185" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="68" y="282" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="start">Triggered Jobs List</text>
+  
+  <rect x="68" y="295" width="190" height="40" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="163" y="312" font-size="9" font-weight="700" fill="#94A3B8" text-anchor="middle">Job 0: df.count()</text>
+  <text x="163" y="326" font-size="8" fill="#64748B" text-anchor="middle">Completed in 1.2s</text>
+
+  <rect x="68" y="345" width="190" height="40" rx="4" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="163" y="362" font-size="9" font-weight="700" fill="#FBBF24" text-anchor="middle">Job 1: df.write.parquet()</text>
+  <text x="163" y="376" font-size="8" fill="#FDE68A" text-anchor="middle">RUNNING (Detailed Right -&gt;)</text>
+
+  <rect x="68" y="395" width="190" height="40" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="163" y="412" font-size="9" font-weight="700" fill="#94A3B8" text-anchor="middle">Job 2: df2.collect()</text>
+  <text x="163" y="426" font-size="8" fill="#64748B" text-anchor="middle">Pending queue</text>
+
+  <!-- Level 2: Job -->
+  <rect x="300" y="85" width="245" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="300" y="85" width="245" height="36" rx="8" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="422" y="108" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle">2. JOB LEVEL (ACTION BOUNDARY)</text>
+
+  <!-- Job Definition -->
+  <rect x="315" y="135" width="215" height="95" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1"/>
+  <text x="328" y="157" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="start">Job 1 (.write.parquet())</text>
+  <text x="328" y="177" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Triggered by an Action</text>
+  <text x="328" y="194" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Submits full query DAG</text>
+  <text x="328" y="211" font-size="9.5" fill="#FDE68A" text-anchor="start">• Divided into 2 Stages by shuffle</text>
+
+  <!-- Stages in Job -->
+  <rect x="315" y="245" width="215" height="200" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="328" y="267" font-size="10" font-weight="700" fill="#C084FC" text-anchor="start">Stages Breakdown</text>
+
+  <rect x="328" y="280" width="190" height="65" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+  <text x="423" y="300" font-size="9.5" font-weight="700" fill="#34D399" text-anchor="middle">Stage 0: Scan &amp; Filter</text>
+  <text x="423" y="316" font-size="8.5" fill="#CBD5E1" text-anchor="middle">200 Tasks (Narrow Pipeline)</text>
+  <text x="423" y="331" font-size="8.5" fill="#34D399" text-anchor="middle">Writes Shuffle .data files</text>
+
+  <rect x="328" y="360" width="190" height="65" rx="4" fill="#1E293B" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="423" y="380" font-size="9.5" font-weight="700" fill="#C084FC" text-anchor="middle">Stage 1: Aggregate &amp; Save</text>
+  <text x="423" y="396" font-size="8.5" fill="#CBD5E1" text-anchor="middle">200 Tasks (Wide Reduce)</text>
+  <text x="423" y="411" font-size="8.5" fill="#E9D5FF" text-anchor="middle">Pulls Shuffle blocks over Net</text>
+
+  <!-- Connectors Col 1 -> Col 2 -->
+  <path d="M 258.0 365.0 L 268.0 365.0 C 284.5 365.0, 284.5 182.0, 301.0 182.0 L 315.0 182.0" fill="none" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+
+  <!-- Level 3: Stage -->
+  <rect x="560" y="85" width="250" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="560" y="85" width="250" height="36" rx="8" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="685" y="108" font-size="11" font-weight="700" fill="#C084FC" text-anchor="middle">3. STAGE LEVEL (SHUFFLE SPLIT)</text>
+
+  <!-- Stage 0 Focus -->
+  <rect x="575" y="135" width="220" height="120" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="588" y="157" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Stage 0 Deep-Dive</text>
+  <text x="588" y="177" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Input: 200 Parquet part files</text>
+  <text x="588" y="194" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Number of Partitions = 200</text>
+  <text x="588" y="211" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="start">• Exactly 200 Tasks generated!</text>
+  <text x="588" y="228" font-size="9" fill="#94A3B8" text-anchor="start">Formula: 1 Task per Partition</text>
+
+  <!-- Task Scheduler Dispatch -->
+  <rect x="575" y="270" width="220" height="175" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="588" y="292" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="start">TaskSet Submitted to Cluster</text>
+  <text x="588" y="312" font-size="9" fill="#94A3B8" text-anchor="start">DAGScheduler wraps 200 tasks</text>
+  <text x="588" y="327" font-size="9" fill="#94A3B8" text-anchor="start">into a single TaskSet and passes</text>
+  <text x="588" y="342" font-size="9" fill="#94A3B8" text-anchor="start">it to TaskScheduler.</text>
+
+  <text x="588" y="370" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">Task Priority &amp; Locality:</text>
+  <text x="588" y="388" font-size="9" fill="#CBD5E1" text-anchor="start">1. PROCESS_LOCAL (cached in RAM)</text>
+  <text x="588" y="403" font-size="9" fill="#CBD5E1" text-anchor="start">2. NODE_LOCAL (same host NVMe)</text>
+  <text x="588" y="418" font-size="9" fill="#CBD5E1" text-anchor="start">3. RACK_LOCAL (same rack switch)</text>
+
+  <!-- Connectors Col 2 -> Col 3 -->
+  <path d="M 518.0 312.0 L 528.0 312.0 C 544.5 312.0, 544.5 195.0, 561.0 195.0 L 575.0 195.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Level 4: Tasks -->
+  <rect x="825" y="85" width="255" height="375" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="825" y="85" width="255" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="952" y="108" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">4. TASK LEVEL (ATOMIC CPU UNIT)</text>
+
+  <!-- Parallel Slot Execution -->
+  <rect x="840" y="135" width="225" height="310" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="853" y="157" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Executor CPU Slot Execution</text>
+
+  <!-- Task 0 -->
+  <rect x="850" y="170" width="205" height="45" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="863" y="188" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="start">Task 0 (Partition 0)</text>
+  <text x="863" y="203" font-size="8.5" fill="#CBD5E1" text-anchor="start">Runs on Worker 1 Core 1</text>
+
+  <!-- Task 1 -->
+  <rect x="850" y="225" width="205" height="45" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="863" y="243" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="start">Task 1 (Partition 1)</text>
+  <text x="863" y="258" font-size="8.5" fill="#CBD5E1" text-anchor="start">Runs on Worker 1 Core 2</text>
+
+  <!-- Task 2 -->
+  <rect x="850" y="280" width="205" height="45" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="863" y="298" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="start">Task 2 (Partition 2)</text>
+  <text x="863" y="313" font-size="8.5" fill="#CBD5E1" text-anchor="start">Runs on Worker 2 Core 1</text>
+
+  <!-- Task 199 -->
+  <rect x="850" y="335" width="205" height="45" rx="4" fill="#1E293B" stroke="#64748B" stroke-width="1"/>
+  <text x="863" y="353" font-size="9.5" font-weight="700" fill="#94A3B8" text-anchor="start">... Task 199 (Partition 199)</text>
+  <text x="863" y="368" font-size="8.5" fill="#64748B" text-anchor="start">Runs on next available slot</text>
+
+  <text x="853" y="405" font-size="9" fill="#A7F3D0" text-anchor="start">• Smallest atomic unit of computation</text>
+  <text x="853" y="420" font-size="9" fill="#A7F3D0" text-anchor="start">• Consumes 1 partition block of data</text>
+  <text x="853" y="435" font-size="9" font-weight="600" fill="#34D399" text-anchor="start">• 1 Task occupies 1 CPU slot/core</text>
+
+  <!-- Connectors Col 3 -> Col 4 -->
+  <line x1="795" y1="195" x2="840" y2="195" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="468" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="484" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Hierarchy Invariant: 1 Spark Application contains multiple Jobs (Actions); 1 Job contains multiple Stages (Shuffle splits); 1 Stage contains N Tasks (exactly 1 Task per Partition).</text>
+</svg>

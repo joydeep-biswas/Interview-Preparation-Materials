@@ -1,0 +1,23 @@
+direction: right
+title: Dynamic Partition Pruning (DPP) in Star Joins
+
+Dim: Dimension Filtering {
+  style.stroke: "#38BDF8"
+  Scan: Scan dim_store (store_region = 'EMEA')
+  Keys: Calculate Matching Store Keys: [10, 25, 42, 88]
+  Scan -> Keys
+}
+
+Bridge: Dynamic Broadcast Filter {
+  style.stroke: "#FBBF24"
+  Subquery: Broadcast Subquery (Bloom Filter)
+}
+
+Fact: Fact Table Scan (100TB) {
+  style.stroke: "#34D399"
+  Kept: Kept Partitions (store_id in 10, 25, 42, 88)
+  Pruned: Pruned Partitions (96% skipped on S3/ADLS/GCS)
+}
+
+Dim.Keys -> Bridge.Subquery: Broadcasts matching keys { style.stroke: "#FBBF24" }
+Bridge.Subquery -> Fact.Kept: Prunes storage folders { style.stroke: "#34D399" }

@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Ultra-Low-Latency Orderbook Matching Engine Architecture</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">LMAX Disruptor lock-free RingBuffer, single-threaded matching core, and sub-microsecond event fan-out</text>
+
+  <!-- Step 1: Market Order Ingress -->
+  <g transform="translate(40, 75)">
+    <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="110" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">1. Inbound Ingress</text>
+
+    <rect x="15" y="45" width="190" height="80" rx="6" ry="6" fill="#1E293B"/>
+    <text x="95" y="66" class="badge" fill="#93C5FD" text-anchor="middle">Market Ticks &amp; Orders</text>
+    <text x="15" y="86" class="card-body">• 50,000+ orders/sec</text>
+    <text x="15" y="102" class="card-body">• Binary FIX / Aeron UDP</text>
+    <text x="15" y="118" class="badge" fill="#34D399">• Zero GC allocation</text>
+
+    <rect x="15" y="135" width="190" height="105" rx="6" ry="6" fill="#1E293B" stroke="#3B82F6"/>
+    <text x="95" y="156" class="badge" fill="#60A5FA" text-anchor="middle">Order Gateway Parser</text>
+    <text x="15" y="178" class="card-body">• Decodes raw bytes</text>
+    <text x="15" y="194" class="card-body">• Risk checks (margin)</text>
+    <text x="15" y="210" class="card-body">• Claims next sequence</text>
+    <text x="15" y="226" class="badge" fill="#34D399">• Lock-free CAS pointer</text>
+
+    <rect x="15" y="250" width="190" height="85" rx="6" ry="6" fill="#0F172A"/>
+    <text x="95" y="272" class="badge" fill="#93C5FD" text-anchor="middle">Throughput Invariant</text>
+    <text x="15" y="292" class="card-body" font-size="11">Pre-allocated memory objects</text>
+    <text x="15" y="308" class="card-body" font-size="11">eliminate JVM GC pauses</text>
+  </g>
+
+  <!-- Step 2: LMAX Disruptor RingBuffer -->
+  <g transform="translate(290, 75)">
+    <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#92400E"/>
+    <text x="115" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">2. LMAX RingBuffer</text>
+
+    <rect x="15" y="45" width="200" height="90" rx="6" ry="6" fill="#1E293B"/>
+    <text x="100" y="66" class="badge" fill="#FDE68A" text-anchor="middle">Circular Array Buffer</text>
+    <text x="15" y="88" class="card-body">• Size = 2^20 slots (Power of 2)</text>
+    <text x="15" y="104" class="card-body" font-family="monospace">index = seq &amp; (size - 1)</text>
+    <text x="15" y="120" class="badge" fill="#FCD34D">• Pre-allocated Event[] array</text>
+
+    <rect x="15" y="145" width="200" height="105" rx="6" ry="6" fill="#451A03" stroke="#F59E0B"/>
+    <text x="100" y="168" class="badge" fill="#FDE68A" text-anchor="middle">Hardware Cache Alignment</text>
+    <text x="15" y="190" class="card-body">• 64-byte padding prevents</text>
+    <text x="15" y="206" class="card-body">  false sharing on cursors</text>
+    <text x="15" y="222" class="card-body" font-size="11" fill="#FDE68A">• Memory barrier: YieldingWait</text>
+    <text x="15" y="236" class="badge" fill="#34D399">• Latency: ~50 nanoseconds!</text>
+
+    <rect x="15" y="260" width="200" height="80" rx="6" ry="6" fill="#0F172A"/>
+    <text x="100" y="282" class="badge" fill="#FCD34D" text-anchor="middle">Strict Sequencing</text>
+    <text x="15" y="302" class="card-body" font-size="11">Total global ordering of</text>
+    <text x="15" y="318" class="card-body" font-size="11">all incoming order events</text>
+  </g>
+
+  <!-- Step 3: Single-Threaded Matching Core -->
+  <g transform="translate(545, 75)">
+    <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="115" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">3. Matching Engine Core</text>
+
+    <rect x="15" y="45" width="200" height="90" rx="6" ry="6" fill="#1E293B"/>
+    <text x="100" y="66" class="badge" fill="#A7F3D0" text-anchor="middle">Single-Threaded Pinned Core</text>
+    <text x="15" y="88" class="card-body">• Thread pinned to dedicated CPU</text>
+    <text x="15" y="104" class="card-body">• ZERO LOCKS, ZERO MUTEXES</text>
+    <text x="15" y="120" class="badge" fill="#34D399">• CPU cache never invalidated!</text>
+
+    <rect x="15" y="145" width="200" height="105" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="100" y="168" class="badge" fill="#34D399" text-anchor="middle">Price-Time Priority (FIFO)</text>
+    <text x="15" y="190" class="card-body" font-family="monospace">Bids (TreeSet / Radix)</text>
+    <text x="15" y="206" class="card-body" font-family="monospace">Asks (TreeSet / Radix)</text>
+    <text x="15" y="222" class="card-body" font-size="11" fill="#D1FAE5">• Cross matches bid &gt;= ask</text>
+    <text x="15" y="236" class="badge" fill="#6EE7B7">Executes trade in sub-microsec</text>
+
+    <rect x="15" y="260" width="200" height="80" rx="6" ry="6" fill="#0F172A"/>
+    <text x="100" y="282" class="badge" fill="#A7F3D0" text-anchor="middle">Deterministic State</text>
+    <text x="15" y="302" class="card-body" font-size="11">Single writer removes all</text>
+    <text x="15" y="318" class="card-body" font-size="11">concurrency contention!</text>
+  </g>
+
+  <!-- Step 4: Event Fan-Out (Market Data & Ledger) -->
+  <g transform="translate(800, 75)">
+    <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#5B21B6"/>
+    <text x="110" y="20" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Fast Fan-Out</text>
+
+    <g transform="translate(15, 45)">
+      <rect x="0" y="0" width="190" height="80" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#DDD6FE">Market Data Feed</text>
+      <text x="15" y="40" class="card-body">• UDP Multicast / WebSockets</text>
+      <text x="15" y="56" class="card-body" font-size="11">Publishes orderbook depth L2/L3</text>
+      <text x="15" y="70" class="badge" fill="#34D399">Realtime price broadcast</text>
+
+      <rect x="0" y="90" width="190" height="95" rx="6" ry="6" fill="#4C1D95" stroke="#8B5CF6"/>
+      <text x="15" y="112" class="badge" fill="#DDD6FE">Trade Journal &amp; Clearing</text>
+      <text x="15" y="132" class="card-body">• Chronicle Queue / NVMe</text>
+      <text x="15" y="148" class="card-body">• Kafka topic for clearing</text>
+      <text x="15" y="164" class="card-body" font-size="11">• Post-trade settlement</text>
+      <text x="15" y="178" class="badge" fill="#34D399">Permanent durability</text>
+    </g>
+
+    <rect x="15" y="255" width="190" height="85" rx="6" ry="6" fill="#0F172A"/>
+    <text x="95" y="278" class="badge" fill="#DDD6FE" text-anchor="middle">End-to-End Latency</text>
+    <text x="95" y="298" class="card-body" font-size="11" text-anchor="middle">Median: &lt; 5 microseconds</text>
+    <text x="95" y="314" class="badge" fill="#34D399">P99: &lt; 25 microseconds</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 260 260 L 278 260 L 290 260" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+  <path d="M 520 260 L 533 260 L 545 260" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <path d="M 775 260 L 788 260 L 800 260" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arrow-purple)"/>
+</svg>

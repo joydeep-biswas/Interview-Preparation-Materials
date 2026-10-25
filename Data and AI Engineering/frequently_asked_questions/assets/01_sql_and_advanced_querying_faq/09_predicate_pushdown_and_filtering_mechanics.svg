@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .card-red { stroke: #EF4444; }
+      .card-gray { stroke: #64748B; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-green { stroke: #10B981; }
+      .edge-red { stroke: #EF4444; }
+      .edge-gray { stroke: #64748B; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-b9" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g9" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-r9" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-s9" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="32" class="title-text">Predicate Evaluation &amp; Branching Execution Flow</text>
+
+  <!-- Table Scan -->
+  <rect x="40" y="125" width="220" height="110" class="card card-blue"/>
+  <text x="150" y="152" class="card-title" fill="#93C5FD">Employees Table Scan</text>
+  <text x="55" y="177" class="card-body">• Storage engine page reads</text>
+  <text x="55" y="197" class="card-body">• Buffer pool cache lookup</text>
+  <text x="55" y="217" class="card-body">• Streams row tuples</text>
+
+  <!-- Predicate Gate -->
+  <rect x="330" y="125" width="240" height="110" class="card card-amber"/>
+  <text x="450" y="152" class="card-title" fill="#FDE68A">Predicate Evaluation</text>
+  <text x="345" y="177" class="card-body">• Evaluate department clause</text>
+  <text x="345" y="197" class="card-body">• Early filter pushdown</text>
+  <text x="345" y="217" class="card-body">• Routes matching records</text>
+
+  <!-- Branches -->
+  <!-- Branch 1: SELECT (Finance) -->
+  <rect x="660" y="50" width="260" height="85" class="card card-green"/>
+  <text x="790" y="75" class="card-title" fill="#6EE7B7">SELECT Projection (Finance)</text>
+  <text x="675" y="100" class="card-body">• Read-only projection (name, salary)</text>
+  <text x="675" y="118" class="card-body">• Zero locks acquired</text>
+
+  <!-- Branch 2: UPDATE (IT) -->
+  <rect x="660" y="150" width="260" height="85" class="card card-red"/>
+  <text x="790" y="175" class="card-title" fill="#FCA5A5">UPDATE (IT Department)</text>
+  <text x="675" y="200" class="card-body">• salary = salary * 1.10</text>
+  <text x="675" y="218" class="card-body">• Exclusive row lock + WAL log write</text>
+
+  <!-- Branch 3: Discard (Other) -->
+  <rect x="660" y="250" width="260" height="85" class="card card-gray"/>
+  <text x="790" y="275" class="card-title" fill="#CBD5E1">Bypass Row (Other)</text>
+  <text x="675" y="300" class="card-body">• Non-matching records discarded</text>
+  <text x="675" y="318" class="card-body">• Zero memory or lock footprint</text>
+
+  <!-- Scan to Predicate (Horizontal straight) -->
+  <path fill="none" d="M 260 180 L 330 180" class="edge edge-blue" marker-end="url(#arr-b9)"/>
+
+  <!-- Predicate to Branches with straight runways -->
+  <!-- Exit 570,180 -> curve -> enter 660,92 with runway dx>=14 -->
+  <path fill="none" d="M 570 180 C 605 180, 620 92, 646 92 L 660 92" class="edge edge-green" marker-end="url(#arr-g9)"/>
+  <text x="615" y="125" class="edge-label" fill="#6EE7B7">Finance</text>
+
+  <!-- Exit 570,180 -> horizontal straight to 660,192 -->
+  <path fill="none" d="M 570 180 C 600 180, 630 192, 646 192 L 660 192" class="edge edge-red" marker-end="url(#arr-r9)"/>
+  <text x="615" y="175" class="edge-label" fill="#EF4444">IT</text>
+
+  <!-- Exit 570,180 -> curve -> enter 660,292 with runway dx>=14 -->
+  <path fill="none" d="M 570 180 C 605 180, 620 292, 646 292 L 660 292" class="edge edge-gray" marker-end="url(#arr-s9)"/>
+  <text x="615" y="255" class="edge-label" fill="#9CA3AF">Other</text>
+</svg>

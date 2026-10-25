@@ -1,0 +1,14 @@
+direction: right
+classes: {
+  triage: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  lineage: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  rca: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  post: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+s1: "1. Triage & Containment\n(Trip breaker, halt corrupt DAG)" { class: triage }
+s2: "2. Lineage Inspection\n(Trace Gold -> Silver -> Bronze)" { class: lineage }
+s3: "3. Root Cause Analysis\n(OOM vs Schema Drift vs Auth)" { class: rca }
+s4: "4. Backfill & Post-Mortem\n(Idempotent fix & 5-Whys report)" { class: post }
+
+s1 -> s2 -> s3 -> s4

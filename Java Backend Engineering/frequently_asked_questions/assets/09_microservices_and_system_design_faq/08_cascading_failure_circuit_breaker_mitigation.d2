@@ -1,0 +1,19 @@
+direction: right
+
+meltdown: "Multiplicative Retry Storm" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  chain: "Service A (3x) -> Service B (3x) -> Service C"
+  explosion: "1 request turns into 9 requests hitting C!"
+  result: "Cascading platform blackout"
+}
+
+mitigation: "Circuit Breaker & Shedding" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  trip: "Breaker trips OPEN: Cuts traffic to 0"
+  fallback: "Returns cached / degraded response"
+  healing: "Service C reboots safely without load"
+}
+
+meltdown -> mitigation: "Prevents retry-driven service death"

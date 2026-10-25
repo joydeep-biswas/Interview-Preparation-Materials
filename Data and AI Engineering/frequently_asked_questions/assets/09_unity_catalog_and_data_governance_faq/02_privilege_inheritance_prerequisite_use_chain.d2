@@ -1,0 +1,14 @@
+direction: right
+classes: {
+  blue_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  cyan_box: { style: { fill: "#111827", stroke: "#06B6D4", stroke-width: 2 } }
+  green_box: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
+  success_box: { style: { fill: "#064E3B", stroke: "#10B981", stroke-width: 2 } }
+}
+
+P1: "1. GRANT USE CATALOG\nON CATALOG prod" { class: blue_box }
+P2: "2. GRANT USE SCHEMA\nON SCHEMA prod.gold" { class: cyan_box }
+P3: "3. GRANT SELECT\nON TABLE prod.gold.sales" { class: green_box }
+Query: "Query Authorized!\n✓ All 3 Grants Satisfied" { class: success_box }
+
+P1 -> P2 -> P3 -> Query

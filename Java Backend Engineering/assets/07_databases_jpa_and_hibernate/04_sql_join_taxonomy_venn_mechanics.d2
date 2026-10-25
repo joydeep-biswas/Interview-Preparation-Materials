@@ -1,0 +1,26 @@
+direction: right
+title: Relational JOIN Taxonomy & Relational Algebra Mechanics
+
+inner: "1. INNER JOIN (A ∩ B)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+  rule: "Matching rows only; unmatched rows excluded"
+}
+
+left: "2. LEFT OUTER JOIN (All A + Matching B)" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+  rule: "Preserves Table A; NULL for missing B rows"
+}
+
+full: "3. FULL OUTER JOIN (A ∪ B)" {
+  style.fill: "#16122b"
+  style.stroke: "#8b5cf6"
+  rule: "All rows from both tables; NULL on missing sides"
+}
+
+cross: "4. CROSS JOIN (Cartesian A × B)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+  rule: "Every row paired with every row (N × M tuples)"
+}

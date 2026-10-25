@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Resilience4j Circuit Breaker Finite State Machine</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Dynamic state transitions between CLOSED, OPEN, and HALF_OPEN with sliding window metrics</text>
+
+  <!-- State 1: CLOSED (Normal Operation) -->
+  <g transform="translate(40, 140)">
+    <rect width="280" height="230" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="280" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="140" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">CLOSED (Normal Traffic)</text>
+
+    <rect x="15" y="45" width="250" height="70" rx="6" ry="6" fill="#1E293B"/>
+    <text x="140" y="66" class="badge" fill="#A7F3D0" text-anchor="middle">Requests Permitted 100%</text>
+    <text x="25" y="86" class="card-body">• Calls pass through to downstream</text>
+    <text x="25" y="104" class="card-body">• Records success / failure metrics</text>
+
+    <rect x="15" y="125" width="250" height="85" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="140" y="146" class="badge" fill="#34D399" text-anchor="middle">Sliding Window Evaluation</text>
+    <text x="25" y="168" class="card-body" font-size="11">• Count-based or Time-based (e.g. 100 calls)</text>
+    <text x="25" y="186" class="card-body" font-size="11">• If failureRate &gt; 50% (threshold):</text>
+    <text x="25" y="202" class="badge" fill="#FCA5A5">  -&gt; TRANSITIONS TO OPEN!</text>
+  </g>
+
+  <!-- State 2: OPEN (Tripped / Failing Fast) -->
+  <g transform="translate(390, 140)">
+    <rect width="280" height="230" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="280" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="140" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">OPEN (Circuit Tripped)</text>
+
+    <rect x="15" y="45" width="250" height="70" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+    <text x="140" y="66" class="badge" fill="#F87171" text-anchor="middle">Fail-Fast Immediately</text>
+    <text x="25" y="86" class="card-body">• Downstream calls BLOCKED</text>
+    <text x="25" y="104" class="card-body" font-family="monospace">CallNotPermittedException</text>
+
+    <rect x="15" y="125" width="250" height="85" rx="6" ry="6" fill="#1E293B"/>
+    <text x="140" y="146" class="badge" fill="#FDE68A" text-anchor="middle">Wait Duration Timer</text>
+    <text x="25" y="168" class="card-body">• e.g. waitDurationInOpenState = 60s</text>
+    <text x="25" y="186" class="card-body">• Executes fallback method</text>
+    <text x="25" y="202" class="badge" fill="#FCD34D">When timer elapses -&gt; HALF_OPEN</text>
+  </g>
+
+  <!-- State 3: HALF_OPEN (Trial Probing) -->
+  <g transform="translate(740, 140)">
+    <rect width="280" height="230" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="280" height="30" rx="10" ry="10" fill="#92400E"/>
+    <text x="140" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">HALF_OPEN (Trial Probing)</text>
+
+    <rect x="15" y="45" width="250" height="70" rx="6" ry="6" fill="#1E293B"/>
+    <text x="140" y="66" class="badge" fill="#FDE68A" text-anchor="middle">Limited Trial Traffic</text>
+    <text x="25" y="86" class="card-body">• Permits e.g. 10 probe requests</text>
+    <text x="25" y="104" class="card-body">• Evaluates service recovery</text>
+
+    <rect x="15" y="125" width="250" height="85" rx="6" ry="6" fill="#0F172A" stroke="#F59E0B"/>
+    <text x="140" y="146" class="badge" fill="#FCD34D" text-anchor="middle">Branching Outcome</text>
+    <text x="25" y="168" class="card-body" font-size="11">• If probe successRate &gt;= 50%:</text>
+    <text x="25" y="184" class="badge" fill="#34D399">  HEALED -&gt; Returns to CLOSED</text>
+    <text x="25" y="200" class="card-body" font-size="11">• If failure remains &gt; 50% -&gt; Back to OPEN</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <!-- CLOSED -> OPEN -->
+  <path d="M 320 220 L 378 220 L 390 220" fill="none" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+  <rect x="330" y="205" width="50" height="18" rx="3" ry="3" fill="#1E293B"/>
+  <text x="355" y="218" class="badge" fill="#FCA5A5" text-anchor="middle">&gt; 50% Fail</text>
+
+  <!-- OPEN -> HALF_OPEN -->
+  <path d="M 670 220 L 728 220 L 740 220" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+  <rect x="680" y="205" width="50" height="18" rx="3" ry="3" fill="#1E293B"/>
+  <text x="705" y="218" class="badge" fill="#FDE68A" text-anchor="middle">Timer 60s</text>
+
+  <!-- HALF_OPEN -> CLOSED (Curved back over top with straight runway) -->
+  <path d="M 880 140 L 880 100 Q 880 85 530 85 L 180 85 L 180 128 L 180 140" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <rect x="500" y="73" width="70" height="20" rx="4" ry="4" fill="#064E3B"/>
+  <text x="535" y="87" class="badge" fill="#A7F3D0" text-anchor="middle">Probe Success</text>
+
+  <!-- HALF_OPEN -> OPEN (Curved back underneath with straight runway) -->
+  <path d="M 790 370 L 790 405 Q 790 420 620 420 L 530 420 L 530 382 L 530 370" fill="none" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+  <rect x="620" y="408" width="80" height="20" rx="4" ry="4" fill="#450A0A"/>
+  <text x="660" y="422" class="badge" fill="#FCA5A5" text-anchor="middle">Probe Failure</text>
+</svg>

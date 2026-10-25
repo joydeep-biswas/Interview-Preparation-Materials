@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Hive-Style Directory Layout: Partition Pruning Mechanics</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Eliminating Full Table Scans by Filtering Files at the Object Storage Prefix Level</text>
+  
+  
+    <rect x="30" y="95" width="920" height="305" rx="10" fill="#0a1120" stroke="#334155" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Root Lakehouse Prefix: s3://company-lake/fact_orders/</text>
+
+  
+    <rect x="60" y="135" width="180" height="45" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="150.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">year=2026/</text>
+    <text x="150.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Partition Level 1</text>
+  
+    <rect x="290" y="135" width="180" height="45" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="380.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">month=10/</text>
+    <text x="380.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Partition Level 2</text>
+
+  
+    <rect x="520" y="130" width="410" height="110" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="152" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">day=15/ (MATCH: WHERE day = 15)</text>
+  
+    <rect x="535" y="160" width="180" height="65" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="625.0" y="186" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">part-0001.snappy.parquet</text>
+    
+    <circle cx="551" cy="203" r="2" fill="#10b981"/>
+    <text x="559" y="206" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rows: 500,000</text>
+    <circle cx="551" cy="219" r="2" fill="#10b981"/>
+    <text x="559" y="222" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scanned by Spark</text>
+  
+    <rect x="735" y="160" width="180" height="65" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="825.0" y="186" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">part-0002.snappy.parquet</text>
+    
+    <circle cx="751" cy="203" r="2" fill="#10b981"/>
+    <text x="759" y="206" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rows: 480,000</text>
+    <circle cx="751" cy="219" r="2" fill="#10b981"/>
+    <text x="759" y="222" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Scanned by Spark</text>
+
+  
+    <rect x="520" y="260" width="410" height="110" rx="10" fill="#260b0b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="536" y="282" fill="#fca5a5" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">day=16/ (PRUNED / SKIPPED: Zero I/O)</text>
+  
+    <rect x="535" y="290" width="180" height="65" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <text x="625.0" y="316" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">part-0001.snappy.parquet</text>
+    
+    <circle cx="551" cy="333" r="2" fill="#ef4444"/>
+    <text x="559" y="336" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rows: 510,000</text>
+    <circle cx="551" cy="349" r="2" fill="#ef4444"/>
+    <text x="559" y="352" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">SKIPPED (0 bytes read)</text>
+  
+    <rect x="735" y="290" width="180" height="65" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <text x="825.0" y="316" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">part-0002.snappy.parquet</text>
+    
+    <circle cx="751" cy="333" r="2" fill="#ef4444"/>
+    <text x="759" y="336" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Rows: 495,000</text>
+    <circle cx="751" cy="349" r="2" fill="#ef4444"/>
+    <text x="759" y="352" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">SKIPPED (0 bytes read)</text>
+
+  
+    <line x1="240" y1="157" x2="290" y2="157" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <path d="M 470.0 157.0 L 480.0 157.0 C 493.0 157.0, 493.0 175.0, 506.0 175.0 L 520.0 175.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="495.0" y="158.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Predicate Match</text>
+  
+    <path d="M 470.0 157.0 L 480.0 157.0 C 493.0 157.0, 493.0 305.0, 506.0 305.0 L 520.0 305.0" fill="none" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/><text x="495.0" y="223.0" fill="#ef4444" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Pruned (Skip)</text>
+
+</svg>

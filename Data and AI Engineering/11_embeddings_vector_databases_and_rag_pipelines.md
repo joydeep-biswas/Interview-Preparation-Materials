@@ -8,62 +8,64 @@ A comprehensive, production-grade guide to vector embeddings, distance metrics, 
 
 The diagram below illustrates the end-to-end dataflow of a production hybrid search system, indexing raw document chunks into both dense vector indices (HNSW) and sparse inverted indices (BM25), then fusing candidate sets via Reciprocal Rank Fusion (RRF).
 
-```mermaid
-flowchart TD
-    subgraph IngestionStream ["1. Dual-Path Indexing Pipeline"]
-        RawChunk["Normalized Document Chunk<br/>(Text + Rich Metadata Payload)"]
-        DenseModel["Dense Embedding Model<br/>(e.g., BGE-Large, Voyage-3, text-embedding-3)"]
-        SparseTokenizer["BM25 Lexical Analyzer<br/>(Tokenization, Lowercasing, Stemming, Stopwords)"]
-        
-        RawChunk --> DenseModel
-        RawChunk --> SparseTokenizer
-    end
+![Hybrid Search Architecture Rrf Fusion](assets/11_embeddings_vector_databases_and_rag_pipelines/01_hybrid_search_architecture_rrf_fusion.svg)
 
-    subgraph StorageIndices ["2. High-Performance Index Storage"]
-        HNSWIndex["Dense Vector Store (Qdrant / pgvector)<br/>HNSW Multi-Layer Graph Index (M=16, efConstruction=200)<br/>Distance Metric: Cosine / Inner Product"]
-        InvertedIndex["BM25 Lexical Inverted Index<br/>Posting Lists: Term → [DocID, TF, DocLength]<br/>Sparse Metric: BM25 Saturation Score"]
-        
-        DenseModel -->|"Dense Vector: v ∈ ℝ^1536"| HNSWIndex
-        SparseTokenizer -->|"Posting List Updates"| InvertedIndex
-    end
+<details>
+<summary>D2 Source</summary>
 
-    subgraph QueryExecution ["3. Real-Time Query Fan-Out"]
-        UserQuery["Incoming User Query<br/>'PostgreSQL SSL connection timeout 2026'"]
-        QueryDense["Dense Query Vector<br/>v_q = Embed(Query)"]
-        QuerySparse["Sparse Query Tokens<br/>['postgresql', 'ssl', 'timeout', '2026']"]
-        
-        UserQuery --> QueryDense --> HNSWIndex
-        UserQuery --> QuerySparse --> InvertedIndex
-    end
+```d2
+direction: right
+classes: {
+  raw: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  store: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  query: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  rrf: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
 
-    subgraph FusionAndScoring ["4. Candidate Retrieval & Reciprocal Rank Fusion"]
-        DenseCandidates["Top-K Dense Candidates<br/>(Semantic conceptual matches)"]
-        SparseCandidates["Top-K Sparse Candidates<br/>(Exact keyword, error code & acronym matches)"]
-        RRFFusion["Reciprocal Rank Fusion (RRF) Engine<br/>Score(d) = Σ [1 / (60 + Rank_i(d))]"]
-        FilteredResult["Final Ranked Results with Metadata Payload<br/>(Dispatched to Cross-Encoder or LLM Context)"]
+ingestion: "1. Dual-Path Indexing Pipeline" {
+  chunk: "Normalized Document Chunk" { class: raw }
+  dense_model: "Dense Embedding Model\n(BGE-Large / Voyage-3)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  sparse_tok: "BM25 Lexical Analyzer" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
 
-        HNSWIndex --> DenseCandidates --> RRFFusion
-        InvertedIndex --> SparseCandidates --> RRFFusion
-        RRFFusion --> FilteredResult
-    end
+  chunk -> dense_model
+  chunk -> sparse_tok
+}
 
-    style IngestionStream fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StorageIndices fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style QueryExecution fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style FusionAndScoring fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-    style RawChunk fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style DenseModel fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style SparseTokenizer fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style HNSWIndex fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style InvertedIndex fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style UserQuery fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style QueryDense fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style QuerySparse fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style DenseCandidates fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style SparseCandidates fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style RRFFusion fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style FilteredResult fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+storage: "2. High-Performance Index Storage" {
+  hnsw: "Dense Vector Store\n(HNSW Graph Qdrant)" { class: store }
+  inverted: "BM25 Inverted Index\n(Posting Lists)" { class: store }
+}
+
+ingestion.dense_model -> storage.hnsw: "v in R^1536"
+ingestion.sparse_tok -> storage.inverted: "Postings"
+
+query_box: "3. Real-Time Query Fan-Out" {
+  user_q: "Incoming User Query" { class: query }
+  q_dense: "v_q = Embed(Query)" { class: query }
+  q_sparse: "Sparse Tokens" { class: query }
+
+  user_q -> q_dense
+  user_q -> q_sparse
+}
+
+query_box.q_dense -> storage.hnsw: "ANN Search"
+query_box.q_sparse -> storage.inverted: "Term Match"
+
+fusion: "4. Candidate Retrieval & RRF Fusion" {
+  c_dense: "Top-K Dense (Semantic)" { class: raw }
+  c_sparse: "Top-K Sparse (Keyword)" { class: rrf }
+  rrf_engine: "Reciprocal Rank Fusion (RRF)\nScore = Sigma 1/(60 + rank)" { class: query }
+  final_res: "Final Ranked Context\n(Dispatched to LLM)" { class: store }
+
+  c_dense -> rrf_engine
+  c_sparse -> rrf_engine
+  rrf_engine -> final_res
+}
+
+storage.hnsw -> fusion.c_dense
+storage.inverted -> fusion.c_sparse
 ```
+</details>
 
 ---
 
@@ -168,27 +170,48 @@ An **Embedding Model** maps discrete textual strings into a dense continuous vec
 
 $$f_{\theta}: \text{Text} \longrightarrow \mathbb{R}^D$$
 
-```mermaid
-flowchart TD
-    subgraph SemanticManifold ["Geometric Clustering in Continuous Embedding Space"]
-        subgraph TechCluster ["Cloud Infrastructure Cluster"]
-            T1["'Kubernetes Pod'"] --- T2["'Docker Container'"]
-            T2 --- T3["'K8s Deployment'"]
-        end
-        subgraph FinanceCluster ["Financial Corporate Cluster"]
-            F1["'Quarterly Revenue'"] --- F2["'EBITDA Margin'"]
-            F2 --- F3["'Fiscal Balance Sheet'"]
-        end
-        subgraph CulinaryCluster ["Culinary Arts Cluster"]
-            C1["'Artisan Sourdough'"] --- C2["'French Baguette'"]
-        end
-    end
+![Geometric Clustering Continuous Embedding Space](assets/11_embeddings_vector_databases_and_rag_pipelines/02_geometric_clustering_continuous_embedding_space.svg)
 
-    style SemanticManifold fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TechCluster fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style FinanceCluster fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style CulinaryCluster fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  tech: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  fin: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  food: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
+
+tech_cluster: "Cloud Infrastructure Cluster" {
+  t1: "'Kubernetes Pod'" { class: tech }
+  t2: "'Docker Container'" { class: tech }
+  t3: "'K8s Deployment'" { class: tech }
+
+  t1 --- t2
+  t2 --- t3
+}
+
+finance_cluster: "Corporate Finance Cluster" {
+  f1: "'Quarterly Revenue'" { class: fin }
+  f2: "'EBITDA Margin'" { class: fin }
+  f3: "'Fiscal Balance Sheet'" { class: fin }
+
+  f1 --- f2
+  f2 --- f3
+}
+
+culinary_cluster: "Culinary Arts Cluster" {
+  c1: "'Artisan Sourdough'" { class: food }
+  c2: "'French Baguette'" { class: food }
+
+  c1 --- c2
+}
+
+tech_cluster -> finance_cluster: "Semantic Distance"
+finance_cluster -> culinary_cluster: "Semantic Distance"
 ```
+</details>
 
 Words, sentences, and paragraphs with similar semantic meanings map to coordinates that are geometrically close in $D$-dimensional Euclidean space. The system captures synonyms, analogies, and conceptual relationships naturally.
 
@@ -198,34 +221,41 @@ Words, sentences, and paragraphs with similar semantic meanings map to coordinat
 
 In production semantic search systems, neural ranking models are divided into two distinct architectural families:
 
-```mermaid
-flowchart TD
-    subgraph BiEncoderSchema ["1. Bi-Encoder Architecture (Fast Search)"]
-        direction TB
-        Q1["Query: 'How to restart pod?'"] --> EncQ["Transformer Encoder"] --> VecQ["v_q ∈ ℝ^1536"]
-        Doc1["Document: 'kubectl delete pod...'"] --> EncD["Transformer Encoder"] --> VecD["v_d ∈ ℝ^1536"]
-        VecQ & VecD --> DotProd["Dot Product: v_q · v_d<br/>(Sub-millisecond ANN search)"]
-    end
+![Bi Encoder Vs Cross Encoder Scoring Architectures](assets/11_embeddings_vector_databases_and_rag_pipelines/03_bi_encoder_vs_cross_encoder_scoring_architectures.svg)
 
-    subgraph CrossEncoderSchema ["2. Cross-Encoder Architecture (Deep Rerank)"]
-        direction TB
-        Concat["Concatenated Input:<br/>[CLS] Query [SEP] Document [SEP]"] --> FullAttention["Joint Multi-Head Cross-Attention<br/>Every query token attends directly to every doc token!"]
-        FullAttention --> Score["Classification Head → Relevance Score in [0, 1]"]
-    end
+<details>
+<summary>D2 Source</summary>
 
-    style BiEncoderSchema fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CrossEncoderSchema fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-    style Q1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Doc1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style EncQ fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style EncD fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style VecQ fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style VecD fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style DotProd fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Concat fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style FullAttention fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style Score fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  bi: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  cross: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  score: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+bi_encoder: "1. Bi-Encoder Architecture (Fast Search)" {
+  q: "Query: 'How to restart pod?'" { class: bi }
+  d: "Doc: 'kubectl delete pod...'" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  vq: "v_q in R^1536" { class: bi }
+  vd: "v_d in R^1536" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  dot: "Cosine / Dot Product\n(&lt;2ms latency)" { class: score }
+
+  q -> vq
+  d -> vd
+  vq -> dot
+  vd -> dot
+}
+
+cross_encoder: "2. Cross-Encoder Architecture (Re-Ranking)" {
+  concat: "[CLS] Query [SEP] Document [SEP]" { class: cross }
+  attn: "Full Joint Cross-Attention\nEvery token attends to all tokens" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  rel: "Scalar Relevance Score\n(High precision, ~50ms)" { class: score }
+
+  concat -> attn -> rel
+}
 ```
+</details>
 
 * **Bi-Encoders:** Query and document are embedded independently. Document vectors are pre-computed at ingestion time. Search requires only evaluating inner products across pre-indexed vectors in sub-milliseconds.
 * **Cross-Encoders:** Query and document are concatenated and processed jointly through all transformer layers. Every query token attends directly to every document token. Yields state-of-the-art precision, but is computationally expensive ($O((|q| + |d|)^2)$ FLOPs per pair), making it suitable only as a second-stage reranker over top candidates.
@@ -322,21 +352,28 @@ When vectors are $L_2$-normalized:
 
 ### 2.4 Metric Comparison Space: L1, L2, Cosine & Chebyshev
 
-```mermaid
-flowchart TD
-    subgraph MetricTopology ["Distance Metrics in Geometric Vector Space"]
-        L1["Manhattan (L1) Distance:<br/>d_1 = Σ |u_i - v_i|<br/>Grid-based rectilinear distance"]
-        L2["Euclidean (L2) Distance:<br/>d_2 = √Σ (u_i - v_i)^2<br/>True Cartesian distance"]
-        Cos["Cosine Distance:<br/>d_cos = 1 - (u · v) / (|u||v|)<br/>Angular separation (scale-invariant)"]
-        LInf["Chebyshev (L_∞) Distance:<br/>d_∞ = max |u_i - v_i|<br/>Maximum coordinate difference"]
-    end
+![Distance Metrics Geometric Vector Space](assets/11_embeddings_vector_databases_and_rag_pipelines/04_distance_metrics_geometric_vector_space.svg)
 
-    style MetricTopology fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style L1 fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style L2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Cos fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style LInf fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  l1: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  l2: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  cos: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  ip: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+m1: "Manhattan (L1) Distance\nd_1 = Sigma |u_i - v_i|" { class: l1 }
+m2: "Euclidean (L2) Distance\nd_2 = sqrt(Sigma (u_i - v_i)^2)" { class: l2 }
+m3: "Cosine Distance\nd_cos = 1 - (u.v)/(||u|| ||v||)" { class: cos }
+m4: "Dot Product (Inner Product)\ns = Sigma (u_i * v_i)" { class: ip }
+
+m1 -> m2 -> m3 -> m4
 ```
+</details>
 
 ---
 
@@ -439,25 +476,38 @@ Almost all the volume of a high-dimensional cube concentrates at its outer corne
 
 **IVF-Flat** partitions the continuous vector space into discrete clusters using $k$-means:
 
-```mermaid
-flowchart TD
-    subgraph VoronoiPartition ["IVF-Flat Voronoi Tesselation"]
-        direction TB
-        Space["High-Dimensional Continuous Vector Space"] --> KMeans["Train K-Means: Generate C Centroids (e.g., C = 1024)"]
-        KMeans --> InvertedLists["Create Inverted Posting Lists per Centroid:<br/>Centroid 1 → [Vec_4, Vec_18, Vec_92...]<br/>Centroid 2 → [Vec_2, Vec_77, Vec_104...]<br/>Centroid 3 → [Vec_11, Vec_35, Vec_89...]"]
-        
-        Query["Query Vector v_q"] --> CentroidSearch["Find nearest n_probe Centroids (e.g., n_probe = 8)"]
-        CentroidSearch --> SearchSubset["Search ONLY vectors in those 8 Voronoi cells!<br/>(Skips 99% of total corpus vectors)"]
-    end
+![Ivf Flat Voronoi Tessellation](assets/11_embeddings_vector_databases_and_rag_pipelines/05_ivf_flat_voronoi_tessellation.svg)
 
-    style VoronoiPartition fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Space fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style KMeans fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style InvertedLists fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Query fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style CentroidSearch fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style SearchSubset fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  cell: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  match: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  pruned: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  nprobe: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
+
+voronoi: "IVF-Flat Voronoi Tessellation" {
+  c1: "Cell 1 (Centroid C1)" { class: cell }
+  c2: "Cell 2 (Centroid C2 - Query Match)" { class: match }
+  c3: "Cell 3 (Centroid C3 - Pruned)" { class: pruned }
+  c4: "Cell 4 (Centroid C4 - nprobe Neighbor)" { class: nprobe }
+}
+
+execution: "Query Execution Flow" {
+  centroid_scan: "1. Scan Centroids Only (K=1024)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  cell_search: "2. Scan nprobe Cells (C2 & C4)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  result: "3. 98% Database Pruned!" { class: match }
+
+  centroid_scan -> cell_search -> result
+}
+
+voronoi.c2 -> execution.centroid_scan: "Closest Centroid"
 ```
+</details>
 
 #### Search Complexity & Parameters:
 * $n_{\text{list}}$: Number of clusters (centroids).
@@ -474,21 +524,27 @@ $$\text{Memory}(10\text{M vectors}, D=1536) = 10^7 \times 1536 \times 4\text{ by
 
 **Product Quantization (PQ)** compresses vectors by decomposing high-dimensional vectors into orthogonal sub-spaces:
 
-```mermaid
-flowchart LR
-    subgraph PQDecomposition ["Product Quantization Sub-Vector Decomposition"]
-        direction LR
-        RawVec["Raw Vector v ∈ ℝ^1536 (6,144 Bytes FP32)"] --> Split["Split into M = 96 Sub-Vectors of dimension 16"]
-        Split --> Codebooks["Quantize each sub-vector to nearest Centroid in Codebook (256 centroids = 1 Byte)"]
-        Codebooks --> Compressed["Compressed Code: 96 Bytes (64x Memory Reduction!)"]
-    end
+![Product Quantization Subvector Decomposition](assets/11_embeddings_vector_databases_and_rag_pipelines/06_product_quantization_subvector_decomposition.svg)
 
-    style PQDecomposition fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RawVec fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style Split fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Codebooks fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Compressed fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  orig: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  split: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  code: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+orig_vec: "Original Float32 Vector\n(Dim: 1536, 6144 Bytes)" { class: orig }
+sub_split: "Split into m=8 Sub-Vectors\n(Each 192 dimensions)" { class: split }
+quant_vec: "Quantized 8-Byte Code\n[42, 1A, F9, 08, C3, 7E, 21, AA]\n(97% RAM Compression)" { class: code }
+
+orig_vec -> sub_split: "Dimension slice"
+sub_split -> quant_vec: "Assign centroid ID"
 ```
+</details>
 
 * **Asymmetric Distance Computation (ADC):** At query time, the query vector is kept in full unquantized FP32 precision, while distances to compressed vectors are computed via fast table lookups.
 * **Memory Impact:** Memory footprint drops from $61.44\text{ GB}$ down to **$\approx 960\text{ MB}$**, enabling billion-scale search on a single machine.
@@ -515,41 +571,50 @@ In a classical 1D **Skip-List**, sorted linked lists are stacked hierarchically:
 * The highest layer contains sparse, long-range skip links that allow logarithmic $\mathcal{O}(\log N)$ jumps across the dataset.
 * As the search approaches the target value, the pointer descends to denser lower layers to perform fine-grained localized navigation.
 
-```mermaid
-flowchart TD
-    subgraph HNSWLayers ["HNSW Multi-Layer Graph Architecture"]
-        direction TB
-        subgraph Layer2 ["Layer 2: Sparse Long-Range Express Highway (Few Nodes)"]
-            L2_A["Node A"] --->|"Long Leap"| L2_F["Node F"]
-        end
-        subgraph Layer1 ["Layer 1: Medium Density Highway"]
-            L1_A["Node A"] --> L1_C["Node C"] --> L1_E["Node E"] --> L1_F["Node F"]
-        end
-        subgraph Layer0 ["Layer 0: Dense Bottom Layer (All Nodes Indexed)"]
-            L0_A["Node A"] --> L0_B["Node B"] --> L0_C["Node C"] --> L0_D["Node D"] --> L0_E["Node E"] --> L0_F["Node F"]
-        end
+![Hnsw Multi Layer Graph Architecture](assets/11_embeddings_vector_databases_and_rag_pipelines/07_hnsw_multi_layer_graph_architecture.svg)
 
-        L2_A -.-> L1_A -.-> L0_A
-        L2_F -.-> L1_F -.-> L0_F
-    end
+<details>
+<summary>D2 Source</summary>
 
-    style HNSWLayers fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Layer2 fill:#0f172a,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style Layer1 fill:#0f172a,stroke:#f59e0b,stroke-width:1px,color:#fde68a
-    style Layer0 fill:#0f172a,stroke:#10b981,stroke-width:1px,color:#6ee7b7
-    style L2_A fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style L2_F fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style L1_A fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style L1_C fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style L1_E fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style L1_F fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style L0_A fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style L0_B fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style L0_C fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style L0_D fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style L0_E fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style L0_F fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
+```d2
+direction: down
+classes: {
+  l2: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  l1: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  l0: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+layer2: "Layer 2: Sparse Highway Graph" {
+  l2_a: "Node A (Entry Point)" { class: l2 }
+  l2_f: "Node F" { class: l2 }
+
+  l2_a -> l2_f: "Highway Long-Range Jump"
+}
+
+layer1: "Layer 1: Medium Density Graph" {
+  l1_a: "Node A" { class: l1 }
+  l1_c: "Node C" { class: l1 }
+  l1_e: "Node E" { class: l1 }
+  l1_f: "Node F" { class: l1 }
+
+  l1_a -> l1_c -> l1_e -> l1_f
+}
+
+layer0: "Layer 0: Full Connectivity Dense Graph" {
+  l0_a: "Node A" { class: l0 }
+  l0_b: "Node B" { class: l0 }
+  l0_c: "Node C" { class: l0 }
+  l0_d: "Node D" { class: l0 }
+  l0_e: "Node E" { class: l0 }
+  l0_f: "Node F (Nearest Neighbor)" { class: l0 }
+
+  l0_a -> l0_b -> l0_c -> l0_d -> l0_e -> l0_f
+}
+
+layer2.l2_a -> layer1.l1_a: "Descend"
+layer1.l1_f -> layer0.l0_f: "Greedy Local Search"
 ```
+</details>
 
 **HNSW generalizes the Skip-List to multi-dimensional geometric graphs:**
 1. A node's maximum layer assignment is drawn from an exponential decay probability distribution:
@@ -665,18 +730,24 @@ Where:
 
 In classical TF-IDF, term frequency scales linearly ($\text{TF} \propto f(t, D)$). If a keyword appears 50 times in a spam document, its score is 50 times higher than a concise document mentioning it once.
 
-```mermaid
-flowchart LR
-    subgraph SaturationCurves ["BM25 Term Saturation Curve vs Linear TF"]
-        direction LR
-        RawTF["Raw TF: Linear Growth (Spam Vulnerable)"]
-        BM25_K1["BM25 (k_1 = 1.5): Asymptotic Saturation at (k_1 + 1)<br/>Score tapers off smoothly regardless of keyword stuffing!"]
-    end
+![Bm25 Term Saturation Curve Vs Linear Tf](assets/11_embeddings_vector_databases_and_rag_pipelines/08_bm25_term_saturation_curve_vs_linear_tf.svg)
 
-    style SaturationCurves fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RawTF fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style BM25_K1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  linear: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  bm25: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+naive_tf: "Naive Linear Term Frequency (TF)\nScore = TF\n(Unbounded growth, spam vulnerable)" { class: linear }
+bm25_tf: "BM25 Saturation Curve (k1 = 1.5)\nScore tapers off at (k1 + 1) = 2.5\n(Immune to keyword stuffing)" { class: bm25 }
+
+naive_tf -> bm25_tf: "BM25 Dampens Inflation"
 ```
+</details>
 
 * **When $k_1 = 0$:** Term frequency is completely ignored; scoring behaves like a pure binary presence indicator.
 * **When $k_1 \to \infty$:** Scoring approaches linear un-saturated term frequency.
@@ -965,33 +1036,38 @@ $$P(y \mid x) = \sum_{z \in \text{Top-K}(\mathcal{D})} P_{\eta}(z \mid x) \cdot 
 
 Where $P_{\eta}(z \mid x)$ represents the probability that chunk $z$ is relevant to query $x$ (computed by a dense/sparse retriever $\eta$), and $P_{\theta}(y \mid x, z)$ is the sequence generation probability conditioned jointly on the input query $x$ and the retrieved factual context $z$.
 
-```mermaid
-flowchart LR
-    subgraph ParametricOnly ["Parametric Generation (Closed Book)"]
-        direction LR
-        Prompt1["User Query"] --> LLMAlone["Model Weights theta<br/>(Static Knowledge Cutoff)"] --> Hallucination["Plausible Hallucination / Outdated Data"]
-    end
+![Parametric Closed Book Vs Non Parametric Rag](assets/11_embeddings_vector_databases_and_rag_pipelines/09_parametric_closed_book_vs_non_parametric_rag.svg)
 
-    subgraph NonParametricRAG ["Retrieval-Augmented Generation (Open Book)"]
-        direction LR
-        Prompt2["User Query"] --> Retriever["Retriever eta<br/>(Non-Parametric Corpus D)"]
-        Retriever --> Context["Top-K Grounded Chunks z"]
-        Context --> LLMAug["Generator theta<br/>Joint Conditional Forward Pass"]
-        Prompt2 --> LLMAug
-        LLMAug --> GroundedAnswer["Verifiable Answer with Direct Citations"]
-    end
+<details>
+<summary>D2 Source</summary>
 
-    style ParametricOnly fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style NonParametricRAG fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Prompt1 fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style LLMAlone fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style Hallucination fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Prompt2 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Retriever fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Context fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style LLMAug fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style GroundedAnswer fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+direction: right
+classes: {
+  closed: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  open: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  norm: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+}
+
+parametric: "Parametric Generation (Closed Book)" {
+  q1: "User Query" { class: norm }
+  theta: "Frozen Weights theta\n(Static cutoff)" { class: closed }
+  hallucinate: "Plausible Hallucination\n(No verification possible)" { class: closed }
+
+  q1 -> theta -> hallucinate
+}
+
+rag: "Retrieval-Augmented Generation (Open Book)" {
+  q2: "User Query" { class: norm }
+  retriever: "Retriever eta\n(Non-Parametric Corpus D)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  context: "Top-K Grounded Chunks z" { class: open }
+  generator: "Generator theta\n(Grounded with citations)" { class: open }
+
+  q2 -> retriever -> context -> generator
+  q2 -> generator
+}
 ```
+</details>
 
 ---
 
@@ -1002,24 +1078,27 @@ $$\text{Document} \longrightarrow \text{Character Chunk (500 chars)} \longrighta
 
 In real-world enterprise deployments, this **Naive RAG** pattern suffers failure rates exceeding $35\%$ on complex user queries:
 
-```mermaid
-flowchart TD
-    subgraph NaiveFailures ["The Four Critical Failure Modes of Naive RAG"]
-        direction TB
-        F1["1. Flawed Extraction:<br/>Multi-column PDF reading orders interleave; complex financial tables are flattened into unparseable character streams."]
-        F2["2. Semantic Fragmentation:<br/>Fixed-length character splits bisect critical clauses; chunks lose parent section headers and document titles."]
-        F3["3. Dense Vector Blind Spots:<br/>Exact part numbers ('SN-84920'), error codes, and negation queries fail because vector search retrieves semantic similarity rather than exact tokens."]
-        F4["4. Attention Dilution & Lost-in-the-Middle:<br/>Passing 10 unsorted chunks into context dilutes attention; models fail to extract answers located in the middle chunks."]
+![Four Critical Failure Modes Naive Rag](assets/11_embeddings_vector_databases_and_rag_pipelines/10_four_critical_failure_modes_naive_rag.svg)
 
-        F1 --- F2 --- F3 --- F4
-    end
+<details>
+<summary>D2 Source</summary>
 
-    style NaiveFailures fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style F1 fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style F2 fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style F3 fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style F4 fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
+```d2
+direction: right
+classes: {
+  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  warn: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  purp: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+f1: "1. Flawed Extraction\n(Multi-column garble & flattened tables)" { class: fail }
+f2: "2. Semantic Fragmentation\n(Fixed splits bisect critical clauses)" { class: warn }
+f3: "3. Dense Vector Blind Spots\n(Part numbers & error codes fail)" { class: purp }
+f4: "4. Lost-in-the-Middle\n(Attention dilution on middle chunks)" { class: fail }
+
+f1 -> f2 -> f3 -> f4
 ```
+</details>
 
 ---
 
@@ -1027,22 +1106,26 @@ flowchart TD
 
 When an enterprise RAG application generates an incorrect or misleading answer, diagnosing the failure requires isolating which element of the **RAG Triad** collapsed:
 
-```mermaid
-flowchart TD
-    subgraph RAGTriad ["The Canonical RAG Evaluation Triad"]
-        direction TB
-        ContextRelevance["1. Context Relevance<br/>Did the retriever fetch chunks that contain the ground-truth answer?<br/>(Failure: Vector search returned irrelevant marketing material)"]
-        Groundedness["2. Groundedness (Faithfulness)<br/>Is every factual assertion in the generated answer directly supported by the context?<br/>(Failure: LLM hallucinated external facts not present in chunks)"]
-        AnswerRelevance["3. Answer Relevance<br/>Did the generated response actually address the user's specific inquiry?<br/>(Failure: LLM accurately recited irrelevant context without answering the prompt)"]
+![Canonical Rag Evaluation Triad](assets/11_embeddings_vector_databases_and_rag_pipelines/11_canonical_rag_evaluation_triad.svg)
 
-        ContextRelevance --> Groundedness --> AnswerRelevance
-    end
+<details>
+<summary>D2 Source</summary>
 
-    style RAGTriad fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ContextRelevance fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Groundedness fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style AnswerRelevance fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
+```d2
+direction: right
+classes: {
+  ret: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  ground: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  ans: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+c1: "1. Context Relevance\n(Did retriever fetch ground truth?)" { class: ret }
+c2: "2. Groundedness (Faithfulness)\n(Is answer strictly supported by context?)" { class: ground }
+c3: "3. Answer Relevance\n(Does response address user prompt?)" { class: ans }
+
+c1 -> c2 -> c3
 ```
+</details>
 
 > [!TIP]
 > **Deep-Dive Interview Scenarios & Production Runbooks:**
@@ -1134,36 +1217,34 @@ Naive fixed-size character splitting splits text at arbitrary character boundari
 
 $$\text{Separators} = [\text{`\textbackslash n\textbackslash n'}, \text{`\textbackslash n'}, \text{`. '}, \text{` '}, \text{`'}]]$$
 
-```mermaid
-flowchart TD
-    RawBlock["<b>Input Document Block</b><br/>Exceeds token target"] --> HasStructure{"Document Structure?<br/>(Markdown / HTML / Code)"}
+![Document Segmentation Strategy Decision Tree](assets/11_embeddings_vector_databases_and_rag_pipelines/12_document_segmentation_strategy_decision_tree.svg)
 
-    subgraph StructuralDomain ["Structure-Aware Segmentation"]
-        direction TB
-        SyntaxSplit["<b>Recursive Character Splitter</b><br/>Splits on headers (#, ##), paragraphs, newlines"]
-        CodeSplit["<b>AST-Aware Code Splitter</b><br/>Splits along class and function definitions"]
-    end
+<details>
+<summary>D2 Source</summary>
 
-    subgraph SemanticDomain ["Semantic & Fixed-Length Segmentation"]
-        direction TB
-        SemanticSplit["<b>Semantic Similarity Chunking</b><br/>Embed sliding sentences; split on cosine distance spike"]
-        FixedSplit["<b>Fixed-Size Token Window</b><br/>Overlap buffer (512 tokens + 64 token stride)"]
-    end
+```d2
+direction: right
+classes: {
+  inp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  router: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  strat: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
 
-    HasStructure -- "Markdown / Prose" --> SyntaxSplit
-    HasStructure -- "Programming Code" --> CodeSplit
-    HasStructure -- "Dense Unstructured Text" --> SemanticSplit
-    HasStructure -- "Streaming / High-Throughput" --> FixedSplit
+block: "Input Document Block\n(Exceeds token target)" { class: inp }
+check: "Document Structure Check" { class: router }
 
-    style RawBlock fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style HasStructure fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style StructuralDomain fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SemanticDomain fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SyntaxSplit fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style CodeSplit fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style SemanticSplit fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style FixedSplit fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#fff
+s_prose: "Recursive Character Splitter\n(Markdown & Technical Prose)" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+s_code: "AST-Aware Code Splitter\n(Classes & Functions intact)" { class: strat }
+s_sem: "Semantic Similarity Chunking\n(Dense Unstructured Text)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+s_fixed: "Fixed-Size Token Window\n(High-Throughput Streaming Logs)" { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+
+block -> check
+check -> s_prose: "Prose"
+check -> s_code: "Code"
+check -> s_sem: "Unstructured"
+check -> s_fixed: "Streaming"
 ```
+</details>
 
 By recursively descending the hierarchy, paragraphs are kept intact whenever possible, falling back to sentences and words only when necessary.
 
@@ -1182,26 +1263,33 @@ For structured technical content, splitting on character count destroys grammar:
 
 Rather than relying on arbitrary character or word boundaries, **Semantic Chunking** uses semantic similarity between adjacent sentences to detect natural topic transitions:
 
-```mermaid
-flowchart TD
-    subgraph SemanticChunkingProcess ["Semantic Chunking via Distance Spikes"]
-        direction TB
-        Sentences["Input Sentences: [S1, S2, S3, S4, S5, S6]"] --> EmbedSentences["Compute Embedding for Each Sentence: [e1, e2, e3, e4, e5, e6]"]
-        EmbedSentences --> ComputeDist["Compute Cosine Distance Between Consecutive Sentences:<br/>d_i = 1 - cos(e_i, e_i+1)"]
-        ComputeDist --> ThresholdCheck{"Is Distance > Percentile Threshold tau?"}
-        
-        ThresholdCheck -- "d_3 > tau (Topic Shift!)" --> SplitBoundary["Insert Chunk Boundary Between S3 and S4"]
-        ThresholdCheck -- "d_i <= tau (Coherent)" --> MergeSentences["Group Sentences into Same Chunk"]
-    end
+![Semantic Chunking Cosine Distance Spikes](assets/11_embeddings_vector_databases_and_rag_pipelines/13_semantic_chunking_cosine_distance_spikes.svg)
 
-    style SemanticChunkingProcess fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Sentences fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style EmbedSentences fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style ComputeDist fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style ThresholdCheck fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style SplitBoundary fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style MergeSentences fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  sent: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  embed: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  dist: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  split: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  merge: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+sentences: "Input Sentences: [S1..S6]" { class: sent }
+embed_s: "Embeddings: [e1..e6]" { class: embed }
+dist_calc: "Cosine Distance:\nd_i = 1 - cos(e_i, e_i+1)" { class: dist }
+
+boundary: "Insert Chunk Boundary\n(d_3 > tau: Topic Shift!)" { class: split }
+coherent: "Group Sentences\n(d_i &lt;= tau: Coherent)" { class: merge }
+
+sentences -> embed_s -> dist_calc
+dist_calc -> boundary: "d > tau"
+dist_calc -> coherent: "d &lt;= tau"
 ```
+</details>
 
 #### The Distance Spike Algorithm:
 1. Split document into individual sentences: $S_1, S_2, \dots, S_N$.
@@ -1240,23 +1328,30 @@ $$\mathbf{u} = \text{Encoder}(q), \quad \mathbf{v} = \text{Encoder}(d)$$
 
 $$\text{Similarity}(q, d) = \mathbf{u} \cdot \mathbf{v}$$
 
-```mermaid
-flowchart TD
-    subgraph BiEncoderArch ["Bi-Encoder Architecture (Fast, Decoupled)"]
-        Query["Query: 'How to restart pod?'"] --> EncQ["Encoder Network"] --> VecQ["Vector u (Dim 1536)"]
-        Doc["Document: 'Run kubectl delete pod...'"] --> EncD["Encoder Network"] --> VecD["Vector v (Dim 1536)"]
-        VecQ & VecD --> DotProduct["Dot Product u . v<br/>(Sub-millisecond HNSW Index Search)"]
-    end
+![Bi Encoder Fast Retrieval Architecture](assets/11_embeddings_vector_databases_and_rag_pipelines/14_bi_encoder_fast_retrieval_architecture.svg)
 
-    style BiEncoderArch fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Query fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Doc fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style EncQ fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style EncD fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style VecQ fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style VecD fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style DotProduct fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  d: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  enc: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  score: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+query: "Query: 'How to restart pod?'" { class: q }
+doc: "Doc: 'Run kubectl delete pod...'" { class: d }
+enc_q: "Encoder Network (Query)" { class: enc }
+enc_d: "Encoder Network (Doc)" { class: enc }
+dot: "Dot Product u . v\n(&lt;2ms HNSW search)" { class: score }
+
+query -> enc_q -> dot: "u in R^1536"
+doc -> enc_d -> dot: "v in R^1536"
 ```
+</details>
 
 * **Advantage:** All document embeddings $\mathbf{v}$ are precomputed at ingestion time. Finding nearest neighbors requires only sub-millisecond dot products against an HNSW index.
 * **Fatal Flaw:** Because the query tokens never interact with the document tokens during encoding (no cross-attention), Bi-Encoders miss nuanced negations, exact numeric matches, and syntactic subtleties.
@@ -1271,22 +1366,26 @@ $$\mathbf{X} = [\text{[CLS]}, q_1, \dots, q_m, \text{[SEP]}, d_1, \dots, d_n, \t
 
 $$\text{Relevance Score} = \sigma(\mathbf{W} \cdot \text{Transformer}(\mathbf{X})_{[\text{CLS}]})$$
 
-```mermaid
-flowchart TD
-    subgraph CrossEncoderArch ["Cross-Encoder Architecture (Joint Full Cross-Attention)"]
-        ConcatInput["Concatenated Input: [CLS] Query Tokens [SEP] Document Tokens [SEP]"] --> SelfAttention["Full Multi-Head Cross-Attention<br/>Every query token attends directly to every document token!"]
-        SelfAttention --> CLSPool["[CLS] Output Token State"]
-        CLSPool --> LinearHead["Linear Classification Head + Sigmoid"]
-        LinearHead --> Score["Exact Relevance Probability Score in [0, 1]"]
-    end
+![Cross Encoder Joint Attention Reranker](assets/11_embeddings_vector_databases_and_rag_pipelines/15_cross_encoder_joint_attention_reranker.svg)
 
-    style CrossEncoderArch fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style ConcatInput fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style SelfAttention fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CLSPool fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style LinearHead fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Score fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  inp: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  attn: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  out: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+concat: "Concatenated Input:\n[CLS] Query [SEP] Document [SEP]" { class: inp }
+cross_attn: "Full Multi-Head Cross-Attention\nEvery query token attends to all document tokens" { class: attn }
+score: "Scalar Relevance Score [0..1]\n(Applied to top 50 candidates)" { class: out }
+
+concat -> cross_attn -> score
 ```
+</details>
 
 * **Why Cross-Encoders Are Superior in Precision:** Every single token in the query attends directly to every single token in the document across every transformer layer. The model evaluates whether the document actually answers the question, rather than just sharing high-level topical concepts.
 * **Computational Cost:** Because query and document must be concatenated at runtime, scoring 10,000 documents would require 10,000 full forward passes ($> 30\text{ seconds}$).
@@ -1302,23 +1401,37 @@ flowchart TD
 
 $$\text{Score}(q, d) = \sum_{i \in q} \max_{j \in d} \left( \mathbf{E}_{q, i} \cdot \mathbf{E}_{d, j}^T \right)$$
 
-```mermaid
-flowchart LR
-    subgraph ColBERTMaxSim ["ColBERT Late Interaction (MaxSim Operator)"]
-        direction LR
-        QTok["Query Token Vectors<br/>E_q (Dim: |q| x 128)"]
-        DTok["Doc Token Vectors<br/>E_d (Dim: |d| x 128)"]
-        MaxSim["MaxSim Operator:<br/>For each query token, find the maximum dot-product match across all document tokens, then sum."]
-        
-        QTok & DTok --> MaxSim --> FinalScore["Final Ranking Score"]
-    end
+![Colbert Late Interaction Maxsim Operator](assets/11_embeddings_vector_databases_and_rag_pipelines/16_colbert_late_interaction_maxsim_operator.svg)
 
-    style ColBERTMaxSim fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style QTok fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style DTok fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style MaxSim fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style FinalScore fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  d: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  maxsim: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+q_tokens: "Query Token Vectors E_q" {
+  q1: "q_1: 'restart'" { class: q }
+  q2: "q_2: 'k8s'" { class: q }
+  q3: "q_3: 'pod'" { class: q }
+}
+
+d_tokens: "Doc Token Vectors E_d" {
+  d1: "d_1: 'kubectl'" { class: d }
+  d2: "d_2: 'delete'" { class: d }
+  d3: "d_3: 'pod'" { class: d }
+}
+
+maxsim: "ColBERT MaxSim Operator\nScore = Sigma_q max_d (E_q . E_d)\n(Fast late interaction)" { class: maxsim }
+
+q_tokens -> maxsim: "Query tokens"
+d_tokens -> maxsim: "Doc tokens"
 ```
+</details>
 
 * Token representations are pre-computed and stored using vector quantization. At query time, the **MaxSim** operator computes token-level alignments in $< 10\text{ms}$ while preserving near-Cross-Encoder retrieval precision.
 
@@ -1365,25 +1478,28 @@ A single vector search fails because the three facts reside in three completely 
 
 Formulated by Gao et al. (2022), **HyDE** bridges the vocabulary mismatch between user queries and factual documents:
 
-```mermaid
-flowchart TD
-    subgraph HyDEWorkflow ["Hypothetical Document Embeddings (HyDE) Flow"]
-        direction TB
-        UserQ["User Query: 'How does Kafka guarantee zero message loss?'"] --> LLMGen["Zero-Shot LLM Prompt:<br/>'Write an excerpt from an engineering manual answering this question.'"]
-        LLMGen --> HypoDoc["Hypothetical Document (Hallucinated!):<br/>'Kafka guarantees zero message loss via min.insync.replicas=2, acks=all, and unclean.leader.election.enable=false...'"]
-        HypoDoc --> EmbedModel["Embedding Model (Embeds Hypo-Doc)"]
-        EmbedModel --> VectorSearch["Vector Database Search"]
-        VectorSearch --> RealChunks["Ground-Truth Enterprise Documentation Retrieved!"]
-    end
+![Hypothetical Document Embeddings Hyde Workflow](assets/11_embeddings_vector_databases_and_rag_pipelines/17_hypothetical_document_embeddings_hyde_workflow.svg)
 
-    style HyDEWorkflow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style UserQ fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style LLMGen fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style HypoDoc fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style EmbedModel fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style VectorSearch fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style RealChunks fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  gen: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  hyp: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  real: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+user_q: "1. User Query\n(Short, ambiguous)" { class: q }
+llm_gen: "2. Zero-Shot LLM\n(Generates hypothetical answer)" { class: gen }
+hyp_doc: "3. Hypothetical Document Vector\n(Embeds hallucinated answer)" { class: hyp }
+corpus_search: "4. Vector DB Search\n(Document-Document match finds real docs!)" { class: real }
+
+user_q -> llm_gen -> hyp_doc -> corpus_search
 ```
+</details>
 
 * **Why HyDE Works:** Even if the hallucinated hypothetical document contains factual inaccuracies, its **semantic manifold and vocabulary structure** perfectly match real engineering documentation. Embedding the hypothetical answer retrieves real documents far more effectively than embedding the raw user query.
 
@@ -1428,29 +1544,34 @@ Emergency budget allocations for production downtime are authorized by the VP of
 
 In high-consequence enterprise applications (medical, financial, compliance), model citations must be audited programmatically using an **NLI Cross-Encoder**:
 
-```mermaid
-flowchart LR
-    subgraph NLIVerification ["Automated Natural Language Inference (NLI) Verification"]
-        direction LR
-        Claim["Generated Claim: 'P0 SLA is 15 minutes'"]
-        SourceChunk["Cited Context: [CHUNK-SLA-01]<br/>'P0 incidents require triage response within 15 minutes.'"]
-        
-        NLIModel["NLI Classifier (RoBERTa / DeBERTa)<br/>Evaluates: Premise -> Hypothesis"]
-        
-        Claim & SourceChunk --> NLIModel
-        NLIModel --> Verdict{"NLI Verdict?"}
-        Verdict -- "P(Entailment) > 0.85" --> Approved["Verified Grounded Citation"]
-        Verdict -- "P(Contradiction / Neutral)" --> Flagged["Flagged Hallucination / Redact"]
-    end
+![Automated Nli Groundedness Verification](assets/11_embeddings_vector_databases_and_rag_pipelines/18_automated_nli_groundedness_verification.svg)
 
-    style NLIVerification fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Claim fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style SourceChunk fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style NLIModel fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Verdict fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style Approved fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Flagged fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  hyp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  prem: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  nli: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  pass: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+}
+
+claim: "Generated Claim (Hypothesis)" { class: hyp }
+source: "Cited Context (Premise)" { class: prem }
+nli_model: "NLI Model (DeBERTa)\nEvaluates Premise -> Hypothesis" { class: nli }
+
+verdict_pass: "Verified Grounded Citation\n(P(Entailment) > 0.85)" { class: pass }
+verdict_fail: "Flagged Hallucination / Redact\n(P(Contradiction / Neutral))" { class: fail }
+
+claim -> nli_model
+source -> nli_model
+nli_model -> verdict_pass: "Entailment"
+nli_model -> verdict_fail: "Contradiction"
 ```
+</details>
 
 If the NLI classifier does not evaluate the relationship as **Entailment**, the citation is rejected and the answer is returned for human review.
 
@@ -1470,38 +1591,39 @@ A production RAG system that guesses when data is missing is dangerous. Enforce 
 
 Introduced by Asai et al. (2023), **Self-RAG** trains the language model to generate special **Reflection Tokens** that self-evaluate retrieval necessity, relevance, and grounding:
 
-```mermaid
-flowchart TD
-    subgraph SelfRAGLoop ["Self-RAG Execution & Reflection Cycle"]
-        direction TB
-        Prompt["Incoming User Query"] --> EvaluateRetrieve{"Does query require external retrieval?<br/>[Retrieve] token emitted?"}
-        
-        EvaluateRetrieve -- "No (Factual Parametric)" --> GenerateDirect["Generate Direct Parametric Response"]
-        EvaluateRetrieve -- "Yes" --> RetrieveDocs["Fetch Chunks from Vector Store"]
-        
-        RetrieveDocs --> EvalRelevance{"Evaluate Chunk Relevance<br/>[IsRel] / [IsNotRel]"}
-        EvalRelevance -- "Relevant" --> GeneratePassage["Generate Candidate Response Passage"]
-        EvalRelevance -- "Irrelevant" --> RetrieveDocs
-        
-        GeneratePassage --> EvalSupport{"Is Passage Grounded in Context?<br/>[IsSup] / [IsNotSup]"}
-        EvalSupport -- "Supported" --> EvalUtility{"Evaluate Overall Utility<br/>[IsUse: 1-5]"}
-        EvalSupport -- "Unsupported" --> Regenerate["Regenerate Passage with Strict Constraint"]
-        
-        EvalUtility --> FinalSelection["Emit Best Grounded Candidate"]
-    end
+![Self Rag Reflection And Adaptive Retrieval Loop](assets/11_embeddings_vector_databases_and_rag_pipelines/19_self_rag_reflection_and_adaptive_retrieval_loop.svg)
 
-    style SelfRAGLoop fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Prompt fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style EvaluateRetrieve fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style GenerateDirect fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style RetrieveDocs fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style EvalRelevance fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style GeneratePassage fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style EvalSupport fill:#0f172a,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style EvalUtility fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Regenerate fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style FinalSelection fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  ref: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  gen: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  final: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+prompt: "User Query" { class: q }
+need_ret: "Require Retrieval?\n[Retrieve] token?" { class: ref }
+direct: "Direct Parametric Answer" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+
+retrieve: "Fetch Chunks from Vector DB" { class: q }
+eval_rel: "Chunk Relevant?\n[IsRel] / [IsNotRel]" { class: ref }
+generate: "Generate Candidate Passage" { class: gen }
+eval_sup: "Passage Grounded?\n[IsSup] / [IsNotSup]" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+final_out: "Emit Best Grounded Response\n[IsUse: 1-5]" { class: final }
+
+prompt -> need_ret
+need_ret -> direct: "No"
+need_ret -> retrieve: "Yes"
+retrieve -> eval_rel
+eval_rel -> generate: "Relevant"
+generate -> eval_sup
+eval_sup -> final_out: "Supported"
 ```
+</details>
 
 ---
 
@@ -1838,22 +1960,31 @@ if __name__ == "__main__":
 
 When a production RAG system produces an incorrect or hallucinated response, execute this systematic triage protocol:
 
-```mermaid
-flowchart TD
-    StartTriage["RAG Pipeline Emits Flawed / Hallucinated Answer"] --> InspectRetrieved["1. Inspect Retrieved Chunks in Context"]
-    
-    InspectRetrieved --> GroundTruthCheck{"Do the retrieved chunks contain the ground-truth factual answer?"}
-    
-    GroundTruthCheck -- "NO (Retrieval Failure)" --> TriageRetrieval["<b>TRIAGE RETRIEVAL SUBSYSTEM:</b><br/>(Was the document parsed accurately, or did layout tables break?; Did chunk splitting cut the answer sentence across boundaries?; Did the Bi-Encoder miss keyword matches? Deploy BM25 hybrid search.; Try HyDE query expansion to resolve vocabulary mismatch.; Lower Cross-Encoder rerank threshold.)"]
-    
-    GroundTruthCheck -- "YES (Generation Failure)" --> TriageGeneration["<b>TRIAGE GENERATION SUBSYSTEM:</b><br/>(Did the answer suffer from 'Lost-in-the-Middle'? Re-order chunks.; Is generation Temperature > 0.0? Enforce deterministic sampling (0.0).; Strengthen system prompt XML boundaries and negative constraints.; Deploy an NLI Natural Language Inference post-generation verifier.)"]
+![Systematic Rag Hallucination Triage Decision Tree](assets/11_embeddings_vector_databases_and_rag_pipelines/20_systematic_rag_hallucination_triage_decision_tree.svg)
 
-    style StartTriage fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style InspectRetrieved fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style GroundTruthCheck fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TriageRetrieval fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style TriageGeneration fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
+<details>
+<summary>D2 Source</summary>
+
+```d2
+direction: right
+classes: {
+  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  gate: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  fix_r: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  fix_g: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+incident: "RAG Emits Flawed / Hallucinated Answer" { class: fail }
+gate: "1. Inspect Retrieved Chunks\nDo chunks contain the ground-truth factual answer?" { class: gate }
+
+retrieval_fail: "TRIAGE RETRIEVAL SUBSYSTEM\n• Check PDF table parsing\n• Fix chunk boundary cuts\n• Add BM25 hybrid search\n• Deploy HyDE expansion" { class: fix_r }
+generation_fail: "TRIAGE GENERATION SUBSYSTEM\n• Fix Lost-in-the-Middle\n• Set Temperature = 0.0\n• Enforce strict system prompt\n• Add NLI post-verifier" { class: fix_g }
+
+incident -> gate
+gate -> retrieval_fail: "NO (Ground truth missing)"
+gate -> generation_fail: "YES (Ground truth present!)"
 ```
+</details>
 
 ---
 

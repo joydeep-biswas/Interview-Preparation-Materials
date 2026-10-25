@@ -1,0 +1,32 @@
+direction: right
+
+deadlock: "Circular Wait Deadlock Condition (Failure)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  thread_a: "Thread A: Holds User 1, Waits User 2"
+  thread_b: "Thread B: Holds User 2, Waits User 1"
+  err: "ERROR 40P01: Deadlock Detected"
+}
+
+solution: "Canonical Lock Ordering Solution (Success)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  rule: "Deterministic Rule: min(id1, id2) then max(id1, id2)"
+  linear: "Both Threads Acquire in Same Order -> Zero Deadlocks"
+}
+
+deadlock.thread_a -> deadlock.thread_b: "Contends with" {
+  style.stroke: "#EF4444"
+  style.stroke-dash: 4
+}
+deadlock.thread_b -> deadlock.thread_a: "Contends with" {
+  style.stroke: "#EF4444"
+  style.stroke-dash: 4
+}
+
+solution.rule -> solution.linear: "Guarantees Cycle-Free Graph" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

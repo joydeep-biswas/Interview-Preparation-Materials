@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+call: "Function Invocation\nmy_func('bronze', 100, cluster='prod', retries=3)" {
+  class: box
+  style.stroke: "#8B5CF6"
+}
+
+args: "*args (Tuple Container)\n('bronze', 100)\nImmutable sequence of positional parameters" {
+  class: box
+  style.stroke: "#3B82F6"
+}
+
+kwargs: "**kwargs (Dict Container)\n{'cluster': 'prod', 'retries': 3}\nMutable key-value mapping of keyword parameters" {
+  class: box
+  style.stroke: "#10B981"
+}
+
+call -> args: "Positional Arguments"
+call -> kwargs: "Keyword Arguments"

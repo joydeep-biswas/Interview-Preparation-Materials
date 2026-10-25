@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  closed: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  tripped: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  open: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  half: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+closed: "CLOSED (Normal Operations)\nData flows clean -> Gold" { class: closed }
+tripped: "TRIPPED (Anomaly Detected)\nAssertion fails or Z-score > 3" { class: tripped }
+open: "OPEN (Quarantine & Safe Halt)\nDownstream blocked; DLQ divert" { class: open }
+half_open: "HALF-OPEN (Trial Run)\nSingle partition test validation" { class: half }
+
+closed -> tripped: "Quality assertion fails"
+tripped -> open: "Automated DAG halt"
+open -> half_open: "Engineer deploys fix"
+half_open -> closed: "Trial batch passes"
+half_open -> open: "Trial batch fails"

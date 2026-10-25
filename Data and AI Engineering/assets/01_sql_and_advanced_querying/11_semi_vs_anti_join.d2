@@ -1,0 +1,12 @@
+# LEFT SEMI JOIN vs LEFT ANTI JOIN
+direction: right
+
+semi: "LEFT SEMI JOIN (EXISTS)" {
+  style.stroke: "#10B981"
+  desc: "Returns left row on 1st match\n• Short-circuits scanning\n• NEVER duplicates left rows"
+}
+
+anti: "LEFT ANTI JOIN (NOT EXISTS)" {
+  style.stroke: "#EF4444"
+  desc: "Returns left row ONLY if 0 matches\n• Filters out existing relationships\n• Immune to NULL 3VL traps"
+}

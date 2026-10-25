@@ -1,0 +1,49 @@
+direction: down
+title: "The Three Pillars of Production Observability & Diagnostics"
+
+pillars: "The Three Pillars of Observability" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+
+  logs: "Structured Logs & MDC
+Logback / OpenSearch / Loki
+Contextual debugging" {
+    style.fill: "#083344"
+    style.stroke: "#06b6d4"
+  }
+  metrics: "Golden Signals Metrics
+Micrometer / Prometheus / Grafana
+Alerting & detection" {
+    style.fill: "#064e3b"
+    style.stroke: "#10b981"
+  }
+  traces: "Distributed Tracing
+OpenTelemetry / Jaeger
+Latency bottleneck isolation" {
+    style.fill: "#1e1b4b"
+    style.stroke: "#8b5cf6"
+  }
+}
+
+diagnostics: "Production Diagnostic Engines" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+
+  profiler: "async-profiler
+Non-safepoint CPU & Alloc Flamegraphs" {
+    style.fill: "#1e293b"
+    style.stroke: "#f59e0b"
+  }
+  jcmd: "jcmd & jstack
+Thread Dumps & Class Histograms" {
+    style.fill: "#1e293b"
+    style.stroke: "#3b82f6"
+  }
+  mat: "Eclipse MAT / JMC
+Heap Dump Leak Suspects Triage" {
+    style.fill: "#1e293b"
+    style.stroke: "#10b981"
+  }
+}
+
+pillars -> diagnostics: "Correlate symptoms to deep profiling"

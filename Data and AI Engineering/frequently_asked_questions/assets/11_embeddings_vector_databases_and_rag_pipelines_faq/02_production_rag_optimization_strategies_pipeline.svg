@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Step 1: Query Opt -->
+  <rect x="25" y="30" width="200" height="240" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="45" y="55" class="title-txt" fill="#93C5FD">1. Query Optimization</text>
+
+  <rect x="40" y="75" width="170" height="70" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="125" y="98" class="title-txt" text-anchor="middle">HyDE Generation</text>
+  <text x="48" y="118" class="body-txt" text-anchor="start">• Hallucinates ideal doc</text>
+  <text x="48" y="132" class="body-txt" text-anchor="start">• Closes semantic gap</text>
+
+  <rect x="40" y="165" width="170" height="70" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="125" y="188" class="title-txt" text-anchor="middle">Sub-Query Split</text>
+  <text x="48" y="208" class="body-txt" text-anchor="start">• Multi-hop breakdown</text>
+  <text x="48" y="222" class="body-txt" text-anchor="start">• Dispatches sub-queries</text>
+
+  <path d="M 225 150 L 265 150" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Step 2: Multi-Vector & Hybrid Search -->
+  <rect x="265" y="30" width="200" height="240" rx="10" ry="10" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="285" y="55" class="title-txt" fill="#6EE7B7">2. Hybrid Retrieval</text>
+
+  <rect x="280" y="75" width="170" height="70" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="365" y="98" class="title-txt" text-anchor="middle" fill="#A7F3D0">Dense HNSW</text>
+  <text x="288" y="118" class="body-txt" text-anchor="start">• Semantic concepts</text>
+  <text x="288" y="132" class="mono-txt" text-anchor="start">Cosine Top-100</text>
+
+  <rect x="280" y="165" width="170" height="70" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="365" y="188" class="title-txt" text-anchor="middle" fill="#A7F3D0">Sparse BM25</text>
+  <text x="288" y="208" class="body-txt" text-anchor="start">• Exact keywords &amp; SKUs</text>
+  <text x="288" y="222" class="mono-txt" text-anchor="start">Inverted index Top-100</text>
+
+  <path d="M 465 150 L 505 150" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Step 3: Fusion & Reranking -->
+  <rect x="505" y="30" width="200" height="240" rx="10" ry="10" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="525" y="55" class="title-txt" fill="#C4B5FD">3. Fusion &amp; Rerank</text>
+
+  <rect x="520" y="75" width="170" height="70" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="605" y="98" class="title-txt" text-anchor="middle">RRF Fusion</text>
+  <text x="528" y="118" class="body-txt" text-anchor="start">• Score-agnostic union</text>
+  <text x="528" y="132" class="mono-txt" text-anchor="start">Rank 1/(k + rank)</text>
+
+  <rect x="520" y="165" width="170" height="70" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="605" y="188" class="title-txt" text-anchor="middle" fill="#FDE68A">Cross-Encoder</text>
+  <text x="528" y="208" class="body-txt" text-anchor="start">• All-to-all cross attention</text>
+  <text x="528" y="222" class="badge-txt" fill="#F59E0B">Outputs Top-5</text>
+
+  <path d="M 705 150 L 745 150" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- Step 4: Hierarchical Context Expansion -->
+  <rect x="745" y="30" width="190" height="240" rx="10" ry="10" fill="#0D1526" stroke="#EC4899" stroke-width="1.5"/>
+  <text x="765" y="55" class="title-txt" fill="#FBCFE8">4. Context Expansion</text>
+
+  <rect x="755" y="75" width="170" height="160" rx="8" ry="8" fill="#111827" stroke="#EC4899" stroke-width="1.5"/>
+  <text x="840" y="98" class="title-txt" text-anchor="middle" fill="#FBCFE8">Parent Doc Window</text>
+  <text x="765" y="120" class="body-txt" text-anchor="start">• Takes 150-token child</text>
+  <text x="765" y="138" class="body-txt" text-anchor="start">• Expands to full 1500-token</text>
+  <text x="765" y="156" class="body-txt" text-anchor="start">  parent context</text>
+  <text x="765" y="174" class="mono-txt" text-anchor="start">Grounding Prompt</text>
+  <text x="765" y="200" class="badge-txt" fill="#10B981">✓ Zero Lost in Middle</text>
+</svg>

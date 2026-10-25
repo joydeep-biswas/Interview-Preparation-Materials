@@ -1,0 +1,30 @@
+direction: right
+title: Atomic CAS (Compare-And-Swap) Optimistic Retry Loop
+
+Step1: 1. Read Current Memory Value {
+  style.fill: "#0B132B"
+  style.stroke: "#3B82F6"
+  read: "int current = get() [V = 10]"
+}
+
+Step2: 2. Compute Candidate Value {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  calc: "int next = current + 1 [11]"
+}
+
+Step3: 3. Hardware CAS Instruction {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  opcode: "LOCK CMPXCHG(target, expected=10, new=11)"
+}
+
+Success: CAS Success {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  done: "Value updated to 11; returns"
+}
+
+Step1 -> Step2 -> Step3
+Step3 -> Success: Memory unchanged (== 10) { style.stroke: "#10B981" }
+Step3 -> Step1: Memory modified by other thread (Loopback retry!) { style.stroke: "#EF4444" }

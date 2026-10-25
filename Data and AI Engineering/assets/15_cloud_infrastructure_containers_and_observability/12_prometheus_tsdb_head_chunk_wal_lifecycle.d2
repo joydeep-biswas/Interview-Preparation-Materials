@@ -1,0 +1,24 @@
+classes: {
+  wal_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  head_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  block_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+scraper: "Scrape Loop (Every 15s)\nPulls /metrics endpoint"
+
+ram: "TSDB In-Memory & Buffer Tier" {
+  wal: "Write-Ahead Log (WAL)\nAppend-only disk log for crash recovery" { class: wal_box }
+  head: "Head Chunks (RAM Buffer)\nGorilla compression, holds active 2h" { class: head_box }
+
+  wal <-> head: "Synchronized ingest"
+}
+
+disk: "Compacted Blocks (Disk Storage)" {
+  block: "Immutable 2h Block: /data/{ulid}/\nchunks/, index, meta.json, tombstones" { class: block_box }
+}
+
+scraper -> ram.wal: "Append raw sample"
+scraper -> ram.head: "Store in active series"
+ram.head -> disk.block: "Flush & compact every 2 hours" {
+  style: { stroke: "#4ade80"; stroke-width: 2 }
+}

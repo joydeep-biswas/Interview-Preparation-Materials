@@ -1,0 +1,19 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+dt: "DIM_DATE\ndate_sk (PK)\ncalendar_date, month, year" { class: box; style.stroke: "#10B981" }
+prod: "DIM_PRODUCT\nproduct_sk (PK)\nsku, category, department" { class: box; style.stroke: "#10B981" }
+vendor: "DIM_VENDOR\nvendor_sk (PK)\nvendor_name, tier" { class: box; style.stroke: "#10B981" }
+loc: "DIM_LOCATION\nlocation_sk (PK)\nstore_id, region, state" { class: box; style.stroke: "#10B981" }
+
+fact: "FACT_MONTHLY_SALES (Aggregated Mart)\nsales_id (PK)\ndate_sk (FK), product_sk (FK), vendor_sk (FK), location_sk (FK)\ntotal_units_sold, total_revenue_usd, gross_margin_usd" {
+  class: box
+  style.stroke: "#3B82F6"
+}
+
+dt -> fact: "temporal axis"
+prod -> fact: "merchandise"
+vendor -> fact: "supplier"
+loc -> fact: "fulfillment node"

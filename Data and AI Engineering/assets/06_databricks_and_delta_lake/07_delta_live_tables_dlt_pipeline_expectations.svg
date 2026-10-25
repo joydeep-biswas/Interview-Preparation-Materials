@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Delta Live Tables (DLT) Declarative Pipeline &amp; Expectations</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Automated DAG generation, streaming incremental updates, and declarative data quality enforcement</text>
+
+  <!-- Stage 1: Raw Event Source -->
+  <rect x="40" y="85" width="225" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="225" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="152" y="108" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">1. RAW STORAGE STREAM</text>
+
+  <!-- Cloud Storage -->
+  <rect x="55" y="135" width="195" height="95" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1"/>
+  <text x="68" y="157" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="start">Raw Event Landing (S3/ADLS)</text>
+  <text x="68" y="177" font-size="9" fill="#CBD5E1" text-anchor="start">• JSON, CSV, Kafka topics</text>
+  <text x="68" y="192" font-size="9" fill="#CBD5E1" text-anchor="start">• Unstructured blobs</text>
+  <text x="68" y="207" font-size="9" fill="#94A3B8" text-anchor="start">• Ingestion volume: Continuous</text>
+
+  <!-- Auto Loader Box -->
+  <rect x="55" y="245" width="195" height="110" rx="6" fill="#083344" fill-opacity="0.3" stroke="#22D3EE" stroke-width="1.5"/>
+  <text x="68" y="267" font-size="10" font-weight="700" fill="#22D3EE" text-anchor="start">Auto Loader (cloudFiles)</text>
+  <text x="68" y="287" font-size="9" fill="#CBD5E1" text-anchor="start">• Incremental file detection</text>
+  <text x="68" y="302" font-size="9" fill="#CBD5E1" text-anchor="start">• Schema inference &amp; evolution</text>
+  <text x="68" y="317" font-size="9" fill="#A5F3FC" text-anchor="start">• Resilient checkpointing</text>
+  <text x="68" y="337" font-size="8.5" fill="#34D399" text-anchor="start">Zero missed files guarantee</text>
+
+  <line x1="152" y1="230" x2="152" y2="245" stroke="#22D3EE" stroke-width="1.5" marker-end="url(#arr-c)"/>
+
+  <!-- Stage 2: Bronze DLT Table -->
+  <rect x="285" y="85" width="245" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="285" y="85" width="245" height="36" rx="8" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="407" y="108" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle">2. BRONZE DLT TABLE</text>
+
+  <!-- DLT Decorator -->
+  <rect x="300" y="135" width="215" height="145" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="312" y="157" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="start">@dlt.table(comment="...")</text>
+  <text x="312" y="175" font-size="9" font-family="monospace" fill="#FDE68A" text-anchor="start">def orders_bronze():</text>
+  <text x="320" y="190" font-size="9" font-family="monospace" fill="#FDE68A" text-anchor="start">  return (spark.readStream</text>
+  <text x="320" y="205" font-size="9" font-family="monospace" fill="#FDE68A" text-anchor="start">    .format("cloudFiles")</text>
+  <text x="320" y="220" font-size="9" font-family="monospace" fill="#FDE68A" text-anchor="start">    .load(raw_path))</text>
+  <text x="312" y="245" font-size="9" fill="#CBD5E1" text-anchor="start">• Raw append-only Delta log</text>
+  <text x="312" y="260" font-size="9" fill="#CBD5E1" text-anchor="start">• Enriches with ingestion timestamp</text>
+
+  <!-- Characteristics -->
+  <rect x="300" y="295" width="215" height="145" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="312" y="315" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="start">Bronze Characteristics</text>
+  <text x="312" y="335" font-size="9" fill="#CBD5E1" text-anchor="start">• 100% Raw fidelity (historical replay)</text>
+  <text x="312" y="352" font-size="9" fill="#CBD5E1" text-anchor="start">• Stores corrupted rows in</text>
+  <text x="312" y="367" font-size="9" fill="#F87171" text-anchor="start">  _rescue_data column</text>
+  <text x="312" y="387" font-size="9" fill="#CBD5E1" text-anchor="start">• Zero data loss</text>
+  <text x="312" y="407" font-size="9" font-weight="600" fill="#34D399" text-anchor="start">Single Source of Truth</text>
+
+  <!-- Link Stage 1 -> Stage 2 -->
+  <path d="M 250.0 285.0 L 260.0 285.0 C 273.0 285.0, 273.0 210.0, 286.0 210.0 L 300.0 210.0" fill="none" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+
+  <!-- Stage 3: Silver DLT Table -->
+  <rect x="550" y="85" width="265" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="550" y="85" width="265" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="682" y="108" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">3. SILVER (EXPECTATIONS QUALITY)</text>
+
+  <!-- DLT Expectations -->
+  <rect x="565" y="135" width="235" height="175" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="578" y="157" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Data Quality Expectations</text>
+  
+  <text x="578" y="178" font-size="9" font-family="monospace" fill="#34D399" text-anchor="start">@dlt.expect("valid_id",</text>
+  <text x="588" y="193" font-size="9" font-family="monospace" fill="#34D399" text-anchor="start">  "order_id IS NOT NULL")</text>
+  <text x="578" y="210" font-size="8.5" fill="#94A3B8" text-anchor="start">- Warn: Records metric, keeps row</text>
+
+  <text x="578" y="230" font-size="9" font-family="monospace" fill="#FBBF24" text-anchor="start">@dlt.expect_or_drop("price",</text>
+  <text x="588" y="245" font-size="9" font-family="monospace" fill="#FBBF24" text-anchor="start">  "amount &gt; 0")</text>
+  <text x="578" y="262" font-size="8.5" fill="#94A3B8" text-anchor="start">- Drop: Discards invalid row</text>
+
+  <text x="578" y="282" font-size="9" font-family="monospace" fill="#EF4444" text-anchor="start">@dlt.expect_or_fail("key",</text>
+  <text x="588" y="297" font-size="9" font-family="monospace" fill="#EF4444" text-anchor="start">  "customer_id IS NOT NULL")</text>
+  <text x="578" y="312" font-size="8.5" fill="#94A3B8" text-anchor="start">- Fail: Halts pipeline immediately!</text>
+
+  <!-- Silver Output -->
+  <rect x="565" y="325" width="235" height="115" rx="6" fill="#064E3B" fill-opacity="0.3" stroke="#34D399" stroke-width="1"/>
+  <text x="578" y="347" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Cleaned Silver Table</text>
+  <text x="578" y="367" font-size="9" fill="#CBD5E1" text-anchor="start">• Deduplicated records</text>
+  <text x="578" y="382" font-size="9" fill="#CBD5E1" text-anchor="start">• Clean types &amp; validated schemas</text>
+  <text x="578" y="397" font-size="9" fill="#A7F3D0" text-anchor="start">• Metrics emitted to Event Log UI</text>
+  <text x="578" y="417" font-size="8.5" font-weight="600" fill="#34D399" text-anchor="start">Conformed Enterprise Model</text>
+
+  <!-- Link Stage 2 -> Stage 3 -->
+  <line x1="515" y1="210" x2="565" y2="210" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Stage 4: Gold DLT Mart -->
+  <rect x="835" y="85" width="245" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="835" y="85" width="245" height="36" rx="8" fill="#3B0764" fill-opacity="0.8" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="957" y="108" font-size="11" font-weight="700" fill="#C084FC" text-anchor="middle">4. GOLD (AGGREGATED MARTS)</text>
+
+  <!-- DLT Materialized View -->
+  <rect x="850" y="135" width="215" height="145" rx="6" fill="#0F172A" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="862" y="157" font-size="10" font-weight="700" fill="#C084FC" text-anchor="start">@dlt.table / Materialized View</text>
+  <text x="862" y="177" font-size="9" font-family="monospace" fill="#E9D5FF" text-anchor="start">def sales_summary_gold():</text>
+  <text x="872" y="193" font-size="9" font-family="monospace" fill="#E9D5FF" text-anchor="start">  return (dlt.read("orders_silver")</text>
+  <text x="872" y="208" font-size="9" font-family="monospace" fill="#E9D5FF" text-anchor="start">    .groupBy("date", "region")</text>
+  <text x="872" y="223" font-size="9" font-family="monospace" fill="#E9D5FF" text-anchor="start">    .agg(sum("amount")))</text>
+  <text x="862" y="248" font-size="9" fill="#CBD5E1" text-anchor="start">• Business-level aggregated KPI mart</text>
+  <text x="862" y="263" font-size="9" fill="#34D399" text-anchor="start">• Optimized for Tableau / PowerBI</text>
+
+  <!-- BI Dashboard Consumption -->
+  <rect x="850" y="295" width="215" height="145" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="862" y="315" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="start">Downstream Consumers</text>
+  <text x="862" y="335" font-size="9" fill="#CBD5E1" text-anchor="start">• Executive dashboards &amp; reporting</text>
+  <text x="862" y="352" font-size="9" fill="#CBD5E1" text-anchor="start">• Customer ML churn models</text>
+  <text x="862" y="369" font-size="9" fill="#CBD5E1" text-anchor="start">• Sub-second Serverless SQL</text>
+  <text x="862" y="386" font-size="9" fill="#CBD5E1" text-anchor="start">• Photon-accelerated queries</text>
+  <text x="862" y="410" font-size="9" font-weight="600" fill="#34D399" text-anchor="start">Governed in Unity Catalog</text>
+
+  <!-- Link Stage 3 -> Stage 4 -->
+  <line x1="800" y1="210" x2="850" y2="210" stroke="#C084FC" stroke-width="2" marker-end="url(#arr-p)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="468" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="484" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">DLT Invariant: Delta Live Tables builds automatic execution DAGs from declarative code and guarantees data quality via expectations (warn, drop, fail) with zero manual infrastructure management.</text>
+</svg>

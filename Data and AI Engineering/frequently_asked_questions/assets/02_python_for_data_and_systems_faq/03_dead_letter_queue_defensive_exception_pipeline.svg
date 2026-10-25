@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .card-red { stroke: #EF4444; }
+      .card-purple { stroke: #8B5CF6; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-green { stroke: #10B981; }
+      .edge-red { stroke: #EF4444; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-b3py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g3py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-r3py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-p3py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">Enterprise Dead-Letter Queue (DLQ) Defensive Exception Architecture</text>
+
+  <!-- Left: Ingress & Parse -->
+  <rect x="30" y="115" width="200" height="130" class="card card-blue"/>
+  <text x="130" y="142" class="card-title" fill="#93C5FD">1. Record Ingress</text>
+  <text x="45" y="167" class="card-body">• Raw stream iterator</text>
+  <text x="45" y="187" class="card-body">• S3 / Kafka batch</text>
+  <text x="45" y="207" class="card-body">• Generator dispatch</text>
+
+  <!-- Center Col 1: Try Block -->
+  <rect x="270" y="115" width="200" height="130" class="card card-amber"/>
+  <text x="370" y="142" class="card-title" fill="#FDE68A">try: Validate</text>
+  <text x="285" y="167" class="card-body">• Pydantic schema</text>
+  <text x="285" y="187" class="card-body">• Type coercion</text>
+  <text x="285" y="207" class="card-body">• Non-null constraints</text>
+
+  <!-- Right Top: Success Primary Table -->
+  <rect x="520" y="55" width="240" height="110" class="card card-green"/>
+  <text x="640" y="80" class="card-title" fill="#6EE7B7">Primary Table Batch</text>
+  <text x="535" y="105" class="card-body" fill="#34D399">• Valid verified record</text>
+  <text x="535" y="125" class="card-body">• Bulk upsert into Delta / PG</text>
+  <text x="535" y="145" class="card-body">• Zero corrupt rows in prod</text>
+
+  <!-- Right Bottom: DLQ Quarantine -->
+  <rect x="520" y="195" width="240" height="120" class="card card-red"/>
+  <text x="640" y="220" class="card-title" fill="#FCA5A5">Dead-Letter Queue (DLQ)</text>
+  <text x="535" y="245" class="card-body" fill="#EF4444">• catch Exception as e</text>
+  <text x="535" y="265" class="card-body">• Enrich with stack + payload</text>
+  <text x="535" y="285" class="card-body">• Written to s3://quarantine/</text>
+
+  <!-- Far Right: Finally Block -->
+  <rect x="810" y="115" width="210" height="130" class="card card-purple"/>
+  <text x="915" y="142" class="card-title" fill="#D8B4FE">finally: Flush &amp; Metric</text>
+  <text x="825" y="167" class="card-body">• Flush pending buffers</text>
+  <text x="825" y="187" class="card-body">• Close file handles</text>
+  <text x="825" y="207" class="card-body">• Prometheus telemetry</text>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 230 180 L 270 180" class="edge edge-blue" marker-end="url(#arr-b3py)"/>
+
+  <!-- Try to Success: exit 470,180 -> curve -> enter 520,110 with runway dx>=14 -->
+  <path fill="none" d="M 470 180 C 490 180, 495 110, 506 110 L 520 110" class="edge edge-green" marker-end="url(#arr-g3py)"/>
+  <text x="495" y="135" class="edge-label" fill="#6EE7B7">Success</text>
+
+  <!-- Try to DLQ: exit 470,180 -> curve -> enter 520,255 with runway dx>=14 -->
+  <path fill="none" d="M 470 180 C 490 180, 495 255, 506 255 L 520 255" class="edge edge-red" marker-end="url(#arr-r3py)"/>
+  <text x="495" y="230" class="edge-label" fill="#EF4444">Catch</text>
+
+  <!-- Success to Finally: exit 760,110 -> curve -> enter 810,180 with runway dx>=14 -->
+  <path fill="none" d="M 760 110 C 780 110, 785 180, 796 180 L 810 180" class="edge edge-purple" marker-end="url(#arr-p3py)"/>
+
+  <!-- DLQ to Finally: exit 760,255 -> curve -> enter 810,180 with runway dx>=14 -->
+  <path fill="none" d="M 760 255 C 780 255, 785 180, 796 180 L 810 180" class="edge edge-purple" marker-end="url(#arr-p3py)"/>
+</svg>

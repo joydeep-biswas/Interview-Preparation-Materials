@@ -1,0 +1,30 @@
+direction: right
+title: Direct Coupling vs. Inversion of Control (IoC)
+
+trad: "Traditional Direct Coupling (No IoC)" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  svc_t: "OrderService"
+  repo_t: "PostgresOrderRepository"
+  ds_t: "HikariDataSource"
+  sock_t: "Low-level Network Socket"
+
+  svc_t -> repo_t: "calls new()"
+  repo_t -> ds_t: "calls new()"
+  ds_t -> sock_t: "calls new Socket()"
+}
+
+ioc: "Inversion of Control (Spring IoC)" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  ctx: "Spring ApplicationContext (Container)"
+  ds_i: "DataSource Bean"
+  repo_i: "OrderRepository Bean"
+  svc_i: "OrderService Bean"
+
+  ctx -> ds_i: "1. Instantiates"
+  ctx -> repo_i: "2. Injects DataSource"
+  ctx -> svc_i: "3. Injects Repository"
+}

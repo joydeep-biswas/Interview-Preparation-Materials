@@ -1,0 +1,24 @@
+classes: {
+  startup_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  liveness_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  readiness_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+start: "Container Starts\nPod initialization & JVM bootstrap"
+
+startup: "1. Startup Probe\nBlocks other probes during warm-up\nPrevents premature restarts" {
+  class: startup_box
+}
+
+steady_state: "2. Continuous Steady-State Probes" {
+  liveness: "Liveness Probe (Self-Healing)\nDetects deadlocks & thread hangs\nAction: Kubelet kills & restarts pod" {
+    class: liveness_box
+  }
+  readiness: "Readiness Probe (Ingress Protection)\nDetects warm-up & temporary saturation\nAction: Removes pod IP from Endpoints" {
+    class: readiness_box
+  }
+}
+
+start -> startup: "Initiate boot"
+startup -> steady_state.liveness: "Passed -> Enable Liveness" { style: { stroke: "#4ade80"; stroke-width: 2 } }
+startup -> steady_state.readiness: "Passed -> Enable Readiness" { style: { stroke: "#4ade80"; stroke-width: 2 } }

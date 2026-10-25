@@ -1,0 +1,25 @@
+direction: right
+title: Spark SortShuffleManager Internals
+
+Mapper: 1. Mapper Buffer & Spill {
+  style.stroke: "#38BDF8"
+  RAM: PartitionedAppendOnlyMap (In-Memory Buffer)
+  Spill: In-Memory Sort & Disk Spill (temp files)
+  RAM -> Spill: Memory Threshold Exceeded
+}
+
+ConsolidatedFiles: 2. Consolidated Files {
+  style.stroke: "#34D399"
+  DataFile: shuffle_0_0_0.data (Contiguous Partition Blocks)
+  IndexFile: shuffle_0_0_0.index (Partition Byte Offsets)
+}
+
+ReducerFetch: 3. Reducer Fetch {
+  style.stroke: "#C084FC"
+  Netty: External Shuffle Service (sendfile Zero-Copy)
+  Reducer: Reducer Execution Memory Buffer
+  Netty -> Reducer: Block Transfer RPC
+}
+
+Mapper.Spill -> ConsolidatedFiles.DataFile: External Merge Sort { style.stroke: "#34D399" }
+ConsolidatedFiles.IndexFile -> ReducerFetch.Netty: Reads partition offsets { style.stroke: "#C084FC" }

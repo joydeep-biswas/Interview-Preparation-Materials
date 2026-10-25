@@ -1,0 +1,42 @@
+direction: down
+title: "Facade Pattern: Simplified Coordinated Subsystem Entry Point"
+
+client: "OrderController
+Calls fulfillOrder()" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+facade: "OrderFulfillmentFacade
+Coordinates 4 subsystems
+Handles errors & rollbacks" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+s1: "InventoryService
+reserveStock()" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+s2: "PaymentService
+charge()" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+s3: "ShippingService
+createShipment()" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+s4: "NotificationService
+sendConfirmation()" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+
+client -> facade: "1. Fulfill Order"
+facade -> s1: "2. Reserve stock"
+facade -> s2: "3. Charge card"
+facade -> s3: "4. Create shipment"
+facade -> s4: "5. Send email"

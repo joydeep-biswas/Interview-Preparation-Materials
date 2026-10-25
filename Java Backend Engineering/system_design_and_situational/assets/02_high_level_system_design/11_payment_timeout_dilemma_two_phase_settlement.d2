@@ -1,0 +1,54 @@
+direction: right
+
+client: "Client Application" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  req: "1. POST /payments ($100, Idempotency-Key: K1)"
+  timeout: "4. HTTP 504 Timeout (Payment Pending)"
+  verified: "7. Webhook Confirmed Receipt"
+}
+
+gateway: "Payment Gateway & Reconciler" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  forward: "2. Forward ISO 8583 Auth"
+  dropped: "Drop: Socket Timeout (Never Blind Retry)"
+  reconcile: "5. Active Inquiry: GET /charges?key=K1"
+  success: "6. Mark Local DB 'SUCCESS'"
+}
+
+bank: "Acquiring Bank / PSP" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  charged: "Deducts Funds & Commits Charge"
+  drop: "ACK Dropped on Network Boundary"
+  inquiry: "Inquiry Returns 'SUCCESS'"
+}
+
+client -> gateway: "1. Charge Request" {
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+}
+gateway -> bank: "2. Process Auth" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+gateway -> client: "4. HTTP 504 Timeout" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}
+gateway -> bank: "5. Reconcile Status" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}
+bank -> gateway: "6. Confirm Charge" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+gateway -> client: "7. Async Webhook Confirmed" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

@@ -1,0 +1,14 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+cust: "Customers Table\n10,000,000 Total Customers" { class: box; style.stroke: "#3B82F6" }
+anti: "Anti-Join Evaluation Gate\nHas transaction in last 90 days?" { class: box; style.stroke: "#F59E0B" }
+
+dormant: "Dormant Customers (TARGET)\nZero transactions in 90 days\nEmitted to re-engagement campaign" { class: box; style.stroke: "#10B981" }
+active: "Active Customers (FILTERED)\nHas active recent transactions\nPruned by NOT EXISTS condition" { class: box; style.stroke: "#64748B" }
+
+cust -> anti
+anti -> dormant: "No (Anti-Join Hit)"
+anti -> active: "Yes (Match Found)"

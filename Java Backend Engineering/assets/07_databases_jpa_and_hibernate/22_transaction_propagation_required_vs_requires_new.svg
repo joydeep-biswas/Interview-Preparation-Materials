@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 580" width="1100" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="580" rx="10" fill="url(#bg)"/>
+  <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Transaction Propagation: REQUIRED vs REQUIRES_NEW</text>
+  <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Thread-Bound Connection Suspension, Independent Commits, and the Pool Starvation Deadlock Danger</text>
+<rect x="50" y="95" width="200" height="50" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="150" y="116" fill="#3b82f6" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ServiceA (REQUIRED)</text>
+<text x="150" y="134" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tx 1 Scope</text>
+<line x1="150" y1="145" x2="150" y2="485" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<rect x="330" y="95" width="200" height="50" rx="6" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="430" y="116" fill="#06b6d4" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">HikariCP Pool</text>
+<text x="430" y="134" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Shared Connection Pool</text>
+<line x1="430" y1="145" x2="430" y2="485" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<rect x="600" y="95" width="200" height="50" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="700" y="116" fill="#f59e0b" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">AuditService (REQUIRES_NEW)</text>
+<text x="700" y="134" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tx 2 Scope (Independent)</text>
+<line x1="700" y1="145" x2="700" y2="485" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<rect x="860" y="95" width="200" height="50" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<text x="960" y="116" fill="#10b981" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL Engine</text>
+<text x="960" y="134" fill="#94A3B8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Storage &amp; ACID Log</text>
+<line x1="960" y1="145" x2="960" y2="485" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<line x1="150" y1="170" x2="430" y2="170" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<text x="290" y="162" fill="#93C5FD" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Borrows Connection #1 (Tx 1 Started)</text>
+<line x1="150" y1="205" x2="960" y2="205" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<text x="555" y="197" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. INSERT INTO orders ... (Uncommitted in Tx 1)</text>
+<line x1="150" y1="245" x2="700" y2="245" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<text x="425" y="237" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Invokes auditLog() [@Transactional(REQUIRES_NEW)]</text>
+<rect x="70" y="253" width="160" height="36" rx="4" fill="#78350f" stroke="#f59e0b" stroke-width="1"/>
+<text x="150" y="269" fill="#FDE68A" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SUSPEND Tx 1 &amp; Conn #1</text>
+<text x="150" y="283" fill="#CBD5E1" font-size="7.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Unbinds from ThreadLocal</text>
+<line x1="700" y1="285" x2="430" y2="285" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<text x="565" y="277" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Borrows Connection #2! (Tx 2 Started)</text>
+<line x1="700" y1="320" x2="960" y2="320" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="830" y="312" fill="#6EE7B7" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">5. INSERT INTO audit_logs ...</text>
+<line x1="700" y1="355" x2="430" y2="355" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<text x="565" y="347" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">6. COMMIT Tx 2 &amp; Returns Conn #2 to pool</text>
+<rect x="70" y="390" width="160" height="32" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="150" y="406" fill="#6EE7B7" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">RESUME Tx 1 &amp; Conn #1</text>
+<text x="150" y="418" fill="#CBD5E1" font-size="7.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Re-binds to ThreadLocal</text>
+<rect x="60" y="435" width="180" height="28" rx="4" fill="#7f1d1d" stroke="#ef4444" stroke-width="1.5"/>
+<text x="150" y="453" fill="#FECACA" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Throws RuntimeException!</text>
+<line x1="150" y1="470" x2="430" y2="470" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<text x="290" y="462" fill="#F87171" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">7. ROLLBACK Tx 1 &amp; Returns Conn #1 to pool</text>
+<rect x="830" y="420" width="240" height="55" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="840" y="440" fill="#38BDF8" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Database State Result:</text>
+<text x="840" y="456" fill="#F87171" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• orders row: ROLLED BACK</text>
+<text x="840" y="470" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• audit_log row: COMMITTED!</text>
+<rect x="40" y="500" width="1020" height="70" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="65" y="522" fill="#FECACA" font-size="11" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">CATASTROPHIC DEADLOCK TRAP: HikariCP Pool Starvation via REQUIRES_NEW</text>
+<text x="65" y="540" fill="#FCA5A5" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• If pool size is N and N concurrent HTTP threads execute ServiceA, each thread acquires Connection #1 and suspends it.</text>
+<text x="65" y="556" fill="#FFFFFF" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• All N threads then request Connection #2 for REQUIRES_NEW from an empty pool. Every thread freezes permanently -&gt; COMPLETE APPLICATION HANG!</text>
+</svg>

@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 380" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="380" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Distributed Consistency Spectrum Hierarchy</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">From Real-Time Global Linearizability to High-Availability Eventual Convergence</text>
+  
+  
+    <rect x="30" y="110" width="175" height="210" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="117.5" y="136" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. Strict Linearizability</text>
+    <text x="117.5" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Global Real-Time Order</text>
+    <rect x="126" y="120" width="73" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="162.5" y="132" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">STRONGEST</text>
+    <circle cx="46" cy="165" r="2" fill="#ef4444"/>
+    <text x="54" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Global wall-clock time</text>
+    <circle cx="46" cy="181" r="2" fill="#ef4444"/>
+    <text x="54" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Google Spanner TrueTime</text>
+    <circle cx="46" cy="197" r="2" fill="#ef4444"/>
+    <text x="54" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">etcd / Consul consensus</text>
+    <circle cx="46" cy="213" r="2" fill="#ef4444"/>
+    <text x="54" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reads reflect latest write</text>
+    <circle cx="46" cy="229" r="2" fill="#ef4444"/>
+    <text x="54" y="232" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Latency penalty (atomic clocks)</text>
+
+  
+    <rect x="220" y="110" width="175" height="210" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="307.5" y="136" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. Sequential Consistency</text>
+    <text x="307.5" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Total Order Across Nodes</text>
+    <circle cx="236" cy="165" r="2" fill="#f59e0b"/>
+    <text x="244" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Apache ZooKeeper / Raft</text>
+    <circle cx="236" cy="181" r="2" fill="#f59e0b"/>
+    <text x="244" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">All nodes observe same order</text>
+    <circle cx="236" cy="197" r="2" fill="#f59e0b"/>
+    <text x="244" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero interleaving violations</text>
+
+  
+    <rect x="410" y="110" width="175" height="210" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="497.5" y="136" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. Causal Consistency</text>
+    <text x="497.5" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cause Precedes Effect</text>
+    <circle cx="426" cy="165" r="2" fill="#3b82f6"/>
+    <text x="434" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Git version tree</text>
+    <circle cx="426" cy="181" r="2" fill="#3b82f6"/>
+    <text x="434" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cosmos DB (Causal)</text>
+    <circle cx="426" cy="197" r="2" fill="#3b82f6"/>
+    <text x="434" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Concurrent events ordered freely</text>
+    <circle cx="426" cy="213" r="2" fill="#3b82f6"/>
+    <text x="434" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Replies never precede queries</text>
+
+  
+    <rect x="600" y="110" width="170" height="210" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="685.0" y="136" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">4. Read Committed</text>
+    <text x="685.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Relational Isolation</text>
+    <circle cx="616" cy="165" r="2" fill="#8b5cf6"/>
+    <text x="624" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">PostgreSQL, Oracle</text>
+    <circle cx="616" cy="181" r="2" fill="#8b5cf6"/>
+    <text x="624" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">No dirty uncommitted reads</text>
+    <circle cx="616" cy="197" r="2" fill="#8b5cf6"/>
+    <text x="624" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Phantoms tolerated</text>
+
+  
+    <rect x="785" y="110" width="165" height="210" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="867.5" y="136" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">5. Eventual Consistency</text>
+    <text x="867.5" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">High-Availability Converge</text>
+    <rect x="885" y="120" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="914.5" y="132" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">FASTEST</text>
+    <circle cx="801" cy="165" r="2" fill="#10b981"/>
+    <text x="809" y="168" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Cassandra, DynamoDB, S3</text>
+    <circle cx="801" cy="181" r="2" fill="#10b981"/>
+    <text x="809" y="184" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Replicas eventually converge</text>
+    <circle cx="801" cy="197" r="2" fill="#10b981"/>
+    <text x="809" y="200" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sub-millisecond writes</text>
+    <circle cx="801" cy="213" r="2" fill="#10b981"/>
+    <text x="809" y="216" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero coordination wait</text>
+
+  
+    <line x1="205" y1="215" x2="220" y2="215" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  
+    <line x1="395" y1="215" x2="410" y2="215" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  
+    <line x1="585" y1="215" x2="600" y2="215" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  
+    <line x1="770" y1="215" x2="785" y2="215" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <text x="490" y="355" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Trade-off: Stronger consistency requires more network coordination and increases write latency</text>
+
+</svg>

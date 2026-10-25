@@ -1,0 +1,52 @@
+direction: down
+title: Java Collections Framework & Map Architecture
+
+Iterable: <<interface>> Iterable<T> {
+  style.fill: "#1E293B"
+  style.stroke: "#3B82F6"
+  methods: "iterator(), forEach(), spliterator()"
+}
+
+Collection: <<interface>> Collection<E> {
+  style.fill: "#1E293B"
+  style.stroke: "#3B82F6"
+  methods: "add(), remove(), size(), contains(), stream()"
+}
+
+List: <<interface>> List<E> {
+  style.fill: "#0F172A"
+  style.stroke: "#0284C7"
+  ArrayList: "Contiguous array, O(1) random access"
+  LinkedList: "Doubly-linked nodes"
+  CopyOnWrite: "Thread-safe snapshot reads"
+}
+
+Set: <<interface>> Set<E> {
+  style.fill: "#0F172A"
+  style.stroke: "#10B981"
+  HashSet: "O(1) hash table lookup"
+  LinkedHashSet: "Preserves insertion order"
+  TreeSet: "Sorted Red-Black tree O(log N)"
+}
+
+Queue: <<interface>> Queue & Deque<E> {
+  style.fill: "#0F172A"
+  style.stroke: "#8B5CF6"
+  ArrayDeque: "Circular buffer; high performance stack/queue"
+  PriorityQueue: "Binary min-heap ordered"
+  BlockingQueue: "Thread-safe bounded buffer"
+}
+
+MapRoot: Independent Map<K,V> Hierarchy {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  HashMap: "Hash table with red-black treeify"
+  LinkedHashMap: "Preserves insertion/access order"
+  TreeMap: "Red-black tree sorted keys"
+  ConcurrentHashMap: "CAS + synchronized bucket locks"
+}
+
+Iterable -> Collection
+Collection -> List
+Collection -> Set
+Collection -> Queue

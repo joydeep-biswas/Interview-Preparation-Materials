@@ -1,0 +1,43 @@
+direction: down
+
+iterable: "Iterable<E> (Root Cursor Contract)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  methods: "iterator(), forEach(), spliterator()"
+}
+
+collection: "Collection<E> (Core Container Contract)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  methods: "add(), remove(), contains(), stream()"
+}
+
+iterable -> collection: "extends"
+
+list: "List<E> (Ordered, Indexed)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  impls: "ArrayList | LinkedList"
+}
+
+set: "Set<E> (Distinct Elements)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  impls: "HashSet | TreeSet"
+}
+
+queue: "Queue<E> & Deque<E>" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  impls: "ArrayDeque | PriorityQueue"
+}
+
+map: "Map<K, V> (Key-Value Associative)" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  impls: "HashMap | LinkedHashMap | TreeMap | ConcurrentHashMap"
+}
+
+collection -> list: "extends"
+collection -> set: "extends"
+collection -> queue: "extends"

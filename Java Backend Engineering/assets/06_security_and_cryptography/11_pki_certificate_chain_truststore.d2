@@ -1,0 +1,27 @@
+direction: right
+title: PKI Certificate Chain & TrustStore Architecture
+
+RootCA: 1. Root CA (DigiCert / Let's Encrypt) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  cert: "Self-Signed Root Certificate"
+  store: "Java TrustStore ($JAVA_HOME/lib/security/cacerts)"
+}
+
+InterCA: 2. Intermediate CA (R3) {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  cert: "Signed by Root CA"
+  role: "Isolates Root CA; handles routine signing"
+}
+
+LeafCert: 3. Server Leaf Certificate (*.company.com) {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  cert: "Signed by Intermediate CA"
+  store: "Spring Boot KeyStore (keystore.p12)"
+}
+
+RootCA -> InterCA: Signs with Root Private Key { style.stroke: "#38BDF8" }
+InterCA -> LeafCert: Signs with Intermediate Private Key { style.stroke: "#10B981" }
+LeafCert -> RootCA: Client validates signature path back to TrustStore { style.stroke: "#F59E0B" }

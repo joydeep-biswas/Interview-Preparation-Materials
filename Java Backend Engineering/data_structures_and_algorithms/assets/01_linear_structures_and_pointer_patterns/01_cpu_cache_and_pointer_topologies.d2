@@ -1,0 +1,22 @@
+direction: down
+title: CPU Cache Line Locality & Pointer Traversal Topologies
+
+MemoryLayout: 1. CPU Cache Line Memory Locality {
+  A0: "Array[0] (0x00)"
+  A1: "Array[1] (0x08)"
+  A2: "Array[2] (0x10)"
+  A3: "Array[3] (0x18)"
+  A4: "Array[4] (0x20)"
+  A5: "Array[5] (0x28)"
+  A6: "Array[6] (0x30)"
+  A7: "Array[7] (0x38)"
+  A0 -> A1 -> A2 -> A3 -> A4 -> A5 -> A6 -> A7
+}
+
+PointerPatterns: 2. Canonical Pointer Scanning Topologies {
+  Convergent: Two Pointers Convergent Scan (L -> <- R)
+  Cycle: Fast & Slow Floyd Tortoise & Hare (1x vs 2x)
+  SlidingWindow: Dynamic Sliding Window (Expand / Contract)
+}
+
+MemoryLayout -> PointerPatterns: Spatial Locality enables O(1) auxiliary scans

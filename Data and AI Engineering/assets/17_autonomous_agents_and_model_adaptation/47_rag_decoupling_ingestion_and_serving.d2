@@ -1,0 +1,27 @@
+direction: down
+classes: {
+  ingest: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  query: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+}
+
+ingestion_plane: "1. Asynchronous Ingestion Plane (Offline / Batch)" {
+  direction: right
+  repos: "Source Repos (S3/SharePoint)" { class: ingest }
+  kafka: "Apache Kafka Ingress Queue" { class: ingest }
+  workers: "Parser Worker Pods (ColPali)" { class: ingest }
+  master: "Qdrant Primary Write Master" { class: ingest }
+
+  repos -> kafka -> workers -> master
+}
+
+query_plane: "2. Query Serving Plane (Online / Low Latency)" {
+  direction: right
+  users: "10,000+ Concurrent Queries" { class: query }
+  nlb: "Network Load Balancer" { class: query }
+  api: "Stateless FastAPI Serving Pods" { class: query }
+  replicas: "Qdrant Read-Only Replicas" { class: query }
+
+  users -> nlb -> api -> replicas
+}
+
+ingestion_plane.master -> query_plane.replicas: "Async Storage Replication" { style: { stroke-dash: 4 } }

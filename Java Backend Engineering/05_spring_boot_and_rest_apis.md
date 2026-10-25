@@ -6,37 +6,9 @@ A comprehensive, production-grade guide to the Spring ecosystem, Spring Boot aut
 
 ## Architectural Overview: Enterprise Spring Core & Spring Boot Runtime Architecture
 
-```mermaid
-flowchart TD
-    subgraph Stage1 ["1. Spring Boot Startup & Auto-Configuration"]
-        direction LR
-        Main["SpringApplication.run()<br/>(Bootstrap & main entry)"] --> Env["Environment Preparation<br/>(application.yml, profiles, env vars)"] --> Ctx["Create ApplicationContext<br/>(AnnotationConfigServletWebServerApplicationContext)"] --> AutoCfg["Auto-Configuration Engine<br/>(Reads AutoConfiguration.imports & evaluates @Conditional)"]
-    end
+![Enterprise Spring Core & Spring Boot Runtime Architecture](assets/05_spring_boot_and_rest_apis/01_spring_boot_startup_and_lifecycle.svg)
 
-    subgraph Stage2 ["2. IoC Container: Definition & Instantiation"]
-        direction LR
-        Defs["Register Bean Definitions<br/>(Scanned @Component & @Bean methods)"] --> BFPP["BeanFactoryPostProcessors<br/>(Customizes definitions before instantiation)"] --> Instantiate["Instantiate Beans<br/>(Reflection constructor invocation)"]
-    end
-
-    subgraph Stage3 ["3. IoC Container: Injection, Lifecycle & AOP Proxying"]
-        direction LR
-        Populate["Populate Properties<br/>(Constructor / Setter / Field Injection)"] --> Init["Bean Initialization<br/>(@PostConstruct -> InitializingBean -> initMethod)"] --> AOP["BeanPostProcessor After-Init<br/>(Wraps targets in dynamic CGLIB / JDK AOP proxies)"]
-    end
-
-    subgraph Stage4 ["4. Embedded Web Server & Actuator Observability"]
-        direction LR
-        Tomcat["Start Embedded Server<br/>(Embedded Tomcat / Jetty / Undertow)"] --> Actuator["Expose Actuator Endpoints<br/>(/actuator/health, /actuator/metrics, /actuator/prometheus)"] --> Ready["Application Ready Event<br/>(Begins serving production HTTP traffic)"]
-    end
-
-    Stage1 --> Stage2
-    Stage2 --> Stage3
-    Stage3 --> Stage4
-
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Stage2 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Stage3 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Stage4 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/01_spring_boot_startup_and_lifecycle.d2](assets/05_spring_boot_and_rest_apis/01_spring_boot_startup_and_lifecycle.d2)*
 
 ---
 
@@ -166,27 +138,9 @@ Imagine a chef in a restaurant:
 * **Without IoC (Solo Chef)**: The chef must leave the kitchen, drive to the farm, harvest tomatoes, butcher cattle, return to the kitchen, forge a knife, cook the steak, and serve the customer. The chef is tightly coupled to raw ingredient creation, logistics, and tooling. If the tomato farm closes, the chef cannot cook.
 * **With IoC (Commercial Kitchen with Supply Chain)**: The chef stands at the cooking station and simply requests ingredients: `public Chef(Steak steak, Tomatoes tomatoes, ChefKnife knife)`. The restaurant's logistics department (the IoC container) procures the certified ingredients, inspects them, and delivers them directly to the chef's counter. The chef focuses 100% on pure culinary domain logic.
 
-```mermaid
-flowchart TD
-    subgraph TraditionalModel ["Traditional Direct Coupling (No IoC)"]
-        direction TB
-        ClientA["OrderService"] -->|"calls new PostgresOrderRepository()"| ConcreteA["PostgresOrderRepository"]
-        ConcreteA -->|"calls new HikariDataSource()"| DB["Database Driver"]
-        DB -->|"calls new Socket('db.prod.internal', 5432)"| Net["Low-Level Network Socket"]
-    end
+![Direct Coupling vs. Inversion of Control (IoC)](assets/05_spring_boot_and_rest_apis/02_ioc_direct_coupling_vs_container.svg)
 
-    subgraph IoCModel ["Inversion of Control (Spring IoC Container)"]
-        direction TB
-        Container["Spring ApplicationContext<br/>(IoC Container)"]
-        Container -->|"1. Reads configuration & instantiates"| DS["DataSource Bean"]
-        Container -->|"2. Injects DS into"| RepoBean["OrderRepository Bean"]
-        Container -->|"3. Injects RepoBean into"| ServiceBean["OrderService Bean"]
-    end
-
-    style TraditionalModel fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style IoCModel fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Container fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/02_ioc_direct_coupling_vs_container.d2](assets/05_spring_boot_and_rest_apis/02_ioc_direct_coupling_vs_container.d2)*
 
 #### Why IoC is Vital for Enterprise Systems:
 1. **Loose Coupling**: Business services depend only on interfaces (`OrderRepository`), never concrete database implementations (`PostgresOrderRepository`). Switching to MongoDB, Cassandra, or an in-memory test store requires zero changes to core business code.
@@ -294,36 +248,9 @@ class OrderServiceTest {
 
 Spring separates its container design into two fundamental interface hierarchies:
 
-```mermaid
-flowchart TD
-    subgraph CoreContainer ["Core Container: BeanFactory Hierarchy"]
-        BF["<b>BeanFactory</b> (org.springframework.beans.factory)<br/>Root IoC container: basic DI & lazy bean lifecycle management"]
-    end
+![BeanFactory vs. ApplicationContext Architecture](assets/05_spring_boot_and_rest_apis/03_beanfactory_vs_applicationcontext.svg)
 
-    subgraph EnterpriseContext ["Enterprise Application Context"]
-        AC["<b>ApplicationContext</b> (org.springframework.context)<br/>Enterprise superset with event publication & AOP"]
-        subgraph ContextCapabilities ["Integrated Enterprise Services"]
-            direction LR
-            C1["<b>AOP Integration</b><br/>Declarative transactions"]
-            C2["<b>Event Publication</b><br/>ApplicationEventPublisher"]
-            C3["<b>i18n & Resource</b><br/>MessageSource & loaders"]
-            C4["<b>Environment API</b><br/>Profiles & properties"]
-        end
-        AC --> ContextCapabilities
-    end
-
-    BF -->|"Inherits & Extends"| AC
-
-    style CoreContainer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style EnterpriseContext fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ContextCapabilities fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#6ee7b7
-    style BF fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style AC fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style C1 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style C2 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style C3 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style C4 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/03_beanfactory_vs_applicationcontext.d2](assets/05_spring_boot_and_rest_apis/03_beanfactory_vs_applicationcontext.d2)*
 
 | Dimension | `BeanFactory` | `ApplicationContext` |
 | :--- | :--- | :--- |
@@ -382,27 +309,9 @@ public class AuthenticationService {
 }
 ```
 
-```mermaid
-flowchart TD
-    subgraph Bug ["Prototype-in-Singleton Trap"]
-        direction TB
-        AuthSingleton["AuthenticationService (Singleton)"] -->|"Injected once at boot time"| TokenInstance["TokenGenerator Instance #1 (Fixed forever!)"]
-        Req1["Request 1"] --> AuthSingleton
-        Req2["Request 2"] --> AuthSingleton
-        Req3["Request 3"] --> AuthSingleton
-    end
+![The Prototype-in-Singleton Injection Dilemma & Solutions](assets/05_spring_boot_and_rest_apis/04_prototype_in_singleton_injection_dilemma.svg)
 
-    subgraph Fix ["ObjectProvider Solution"]
-        direction TB
-        AuthService2["AuthenticationService (Singleton)"] --> Provider["ObjectProvider<TokenGenerator>"]
-        Provider -->|"Request 1 -> getObject()"| T1["TokenGenerator Instance #1"]
-        Provider -->|"Request 2 -> getObject()"| T2["TokenGenerator Instance #2"]
-        Provider -->|"Request 3 -> getObject()"| T3["TokenGenerator Instance #3"]
-    end
-
-    style Bug fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Fix fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/04_prototype_in_singleton_injection_dilemma.d2](assets/05_spring_boot_and_rest_apis/04_prototype_in_singleton_injection_dilemma.d2)*
 
 #### Production Solutions:
 
@@ -485,21 +394,9 @@ public abstract class AuthenticationService {
 
 Stereotype annotations are specialized forms of `@Component` that assign clear architectural roles within a multi-tier enterprise application:
 
-```mermaid
-flowchart TD
-    Comp["@Component<br/>(General-purpose Spring-managed bean)"]
+![Spring Stereotype Annotations Hierarchy & Responsibilities](assets/05_spring_boot_and_rest_apis/05_stereotype_annotations_hierarchy.svg)
 
-    Comp --> Svc["@Service<br/>(Domain Business Logic Layer)"]
-    Comp --> Repo["@Repository<br/>(Data Persistence Layer)"]
-    Comp --> Ctrl["@Controller<br/>(Presentation Layer: MVC Views / SSR)"]
-    Ctrl --> RestCtrl["@RestController<br/>(@Controller + @ResponseBody for JSON/REST APIs)"]
-
-    style Comp fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Svc fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Repo fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Ctrl fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RestCtrl fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/05_stereotype_annotations_hierarchy.d2](assets/05_spring_boot_and_rest_apis/05_stereotype_annotations_hierarchy.d2)*
 
 #### Stereotype Responsibilities:
 * **`@Component`**: The root stereotype. Any class annotated with `@Component` is picked up during component scanning and registered as a Spring bean definition.
@@ -521,17 +418,9 @@ required a single bean of type 'com.enterprise.payment.service.PaymentGateway',
 but 2 were found: [stripeGateway, payPalGateway]
 ```
 
-```mermaid
-flowchart TD
-    Client["CheckoutService requires PaymentGateway"] --> Ambiguity{"Two candidates exist:<br/>StripeGateway vs PayPalGateway"}
-    Ambiguity --> S1["Option 1: @Primary on StripeGateway<br/>(Sets default system candidate)"]
-    Ambiguity --> S2["Option 2: @Qualifier('payPalGateway')<br/>(Explicit candidate target at injection site)"]
+![Bean Disambiguation: @Autowired, @Primary, and @Qualifier](assets/05_spring_boot_and_rest_apis/06_bean_disambiguation_primary_qualifier.svg)
 
-    style Client fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Ambiguity fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style S1 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style S2 fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/06_bean_disambiguation_primary_qualifier.d2](assets/05_spring_boot_and_rest_apis/06_bean_disambiguation_primary_qualifier.d2)*
 
 #### Production Resolution Strategies:
 
@@ -579,37 +468,9 @@ public class CheckoutService {
 
 Spring provides native support for the **Strategy Pattern**. If you inject a collection (`List<Interface>` or `Map<String, Interface>`), Spring automatically discovers and injects **all beans** implementing that interface:
 
-```mermaid
-flowchart TD
-    subgraph ContainerZone ["Spring IoC Container"]
-        Container["<b>Spring ApplicationContext</b><br/>Discovers all PaymentProcessor beans"]
-    end
+![Multi-Bean Injection & The Dynamic Strategy Pattern](assets/05_spring_boot_and_rest_apis/07_multi_bean_injection_strategy_pattern.svg)
 
-    subgraph MapZone ["Injected Strategy Registry"]
-        Map["<b>Map&lt;PaymentMethod, PaymentProcessor&gt;</b><br/>Auto-injected keyed strategy map"]
-    end
-
-    subgraph ProcessorsZone ["Concrete Strategy Implementations"]
-        direction LR
-        CC["<b>CreditCardProcessor</b><br/>CREDIT_CARD"]
-        AP["<b>ApplePayProcessor</b><br/>APPLE_PAY"]
-        PP["<b>PayPalProcessor</b><br/>PAYPAL"]
-        Crypto["<b>CryptoProcessor</b><br/>CRYPTO"]
-    end
-
-    Container -->|"Injects beans"| Map
-    Map --> ProcessorsZone
-
-    style ContainerZone fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MapZone fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ProcessorsZone fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Container fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Map fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style CC fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style AP fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style PP fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style Crypto fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/07_multi_bean_injection_strategy_pattern.d2](assets/05_spring_boot_and_rest_apis/07_multi_bean_injection_strategy_pattern.d2)*
 
 #### Production Implementation: Pluggable Payment Routing Engine
 ```java
@@ -663,14 +524,9 @@ public class PaymentRoutingService {
 
 A circular dependency occurs when Bean A requires Bean B, and Bean B directly or indirectly requires Bean A:
 
-```mermaid
-flowchart LR
-    ServiceA["OrderService"] -->|"requires"| ServiceB["BillingService"]
-    ServiceB -->|"requires"| ServiceA
+![Circular Dependencies: The Three-Level Cache Resolution Architecture](assets/05_spring_boot_and_rest_apis/08_circular_dependencies_three_level_cache.svg)
 
-    style ServiceA fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style ServiceB fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/08_circular_dependencies_three_level_cache.d2](assets/05_spring_boot_and_rest_apis/08_circular_dependencies_three_level_cache.d2)*
 
 #### How Spring Solved This Historically: The Three-Level Cache
 Inside `DefaultSingletonBeanRegistry`, Spring maintains three concurrent maps:
@@ -700,16 +556,9 @@ The dependencies of some of the beans in the application context form a cycle:
 #### Production Architectural Remedies:
 1. **Domain Refactoring (Recommended Staff Standard)**: Circular dependencies are almost always symptomatic of flawed domain boundaries and violations of the Single Responsibility Principle. Extract the shared logic into an independent third service:
 
-```mermaid
-flowchart TD
-    subgraph Refactored ["Clean Unidirectional Dependency Flow"]
-        direction LR
-        OrderService["OrderService"] --> Shared["InvoiceGenerationService"]
-        BillingService["BillingService"] --> Shared
-    end
+![Production Circular Dependency Remediation Patterns](assets/05_spring_boot_and_rest_apis/09_circular_dependency_remediation_patterns.svg)
 
-    style Refactored fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/09_circular_dependency_remediation_patterns.d2](assets/05_spring_boot_and_rest_apis/09_circular_dependency_remediation_patterns.d2)*
 
 2. **Event-Driven Decoupling**: Replace the synchronous method call with an in-process `ApplicationEventPublisher`. `OrderService` publishes an `OrderCompletedEvent`, and `BillingService` listens via `@EventListener`. Neither service references the other.
 3. **`@Lazy` Injection (Temporary Band-aid)**: Injecting `@Lazy` on one side tells Spring to inject a dynamic CGLIB proxy instead of the real bean. The proxy defers resolution of the target bean until a method is actually invoked at runtime:
@@ -740,46 +589,9 @@ public class OrderService {
 
 Understanding the exact sequence of bean instantiation, property injection, initialization, and destruction is vital for building robust framework components and debugging startup anomalies:
 
-```mermaid
-flowchart TD
-    subgraph Phase1 ["Phase 1: Definition & Instantiation"]
-        direction LR
-        P1["<b>1. BeanDefinition Parsing</b><br/>Read @Component / @Bean"] --> P2["<b>2. BFPP Execution</b><br/>BeanFactoryPostProcessors"]
-        P2 --> P3["<b>3. Constructor Instantiation</b><br/>Reflective bytecode instantiation"]
-        P3 --> P4["<b>4. Populate Properties</b><br/>Inject dependencies via setters/fields"]
-    end
+![The Complete 12-Phase Spring Bean Lifecycle](assets/05_spring_boot_and_rest_apis/10_complete_spring_bean_lifecycle_phases.svg)
 
-    subgraph Phase2 ["Phase 2: Awareness & Initialization"]
-        direction LR
-        P5["<b>5. Aware Interfaces</b><br/>BeanName & Context Aware"] --> P6["<b>6. BPP BeforeInit</b><br/>postProcessBeforeInitialization"]
-        P6 --> P7["<b>7. @PostConstruct</b><br/>JSR-250 method execution"]
-        P7 --> P8["<b>8. afterPropertiesSet</b><br/>InitializingBean & initMethod"]
-    end
-
-    subgraph Phase3 ["Phase 3: Post-Init Proxying & Shutdown"]
-        direction LR
-        P10["<b>9. BPP AfterInit</b><br/>AOP Dynamic Proxy Wrapping"] --> P11["<b>10. Bean Ready</b><br/>Handles production traffic"]
-        P11 --> P12["<b>11. Container Shutdown</b><br/>@PreDestroy & destroyMethod"]
-    end
-
-    Phase1 --> Phase2
-    Phase2 --> Phase3
-
-    style Phase1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Phase2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Phase3 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style P1 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style P2 fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style P3 fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style P4 fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style P5 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style P6 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style P7 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style P8 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style P10 fill:#1e293b,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style P11 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style P12 fill:#1e1e2e,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/10_complete_spring_bean_lifecycle_phases.d2](assets/05_spring_boot_and_rest_apis/10_complete_spring_bean_lifecycle_phases.d2)*
 
 #### Detailed Phase Breakdown:
 1. **BeanDefinition Parsing**: The container scans the classpath, parsing annotations (`@Component`, `@Service`, `@Bean`) into metadata structures called `BeanDefinition`. These record the bean class, scope, lazy initialization state, and dependency requirements.
@@ -865,16 +677,9 @@ public class CacheWarmupManager implements InitializingBean, DisposableBean {
 
 These three extension interfaces are frequently confused in technical interviews and codebases:
 
-```mermaid
-flowchart TD
-    BFPP["BeanFactoryPostProcessor<br/>(Operates on BeanDefinitions BEFORE beans exist)"]
-    --> BPP["BeanPostProcessor<br/>(Operates on real Bean instances DURING initialization)"]
-    --> FB["FactoryBean&lt;T&gt;<br/>(Encapsulates complex factory creation of bean T)"]
+![Core Extension Points: BeanFactoryPostProcessor vs. BeanPostProcessor vs. FactoryBean<T>](assets/05_spring_boot_and_rest_apis/11_bfpp_vs_bpp_vs_factorybean.svg)
 
-    style BFPP fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BPP fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style FB fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/11_bfpp_vs_bpp_vs_factorybean.d2](assets/05_spring_boot_and_rest_apis/11_bfpp_vs_bpp_vs_factorybean.d2)*
 
 | Interface | Operates On | Execution Timing | Primary Enterprise Use Case |
 | :--- | :--- | :--- | :--- |
@@ -1135,19 +940,9 @@ public class OrderService {
 
 #### The Critical Production Difference: `@EventListener` vs `@TransactionalEventListener`
 
-```mermaid
-flowchart TD
-    TX["Database Transaction Begins"] --> Insert["INSERT INTO orders..."]
-    Insert --> Publish["publishEvent(OrderPlacedEvent)"]
-    Publish --> Commit{"Does DB commit succeed?"}
+![Event Handling: @EventListener vs. @TransactionalEventListener](assets/05_spring_boot_and_rest_apis/12_event_listener_vs_transactional_event_listener.svg)
 
-    Commit -->|YES (Committed)| Listener["@TransactionalEventListener(AFTER_COMMIT)<br/>Fires successfully! Sends customer email."]
-    Commit -->|NO (Rollback)| Dropped["Event Dropped!<br/>Customer is NEVER erroneously emailed!"]
-
-    style TX fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Listener fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Dropped fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/12_event_listener_vs_transactional_event_listener.d2](assets/05_spring_boot_and_rest_apis/12_event_listener_vs_transactional_event_listener.d2)*
 
 ```java
 @Component
@@ -1208,18 +1003,9 @@ Aspect-Oriented Programming isolates **cross-cutting concerns** (concerns that t
 
 When Spring encounters an `@Aspect`, `@Transactional`, or `@Cacheable` annotation, its `BeanPostProcessor` wraps the raw bean in a **Dynamic Proxy**:
 
-```mermaid
-flowchart TD
-    ClientCaller["Client Caller (e.g. Controller)"]
-    --> Proxy["Spring Dynamic Proxy"]
-    Proxy --> InterceptorChain["MethodInterceptor Chain<br/>(TransactionInterceptor, SecurityInterceptor, AuditAspect)"]
-    InterceptorChain --> TargetBean["Actual Target Bean Instance"]
+![Spring AOP Proxy Mechanics: JDK Dynamic Proxies vs. CGLIB](assets/05_spring_boot_and_rest_apis/13_aop_proxy_mechanics_jdk_vs_cglib.svg)
 
-    style ClientCaller fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Proxy fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style InterceptorChain fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style TargetBean fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/13_aop_proxy_mechanics_jdk_vs_cglib.d2](assets/05_spring_boot_and_rest_apis/13_aop_proxy_mechanics_jdk_vs_cglib.d2)*
 
 | Dimension | JDK Dynamic Proxy | CGLIB Proxy |
 | :--- | :--- | :--- |
@@ -1255,21 +1041,9 @@ public class UserService {
 }
 ```
 
-```mermaid
-flowchart TD
-    subgraph ProxyCall ["Call Through Proxy (Works Correctly)"]
-        direction LR
-        ExtCaller["External Caller (Controller)"] --> ProxyObj["UserService Proxy"] --> AsyncInterceptor["Async Interceptor"] --> RawService["UserService Instance"]
-    end
+![The Self-Invocation Proxy Bypass Trap & Production Fixes](assets/05_spring_boot_and_rest_apis/14_self_invocation_proxy_bypass_trap.svg)
 
-    subgraph InternalCall ["Self-Invocation Trap (Fails Silently)"]
-        direction LR
-        RawService2["UserService.registerUser()"] -->|"this.sendActivationEmail()"| RawMethod["sendActivationEmail()<br/>(Direct method call on 'this', Proxy completely bypassed!)"]
-    end
-
-    style ProxyCall fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style InternalCall fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/14_self_invocation_proxy_bypass_trap.d2](assets/05_spring_boot_and_rest_apis/14_self_invocation_proxy_bypass_trap.d2)*
 
 #### Production Fixes for Self-Invocation:
 
@@ -1407,18 +1181,9 @@ Spring Boot revolutionized the ecosystem through **Opinionated Defaults** and **
 
 The `@SpringBootApplication` annotation on your main entry class is a meta-annotation composed of three fundamental annotations:
 
-```mermaid
-flowchart TD
-    SBA["@SpringBootApplication"]
-    SBA --> SBC["@SpringBootConfiguration<br/>(Designates class as a Spring @Configuration provider)"]
-    SBA --> EAC["@EnableAutoConfiguration<br/>(Activates Spring Boot auto-configuration engine)"]
-    SBA --> CS["@ComponentScan<br/>(Scans for @Component, @Service, etc. in current and sub-packages)"]
+![Deconstructing @SpringBootApplication: The Meta-Annotation Triad](assets/05_spring_boot_and_rest_apis/15_springbootapplication_triad_decomposition.svg)
 
-    style SBA fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style SBC fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style EAC fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style CS fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/15_springbootapplication_triad_decomposition.d2](assets/05_spring_boot_and_rest_apis/15_springbootapplication_triad_decomposition.d2)*
 
 #### Step-by-Step Bootstrap Sequence of `SpringApplication.run()`:
 1. **Instantiate `SpringApplication`**:
@@ -1450,36 +1215,9 @@ flowchart TD
 
 How does Spring Boot know to configure a PostgreSQL `DataSource` when `org.postgresql:postgresql` is added to `pom.xml`?
 
-```mermaid
-flowchart TD
-    Boot["<b>SpringApplication.run()</b><br/>Bootstrap entry point"] --> Selector["<b>AutoConfigurationImportSelector</b><br/>Reads META-INF/spring AutoConfiguration.imports"]
+![The Auto-Configuration Engine: Conditional Evaluation Pipeline](assets/05_spring_boot_and_rest_apis/16_autoconfiguration_engine_conditional_evaluation.svg)
 
-    subgraph ConditionEvaluation ["Conditional Filter Pipeline"]
-        direction LR
-        Eval["<b>Evaluates @Conditional Annotations</b><br/>Examines classpath, beans, and properties"]
-        Cond1{"@ConditionalOnClass(DataSource)?"}
-        Eval --> Cond1
-    end
-
-    subgraph RegistrationOutcome ["Configuration Outcomes"]
-        direction LR
-        Load["<b>Register AutoConfiguration</b><br/>Beans registered in BeanFactory"]
-        Skip["<b>Skip Configuration</b><br/>Pruned from context graph"]
-    end
-
-    Selector --> ConditionEvaluation
-    Cond1 -- "Class Present" --> Load
-    Cond1 -- "Class Missing" --> Skip
-
-    style Boot fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style Selector fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ConditionEvaluation fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style RegistrationOutcome fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Eval fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Cond1 fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Load fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Skip fill:#1e1e2e,stroke:#64748b,stroke-width:1px,color:#cbd5e1
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/16_autoconfiguration_engine_conditional_evaluation.d2](assets/05_spring_boot_and_rest_apis/16_autoconfiguration_engine_conditional_evaluation.d2)*
 
 * **In Spring Boot 3.x / 2.7+**: Candidate auto-configurations are listed in:
   `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
@@ -1492,38 +1230,9 @@ flowchart TD
 Building custom internal starters is a senior engineering requirement for standardizing security, logging, and database connectivity across microservices.
 
 #### Project Layout:
-```mermaid
-flowchart TD
-    subgraph RootDir ["📁 enterprise-audit-spring-boot-starter/ (Starter Module)"]
-        direction TB
-        subgraph JavaPackage ["📁 src/main/java/com/enterprise/starter/audit/"]
-            direction TB
-            File1["📄 AuditAutoConfiguration.java<br/>(@AutoConfiguration bean definitions)"]
-            File2["📄 AuditProperties.java<br/>(@ConfigurationProperties binding)"]
-            File3["📄 AuditService.java<br/>(Core auditing engine)"]
-            File4["📄 AuditFilter.java<br/>(HTTP request audit servlet filter)"]
-        end
+![Production Custom Spring Boot Starter: File & Directory Layout](assets/05_spring_boot_and_rest_apis/17_custom_starter_project_layout.svg)
 
-        subgraph MetaInf ["📁 src/main/resources/META-INF/spring/"]
-            direction TB
-            File5["📄 org.springframework.boot.autoconfigure.AutoConfiguration.imports<br/>(Auto-config class registration)"]
-            File6["📄 additional-spring-configuration-metadata.json<br/>(IDE property autocomplete metadata)"]
-        end
-    end
-
-    RootDir --> JavaPackage
-    RootDir --> MetaInf
-
-    style RootDir fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style JavaPackage fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style MetaInf fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style File1 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style File2 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style File3 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style File4 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style File5 fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style File6 fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/17_custom_starter_project_layout.d2](assets/05_spring_boot_and_rest_apis/17_custom_starter_project_layout.d2)*
 
 #### Step 1: Configuration Properties Record
 ```java
@@ -1598,17 +1307,9 @@ spring:
 
 Spring Boot 3 introduces native support for **Ahead-of-Time (AOT) Compilation** using the GraalVM native image compiler:
 
-```mermaid
-flowchart LR
-    Source["Java Source Code"] --> Build["AOT Processing<br/>(Evaluates bean definitions & generates static bytecode)"]
-    Build --> Graal["GraalVM Native Image Compiler"]
-    Graal --> Bin["Standalone Native Executable (ELF/Mach-O)"]
+![Spring Boot 3 Ahead-of-Time (AOT) & GraalVM Native Compilation](assets/05_spring_boot_and_rest_apis/18_spring_boot_3_aot_and_graalvm_native.svg)
 
-    style Source fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Build fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Graal fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Bin fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/18_spring_boot_3_aot_and_graalvm_native.d2](assets/05_spring_boot_and_rest_apis/18_spring_boot_3_aot_and_graalvm_native.d2)*
 
 | Metric | Traditional JVM Mode (`java -jar`) | GraalVM Native Image |
 | :--- | :--- | :--- |
@@ -1673,16 +1374,9 @@ management:
 
 Actuator natively understands Kubernetes Pod lifecycle semantics:
 
-```mermaid
-flowchart LR
-    K8s["Kubernetes Kubelet"]
-    -->|"GET /actuator/health/liveness"| Liveness["Liveness Probe<br/>(Is container deadlocked? If DOWN, kill & restart Pod)"]
-    K8s -->|"GET /actuator/health/readiness"| Readiness["Readiness Probe<br/>(Is container ready for traffic? If DOWN, stop routing traffic)"]
+![Kubernetes Liveness & Readiness Probes (AvailabilityState Model)](assets/05_spring_boot_and_rest_apis/19_kubernetes_liveness_readiness_probes.svg)
 
-    style K8s fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Liveness fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Readiness fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/19_kubernetes_liveness_readiness_probes.d2](assets/05_spring_boot_and_rest_apis/19_kubernetes_liveness_readiness_probes.d2)*
 
 #### Dynamically Modifying Pod Readiness During Cache Warming:
 ```java
@@ -1880,90 +1574,17 @@ Spring MVC implements the **Front Controller Architectural Pattern** via **`Disp
 * A single central servlet (`DispatcherServlet`) intercepts all incoming HTTP requests matching the servlet mapping (`/*`).
 * It coordinates a pipeline of specialized, modular components to route, parse, execute, validate, and serialize the request:
 
-```mermaid
-flowchart TD
-    Req["<b>Incoming HTTP Request</b>"] --> DS["<b>DispatcherServlet</b><br/>Front Controller"]
+![DispatcherServlet Front Controller: 3-Phase Internal Architecture](assets/05_spring_boot_and_rest_apis/20_dispatcherservlet_front_controller_architecture.svg)
 
-    subgraph RoutingPhase ["Phase 1: Handler Mapping & Chain Resolution"]
-        direction LR
-        HMap["<b>HandlerMapping</b><br/>RequestMappingHandlerMapping"] --> Chain["<b>HandlerExecutionChain</b><br/>Target controller + interceptors"]
-    end
-
-    subgraph ExecutionPhase ["Phase 2: Interceptors & Controller Adapter"]
-        direction LR
-        PreHandle["<b>preHandle()</b><br/>Security & tracing check"] --> Adapt["<b>HandlerAdapter</b><br/>Invoke @RequestMapping method"]
-        Adapt --> PostHandle["<b>postHandle()</b><br/>Post-process ModelAndView"]
-    end
-
-    subgraph SerializationPhase ["Phase 3: Serialization & Response Output"]
-        direction LR
-        Converter["<b>HttpMessageConverter</b><br/>Jackson JSON serialization"] --> Res["<b>HTTP Response Stream</b><br/>Commit status & payload"]
-    end
-
-    DS --> RoutingPhase
-    RoutingPhase --> ExecutionPhase
-    ExecutionPhase --> SerializationPhase
-
-    style Req fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style DS fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style RoutingPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ExecutionPhase fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SerializationPhase fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style HMap fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Chain fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style PreHandle fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Adapt fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style PostHandle fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Converter fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style Res fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/20_dispatcherservlet_front_controller_architecture.d2](assets/05_spring_boot_and_rest_apis/20_dispatcherservlet_front_controller_architecture.d2)*
 
 ---
 
 ### 9.2 End-to-End HTTP Request Lifecycle Sequence
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Client as HTTP Client
-    participant Filter as FilterChain (CORS, MDC)
-    participant DS as DispatcherServlet
-    participant HM as RequestMappingHandlerMapping
-    participant Interceptor as HandlerInterceptor
-    participant HA as RequestMappingHandlerAdapter
-    participant Resolver as HandlerMethodArgumentResolver
-    participant Controller as OrderRestController
-    participant Converter as JacksonHttpMessageConverter
+![End-to-End Spring Boot HTTP Request Lifecycle Sequence](assets/05_spring_boot_and_rest_apis/21_end_to_end_http_request_lifecycle_sequence.svg)
 
-    Client->>Filter: POST /api/v1/orders (JSON body)
-    Filter->>DS: doFilter(request, response)
-    DS->>HM: getHandler(request)
-    HM-->>DS: HandlerExecutionChain (OrderController + Interceptors)
-    
-    DS->>Interceptor: preHandle(request, response, handler)
-    Note over Interceptor: Auth checks, MDC logging setup
-    Interceptor-->>DS: true (proceed)
-    
-    DS->>HA: handle(request, response, handlerMethod)
-    HA->>Resolver: resolveArgument(CreateOrderRequest.class)
-    Resolver->>Converter: read(CreateOrderRequest.class, HTTP body)
-    Converter-->>Resolver: Java Object Instantiated & Validated
-    Resolver-->>HA: Injected CreateOrderRequest DTO
-    
-    HA->>Controller: createOrder(requestDto)
-    Note over Controller: Executes business logic & DB transactions
-    Controller-->>HA: return ResponseEntity.ok(orderResponseDto)
-    
-    HA->>Converter: write(orderResponseDto, application/json, response)
-    Converter-->>HA: JSON bytes written to ServletOutputStream
-    HA-->>DS: ModelAndView (null for @ResponseBody)
-    
-    DS->>Interceptor: afterCompletion(request, response, handler, ex)
-    Note over Interceptor: Clean up MDC & metrics
-    DS-->>Filter: Response committed
-    Filter-->>Client: HTTP 201 Created + JSON Body
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/21_end_to_end_http_request_lifecycle_sequence.d2](assets/05_spring_boot_and_rest_apis/21_end_to_end_http_request_lifecycle_sequence.d2)*
 
 ---
 
@@ -1971,18 +1592,9 @@ sequenceDiagram
 
 While Servlet `Filter` instances wrap the entire servlet invocation (before `DispatcherServlet` runs), `HandlerInterceptor` operates within the Spring context, giving you access to the specific Spring controller `HandlerMethod` that will execute:
 
-```mermaid
-flowchart TD
-    Pre["1. preHandle(): Returns boolean.<br/>Executes before controller. If false, halts execution immediately."]
-    --> Ctrl["Controller Method Execution"]
-    --> Post["2. postHandle(): Executes after controller returns, but BEFORE view rendering.<br/>(Skipped if exception thrown or @ResponseBody used)"]
-    --> After["3. afterCompletion(): ALWAYS executes in finally block.<br/>Critical for ThreadLocal & MDC clean-up!"]
+![HandlerInterceptor Lifecycle & ThreadLocal Context Cleanup](assets/05_spring_boot_and_rest_apis/22_handlerinterceptor_lifecycle_threadlocal_cleanup.svg)
 
-    style Pre fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Ctrl fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Post fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style After fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/22_handlerinterceptor_lifecycle_threadlocal_cleanup.d2](assets/05_spring_boot_and_rest_apis/22_handlerinterceptor_lifecycle_threadlocal_cleanup.d2)*
 
 #### Production Standard: Distributed Trace Logging & MDC Cleanup Interceptor
 ```java
@@ -2192,30 +1804,9 @@ REST (Representational State Transfer), formulated by Roy Fielding, is an archit
 
 ### 10.2 Transport Protocol Evolution: HTTP/1.1 vs HTTP/2 vs HTTP/3 (QUIC)
 
-```mermaid
-flowchart TD
-    subgraph HTTP1 ["HTTP/1.1 (1997)"]
-        direction TB
-        H1["Text-Based Framing<br/>One active request per TCP socket<br/>Head-of-Line Blocking at HTTP layer<br/>Redundant uncompressed headers"]
-    end
+![Transport Protocol Evolution: HTTP/1.1 vs. HTTP/2 vs. HTTP/3 (QUIC)](assets/05_spring_boot_and_rest_apis/23_transport_protocol_evolution_http1_http2_http3.svg)
 
-    subgraph HTTP2 ["HTTP/2 (2015)"]
-        direction TB
-        H2["Binary Framing (HEADERS & DATA frames)<br/>Multiplexing over Single TCP Connection<br/>HPACK Header Compression<br/>Server Push"]
-    end
-
-    subgraph HTTP3 ["HTTP/3 (2022)"]
-        direction TB
-        H3["QUIC Transport over UDP<br/>Zero Head-of-Line Blocking at TCP layer<br/>0-RTT Fast Connection Resumption<br/>Seamless IP Handover / Mobile Roaming"]
-    end
-
-    HTTP1 --> HTTP2
-    HTTP2 --> HTTP3
-
-    style HTTP1 fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style HTTP2 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style HTTP3 fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/23_transport_protocol_evolution_http1_http2_http3.d2](assets/05_spring_boot_and_rest_apis/23_transport_protocol_evolution_http1_http2_http3.d2)*
 
 | Dimension | HTTP/1.1 | HTTP/2 | HTTP/3 (QUIC) |
 | :--- | :--- | :--- | :--- |
@@ -2269,23 +1860,9 @@ The foundational constraint of RESTful architecture is the **Uniform Interface**
 * **Idempotent Methods ($f(f(x)) = f(x)$)**:
   Methods where **executing an operation once produces the exact same server resource state as executing it $N$ times consecutively**.
 
-```mermaid
-flowchart LR
-    subgraph NonIdempotent ["POST: Non-Idempotent"]
-        direction TB
-        P1["POST /orders (Book)"] --> DB1["Database: 1 Order"]
-        P2["Retry POST /orders (Book)"] --> DB2["Database: 2 Orders (DUPLICATE BILLING!)"]
-    end
+![REST Idempotency & Safety: POST vs. PUT Mechanics](assets/05_spring_boot_and_rest_apis/24_rest_idempotency_post_vs_put.svg)
 
-    subgraph Idempotent ["PUT: Strictly Idempotent"]
-        direction TB
-        U1["PUT /users/42 {name: 'Alice'}"] --> S1["Database: User 42 is Alice"]
-        U2["Retry PUT /users/42 {name: 'Alice'}"] --> S2["Database: User 42 is STILL Alice"]
-    end
-
-    style NonIdempotent fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Idempotent fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/24_rest_idempotency_post_vs_put.d2](assets/05_spring_boot_and_rest_apis/24_rest_idempotency_post_vs_put.d2)*
 
 #### 2. The `DELETE` 404 Paradox: Is `DELETE` Truly Idempotent?
 Consider this scenario:
@@ -2345,25 +1922,9 @@ Content-Type: application/json-patch+json
 
 When a browser makes a cross-origin HTTP request (`https://dashboard.company.com` accessing `https://api.backend.com`) with non-simple headers (`Authorization`, `Idempotency-Key`) or methods other than `GET`/`POST`, the browser automatically executes an **`OPTIONS` Preflight Handshake**:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    actor Browser as Web Browser (https://app.com)
-    participant API as Spring Boot API (https://api.com)
+![CORS Preflight Handshake: OPTIONS Method & Security Headers](assets/05_spring_boot_and_rest_apis/25_cors_preflight_handshake_options.svg)
 
-    Note over Browser,API: 1. CORS Preflight Handshake (OPTIONS)
-    Browser->>API: OPTIONS /api/v1/orders
-    Note over Browser: Origin: https://app.com<br/>Access-Control-Request-Method: POST<br/>Access-Control-Request-Headers: Authorization, Idempotency-Key
-    
-    API->>API: Match CORS Policy Filter
-    API-->>Browser: HTTP 204 No Content
-    Note over API: Access-Control-Allow-Origin: https://app.com<br/>Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS<br/>Access-Control-Allow-Headers: Authorization, Idempotency-Key<br/>Access-Control-Max-Age: 3600 (Cache preflight for 1 hour!)
-
-    Note over Browser,API: 2. Actual Business Request (POST)
-    Browser->>API: POST /api/v1/orders (with Authorization & Idempotency-Key)
-    API-->>Browser: HTTP 201 Created (Order Response JSON)
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/25_cors_preflight_handshake_options.d2](assets/05_spring_boot_and_rest_apis/25_cors_preflight_handshake_options.d2)*
 
 ---
 
@@ -2447,49 +2008,9 @@ The **`Idempotency-Key` specification (IETF Draft)** resolves this:
 
 ### 11.2 Idempotency Lifecycle State Machine
 
-```mermaid
-flowchart TD
-    subgraph Stage1 ["Stage 1: Ingress & Distributed Lock Evaluation"]
-        direction LR
-        ClientReq["Incoming POST Request<br/>Header: Idempotency-Key"] --> CheckRedis{"Lookup Redis Key<br/>'idempotency:uuid-123'"}
-    end
+![Idempotency Lifecycle State Machine: Distributed Redis Protocol](assets/05_spring_boot_and_rest_apis/26_idempotency_key_redis_state_machine.svg)
 
-    subgraph Stage2 ["Stage 2: Cache Validation & Concurrency Resolution"]
-        direction LR
-        CompareHash{"Compare Request<br/>SHA-256 Hash"}
-        CompareHash -- "Hash Matches" --> ReturnCached["Return Cached Response (200/201)<br/>(Zero Business Re-execution)"]
-        CompareHash -- "Payload Tampered" --> Return422["Return HTTP 422 Unprocessable<br/>(Reused Key with Different Body)"]
-        Return409["Return HTTP 409 Conflict<br/>(Request In-Flight. Retry with Backoff)"]
-    end
-
-    subgraph Stage3 ["Stage 3: First-Execution Pipeline & Cache Mutation"]
-        direction LR
-        AcquireLock["Acquire Redis Mutex<br/>(TTL: 30s, State: IN_FLIGHT)"] --> ExecuteLogic["Execute Business Logic<br/>& ACID DB Transactions"]
-        ExecuteLogic --> SaveResponse["Save Response to Redis<br/>(State: COMPLETED, TTL: 24h)"]
-        SaveResponse --> ReleaseLock["Release Mutex Lock"]
-        ReleaseLock --> ReturnResponse["Return HTTP 201 Created<br/>(Delivered to Client)"]
-    end
-
-    CheckRedis -- "State: COMPLETED" --> CompareHash
-    CheckRedis -- "State: IN_FLIGHT" --> Return409
-    CheckRedis -- "Key Absent (First Request)" --> AcquireLock
-
-    style Stage1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Stage2 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Stage3 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style ClientReq fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style CheckRedis fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style CompareHash fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ReturnCached fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Return422 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Return409 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style AcquireLock fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ExecuteLogic fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SaveResponse fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style ReleaseLock fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ReturnResponse fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/26_idempotency_key_redis_state_machine.d2](assets/05_spring_boot_and_rest_apis/26_idempotency_key_redis_state_machine.d2)*
 
 ---
 
@@ -3063,24 +2584,9 @@ Sample RFC 9457 response returned to client:
 
 ### 16.1 API Communication Paradigms (Resource-Oriented REST vs Action-Oriented RPC)
 
-```mermaid
-flowchart LR
-    subgraph REST_Paradigm["Resource-Oriented: REST (HTTP/1.1 & JSON)"]
-        R_Client["Client"] -->|GET /orders/123| R_Server["Server"]
-        R_Client -->|POST /orders| R_Server
-        R_Client -->|DELETE /orders/123| R_Server
-        Note1["Noun-based resources with standard HTTP verb semantics"]
-    end
+![API Communication Paradigms: Resource REST vs. Action gRPC](assets/05_spring_boot_and_rest_apis/27_api_paradigms_rest_vs_grpc.svg)
 
-    subgraph RPC_Paradigm["Action-Oriented: RPC / gRPC (HTTP/2 & Protobuf)"]
-        G_Client["Client"] -->|"OrderService.CreateOrder(OrderRequest)"| G_Server["Server"]
-        G_Client -->|"OrderService.CancelOrder(CancelRequest)"| G_Server
-        Note2["Method-oriented: Calling remote functions as if they were local Java methods"]
-    end
-
-    style REST_Paradigm fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RPC_Paradigm fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/27_api_paradigms_rest_vs_grpc.d2](assets/05_spring_boot_and_rest_apis/27_api_paradigms_rest_vs_grpc.d2)*
 
 ---
 
@@ -3095,34 +2601,9 @@ gRPC (Google Remote Procedure Call) utilizes **HTTP/2** as its underlying transp
 
 ### 16.3 gRPC Communication Modes (Unary, Server, Client, Bidirectional Streaming)
 
-```mermaid
-flowchart LR
-    subgraph Mode1["1. Unary RPC (1-to-1)"]
-        direction LR
-        C1["Client"] -->|Single Request| S1["Server"]
-        S1 -->|Single Response| C1
-    end
+![gRPC Communication Modes: Unary, Server, Client & Bidirectional](assets/05_spring_boot_and_rest_apis/28_grpc_communication_modes_streaming.svg)
 
-    subgraph Mode2["2. Server Streaming (1-to-Many)"]
-        C2["Client"] -->|Single Request| S2["Server"]
-        S2 -->|Stream Chunks| C2
-    end
-
-    subgraph Mode3["3. Client Streaming (Many-to-1)"]
-        C3["Client"] -->|Stream Chunks| S3["Server"]
-        S3 -->|Single Aggregated Response| C3
-    end
-
-    subgraph Mode4["4. Bidirectional Streaming (Full-Duplex)"]
-        direction LR
-        C4["Client"] <-->|Full Duplex Concurrent Stream| S4["Server"]
-    end
-
-    style Mode1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Mode2 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Mode3 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Mode4 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source: [assets/05_spring_boot_and_rest_apis/28_grpc_communication_modes_streaming.d2](assets/05_spring_boot_and_rest_apis/28_grpc_communication_modes_streaming.d2)*
 
 ---
 

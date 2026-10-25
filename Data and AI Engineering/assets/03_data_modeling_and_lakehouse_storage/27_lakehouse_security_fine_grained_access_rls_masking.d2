@@ -1,0 +1,28 @@
+direction: right
+title: Lakehouse Security: Fine-Grained Access Control, RLS & Column Masking
+
+user: Client Execution Context {
+  role: "User Query / Role: EU_Marketing_Analyst"
+}
+
+engine: Governance & Policy Enforcement {
+  catalog: Central Governance Engine (Unity Catalog / Lake Formation)
+  rls: Row-Level Security (RLS) {
+    rule: "Applies Predicate: region = 'EMEA'"
+  }
+  cls: Column-Level Masking (CLS) {
+    rule: "Masks SSN: '***-**-' || RIGHT(ssn, 4)"
+  }
+  catalog -> rls
+  catalog -> cls
+}
+
+output: Sanitized Lakehouse Output {
+  result: Sanitized Output {
+    details: "EMEA rows only, SSN redacted, audit logged"
+  }
+}
+
+user -> engine.catalog: "Submit Query"
+engine.rls -> output.result: "Filter rows"
+engine.cls -> output.result: "Mask sensitive fields"

@@ -1,0 +1,27 @@
+direction: right
+title: "System Design: High-Frequency Stock Exchange Matching Engine Architecture"
+
+ingress: "1. Ingress & RingBuffer
+Kernel Bypass 10GbE
+LMAX Disruptor (Zero-GC)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+engine: "2. Matching Engine (Single-Threaded)
+Pinned to CPU core
+B+Tree Order Book (Bids vs Asks)
+Price-Time Priority (< 400ns)" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+settlement: "3. Settlement & Multicast
+UDP Multicast Market Data
+NVMe Persistence WAL" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+ingress -> engine: "Disruptor RingBuffer"
+engine -> settlement: "Matched Trades"

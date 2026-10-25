@@ -1,0 +1,36 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+jvm: "Spring Boot Test JVM\n(Process PID 4120)" {
+  class: box
+  style.stroke: "#3B82F6"
+}
+
+daemon: "Docker Daemon API\n(/var/run/docker.sock)" {
+  class: box
+  style.stroke: "#8B5CF6"
+}
+
+ryuk: "Ryuk Moby Cleaner Container\n(testcontainers/ryuk)" {
+  class: box
+  style.stroke: "#EF4444"
+}
+
+pg: "PostgreSQL Container\n(Random Ephemeral Port 32778:5432)" {
+  class: box
+  style.stroke: "#10B981"
+}
+
+dpr: "@DynamicPropertySource\nspring.datasource.url=jdbc:postgresql://localhost:32778/testdb" {
+  class: box
+  style.stroke: "#F59E0B"
+}
+
+jvm -> daemon: "1. Create Containers (API Call)"
+daemon -> ryuk: "2. Spawn Cleaner"
+daemon -> pg: "3. Run PG Container"
+ryuk <-> jvm: "TCP Socket Heartbeat"
+pg -> dpr: "Expose Mapped Port 32778"
+dpr -> jvm: "Inject Dynamic Property"

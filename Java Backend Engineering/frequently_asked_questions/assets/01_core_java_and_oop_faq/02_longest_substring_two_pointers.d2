@@ -1,0 +1,55 @@
+direction: right
+
+window: "1. Window Pointers" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  pointers: "L = 0, R = 0"
+}
+
+seen_map: "2. Map<Char, Index>" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  check: "map.containsKey(c) & lastSeen >= L"
+}
+
+dup: "Duplicate Found: Shift L to lastSeen + 1" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}
+
+no_dup: "No Duplicate: Expand R & Update maxLen" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+
+max_len: "3. Max Length" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  result: "O(N) Time, O(min(N,M)) Space"
+}
+
+window -> seen_map: "Scan Character at R" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+seen_map -> dup: "lastSeen >= L" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}
+seen_map -> no_dup: "no collision" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+dup -> max_len: "Recalculate Window" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}
+no_dup -> max_len: "Update Global Max" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

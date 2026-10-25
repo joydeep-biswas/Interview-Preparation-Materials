@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Bucket Join Optimization: Zero Network Shuffle Execution</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Pre-bucketing datasets by the same join key and bucket count eliminates network shuffle and sorting at query time</text>
+
+  <!-- Column 1: Pre-Bucketed Storage -->
+  <rect x="40" y="85" width="450" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#22D3EE" stroke-width="1.5"/>
+  <rect x="40" y="85" width="450" height="36" rx="8" fill="#083344" fill-opacity="0.8" stroke="#22D3EE" stroke-width="1.5"/>
+  <text x="265" y="108" font-size="12" font-weight="700" fill="#22D3EE" text-anchor="middle">PRE-BUCKETED STORAGE (CLUSTERED ON customer_id)</text>
+
+  <!-- Table 1 Bucketed -->
+  <rect x="60" y="135" width="410" height="135" rx="6" fill="#0F172A" stroke="#22D3EE" stroke-width="1.5"/>
+  <text x="75" y="157" font-size="11" font-weight="700" fill="#22D3EE" text-anchor="start">fact_orders (Clustered into 32 Buckets)</text>
+  <text x="75" y="174" font-size="10" font-family="monospace" fill="#A5F3FC" text-anchor="start">df.write.bucketBy(32, "customer_id").sortBy("customer_id")</text>
+
+  <rect x="75" y="185" width="115" height="40" rx="4" fill="#1E293B" stroke="#22D3EE" stroke-width="1"/>
+  <text x="132" y="202" font-size="9" font-weight="700" fill="#22D3EE" text-anchor="middle">Bucket 0</text>
+  <text x="132" y="216" font-size="8" fill="#CBD5E1" text-anchor="middle">part-00000.parquet</text>
+
+  <rect x="200" y="185" width="115" height="40" rx="4" fill="#1E293B" stroke="#22D3EE" stroke-width="1"/>
+  <text x="257" y="202" font-size="9" font-weight="700" fill="#22D3EE" text-anchor="middle">Bucket 1</text>
+  <text x="257" y="216" font-size="8" fill="#CBD5E1" text-anchor="middle">part-00001.parquet</text>
+
+  <rect x="325" y="185" width="130" height="40" rx="4" fill="#1E293B" stroke="#64748B" stroke-width="1"/>
+  <text x="390" y="202" font-size="9" font-weight="700" fill="#94A3B8" text-anchor="middle">... Bucket 31</text>
+  <text x="390" y="216" font-size="8" fill="#64748B" text-anchor="middle">part-00031.parquet</text>
+
+  <text x="75" y="245" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Stored pre-sorted by customer_id on storage</text>
+  <text x="75" y="260" font-size="9.5" fill="#34D399" text-anchor="start">• Hash(customer_id) % 32 matches exact bucket number</text>
+
+  <!-- Table 2 Bucketed -->
+  <rect x="60" y="285" width="410" height="135" rx="6" fill="#0F172A" stroke="#22D3EE" stroke-width="1.5"/>
+  <text x="75" y="307" font-size="11" font-weight="700" fill="#22D3EE" text-anchor="start">dim_customers (Clustered into 32 Buckets)</text>
+  <text x="75" y="324" font-size="10" font-family="monospace" fill="#A5F3FC" text-anchor="start">df.write.bucketBy(32, "customer_id").sortBy("customer_id")</text>
+
+  <rect x="75" y="335" width="115" height="40" rx="4" fill="#1E293B" stroke="#22D3EE" stroke-width="1"/>
+  <text x="132" y="352" font-size="9" font-weight="700" fill="#22D3EE" text-anchor="middle">Bucket 0</text>
+  <text x="132" y="366" font-size="8" fill="#CBD5E1" text-anchor="middle">part-00000.parquet</text>
+
+  <rect x="200" y="335" width="115" height="40" rx="4" fill="#1E293B" stroke="#22D3EE" stroke-width="1"/>
+  <text x="257" y="352" font-size="9" font-weight="700" fill="#22D3EE" text-anchor="middle">Bucket 1</text>
+  <text x="257" y="366" font-size="8" fill="#CBD5E1" text-anchor="middle">part-00001.parquet</text>
+
+  <rect x="325" y="335" width="130" height="40" rx="4" fill="#1E293B" stroke="#64748B" stroke-width="1"/>
+  <text x="390" y="352" font-size="9" font-weight="700" fill="#94A3B8" text-anchor="middle">... Bucket 31</text>
+  <text x="390" y="366" font-size="8" fill="#64748B" text-anchor="middle">part-00031.parquet</text>
+
+  <text x="75" y="395" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Identical bucket count (32) and same bucket key</text>
+  <text x="75" y="410" font-size="9.5" fill="#34D399" text-anchor="start">• Both tables have matching co-located key distributions</text>
+
+  <!-- Column 2: Co-Located Join Execution -->
+  <rect x="530" y="85" width="550" height="375" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="530" y="85" width="550" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="805" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">DIRECT CO-LOCATED JOIN (ZERO NETWORK SHUFFLE &amp; ZERO SORT!)</text>
+
+  <!-- Task 0 -->
+  <rect x="550" y="135" width="510" height="85" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="565" y="157" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Task 0 (Executes on Worker 1)</text>
+  <text x="565" y="177" font-size="10" font-family="monospace" fill="#A7F3D0" text-anchor="start">SMJ(fact_orders Bucket 0, dim_customers Bucket 0)</text>
+  <text x="565" y="194" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Inputs are ALREADY partitioned by key and ALREADY sorted!</text>
+  <text x="565" y="210" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">• Pure linear stream merge: Zero network bytes, zero disk spill!</text>
+
+  <!-- Task 1 -->
+  <rect x="550" y="235" width="510" height="85" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="565" y="257" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Task 1 (Executes on Worker 2)</text>
+  <text x="565" y="277" font-size="10" font-family="monospace" fill="#A7F3D0" text-anchor="start">SMJ(fact_orders Bucket 1, dim_customers Bucket 1)</text>
+  <text x="565" y="294" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Inputs are ALREADY partitioned by key and ALREADY sorted!</text>
+  <text x="565" y="310" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">• Pure linear stream merge: Zero network bytes, zero disk spill!</text>
+
+  <!-- Task 31 -->
+  <rect x="550" y="335" width="510" height="85" rx="6" fill="#0F172A" stroke="#64748B" stroke-width="1"/>
+  <text x="565" y="357" font-size="11" font-weight="700" fill="#94A3B8" text-anchor="start">... Task 31 (Executes on Worker N)</text>
+  <text x="565" y="377" font-size="10" font-family="monospace" fill="#CBD5E1" text-anchor="start">SMJ(fact_orders Bucket 31, dim_customers Bucket 31)</text>
+  <text x="565" y="394" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Exactly 32 independent parallel tasks launched</text>
+  <text x="565" y="410" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="start">• Joins 10 Terabytes in minutes without shuffle bottleneck!</text>
+
+  <!-- Connectors -->
+  <path d="M 470.0 205.0 L 480.0 205.0 C 508.0 205.0, 508.0 175.0, 536.0 175.0 L 550.0 175.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path d="M 470.0 355.0 L 480.0 355.0 C 508.0 355.0, 508.0 185.0, 536.0 185.0 L 550.0 185.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="468" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="484" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Bucketing Invariant: When two tables are pre-bucketed on the same join key with identical bucket counts, Spark eliminates both the network shuffle and sorting phases completely.</text>
+</svg>

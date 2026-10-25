@@ -110,30 +110,39 @@ At its mathematical core, a **model** is a parameterized mathematical function $
 1. **Weights ($W$):** Multiplicative factors that scale the input signals. Conceptually, a weight acts like a physical "tuning dial" or "volume knob" that controls how strongly a particular input feature influences the outcome. If an input feature is irrelevant (e.g., the day of the week when predicting house square footage), the weight tends toward $0$. If a feature is critically predictive (e.g., number of bedrooms), the weight magnitude is large.
 2. **Biases ($b$):** Additive constants that shift the activation threshold independently of the inputs. Without a bias term, an affine transformation $y = Wx$ is constrained to pass through the origin $(0, 0)$. In real-world systems, a baseline prediction is almost always non-zero even when all input features are zero (e.g., base hospital admission cost, or base house pricing).
 
-```mermaid
-flowchart LR
-    subgraph ClassicalEngineering ["Classical Software Engineering"]
-        direction LR
-        In1["Input Data (X)"] --> Code["Handcrafted Code / Rules<br/>(if/else, algorithms)"] --> Out1["Output Predictions (Y)"]
-    end
+![Programming Paradigm Shift: Classical Software vs. Machine Learning](assets/16_machine_learning_and_transformer_foundations/01_classical_software_vs_machine_learning.svg)
 
-    subgraph MachineLearning ["Machine Learning Paradigm"]
-        direction LR
-        In2["Input Data (X)"] --> Learn["Optimization Algorithm<br/>(Adjusts parameters θ)"]
-        GroundTruth["Target Data (Y)"] --> Learn
-        Learn --> ModelOut["Learned Model f_θ(X)<br/>(Matrix weights & biases)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style ClassicalEngineering fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MachineLearning fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style In1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Code fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Out1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style In2 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style GroundTruth fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Learn fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ModelOut fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+```d2
+classes: {
+  classical_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  ml_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  opt_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+classical: "Classical Software Engineering" {
+  data: "Input Data (X)" { class: classical_box }
+  code: "Handcrafted Code\nif/else algorithms" { class: classical_box }
+  out: "Output Predictions (Y)" { class: classical_box }
+
+  data -> code -> out
+}
+
+ml: "Machine Learning Paradigm" {
+  data_x: "Input Data (X)" { class: ml_box }
+  data_y: "Target Labels (Y)" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  opt: "Optimization Algorithm\nAdjusts parameters theta" { class: opt_box }
+  model: "Learned Model f_theta(X)\nWeight matrices & biases" { class: ml_box }
+
+  data_x -> opt
+  data_y -> opt
+  opt -> model: "Synthesizes rules"
+}
+
 ```
+</details>
 
 #### The Forward Pass and The Feedback Loop
 Learning proceeds in an iterative closed loop:
@@ -148,20 +157,26 @@ Learning proceeds in an iterative closed loop:
 
 Understanding the learning paradigm governs dataset curation, compute budgeting, and runtime pipeline design:
 
-```mermaid
-flowchart TD
-    subgraph Paradigms ["Core Machine Learning Paradigms"]
-        direction TB
-        SL["Supervised Learning<br/>Pairs: (Features X, Labels Y)<br/>Goal: Minimize empirical risk L(f(x), y)<br/>Examples: Fraud scoring, sentiment analysis, NER"]
-        UL["Unsupervised Learning<br/>Data: Features X only (No human labels)<br/>Goal: Uncover geometric manifolds & latent clusters<br/>Examples: K-Means customer clustering, PCA, HDBSCAN"]
-        SSL["Self-Supervised Learning (SSL)<br/>Data: Unstructured corpus X<br/>Goal: Predict pseudo-labels generated from data itself<br/>Examples: Next-token prediction (GPT), Masked language (BERT)"]
-    end
+![Core Machine Learning Paradigms: Supervised vs. Unsupervised vs. SSL](assets/16_machine_learning_and_transformer_foundations/02_core_machine_learning_paradigms.svg)
 
-    style Paradigms fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SL fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style UL fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style SSL fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  sl_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  ul_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  ssl_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+paradigms: "Core Machine Learning Paradigms" {
+  sl: "1. Supervised Learning\nPairs: (Features X, Labels Y)\nGoal: Minimize empirical risk L(f(x), y)\nExamples: Fraud scoring, sentiment, NER" { class: sl_box }
+  ul: "2. Unsupervised Learning\nData: Features X only (No labels)\nGoal: Uncover geometric manifolds & clusters\nExamples: K-Means, PCA, HDBSCAN" { class: ul_box }
+  ssl: "3. Self-Supervised Learning (SSL)\nData: Raw web corpus X\nGoal: Predict pseudo-labels from data itself\nExamples: Next-token prediction (GPT), BERT" { class: ssl_box }
+}
+
 ```
+</details>
 
 #### 1. Supervised Learning
 The model is supplied with labeled pairs $\mathcal{D} = \{(x_i, y_i)\}_{i=1}^N$. The objective is to learn a mapping $f_\theta: \mathcal{X} \to \mathcal{Y}$ that generalizes accurately to unseen inputs.
@@ -213,18 +228,27 @@ For a single binary decision ($0$ vs $1$), we map an unbounded scalar logit $z \
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
-```mermaid
-flowchart LR
-    subgraph SigmoidIntuition ["Sigmoid Non-Linear Mapping"]
-        direction LR
-        Logit["Raw Logit z<br/>(-∞ to +∞)"] --> Exp["Denominator: 1 + e^(-z)"] --> Prob["Output Probability p<br/>(Strictly between 0.0 and 1.0)"]
-    end
+![Mathematical Activation: Sigmoid Non-Linear Probability Mapping](assets/16_machine_learning_and_transformer_foundations/03_sigmoid_non_linear_mapping_dynamics.svg)
 
-    style SigmoidIntuition fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Logit fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Exp fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Prob fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  logit_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  sigmoid_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  prob_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+logit: "Raw Logit z\nz = w^T * x + b\nDomain: (-inf, +inf)" { class: logit_box }
+sigmoid: "Sigmoid Non-Linearity\nsigma(z) = 1 / (1 + e^-z)\nS-curve continuous mapping" { class: sigmoid_box }
+prob: "Output Probability p\np in (0.0, 1.0)\nCalibrated confidence score" { class: prob_box }
+
+logit -> sigmoid: "Squeeze logit"
+sigmoid -> prob: "Bounded probability"
+
 ```
+</details>
 
 **Step-by-Step Mathematical Behavior:**
 * If $z = 0$: $\sigma(0) = \frac{1}{1 + e^0} = \frac{1}{1 + 1} = 0.5$ (Complete uncertainty / coin flip).
@@ -290,18 +314,27 @@ The total expected prediction error on unseen data decomposes mathematically int
 
 $$\mathbb{E}[(y - \hat{f}(x))^2] = \underbrace{\text{Bias}[\hat{f}(x)]^2}_{\text{Underfitting}} + \underbrace{\text{Var}[\hat{f}(x)]}_{\text{Overfitting}} + \underbrace{\sigma^2_{\text{noise}}}_{\text{Irreducible Error}}$$
 
-```mermaid
-flowchart LR
-    Underfit["<b>Underfitting (High Bias)</b><br/>(Model too rigid / simple; Fails to capture real patterns; High Training Loss; High Validation Loss; Fix: Add layers, parameters, features)"]
-    Optimal["<b>Optimal Generalization</b><br/>(Balanced capacity; Minimum Validation Error; Discovers genuine underlying laws)"]
-    Overfit["<b>Overfitting (High Variance)</b><br/>(Memorizes noise & flukes; Low/Zero Training Loss; Exploding Validation Loss; Fix: Dropout, L2 decay, more data)"]
+![Generalization Dynamics: The Bias-Variance Tradeoff Spectrum](assets/16_machine_learning_and_transformer_foundations/04_bias_variance_tradeoff_spectrum.svg)
 
-    Underfit -->|"Scale Model Capacity"| Optimal -->|"Excessive Capacity / Unregularized"| Overfit
+<details>
+<summary>View D2 Source</summary>
 
-    style Underfit fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style Optimal fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Overfit fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
+```d2
+classes: {
+  underfit_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  opt_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  overfit_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+underfit: "Underfitting (High Bias)\nModel too simple; fails to learn data\nHigh train & validation error\nFix: Add capacity, layers, features" { class: underfit_box }
+optimal: "Optimal Generalization\nBalanced capacity; minimum test error\nDiscovers genuine underlying laws" { class: opt_box }
+overfit: "Overfitting (High Variance)\nMemorizes training noise & flukes\nZero train error, exploding val error\nFix: Dropout, L2 decay, more data" { class: overfit_box }
+
+underfit -> optimal: "Scale Model Capacity"
+optimal -> overfit: "Excessive Unregularized Capacity"
+
 ```
+</details>
 
 1. **Bias (Underfitting):** Error introduced by overly simplistic assumptions in the model. If you try to fit a straight line ($y = mx + b$) to complex seasonal customer churn data, the model simply lacks the expressive capacity to capture the underlying curves.
 2. **Variance (Overfitting):** Error introduced by extreme sensitivity to small fluctuations in the training set. An over-parameterized model with no regularization will memorize every noisy data point, creating wild oscillations between data points.
@@ -323,23 +356,29 @@ An artificial neuron (perceptual unit) performs an affine linear projection of i
 
 $$z = \sum_{j=1}^D w_j x_j + b = \mathbf{w}^T \mathbf{x} + b, \quad a = \sigma(z)$$
 
-```mermaid
-flowchart LR
-    subgraph ArtificialNeuron ["Anatomy of a Single Artificial Neuron"]
-        direction LR
-        Inputs["Inputs:<br/>x₁, x₂, ..., x_D"] --> Multipliers["Multiply by Weights:<br/>w₁·x₁, w₂·x₂, ..."]
-        Multipliers --> Summation["Linear Summation & Bias:<br/>z = Σ(w_i · x_i) + b"]
-        Summation --> Activation["Non-Linear Activation:<br/>a = σ(z)"]
-        Activation --> Output["Output Activation:<br/>a"]
-    end
+![Computational Anatomy of an Artificial Perceptron Neuron](assets/16_machine_learning_and_transformer_foundations/05_artificial_neuron_computational_anatomy.svg)
 
-    style ArtificialNeuron fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Inputs fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Multipliers fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Summation fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Activation fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style Output fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  input_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  sum_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  act_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  out_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+inputs: "Inputs: x_1, x_2, ..., x_D" { class: input_box }
+weights: "Multiply by Weights: w_i * x_i" { class: input_box }
+sum: "Linear Summation & Bias:\nz = sum(w_i * x_i) + b" { class: sum_box }
+activation: "Non-Linear Activation:\na = sigma(z)" { class: act_box }
+output: "Neuron Output: a" { class: out_box }
+
+inputs -> weights -> sum -> activation -> output
+
 ```
+</details>
 
 #### Why Can't We Just Stack Linear Layers? (The Non-Linearity Proof)
 A common question asked by junior engineers is: *"If matrix multiplication is so fast on GPUs, why can't we just stack 50 linear matrix layers $W_1, W_2, \dots, W_{50}$ without activation functions?"*
@@ -362,24 +401,32 @@ A purely linear network cannot solve even the simplest non-linear logic problem,
 
 Modern deep learning architectures depend heavily on the mathematical properties of their activation functions to ensure gradients flow backward across hundreds of layers without vanishing or exploding.
 
-```mermaid
-flowchart LR
-    subgraph ActivationsEvolution ["Activation Function Architectural Evolution"]
-        direction LR
-        SigmoidNode["1. Sigmoid / Tanh<br/>1 / (1 + e^-z)<br/>Severe Vanishing Gradients when |z| > 3"]
-        ReLUNode["2. ReLU (Rectified Linear Unit)<br/>max(0, z)<br/>Constant derivative (=1) for z > 0; Enables deep training<br/>Vulnerability: Dying ReLU if z < 0 permanently"]
-        GELUNode["3. GELU (Gaussian Error Linear Unit)<br/>z · Φ(z)<br/>Smooth, probabilistic gating; Standard in BERT & GPT-2"]
-        SwiGLUNode["4. SwiGLU (Swish-Gated Linear Unit)<br/>Swish(xW_gate) ⊙ (xW_up)<br/>Bilinear multiplicative gating; SOTA in LLaMA-3, Mistral, Gemma"]
+![Activation Function Architecture: Evolutionary Progression](assets/16_machine_learning_and_transformer_foundations/06_activation_functions_architectural_evolution.svg)
 
-        SigmoidNode --> ReLUNode --> GELUNode --> SwiGLUNode
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style ActivationsEvolution fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SigmoidNode fill:#1f2937,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style ReLUNode fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style GELUNode fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style SwiGLUNode fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
+```d2
+classes: {
+  sigmoid_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  relu_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  gelu_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  swiglu_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+evolution: "Activation Function Architectural Evolution" {
+  sigmoid: "1. Sigmoid / Tanh\n1 / (1 + e^-z)\nSevere Vanishing Gradients when |z| > 3" { class: sigmoid_box }
+  relu: "2. ReLU (Rectified Linear Unit)\nmax(0, z)\nConstant derivative (=1) for z > 0\nFlaw: Dying ReLU if z < 0 permanently" { class: relu_box }
+  gelu: "3. GELU (Gaussian Error Linear Unit)\nz * Phi(z)\nSmooth probabilistic gating\nStandard in BERT & GPT-2" { class: gelu_box }
+  swiglu: "4. SwiGLU (Swish-Gated Linear Unit)\nSwish(xW_gate) * (xW_up)\nBilinear multiplicative gating\nSOTA in LLaMA-3 & Mistral" { class: swiglu_box }
+
+  sigmoid -> relu: "Enables deep training"
+  relu -> gelu: "Smooth non-monotonic curvature"
+  gelu -> swiglu: "Multiplicative feature gating"
+}
+
 ```
+</details>
 
 #### 1. Rectified Linear Unit (ReLU)
 Introduced as the breakthrough that unlocked deep convolutional networks and early transformers:
@@ -415,38 +462,37 @@ Used in state-of-the-art foundation models (LLaMA-3, Mistral, Gemma, DeepSeek).
 
 $$\text{SwiGLU}(x) = \left( \text{Swish}(x W_{\text{gate}}) \odot (x W_{\text{up}}) \right) W_{\text{down}}$$
 
-```mermaid
-flowchart TD
-    subgraph SwiGLUBlock ["SwiGLU Gated Multiplicative Block"]
-        InputX["Input Tensor x<br/>[Batch, SeqLen, HiddenDim]"]
-        
-        subgraph ParallelProjections ["Parallel Linear Projections"]
-            W_Gate["Linear Projection: W_gate<br/>[HiddenDim → IntermediateDim]"]
-            W_Up["Linear Projection: W_up<br/>[HiddenDim → IntermediateDim]"]
-        end
-        
-        SwishAct["Swish Non-Linearity<br/>SiLU(z) = z · σ(z)"]
-        Hadamard["Element-Wise Product (⊙)<br/>Multiplicative Feature Gating"]
-        W_Down["Linear Projection: W_down<br/>[IntermediateDim → HiddenDim]"]
-        OutputY["Output Tensor<br/>[Batch, SeqLen, HiddenDim]"]
+![SwiGLU Gated Multiplicative Feed-Forward Network Block](assets/16_machine_learning_and_transformer_foundations/07_swiglu_gated_multiplicative_block.svg)
 
-        InputX --> W_Gate --> SwishAct
-        InputX --> W_Up
-        SwishAct --> Hadamard
-        W_Up --> Hadamard
-        Hadamard --> W_Down --> OutputY
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style SwiGLUBlock fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style InputX fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ParallelProjections fill:#0f172a,stroke:#10b981,stroke-width:1px,color:#6ee7b7
-    style W_Gate fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style W_Up fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style SwishAct fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style Hadamard fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style W_Down fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style OutputY fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
+```d2
+classes: {
+  input_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  gate_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  up_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  hadamard_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  down_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+}
+
+x: "Input Hidden States x\n[Batch, SeqLen, HiddenDim]" { class: input_box }
+
+w_gate: "Linear Projection: W_gate\n[HiddenDim -> IntermediateDim]" { class: gate_box }
+w_up: "Linear Projection: W_up\n[HiddenDim -> IntermediateDim]" { class: up_box }
+
+silu: "Swish / SiLU Activation\nSiLU(z) = z * sigma(z)"
+hadamard: "Hadamard Product (odot)\nSiLU(xW_gate) odot (xW_up)" { class: hadamard_box }
+w_down: "Down Projection: W_down\n[IntermediateDim -> HiddenDim]" { class: down_box }
+
+x -> w_gate
+x -> w_up
+w_gate -> silu -> hadamard
+w_up -> hadamard
+hadamard -> w_down
+
 ```
+</details>
 
 **Why Gating Outperforms Static Activations:**
 In standard activations, whether a feature passes through is determined purely by its sign. In SwiGLU, the gate matrix learns to dynamically scale or suppress individual feature dimensions based on the contextual meaning of the input token.
@@ -490,50 +536,37 @@ loss = (y - target) ** 2  # loss = (11 - 15)^2 = 16 (grad_fn=<PowBackward0>)
 print(f"Forward pass output: y={y.item()}, loss={loss.item()}")
 ```
 
-```mermaid
-flowchart TD
-    subgraph ForwardPass ["Phase 1: Forward Evaluation Graph"]
-        direction LR
-        subgraph Inputs ["Input Tensors"]
-            X["<b>Input: x = 4.0</b><br/>requires_grad=False"]
-            W["<b>Weight: w = 2.0</b><br/>requires_grad=True"]
-            B["<b>Bias: b = 3.0</b><br/>requires_grad=True"]
-        end
-        subgraph Operations ["Computation Nodes"]
-            MulNode["<b>MulBackward</b><br/>z = w * x = 8.0"]
-            AddNode["<b>AddBackward</b><br/>y = z + b = 11.0"]
-            LossNode["<b>PowBackward</b><br/>Loss = (y - 15)² = 16.0"]
-        end
-        X & W --> MulNode
-        MulNode & B --> AddNode
-        AddNode --> LossNode
-    end
+![Automatic Differentiation: PyTorch Autograd Computational DAG](assets/16_machine_learning_and_transformer_foundations/08_pytorch_autograd_computational_dag.svg)
 
-    subgraph BackwardPass ["Phase 2: Backward Gradient Propagation (VJP)"]
-        direction LR
-        GradY["<b>∂L/∂y = -8.0</b>"]
-        GradW["<b>∂L/∂w = -32.0</b><br/>Accumulated in w.grad"]
-        GradB["<b>∂L/∂b = -8.0</b><br/>Accumulated in b.grad"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    LossNode -.->|"Seed: ∂L/∂Loss = 1.0"| GradY
-    GradY -.->|"Chain Rule: * x"| GradW
-    GradY -.->|"Chain Rule: * 1"| GradB
+```d2
+classes: {
+  forward_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  node_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  backward_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
 
-    style ForwardPass fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BackwardPass fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Inputs fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#93c5fd
-    style Operations fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#c4b5fd
-    style X fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#fff
-    style W fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style MulNode fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style AddNode fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style LossNode fill:#1e1e2e,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style GradY fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style GradW fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style GradB fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#6ee7b7
+forward: "Phase 1: Forward Evaluation Graph" {
+  inputs: "Inputs: x=4, w=2, b=3" { class: forward_box }
+  mul: "MulBackward: z = w * x = 8.0" { class: node_box }
+  add: "AddBackward: y = z + b = 11.0" { class: node_box }
+  loss: "PowBackward: Loss = (y - 15)^2 = 16.0" { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2 } }
+
+  inputs -> mul -> add -> loss
+}
+
+backward: "Phase 2: Reverse-Mode Backprop (VJP)" {
+  seed: "Seed: dL/dLoss = 1.0" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  grad_y: "dL/dy = 2 * (11 - 15) = -8.0" { class: backward_box }
+  grad_w: "Accumulate w.grad = -8 * 4 = -32.0\nAccumulate b.grad = -8 * 1 = -8.0" { class: backward_box }
+
+  seed -> grad_y -> grad_w: "Chain rule backpropagation"
+}
+
 ```
+</details>
 
 #### The Backward Pass (Vector-Jacobian Products)
 When `loss.backward()` is invoked:
@@ -564,22 +597,26 @@ print(f"Calculated gradient on bias   b: {b.grad.item()}")  # -8.0
 
 Regression objectives quantify the distance between continuous predictions $\hat{y} \in \mathbb{R}$ and ground truth targets $y \in \mathbb{R}$:
 
-```mermaid
-flowchart LR
-    subgraph LossComparison ["Regression Loss Penalty Profiles"]
-        direction LR
-        MSEBox["<b>Mean Squared Error (MSE / L2)</b><br/>(Penalty = (y - ŷ)²: Quadratic penalty severely punishes large outliers; Smooth everywhere (Easy gradient descent near zero)"]
-        MAEBox["<b>Mean Absolute Error (MAE / L1)</b><br/>(Penalty = |y - ŷ|: Linear penalty treats all errors proportionally; Discontinuous derivative at 0 (Oscillates near minimum)"]
-        HuberBox["<b>Huber Loss (Smooth L1)</b><br/>(Quadratic for |error| ≤ δ; Linear for |error| > δ: Best of both worlds: Smooth at minimum + Robust to outliers)"]
+![Loss Function Architecture: Regression Penalty Profiles](assets/16_machine_learning_and_transformer_foundations/09_regression_loss_functions_comparison.svg)
 
-        MSEBox --- MAEBox --- HuberBox
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style LossComparison fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MSEBox fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style MAEBox fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style HuberBox fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+classes: {
+  mse_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  mae_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  huber_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+losses: "Regression Loss Penalty Profiles" {
+  mse: "MSE (L2 Loss)\nL = (y - y_hat)^2\nQuadratic penalty severely punishes outliers\nSmooth everywhere, easy gradient descent" { class: mse_box }
+  mae: "MAE (L1 Loss)\nL = |y - y_hat|\nLinear penalty; robust to extreme outliers\nDiscontinuous derivative at 0 (oscillates)" { class: mae_box }
+  huber: "Huber Loss (Smooth L1)\nQuadratic for small errors, linear for outliers\nBest of both worlds: smooth + robust" { class: huber_box }
+}
+
 ```
+</details>
 
 #### 1. Mean Squared Error (MSE / $L_2$ Loss)
 $$\mathcal{L}_{\text{MSE}} = \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2$$
@@ -650,20 +687,24 @@ Where:
 * $\gamma \ge 0$ is the **focusing parameter** (typically $\gamma = 2.0$).
 * $\alpha_t \in [0, 1]$ balances positive vs. negative class prevalence.
 
-```mermaid
-flowchart LR
-    subgraph FocalLossIntuition ["Focal Loss Modulating Dynamics (γ = 2.0)"]
-        direction LR
-        EasySample["Well-Classified Sample (p_t = 0.99)<br/>Modulating Factor: (1 - 0.99)² = 0.0001<br/>Loss is attenuated by 10,000×! Gradient contribution disappears."]
-        HardSample["Misclassified / Hard Sample (p_t = 0.10)<br/>Modulating Factor: (1 - 0.10)² = 0.8100<br/>Loss is preserved at 81% full strength! Gradient forces model to learn."]
+![Imbalanced Classification: Focal Loss Modulating Factor Dynamics](assets/16_machine_learning_and_transformer_foundations/10_focal_loss_dynamic_modulation.svg)
 
-        EasySample --- HardSample
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style FocalLossIntuition fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style EasySample fill:#1f2937,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style HardSample fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+classes: {
+  easy_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  hard_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+focal: "Focal Loss Dynamics (gamma = 2.0)" {
+  easy: "Easy Sample (p_t = 0.99)\nFactor: (1 - 0.99)^2 = 0.0001\nLoss attenuated by 10,000x!\nZero gradient waste on background" { class: easy_box }
+  hard: "Hard Sample (p_t = 0.10)\nFactor: (1 - 0.10)^2 = 0.8100\nLoss preserved at 81% strength!\nForces network to learn rare minority class" { class: hard_box }
+}
+
 ```
+</details>
 
 When an example is easy ($p_t \to 1$), the factor $(1 - p_t)^\gamma \to 0$, suppressing its gradient. Training focuses almost entirely on rare, ambiguous, or misclassified samples.
 
@@ -708,19 +749,26 @@ Imagine standing on a mountain in dense fog. You cannot see the valley floor (th
 
 $$\theta_{t+1} = \theta_t - \eta \cdot \nabla_\theta \mathcal{L}(\theta_t)$$
 
-```mermaid
-flowchart LR
-    subgraph StepSizeHazards ["Learning Rate Step Size Dynamics"]
-        TooSmall["<b>Learning Rate Too Small (η = 1e-6)</b><br/>(Crawls at glacial pace; Trapped in shallow local minima; Wastes massive compute)"]
-        OptimalLR["<b>Optimal Learning Rate (η = 3e-4)</b><br/>(Smooth descent along loss contour; Steadies toward global minimum; Fast convergence)"]
-        TooLarge["<b>Learning Rate Too Large (η = 0.5)</b><br/>(Overshoots valley floor; Oscillates wildly across ravines; Loss explodes to NaN / +inf)"]
-    end
+![Optimization Dynamics: Learning Rate Step Size Hazards](assets/16_machine_learning_and_transformer_foundations/11_learning_rate_step_size_dynamics.svg)
 
-    style StepSizeHazards fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TooSmall fill:#1f2937,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style OptimalLR fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style TooLarge fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  small_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  optimal_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  large_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+dynamics: "Learning Rate Step Size Dynamics" {
+  too_small: "Learning Rate Too Small (eta = 1e-6)\nCrawls at glacial pace; trapped in local minima\nWastes massive GPU compute" { class: small_box }
+  optimal: "Optimal Learning Rate (eta = 3e-4)\nSmooth descent along loss contour\nFast convergence toward global minimum" { class: optimal_box }
+  too_large: "Learning Rate Too Large (eta = 0.5)\nOvershoots valley floor; bounces across ravines\nLoss explodes to NaN / +inf" { class: large_box }
+}
+
 ```
+</details>
 
 #### Batch vs. Stochastic vs. Mini-Batch Gradient Descent
 1. **Full Batch Gradient Descent:** Computes loss over all $N$ samples in the dataset before performing a single parameter update.
@@ -787,19 +835,31 @@ Using a single constant learning rate throughout an entire training run leads to
 1. **Early Phase Instability:** At step 0, model weights are randomly initialized. Logits are noisy, and Adam's moving moments ($m_t, v_t$) have zero historical signal. A high initial learning rate causes massive, erratic weight updates that permanently destabilize attention heads.
 2. **Late Phase Oscillation:** When the model approaches a sharp loss minimum, a large learning rate keeps overshooting the basin, preventing fine-grained convergence.
 
-```mermaid
-flowchart LR
-    subgraph LRScheduler ["Linear Warmup + Cosine Annealing Schedule"]
-        direction LR
-        Warmup["<b>1. Linear Warmup (0 → T_warmup)</b><br/>(Scales lr linearly from 0 to η_max; Stabilizes initial weight distributions)"]
-        Cosine["<b>2. Cosine Annealing (T_warmup → T_max)</b><br/>(Smooth cosine decay from η_max down to η_min; Settles weights into optimal minima)"]
-        Warmup --> Cosine
-    end
+![Learning Rate Schedule: Linear Warmup + Cosine Annealing](assets/16_machine_learning_and_transformer_foundations/12_linear_warmup_cosine_annealing_schedule.svg)
 
-    style LRScheduler fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Warmup fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Cosine fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  warmup_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  cosine_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+warmup: "1. Linear Warmup (0 -> T_warmup)\nScales lr linearly from 0 to eta_max\nStabilizes random initial weight distributions" {
+  class: warmup_box
+}
+
+cosine: "2. Cosine Annealing (T_warmup -> T_max)\nSmooth cosine decay from eta_max to eta_min\nSettles weights into flat, optimal minima" {
+  class: cosine_box
+}
+
+warmup -> cosine: "Peak LR reached (T_warmup)" {
+  style: { stroke: "#fbbf24"; stroke-width: 2 }
+}
+
 ```
+</details>
 
 $$\eta_t = \begin{cases} \eta_{\max} \cdot \frac{t}{T_{\text{warmup}}} & \text{if } t \le T_{\text{warmup}} \\ \eta_{\min} + \frac{1}{2}(\eta_{\max} - \eta_{\min})\left(1 + \cos\left(\frac{t - T_{\text{warmup}}}{T_{\max} - T_{\text{warmup}}} \pi\right)\right) & \text{if } t > T_{\text{warmup}} \end{cases}$$
 
@@ -833,27 +893,27 @@ During training, **Dropout** randomly sets a fraction $p \in [0.1, 0.5]$ of acti
 
 Deep networks suffer from internal covariate shift—the distribution of each layer's inputs changes continuously as prior layers update their weights. Normalization layers force activations into a stable zero-mean, unit-variance distribution:
 
-```mermaid
-flowchart TD
-    subgraph NormEvolution ["Evolution of Normalization in Neural Networks"]
-        direction LR
-        subgraph BN ["1. Batch Normalization"]
-            BN_Text["<b>Normalizes across BATCH (B)</b><br/>(Computes μ_B, σ_B across batch; Breaks on small batch sizes (B < 8); Fails on dynamic text sequences)"]
-        end
-        subgraph LN ["2. Layer Normalization"]
-            LN_Text["<b>Normalizes across FEATURES (D)</b><br/>(Computes μ_L, σ_L per token; Independent of batch size; Standard in BERT, GPT-2)"]
-        end
-        subgraph RMSN ["3. RMSNorm"]
-            RMSN_Text["<b>Normalizes by Root Mean Square</b><br/>(Skips mean centering entirely; Saves 7-10% memory bandwidth; Standard in LLaMA-3, Mistral)"]
-        end
-        BN -.->|"NLP dynamic lengths"| LN -->|"GPU memory optimization"| RMSN
-    end
+![Evolution of Neural Normalization: BatchNorm to LayerNorm to RMSNorm](assets/16_machine_learning_and_transformer_foundations/13_batchnorm_vs_layernorm_vs_rmsnorm.svg)
 
-    style NormEvolution fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BN fill:#1f2937,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style LN fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style RMSN fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  bn_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  ln_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  rms_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+bn: "1. Batch Normalization (BN)\nNormalizes across BATCH (B)\nBreaks on dynamic NLP lengths & small batch sizes" { class: bn_box }
+ln: "2. Layer Normalization (LN)\nNormalizes across FEATURES (D) per token\nIndependent of batch size (BERT, GPT-2)" { class: ln_box }
+rmsnorm: "3. RMSNorm (Root Mean Square)\nSkips mean calculation entirely: y = x / RMS(x)\nSaves 7-10% GPU memory bandwidth (LLaMA-3)" { class: rms_box }
+
+bn -> ln: "Solve dynamic length issue"
+ln -> rmsnorm: "Eliminate mean calculation overhead"
+
 ```
+</details>
 
 #### Layer Normalization (LayerNorm)
 Normalizes across the hidden feature dimension $D$ for each token independently:
@@ -958,29 +1018,33 @@ $$\mathbf{x}_{\text{input}}[i] = \mathbf{e}_{\text{token}}[i] + \mathbf{P}[i]$$
 
 Adopted by all premier modern foundation models (LLaMA-3, Mistral, Qwen, DeepSeek). Rather than adding a position vector to the token embedding, **Rotary Position Embedding (RoPE)** rotates the query and key vectors in complex 2D planes proportional to their absolute sequence position:
 
-```mermaid
-flowchart TD
-    subgraph RoPEIntuition ["Rotary Position Embedding (RoPE) Mechanics"]
-        direction TB
-        TokenQ["Query Vector q at Position m<br/>[q₀, q₁, q₂, q₃, ...]"]
-        TokenK["Key Vector k at Position n<br/>[k₀, k₁, k₂, k₃, ...]"]
-        
-        RotateQ["Rotate 2D pairs by angle m·θ_i<br/>q_m = R_m · q"]
-        RotateK["Rotate 2D pairs by angle n·θ_i<br/>k_n = R_n · k"]
-        
-        DotProduct["Dot Product: ⟨q_m, k_n⟩ = qᵀ · R_(n - m) · k<br/>Result depends strictly on RELATIVE distance (m - n)!"]
+![Rotary Position Embedding (RoPE) Geometric Mechanics](assets/16_machine_learning_and_transformer_foundations/14_rotary_position_embedding_rope_mechanics.svg)
 
-        TokenQ --> RotateQ --> DotProduct
-        TokenK --> RotateK --> DotProduct
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style RoPEIntuition fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TokenQ fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style TokenK fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style RotateQ fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style RotateK fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style DotProduct fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+```d2
+classes: {
+  vec_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  rot_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  dot_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+rope: "Rotary Position Embedding (RoPE) Mechanics" {
+  q_vec: "Query Vector q at Position m\n[q0, q1, q2, q3, ...]" { class: vec_box }
+  k_vec: "Key Vector k at Position n\n[k0, k1, k2, k3, ...]" { class: vec_box }
+
+  q_rot: "Rotate 2D pairs by angle m * theta\nq_m = R_m * q" { class: rot_box }
+  k_rot: "Rotate 2D pairs by angle n * theta\nk_n = R_n * k" { class: rot_box }
+
+  dot: "Dot Product: <q_m, k_n> = q^T * R_(n - m) * k\nScore depends strictly on RELATIVE distance (n - m)!" { class: dot_box }
+
+  q_vec -> q_rot -> dot
+  k_vec -> k_rot -> dot
+}
+
 ```
+</details>
 
 For every 2D chunk of a head vector $[x_1, x_2]$, RoPE applies a 2D rotation matrix:
 
@@ -1004,38 +1068,40 @@ The attention score depends **only on the relative distance $(m - n)$ between th
 $$\mathbf{Q} = \mathbf{X} \mathbf{W}_Q, \quad \mathbf{K} = \mathbf{X} \mathbf{W}_K, \quad \mathbf{V} = \mathbf{X} \mathbf{W}_V$$
 $$\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Softmax}\left(\frac{\mathbf{Q} \mathbf{K}^T}{\sqrt{d_k}}\right) \mathbf{V}$$
 
-```mermaid
-flowchart LR
-    subgraph AttentionBlock ["Scaled Dot-Product Attention Architecture"]
-        Q["Query Tensor Q<br/>[Batch, Heads, SeqLen, d_k]"]
-        K["Key Tensor K<br/>[Batch, Heads, SeqLen, d_k]"]
-        V["Value Tensor V<br/>[Batch, Heads, SeqLen, d_v]"]
-        
-        MatMul1["Matrix Multiply: Q · Kᵀ<br/>Raw Attention Affinities [SeqLen, SeqLen]"]
-        Scale["Scale Factor: Divide by √d_k<br/>Prevents variance explosion & Softmax saturation"]
-        Mask["Causal Mask (Optional)<br/>Upper triangle set to -inf"]
-        SoftmaxOp["Softmax Normalization<br/>Generates probability weights A (rows sum to 1.0)"]
-        MatMul2["Matrix Multiply: A · V<br/>Weighted sum of Value vectors"]
-        OutputContext["Context Output<br/>[Batch, Heads, SeqLen, d_v]"]
+![Core Transformer Component: Scaled Dot-Product Attention](assets/16_machine_learning_and_transformer_foundations/15_scaled_dot_product_attention_architecture.svg)
 
-        Q --> MatMul1
-        K --> MatMul1
-        MatMul1 --> Scale --> Mask --> SoftmaxOp --> MatMul2
-        V --> MatMul2
-        MatMul2 --> OutputContext
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style AttentionBlock fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Q fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style K fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style V fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style MatMul1 fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Scale fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Mask fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style SoftmaxOp fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style MatMul2 fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style OutputContext fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
+```d2
+classes: {
+  tensor_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  op_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  scale_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  mask_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  act_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+q: "Query Tensor Q\n[B, Heads, S, d_k]" { class: tensor_box }
+k: "Key Tensor K\n[B, Heads, S, d_k]" { class: tensor_box }
+v: "Value Tensor V\n[B, Heads, S, d_v]" { class: tensor_box }
+
+matmul1: "MatMul: Q * K^T\nRaw Affinities [S, S]" { class: op_box }
+scale: "Scale by 1/sqrt(d_k)\nPrevents variance explosion" { class: scale_box }
+mask: "Causal Mask (Optional)\nUpper triangle = -inf" { class: mask_box }
+softmax: "Softmax\nProbability matrix A" { class: act_box }
+matmul2: "MatMul: A * V\nWeighted sum of Values" { class: op_box }
+out: "Context Output Tensor\n[B, Heads, S, d_v]" { class: act_box }
+
+q -> matmul1
+k -> matmul1
+matmul1 -> scale -> mask -> softmax
+softmax -> matmul2
+v -> matmul2
+matmul2 -> out
+
 ```
+</details>
 
 #### Why Must We Scale by $\sqrt{d_k}$? (The Mathematical Variance Proof)
 Assume the elements of $q$ and $k$ are independent random variables with mean $0$ and variance $1$:
@@ -1066,35 +1132,27 @@ When $e^{-\infty}$ is evaluated in Softmax, it evaluates to exactly $0.0$, makin
 
 During autoregressive inference, generating tokens one-by-one is severely memory-bandwidth bound due to the **Key-Value (KV) Cache**. Storing $K$ and $V$ tensors across all layers and heads exhausts GPU VRAM:
 
-```mermaid
-flowchart TD
-    subgraph AttentionVariants ["KV Cache Memory Footprint Comparison"]
-        direction TD
-        subgraph MHA ["1. Multi-Head Attention (MHA)"]
-            Q_MHA["Q Heads: 32"]
-            K_MHA["K Heads: 32"]
-            V_MHA["V Heads: 32"]
-            Q_MHA --- K_MHA --- V_MHA
-        end
-        subgraph GQA ["2. Grouped-Query Attention (GQA)"]
-            Q_GQA["Q Heads: 32 (8 groups of 4)"]
-            K_GQA["K Heads: 8 (Shared across 4 Q heads)"]
-            V_GQA["V Heads: 8 (Shared across 4 Q heads)"]
-            Q_GQA --- K_GQA --- V_GQA
-        end
-        subgraph MQA ["3. Multi-Query Attention (MQA)"]
-            Q_MQA["Q Heads: 32"]
-            K_MQA["K Heads: 1 (Single shared head)"]
-            V_MQA["V Heads: 1 (Single shared head)"]
-            Q_MQA --- K_MQA --- V_MQA
-        end
-    end
+![Attention Architecture Evolution: MHA vs. GQA vs. MQA](assets/16_machine_learning_and_transformer_foundations/16_attention_variants_mha_gqa_mqa_kv_cache.svg)
 
-    style AttentionVariants fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MHA fill:#1f2937,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style GQA fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style MQA fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  mha_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  gqa_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  mqa_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+mha: "1. Multi-Head Attention (MHA)\n32 Q Heads, 32 K Heads, 32 V Heads\nKV Cache: 100% Full Footprint\nHigh VRAM consumption" { class: mha_box }
+gqa: "2. Grouped-Query Attention (GQA)\n32 Q Heads, 8 K Heads, 8 V Heads (1:4 ratio)\nKV Cache: 25% (4x Reduction!)\nGold standard in LLaMA-3" { class: gqa_box }
+mqa: "3. Multi-Query Attention (MQA)\n32 Q Heads, 1 K Head, 1 V Head\nKV Cache: 3% (32x Reduction!)\nHigh speed, slight reasoning degradation" { class: mqa_box }
+
+mha -> gqa: "Group K/V heads (4x VRAM saving)"
+gqa -> mqa: "Single K/V head (32x VRAM saving)"
+
 ```
+</details>
 
 * **Multi-Head Attention (MHA):** Every Query head has a dedicated Key and Value head ($H_Q = H_{KV}$). Maximum expressive power, but massive KV cache memory overhead during high-concurrency serving.
 * **Multi-Query Attention (MQA):** All Query heads share a single Key head and a single Value head ($H_{KV} = 1$). Cuts KV cache memory by up to $95\%$, but can cause reasoning quality drops.
@@ -1362,20 +1420,26 @@ if __name__ == "__main__":
 
 When scaling neural training on modern GPU clusters (such as NVIDIA H100/A100), systems engineers encounter three primary physical bottlenecks:
 
-```mermaid
-flowchart TD
-    subgraph GPUBottlenecks ["The Three Primary GPU Hardware Bottlenecks"]
-        direction TD
-        ComputeBound["<b>1. Compute-Bound (GEMM)</b><br/>(Dense matrix multiplies (W·x); Saturated by Tensor Cores; Fix: Ensure dimensions are multiples of 16/32)"]
-        MemoryBound["<b>2. Memory-Bandwidth-Bound</b><br/>(Softmax, LayerNorm, Activations; High Byte-to-FLOP ratio; Fix: Kernel Fusion (FlashAttention, Triton)"]
-        PCIeBound["<b>3. Host-to-Device (PCIe) Bound</b><br/>(Slow CPU RAM → GPU VRAM transfer; GPU sits idle waiting for tensors; Fix: pin_memory=True, num_workers > 0)"]
-    end
+![High-Performance Deep Learning: The Three GPU Hardware Bottlenecks](assets/16_machine_learning_and_transformer_foundations/17_gpu_hardware_bottlenecks_compute_memory_pcie.svg)
 
-    style GPUBottlenecks fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ComputeBound fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style MemoryBound fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style PCIeBound fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  compute_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  mem_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  pcie_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+gpu: "The Three Primary GPU Hardware Bottlenecks" {
+  compute: "1. Compute-Bound (GEMM)\nDense Matrix Multiplications (W * x)\nSaturated by Tensor Cores\nFix: Align dimensions to multiples of 16/32" { class: compute_box }
+  mem: "2. Memory-Bandwidth Bound\nSoftmax, RMSNorm, Activations\nStarved waiting for HBM memory bus\nFix: Kernel Fusion (FlashAttention, Triton)" { class: mem_box }
+  pcie: "3. Host-to-Device (PCIe) Bound\nSlow CPU RAM -> GPU VRAM transfers\nGPU sits idle waiting for batches\nFix: pin_memory=True & prefetching" { class: pcie_box }
+}
+
 ```
+</details>
 
 1. **Compute-Bound Operations (GEMM - General Matrix Multiply):** FFN projections and Attention projections ($Q, K, V$). Tensor Cores reach peak teraFLOPS when tensor dimensions are aligned to multiples of 8, 16, or 32 bytes.
 2. **Memory-Bandwidth-Bound Operations (Element-Wise Operations):** Softmax, RMSNorm, and residual additions. These operations perform very few floating-point calculations per byte fetched from High Bandwidth Memory (HBM). Modern systems use **Kernel Fusion** (e.g., FlashAttention, Triton) to keep tensors in fast on-chip SRAM cache instead of repeatedly round-tripping to HBM.
@@ -1421,24 +1485,33 @@ At its computational foundation, every Large Language Model (whether GPT-4, LLaM
 
 $$P(w_1, w_2, \dots, w_T) = \prod_{t=1}^T P(w_t \mid w_1, w_2, \dots, w_{t-1})$$
 
-```mermaid
-flowchart LR
-    subgraph NextTokenLoop ["Autoregressive Generation Loop"]
-        direction LR
-        Prompt["Context Window Tokens:<br/>['The', ' cat', ' sat', ' on']"] --> LLM["LLM Forward Pass<br/>(Transformer Stack)"]
-        LLM --> Logits["Vocabulary Logits (128k dims)<br/>' the': 14.2, ' a': 11.8, ' Mars': -2.1"]
-        Logits --> Softmax["Softmax & Sampling"]
-        Softmax --> NextWord["Predicted Token: ' the'"]
-        NextWord -.->|"Append to Context"| Prompt
-    end
+![LLM Inference: Autoregressive Next-Token Generation Loop](assets/16_machine_learning_and_transformer_foundations/18_autoregressive_next_token_generation_loop.svg)
 
-    style NextTokenLoop fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Prompt fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style LLM fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Logits fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style Softmax fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style NextWord fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  ctx_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  llm_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  logit_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  sample_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+loop: "Autoregressive Generation Loop" {
+  prompt: "1. Context Tokens\n['The', ' cat', ' sat', ' on']" { class: ctx_box }
+  llm: "2. LLM Forward Pass\nTransformer Layers (Attention + FFN)" { class: llm_box }
+  logits: "3. Vocabulary Logits (128k dims)\n' the': 14.2, ' a': 11.8" { class: logit_box }
+  sample: "4. Sampling (Temperature / Top-p)\nSelected Token: ' the'" { class: sample_box }
+
+  prompt -> llm -> logits -> sample
+  sample -> prompt: "Append token & repeat for next position" {
+    style: { stroke: "#4ade80"; stroke-width: 2 }
+  }
+}
+
 ```
+</details>
 
 #### The Pretraining Objective: Cross-Entropy Loss
 During pretraining across trillions of internet tokens (Common Crawl, GitHub, Wikipedia, books, scientific papers), the network parameters $\theta$ are updated to minimize the negative log-likelihood of observing the actual next token:
@@ -1453,22 +1526,29 @@ Where $w_{<t}$ denotes all previous tokens $(w_1, \dots, w_{t-1})$.
 
 A frequent point of confusion for beginners is the difference between a **Base Model** and an **Instruct / Chat Model**:
 
-```mermaid
-flowchart LR
-    subgraph ThreeStages ["The Three Stages of Model Construction"]
-        direction LR
-        Stage1["<b>1. Pretraining (Base Model)</b><br/>(Unsupervised next-token prediction on 15T+ tokens; Behavior: Raw text completer; Prompt: 'How do I bake a cake?'; Output: '...is a question asked by many beginners. Chapter 1...')"]
-        Stage2["<b>2. Supervised Fine-Tuning / SFT (Instruct Model)</b><br/>(Trained on 100k+ high-quality (Instruction, Response) pairs; Behavior: Follows conversational directions; Prompt: 'How do I bake a cake?'; Output: 'Here is a simple 5-step recipe: 1. Preheat oven...')"]
-        Stage3["<b>3. Preference Alignment / RLHF & DPO (Aligned Assistant)</b><br/>(Trained on (Prompt, Chosen, Rejected) preference pairs; Behavior: Safe, helpful, concise, refuses malicious requests; Suppresses harmful advice, hallucinated claims, and hate speech)"]
+![The Three Stages of Modern LLM Construction](assets/16_machine_learning_and_transformer_foundations/19_llm_construction_stages_pretraining_sft_rlhf.svg)
 
-        Stage1 -->|"Curated Multi-Turn Dialogue"| Stage2 -->|"Human / AI Preferences"| Stage3
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style ThreeStages fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Stage1 fill:#1f2937,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style Stage2 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Stage3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+classes: {
+  base_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  sft_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  align_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+stages: "The Three Stages of Model Construction" {
+  base: "1. Pretraining (Base Model)\n15T+ tokens next-token prediction\nRaw text completion engine" { class: base_box }
+  sft: "2. Supervised Fine-Tuning (Instruct)\n100k+ conversational Q&A pairs\nLearns to follow instructions" { class: sft_box }
+  align: "3. Preference Alignment (RLHF / DPO)\n(Prompt, Chosen, Rejected) pairs\nSafe, honest, helpful assistant" { class: align_box }
+
+  base -> sft: "Instruct tuning"
+  sft -> align: "Preference optimization"
+}
+
 ```
+</details>
 
 * **Base Model (e.g., LLaMA-3-8B-Base):** Has read the internet and acquired vast world knowledge, syntax, and coding semantics. However, it only knows how to *continue text*. If you prompt it with a question, it might output another question or complete the text as a forum thread.
 * **Supervised Fine-Tuning (SFT):** The model is trained on curated demonstrations where humans formatted inputs as `User: <question>` and `Assistant: <helpful answer>`. The model learns the conversational "turn-taking" protocol.
@@ -1523,22 +1603,26 @@ Architecting enterprise AI systems requires distinguishing between two types of 
 
 Computers cannot process strings directly; they require numbers. But how should we segment raw text into discrete numeric symbols?
 
-```mermaid
-flowchart LR
-    subgraph TokenizationApproaches ["Why Subword Tokenization Won the Industry"]
-        direction LR
-        CharLevel["<b>1. Character-Level Tokenization ('c', 'a', 't')</b><br/>(Pros: Tiny vocabulary (256 ASCII bytes; no Out-Of-Vocabulary); Cons: Context length explodes by 4× to 6×! Quadratic attention compute explodes.)"]
-        WordLevel["<b>2. Word-Level Tokenization ('cat', 'sat', 'mat')</b><br/>(Pros: Short sequence lengths; Cons: Vocabulary explosion (millions of words); Fails on typos ('cattt') and prefixes/suffixes ('unbelievably').)"]
-        Subword["<b>3. Subword Tokenization (BPE, WordPiece, SentencePiece)</b><br/>(The Sweet Spot: Frequent words are single tokens ('elephant'); Rare words are split into known stems ('un', 'believ', 'able').; Standard vocabulary size: 32,000 to 128,000 tokens.)"]
+![Natural Language Tokenization: Why Subwords Won the Industry](assets/16_machine_learning_and_transformer_foundations/20_subword_tokenization_character_word_bpe.svg)
 
-        CharLevel --- WordLevel --- Subword
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style TokenizationApproaches fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CharLevel fill:#1f2937,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style WordLevel fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Subword fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+classes: {
+  char_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  word_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  subword_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+tokenization: "Why Subword Tokenization Won" {
+  char: "1. Character-Level ('c', 'a', 't')\nTiny 256 vocab\nFlaw: 6x longer sequence length (36x attention compute)" { class: char_box }
+  word: "2. Word-Level ('cat', 'sat')\nShort sequence length\nFlaw: Vocabulary explosion (millions) & OOV on typos" { class: word_box }
+  subword: "3. Subword Tokenization (BPE / SentencePiece)\nSweet spot: 32k-128k vocabulary\nFrequent words 1 token, rare words split into stems" { class: subword_box }
+}
+
 ```
+</details>
 
 1. **Character-Level:** A 1,000-word essay requires ~5,000 character tokens. Because transformer self-attention scales quadratically ($\mathcal{O}(N^2)$), 5,000 character tokens consume $16\times$ more compute and memory than 1,200 subword tokens!
 2. **Word-Level:** Natural languages have millions of distinct word variations. Storing an embedding matrix for 2 million words requires gigabytes of VRAM just for the lookup table, and any misspelled word (e.g., `kubernetes` vs `kubernets`) triggers an `[UNK]` (Unknown Token) error.
@@ -1564,26 +1648,30 @@ Suppose our training corpus contains the following word frequencies:
 * `"newest"`: 6 occurrences $\to$ `n e w e s t </w>` (6)
 * `"widest"`: 3 occurrences $\to$ `w i d e s t </w>` (3)
 
-```mermaid
-flowchart TD
-    subgraph BPETraining ["BPE Vocabulary Construction Walkthrough"]
-        direction TB
-        BaseChars["Initial State: Vocabulary contains only individual characters [l, o, w, e, r, n, s, t, i, d, &lt;/w&gt;]"]
-        Merge1["Iteration 1: Most frequent adjacent pair is ('e', 's') with 9 counts.<br/>Merge 'e' + 's' → 'es'.<br/>Corpus becomes: 'n e w es t &lt;/w&gt;' (6), 'w i d es t &lt;/w&gt;' (3)"]
-        Merge2["Iteration 2: Most frequent adjacent pair is ('es', 't') with 9 counts.<br/>Merge 'es' + 't' → 'est'.<br/>Corpus becomes: 'n e w est &lt;/w&gt;' (6), 'w i d est &lt;/w&gt;' (3)"]
-        Merge3["Iteration 3: Most frequent pair is ('est', '&lt;/w&gt;') with 9 counts.<br/>Merge 'est' + '&lt;/w&gt;' → 'est&lt;/w&gt;'."]
-        Merge4["Iteration 4: Pair ('l', 'o') appears 7 times in 'low' and 'lower'.<br/>Merge 'l' + 'o' → 'lo'."]
+![Byte Pair Encoding (BPE) Iterative Vocabulary Construction](assets/16_machine_learning_and_transformer_foundations/21_byte_pair_encoding_bpe_training_walkthrough.svg)
 
-        BaseChars --> Merge1 --> Merge2 --> Merge3 --> Merge4
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style BPETraining fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BaseChars fill:#1f2937,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style Merge1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Merge2 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Merge3 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Merge4 fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
+```d2
+classes: {
+  init_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  merge_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  final_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+bpe: "BPE Vocabulary Construction Walkthrough" {
+  base: "Initial State: Single character vocab\n[l, o, w, e, r, n, s, t, i, d, </w>]" { class: init_box }
+  m1: "Iteration 1: Merge ('e', 's') -> 'es' (Frequency = 9)" { class: merge_box }
+  m2: "Iteration 2: Merge ('es', 't') -> 'est' (Frequency = 9)" { class: merge_box }
+  m3: "Iteration 3: Merge ('est', '</w>') -> 'est</w>' (Frequency = 9)" { class: final_box }
+  m4: "Iteration 4: Merge ('l', 'o') -> 'lo' (Frequency = 7)" { class: merge_box }
+
+  base -> m1 -> m2 -> m3 -> m4: "Iterative greedy frequency merges"
+}
+
 ```
+</details>
 
 When this model later encounters a brand-new unseen word like `"lowest"`, it splits it into known vocabulary tokens: `['low', 'est</w>']`. It never produces an Out-Of-Vocabulary error!
 
@@ -1601,22 +1689,26 @@ When this model later encounters a brand-new unseen word like `"lowest"`, it spl
 
 A critical production reality that directly affects latency, GPU memory, and API billing is **tokenization density**:
 
-```mermaid
-flowchart LR
-    subgraph TokenDensity ["Tokenization Density Disparity across Languages"]
-        direction LR
-        Eng["English: 'Good morning'<br/>Tokens: 2<br/>Bytes/Token: ~4.5<br/>Base Cost: 1.0×"]
-        Span["Spanish: 'Buenos días'<br/>Tokens: 3<br/>Bytes/Token: ~3.3<br/>Base Cost: 1.5×"]
-        Hindi["Hindi: 'शुभ प्रभात'<br/>Tokens: 7<br/>Bytes/Token: ~1.2<br/>Base Cost: 3.5×!"]
-        
-        Eng --- Span --- Hindi
-    end
+![The Tokenization Tax: Cross-Lingual Token Density Disparity](assets/16_machine_learning_and_transformer_foundations/22_token_density_disparity_cross_lingual_cost.svg)
 
-    style TokenDensity fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Eng fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Span fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Hindi fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  eng_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  span_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  hindi_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+tax: "Tokenization Density Disparity Across Languages" {
+  eng: "English: 'Good morning'\nTokens: 2\nBytes/Token: ~4.5\nBase Cost: 1.0x" { class: eng_box }
+  span: "Spanish: 'Buenos dias'\nTokens: 3\nBytes/Token: ~3.3\nBase Cost: 1.5x" { class: span_box }
+  hindi: "Hindi: 'Shubh Prabhat'\nTokens: 7 (3.5x more tokens!)\nBytes/Token: ~1.2\nBase Cost: 3.5x (High latency tax!)" { class: hindi_box }
+}
+
 ```
+</details>
 
 #### Why Does This Happen?
 Modern LLM vocabularies are heavily biased toward English text (which constitutes 80%+ of internet training sets). Common English words are allocated single token IDs. Non-Latin scripts (Devanagari, Arabic, Cyrillic, Chinese) frequently require 2 to 4 tokens per individual word because they are fragmented into UTF-8 byte sequences!
@@ -1642,36 +1734,37 @@ In the original 2017 transformer paper (*Attention Is All You Need*), the archit
 
 Today, the entire generative AI industry (GPT-4, Claude, LLaMA-3, Mistral, DeepSeek) has standardized on **Decoder-Only** architectures:
 
-```mermaid
-flowchart TD
-    subgraph DecoderOnly ["Standard Modern Decoder-Only Block (LLaMA-3 Style)"]
-        direction TB
-        Input["Input Token Hidden States: x_t"]
-        Norm1["RMSNorm (Pre-Normalization)"]
-        Attn["Grouped-Query Causal Attention (GQA)<br/>(Rotary Position Embeddings / RoPE)"]
-        Add1["Residual Skip Connection: x = x + Attn(x)"]
-        Norm2["RMSNorm (Pre-Normalization)"]
-        FFN["SwiGLU Feed-Forward Network<br/>(Bilinear Multiplicative Gating)"]
-        Add2["Residual Skip Connection: x = x + FFN(x)"]
-        Output["Output Hidden States: x_{t+1}"]
+![Standard Modern Decoder-Only Transformer Block (LLaMA-3 Style)](assets/16_machine_learning_and_transformer_foundations/23_standard_decoder_only_block_architecture.svg)
 
-        Input --> Norm1 --> Attn --> Add1
-        Input --> Add1
-        Add1 --> Norm2 --> FFN --> Add2
-        Add1 --> Add2
-        Add2 --> Output
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style DecoderOnly fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Input fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Norm1 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Attn fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Add1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Norm2 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style FFN fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style Add2 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Output fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
+```d2
+classes: {
+  norm_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  attn_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  ffn_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  add_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+}
+
+input: "Input Token Hidden States x_t"
+norm1: "RMSNorm (Pre-Normalization)" { class: norm_box }
+attn: "Grouped-Query Attention (GQA)\nCausal Mask & RoPE" { class: attn_box }
+add1: "Residual Add: x = x + Attn(x)" { class: add_box }
+
+norm2: "RMSNorm (Pre-Normalization)" { class: norm_box }
+ffn: "SwiGLU Feed-Forward Network\nBilinear Gating" { class: ffn_box }
+add2: "Residual Add: x = x + FFN(x)" { class: add_box }
+output: "Output Hidden States x_{t+1}"
+
+input -> norm1 -> attn -> add1
+input -> add1: "Residual Skip"
+add1 -> norm2 -> ffn -> add2
+add1 -> add2: "Residual Skip"
+add2 -> output
+
 ```
+</details>
 
 #### Why Decoder-Only Won:
 1. **Autoregressive Simplicity:** Pretraining objective and inference execution are identical—next-token prediction.
@@ -1686,50 +1779,40 @@ In a standard **Dense model**, every single parameter in the neural network is a
 
 In a **Mixture-of-Experts (MoE)** architecture, the dense Feed-Forward Network (FFN) layer is replaced by multiple independent FFN blocks called **Experts** (e.g., 8, 16, or 64 experts), coordinated by a parameterized **Router (Gating Network)**:
 
-```mermaid
-flowchart TD
-    subgraph MoERouting ["Top-2 Mixture-of-Experts (MoE) Routing Mechanics"]
-        TokenIn["Incoming Token Vector: x_t"]
-        Router["Router / Gating Network<br/>Linear Projection: W_g · x_t<br/>Softmax over N Experts"]
-        
-        subgraph Experts ["Expert Pool (8 Parallel Feed-Forward Networks)"]
-            E1["Expert 1 (Math/Logic)"]
-            E2["Expert 2 (Code/Syntax)"]
-            E3["Expert 3 (Grammar)"]
-            E4["Expert 4 (History/Facts)"]
-            E5["Expert 5"]
-            E6["Expert 6"]
-            E7["Expert 7"]
-            E8["Expert 8"]
-        end
+![Mixture-of-Experts (MoE) Sparse Architecture: Top-2 Gating Mechanics](assets/16_machine_learning_and_transformer_foundations/24_top_2_mixture_of_experts_routing_mechanics.svg)
 
-        Top2Select["Top-2 Gating Selection<br/>Routes token to Expert 2 (p=0.62) & Expert 1 (p=0.38)"]
-        HadamardSum["Weighted Sum of Selected Outputs<br/>y = 0.62·E₂(x) + 0.38·E₁(x)"]
+<details>
+<summary>View D2 Source</summary>
 
-        TokenIn --> Router --> Top2Select
-        TokenIn --> E1
-        TokenIn --> E2
-        Top2Select --> E1
-        Top2Select --> E2
-        E1 --> HadamardSum
-        E2 --> HadamardSum
-    end
+```d2
+classes: {
+  router_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  select_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  active_expert: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  idle_expert: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 1 } }
+  sum_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
 
-    style MoERouting fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TokenIn fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Router fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style Experts fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#cbd5e1
-    style E1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style E2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style E3 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#94a3b8
-    style E4 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#94a3b8
-    style E5 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#94a3b8
-    style E6 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#94a3b8
-    style E7 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#94a3b8
-    style E8 fill:#1f2937,stroke:#64748b,stroke-width:1px,color:#94a3b8
-    style Top2Select fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style HadamardSum fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
+token: "Incoming Token Vector x_t"
+router: "Router Gating Network\nW_gate * x_t -> Softmax" { class: router_box }
+top2: "Top-2 Selector\nRoutes to Expert 2 (0.62) & Expert 1 (0.38)" { class: select_box }
+
+pool: "Expert Pool (8 Parallel FFNs)" {
+  e1: "Expert 1 (Math/Logic) [Active]" { class: active_expert }
+  e2: "Expert 2 (Code/Syntax) [Active]" { class: active_expert }
+  e3_8: "Experts 3 to 8 [Inactive]" { class: idle_expert }
+}
+
+sum: "Weighted Sum: y = 0.62*E2(x) + 0.38*E1(x)" { class: sum_box }
+
+token -> router -> top2
+top2 -> pool.e1: "Route token"
+top2 -> pool.e2: "Route token"
+pool.e1 -> sum
+pool.e2 -> sum
+
 ```
+</details>
 
 #### Mathematical Formulation:
 Given input token $x$:
@@ -1791,38 +1874,31 @@ Minimizing this loss penalizes unequal distribution, forcing the router to balan
 
 Understanding the two distinct execution regimes of an LLM request is the most fundamental prerequisite for serving optimization, capacity planning, and latency debugging:
 
-```mermaid
-flowchart LR
-    subgraph RequestLifecycle ["The Dual-Phase Execution Lifecycle of an LLM Request"]
-        subgraph Phase1 ["Phase 1: Prefill (Context Prompt Processing)"]
-            direction LR
-            PromptTokens["Input Prompt: 'Summarize the Q3 financial report...' (2,048 tokens)"]
-            ParallelCompute["<b>Parallel Matrix Multiplication (GEMM)</b><br/>(All 2,048 tokens processed concurrently in 1 forward pass; Saturated Tensor Cores (Peak TFLOPS); Computes and caches Key & Value tensors for all 2,048 tokens)"]
-            FirstToken["Emits First Token: 'The'"]
-            PromptTokens --> ParallelCompute --> FirstToken
-        end
+![Dual-Phase LLM Serving Lifecycle: Prefill vs. Decode](assets/16_machine_learning_and_transformer_foundations/25_llm_request_lifecycle_prefill_vs_decode.svg)
 
-        subgraph Phase2 ["Phase 2: Decode (Sequential Token Generation)"]
-            direction LR
-            DecodeStep1["Decode Step 1: Input 'The' (1 token) → Fetch 2,048 past K,V → Emit 'company'"]
-            DecodeStep2["Decode Step 2: Input 'company' (1 token) → Fetch 2,049 past K,V → Emit 'achieved'"]
-            DecodeStepN["Decode Step N: Sequential loop continues until [EOS] token is emitted"]
-            DecodeStep1 --> DecodeStep2 --> DecodeStepN
-        end
+<details>
+<summary>View D2 Source</summary>
 
-        Phase1 --> Phase2
-    end
+```d2
+classes: {
+  prefill_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  decode_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
 
-    style RequestLifecycle fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Phase1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Phase2 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style PromptTokens fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ParallelCompute fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style FirstToken fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
-    style DecodeStep1 fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style DecodeStep2 fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style DecodeStepN fill:#1f2937,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
+prefill: "Phase 1: Prefill (Context Prompt Processing)\nCompute-Bound: 2,048 tokens parallel GEMM\nSaturates Tensor Cores; emits first token (TTFT)" {
+  class: prefill_box
+}
+
+decode: "Phase 2: Decode (Sequential Token Generation)\nMemory-Bandwidth Bound: 1 token at a time\nStreams tokens (+30ms ITL) until [EOS]" {
+  class: decode_box
+}
+
+prefill -> decode: "First token emitted\nSwitches from Compute to Memory bound" {
+  style: { stroke: "#fbbf24"; stroke-width: 2 }
+}
+
 ```
+</details>
 
 ---
 
@@ -1830,17 +1906,31 @@ flowchart LR
 
 Enterprise user experience is governed by two completely separate latency metrics:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'timelineColor': '#3b82f6', 'cScale0': '#1e293b', 'cScale1': '#1e3a8a', 'cScale2': '#064e3b', 'cScaleLabel0': '#ffffff', 'cScaleLabel1': '#ffffff', 'cScaleLabel2': '#ffffff' }}}%%
-timeline
-    title Timeline of an LLM Inference Request
-    User Dispatches Request : Request enters gateway queue
-    Prefill Phase Starts : GPU processes 2,048 prompt tokens in parallel
-    Time to First Token (TTFT) : First token emitted & user UI spinner disappears
-    Inter-Token Latency (ITL) : Token 2 arrives (+30ms)
-    Streaming Response : Token 3 arrives (+30ms)
-    Request Complete : Final [EOS] token emitted; Total Latency = TTFT + (N * ITL)
+![LLM Inference Request Latency Timeline: TTFT vs. ITL](assets/16_machine_learning_and_transformer_foundations/26_llm_inference_latency_timeline_ttft_itl.svg)
+
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  event_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  ttft_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  itl_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  eos_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+timeline: "Timeline of an LLM Inference Request" {
+  dispatch: "T=0: Request Dispatched\nEnter gateway queue" { class: event_box }
+  prefill: "T=150ms: Prefill Phase Starts\nParallel prompt processing" { class: event_box }
+  ttft: "T=450ms: Time To First Token (TTFT)\nFirst token emitted & spinner vanishes" { class: ttft_box }
+  stream: "Inter-Token Latency (ITL: +30ms/token)\nTokens 2..N streamed to client" { class: itl_box }
+  eos: "T=880ms: Request Complete\n[EOS] token emitted; Total = TTFT + N*ITL" { class: eos_box }
+
+  dispatch -> prefill -> ttft -> stream -> eos
+}
+
 ```
+</details>
 
 1. **Time to First Token (TTFT):** The duration from when the user hits "Send" until the first generated character streams to the screen. TTFT is dominated by the **Prefill Phase**. If the prompt is 50,000 tokens long, TTFT will be high (e.g., 2–5 seconds).
 2. **Inter-Token Latency (ITL) / Time Per Output Token (TPOT):** The time between consecutive streaming tokens during the **Decode Phase** (typically 20ms to 40ms per token, equating to 25–50 tokens/sec).
@@ -1882,22 +1972,31 @@ Generating $N$ tokens requires recomputing attention over $\frac{N(N+1)}{2} = \m
 #### With KV Caching:
 We compute the Key and Value vectors for past tokens **once**, and save them in GPU High Bandwidth Memory (the **KV Cache**). At step $t$, we compute $Q_t, K_t, V_t$ only for the single new token, append $K_t$ and $V_t$ to the cache, and compute attention:
 
-```mermaid
-flowchart LR
-    subgraph KVCacheArchitecture ["Key-Value (KV) Cache Update Mechanism"]
-        direction LR
-        NewToken["New Token at step t<br/>Computes single Q_t, K_t, V_t"] --> AttnEngine["Attention Engine"]
-        KVCache["Persistent GPU VRAM KV Cache<br/>Past Keys: [K₁, K₂, ..., K_{t-1}]<br/>Past Values: [V₁, V₂, ..., V_{t-1}]"] --> AttnEngine
-        NewToken -.->|"Append K_t, V_t"| KVCache
-        AttnEngine --> NextLogits["Next Token Logit"]
-    end
+![KV Cache Update Mechanism: Incremental Decoding](assets/16_machine_learning_and_transformer_foundations/27_kv_cache_attention_update_mechanism.svg)
 
-    style KVCacheArchitecture fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style NewToken fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style AttnEngine fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style KVCache fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style NextLogits fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  token_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  cache_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  engine_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  out_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+}
+
+token: "New Token at Step t\nComputes single Q_t, K_t, V_t" { class: token_box }
+cache: "Persistent GPU VRAM KV Cache\nPast Keys: [K_1..K_{t-1}]\nPast Values: [V_1..V_{t-1}]" { class: cache_box }
+engine: "Attention Engine\nEvaluates Q_t against K_{1..t}\nContext = A_t * V_{1..t}" { class: engine_box }
+out: "Next Token Logit\nEmits Token t+1" { class: out_box }
+
+token -> engine: "Q_t"
+token -> cache: "Append K_t, V_t"
+cache -> engine: "Past K, V"
+engine -> out
+
 ```
+</details>
 
 By caching past states, per-token generation complexity drops from quadratic $\mathcal{O}(N^2)$ to linear $\mathcal{O}(N)$ compute!
 
@@ -1953,22 +2052,28 @@ $$\text{Total KV Cache} = 1.00\text{ GB/request} \times 64\text{ concurrent requ
 
 Notice how KV cache scales with sequence length:
 
-```mermaid
-flowchart LR
-    subgraph VRAMScaling ["VRAM Exhaustion at 128k Long-Context Serving"]
-        direction LR
-        ShortCtx["8k Context Length<br/>KV Cache: 1.0 GB / user<br/>Single 80GB GPU Capacity: ~64 Concurrent Users"]
-        MedCtx["32k Context Length<br/>KV Cache: 4.0 GB / user<br/>Single 80GB GPU Capacity: ~16 Concurrent Users"]
-        LongCtx["128k Context Length<br/>KV Cache: 16.0 GB / user<br/>Single 80GB GPU Capacity: 4 Concurrent Users!"]
+![Serving Scalability: VRAM Exhaustion at 128k Long-Context](assets/16_machine_learning_and_transformer_foundations/28_vram_exhaustion_long_context_serving.svg)
 
-        ShortCtx --> MedCtx --> LongCtx
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style VRAMScaling fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ShortCtx fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style MedCtx fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style LongCtx fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
+```d2
+classes: {
+  short_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  med_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  long_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+}
+
+vram: "VRAM Scaling at 128k Long-Context Serving" {
+  short: "8k Context Length\nKV Cache: 1.0 GB / user\nSingle 80GB GPU Capacity: ~64 Concurrent Users" { class: short_box }
+  med: "32k Context Length\nKV Cache: 4.0 GB / user\nSingle 80GB GPU Capacity: ~16 Concurrent Users" { class: med_box }
+  long: "128k Context Length\nKV Cache: 16.0 GB / user!\nSingle 80GB GPU Capacity: STRICTLY 2-4 USERS!" { class: long_box }
+
+  short -> med -> long: "Linear memory growth crushes concurrency"
+}
+
 ```
+</details>
 
 When an enterprise expands context from 8k to 128k tokens, the memory per user jumps by **$16\times$**. On the same GPU hardware, concurrency collapses from 64 simultaneous users down to just 4 users. Solving this memory crisis requires **Grouped-Query Attention (GQA)**, **PagedAttention (vLLM)**, and **FP8/INT4 KV Cache Quantization**.
 
@@ -2001,24 +2106,29 @@ Restricts sampling strictly to the $k$ most probable tokens, setting all other l
 #### 2. Top-p (Nucleus) Sampling (Holtzman et al.)
 Dynamically sizes the candidate pool based on cumulative probability mass $p \in (0, 1]$ (typically $p = 0.90$):
 
-```mermaid
-flowchart LR
-    subgraph TopPNucleus ["Step-by-Step Top-p (Nucleus = 0.90) Walkthrough"]
-        direction LR
-        Step1["1. Sort Tokens by Probability Descending:<br/>' Paris': 0.50<br/>' London': 0.25<br/>' Rome': 0.12<br/>' Berlin': 0.08<br/>' Madrid': 0.05"]
-        Step2["2. Compute Cumulative Probability Sum:<br/>' Paris': 0.50<br/>' London': 0.50 + 0.25 = 0.75<br/>' Rome': 0.75 + 0.12 = 0.87<br/>' Berlin': 0.87 + 0.08 = 0.95 (Threshold 0.90 exceeded!)<br/>' Madrid': 0.95 + 0.05 = 1.00"]
-        Step3["3. Truncate Tail Tokens:<br/>Keep: [' Paris', ' London', ' Rome', ' Berlin']<br/>Discard: [' Madrid'] (Set logit to -inf)"]
-        Step4["4. Renormalize Surviving Distribution & Sample"]
+![Decoding Strategies: Top-p (Nucleus = 0.90) Sampling Algorithm](assets/16_machine_learning_and_transformer_foundations/29_top_p_nucleus_sampling_walkthrough.svg)
 
-        Step1 --> Step2 --> Step3 --> Step4
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style TopPNucleus fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Step1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Step2 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Step3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Step4 fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
+```d2
+classes: {
+  step_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  keep_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  norm_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+topp: "Top-p (Nucleus = 0.90) Sampling Walkthrough" {
+  s1: "1. Sort Tokens by Prob\nParis: 0.50, London: 0.25\nRome: 0.12, Berlin: 0.08" { class: step_box }
+  s2: "2. Cumulative Sum\nParis (0.50) -> London (0.75)\nRome (0.87) -> Berlin (0.95: Exceeded!)" { class: step_box }
+  s3: "3. Truncate Tail\nKeep Paris, London, Rome, Berlin\nDiscard Madrid (logit = -inf)" { class: keep_box }
+  s4: "4. Renormalize & Sample\nSum = 0.95; scale to 1.0" { class: norm_box }
+
+  s1 -> s2 -> s3 -> s4
+}
+
 ```
+</details>
 
 ---
 
@@ -2058,35 +2168,34 @@ Traditional foundation models generate responses immediately upon reading the pr
 
 **Reasoning Models (such as OpenAI o1, o3, and DeepSeek-R1)** utilize **Inference-Time Thinking Tokens**:
 
-```mermaid
-flowchart TD
-    subgraph ReasoningArchitecture ["Reasoning Models: Test-Time Scratchpad Architecture"]
-        UserIn["User Query: 'Prove that √2 is irrational.'"]
-        
-        subgraph ThinkingPhase ["Internal Test-Time Compute (Hidden Thinking Tokens)"]
-            T1["&lt;think&gt;<br/>Let us assume √2 is rational."]
-            T2["Then √2 = a / b in lowest terms (gcd(a,b)=1)."]
-            T3["2 = a² / b² → a² = 2b² → a² is even → a is even."]
-            T4["Let a = 2k → (2k)² = 2b² → 4k² = 2b² → b² = 2k² → b is even."]
-            T5["Contradiction: both a and b are even, violating gcd(a,b)=1.&lt;/think&gt;"]
-            T1 --> T2 --> T3 --> T4 --> T5
-        end
+![Reasoning Models: Test-Time Scratchpad Architecture](assets/16_machine_learning_and_transformer_foundations/30_reasoning_models_test_time_scratchpad.svg)
 
-        FinalOut["Emitted User Response:<br/>'Here is the classic proof by contradiction that √2 is irrational...'"]
+<details>
+<summary>View D2 Source</summary>
 
-        UserIn --> ThinkingPhase --> FinalOut
-    end
+```d2
+classes: {
+  think_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  out_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
 
-    style ReasoningArchitecture fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style UserIn fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ThinkingPhase fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style T1 fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style T2 fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style T3 fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style T4 fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style T5 fill:#1f2937,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style FinalOut fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+user: "User Query\n'Prove sqrt(2) is irrational'"
+
+thinking: "Hidden Test-Time Compute (<think>...<think>)" {
+  t1: "1. Assume sqrt(2) is rational: a/b (gcd=1)" { class: think_box }
+  t2: "2. a^2 = 2b^2 -> a is even" { class: think_box }
+  t3: "3. 4k^2 = 2b^2 -> b is even" { class: think_box }
+  t4: "4. Contradiction: gcd(a,b) != 1" { class: think_box }
+
+  t1 -> t2 -> t3 -> t4
+}
+
+response: "Emitted User Response\n'Here is the verified proof...'" { class: out_box }
+
+user -> thinking -> response: "</think> trigger"
+
 ```
+</details>
 
 The model generates an internal Chain-of-Thought (CoT) inside an encapsulated `<think>` scratchpad. It evaluates alternative hypotheses, detects logical flaws in its own reasoning, backtracks, and corrects errors *before emitting the first visible user-facing token*.
 
@@ -2098,18 +2207,24 @@ For years, the AI industry followed **Kaplan & Chinchilla Pretraining Scaling La
 
 However, pretraining scaling is encountering physical ceilings (power grid limits, GPU cluster fabric limits, and exhaustion of human-written text). **Test-Time Compute Scaling Laws** provide an entirely new dimension of performance improvement:
 
-```mermaid
-flowchart TD
-    subgraph ScalingParadigms ["Two Axes of Scaling AI Intelligence"]
-        direction TD
-        Pretraining["<b>1. Train-Time Compute Scaling</b><br/>(Scale parameters N & pretraining tokens D; Cost paid ONCE by model vendor ($100M+); Fixed inference latency)"]
-        TestTime["<b>2. Test-Time Compute Scaling</b><br/>(Scale reasoning tokens at inference time; Cost paid PER-QUERY by application ($0.05/call); Dynamic latency: 1s for simple query, 60s for math theorem)"]
-    end
+![The Frontier of AI Scaling: Train-Time vs. Test-Time Compute](assets/16_machine_learning_and_transformer_foundations/31_ai_scaling_paradigms_train_vs_test_time.svg)
 
-    style ScalingParadigms fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Pretraining fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style TestTime fill:#1f2937,stroke:#ec4899,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+classes: {
+  train_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  test_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+paradigms: "Two Axes of Scaling AI Intelligence" {
+  train: "1. Train-Time Compute Scaling\nScale parameters N & pretraining tokens D\nPaid ONCE by vendor ($100M+); fixed latency" { class: train_box }
+  test: "2. Test-Time Compute Scaling\nScale thinking tokens at inference time\nPaid PER-QUERY ($0.05/call); dynamic latency" { class: test_box }
+}
+
 ```
+</details>
 
 * Spending **1,000 reasoning tokens** at inference time allows an open-weights 7B/14B model (like DeepSeek-R1-Distill) to outperform a non-thinking 70B dense model on competitive programming (Codeforces) and olympiad mathematics (AIME).
 * Compute is expended dynamically based on problem difficulty: a simple question uses 0 thinking tokens; an intricate distributed database design question spends 8,000 thinking tokens exploring trade-offs.
@@ -2322,33 +2437,32 @@ if __name__ == "__main__":
 
 When selecting a foundation model for enterprise production, evaluate options systematically across eight core dimensions:
 
-```mermaid
-flowchart TD
-    subgraph SelectionFramework ["The 8-Dimension Enterprise Model Selection Matrix"]
-        direction TB
-        D1["1. Reasoning & Domain Quality (MMLU-Pro, HumanEval, Domain Benchmarks)"]
-        D2["2. Latency & Throughput Budgets (TTFT ≤ 500ms, ITL ≥ 40 tokens/sec)"]
-        D3["3. Financial Cost Envelope (Input $/1M tokens, Output $/1M tokens)"]
-        D4["4. Context Window & Retrieval Needle Accuracy (8k vs. 32k vs. 128k+)"]
-        D5["5. Licensing & Data Privacy (Commercial Apache 2.0 vs. Closed Proprietary API)"]
-        D6["6. Structured Output Adherence (Native JSON Schema & Tool Calling support)"]
-        D7["7. Hardware Sizing & Self-Hosting Footprint (Single L40S vs. 8x H100 Node)"]
-        D8["8. Multimodal Capabilities (Text-only vs. Vision/Audio document parsing)"]
+![The 8-Dimension Enterprise Foundation Model Selection Matrix](assets/16_machine_learning_and_transformer_foundations/32_enterprise_model_selection_8_dimension_matrix.svg)
 
-        D1 --- D2 --- D3 --- D4
-        D5 --- D6 --- D7 --- D8
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style SelectionFramework fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style D1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style D2 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style D3 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style D4 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style D5 fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style D6 fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style D7 fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style D8 fill:#1f2937,stroke:#ec4899,stroke-width:1.5px,color:#fff
+```d2
+classes: {
+  blue_dim: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  green_dim: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  amber_dim: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  purple_dim: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+matrix: "The 8-Dimension Model Selection Matrix" {
+  d1: "1. Reasoning Quality (MMLU, HumanEval)" { class: blue_dim }
+  d2: "2. Latency & Throughput (TTFT <= 500ms)" { class: blue_dim }
+  d3: "3. Cost Envelope ($/1M tokens)" { class: green_dim }
+  d4: "4. Context Window & Retrieval Needle" { class: green_dim }
+  d5: "5. Licensing & Privacy (Open vs Closed)" { class: amber_dim }
+  d6: "6. Structured Outputs & Tool Calling" { class: amber_dim }
+  d7: "7. Hardware Sizing & Self-Hosting" { class: purple_dim }
+  d8: "8. Multimodal (Vision & Audio)" { class: purple_dim }
+}
+
 ```
+</details>
 
 > [!TIP]
 > **Deep-Dive Interview Scenario:**

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 370" width="100%" height="100%">
+  {COMMON_DEFS}
+  <style>
+{COMMON_STYLES}
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="525" y="32" class="title" font-size="19" text-anchor="middle">Floyd's Cycle Detection Algorithm: The Two-Pointer Tortoise &amp; Hare</text>
+  <text x="525" y="52" class="subtitle" text-anchor="middle">Phase 1: Collision detection inside cycle. Phase 2: Reset pointer to head; equal steps converge at cycle entrance</text>
+
+  <!-- Phase 1 Card -->
+  <g transform="translate(40, 75)">
+    <rect width="460" height="260" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="460" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="230" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">Phase 1: Detecting Cycle Presence</text>
+    
+    <text x="20" y="60" class="card-body" font-weight="600" fill="#60A5FA">• Two Pointers Initialization:</text>
+    <text x="28" y="80" class="card-body">  - slow = head; fast = head;</text>
+    <text x="28" y="100" class="card-body">  - slow advances 1 step (slow = slow.next)</text>
+    <text x="28" y="120" class="card-body">  - fast advances 2 steps (fast = fast.next.next)</text>
+    
+    <text x="20" y="150" class="card-body" font-weight="600" fill="#60A5FA">• Convergence Invariant:</text>
+    <text x="28" y="170" class="card-body">  - If fast == null || fast.next == null: NO cycle exists</text>
+    <text x="28" y="190" class="card-body">  - If slow == fast: Cycle confirmed! Meeting point = M</text>
+    
+    <rect x="20" y="215" width="420" height="24" rx="4" ry="4" fill="#1E293B"/>
+    <text x="230" y="231" class="badge" fill="#93C5FD" text-anchor="middle">Loop Invariant: Distance closes by 1 step every iteration</text>
+  </g>
+
+  <!-- Phase 2 Card -->
+  <g transform="translate(550, 75)">
+    <rect width="460" height="260" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="460" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <text x="230" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">Phase 2: Locating Cycle Entrance Node</text>
+    
+    <text x="20" y="60" class="card-body" font-weight="600" fill="#34D399">• Mathematical Proof:</text>
+    <text x="28" y="80" class="card-body">  - Let distance to cycle start = F</text>
+    <text x="28" y="100" class="card-body">  - Distance from start to meeting point M = a</text>
+    <text x="28" y="120" class="card-body">  - Fast traveled 2 × Slow: 2(F + a) = F + nC + a  =&gt;  F = nC - a</text>
+    
+    <text x="20" y="150" class="card-body" font-weight="600" fill="#34D399">• Pointer Reset &amp; Step:</text>
+    <text x="28" y="170" class="card-body">  - Reset slow = head; Keep fast at meeting point M</text>
+    <text x="28" y="190" class="card-body">  - Both move 1 step each: slow = slow.next; fast = fast.next;</text>
+    
+    <rect x="20" y="215" width="420" height="24" rx="4" ry="4" fill="#1E293B"/>
+    <text x="230" y="231" class="badge" fill="#A7F3D0" text-anchor="middle">Meeting node is EXACTLY the cycle entry point!</text>
+  </g>
+
+  <!-- Connective Runway between Phases -->
+  <path d="M 500 205 L 538 205 L 550 205" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+</svg>

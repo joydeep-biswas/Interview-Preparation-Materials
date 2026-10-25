@@ -1,0 +1,37 @@
+direction: right
+
+phase1: "Phase 1: Detection & Mitigation" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  alert: "PagerDuty SLA Breach Alert"
+  blast: "Blast Radius Assessment"
+  contain: "Freeze Writes & Enable Dead-Letter Queue"
+}
+
+phase2: "Phase 2: RCA & Remediation" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  rca: "Spark UI Skew & Memory Heap Dump"
+  patch: "Canary Hotfix Deployment"
+  backfill: "Delta Lake Idempotent Backfill"
+}
+
+phase3: "Phase 3: Governance & Hardening" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  post_mortem: "Blameless Post-Mortem & Timeline"
+  contracts: "Data Contracts & Schema Guardrails"
+  hardening: "Circuit Breakers & Auto-Scaling"
+}
+
+phase1 -> phase2: "Containment Established" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+phase2 -> phase3: "Data Correctness Restored" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

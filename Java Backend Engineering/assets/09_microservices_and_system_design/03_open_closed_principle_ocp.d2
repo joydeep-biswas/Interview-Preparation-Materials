@@ -1,0 +1,36 @@
+direction: down
+title: "Open/Closed Principle (OCP): Extensible Strategy Architecture"
+
+service: "PaymentExecutionService
+Closed for modification
+Map<String, PaymentStrategy>" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+strategy: "PaymentStrategy <<interface>>
++pay(amount): PaymentReceipt" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+cc: "CreditCardPaymentStrategy
+@Component('CREDIT_CARD')" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+}
+upi: "UpiPaymentStrategy
+@Component('UPI')" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+crypto: "CryptoPaymentStrategy
+NEW EXTENSION: Zero code change!" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+service -> strategy: "Depends on abstraction"
+strategy <- cc: "implements"
+strategy <- upi: "implements"
+strategy <- crypto: "implements"

@@ -1,0 +1,10 @@
+direction: down
+classes: {
+  fwd_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  bwd_box: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+}
+
+Forward: "Forward Pass: x -> z1 -> a1 -> z2 -> a2 -> Loss L\nComputes activations across graph" { class: fwd_box }
+Backward: "Backward Pass: Chain Rule\ndL/dW_1 = dL/da_L * da_L/dz_L * ... * dz_1/dW_1\nFix: Residual connections & GELU" { class: bwd_box }
+
+Forward -> Backward: "Loss Computed"

@@ -1,0 +1,18 @@
+direction: down
+classes: {
+  root: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  rag: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  llm: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+trace: "OpenTelemetry Distributed Trace (2,450ms total)" {
+  root_span: "FastAPI Ingress (0 - 2450ms)" { class: root }
+  rate_check: "Redis Rate Limit (2 - 18ms)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  embed: "Embedding Gen (20 - 180ms)" { class: rag }
+  search: "Hybrid Search (185 - 340ms)" { class: rag }
+  rerank: "Cross-Encoder (345 - 520ms)" { class: rag }
+  ttft: "TTFT Wait (550 - 980ms)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  stream: "Token Generation (980 - 2420ms)" { class: llm }
+
+  root_span -> rate_check -> embed -> search -> rerank -> ttft -> stream
+}

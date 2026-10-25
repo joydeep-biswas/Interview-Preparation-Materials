@@ -1,0 +1,14 @@
+direction: right
+title: Snowflake Snowpipe Serverless Ingestion Sequence
+
+app: 1. External App (Producer)
+s3: 2. AWS S3 Landing Bucket
+sqs: 3. AWS SQS Notification Queue
+pipe: 4. Snowflake Snowpipe (Serverless)
+table: 5. Snowflake Target Table (Micro-Partitions)
+
+app -> s3: "Upload part-01.parquet"
+s3 -> sqs: "Publish ObjectCreated Event"
+sqs -> pipe: "Snowpipe consumes notification"
+pipe -> s3: "Pull file bytes via IAM Integration"
+pipe -> table: "Commit to micro-partitions"

@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  src: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  stg: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  mart: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  exp: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+src: "source: raw_orders\n(sources.yml)" { class: src }
+stg: "stg_orders.sql\n(Staging View)" { class: stg }
+mart: "fct_orders.sql\n(Incremental Mart)" { class: mart }
+exp: "Exposure: Executive Dashboard\n(Power BI / Looker)" { class: exp }
+
+src -> stg: "source()"
+stg -> mart: "ref()"
+mart -> exp: "Lineage Exposure"

@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="440" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Slotted Page Physical Storage Architecture (8 KB Page Layout)</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Bidirectional Allocation: Line Pointers Grow Forward, Row Tuples Grow Backward</text>
+  
+  
+    <rect x="30" y="95" width="920" height="315" rx="10" fill="#0a1120" stroke="#334155" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">8 KB Slotted Page Physical Layout (PostgreSQL / SQLite / MySQL Heap)</text>
+
+  
+    <rect x="45" y="130" width="240" height="105" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="165.0" y="156" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Page Header (24 Bytes)</text>
+    <text x="165.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Physical Page Metadata</text>
+    <rect x="227" y="140" width="52" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="253.0" y="152" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">HEADER</text>
+    <circle cx="61" cy="185" r="2" fill="#3b82f6"/>
+    <text x="69" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">pd_lsn: WAL Log Sequence Number</text>
+    <circle cx="61" cy="201" r="2" fill="#3b82f6"/>
+    <text x="69" y="204" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">pd_checksum: Page integrity CRC</text>
+    <circle cx="61" cy="217" r="2" fill="#3b82f6"/>
+    <text x="69" y="220" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">pd_lower: Offset to start of free space</text>
+    <circle cx="61" cy="233" r="2" fill="#3b82f6"/>
+    <text x="69" y="236" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">pd_upper: Offset to end of free space</text>
+
+  
+    <rect x="305" y="130" width="240" height="105" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="425.0" y="156" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Line Pointers / Slot Array</text>
+    <text x="425.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Grows FORWARD (offset -&gt;)</text>
+    <rect x="459" y="140" width="80" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="499.0" y="152" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SLOT ARRAY</text>
+    <circle cx="321" cy="185" r="2" fill="#8b5cf6"/>
+    <text x="329" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">ItemId 1: [Offset: 8096, Length: 96B]</text>
+    <circle cx="321" cy="201" r="2" fill="#8b5cf6"/>
+    <text x="329" y="204" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">ItemId 2: [Offset: 7980, Length: 116B]</text>
+    <circle cx="321" cy="217" r="2" fill="#8b5cf6"/>
+    <text x="329" y="220" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">ItemId 3: [Offset: 7850, Length: 130B]</text>
+    <circle cx="321" cy="233" r="2" fill="#8b5cf6"/>
+    <text x="329" y="236" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Item Pointer = (PageID, SlotNumber)</text>
+
+  
+    <rect x="565" y="130" width="140" height="105" rx="8" fill="#0f172a" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <text x="635.0" y="156" fill="#94a3b8" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">FREE SPACE HOLE</text>
+    <text x="635.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Available Room</text>
+    <rect x="661" y="140" width="38" height="18" rx="9" fill="#0f172a" stroke="#64748b" stroke-width="1"/>
+    <text x="680.0" y="152" fill="#64748b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">FREE</text>
+    <circle cx="581" cy="185" r="2" fill="#64748b"/>
+    <text x="589" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Allocatable byte</text>
+    <circle cx="581" cy="201" r="2" fill="#64748b"/>
+    <text x="589" y="204" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">pool between</text>
+    <circle cx="581" cy="217" r="2" fill="#64748b"/>
+    <text x="589" y="220" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">pd_lower &amp;</text>
+    <circle cx="581" cy="233" r="2" fill="#64748b"/>
+    <text x="589" y="236" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">pd_upper offsets</text>
+
+  
+    <rect x="725" y="130" width="210" height="105" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="830.0" y="156" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Heap Tuples / Records</text>
+    <text x="830.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Grows BACKWARD (&lt;-)</text>
+    <rect x="877" y="140" width="52" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="903.0" y="152" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">TUPLES</text>
+    <circle cx="741" cy="185" r="2" fill="#10b981"/>
+    <text x="749" y="188" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Tuple 3: (Header, Values...)</text>
+    <circle cx="741" cy="201" r="2" fill="#10b981"/>
+    <text x="749" y="204" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Tuple 2: (Header, Values...)</text>
+    <circle cx="741" cy="217" r="2" fill="#10b981"/>
+    <text x="749" y="220" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Tuple 1: (Header, Values...)</text>
+    <circle cx="741" cy="233" r="2" fill="#10b981"/>
+    <text x="749" y="236" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Stored from byte 8191 down</text>
+
+  
+    <rect x="45" y="255" width="890" height="135" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="490.0" y="281" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Physical Addressing &amp;amp; In-Page Fragmentation Elimination Invariant</text>
+    <text x="490.0" y="297" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Why Database Engines Use Slotted Pages Instead of Raw Byte Offsets</text>
+    <rect x="856" y="265" width="73" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="892.5" y="277" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">INVARIANT</text>
+    <circle cx="61" cy="310" r="2" fill="#f59e0b"/>
+    <text x="69" y="313" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">1. Indirection Stability: Secondary indexes point to Item Pointer (PageID, SlotNumber) - NEVER to physical byte offsets!</text>
+    <circle cx="61" cy="326" r="2" fill="#f59e0b"/>
+    <text x="69" y="329" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">2. Zero Index Rewrites: Tuples are compacted in-place; only Line Pointer offset is modified.</text>
+    <circle cx="61" cy="342" r="2" fill="#f59e0b"/>
+    <text x="69" y="345" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">3. Variable-Length Safety: Text and JSON expand/shrink dynamically without corrupting index pointers.</text>
+
+  
+    <line x1="285" y1="182" x2="305" y2="182" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  
+    <line x1="545" y1="182" x2="565" y2="182" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr-s)"/>
+  
+    <line x1="705" y1="182" x2="725" y2="182" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+</svg>

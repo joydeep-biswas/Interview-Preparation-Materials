@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  inp: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  attn: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  out: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+concat: "Concatenated Input:\n[CLS] Query [SEP] Document [SEP]" { class: inp }
+cross_attn: "Full Multi-Head Cross-Attention\nEvery query token attends to all document tokens" { class: attn }
+score: "Scalar Relevance Score [0..1]\n(Applied to top 50 candidates)" { class: out }
+
+concat -> cross_attn -> score

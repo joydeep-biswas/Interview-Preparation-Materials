@@ -1,0 +1,40 @@
+# Multi-Table Joins & Star Schema Dimensional Querying
+direction: right
+
+fact: "FACT_SALES (Center)
+• sales_id [PK]
+• date_id [FK]
+• customer_id [FK]
+• product_id [FK]
+• store_id [FK]" {
+  style.stroke: "#3B82F6"
+}
+
+date: "DIM_DATE
+• date_id [PK]
+• calendar_date, year, month" {
+  style.stroke: "#F59E0B"
+}
+
+cust: "DIM_CUSTOMER
+• customer_id [PK]
+• name, tier, region" {
+  style.stroke: "#10B981"
+}
+
+prod: "DIM_PRODUCT
+• product_id [PK]
+• sku, category, price" {
+  style.stroke: "#8B5CF6"
+}
+
+store: "DIM_STORE
+• store_id [PK]
+• store_name, city" {
+  style.stroke: "#EF4444"
+}
+
+date -> fact: "date_id [FK]"
+cust -> fact: "customer_id [FK]"
+prod -> fact: "product_id [FK]"
+store -> fact: "store_id [FK]"

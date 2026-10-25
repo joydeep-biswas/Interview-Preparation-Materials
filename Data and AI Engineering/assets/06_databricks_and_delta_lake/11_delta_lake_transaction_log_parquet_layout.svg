@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Delta Lake Storage Architecture: _delta_log &amp; Parquet Layout</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">How the atomic commit log (_delta_log/) turns cloud object storage into an ACID-compliant transactional table</text>
+
+  <!-- Table Directory Container -->
+  <rect x="40" y="85" width="1040" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="1040" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="560" y="108" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">DELTA LAKE TABLE STORAGE DIRECTORY: s3://lakehouse/sales_orders/</text>
+
+  <!-- Left: _delta_log/ Transaction Directory -->
+  <rect x="60" y="135" width="480" height="315" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="60" y="135" width="480" height="30" rx="6" fill="#78350F" fill-opacity="0.8" stroke="#FBBF24" stroke-width="1"/>
+  <text x="300" y="155" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">_delta_log/ DIRECTORY (THE SINGLE SOURCE OF TRUTH)</text>
+
+  <!-- Commit 0 -->
+  <rect x="75" y="175" width="450" height="50" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="90" y="195" font-size="9.5" font-family="monospace" fill="#38BDF8" text-anchor="start">00000000000000000000.json</text>
+  <text x="90" y="210" font-size="8.5" fill="#CBD5E1" text-anchor="start">Action: {"add": {"path": "part-0001.parquet", "size": 1048576, "stats": {...}}}</text>
+
+  <!-- Commit 1 -->
+  <rect x="75" y="235" width="450" height="50" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="90" y="255" font-size="9.5" font-family="monospace" fill="#38BDF8" text-anchor="start">00000000000000000001.json</text>
+  <text x="90" y="270" font-size="8.5" fill="#CBD5E1" text-anchor="start">Action: {"add": {"path": "part-0002.parquet"}}, {"add": {"path": "part-0003.parquet"}}</text>
+
+  <!-- Commit 2 (Remove 3, Add 4) -->
+  <rect x="75" y="295" width="450" height="60" rx="4" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="90" y="315" font-size="9.5" font-family="monospace" fill="#FBBF24" text-anchor="start">00000000000000000002.json (UPDATE Statement)</text>
+  <text x="90" y="330" font-size="8.5" fill="#F87171" text-anchor="start">Action: {"remove": {"path": "part-0003.parquet"}} (Logically tombstoned!)</text>
+  <text x="90" y="345" font-size="8.5" fill="#34D399" text-anchor="start">Action: {"add": {"path": "part-0004.parquet"}} (Rewritten with updated rows)</text>
+
+  <!-- Checkpoint -->
+  <rect x="75" y="365" width="450" height="70" rx="4" fill="#064E3B" fill-opacity="0.3" stroke="#34D399" stroke-width="1.5"/>
+  <text x="90" y="385" font-size="9.5" font-family="monospace" fill="#34D399" text-anchor="start">00000000000000000010.checkpoint.parquet</text>
+  <text x="90" y="402" font-size="8.5" fill="#CBD5E1" text-anchor="start">Compacts 10 JSON commits into 1 fast Parquet file.</text>
+  <text x="90" y="418" font-size="8.5" font-weight="600" fill="#34D399" text-anchor="start">Readers load this checkpoint instantly without replaying 1000 JSONs!</text>
+
+  <!-- Right: Physical Parquet Data Files -->
+  <rect x="570" y="135" width="490" height="315" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="570" y="135" width="490" height="30" rx="6" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1"/>
+  <text x="815" y="155" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">PHYSICAL PARQUET DATA FILES (OBJECT STORAGE)</text>
+
+  <!-- Active File 1 -->
+  <rect x="585" y="175" width="460" height="50" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="600" y="195" font-size="9.5" font-family="monospace" fill="#34D399" text-anchor="start">part-0001.snappy.parquet</text>
+  <text x="600" y="210" font-size="8.5" fill="#CBD5E1" text-anchor="start">Status: ACTIVE (Present in Commit 0). Scanned by current readers.</text>
+
+  <!-- Active File 2 -->
+  <rect x="585" y="235" width="460" height="50" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1"/>
+  <text x="600" y="255" font-size="9.5" font-family="monospace" fill="#34D399" text-anchor="start">part-0002.snappy.parquet</text>
+  <text x="600" y="270" font-size="8.5" fill="#CBD5E1" text-anchor="start">Status: ACTIVE (Present in Commit 1). Scanned by current readers.</text>
+
+  <!-- Tombstoned File 3 -->
+  <rect x="585" y="295" width="460" height="60" rx="4" fill="#450A0A" fill-opacity="0.3" stroke="#EF4444" stroke-dasharray="3 3" stroke-width="1.5"/>
+  <text x="600" y="315" font-size="9.5" font-family="monospace" fill="#F87171" text-anchor="start">part-0003.snappy.parquet (LOGICALLY TOMBSTONED)</text>
+  <text x="600" y="330" font-size="8.5" fill="#FCA5A5" text-anchor="start">Removed in Commit 2. Current readers SKIP this file entirely!</text>
+  <text x="600" y="345" font-size="8.5" fill="#94A3B8" text-anchor="start">File remains on storage for Time Travel until VACUUM runs.</text>
+
+  <!-- Active File 4 -->
+  <rect x="585" y="365" width="460" height="70" rx="4" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+  <text x="600" y="385" font-size="9.5" font-family="monospace" fill="#34D399" text-anchor="start">part-0004.snappy.parquet</text>
+  <text x="600" y="402" font-size="8.5" fill="#A7F3D0" text-anchor="start">Status: ACTIVE (Added in Commit 2). Replaces part-0003.</text>
+  <text x="600" y="418" font-size="8.5" font-weight="600" fill="#34D399" text-anchor="start">Current Snapshot: part-0001 + part-0002 + part-0004</text>
+
+  <!-- Connectors -->
+  <line x1="525" y1="325" x2="585" y2="325" stroke="#F87171" stroke-width="2" marker-end="url(#arr-r)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Delta Lake Invariant: A Parquet file is only part of a Delta table if explicitly referenced in the transaction log; unreferenced files are ignored by readers and safely purged during VACUUM.</text>
+</svg>

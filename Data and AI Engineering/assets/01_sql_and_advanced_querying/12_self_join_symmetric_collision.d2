@@ -1,0 +1,12 @@
+# Self-Joins & Avoiding Mirrored Duplicate Pairs
+direction: down
+
+bad: "❌ Anti-Pattern: ON a.id <> b.id\n• 1 <> 2 and 2 <> 1 are both TRUE\n• Yields duplicate mirrored pairs: (Alice, Bob) and (Bob, Alice)" {
+  style.stroke: "#EF4444"
+}
+
+good: "✓ Production Pattern: ON a.id < b.id\n• Enforces canonical order (1 < 2 is TRUE, 2 < 1 is FALSE)\n• Yields exactly one unique pair: (Alice, Bob)" {
+  style.stroke: "#10B981"
+}
+
+bad -> good: "Refactor to strict inequality"

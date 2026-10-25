@@ -1,0 +1,16 @@
+direction: down
+title: Write-Ahead Logging (WAL / Redo Log): How Durability is Guaranteed
+
+app: "Spring Boot App"
+engine: "Query Engine"
+buf: "Buffer Pool (RAM)"
+wal: "WAL Disk (NVMe)"
+heap: "Data Heap Disk"
+
+app -> engine: "1. UPDATE accounts SET balance = balance + 50"
+engine -> buf: "2. Modifies page in RAM (Marked DIRTY)"
+engine -> wal: "3. Writes redo record to WAL buffer"
+app -> engine: "4. COMMIT TRANSACTION"
+engine -> wal: "5. Synchronous fsync() flushes WAL to disk!"
+engine -> app: "6. Commit ACK (DURABLE!)"
+buf -> heap: "7. Async Checkpointer flushes dirty pages later"

@@ -1,0 +1,23 @@
+direction: right
+title: Automated TLS Certificate Management in Kubernetes
+
+PatternA: Pattern A: cert-manager (Let's Encrypt) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  ingress: Ingress Resource (Annotation)
+  ctrl: cert-manager Controller
+  acme: Let's Encrypt Server
+  secret: K8s Secret (tls.crt & tls.key)
+  ingress -> ctrl -> acme
+  ctrl -> secret
+}
+
+PatternB: Pattern B: Azure Key Vault CSI {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  akv: Azure Key Vault (Corporate Cert)
+  csi: Secrets Store CSI Driver
+  mount: Mounted in-memory volume (tmpfs)
+  pod: Spring Boot SSL KeyStore
+  akv -> csi -> mount -> pod
+}

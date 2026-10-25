@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Container -->
+  <rect x="40" y="30" width="800" height="280" rx="14" ry="14" fill="#0D1526" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="60" y="58" class="title-txt" fill="#38BDF8">Idempotent File Ingestion &amp; Checksum Deduplication Flow</text>
+
+  <!-- Step 1: File -->
+  <rect x="70" y="110" width="150" height="90" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="145" y="140" class="title-txt" text-anchor="middle">Incoming Source File</text>
+  <text x="82" y="165" class="body-txt" text-anchor="start">• Landed in S3 / ADLS</text>
+  <text x="82" y="183" class="mono-txt" text-anchor="start">orders_20261025.csv</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 220 155 L 270 155" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Step 2: Hash -->
+  <rect x="270" y="110" width="160" height="90" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="350" y="140" class="title-txt" text-anchor="middle">Compute SHA-256</text>
+  <text x="282" y="165" class="body-txt" text-anchor="start">• Cryptographic hash</text>
+  <text x="282" y="183" class="mono-txt" text-anchor="start">e3b0c44298fc1c149a...</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 430 155 L 480 155" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- Step 3: Decision -->
+  <polygon points="560,95 640,155 560,215 480,155" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="560" y="150" class="title-txt" text-anchor="middle">Checksum In</text>
+  <text x="560" y="168" class="mono-txt" text-anchor="middle">etl_file_audit?</text>
+
+  <!-- Branch YES (Skip) Curved Up -->
+  <path d="M 560 95 L 560 75 Q 560 65 575 65 L 680 65 Q 695 65 695 78 L 695 86" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <rect x="580" y="52" width="40" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="600" y="65" class="edge-txt" text-anchor="middle" fill="#EF4444">YES</text>
+
+  <!-- Skip Card -->
+  <rect x="620" y="86" width="200" height="80" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="720" y="112" class="title-txt" text-anchor="middle" fill="#EF4444">Skip Idempotently</text>
+  <text x="632" y="134" class="body-txt" text-anchor="start">• Duplicate file ignored</text>
+  <text x="632" y="152" class="body-txt" text-anchor="start">• Log audit warning metric</text>
+
+  <!-- Branch NO (Process) Straight Down/Right -->
+  <path d="M 560 215 L 560 235 Q 560 245 575 245 L 680 245 Q 695 245 695 232 L 695 224" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="580" y="235" width="40" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="600" y="248" class="edge-txt" text-anchor="middle" fill="#10B981">NO</text>
+
+  <!-- Process Card -->
+  <rect x="620" y="184" width="200" height="80" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="720" y="210" class="title-txt" text-anchor="middle" fill="#10B981">Ingest &amp; Commit</text>
+  <text x="632" y="232" class="body-txt" text-anchor="start">• Ingest rows to Bronze/Silver</text>
+  <text x="632" y="250" class="body-txt" text-anchor="start">• Insert checksum to audit log</text>
+</svg>

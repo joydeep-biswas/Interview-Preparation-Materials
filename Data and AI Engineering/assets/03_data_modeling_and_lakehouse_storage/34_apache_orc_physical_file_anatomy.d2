@@ -1,0 +1,19 @@
+direction: down
+title: Apache ORC Physical File Anatomy
+
+header: Header 'ORC' (3 Bytes)
+
+stripe1: Stripe 1 (~250 MB) {
+  index: Index Data (Min/Max & Bloom Filters per 10k rows)
+  row_data: Row Data (Data, Length, and Present Streams)
+  footer: Stripe Footer (Stream offsets & encodings)
+  index -> row_data -> footer
+}
+
+file_footer: File Metadata Footer & Postscript {
+  meta: File Footer (Table schema, Stripe statistics)
+  postscript: Postscript (Codec, Footer length)
+  meta -> postscript
+}
+
+header -> stripe1 -> file_footer

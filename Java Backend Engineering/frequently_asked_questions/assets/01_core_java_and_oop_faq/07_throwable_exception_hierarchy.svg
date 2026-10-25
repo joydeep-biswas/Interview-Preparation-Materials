@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 380" width="100%" height="100%">
+  {COMMON_DEFS}
+  <style>
+{COMMON_STYLES}
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="525" y="32" class="title" font-size="19" text-anchor="middle">Java Exception Hierarchy: Throwable, Error, Checked &amp; Unchecked Exceptions</text>
+  <text x="525" y="52" class="subtitle" text-anchor="middle">Architectural taxonomy separating fatal JVM errors from recoverable checked and runtime exceptions</text>
+
+  <!-- Root: Throwable -->
+  <g transform="translate(375, 75)">
+    <rect width="300" height="50" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="150" y="24" class="card-title" fill="#93C5FD" text-anchor="middle">java.lang.Throwable</text>
+    <text x="150" y="40" class="card-body" text-anchor="middle">Root base class for all exceptions &amp; errors</text>
+  </g>
+
+  <!-- Branch 1: Error (Fatal) -->
+  <g transform="translate(40, 160)">
+    <rect width="280" height="190" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="280" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="140" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">java.lang.Error (Fatal JVM)</text>
+    <text x="16" y="50" class="card-body" font-weight="600" fill="#F87171">• Unrecoverable JVM Failures:</text>
+    <text x="24" y="70" class="card-body">  - OutOfMemoryError (Heap/Meta)</text>
+    <text x="24" y="90" class="card-body">  - StackOverflowError</text>
+    <text x="24" y="110" class="card-body">  - InternalError / UnknownError</text>
+    <text x="16" y="136" class="card-body" font-weight="600" fill="#F87171">• Handling Rule:</text>
+    <text x="24" y="156" class="card-body">  - Never catch in application code</text>
+    <rect x="16" y="166" width="248" height="10" rx="2" ry="2" fill="#1E293B"/>
+  </g>
+
+  <!-- Branch 2: Checked Exceptions -->
+  <g transform="translate(370, 160)">
+    <rect width="310" height="190" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="310" height="30" rx="10" ry="10" fill="#78350F"/>
+    <text x="155" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">Checked Exceptions (Compile-Time)</text>
+    <text x="16" y="50" class="card-body" font-weight="600" fill="#FBBF24">• java.lang.Exception Subclasses:</text>
+    <text x="24" y="70" class="card-body">  - IOException (Socket / File drops)</text>
+    <text x="24" y="90" class="card-body">  - SQLException (DB connection drops)</text>
+    <text x="24" y="110" class="card-body">  - ClassNotFoundException</text>
+    <text x="16" y="136" class="card-body" font-weight="600" fill="#FBBF24">• Compiler Enforcement:</text>
+    <text x="24" y="156" class="card-body">  - Must declare (throws) or handle (try/catch)</text>
+    <rect x="16" y="166" width="278" height="10" rx="2" ry="2" fill="#1E293B"/>
+  </g>
+
+  <!-- Branch 3: Runtime Exceptions -->
+  <g transform="translate(730, 160)">
+    <rect width="280" height="190" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="280" height="30" rx="10" ry="10" fill="#064E3B"/>
+    <text x="140" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">RuntimeException (Unchecked)</text>
+    <text x="16" y="50" class="card-body" font-weight="600" fill="#34D399">• Logic &amp; Programming Bugs:</text>
+    <text x="24" y="70" class="card-body">  - NullPointerException (NPE)</text>
+    <text x="24" y="90" class="card-body">  - IllegalArgumentException</text>
+    <text x="24" y="110" class="card-body">  - ArrayIndexOutOfBoundsException</text>
+    <text x="16" y="136" class="card-body" font-weight="600" fill="#34D399">• Handling Rule:</text>
+    <text x="24" y="156" class="card-body">  - Fix logic rather than catching blindly</text>
+    <rect x="16" y="166" width="248" height="10" rx="2" ry="2" fill="#1E293B"/>
+  </g>
+
+  <!-- Connective Runways from Throwable -->
+  <path d="M 430 125 L 430 140 Q 430 150 400 150 L 195 150 Q 180 150 180 155 L 180 160" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <path d="M 525 125 L 525 155 L 525 160" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+  <path d="M 620 125 L 620 140 Q 620 150 650 150 L 855 150 Q 870 150 870 155 L 870 160" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+</svg>

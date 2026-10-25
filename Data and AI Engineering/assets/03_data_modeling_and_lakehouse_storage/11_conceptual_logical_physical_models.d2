@@ -1,0 +1,26 @@
+direction: right
+title: Conceptual, Logical, and Physical Data Models
+
+conceptual: 1. Conceptual Data Model {
+  scope: "What the business cares about"
+  entities: "Customer, Order, Product"
+  relationships: "Strategic (1:N, M:N)"
+  target: "C-Suite & Business Stakeholders"
+}
+
+logical: 2. Logical Data Model {
+  scope: "Business rules & relationships"
+  keys: "Primary & Foreign keys defined"
+  normalization: "3NF applied, vendor agnostic"
+  target: "Data Architects & Lead Engineers"
+}
+
+physical: 3. Physical Data Model {
+  scope: "How data sits on hardware"
+  types: "Exact SQL DDL types, DECIMAL(18,2)"
+  storage: "Partitioning, Z-Order, Parquet"
+  target: "Database Engineers & Infrastructure"
+}
+
+conceptual -> logical: "Formalize Entities"
+logical -> physical: "Implement Storage & DDL"

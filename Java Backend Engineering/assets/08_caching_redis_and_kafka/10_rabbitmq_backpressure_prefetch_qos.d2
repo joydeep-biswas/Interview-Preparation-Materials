@@ -1,0 +1,14 @@
+direction: down
+title: RabbitMQ Flow Control: basicQos Backpressure
+
+Broker: RabbitMQ Broker
+Worker: Worker Pod (basicQos = 2)
+
+Worker -> Worker: Configures basicQos(2)
+Broker -> Worker: 1. Push Message 1 (Unacked: 1) { style.stroke: "#F59E0B" }
+Broker -> Worker: 2. Push Message 2 (Unacked: 2 - Limit reached) { style.stroke: "#F59E0B" }
+Broker -> Broker: Pauses pushing messages
+Worker -> Worker: Finishes Msg 1
+Worker -> Broker: 3. basicAck(tag=1) { style.stroke: "#34D399" }
+Broker -> Broker: Unacked drops to 1
+Broker -> Worker: 4. Push Message 3 (Unacked: 2) { style.stroke: "#F59E0B" }

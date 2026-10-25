@@ -1,0 +1,22 @@
+classes: {
+  crash_node: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  inspect_node: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  oom_node: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  sigterm_node: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  app_node: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  job_node: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+status: "Pod Status: CrashLoopBackOff" { class: crash_node }
+inspect: "Inspect LastState.ExitCode\n(kubectl describe pod <name>)" { class: inspect_node }
+
+oom: "Exit Code 137: OOMKilled\nContainer exceeded memory limit\nFix: Increase spec.resources.limits.memory" { class: oom_node }
+sigterm: "Exit Code 143: SIGTERM\nGraceful shutdown timed out\nFix: Increase terminationGracePeriodSeconds" { class: sigterm_node }
+app: "Exit Code 1: Application Exception\nUnhandled runtime crash or missing env\nFix: kubectl logs -p <pod>" { class: app_node }
+job: "Exit Code 0: Normal Completion\nScript finished but restartPolicy is Always\nFix: Convert Deployment to Job" { class: job_node }
+
+status -> inspect: "Describe pod"
+inspect -> oom: "Exit 137"
+inspect -> sigterm: "Exit 143"
+inspect -> app: "Exit 1"
+inspect -> job: "Exit 0"

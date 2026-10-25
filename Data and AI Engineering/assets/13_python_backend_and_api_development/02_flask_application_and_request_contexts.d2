@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  app_c: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  req_c: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  proxy: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+app_context: "1. ApplicationContext (Bound via app.app_context())" {
+  c_app: "current_app\n(Config, Logger, Extensions)" { class: proxy }
+  g_obj: "g\n(Request global namespace)" { class: proxy }
+}
+
+req_context: "2. RequestContext (Bound via app.request_context())" {
+  req: "request\n(Query params, JSON body, Headers)" { class: req_c }
+  sess: "session\n(Signed cookie dict)" { class: req_c }
+}
+
+req_context -> app_context: "Pushes & Encloses"

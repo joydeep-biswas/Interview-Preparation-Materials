@@ -1,0 +1,26 @@
+direction: down
+title: The Self-Invocation Proxy Bypass Trap & Production Fixes
+
+trap: "The Trap: Self-Invocation Bypasses Proxy" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  ext: "External Call: Controller -> Proxy -> Target (WORKS!)"
+  internal: "Self-Invocation: this.sendEmail() -> Bypasses Proxy! (FAILS SILENTLY!)"
+
+  ext -> internal
+}
+
+remedies: "3 Production Remedies" {
+  r1: "Remedy 1: Extract Separate Service (Recommended)\n(Move method to EmailService, inject into UserService)" {
+    style.stroke: "#10b981"
+  }
+  r2: "Remedy 2: Self-Injection\n(@Autowired @Lazy UserService self -> self.sendEmail())" {
+    style.stroke: "#38bdf8"
+  }
+  r3: "Remedy 3: AspectJ Bytecode Weaving\n(Weaves bytecode directly, eliminating proxy reliance)" {
+    style.stroke: "#8b5cf6"
+  }
+}
+
+trap -> remedies

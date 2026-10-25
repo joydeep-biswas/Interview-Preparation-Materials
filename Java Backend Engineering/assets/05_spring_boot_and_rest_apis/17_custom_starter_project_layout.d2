@@ -1,0 +1,23 @@
+direction: down
+title: Production Custom Spring Boot Starter: File & Directory Layout
+
+root: "📁 enterprise-audit-spring-boot-starter/" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  src: "📁 src/main/java/com/enterprise/starter/audit/" {
+    style.stroke: "#10b981"
+    f1: "📄 AuditAutoConfiguration.java (@AutoConfiguration)"
+    f2: "📄 AuditProperties.java (@ConfigurationProperties)"
+    f3: "📄 AuditService.java (Core Domain Engine)"
+    f4: "📄 AuditFilter.java (OncePerRequestFilter)"
+  }
+
+  meta: "📁 src/main/resources/META-INF/spring/" {
+    style.stroke: "#f59e0b"
+    f5: "📄 AutoConfiguration.imports (Class registration)"
+    f6: "📄 additional-spring-configuration-metadata.json (IDE autocomplete)"
+  }
+
+  pom: "📄 pom.xml (spring-boot-autoconfigure dependency)"
+}

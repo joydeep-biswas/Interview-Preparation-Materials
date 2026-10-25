@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0d1527"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Node Surface Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142e2b"/>
+      <stop offset="100%" stop-color="#091d1a"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d2212"/>
+      <stop offset="100%" stop-color="#181308"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#261b3d"/>
+      <stop offset="100%" stop-color="#130c24"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b181e"/>
+      <stop offset="100%" stop-color="#1f090d"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112d38"/>
+      <stop offset="100%" stop-color="#071920"/>
+    </linearGradient>
+
+    <!-- Matched Arrow Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base Dark Card Background -->
+  <rect width="1000" height="500" rx="12" fill="url(#bg)"/>
+  <rect width="1000" height="500" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Centered Header Section -->
+  <g id="header-group">
+    <text x="500" y="32" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.3">Production LLM Latency Spike Triage Runbook</text>
+    <text x="500" y="52" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Diagnosing p99 Latency Surges: Isolating Time-to-First-Token (TTFT) vs. Inter-Token Latency (ITL)</text>
+  </g>
+
+  <!-- Diagram Inner Content -->
+  
+  <!-- Top Root Alert -->
+  <rect x="360" y="85" width="280" height="55" rx="8" fill="url(#card-red)" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="108" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="13" font-weight="700">Alert: p99 Latency &gt; 10,000ms</text>
+  <text x="500" y="128" text-anchor="middle" fill="#fca5a5" font-family="sans-serif" font-size="11">SLA Breach Incident Detected</text>
+
+  <!-- Arrow to Diagnostic Decision Diamond -->
+  <path d="M 500 140 L 500 170" fill="none" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr-a)"/>
+
+  <!-- Decision Diamond: Is TTFT High? -->
+  <polygon points="500,170 650,215 500,260 350,215" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="210" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="12" font-weight="700">Is Time-to-First-Token</text>
+  <text x="500" y="228" text-anchor="middle" fill="#fde68a" font-family="sans-serif" font-size="11">(TTFT &gt; 3,000ms)?</text>
+
+  <!-- Branch YES (Left): TTFT Prompt Prefill Bottlenecks -->
+  <path d="M 350 215 L 230 215 L 230 280" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <rect x="245" y="200" width="85" height="20" rx="3" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="287" y="214" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">YES (Prefill)</text>
+
+  <!-- Left Container: TTFT Root Causes -->
+  <rect x="50" y="285" width="410" height="190" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="70" y="312" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">TTFT Bottlenecks (Prompt Processing Phase)</text>
+
+  <rect x="70" y="325" width="370" height="60" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
+  <text x="85" y="347" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">1. Queue Saturation &amp; Concurrency Exhaustion</text>
+  <text x="85" y="367" fill="#cbd5e1" font-family="sans-serif" font-size="11">Max batch size reached. <tspan fill="#34d399" font-weight="600">Action: Scale GPU worker replicas</tspan></text>
+
+  <rect x="70" y="395" width="370" height="60" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
+  <text x="85" y="417" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">2. Massive Unchunked Prompt Context Stalls</text>
+  <text x="85" y="437" fill="#cbd5e1" font-family="sans-serif" font-size="11">Long prompts block compute. <tspan fill="#34d399" font-weight="600">Action: Enable vLLM Chunked Prefill</tspan></text>
+
+  <!-- Branch NO (Right): ITL Generation Bottlenecks -->
+  <path d="M 650 215 L 770 215 L 770 280" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#arr-p)"/>
+  <rect x="670" y="200" width="85" height="20" rx="3" fill="#130c24" stroke="#c084fc" stroke-width="1"/>
+  <text x="712" y="214" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="10" font-weight="700">NO (Decode ITL)</text>
+
+  <!-- Right Container: ITL Root Causes -->
+  <rect x="540" y="285" width="410" height="190" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="560" y="312" fill="#c084fc" font-family="sans-serif" font-size="13" font-weight="700">ITL Bottlenecks (Autoregressive Generation Phase)</text>
+
+  <rect x="560" y="325" width="370" height="60" rx="6" fill="#130c24" stroke="#9333ea" stroke-width="1"/>
+  <text x="575" y="347" fill="#c084fc" font-family="sans-serif" font-size="12" font-weight="700">1. KV-Cache Thrashing &amp; Memory Eviction</text>
+  <text x="575" y="367" fill="#cbd5e1" font-family="sans-serif" font-size="11">Memory bandwidth saturated. <tspan fill="#34d399" font-weight="600">Action: Enable PagedAttention / FP8 KV</tspan></text>
+
+  <rect x="560" y="395" width="370" height="60" rx="6" fill="#130c24" stroke="#9333ea" stroke-width="1"/>
+  <text x="575" y="417" fill="#c084fc" font-family="sans-serif" font-size="12" font-weight="700">2. Runaway Generation &amp; Missing Stop Tokens</text>
+  <text x="575" y="437" fill="#cbd5e1" font-family="sans-serif" font-size="11">Unbounded token generation. <tspan fill="#34d399" font-weight="600">Action: Enforce max_tokens &amp; stop tags</tspan></text>
+
+</svg>

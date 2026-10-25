@@ -1,0 +1,39 @@
+direction: right
+
+closed: "CLOSED (Normal)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  desc: "Requests execute normally\nFailure rate tracked"
+}
+
+open: "OPEN (Tripped)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  desc: "Fails fast immediately\nExecutes Fallback method"
+}
+
+half_open: "HALF-OPEN (Probing)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  desc: "Allows limited probe requests\nEvaluates downstream recovery"
+}
+
+closed -> open: "Failure Rate >= 50%" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}
+open -> half_open: "Sleep Window (30s) Expired" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+half_open -> closed: "Consecutive Probes Succeed" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+half_open -> open: "Single Probe Fails" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}

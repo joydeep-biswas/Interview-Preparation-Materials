@@ -1,0 +1,23 @@
+direction: right
+title: Pipeline Replayability & Event Re-Sourcing Workflow
+
+remediation: 1. Code Remediation {
+  bug: Bug Discovered (Gold Metric Logic Error)
+  fix: Deploy Bugfix to Git & Docker
+  bug -> fix
+}
+
+reset: 2. Offset Reset & Staging {
+  offset: Reset Consumer Offset to Tuesday 00:00:00
+  sink: Target Staging Table (gold.sales_recalculated_temp)
+  offset -> sink
+}
+
+replay: 3. High-Speed Replay & Promotion {
+  fast_replay: Replay 3 days of events at 10x speed
+  swap: Validate assertions & atomic table swap
+  fast_replay -> swap
+}
+
+remediation.fix -> reset.offset: "Deploy fix"
+reset.sink -> replay.fast_replay: "Execute replay"

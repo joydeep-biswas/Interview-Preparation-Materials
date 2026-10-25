@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+rows: "Customer Rows\n(ID=101, v1 at 10:00)\n(ID=101, v2 at 10:05)" { class: box; style.stroke: "#3B82F6" }
+win: "ROW_NUMBER() OVER\n(PARTITION BY ID ORDER BY Timestamp DESC)" { class: box; style.stroke: "#F59E0B" }
+
+assign: "Rank Assignment\nv2 -> row_num = 1 (LATEST)\nv1 -> row_num = 2 (STALE)" { class: box; style.stroke: "#8B5CF6" }
+filter: "WHERE row_num = 1\nExactly 1 latest record per customer" { class: box; style.stroke: "#10B981" }
+
+rows -> win -> assign -> filter

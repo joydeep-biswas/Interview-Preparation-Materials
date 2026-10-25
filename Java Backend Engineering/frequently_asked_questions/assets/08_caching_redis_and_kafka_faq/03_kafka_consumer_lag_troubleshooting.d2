@@ -1,0 +1,27 @@
+direction: right
+
+symptom: "1. Lag Monotonic Increase" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  lag: "Lag = LogEndOffset - CurrentOffset"
+  alert: "Lag > 50,000 records & latency spikes"
+}
+
+diagnostics: "2. Diagnostic Triage" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  skew: "Single partition lag: Hot key or poison pill"
+  timeout: "max.poll.interval.ms: Rebalance storm"
+  db: "Downstream DB bottleneck"
+}
+
+remedies: "3. Remedies" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  scale: "Scale consumers (up to partition count)"
+  partitions: "Increase partition count for parallel scale"
+  sticky: "CooperativeStickyAssignor (no stop-the-world)"
+}
+
+symptom -> diagnostics: "Triage root cause"
+diagnostics -> remedies: "Apply mitigation"

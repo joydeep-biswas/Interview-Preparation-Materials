@@ -1,0 +1,25 @@
+direction: right
+title: "Builder Pattern: Fluent Construction of Complex Immutable Objects"
+
+client: "Client / Caller
+Calls .builder().userId().build()" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+builder: "UserSecurityProfile.Builder
+Mutable accumulator
+Validates invariants in .build()" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+product: "UserSecurityProfile
+Immutable Domain Entity
+Private constructor | Thread-safe" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+client -> builder: "1. Sets parameters fluently"
+builder -> product: "2. Instantiates validated product"

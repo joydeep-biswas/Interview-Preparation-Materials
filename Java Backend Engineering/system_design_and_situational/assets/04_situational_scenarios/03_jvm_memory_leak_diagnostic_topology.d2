@@ -1,0 +1,46 @@
+direction: right
+
+heap: "1. JVM Heap Anatomy" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  eden: "Eden & Survivor (Young Gen)"
+  tenured: "Tenured / Old Gen (ThreadLocal leaks)"
+}
+
+off_heap: "2. Off-Heap & Native" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  direct: "Direct ByteBuffers (Netty Channels)"
+  metaspace: "Metaspace (CGLIB Proxies)"
+}
+
+diagnostics: "3. Triage & MAT Tool" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  dump: "jcmd PID GC.heap_dump"
+  mat: "Eclipse MAT Dominator Tree"
+}
+
+remediation: "4. Preventative Fixes" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  code: "ThreadLocal.remove() in finally block"
+  flags: "-XX:MaxDirectMemorySize & MaxMetaspace"
+}
+
+heap -> off_heap: "Full GC Triggered" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+off_heap -> diagnostics: "Capture Heap Dump" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+diagnostics -> remediation: "Fix Leak Root Cause" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

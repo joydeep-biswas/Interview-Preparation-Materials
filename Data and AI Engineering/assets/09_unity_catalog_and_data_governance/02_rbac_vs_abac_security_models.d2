@@ -1,0 +1,28 @@
+direction: right
+classes: {
+  rbac: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  abac: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  policy: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
+
+rbac_box: "1. RBAC: Role-Based Access Control (Static)" {
+  user_a: "User: Alice" { class: rbac }
+  role_a: "Role: Finance_Analyst" { class: rbac }
+  perm1: "SELECT ON marts.fct_revenue" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  perm2: "SELECT ON marts.dim_gl_codes" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+
+  user_a -> role_a: "Assigned"
+  role_a -> perm1
+  role_a -> perm2
+}
+
+abac_box: "2. ABAC: Attribute-Based Access Control (Dynamic)" {
+  user_b: "User: Bob (Dept=Mktg, L2)" { class: abac }
+  env: "Context (VPN, 14:30 EST)" { class: abac }
+  res: "Resource (customers.pii_ssn)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  engine: "Policy Engine Decision" { class: policy }
+
+  user_b -> engine
+  env -> engine
+  res -> engine
+}

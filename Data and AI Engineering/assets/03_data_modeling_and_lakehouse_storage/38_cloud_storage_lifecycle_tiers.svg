@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 390" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="390" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Cloud Storage Lifecycle Tiers &amp; Data Archival Economics</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Automated Policy Transitions from Active Lakehouse to 7-Year Cold Compliance</text>
+  
+  
+    <rect x="30" y="115" width="210" height="200" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="135.0" y="141" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. Hot Tier</text>
+    <text x="135.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Active Lakehouse Storage</text>
+    <rect x="203" y="125" width="31" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="218.5" y="137" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">HOT</text>
+    <circle cx="46" cy="170" r="2" fill="#3b82f6"/>
+    <text x="54" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Storage: $0.020 / GB / month</text>
+    <circle cx="46" cy="186" r="2" fill="#3b82f6"/>
+    <text x="54" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Retrieval: Free</text>
+    <circle cx="46" cy="202" r="2" fill="#3b82f6"/>
+    <text x="54" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Availability SLA: 99.99%</text>
+    <circle cx="46" cy="218" r="2" fill="#3b82f6"/>
+    <text x="54" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Latency: Millisecond access</text>
+    <circle cx="46" cy="234" r="2" fill="#3b82f6"/>
+    <text x="54" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Use: Active Silver/Gold Lake</text>
+    <circle cx="46" cy="250" r="2" fill="#3b82f6"/>
+    <text x="54" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Daily analytical queries</text>
+    <circle cx="46" cy="266" r="2" fill="#3b82f6"/>
+    <text x="54" y="269" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Frequent Spark / BI scans</text>
+
+  
+    <rect x="275" y="115" width="210" height="200" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="380.0" y="141" fill="#67e8f9" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. Cool Tier</text>
+    <text x="380.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Infrequent Access (IA)</text>
+    <rect x="441" y="125" width="38" height="18" rx="9" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
+    <text x="460.0" y="137" fill="#06b6d4" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">COOL</text>
+    <circle cx="291" cy="170" r="2" fill="#06b6d4"/>
+    <text x="299" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Storage: $0.010 / GB / month</text>
+    <circle cx="291" cy="186" r="2" fill="#06b6d4"/>
+    <text x="299" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Retrieval: $0.01 / GB</text>
+    <circle cx="291" cy="202" r="2" fill="#06b6d4"/>
+    <text x="299" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Availability SLA: 99.9%</text>
+    <circle cx="291" cy="218" r="2" fill="#06b6d4"/>
+    <text x="299" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Latency: Millisecond access</text>
+    <circle cx="291" cy="234" r="2" fill="#06b6d4"/>
+    <text x="299" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Use: Monthly reporting marts</text>
+    <circle cx="291" cy="250" r="2" fill="#06b6d4"/>
+    <text x="299" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Quarterly audit queries</text>
+    <circle cx="291" cy="266" r="2" fill="#06b6d4"/>
+    <text x="299" y="269" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Automated after 30 days</text>
+
+  
+    <rect x="520" y="115" width="210" height="200" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="625.0" y="141" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. Cold Tier</text>
+    <text x="625.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Long-Term Backup</text>
+    <rect x="686" y="125" width="38" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="705.0" y="137" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">COLD</text>
+    <circle cx="536" cy="170" r="2" fill="#8b5cf6"/>
+    <text x="544" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Storage: $0.004 / GB / month</text>
+    <circle cx="536" cy="186" r="2" fill="#8b5cf6"/>
+    <text x="544" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Retrieval: $0.03 / GB</text>
+    <circle cx="536" cy="202" r="2" fill="#8b5cf6"/>
+    <text x="544" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Availability SLA: 99.5%</text>
+    <circle cx="536" cy="218" r="2" fill="#8b5cf6"/>
+    <text x="544" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Latency: Millisecond access</text>
+    <circle cx="536" cy="234" r="2" fill="#8b5cf6"/>
+    <text x="544" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Use: 90-day disaster recovery</text>
+    <circle cx="536" cy="250" r="2" fill="#8b5cf6"/>
+    <text x="544" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Historical snapshot tables</text>
+    <circle cx="536" cy="266" r="2" fill="#8b5cf6"/>
+    <text x="544" y="269" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Automated after 90 days</text>
+
+  
+    <rect x="765" y="115" width="185" height="200" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+    <text x="857.5" y="141" fill="#cbd5e1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">4. Archive / Glacier</text>
+    <text x="857.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Deep Compliance Archive</text>
+    <rect x="885" y="125" width="59" height="18" rx="9" fill="#0f172a" stroke="#64748b" stroke-width="1"/>
+    <text x="914.5" y="137" fill="#64748b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ARCHIVE</text>
+    <circle cx="781" cy="170" r="2" fill="#64748b"/>
+    <text x="789" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Storage: $0.001 / GB / month</text>
+    <circle cx="781" cy="186" r="2" fill="#64748b"/>
+    <text x="789" y="189" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Retrieval: $0.05/GB + 5h delay</text>
+    <circle cx="781" cy="202" r="2" fill="#64748b"/>
+    <text x="789" y="205" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Availability: 99.999999999%</text>
+    <circle cx="781" cy="218" r="2" fill="#64748b"/>
+    <text x="789" y="221" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Latency: 3 to 12 hours</text>
+    <circle cx="781" cy="234" r="2" fill="#64748b"/>
+    <text x="789" y="237" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Use: 7-year legal compliance</text>
+    <circle cx="781" cy="250" r="2" fill="#64748b"/>
+    <text x="789" y="253" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Automated after 365 days</text>
+
+  
+    <line x1="240" y1="215" x2="275" y2="215" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#arr-c)"/><text x="257.5" y="207.0" fill="#06b6d4" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">30 Days</text>
+  
+    <line x1="485" y1="215" x2="520" y2="215" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="502.5" y="207.0" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">90 Days</text>
+  
+    <line x1="730" y1="215" x2="765" y2="215" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr-s)"/><text x="747.5" y="207.0" fill="#64748b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">365 Days</text>
+
+  <text x="490" y="355" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">S3 / ADLS Lifecycle Policies automatically transition data down tiers, reducing storage cost by up to 95%</text>
+
+</svg>

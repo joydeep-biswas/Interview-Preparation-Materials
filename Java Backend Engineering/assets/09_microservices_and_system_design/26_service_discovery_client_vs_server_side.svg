@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Service Discovery: Client-Side vs Server-Side Architecture</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Netflix Eureka / Ribbon (Client-Side) vs Kubernetes CoreDNS &amp; kube-proxy (Server-Side)</text>
+<rect x="40" y="100" width="480" height="350" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+<rect x="55" y="115" width="260" height="22" rx="11" fill="#1e3a8a"/><text x="185" y="129" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. CLIENT-SIDE DISCOVERY</text>
+<text x="60" y="155" fill="#60A5FA" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Example: Netflix Eureka + Ribbon / Spring Cloud LoadBalancer</text>
+<rect x="60" y="180" width="180" height="70" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="150" y="205" fill="#60A5FA" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client Microservice</text>
+<text x="150" y="225" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Embeds Load Balancer in JVM</text>
+<rect x="300" y="180" width="200" height="70" rx="6" fill="#111827" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="400" y="205" fill="#FBBF24" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Eureka / Consul Registry</text>
+<text x="400" y="225" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stores {service: [IP:Port, ...]}</text>
+<line x1="240" y1="205" x2="300" y2="205" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="300" y1="225" x2="240" y2="225" stroke="#FBBF24" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-a)"/>
+<rect x="60" y="290" width="440" height="80" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+<text x="280" y="310" fill="#34D399" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Order-Service Instances (Direct Point-to-Point Hop)</text>
+<rect x="75" y="325" width="120" height="35" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="135" y="346" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Inst 1: 10.0.1.5</text>
+<rect x="220" y="325" width="120" height="35" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="280" y="346" fill="#6EE7B7" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Inst 2: 10.0.1.6</text>
+<rect x="365" y="325" width="120" height="35" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="425" y="346" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Inst 3: 10.0.1.7</text>
+<path d="M 150.0 250.0 L 150.0 258.0 C 150.0 268.0, 280.0 268.0, 280.0 278.0 L 280.0 290.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<text x="60" y="395" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Pros: 1 network hop (direct point-to-point), client controls LB algorithm.</text>
+<text x="60" y="415" fill="#F87171" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cons: Heavy client library coupling; must implement discovery for every language.</text>
+<rect x="560" y="100" width="480" height="350" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
+<rect x="575" y="115" width="260" height="22" rx="11" fill="#047857"/><text x="705" y="129" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. SERVER-SIDE DISCOVERY</text>
+<text x="580" y="155" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Example: Kubernetes Service (CoreDNS + kube-proxy / AWS ALB)</text>
+<rect x="580" y="180" width="160" height="70" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="660" y="205" fill="#60A5FA" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client Microservice</text>
+<text x="660" y="225" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Calls 'http://order-svc'</text>
+<rect x="790" y="180" width="230" height="70" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="2"/>
+<text x="905" y="205" fill="#22D3EE" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">K8s Service / Load Balancer</text>
+<text x="905" y="225" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Virtual IP (ClusterIP) + iptables</text>
+<line x1="740" y1="215" x2="790" y2="215" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<rect x="580" y="290" width="440" height="80" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="800" y="310" fill="#6EE7B7" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Order Service Pods (Discovered automatically via Endpoints)</text>
+<rect x="595" y="325" width="120" height="35" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="655" y="346" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Pod 1: 10.244.1.12</text>
+<rect x="740" y="325" width="120" height="35" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="800" y="346" fill="#6EE7B7" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Pod 2: 10.244.2.45</text>
+<rect x="885" y="325" width="120" height="35" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="945" y="346" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Pod 3: 10.244.3.89</text>
+<path d="M 905.0 250.0 L 905.0 258.0 C 905.0 268.0, 800.0 268.0, 800.0 278.0 L 800.0 290.0" fill="none" stroke="#22D3EE" stroke-width="2" marker-end="url(#arr-c)"/>
+<text x="580" y="395" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Pros: Language agnostic (standard DNS/HTTP), zero client libraries needed.</text>
+<text x="580" y="415" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cons: Extra proxy hop (slight latency increase), LB must be highly available.</text>
+<rect x="40" y="470" width="1000" height="75" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="493" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Industry Standard Consensus:</text>
+<text x="65" y="513" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Server-Side Discovery (Kubernetes CoreDNS) has won the industry consensus over Netflix Eureka.</text>
+<text x="65" y="528" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• It completely decouples application code from infrastructure routing, allowing Polyglot microservices (Java, Python, Go) to interact transparently.</text>
+</svg>

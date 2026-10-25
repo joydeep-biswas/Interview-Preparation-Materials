@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="440" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Log-Structured Merge-Tree (LSM-Tree) Architecture</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">In-Memory MemTable, Append-Only WAL, Immutable SSTables, and Cascading Compaction</text>
+  
+  
+    <rect x="30" y="95" width="340" height="315" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">In-Memory Tier (Volatile RAM)</text>
+  
+    <rect x="45" y="135" width="310" height="85" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="200.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Client: PUT(Key, Value)</text>
+    <text x="200.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">High-Velocity Writes</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Client writes: PUT('user:101', '{...}')</text>
+    <circle cx="61" cy="206" r="2" fill="#3b82f6"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero random disk I/O incurred!</text>
+  
+    <rect x="45" y="235" width="145" height="155" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="117.5" y="261" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Write-Ahead Log</text>
+    <text x="117.5" y="277" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Append Disk (WAL)</text>
+    <circle cx="61" cy="290" r="2" fill="#ef4444"/>
+    <text x="69" y="293" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sequential write</text>
+    <circle cx="61" cy="306" r="2" fill="#ef4444"/>
+    <text x="69" y="309" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Append-only log</text>
+    <circle cx="61" cy="322" r="2" fill="#ef4444"/>
+    <text x="69" y="325" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Guarantees crash</text>
+    <circle cx="61" cy="338" r="2" fill="#ef4444"/>
+    <text x="69" y="341" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">durability if power</text>
+    <circle cx="61" cy="354" r="2" fill="#ef4444"/>
+    <text x="69" y="357" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">fails before flush</text>
+  
+    <rect x="200" y="235" width="155" height="155" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="277.5" y="261" fill="#67e8f9" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MemTable (RAM)</text>
+    <text x="277.5" y="277" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Concurrent SkipList</text>
+    <circle cx="216" cy="290" r="2" fill="#06b6d4"/>
+    <text x="224" y="293" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sorted in-memory</text>
+    <circle cx="216" cy="306" r="2" fill="#06b6d4"/>
+    <text x="224" y="309" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">O(log N) fast insert</text>
+    <circle cx="216" cy="322" r="2" fill="#06b6d4"/>
+    <text x="224" y="325" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Holds active writes</text>
+    <circle cx="216" cy="338" r="2" fill="#06b6d4"/>
+    <text x="224" y="341" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Flushes to disk when</text>
+    <circle cx="216" cy="354" r="2" fill="#06b6d4"/>
+    <text x="224" y="357" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">size reaches 64MB</text>
+
+  
+    <line x1="120" y1="220" x2="120" y2="235" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
+  
+    <line x1="275" y1="220" x2="275" y2="235" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#arr-c)"/>
+
+  
+    <rect x="410" y="95" width="540" height="315" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="426" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Disk Tier: Immutable Sorted String Tables (SSTables)</text>
+  
+    <rect x="425" y="135" width="510" height="75" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="680.0" y="161" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Level 0 SSTables (Disk - Overlapping Keys)</text>
+    <text x="680.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Direct Flush from MemTable</text>
+    <circle cx="441" cy="190" r="2" fill="#f59e0b"/>
+    <text x="449" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Files: [SST_A: Keys 1..100] [SST_B: Keys 50..150] [SST_C: Keys 80..200]</text>
+    <circle cx="441" cy="206" r="2" fill="#f59e0b"/>
+    <text x="449" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Keys overlap across files -&gt; Reads must probe ALL Level 0 SSTables!</text>
+  
+    <rect x="425" y="225" width="510" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="680.0" y="251" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Level 1 SSTables (Disk - Non-Overlapping Key Ranges)</text>
+    <text x="680.0" y="267" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Merged via Background Compaction</text>
+    <circle cx="441" cy="280" r="2" fill="#10b981"/>
+    <text x="449" y="283" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Files: [SST_1: Keys 1..50] [SST_2: Keys 51..100] [SST_3: Keys 101..150]</text>
+    <circle cx="441" cy="296" r="2" fill="#10b981"/>
+    <text x="449" y="299" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Keys strictly partition across files -&gt; Reads probe exactly ONE SSTable via binary search!</text>
+  
+    <rect x="425" y="315" width="510" height="75" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="680.0" y="341" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Level 2 SSTables (Disk - 10x Larger Capacity)</text>
+    <text x="680.0" y="357" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cascading Level Merge</text>
+    <circle cx="441" cy="370" r="2" fill="#8b5cf6"/>
+    <text x="449" y="373" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Capacity: 1000 MB (10x larger than L1). Long-term cold data storage.</text>
+    <circle cx="441" cy="386" r="2" fill="#8b5cf6"/>
+    <text x="449" y="389" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Bloom filters eliminate 99% of negative reads without issuing disk I/O.</text>
+
+  
+    <path d="M 355.0 312.0 L 365.0 312.0 C 388.0 312.0, 388.0 172.0, 411.0 172.0 L 425.0 172.0" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="390.0" y="234.0" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Flush 64MB</text>
+  
+    <line x1="680" y1="210" x2="680" y2="225" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="680.0" y="209.5" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Compaction Merge</text>
+  
+    <line x1="680" y1="300" x2="680" y2="315" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="680.0" y="299.5" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Cascading Merge</text>
+
+</svg>

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Production Circular Dependency Remediation Patterns</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Architectural refactoring strategies: Extracting shared service, event-driven decoupling, and @Lazy proxy deferral</text>
+<rect x="30" y="85" width="310" height="410" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="185" y="112" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Pattern 1: Extract Shared Service</text>
+<rect x="105" y="122" width="160" height="18" rx="9" fill="#047857"/><text x="185" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">RECOMMENDED (Architectural)</text>
+<rect x="45" y="155" width="280" height="60" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="185" y="180" fill="#F8FAFC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderService</text>
+<text x="185" y="198" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Depends only on InvoiceGenerationService</text>
+<rect x="45" y="230" width="280" height="60" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="185" y="255" fill="#F8FAFC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">BillingService</text>
+<text x="185" y="273" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Depends only on InvoiceGenerationService</text>
+<rect x="45" y="310" width="280" height="80" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="185" y="335" fill="#6EE7B7" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">InvoiceGenerationService (Shared)</text>
+<text x="185" y="355" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Extracted shared logic with 0 dependencies back</text>
+<text x="185" y="372" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Clean unidirectional dependency flow!</text>
+<rect x="45" y="405" width="280" height="75" rx="8" fill="#0f2e28" stroke="#059669" stroke-width="1"/>
+<text x="55" y="425" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why it's the Gold Standard:</text>
+<text x="55" y="443" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Completely destroys the cyclic coupling</text>
+<text x="55" y="459" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✓ Follows Single Responsibility Principle (SRP)</text>
+<line x1="185" y1="215" x2="185" y2="310" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="185" y1="290" x2="185" y2="310" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<rect x="365" y="85" width="310" height="410" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="520" y="112" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Pattern 2: Event-Driven Decoupling</text>
+<rect x="440" y="122" width="160" height="18" rx="9" fill="#6d28d9"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Domain Events (Asynchronous)</text>
+<rect x="380" y="155" width="280" height="80" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="395" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">OrderService (Publisher)</text>
+<text x="395" y="198" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">publisher.publishEvent(new OrderCreated())</text>
+<text x="395" y="214" fill="#6EE7B7" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero compile-time dependency on Billing!</text>
+<rect x="380" y="255" width="280" height="60" rx="8" fill="#2e1065" stroke="#c084fc" stroke-width="1"/>
+<text x="520" y="278" fill="#DDD6FE" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ApplicationEventPublisher (Spring Event Bus)</text>
+<text x="520" y="296" fill="#94A3B8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">In-memory decoupled message broker</text>
+<rect x="380" y="335" width="280" height="80" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="395" y="358" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">BillingService (Subscriber)</text>
+<text x="395" y="378" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@EventListener / @TransactionalEventListener</text>
+<text x="395" y="394" fill="#6EE7B7" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Consumes OrderCreatedEvent reactively</text>
+<rect x="380" y="430" width="280" height="50" rx="8" fill="#1e1e38" stroke="#8b5cf6" stroke-width="1"/>
+<text x="520" y="452" fill="#DDD6FE" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">✓ Perfect for microservice modularization</text>
+<text x="520" y="467" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">✓ Can easily transition to Kafka / RabbitMQ later</text>
+<line x1="520" y1="235" x2="520" y2="255" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="520" y1="315" x2="520" y2="335" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<rect x="700" y="85" width="310" height="410" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="855" y="112" fill="#FDE68A" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Pattern 3: @Lazy Proxy Deferral</text>
+<rect x="775" y="122" width="160" height="18" rx="9" fill="#b45309"/><text x="855" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Quick Fix / Anti-Pattern</text>
+<rect x="715" y="155" width="280" height="95" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="725" y="178" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Constructor with @Lazy</text>
+<text x="725" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">public OrderService(</text>
+<text x="725" y="214" fill="#FDE68A" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">    @Lazy BillingService billing) { ... }</text>
+<text x="725" y="232" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Spring injects dynamic CGLIB proxy instead!</text>
+<rect x="715" y="270" width="280" height="85" rx="8" fill="#332408" stroke="#f59e0b" stroke-width="1"/>
+<text x="725" y="293" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">How @Lazy Works Under the Hood</text>
+<text x="725" y="313" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Delays target bean lookup until first</text>
+<text x="725" y="329" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  actual method call on the proxy</text>
+<text x="725" y="343" fill="#6EE7B7" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Breaks constructor deadlock at startup</text>
+<rect x="715" y="375" width="280" height="105" rx="8" fill="#2d1215" stroke="#dc2626" stroke-width="1"/>
+<text x="725" y="398" fill="#F87171" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why it's Discouraged in Prod:</text>
+<text x="725" y="418" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✗ Sweeps poor domain design under rug</text>
+<text x="725" y="434" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✗ Can cause subtle lazy initialization exceptions</text>
+<text x="725" y="450" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✗ Spring Boot 2.6+ disables cyclic dependencies</text>
+<text x="725" y="464" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  by default to prevent this habit</text>
+</svg>

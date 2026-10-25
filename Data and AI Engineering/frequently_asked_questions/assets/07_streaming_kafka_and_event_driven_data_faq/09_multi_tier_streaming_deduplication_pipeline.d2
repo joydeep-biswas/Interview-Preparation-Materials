@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+raw: "Raw Kafka Stream\n(50 duplicate updates in 10s)" { class: card; style.stroke: "#3B82F6" }
+watermark: "1. Event-Time Watermark\nLimits memory state window (1 min)" { class: card; style.stroke: "#F59E0B" }
+micro_dedup: "2. In-Micro-Batch Dedup\nRank by event_ts DESC -> Keep latest" { class: card; style.stroke: "#06B6D4" }
+state_dedup: "3. dropDuplicates Window\nPrunes duplicates within state store" { class: card; style.stroke: "#8B5CF6" }
+delta_sink: "4. Delta Idempotent MERGE\nFinal ACID storage protection" { class: card; style.stroke: "#10B981" }
+
+raw -> watermark -> micro_dedup -> state_dedup -> delta_sink

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 380" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Input PDF Page -->
+  <rect x="360" y="20" width="240" height="60" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="480" y="45" class="title-txt" text-anchor="middle">Input PDF Page</text>
+  <text x="480" y="65" class="sub-txt" text-anchor="middle">Text + Embedded Charts + Tables</text>
+
+  <!-- Connectors Left and Right -->
+  <path d="M 360 50 L 245 50 Q 230 50 230 65 L 230 95" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <path d="M 600 50 L 715 50 Q 730 50 730 65 L 730 95" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Left: Approach 1 Dual Stream -->
+  <rect x="30" y="95" width="420" height="260" rx="12" ry="12" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="50" y="122" class="title-txt" fill="#93C5FD">Approach 1: Dual-Stream Decomposition</text>
+
+  <rect x="50" y="140" width="380" height="50" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="65" y="162" class="title-txt" text-anchor="start">Text Stream (PyMuPDF / OCR)</text>
+  <text x="65" y="178" class="body-txt" text-anchor="start">• Extracts body text, paragraphs, and raw tables</text>
+
+  <rect x="50" y="205" width="380" height="65" rx="6" ry="6" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="65" y="228" class="title-txt" text-anchor="start" fill="#FDE68A">Visual Stream (VLM Captioning)</text>
+  <text x="65" y="246" class="body-txt" text-anchor="start">• Crops images/charts &amp; runs GPT-4o / Claude 3.5</text>
+  <text x="65" y="260" class="sub-txt" text-anchor="start">Generates dense text descriptions of graphics</text>
+
+  <rect x="50" y="285" width="380" height="50" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="65" y="308" class="title-txt" text-anchor="start" fill="#A7F3D0">Standard Text Vector Store (Qdrant)</text>
+  <text x="65" y="324" class="badge-txt" fill="#10B981">✓ Cost-Effective &amp; Standard Embeddings</text>
+
+  <!-- Right: Approach 2 Vision-Native ColPali -->
+  <rect x="490" y="95" width="440" height="260" rx="12" ry="12" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="510" y="122" class="title-txt" fill="#6EE7B7">Approach 2: Vision-Native Document RAG (ColPali)</text>
+
+  <rect x="510" y="140" width="400" height="50" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="525" y="162" class="title-txt" text-anchor="start">Rasterize PDF to 300 DPI Image</text>
+  <text x="525" y="178" class="body-txt" text-anchor="start">• Treats entire page as a visual perceptual artifact</text>
+
+  <rect x="510" y="205" width="400" height="65" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="525" y="228" class="title-txt" text-anchor="start" fill="#C4B5FD">Vision-Language Model (ColPali / PaliGemma)</text>
+  <text x="525" y="246" class="body-txt" text-anchor="start">• Multi-vector patch embeddings (1024 vectors / page)</text>
+  <text x="525" y="260" class="mono-txt" text-anchor="start">Late-interaction MaxSim visual retrieval</text>
+
+  <rect x="510" y="285" width="400" height="50" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="525" y="308" class="title-txt" text-anchor="start" fill="#A7F3D0">Multi-Vector Visual Store (Vespa)</text>
+  <text x="525" y="324" class="badge-txt" fill="#10B981">✓ Highest Accuracy on Complex Diagrams</text>
+</svg>

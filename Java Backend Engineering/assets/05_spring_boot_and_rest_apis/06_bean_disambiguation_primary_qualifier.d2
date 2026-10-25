@@ -1,0 +1,28 @@
+direction: right
+title: Bean Disambiguation: @Autowired, @Primary, and @Qualifier
+
+consumer: "CheckoutService requires PaymentGateway" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  amb: "Two Candidates Found:\nStripeGateway vs PayPalGateway\n(NoUniqueBeanDefinitionException!)"
+}
+
+s1: "Strategy 1: @Primary" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  stripe: "@Primary on StripeGateway"
+  res1: "Injected by default without qualifier"
+}
+
+s2: "Strategy 2: @Qualifier" {
+  style.fill: "#062e3d"
+  style.stroke: "#06b6d4"
+
+  paypal: "@Qualifier('payPalGateway')"
+  res2: "Explicit override at injection site (Beats @Primary)"
+}
+
+consumer.amb -> s1.stripe: "Default resolution"
+consumer.amb -> s2.paypal: "Explicit resolution"

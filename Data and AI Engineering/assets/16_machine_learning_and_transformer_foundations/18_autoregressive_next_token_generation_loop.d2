@@ -1,0 +1,18 @@
+classes: {
+  ctx_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  llm_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  logit_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  sample_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+loop: "Autoregressive Generation Loop" {
+  prompt: "1. Context Tokens\n['The', ' cat', ' sat', ' on']" { class: ctx_box }
+  llm: "2. LLM Forward Pass\nTransformer Layers (Attention + FFN)" { class: llm_box }
+  logits: "3. Vocabulary Logits (128k dims)\n' the': 14.2, ' a': 11.8" { class: logit_box }
+  sample: "4. Sampling (Temperature / Top-p)\nSelected Token: ' the'" { class: sample_box }
+
+  prompt -> llm -> logits -> sample
+  sample -> prompt: "Append token & repeat for next position" {
+    style: { stroke: "#4ade80"; stroke-width: 2 }
+  }
+}

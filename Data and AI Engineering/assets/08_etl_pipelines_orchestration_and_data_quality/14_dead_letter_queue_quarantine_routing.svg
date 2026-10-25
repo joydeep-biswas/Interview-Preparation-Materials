@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Dead Letter Queues (DLQ) &amp; Quarantine Routing Architecture</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Preserving Production SLAs by Isolating Poison Pills into Inspectable Storage</text>
+  
+  
+    <rect x="30" y="95" width="250" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Stream Ingestion &amp; Validation</text>
+  
+    <rect x="45" y="140" width="220" height="110" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="155.0" y="166" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Raw Ingested Stream</text>
+    <text x="155.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Kafka / Event Hubs JSON</text>
+    <rect x="179" y="150" width="80" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="219.0" y="162" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">RAW STREAM</text>
+    <circle cx="61" cy="195" r="2" fill="#3b82f6"/>
+    <text x="69" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">High velocity JSON payload</text>
+    <circle cx="61" cy="211" r="2" fill="#3b82f6"/>
+    <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Validation rules evaluated:</text>
+    <circle cx="61" cy="227" r="2" fill="#3b82f6"/>
+    <text x="69" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">1. Valid JSON syntax?</text>
+    <circle cx="61" cy="243" r="2" fill="#3b82f6"/>
+    <text x="69" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">2. order_id != NULL?</text>
+    <circle cx="61" cy="259" r="2" fill="#3b82f6"/>
+    <text x="69" y="262" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">3. amount &amp;gt;= 0?</text>
+  <text x="155" y="300" fill="#94a3b8" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle">Data Quality Contract Check</text>
+
+  
+    <rect x="310" y="95" width="340" height="290" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="326" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Split Processing Paths</text>
+  
+    <rect x="325" y="140" width="310" height="90" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="480.0" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Silver Production Table</text>
+    <text x="480.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Clean Records Committed</text>
+    <rect x="584" y="150" width="45" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="606.5" y="162" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">VALID</text>
+    <circle cx="341" cy="195" r="2" fill="#10b981"/>
+    <text x="349" y="198" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Table: silver.fact_orders</text>
+    <circle cx="341" cy="211" r="2" fill="#10b981"/>
+    <text x="349" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Clean data committed to Lakehouse</text>
+    <circle cx="341" cy="227" r="2" fill="#10b981"/>
+    <text x="349" y="230" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero delay; SLA 100% preserved</text>
+  
+    <rect x="325" y="250" width="310" height="115" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="480.0" y="276" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Quarantine Enrichment</text>
+    <text x="480.0" y="292" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Context Injection for Poison Pills</text>
+    <rect x="549" y="260" width="80" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="589.0" y="272" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ENRICH DLQ</text>
+    <circle cx="341" cy="305" r="2" fill="#ef4444"/>
+    <text x="349" y="308" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Attaches metadata envelope:</text>
+    <circle cx="341" cy="321" r="2" fill="#ef4444"/>
+    <text x="349" y="324" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">1. Exact raw bytes payload</text>
+    <circle cx="341" cy="337" r="2" fill="#ef4444"/>
+    <text x="349" y="340" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">2. Exception message &amp;amp; stack trace</text>
+    <circle cx="341" cy="353" r="2" fill="#ef4444"/>
+    <text x="349" y="356" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">3. Ingestion timestamp &amp;amp; worker ID</text>
+
+  
+    <rect x="680" y="95" width="270" height="290" rx="10" fill="#260b0b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="696" y="117" fill="#fca5a5" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">DLQ Quarantine &amp; Operations</text>
+  
+    <rect x="695" y="135" width="240" height="75" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="815.0" y="161" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DLQ Quarantine Table</text>
+    <text x="815.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">bronze.quarantine_orders</text>
+    <rect x="898" y="145" width="31" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="913.5" y="157" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DLQ</text>
+    <circle cx="711" cy="190" r="2" fill="#ef4444"/>
+    <text x="719" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Stored as inspectable Delta table</text>
+    <circle cx="711" cy="206" r="2" fill="#ef4444"/>
+    <text x="719" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Partitioned by error_date</text>
+  
+    <rect x="695" y="220" width="240" height="65" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="815.0" y="246" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PagerDuty Alert</text>
+    <text x="815.0" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Anomaly Threshold</text>
+    <rect x="884" y="230" width="45" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="906.5" y="242" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ALERT</text>
+    <circle cx="711" cy="275" r="2" fill="#f59e0b"/>
+    <text x="719" y="278" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Fires if DLQ error rate &amp;gt; 1.0%</text>
+  
+    <rect x="695" y="295" width="240" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="815.0" y="321" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Developer Replay</text>
+    <text x="815.0" y="337" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Remediation Script</text>
+    <rect x="877" y="305" width="52" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="903.0" y="317" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">REPLAY</text>
+    <circle cx="711" cy="350" r="2" fill="#10b981"/>
+    <text x="719" y="353" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Fixes bug &amp; replays DLQ records</text>
+
+  
+    <line x1="265" y1="175" x2="325" y2="175" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="295.0" y="167.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Valid</text>
+  
+    <path d="M 265.0 215.0 L 275.0 215.0 C 293.0 215.0, 293.0 280.0, 311.0 280.0 L 325.0 280.0" fill="none" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/><text x="295.0" y="239.5" fill="#ef4444" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Malformed</text>
+  
+    <path d="M 635.0 295.0 L 645.0 295.0 C 663.0 295.0, 663.0 175.0, 681.0 175.0 L 695.0 175.0" fill="none" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
+  
+    <line x1="815" y1="210" x2="815" y2="220" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  
+    <line x1="815" y1="285" x2="815" y2="295" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+</svg>

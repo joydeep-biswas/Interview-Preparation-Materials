@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" width="1100" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="600" rx="10" fill="url(#bg)"/>
+  <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Linux Kernel Networking &amp; High-Concurrency Socket Subsystem</text>
+  <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Physical NIC -&gt; DMA -&gt; Kernel RX Ring -&gt; Hard IRQ -&gt; NAPI SoftIRQ -&gt; TCP Stack -&gt; epoll -&gt; Netty</text>
+<rect x="40" y="95" width="1020" height="125" rx="8" fill="#062e3d" stroke="#06b6d4" stroke-width="1.5"/>
+<rect x="55" y="105" width="320" height="20" rx="10" fill="#0891b2"/><text x="215" y="118" fill="#ECFEFF" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Hardware &amp; Driver Ring Buffer Layer</text>
+<rect x="60" y="135" width="175" height="65" rx="6" fill="#083344" stroke="#22D3EE" stroke-width="1"/>
+<text x="147" y="157" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Physical NIC</text>
+<text x="147" y="175" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">10GbE / 25GbE optical fr</text>
+<text x="147" y="189" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ame arrival</text>
+<rect x="250" y="135" width="175" height="65" rx="6" fill="#083344" stroke="#22D3EE" stroke-width="1"/>
+<text x="337" y="157" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">DMA Transfer</text>
+<text x="337" y="175" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Direct Memory Access to </text>
+<text x="337" y="189" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Host RAM</text>
+<rect x="440" y="135" width="175" height="65" rx="6" fill="#083344" stroke="#22D3EE" stroke-width="1"/>
+<text x="527" y="157" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kernel RX Ring</text>
+<text x="527" y="175" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Ring buffer descriptors </text>
+<text x="527" y="189" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">(ethtool -g eth0)</text>
+<rect x="650" y="135" width="175" height="65" rx="6" fill="#7f1d1d" stroke="#FCA5A5" stroke-width="1"/>
+<text x="737" y="157" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Hardware IRQ</text>
+<text x="737" y="175" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Sends interrupt to CPU c</text>
+<text x="737" y="189" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ore</text>
+<rect x="840" y="135" width="175" height="65" rx="6" fill="#064e3b" stroke="#6EE7B7" stroke-width="1"/>
+<text x="927" y="157" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">NAPI SoftIRQ</text>
+<text x="927" y="175" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ksoftirqd polls packets </text>
+<text x="927" y="189" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">in batch</text>
+<line x1="235" y1="167" x2="250" y2="167" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="425" y1="167" x2="440" y2="167" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="615" y1="167" x2="650" y2="167" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="825" y1="167" x2="840" y2="167" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="925" y1="220" x2="925" y2="245" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="40" y="245" width="1020" height="125" rx="8" fill="#1a102f" stroke="#8b5cf6" stroke-width="1.5"/>
+<rect x="55" y="255" width="320" height="20" rx="10" fill="#6d28d9"/><text x="215" y="268" fill="#EDE9FE" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Linux Kernel TCP/IP Protocol Stack</text>
+<rect x="60" y="285" width="175" height="65" rx="6" fill="#2e1065" stroke="#C084FC" stroke-width="1"/>
+<text x="147" y="307" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">IP Routing &amp; Netfilter</text>
+<text x="147" y="325" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">iptables / conntrack / r</text>
+<text x="147" y="339" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">outing table</text>
+<rect x="250" y="285" width="175" height="65" rx="6" fill="#2e1065" stroke="#C084FC" stroke-width="1"/>
+<text x="337" y="307" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">TCP State Machine</text>
+<text x="337" y="325" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Allocates sk_buff struct</text>
+<text x="337" y="339" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle"> in kernel memory</text>
+<rect x="440" y="285" width="175" height="65" rx="6" fill="#78350f" stroke="#FDE68A" stroke-width="1"/>
+<text x="527" y="307" fill="#FDE68A" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SYN Backlog Queue</text>
+<text x="527" y="325" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Holds half-open conns (t</text>
+<text x="527" y="339" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">cp_max_syn_backlog)</text>
+<rect x="650" y="285" width="175" height="65" rx="6" fill="#2e1065" stroke="#C084FC" stroke-width="1"/>
+<text x="737" y="307" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3-Way Handshake</text>
+<text x="737" y="325" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SYN -&gt; SYN-ACK -&gt; ACK co</text>
+<text x="737" y="339" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">mpleted</text>
+<rect x="840" y="285" width="175" height="65" rx="6" fill="#064e3b" stroke="#6EE7B7" stroke-width="1"/>
+<text x="927" y="307" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Accept Listen Queue</text>
+<text x="927" y="325" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Holds fully established </text>
+<text x="927" y="339" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">sockets (somaxconn)</text>
+<line x1="235" y1="317" x2="250" y2="317" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<line x1="425" y1="317" x2="440" y2="317" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<line x1="615" y1="317" x2="650" y2="317" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+<line x1="825" y1="317" x2="840" y2="317" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="925" y1="370" x2="925" y2="395" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="40" y="395" width="1020" height="125" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<rect x="55" y="405" width="340" height="20" rx="10" fill="#047857"/><text x="225" y="418" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. JVM Runtime &amp; Non-Blocking Sockets (NIO)</text>
+<rect x="60" y="435" width="190" height="65" rx="6" fill="#0f172a" stroke="#34D399" stroke-width="1"/>
+<text x="155" y="457" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Linux epoll_wait()</text>
+<text x="155" y="475" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">O(1) event-driven edge-tri</text>
+<text x="155" y="489" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ggered notification</text>
+<rect x="290" y="435" width="190" height="65" rx="6" fill="#0f172a" stroke="#34D399" stroke-width="1"/>
+<text x="385" y="457" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Netty EventLoop</text>
+<text x="385" y="475" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Single-threaded reactor (2</text>
+<text x="385" y="489" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle"> * vCPU threads)</text>
+<rect x="530" y="435" width="190" height="65" rx="6" fill="#0f172a" stroke="#34D399" stroke-width="1"/>
+<text x="625" y="457" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">TCP Socket Rcv Buffer</text>
+<text x="625" y="475" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SO_RCVBUF sliding window b</text>
+<text x="625" y="489" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">uffer in RAM</text>
+<rect x="790" y="435" width="200" height="65" rx="6" fill="#1e3a8a" stroke="#93C5FD" stroke-width="1"/>
+<text x="890" y="457" fill="#93C5FD" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Java Application Logic</text>
+<text x="890" y="475" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Controller / Servic</text>
+<text x="890" y="489" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">e processing</text>
+<line x1="250" y1="467" x2="290" y2="467" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="480" y1="467" x2="530" y2="467" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="720" y1="467" x2="790" y2="467" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<rect x="40" y="535" width="1020" height="55" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="550" y="555" fill="#38BDF8" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Critical Linux Kernel TCP Tuning Invariants for High-QPS Microservices:</text>
+<text x="550" y="572" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">net.core.somaxconn = 4096 (prevents SYN drops) | net.ipv4.tcp_max_syn_backlog = 8192 | net.ipv4.tcp_tw_reuse = 1 (rapid socket recycling)</text>
+</svg>

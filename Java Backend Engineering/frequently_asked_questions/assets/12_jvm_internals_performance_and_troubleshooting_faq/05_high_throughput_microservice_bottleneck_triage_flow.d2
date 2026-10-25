@@ -1,0 +1,37 @@
+direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+  card: { style: { fill: "#1E293B"; stroke-width: 1.5; rx: 8 } }
+}
+
+ingress: "Step 1: Ingress & Edge Diagnostics" {
+  class: pillar
+  style.stroke: "#3B82F6"
+  load: "k6 / JMeter Ramp\n10 -> 1,000 Users" { class: card; style.stroke: "#3B82F6" }
+  check_gw: "Ingress Proxy Check\nEvaluate error codes" { class: card; style.stroke: "#3B82F6" }
+  os_err: "HTTP 502 Refused\nCheck ulimit -n & somaxconn" { class: card; style.stroke: "#EF4444" }
+  gw_timeout: "HTTP 504 Timeout\nForward to Tomcat inspection" { class: card; style.stroke: "#F59E0B" }
+
+  load -> check_gw
+  check_gw -> os_err: "502 Refused"
+  check_gw -> gw_timeout: "504 Timeout"
+}
+
+app: "Step 2: JVM & Container Inspection" {
+  class: pillar
+  style.stroke: "#F59E0B"
+  tomcat_full: "Tomcat Exhausted\nThreads == maxThreads (200)\nRequests queued in accept-count" { class: card; style.stroke: "#EF4444" }
+  hikari_check: "Tomcat OK (&lt; maxThreads)\nInspect HikariCP Active vs Idle" { class: card; style.stroke: "#10B981" }
+}
+
+db: "Step 3: Database & Lock Triage" {
+  class: pillar
+  style.stroke: "#10B981"
+  pool_starve: "HikariCP Exhausted\nActive == MaxPoolSize\nThreads wait for JDBC lease" { class: card; style.stroke: "#EF4444" }
+  db_locks: "Database Locks\nActive &lt; MaxPoolSize\nRow lock contention / table scans" { class: card; style.stroke: "#EF4444" }
+}
+
+ingress.gw_timeout -> app.tomcat_full: "Threads Maxed"
+ingress.gw_timeout -> app.hikari_check: "Threads Available"
+app.hikari_check -> db.pool_starve: "Active == Max"
+app.hikari_check -> db.db_locks: "Active &lt; Max"

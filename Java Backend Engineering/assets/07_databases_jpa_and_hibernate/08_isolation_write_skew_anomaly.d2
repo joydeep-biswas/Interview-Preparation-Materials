@@ -1,0 +1,28 @@
+direction: right
+title: "Isolation Anomaly: Write Skew Under Repeatable Read"
+
+alice: "Dr. Alice (Tx 1: Repeatable Read)" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+  read: "1. Read Count=2 (Safe)"
+  write: "3. Set Alice=off & Commit"
+}
+
+db: "Hospital Database Engine" {
+  style.fill: "#0f172a"
+  style.stroke: "#ef4444"
+  inv: "Invariant: Count >= 1"
+  violation: "CRITICAL: Count = 0 (Write Skew Anomaly!)"
+}
+
+bob: "Dr. Bob (Tx 2: Repeatable Read)" {
+  style.fill: "#1e293b"
+  style.stroke: "#f59e0b"
+  read: "2. Read Count=2 (Safe)"
+  write: "4. Set Bob=off & Commit"
+}
+
+alice.read -> db.inv: "Sees 2 on call"
+bob.read -> db.inv: "Sees 2 on call"
+alice.write -> db.violation: "Commits (No row conflict)"
+bob.write -> db.violation: "Commits (No row conflict)"

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- BatchNorm -->
+  <rect x="30" y="40" width="280" height="220" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="170" y="66" class="title-txt" text-anchor="middle">BatchNorm (CNNs)</text>
+  <text x="45" y="95" class="body-txt">• Normalizes across <tspan font-weight="700">Batch dimension (B)</tspan></text>
+  <text x="45" y="115" class="body-txt">• Preserves feature dimension</text>
+  <text x="45" y="135" class="mono-txt">Mean &amp; Var over (B, H, W)</text>
+  <text x="45" y="160" class="sub-txt">Depends on mini-batch size</text>
+  <text x="45" y="180" class="body-txt">• Fails on batch_size = 1</text>
+  <text x="45" y="200" class="body-txt">• Discrepancy train vs eval</text>
+  <text x="45" y="235" class="badge-txt" fill="#38BDF8">CNN Vision Standard</text>
+
+  <!-- LayerNorm -->
+  <rect x="340" y="40" width="280" height="220" rx="10" ry="10" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="480" y="66" class="title-txt" text-anchor="middle" fill="#6EE7B7">LayerNorm (Transformers)</text>
+  <text x="355" y="95" class="body-txt">• Normalizes across <tspan font-weight="700">Channel / Feature (D)</tspan></text>
+  <text x="355" y="115" class="body-txt">• Independent per sample &amp; token</text>
+  <text x="355" y="135" class="mono-txt">Mean &amp; Var over hidden_dim</text>
+  <text x="355" y="160" class="sub-txt">Batch-size independent</text>
+  <text x="355" y="180" class="body-txt">• Perfectly handles seq length</text>
+  <text x="355" y="200" class="body-txt">• Requires affine gamma &amp; beta</text>
+  <text x="355" y="235" class="badge-txt" fill="#10B981">Standard in Original Transformer</text>
+
+  <!-- RMSNorm -->
+  <rect x="650" y="40" width="280" height="220" rx="10" ry="10" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="790" y="66" class="title-txt" text-anchor="middle" fill="#C4B5FD">RMSNorm (LLaMA 3)</text>
+  <text x="665" y="95" class="body-txt">• Discards Mean calculation</text>
+  <text x="665" y="115" class="body-txt">• Only computes Root-Mean-Square</text>
+  <text x="665" y="135" class="mono-txt">RMS(x) = sqrt(sum(x^2)/d + eps)</text>
+  <text x="665" y="160" class="sub-txt">7-10% faster kernel speed</text>
+  <text x="665" y="180" class="body-txt">• Zero sacrifice in model quality</text>
+  <text x="665" y="200" class="body-txt">• Fewer memory reads in GPU</text>
+  <text x="665" y="235" class="badge-txt" fill="#C4B5FD">Modern SOTA Standard</text>
+</svg>

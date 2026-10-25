@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Spark Data Abstractions Evolution: RDD vs DataFrame vs Dataset</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Comparing schema enforcement, Catalyst optimization, memory footprint, and Python performance</text>
+
+  <!-- Column 1: RDD -->
+  <rect x="40" y="85" width="330" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#64748B" stroke-width="1.5"/>
+  <rect x="40" y="85" width="330" height="40" rx="8" fill="#0F172A" stroke="#64748B" stroke-width="1.5"/>
+  <text x="205" y="105" font-size="12" font-weight="700" fill="#94A3B8" text-anchor="middle">1. RDD (LOW-LEVEL JVM)</text>
+  <text x="205" y="119" font-size="10" font-weight="600" fill="#64748B" text-anchor="middle">Resilient Distributed Dataset (Spark 1.0)</text>
+
+  <!-- Arch Box -->
+  <rect x="55" y="140" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="160" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Data Representation</text>
+  <text x="70" y="177" font-size="10" fill="#94A3B8" text-anchor="start">• Opaque JVM objects: <tspan font-family="monospace">RDD[UserRecord]</tspan></text>
+  <text x="70" y="192" font-size="10" fill="#94A3B8" text-anchor="start">• No schema awareness; arbitrary user classes</text>
+  <text x="70" y="207" font-size="10" fill="#F87171" text-anchor="start">• Zero Catalyst optimization (opaque lambdas)</text>
+
+  <!-- Performance Box -->
+  <rect x="55" y="235" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="255" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Memory &amp; GC Profile</text>
+  <text x="70" y="272" font-size="10" fill="#CBD5E1" text-anchor="start">• Heavy JVM object headers (16-24 bytes / obj)</text>
+  <text x="70" y="287" font-size="10" fill="#F87171" text-anchor="start">• Massive Java GC churn on billion-row sets</text>
+  <text x="70" y="302" font-size="10" fill="#CBD5E1" text-anchor="start">• Boxed primitives (e.g. Integer vs raw 4 bytes)</text>
+
+  <!-- Evaluation Box -->
+  <rect x="55" y="330" width="300" height="115" rx="6" fill="#0F172A" stroke="#64748B" stroke-width="1"/>
+  <text x="70" y="350" font-size="11" font-weight="700" fill="#94A3B8" text-anchor="start">PySpark Penalty &amp; Use Cases</text>
+  <text x="70" y="370" font-size="10" fill="#F87171" text-anchor="start">✖ Extreme PySpark serialization cost (Pickle)</text>
+  <text x="70" y="388" font-size="10" fill="#CBD5E1" text-anchor="start">✔ Only use for unstructured text / custom binaries</text>
+  <text x="70" y="406" font-size="10" fill="#CBD5E1" text-anchor="start">✔ Legacy codebases requiring low-level partition ops</text>
+  <text x="70" y="428" font-size="9.5" fill="#94A3B8" text-anchor="start">Verdict: Avoid in modern data pipelines.</text>
+
+  <!-- Column 2: DataFrame -->
+  <rect x="395" y="85" width="330" height="375" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="395" y="85" width="330" height="40" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="560" y="105" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">2. DATAFRAME (RELATIONAL TABLE)</text>
+  <text x="560" y="119" font-size="10" font-weight="600" fill="#A7F3D0" text-anchor="middle">Dataset[Row] (Spark 1.3+ / 2.0+ Standard)</text>
+
+  <!-- Arch Box -->
+  <rect x="410" y="140" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="425" y="160" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Data Representation</text>
+  <text x="425" y="177" font-size="10" fill="#94A3B8" text-anchor="start">• Tabular schema with typed StructFields</text>
+  <text x="425" y="192" font-size="10" fill="#34D399" text-anchor="start">• Project Tungsten binary off-heap format</text>
+  <text x="425" y="207" font-size="10" fill="#34D399" text-anchor="start">• Full Catalyst Optimizer &amp; CBO planning</text>
+
+  <!-- Performance Box -->
+  <rect x="410" y="235" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="425" y="255" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Memory &amp; GC Profile</text>
+  <text x="425" y="272" font-size="10" fill="#CBD5E1" text-anchor="start">• Packed byte arrays bypass JVM object overhead</text>
+  <text x="425" y="287" font-size="10" fill="#34D399" text-anchor="start">• Zero Java GC pause overhead during execution</text>
+  <text x="425" y="302" font-size="10" fill="#CBD5E1" text-anchor="start">• Direct L1/L2 CPU cache line alignment (64B)</text>
+
+  <!-- Evaluation Box -->
+  <rect x="410" y="330" width="300" height="115" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="425" y="350" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">PySpark Performance &amp; Use Cases</text>
+  <text x="425" y="370" font-size="10" fill="#34D399" text-anchor="start">✔ 100% Native C++/JVM speed in Python!</text>
+  <text x="425" y="388" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Whole-Stage CodeGen compiles Java bytecode</text>
+  <text x="425" y="406" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Industry gold standard for 99% of data pipelines</text>
+  <text x="425" y="428" font-size="9.5" fill="#94A3B8" text-anchor="start">Verdict: Default choice for all ETL &amp; analytics.</text>
+
+  <!-- Column 3: Dataset -->
+  <rect x="750" y="85" width="330" height="375" rx="8" fill="#3B0764" fill-opacity="0.2" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="750" y="85" width="330" height="40" rx="8" fill="#3B0764" fill-opacity="0.8" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="915" y="105" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle">3. DATASET (TYPED OBJECTS)</text>
+  <text x="915" y="119" font-size="10" font-weight="600" fill="#E9D5FF" text-anchor="middle">Dataset[T] (Scala &amp; Java Only)</text>
+
+  <!-- Arch Box -->
+  <rect x="765" y="140" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="780" y="160" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Data Representation</text>
+  <text x="780" y="177" font-size="10" fill="#94A3B8" text-anchor="start">• Strongly typed domain case classes: <tspan font-family="monospace">Dataset[Order]</tspan></text>
+  <text x="780" y="192" font-size="10" fill="#C084FC" text-anchor="start">• Compile-time syntax AND analysis verification</text>
+  <text x="780" y="207" font-size="10" fill="#94A3B8" text-anchor="start">• Encoders convert case classes to Tungsten binary</text>
+
+  <!-- Performance Box -->
+  <rect x="765" y="235" width="300" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="780" y="255" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">Memory &amp; GC Profile</text>
+  <text x="780" y="272" font-size="10" fill="#CBD5E1" text-anchor="start">• Encoders generate direct off-heap serialization</text>
+  <text x="780" y="287" font-size="10" fill="#FBBF24" text-anchor="start">• Slight overhead when deserializing to JVM objects</text>
+  <text x="780" y="302" font-size="10" fill="#CBD5E1" text-anchor="start">• GC pauses much lower than RDD, slightly &gt; DataFrame</text>
+
+  <!-- Evaluation Box -->
+  <rect x="765" y="330" width="300" height="115" rx="6" fill="#0F172A" stroke="#C084FC" stroke-width="1"/>
+  <text x="780" y="350" font-size="11" font-weight="700" fill="#C084FC" text-anchor="start">Language Availability &amp; Use Cases</text>
+  <text x="780" y="370" font-size="10" fill="#F87171" text-anchor="start">✖ NOT AVAILABLE in Python (Python is dynamically typed)</text>
+  <text x="780" y="388" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Ideal for mission-critical Scala backend services</text>
+  <text x="780" y="406" font-size="10" fill="#F8FAFC" text-anchor="start">✔ Compile-time safety prevents typo bugs at runtime</text>
+  <text x="780" y="428" font-size="9.5" fill="#94A3B8" text-anchor="start">Verdict: Preferred for Scala engineering teams.</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="468" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="484" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Abstraction Invariant: In PySpark, always use DataFrames—they execute at native speed via Tungsten binary format, bypassing Python GIL and JVM GC overhead.</text>
+</svg>

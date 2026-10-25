@@ -1,0 +1,30 @@
+direction: right
+title: Production Caching Hazards & Hardened Defenses
+
+H1: 1. Cache Stampede (Herd) {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  cause: "Hot key expires; 10,000 threads hammer DB"
+  defense: "Redisson Distributed Lock / Probabilistic XFetch"
+}
+
+H2: 2. Cache Penetration {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  cause: "Bogus IDs bypass cache directly to DB"
+  defense: "Bloom Filter / Null Object Caching"
+}
+
+H3: 3. Cache Avalanche {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  cause: "Mass simultaneous TTL expiration"
+  defense: "Randomized TTL Jitter + Multi-AZ Cluster"
+}
+
+H4: 4. Dual-Write Inconsistency {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  cause: "Out-of-order writes between DB and Redis"
+  defense: "Delete key on update (Eviction) + CDC Debezium"
+}

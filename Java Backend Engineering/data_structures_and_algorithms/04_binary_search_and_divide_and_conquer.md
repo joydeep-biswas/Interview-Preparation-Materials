@@ -6,37 +6,9 @@ A comprehensive, production-grade guide to Binary Search, Boundary Searches, Sea
 
 ## Architectural Overview: Logarithmic Search Space & Feasibility Predicates
 
-```mermaid
-flowchart TD
-    subgraph SearchSpace ["1. Monotonic Search Space Reduction: O(log N)"]
-        direction LR
-        Low["Low Bound: L"] ---> Mid["Midpoint = L + (R - L) / 2"] ---> High["High Bound: R"]
-        Mid -.->|"Predicate Fails -> Discard Left"| NewL["New Search: [Mid + 1, R]"]
-        Mid -.->|"Predicate Holds -> Record Answer & Shrink"| NewR["New Search: [L, Mid - 1]"]
-    end
+![Monotonic Search Space & Master Theorem Recurrence Trees](assets/04_binary_search_and_divide_and_conquer/01_monotonic_search_and_divide_conquer.svg)
 
-    subgraph DivideConquer ["2. Divide and Conquer Pipeline"]
-        direction TB
-        Problem["Original Array Size N"] --> Split1["Subproblem 1: N/2"]
-        Problem --> Split2["Subproblem 2: N/2"]
-        Split1 --> Merge["Linear Merge / Partition: O(N)"]
-        Split2 --> Merge
-    end
-
-    SearchSpace --> DivideConquer
-
-    style SearchSpace fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DivideConquer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Low fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Mid fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style High fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style NewL fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style NewR fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Problem fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Split1 fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Split2 fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Merge fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_binary_search_and_divide_and_conquer/01_monotonic_search_and_divide_conquer.d2](assets/04_binary_search_and_divide_and_conquer/01_monotonic_search_and_divide_conquer.d2)
 
 ---
 

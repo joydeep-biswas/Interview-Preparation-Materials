@@ -1,0 +1,24 @@
+direction: right
+title: Write-Ahead Logging (WAL) & ACID Durability Sequence
+
+client: Client Application
+bp: Buffer Pool (RAM) {
+  dirty: "Page modified in RAM (PageLSN = 5024)"
+}
+wal_buf: WAL Ring Buffer (RAM) {
+  record: "Redo record appended with LSN 5024"
+}
+wal_disk: WAL Disk Files (NVMe) {
+  durable: "Synchronous fsync() guarantees durability"
+}
+table_disk: Data Files (Table Heap Disk)
+
+client -> bp: "1. UPDATE accounts SET balance = balance - 100"
+bp -> wal_buf: "2. Write Redo Record (LSN: 5024)"
+client -> bp: "3. COMMIT Transaction"
+bp -> wal_buf: "Flush WAL Buffer"
+wal_buf -> wal_disk: "4. fsync() to Disk"
+wal_disk -> client: "5. COMMIT Acknowledged (Durability Guaranteed)"
+bp -> table_disk: "Async Lazy Checkpointer Flush" {
+  style.stroke-dash: 4
+}

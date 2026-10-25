@@ -1,0 +1,26 @@
+direction: right
+title: 8 KB Slotted Page Physical Storage Architecture
+
+page: 8 KB Slotted Page Layout {
+  header: Page Header (24 Bytes) {
+    lsn: "pd_lsn: WAL Log Sequence Number"
+    pointers: "pd_lower (start free), pd_upper (end free)"
+  }
+  slots: Line Pointers / Slot Array {
+    direction: "Grows FORWARD from byte 24 ->"
+    slot1: "Slot 1: Offset 8096, Length 96B"
+    slot2: "Slot 2: Offset 7980, Length 116B"
+  }
+  free_space: Free Space Hole {
+    status: "Allocatable unfragmented bytes"
+    style.stroke-dash: 4
+  }
+  tuples: Heap Tuples / Records {
+    direction: "Grows BACKWARD from byte 8191 <-"
+    t1: "Tuple 1 (Byte 8096..8191)"
+    t2: "Tuple 2 (Byte 7980..8095)"
+  }
+  header -> slots: "Grows forward"
+  slots -> free_space
+  free_space -> tuples: "Grows backward"
+}

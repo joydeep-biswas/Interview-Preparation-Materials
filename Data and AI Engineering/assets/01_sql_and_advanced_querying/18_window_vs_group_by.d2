@@ -1,0 +1,10 @@
+# Windowing Paradigm vs Standard GROUP BY
+direction: right
+
+groupby: "Standard GROUP BY\n• Many-to-One collapse\n• Destroys row identity\n• Emits 1 row per key" {
+  style.stroke: "#F59E0B"
+}
+
+window: "Window Functions OVER()\n• Many-to-Many preservation\n• Retains every row identity\n• Appends analytic metric column" {
+  style.stroke: "#10B981"
+}

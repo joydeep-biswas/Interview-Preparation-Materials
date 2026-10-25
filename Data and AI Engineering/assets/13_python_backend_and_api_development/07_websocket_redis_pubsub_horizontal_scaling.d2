@@ -1,0 +1,27 @@
+direction: right
+classes: {
+  client: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  pod: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  bus: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
+
+clients: "Connected WebSocket Clients" {
+  alice: "Client Alice (Browser)" { class: client }
+  bob: "Client Bob (Mobile)" { class: client }
+}
+
+pods: "FastAPI Application Cluster" {
+  pod1: "FastAPI Pod 1\n(Manages Alice socket)" { class: pod }
+  pod2: "FastAPI Pod 2\n(Manages Bob socket)" { class: pod }
+}
+
+redis: "Distributed Message Backplane" {
+  channel: "Redis Pub/Sub\n'channel_trade' broadcast" { class: bus }
+}
+
+clients.alice <-> pods.pod1: "WebSocket"
+clients.bob <-> pods.pod2: "WebSocket"
+
+pods.pod1 -> redis.channel: "PUBLISH 'AAPL +2%'"
+redis.channel -> pods.pod1: "Broadcast"
+redis.channel -> pods.pod2: "Broadcast"

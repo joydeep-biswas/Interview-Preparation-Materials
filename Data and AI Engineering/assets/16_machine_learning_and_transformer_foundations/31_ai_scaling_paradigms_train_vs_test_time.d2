@@ -1,0 +1,9 @@
+classes: {
+  train_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  test_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+paradigms: "Two Axes of Scaling AI Intelligence" {
+  train: "1. Train-Time Compute Scaling\nScale parameters N & pretraining tokens D\nPaid ONCE by vendor ($100M+); fixed latency" { class: train_box }
+  test: "2. Test-Time Compute Scaling\nScale thinking tokens at inference time\nPaid PER-QUERY ($0.05/call); dynamic latency" { class: test_box }
+}

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Transactional Outbox Pattern: Architectural Component Layout</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Decoupling Domain Mutation from Message Publishing via PostgreSQL WAL Mining and Debezium</text>
+<rect x="40" y="110" width="240" height="320" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="125" width="180" height="20" rx="10" fill="#1e3a8a"/><text x="145" y="138" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ORDER SERVICE</text>
+<text x="160" y="165" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderApplicationService</text>
+<text x="55" y="195" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Validates order parameters</text>
+<text x="55" y="215" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Starts DB Transaction</text>
+<text x="55" y="235" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. Saves Order entity</text>
+<text x="55" y="255" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">4. Saves OutboxEvent entity</text>
+<text x="55" y="275" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">5. Commits Transaction</text>
+<text x="55" y="305" fill="#A7F3D0" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero Kafka client code!</text>
+<text x="55" y="325" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">App never talks to broker</text>
+<rect x="320" y="110" width="380" height="320" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<rect x="335" y="125" width="240" height="20" rx="10" fill="#047857"/><text x="455" y="138" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POSTGRESQL (ACID Boundary)</text>
+<text x="510" y="165" fill="#34D399" font-size="11" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Single Local Transaction Atomicity</text>
+<rect x="340" y="190" width="340" height="75" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="355" y="210" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Table: orders</text>
+<text x="355" y="228" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">id: 9042 | customer_id: 42 | total: 150.00 | status: 'CREATED'</text>
+<text x="355" y="244" fill="#94A3B8" font-size="7.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Primary business domain row</text>
+<rect x="340" y="285" width="340" height="85" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+<text x="355" y="305" fill="#FBBF24" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Table: outbox_events</text>
+<text x="355" y="323" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">id: uuid-88 | aggregate_type: 'Order' | aggregate_id: 9042</text>
+<text x="355" y="339" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">type: 'OrderCreated' | payload: '{...}' (JSONB) | created_at</text>
+<text x="355" y="355" fill="#FDE68A" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Flushed to Write-Ahead Log (WAL) simultaneously!</text>
+<rect x="740" y="110" width="300" height="320" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+<rect x="755" y="125" width="240" height="20" rx="10" fill="#78350f"/><text x="875" y="138" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CDC &amp; MESSAGING PIPELINE</text>
+<text x="890" y="165" fill="#FBBF24" font-size="11" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zero-Overhead Log Mining</text>
+<rect x="755" y="190" width="270" height="95" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+<text x="890" y="212" fill="#FDE68A" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Debezium Engine</text>
+<text x="765" y="234" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Mines PostgreSQL pg_wal directly</text>
+<text x="765" y="250" fill="#34D399" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• No DB polling (Zero query overhead!)</text>
+<text x="765" y="266" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Captures committed rows instantly</text>
+<rect x="755" y="305" width="270" height="95" rx="6" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="890" y="327" fill="#C084FC" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Topic: 'orders.events'</text>
+<text x="765" y="349" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Key = aggregate_id (Order 9042)</text>
+<text x="765" y="365" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Guarantees partition ordering</text>
+<text x="765" y="381" fill="#A7F3D0" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Subscribed by Downstream Services</text>
+<line x1="280" y1="240" x2="320" y2="240" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="700" y1="240" x2="755" y2="240" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<line x1="890" y1="285" x2="890" y2="305" stroke="#C084FC" stroke-width="2" marker-end="url(#arr-p)"/>
+<rect x="40" y="455" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="478" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Database Polling vs Debezium WAL Mining:</text>
+<text x="65" y="498" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Polling table (SELECT * FROM outbox WHERE processed = false) creates heavy table lock contention and index bloat at scale.</text>
+<text x="65" y="515" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Debezium reads the append-only WAL stream with near-zero CPU/disk overhead and guarantees strict sequential ordering per partition.</text>
+</svg>

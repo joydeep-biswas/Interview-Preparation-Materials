@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0d1527"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Node Surface Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142e2b"/>
+      <stop offset="100%" stop-color="#091d1a"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d2212"/>
+      <stop offset="100%" stop-color="#181308"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#261b3d"/>
+      <stop offset="100%" stop-color="#130c24"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b181e"/>
+      <stop offset="100%" stop-color="#1f090d"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112d38"/>
+      <stop offset="100%" stop-color="#071920"/>
+    </linearGradient>
+
+    <!-- Matched Arrow Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base Dark Card Background -->
+  <rect width="1000" height="480" rx="12" fill="url(#bg)"/>
+  <rect width="1000" height="480" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Centered Header Section -->
+  <g id="header-group">
+    <text x="500" y="32" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.3">Multi-Tiered Caching Hierarchy</text>
+    <text x="500" y="52" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Cascading Waterfall: Exact Hash Hit (~1ms) -&gt; Semantic Vector Hit (~15ms) -&gt; Model Generation (~1500ms)</text>
+  </g>
+
+  <!-- Diagram Inner Content -->
+  
+  <!-- Top: User Request -->
+  <rect x="360" y="85" width="280" height="45" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="112" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">Incoming User Prompt</text>
+
+  <!-- Arrow to Tier 1 -->
+  <path d="M 500 130 L 500 160" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Tier 1: Exact Key Cache (Redis) -->
+  <rect x="180" y="160" width="640" height="85" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="200" y="172" width="130" height="20" rx="4" fill="#059669"/>
+  <text x="265" y="186" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="700">Tier 1: Exact Match</text>
+  <text x="350" y="187" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">Redis SHA-256 Key-Value Cache (~1ms)</text>
+  <text x="200" y="210" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Normalizes whitespace, casing, system prompt hash</text>
+  <text x="200" y="228" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Hit: Returns exact cached response immediately ($0 cost, 1ms latency)</text>
+
+  <!-- Side Return for Hit -->
+  <path d="M 820 202 L 910 202" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <rect x="850" y="175" width="85" height="20" rx="4" fill="#091d1a" stroke="#34d399" stroke-width="1"/>
+  <text x="892" y="189" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9" font-weight="700">HIT: &lt; 2ms</text>
+
+  <!-- Arrow Down to Tier 2 on Miss -->
+  <path d="M 500 245 L 500 275" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <rect x="505" y="250" width="50" height="18" rx="3" fill="#1f090d"/>
+  <text x="530" y="263" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="9" font-weight="700">MISS</text>
+
+  <!-- Tier 2: Semantic Vector Cache (Qdrant / pgvector) -->
+  <rect x="180" y="275" width="640" height="85" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="200" y="287" width="135" height="20" rx="4" fill="#0284c7"/>
+  <text x="267" y="301" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="700">Tier 2: Semantic Cache</text>
+  <text x="350" y="302" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">Qdrant / pgvector Embedding Cosine Match (~15ms)</text>
+  <text x="200" y="325" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Embeds query via fast bi-encoder; checks cosine similarity &gt; 0.96</text>
+  <text x="200" y="343" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Hit: Returns semantically identical cached completion ($0 cost, 15ms latency)</text>
+
+  <!-- Side Return for Hit -->
+  <path d="M 820 317 L 910 317" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-b)"/>
+  <rect x="850" y="290" width="85" height="20" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="892" y="304" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="9" font-weight="700">HIT: &lt; 20ms</text>
+
+  <!-- Arrow Down to Tier 3 on Miss -->
+  <path d="M 500 360 L 500 390" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#arr-p)"/>
+  <rect x="505" y="365" width="50" height="18" rx="3" fill="#1f090d"/>
+  <text x="530" y="378" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="9" font-weight="700">MISS</text>
+
+  <!-- Tier 3: Model Inference &amp; Backfill -->
+  <rect x="180" y="390" width="640" height="75" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="200" y="402" width="130" height="20" rx="4" fill="#9333ea"/>
+  <text x="265" y="416" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="700">Tier 3: Full Inference</text>
+  <text x="350" y="417" fill="#c084fc" font-family="sans-serif" font-size="12" font-weight="700">Frontier Foundation LLM Generation (~1,500ms)</text>
+  <text x="200" y="440" fill="#cbd5e1" font-family="sans-serif" font-size="11">• Executes full autoregressive generation; asynchronously populates Tiers 1 &amp; 2</text>
+
+</svg>

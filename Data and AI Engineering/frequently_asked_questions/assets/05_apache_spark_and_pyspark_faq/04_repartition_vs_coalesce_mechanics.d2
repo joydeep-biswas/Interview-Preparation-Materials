@@ -1,0 +1,36 @@
+direction: right
+classes: {
+  box_amber: { style: { fill: "#111827"; stroke: "#F59E0B"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+repart: "repartition(2) from 4: Full Network Shuffle" {
+  class: box_amber
+  p1: "Part 1"
+  p2: "Part 2"
+  p3: "Part 3"
+  p4: "Part 4"
+  shuff: "Full Network Shuffle (Hash Partitioned)"
+  np1: "New Part 1"
+  np2: "New Part 2"
+  p1 -> shuff
+  p2 -> shuff
+  p3 -> shuff
+  p4 -> shuff
+  shuff -> np1
+  shuff -> np2
+}
+
+coal: "coalesce(2) from 4: Local Narrow Merge" {
+  class: box_green
+  cp1: "Part 1"
+  cp2: "Part 2"
+  cp3: "Part 3"
+  cp4: "Part 4"
+  cnp1: "New Part 1 (Merged Locally)"
+  cnp2: "New Part 2 (Merged Locally)"
+  cp1 -> cnp1
+  cp2 -> cnp1
+  cp3 -> cnp2
+  cp4 -> cnp2
+}

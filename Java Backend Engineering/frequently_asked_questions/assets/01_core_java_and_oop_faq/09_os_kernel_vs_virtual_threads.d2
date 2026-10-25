@@ -1,0 +1,24 @@
+direction: right
+
+platform: "Platform Threads (1:1 OS Model)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  os_thread: "1 Java Thread = 1 OS Thread (~1MB stack)"
+  blocking: "Blocks OS Thread on Socket I/O"
+  limit: "Starvation at ~3,000 Threads"
+}
+
+virtual_threads: "Virtual Threads (M:N Loom Model)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  user_mode: "JVM Managed (~1KB Stack on Heap)"
+  unmount: "Unmounts from Carrier on Blocking I/O"
+  scale: "Millions of Concurrent Threads"
+}
+
+platform -> virtual_threads: "Project Loom Modernization" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

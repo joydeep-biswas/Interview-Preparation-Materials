@@ -1,0 +1,31 @@
+direction: down
+title: NoSQL Database Taxonomy & Architectural Paradigms
+
+nosql: NoSQL Taxonomy {
+  shape: rectangle
+}
+
+kv: Key-Value Store {
+  examples: "Redis, AWS DynamoDB"
+  use: "Caches, Sessions, Rate Limiters"
+}
+
+doc: Document Store {
+  examples: "MongoDB, Couchbase"
+  use: "JSON Catalogs, Content Management"
+}
+
+col: Wide-Column Store {
+  examples: "Apache Cassandra, ScyllaDB, Bigtable"
+  use: "IoT Telemetry, High-Throughput Time-Series"
+}
+
+graph: Graph Database {
+  examples: "Neo4j, Amazon Neptune"
+  use: "Fraud Rings, Knowledge Graphs, Social Graphs"
+}
+
+nosql -> kv
+nosql -> doc
+nosql -> col
+nosql -> graph

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 260" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-a10lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g10lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">OLTP Change Data Capture (CDC) to Lakehouse Audit Lineage</text>
+
+  <!-- Step 1 -->
+  <rect x="25" y="75" width="160" height="135" class="card card-blue"/>
+  <text x="105" y="102" class="card-title" fill="#93C5FD">PostgreSQL OLTP</text>
+  <text x="35" y="127" class="card-body">• ACID Master</text>
+  <text x="35" y="147" class="card-body">• Writes WAL logs</text>
+  <text x="35" y="167" class="card-body">• Zero ETL queries on DB</text>
+  <text x="35" y="187" class="card-body" fill="#34D399">• Non-blocking log tap</text>
+
+  <!-- Step 2 -->
+  <rect x="215" y="75" width="170" height="135" class="card card-amber"/>
+  <text x="300" y="102" class="card-title" fill="#FDE68A">Debezium CDC</text>
+  <text x="225" y="127" class="card-body">• Reads logical decoding</text>
+  <text x="225" y="147" class="card-body">• Extracts op: c, u, d</text>
+  <text x="225" y="167" class="card-body">• Exact row before/after</text>
+  <text x="225" y="187" class="card-body">• Low replication latency</text>
+
+  <!-- Step 3 -->
+  <rect x="415" y="75" width="170" height="135" class="card card-amber"/>
+  <text x="500" y="102" class="card-title" fill="#FDE68A">Kafka Topic Bridge</text>
+  <text x="425" y="127" class="card-body">• cdc.orders.events</text>
+  <text x="425" y="147" class="card-body">• Partitioned by PK</text>
+  <text x="425" y="167" class="card-body">• Transactional producer</text>
+  <text x="425" y="187" class="card-body">• Durable replay log</text>
+
+  <!-- Step 4 -->
+  <rect x="615" y="75" width="180" height="135" class="card card-green"/>
+  <text x="705" y="102" class="card-title" fill="#6EE7B7">Spark Streaming</text>
+  <text x="625" y="127" class="card-body">• Structured streaming</text>
+  <text x="625" y="147" class="card-body">• Idempotent micro-batches</text>
+  <text x="625" y="167" class="card-body">• Exactly-once semantics</text>
+  <text x="625" y="187" class="card-body">• Writes audit checkpoint</text>
+
+  <!-- Step 5 -->
+  <rect x="825" y="65" width="210" height="70" class="card card-green"/>
+  <text x="930" y="90" class="card-title" fill="#6EE7B7">Delta Table: orders</text>
+  <text x="835" y="113" class="card-body" fill="#34D399">• MERGE INTO with latest timestamp</text>
+
+  <rect x="825" y="150" width="210" height="70" class="card card-green"/>
+  <text x="930" y="175" class="card-title" fill="#6EE7B7">Audit Lineage Table</text>
+  <text x="835" y="198" class="card-body" fill="#34D399">• batch_id, count, hash, status</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 185 142 L 215 142" class="edge edge-amber" marker-end="url(#arr-a10lk)"/>
+  <path fill="none" d="M 385 142 L 415 142" class="edge edge-amber" marker-end="url(#arr-a10lk)"/>
+  <path fill="none" d="M 585 142 L 615 142" class="edge edge-green" marker-end="url(#arr-g10lk)"/>
+
+  <!-- Spark to Sinks -->
+  <path fill="none" d="M 795 142 C 805 142, 810 100, 815 100 L 825 100" class="edge edge-green" marker-end="url(#arr-g10lk)"/>
+  <path fill="none" d="M 795 142 C 805 142, 810 185, 815 185 L 825 185" class="edge edge-green" marker-end="url(#arr-g10lk)"/>
+</svg>

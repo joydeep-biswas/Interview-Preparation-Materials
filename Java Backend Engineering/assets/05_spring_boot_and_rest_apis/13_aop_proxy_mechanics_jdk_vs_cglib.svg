@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring AOP Proxy Mechanics: JDK Dynamic Proxies vs. CGLIB</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">How Spring intercepts method calls: Client invoker, MethodInterceptor chain, JDK reflection vs CGLIB bytecode generation</text>
+<rect x="30" y="85" width="190" height="435" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="125" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client Caller</text>
+<rect x="55" y="122" width="140" height="18" rx="9" fill="#1d4ed8"/><text x="125" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">e.g. OrderController</text>
+<rect x="45" y="155" width="160" height="95" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="55" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Method Invocation</text>
+<text x="55" y="198" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">orderService.create()</text>
+<text x="55" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client holds reference</text>
+<text x="55" y="230" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">to PROXY, not target!</text>
+<rect x="45" y="265" width="160" height="110" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="55" y="288" fill="#CBD5E1" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Transparency</text>
+<text x="55" y="308" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client is completely</text>
+<text x="55" y="324" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">unaware that a proxy</text>
+<text x="55" y="340" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">intercepts the call</text>
+<text x="55" y="356" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">(Liskov substitution)</text>
+<rect x="45" y="390" width="160" height="115" rx="8" fill="#0b2a4a" stroke="#38bdf8" stroke-width="1"/>
+<text x="125" y="412" fill="#38BDF8" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Boot 2.x+</text>
+<text x="125" y="432" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Defaults to CGLIB for</text>
+<text x="125" y="448" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">all beans via</text>
+<text x="125" y="464" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">spring.aop.proxy-target</text>
+<text x="125" y="480" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">-class = true</text>
+<rect x="240" y="85" width="270" height="435" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="375" y="112" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Dynamic Proxy</text>
+<rect x="295" y="122" width="160" height="18" rx="9" fill="#047857"/><text x="375" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">JDK vs CGLIB Engine</text>
+<rect x="255" y="155" width="240" height="130" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="265" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">JDK Dynamic Proxy</text>
+<text x="265" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• java.lang.reflect.Proxy</text>
+<text x="265" y="214" fill="#FBBF24" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• REQUIRES interface: class must</text>
+<text x="265" y="228" fill="#FBBF24" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  implement OrderService interface</text>
+<text x="265" y="246" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Generated: $Proxy0 extends Proxy</text>
+<text x="265" y="260" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  implements OrderService</text>
+<text x="265" y="274" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• InvocationHandler.invoke()</text>
+<rect x="255" y="295" width="240" height="140" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="265" y="318" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">CGLIB Proxy (Bytecode Enhancer)</text>
+<text x="265" y="338" fill="#D1FAE5" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Bytecode generated at runtime via ASM</text>
+<text x="265" y="354" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Subclasses target concrete class:</text>
+<text x="265" y="370" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  OrderService$$EnhancerBySpringCGLIB</text>
+<text x="265" y="386" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• NO interface required!</text>
+<text x="265" y="402" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Caveat: Target class &amp; methods CANNOT</text>
+<text x="265" y="416" fill="#FCA5A5" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  be final (cannot subclass final class)</text>
+<rect x="530" y="85" width="240" height="435" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="650" y="112" fill="#FDE68A" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">MethodInterceptor Chain</text>
+<rect x="570" y="122" width="160" height="18" rx="9" fill="#b45309"/><text x="650" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">AOP Advice Pipeline</text>
+<rect x="545" y="155" width="210" height="75" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+<text x="555" y="178" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SecurityInterceptor</text>
+<text x="555" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@PreAuthorize check</text>
+<text x="555" y="214" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Verifies JWT SecurityContext</text>
+<rect x="545" y="240" width="210" height="85" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+<text x="555" y="263" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">TransactionInterceptor</text>
+<text x="555" y="283" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@Transactional handler</text>
+<text x="555" y="299" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Opens connection, sets autoCommit(false),</text>
+<text x="555" y="313" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">commits on return, rolls back on error</text>
+<rect x="545" y="335" width="210" height="75" rx="8" fill="#1e293b" stroke="#c084fc" stroke-width="1"/>
+<text x="555" y="358" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Custom Audit Aspect</text>
+<text x="555" y="378" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">@Around timer &amp; logging</text>
+<text x="555" y="394" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Captures execution latency</text>
+<rect x="545" y="420" width="210" height="85" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+<text x="650" y="442" fill="#CBD5E1" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">MethodInvocation.proceed()</text>
+<text x="650" y="460" fill="#94A3B8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Passes execution forward</text>
+<text x="650" y="474" fill="#94A3B8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">through chain to target bean</text>
+<rect x="790" y="85" width="220" height="435" rx="8" fill="#062e3d" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="900" y="112" fill="#22D3EE" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Target Bean Instance</text>
+<rect x="820" y="122" width="160" height="18" rx="9" fill="#0891b2"/><text x="900" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Raw Java Object</text>
+<rect x="805" y="155" width="190" height="140" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1"/>
+<text x="815" y="178" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">OrderServiceImpl</text>
+<text x="815" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Raw JVM object in heap</text>
+<text x="815" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Contains pure business logic</text>
+<text x="815" y="230" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Executes actual SQL queries</text>
+<text x="815" y="246" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">and calculations</text>
+<text x="815" y="268" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero AOP logic in target!</text>
+<rect x="805" y="310" width="190" height="120" rx="8" fill="#0e3a47" stroke="#0891b2" stroke-width="1"/>
+<text x="815" y="332" fill="#A5F3FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Return Value Unwind</text>
+<text x="815" y="352" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Result unwinds back</text>
+<text x="815" y="368" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">through interceptor chain:</text>
+<text x="815" y="386" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Audit aspect records time</text>
+<text x="815" y="400" fill="#34D399" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Tx interceptor commits DB</text>
+<text x="815" y="414" fill="#38BDF8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. Proxy returns to Controller</text>
+<line x1="220" y1="202" x2="240" y2="202" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<path d="M 495.0 202.0 L 505.0 202.0 C 518.0 202.0, 518.0 190.0, 531.0 190.0 L 545.0 190.0" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<path d="M 495.0 360.0 L 505.0 360.0 C 518.0 360.0, 518.0 280.0, 531.0 280.0 L 545.0 280.0" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<path d="M 755.0 280.0 L 765.0 280.0 C 778.0 280.0, 778.0 220.0, 791.0 220.0 L 805.0 220.0" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+</svg>

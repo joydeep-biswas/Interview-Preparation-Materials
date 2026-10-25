@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Left: FastAPI Microservices -->
+  <rect x="25" y="80" width="180" height="200" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="40" y="105" class="title-txt" fill="#93C5FD">Application Cluster</text>
+
+  <rect x="40" y="125" width="150" height="60" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="115" y="148" class="title-txt" text-anchor="middle">FastAPI Instance 1</text>
+  <text x="48" y="168" class="mono-txt" text-anchor="start">Port 8000 (Pod A)</text>
+
+  <rect x="40" y="200" width="150" height="60" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="115" y="223" class="title-txt" text-anchor="middle">FastAPI Instance 2</text>
+  <text x="48" y="243" class="mono-txt" text-anchor="start">Port 8000 (Pod B)</text>
+
+  <!-- Connectors into Caching, Postgres, Celery -->
+  <!-- Center Top: Redis Distributed Cache & Redlock -->
+  <path d="M 205 140 L 265 140 Q 280 140 280 80 L 320 80" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <rect x="320" y="40" width="280" height="85" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="460" y="66" class="title-txt" text-anchor="middle" fill="#FCA5A5">Redis Cluster / Redlock Tier</text>
+  <text x="332" y="90" class="body-txt" text-anchor="start">• Cache-aside sub-millisecond retrieval</text>
+  <text x="332" y="108" class="mono-txt" text-anchor="start">Distributed mutual exclusion (Redlock)</text>
+
+  <!-- Center Middle: PostgreSQL Primary / Read Replica -->
+  <path d="M 205 180 L 320 180" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="320" y="145" width="280" height="95" rx="10" ry="10" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="460" y="170" class="title-txt" text-anchor="middle" fill="#6EE7B7">PostgreSQL Storage Tier</text>
+  <text x="332" y="194" class="body-txt" text-anchor="start">• <tspan fill="#A7F3D0" font-weight="700">Write Master:</tspan> ACID mutations &amp; WAL</text>
+  <text x="332" y="212" class="body-txt" text-anchor="start">• <tspan fill="#38BDF8" font-weight="700">Read Replica:</tspan> Horizontal read scaling</text>
+  <text x="332" y="228" class="mono-txt" text-anchor="start">Streaming physical replication</text>
+
+  <!-- Center Bottom: Celery / RabbitMQ Worker Fleet -->
+  <path d="M 205 230 L 265 230 Q 280 230 280 290 L 320 290" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+  <rect x="320" y="260" width="280" height="80" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="460" y="284" class="title-txt" text-anchor="middle" fill="#C4B5FD">Celery Worker Fleet (RabbitMQ)</text>
+  <text x="332" y="306" class="body-txt" text-anchor="start">• Heavy async jobs (PDF parse, embeddings)</text>
+  <text x="332" y="324" class="mono-txt" text-anchor="start">prefetch_multiplier = 1 (Bounded)</text>
+
+  <!-- Right: Storage & Event Mesh Integration -->
+  <path d="M 600 190 L 670 190" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="670" y="100" width="260" height="180" rx="10" ry="10" fill="#0D1526" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="800" y="126" class="title-txt" text-anchor="middle" fill="#FDE68A">Operational Guarantees</text>
+  <text x="682" y="152" class="body-txt" text-anchor="start">• Write-through invalidation</text>
+  <text x="682" y="172" class="body-txt" text-anchor="start">• Replica lag detection (&lt; 100ms)</text>
+  <text x="682" y="192" class="body-txt" text-anchor="start">• Connection pooling via PgBouncer</text>
+  <text x="682" y="212" class="mono-txt" text-anchor="start">pool_size = 20, max_overflow = 10</text>
+  <text x="682" y="240" class="badge-txt" fill="#10B981">✓ Highly Resilient &amp; Idempotent</text>
+</svg>

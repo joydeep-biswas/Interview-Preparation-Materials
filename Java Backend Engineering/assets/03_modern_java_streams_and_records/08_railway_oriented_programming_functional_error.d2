@@ -1,0 +1,26 @@
+direction: right
+title: Functional Error Handling & Railway-Oriented Programming (ROP)
+
+SuccessTrack: Success Track (Result.success) {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  cmd: "Input OrderCommand"
+  v: "1. Validate Payload"
+  p: "2. Charge Payment"
+  k: "3. Emit Order Event"
+  resp: "HTTP 201 Created"
+  cmd -> v -> p -> k -> resp
+}
+
+FailureTrack: Failure Track (Result.failure) {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  err1: "Validation Error (400)"
+  err2: "Payment Error (422)"
+  egress: "Short-Circuit Error Egress (Bypasses Kafka & downstream)"
+  err1 -> egress
+  err2 -> egress
+}
+
+SuccessTrack.v -> FailureTrack.err1: Switch on error { style.stroke: "#EF4444" }
+SuccessTrack.p -> FailureTrack.err2: Switch on error { style.stroke: "#EF4444" }

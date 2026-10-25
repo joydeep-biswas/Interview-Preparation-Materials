@@ -1,0 +1,22 @@
+direction: right
+title: Local Cache (Caffeine) vs Distributed Cache (Redis)
+
+Local: Local Cache (Caffeine) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  pod1: "Pod 1 (Heap: Price $100)"
+  pod2: "Pod 2 (Heap: Price $90 STALE)"
+  perf: "~50ns latency; zero network"
+  issue: "Inter-node divergence"
+}
+
+Dist: Distributed Cache (Redis) {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  p1: Pod 1
+  p2: Pod 2
+  redis: Central Redis Cluster
+  p1 -> redis: Shared state
+  p2 -> redis: Shared state
+  perf: "~1ms latency; cluster-wide consistent"
+}

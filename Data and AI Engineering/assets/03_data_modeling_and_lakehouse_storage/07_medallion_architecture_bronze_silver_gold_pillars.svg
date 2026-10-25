@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Medallion Architecture: Bronze, Silver &amp; Gold Pillars</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Data Quality Progression, Processing Semantics, and Enterprise SLA Guarantees</text>
+  
+  
+    <rect x="30" y="95" width="280" height="290" rx="10" fill="#1a1209" stroke="#cd7f32" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#fed7aa" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">1. Bronze Layer (Raw Landing)</text>
+  
+    <rect x="45" y="135" width="250" height="235" rx="8" fill="#1e293b" stroke="#cd7f32" stroke-width="1.5"/>
+    <text x="170.0" y="161" fill="#fed7aa" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Raw Ingestion Invariant</text>
+    <text x="170.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Bronze: Source Fidelity Preserved</text>
+    <rect x="258" y="145" width="31" height="18" rx="9" fill="#0f172a" stroke="#cd7f32" stroke-width="1"/>
+    <text x="273.5" y="157" fill="#cd7f32" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">RAW</text>
+    <circle cx="61" cy="190" r="2" fill="#cd7f32"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Append-only streaming &amp; batch</text>
+    <circle cx="61" cy="206" r="2" fill="#cd7f32"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">100% preservation of raw format</text>
+    <circle cx="61" cy="222" r="2" fill="#cd7f32"/>
+    <text x="69" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Tolerates missing fields &amp; corruption</text>
+    <circle cx="61" cy="238" r="2" fill="#cd7f32"/>
+    <text x="69" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Audit columns: _ingested_at, _source</text>
+    <circle cx="61" cy="254" r="2" fill="#cd7f32"/>
+    <text x="69" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Partitioned by ingestion timestamp</text>
+    <circle cx="61" cy="270" r="2" fill="#cd7f32"/>
+    <text x="69" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Immutable cold storage for replay</text>
+    <circle cx="61" cy="286" r="2" fill="#cd7f32"/>
+    <text x="69" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Latency: Sub-second to minutes</text>
+
+  
+    <rect x="350" y="95" width="280" height="290" rx="10" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="366" y="117" fill="#f1f5f9" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. Silver Layer (Conformed &amp; Cleansed)</text>
+  
+    <rect x="365" y="135" width="250" height="235" rx="8" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="490.0" y="161" fill="#f1f5f9" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Conformed Invariant</text>
+    <text x="490.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Silver: Single Version of Truth</text>
+    <rect x="543" y="145" width="66" height="18" rx="9" fill="#0f172a" stroke="#94a3b8" stroke-width="1"/>
+    <text x="576.0" y="157" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CLEANSED</text>
+    <circle cx="381" cy="190" r="2" fill="#94a3b8"/>
+    <text x="389" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Deduplication via primary business keys</text>
+    <circle cx="381" cy="206" r="2" fill="#94a3b8"/>
+    <text x="389" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Schema validation &amp; strict type casting</text>
+    <circle cx="381" cy="222" r="2" fill="#94a3b8"/>
+    <text x="389" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Quarantine DLQ for malformed rows</text>
+    <circle cx="381" cy="238" r="2" fill="#94a3b8"/>
+    <text x="389" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Null replacement &amp; enum normalization</text>
+    <circle cx="381" cy="254" r="2" fill="#94a3b8"/>
+    <text x="389" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Light enrichment (lookup joins)</text>
+    <circle cx="381" cy="270" r="2" fill="#94a3b8"/>
+    <text x="389" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Idempotent MERGE / UPSERT semantics</text>
+    <circle cx="381" cy="286" r="2" fill="#94a3b8"/>
+    <text x="389" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Standardized naming across silos</text>
+
+  
+    <rect x="670" y="95" width="280" height="290" rx="10" fill="#261a05" stroke="#eab308" stroke-width="1.5"/>
+    <text x="686" y="117" fill="#fef08a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">3. Gold Layer (Business Curated)</text>
+  
+    <rect x="685" y="135" width="250" height="235" rx="8" fill="#1e293b" stroke="#eab308" stroke-width="1.5"/>
+    <text x="810.0" y="161" fill="#fef08a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Curated Mart Invariant</text>
+    <text x="810.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Gold: Analytics &amp; ML Consumption</text>
+    <rect x="870" y="145" width="59" height="18" rx="9" fill="#0f172a" stroke="#eab308" stroke-width="1"/>
+    <text x="899.5" y="157" fill="#eab308" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CURATED</text>
+    <circle cx="701" cy="190" r="2" fill="#eab308"/>
+    <text x="709" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Kimball Star &amp; Snowflake Schemas</text>
+    <circle cx="701" cy="206" r="2" fill="#eab308"/>
+    <text x="709" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Precomputed business aggregations &amp; KPIs</text>
+    <circle cx="701" cy="222" r="2" fill="#eab308"/>
+    <text x="709" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">High-speed columnar layout (Parquet)</text>
+    <circle cx="701" cy="238" r="2" fill="#eab308"/>
+    <text x="709" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Z-Order &amp; Bloom filter optimization</text>
+    <circle cx="701" cy="254" r="2" fill="#eab308"/>
+    <text x="709" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Role-based fine-grained security (RLS)</text>
+    <circle cx="701" cy="270" r="2" fill="#eab308"/>
+    <text x="709" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Sub-second query performance</text>
+    <circle cx="701" cy="286" r="2" fill="#eab308"/>
+    <text x="709" y="289" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Feeds Power BI, Tableau &amp; AI models</text>
+
+  
+    <line x1="295" y1="250" x2="365" y2="250" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-s)"/><text x="330.0" y="242" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Deduplicate &amp; Cleanse</text>
+  
+    <line x1="615" y1="250" x2="685" y2="250" stroke="#eab308" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="650.0" y="242" fill="#eab308" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Aggregate &amp; Model</text>
+
+</svg>

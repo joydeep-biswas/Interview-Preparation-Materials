@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Open/Closed Principle (OCP): Extensible Strategy Architecture</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Open for Extension, Closed for Modification via Interface Polymorphism &amp; Spring Dependency Injection</text>
+<rect x="340" y="100" width="400" height="95" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+<rect x="355" y="112" width="220" height="20" rx="10" fill="#1e3a8a"/><text x="465" y="125" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CLOSED FOR MODIFICATION</text>
+<text x="540" y="148" fill="#F8FAFC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PaymentExecutionService</text>
+<text x="365" y="170" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">private final Map&amp;lt;String, PaymentStrategy&amp;gt; strategies;</text>
+<text x="365" y="186" fill="#38BDF8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">executePayment(type, amount) -&gt; delegates to strategy</text>
+<rect x="390" y="225" width="300" height="65" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<text x="540" y="247" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;</text>
+<text x="540" y="263" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PaymentStrategy</text>
+<text x="540" y="279" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+pay(BigDecimal amount): PaymentReceipt</text>
+<line x1="540" y1="195" x2="540" y2="225" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<rect x="40" y="325" width="300" height="100" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="40" y="325" width="300" height="35" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="190" y="347" fill="#f59e0b" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CreditCardPaymentStrategy</text>
+<text x="190" y="377" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">@Component('CREDIT_CARD')</text>
+<text x="190" y="397" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tokenized card processing via Stripe SDK</text>
+<text x="190" y="413" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+pay(amount) implementation</text>
+<path d="M 190.0 325.0 L 190.0 313.5 Q 190.0 307.5 196.0 307.5 L 534.0 307.5 Q 540.0 307.5 540.0 301.5 L 540.0 290.0" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-s)"/>
+<rect x="390" y="325" width="300" height="100" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<rect x="390" y="325" width="300" height="35" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="540" y="347" fill="#06b6d4" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">UpiPaymentStrategy</text>
+<text x="540" y="377" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">@Component('UPI')</text>
+<text x="540" y="397" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Instant QR / VPA resolution via UPI gateway</text>
+<text x="540" y="413" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+pay(amount) implementation</text>
+<line x1="540" y1="325" x2="540" y2="290" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-s)"/>
+<rect x="740" y="325" width="300" height="100" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+<rect x="740" y="325" width="300" height="35" rx="8" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="890" y="347" fill="#8b5cf6" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CryptoPaymentStrategy</text>
+<text x="890" y="377" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">@Component('CRYPTO')</text>
+<text x="890" y="397" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">NEW EXTENSION: Zero changes to Service!</text>
+<text x="890" y="413" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+pay(amount) implementation</text>
+<path d="M 890.0 325.0 L 890.0 313.5 Q 890.0 307.5 884.0 307.5 L 546.0 307.5 Q 540.0 307.5 540.0 301.5 L 540.0 290.0" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-s)"/>
+<rect x="40" y="455" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="478" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Open/Closed Principle Operational Benefits:</text>
+<text x="65" y="498" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Adding Crypto payment requires creating ONE new class: CryptoPaymentStrategy implementing PaymentStrategy.</text>
+<text x="65" y="515" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• PaymentExecutionService is never modified, recompiled, or re-tested. Risk of regression in existing payment flows is ZERO.</text>
+</svg>

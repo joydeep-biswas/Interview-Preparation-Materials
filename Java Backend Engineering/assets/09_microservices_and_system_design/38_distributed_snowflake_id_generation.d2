@@ -1,0 +1,28 @@
+direction: right
+title: "Distributed Unique ID Generation: Twitter Snowflake Architecture"
+
+sign: "1 Bit
+Sign (0)" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+time: "41 Bits
+Timestamp (ms)
+69.7 Years Lifespan" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+node: "10 Bits
+Worker Node ID
+1,024 Nodes" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+seq: "12 Bits
+Sequence Number
+4,096 IDs / ms / node" {
+  style.fill: "#1e1b4b"
+  style.stroke: "#8b5cf6"
+}
+
+sign -> time -> node -> seq: "Bitwise OR Assembly into 64-bit Long"

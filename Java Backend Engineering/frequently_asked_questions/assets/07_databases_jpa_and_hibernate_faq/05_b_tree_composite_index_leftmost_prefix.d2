@@ -1,0 +1,19 @@
+direction: right
+
+index_structure: "Composite Index (A, B, C)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  order: "Sorted by A, then B, then C"
+  analogy: "Like a telephone book (Last, First, Middle)"
+}
+
+evaluation: "Query Execution Plan" {
+  style.fill: "#111827"
+  style.stroke: "#1F2937"
+  seek_ab: "WHERE A='x' AND B='y' -> INDEX SEEK O(log N)"
+  seek_a: "WHERE A='x' -> INDEX SEEK"
+  fail_b: "WHERE B='y' (missing A) -> FULL TABLE SCAN"
+  partial: "WHERE A='x' AND C='z' -> Partial Seek on A only"
+}
+
+index_structure -> evaluation: "Optimizer decisions"

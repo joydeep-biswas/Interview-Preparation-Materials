@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  loss_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  state_box: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+LossLandscape: "Loss Surface Traversal" {
+  class: loss_box
+  SGD: "Standard SGD: Oscillates wildly" { class: card_dark }
+  AdamW: "AdamW: Momentum + Adaptive Variance" { class: card_dark }
+  SGD -> AdamW
+}
+
+InternalState: "Optimizer Memory State" {
+  class: state_box
+  Theta: "Parameters: 400 MB" { class: card_dark }
+  Grad: "Gradients: 400 MB" { class: card_dark }
+  Mom1: "First Moment (m_t): 400 MB" { class: card_dark }
+  Mom2: "Second Moment (v_t): 400 MB" { class: card_dark }
+  Total: "Total: 16 Bytes / Param (FP32)" { class: card_dark }
+  Theta -> Grad -> Mom1 -> Mom2 -> Total
+}
+
+LossLandscape -> InternalState: "Optimizer Step"

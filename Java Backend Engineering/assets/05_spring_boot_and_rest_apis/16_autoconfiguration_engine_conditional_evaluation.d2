@@ -1,0 +1,40 @@
+direction: right
+title: The Auto-Configuration Engine: Conditional Evaluation Pipeline
+
+discovery: "1. Discovery & Import" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  run: "SpringApplication.run()"
+  imports: "Read AutoConfiguration.imports\n(META-INF/spring/)"
+  sort: "Topological Sort (@AutoConfigureAfter)"
+
+  run -> imports -> sort
+}
+
+eval: "2. Conditional Filter Evaluation" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  c_class: "@ConditionalOnClass(DataSource)"
+  c_missing: "@ConditionalOnMissingBean(DataSource)"
+  c_prop: "@ConditionalOnProperty(spring.datasource)"
+
+  c_class -> c_missing -> c_prop
+}
+
+outcomes: "3. Configuration Outcomes" {
+  style.fill: "#0f172a"
+  style.stroke: "#334155"
+
+  load: "All Match: Register in BeanFactory\n(HikariDataSource Bean Loaded!)" {
+    style.stroke: "#10b981"
+  }
+  skip: "Any Fail: Pruned from Context Graph\n(Zero memory overhead)" {
+    style.stroke: "#ef4444"
+  }
+}
+
+discovery.sort -> eval.c_class
+eval.c_prop -> outcomes.load: "Conditions Satisfied"
+eval.c_class -> outcomes.skip: "Missing Dependency"

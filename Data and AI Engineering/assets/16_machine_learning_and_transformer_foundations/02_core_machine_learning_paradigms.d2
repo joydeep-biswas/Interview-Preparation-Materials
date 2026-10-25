@@ -1,0 +1,11 @@
+classes: {
+  sl_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  ul_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  ssl_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+paradigms: "Core Machine Learning Paradigms" {
+  sl: "1. Supervised Learning\nPairs: (Features X, Labels Y)\nGoal: Minimize empirical risk L(f(x), y)\nExamples: Fraud scoring, sentiment, NER" { class: sl_box }
+  ul: "2. Unsupervised Learning\nData: Features X only (No labels)\nGoal: Uncover geometric manifolds & clusters\nExamples: K-Means, PCA, HDBSCAN" { class: ul_box }
+  ssl: "3. Self-Supervised Learning (SSL)\nData: Raw web corpus X\nGoal: Predict pseudo-labels from data itself\nExamples: Next-token prediction (GPT), BERT" { class: ssl_box }
+}

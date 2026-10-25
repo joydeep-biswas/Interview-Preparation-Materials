@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Decorator Pattern: Dynamic Transparent Behavior Augmentation</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Adding Cross-Cutting Encryption, Compression &amp; Metrics Without Modifying Core Implementations</text>
+<rect x="40" y="130" width="220" height="270" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="55" y="145" width="120" height="20" rx="10" fill="#1e3a8a"/><text x="115" y="158" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Client</text>
+<text x="150" y="190" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">MessageService</text>
+<text x="55" y="225" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Calls Publisher Interface:</text>
+<text x="55" y="245" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">publisher.publish(</text>
+<text x="65" y="262" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">'topic-orders', msg);</text>
+<text x="55" y="295" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client is completely unaware</text>
+<text x="55" y="315" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">that encryption is happening!</text>
+<rect x="290" y="130" width="230" height="270" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<rect x="305" y="145" width="180" height="20" rx="10" fill="#047857"/><text x="395" y="158" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Component Interface</text>
+<text x="405" y="185" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;</text>
+<text x="405" y="205" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">MessagePublisher</text>
+<rect x="302" y="235" width="206" height="60" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="405" y="260" fill="#F8FAFC" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+publish(String topic,</text>
+<text x="405" y="278" fill="#F8FAFC" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">byte[] payload): void</text>
+<text x="305" y="325" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Common contract shared by</text>
+<text x="305" y="345" fill="#6EE7B7" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">base &amp; all decorators</text>
+<rect x="550" y="130" width="250" height="270" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+<rect x="565" y="145" width="160" height="20" rx="10" fill="#78350f"/><text x="645" y="158" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Decorator Wrapper</text>
+<text x="675" y="190" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">EncryptedMessageDecorator</text>
+<text x="565" y="220" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">implements MessagePublisher</text>
+<text x="565" y="245" fill="#38BDF8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">private final MessagePublisher delegate;</text>
+<text x="565" y="270" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">public void publish(t, payload) {</text>
+<text x="575" y="288" fill="#FBBF24" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">byte[] encrypted = aesGcm(payload);</text>
+<text x="575" y="305" fill="#34D399" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">delegate.publish(t, encrypted);</text>
+<text x="565" y="322" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">}</text>
+<text x="565" y="350" fill="#6EE7B7" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Transparent behavior injection!</text>
+<rect x="830" y="130" width="210" height="270" rx="8" fill="#083344" stroke="#06b6d4" stroke-width="2"/>
+<rect x="845" y="145" width="160" height="20" rx="10" fill="#0891b2"/><text x="925" y="158" fill="#ECFEFF" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. Concrete Component</text>
+<text x="935" y="190" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">KafkaMessagePublisher</text>
+<text x="845" y="220" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">implements MessagePublisher</text>
+<text x="845" y="245" fill="#E2E8F0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Core Publishing Logic:</text>
+<text x="845" y="265" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• kafkaTemplate.send(t, p)</text>
+<text x="845" y="285" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Manages partitions &amp; acks</text>
+<text x="845" y="315" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Has zero awareness of</text>
+<text x="845" y="335" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">encryption or cryptography!</text>
+<line x1="260" y1="260" x2="290" y2="260" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<line x1="550" y1="260" x2="520" y2="260" stroke="#34D399" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arr-g)"/>
+<line x1="800" y1="260" x2="830" y2="260" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<rect x="40" y="440" width="1000" height="85" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="465" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Decorator vs Inheritance Scalability:</text>
+<text x="65" y="485" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Subclassing causes combinatorial explosion: EncryptedPublisher, CompressedPublisher, EncryptedAndCompressedPublisher (2^N classes!).</text>
+<text x="65" y="502" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Decorators compose dynamically at runtime: new MetricsDecorator(new CompressedDecorator(new EncryptedDecorator(basePublisher))).</text>
+</svg>

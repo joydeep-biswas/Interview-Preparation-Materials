@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="480" viewBox="0 0 1120 480">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1120" height="480" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Backtracking Decision Trees &amp; Bitwise Manipulation Mechanics</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Exhaustive combinatorial state space exploration with pruning guards vs hardware-level bit operations</text>
+
+  <!-- Container 1: Backtracking Decision Tree -->
+  <g transform="translate(30, 85)">
+    <rect width="520" height="355" rx="8" fill="#0B132B" stroke="#38BDF8" stroke-width="1.5"/>
+    <text x="260" y="28" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">1. BACKTRACKING DECISION TREE &amp; PRUNING GUARDS</text>
+
+    <!-- Root State [] -->
+    <rect x="220" y="55" width="80" height="36" rx="6" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+    <text x="260" y="77" font-size="12" font-weight="700" fill="#F8FAFC" text-anchor="middle">Root: []</text>
+
+    <!-- Level 1 Decisions -->
+    <rect x="50" y="135" width="115" height="36" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+    <text x="107" y="157" font-size="11" font-weight="700" fill="#A7F3D0" text-anchor="middle">Choice 1: [1]</text>
+
+    <rect x="202" y="135" width="115" height="36" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+    <text x="260" y="157" font-size="11" font-weight="700" fill="#A7F3D0" text-anchor="middle">Choice 2: [2]</text>
+
+    <rect x="355" y="135" width="115" height="36" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+    <text x="412" y="157" font-size="11" font-weight="700" fill="#A7F3D0" text-anchor="middle">Choice 3: [3]</text>
+
+    <!-- Connectors Root to Level 1 with runways -->
+    <path d="M 235 91 L 235 105 C 235 118, 107 112, 107 125 L 107 135" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 260 91 L 260 135" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 285 91 L 285 105 C 285 118, 412 112, 412 125 L 412 135" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+    <!-- Level 2: Success vs Pruned Branches -->
+    <rect x="35" y="215" width="130" height="45" rx="6" fill="#062828" stroke="#34D399" stroke-width="1.5"/>
+    <text x="100" y="235" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Valid State: [1, 2]</text>
+    <text x="100" y="250" font-size="9" fill="#94A3B8" text-anchor="middle">Add to result &amp; recurse</text>
+
+    <rect x="195" y="215" width="130" height="45" rx="6" fill="#2D0606" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="260" y="235" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">CONSTRAINT VIOLATION</text>
+    <text x="260" y="250" font-size="9.5" fill="#EF4444" font-weight="700" text-anchor="middle">PRUNED (Return Early)</text>
+
+    <rect x="355" y="215" width="130" height="45" rx="6" fill="#062828" stroke="#34D399" stroke-width="1.5"/>
+    <text x="420" y="235" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Valid State: [3, 1]</text>
+    <text x="420" y="250" font-size="9" fill="#94A3B8" text-anchor="middle">Add to result &amp; recurse</text>
+
+    <path d="M 107 171 L 107 215" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 260 171 L 260 215" fill="none" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+    <path d="M 412 171 L 412 215" fill="none" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+    <!-- Invariant Box -->
+    <rect x="35" y="280" width="450" height="60" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+    <text x="45" y="300" font-size="10" fill="#94A3B8">• State Mutation: list.add(x); backtrack(state); list.remove(list.size()-1);</text>
+    <text x="45" y="318" font-size="10" fill="#34D399">• Pruning Rule: Sort input upfront to skip duplicates: if (i &gt; start &amp;&amp; a[i] == a[i-1]) continue;</text>
+  </g>
+
+  <!-- Container 2: Bitwise Operations -->
+  <g transform="translate(570, 85)">
+    <rect width="520" height="355" rx="8" fill="#1E1035" stroke="#C084FC" stroke-width="1.5"/>
+    <text x="260" y="28" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle">2. LOW-LEVEL BITWISE MANIPULATION MECHANICS</text>
+
+    <!-- Card 1: XOR Cancellation -->
+    <rect x="35" y="55" width="450" height="85" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.2"/>
+    <text x="55" y="78" font-size="11.5" font-weight="700" fill="#38BDF8">XOR Cancellation Properties (Single Number)</text>
+    <text x="55" y="98" font-size="10.5" fill="#F8FAFC" class="code">x ^ x = 0  |  x ^ 0 = x  |  Associative &amp; Commutative</text>
+    <text x="55" y="116" font-size="10" fill="#94A3B8">• XOR-ing all numbers in array eliminates duplicates in O(N) time, O(1) space</text>
+    <text x="55" y="130" font-size="10" fill="#34D399">• Two unique elements: Partition array by lowest set bit of total_xor</text>
+
+    <!-- Card 2: Brian Kernighan -->
+    <rect x="35" y="155" width="450" height="85" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1.2"/>
+    <text x="55" y="178" font-size="11.5" font-weight="700" fill="#FBBF24">Brian Kernighan's Lowest-Bit Drop (Hamming Weight)</text>
+    <text x="55" y="198" font-size="10.5" fill="#F8FAFC" class="code">n = n &amp; (n - 1)  // Flips the lowest set bit to 0</text>
+    <text x="55" y="216" font-size="10" fill="#94A3B8">• Iterates exactly as many times as there are 1-bits (O(k) where k &lt;= 32)</text>
+    <text x="55" y="230" font-size="10" fill="#34D399">• Power of 2 Check: (n &gt; 0) &amp;&amp; ((n &amp; (n - 1)) == 0)</text>
+
+    <!-- Card 3: Bitmasking -->
+    <rect x="35" y="255" width="450" height="75" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.2"/>
+    <text x="55" y="278" font-size="11.5" font-weight="700" fill="#34D399">Bitmasking: Set / Query / Toggle Registers</text>
+    <text x="55" y="298" font-size="10" fill="#F8FAFC" class="code">Set k-th: mask | (1 &lt;&lt; k)  |  Check k-th: (mask &amp; (1 &lt;&lt; k)) != 0</text>
+    <text x="55" y="316" font-size="10" fill="#94A3B8">• Represents combinations of up to 32/64 elements inside a single integer</text>
+  </g>
+
+  <!-- Invariant Banner -->
+  <rect x="30" y="448" width="1060" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="464" font-size="10" fill="#93C5FD" font-weight="600" text-anchor="middle">Pruning &amp; Bit Invariant: Backtracking prunes branch evaluation before allocation; bit manipulation replaces HashSet lookups with single-cycle CPU bitwise instructions.</text>
+
+</svg>

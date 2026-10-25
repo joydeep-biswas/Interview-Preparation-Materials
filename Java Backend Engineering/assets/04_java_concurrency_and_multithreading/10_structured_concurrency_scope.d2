@@ -1,0 +1,29 @@
+direction: down
+title: Java 21 Structured Concurrency: StructuredTaskScope Lifecycle
+
+ParentScope: Parent Request Scope (StructuredTaskScope.ShutdownOnFailure) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  
+  T1: Subtask 1: fetchUserData() [Virtual Thread 1] {
+    style.fill: "#0F172A"
+    style.stroke: "#10B981"
+  }
+  
+  T2: Subtask 2: fetchAccountBalance() [FAILS] {
+    style.fill: "#1C1917"
+    style.stroke: "#EF4444"
+    error: "Throws TimeoutException"
+  }
+  
+  Cancel: Short-Circuit Cancellation {
+    style.fill: "#1E1B4B"
+    style.stroke: "#8B5CF6"
+    action: "Scope cancels Subtask 1 via thread interrupt"
+  }
+  
+  T2 -> Cancel: Error notifies scope { style.stroke: "#EF4444" }
+  Cancel -> T1: Automatically interrupts pending sibling { style.stroke: "#F59E0B" }
+}
+
+Guarantee: Syntactic block guarantees zero thread leaks

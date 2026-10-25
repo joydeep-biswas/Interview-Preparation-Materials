@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="560" viewBox="0 0 1180 560">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1180" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Exact Class Loading &amp; Instance Initialization Order</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Phase 1: &lt;clinit&gt; Static Lifecycle (Once) -&gt; Phase 2: &lt;init&gt; Instance Lifecycle (Per 'new')</text>
+
+  <!-- Left Container: Phase 1 Class Loading (<clinit>) -->
+  <rect x="50" y="95" width="490" height="430" rx="8" fill="#0B132B" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="50" y="95" width="490" height="35" rx="8" fill="#1E3A8A"/>
+  <text x="295" y="118" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Phase 1: Class Loading (&lt;clinit&gt;) - Runs ONCE on First Active Use</text>
+
+  <!-- Step 1 -->
+  <rect x="75" y="150" width="440" height="100" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="295" y="175" font-size="12" font-weight="700" fill="#60A5FA" text-anchor="middle">1. Superclass Static Initializers</text>
+  <text x="95" y="200" font-size="11" fill="#CBD5E1">Superclass static variable initializers run in textual order</text>
+  <text x="95" y="220" font-size="11" fill="#94A3B8">Superclass <tspan fill="#38BDF8">static { ... }</tspan> blocks executed sequentially</text>
+
+  <!-- Step 2 -->
+  <rect x="75" y="280" width="440" height="100" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="295" y="305" font-size="12" font-weight="700" fill="#60A5FA" text-anchor="middle">2. Subclass Static Initializers</text>
+  <text x="95" y="330" font-size="11" fill="#CBD5E1">Subclass static variable initializers run in textual order</text>
+  <text x="95" y="350" font-size="11" fill="#94A3B8">Subclass <tspan fill="#38BDF8">static { ... }</tspan> blocks executed sequentially</text>
+
+  <!-- Note banner -->
+  <rect x="75" y="410" width="440" height="90" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="295" y="435" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="middle">Triggers for &lt;clinit&gt; Execution:</text>
+  <text x="95" y="458" font-size="10" fill="#94A3B8">Accessing static field, invoking static method, or creating first instance</text>
+  <text x="95" y="478" font-size="10" fill="#64748B">Guaranteed thread-safe by JVM classloader initialization lock</text>
+
+  <!-- Right Container: Phase 2 Instance Instantiation (<init>) -->
+  <rect x="640" y="95" width="490" height="430" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
+  <rect x="640" y="95" width="490" height="35" rx="8" fill="#064E3B"/>
+  <text x="885" y="118" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Phase 2: Instance Instantiation (&lt;init&gt;) - Runs on Each 'new'</text>
+
+  <!-- Step 3 -->
+  <rect x="665" y="145" width="440" height="65" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.2"/>
+  <text x="885" y="170" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">3. Superclass Instance Fields &amp; { } Init Blocks</text>
+  <text x="685" y="192" font-size="10" fill="#94A3B8">Evaluated strictly in order of textual declaration in Superclass</text>
+
+  <!-- Step 4 -->
+  <rect x="665" y="235" width="440" height="65" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.2"/>
+  <text x="885" y="260" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">4. Superclass Constructor Body</text>
+  <text x="685" y="282" font-size="10" fill="#94A3B8">Statements inside Superclass constructor finish executing</text>
+
+  <!-- Step 5 -->
+  <rect x="665" y="325" width="440" height="65" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.2"/>
+  <text x="885" y="350" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">5. Subclass Instance Fields &amp; { } Init Blocks</text>
+  <text x="685" y="372" font-size="10" fill="#94A3B8">Evaluated strictly in order of textual declaration in Subclass</text>
+
+  <!-- Step 6 -->
+  <rect x="665" y="415" width="440" height="65" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.2"/>
+  <text x="885" y="440" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">6. Subclass Constructor Body</text>
+  <text x="685" y="462" font-size="10" fill="#94A3B8">Final statements inside Subclass constructor complete object creation</text>
+
+  <!-- Step 1 to Step 2 in Phase 1 -->
+  <path fill="none" d="M 295 250 L 295 280" stroke="#3B82F6" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Bridge from Phase 1 to Phase 2 -->
+  <path fill="none" d="M 540 330 L 640 330" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+  <rect x="555" y="318" width="70" height="24" rx="4" fill="#0B132B" stroke="#10B981" stroke-width="1"/>
+  <text x="590" y="334" font-size="9" font-weight="700" fill="#6EE7B7" text-anchor="middle">First 'new'</text>
+
+  <!-- Sequential Steps in Phase 2 -->
+  <path fill="none" d="M 885 210 L 885 235" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <path fill="none" d="M 885 300 L 885 325" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <path fill="none" d="M 885 390 L 885 415" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+</svg>

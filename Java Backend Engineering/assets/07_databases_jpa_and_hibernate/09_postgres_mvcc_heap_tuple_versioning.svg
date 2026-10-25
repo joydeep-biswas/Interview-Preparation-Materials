@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 560" width="1040" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="560" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL MVCC: Physical Heap Tuple Versioning &amp; HOT Chain</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tuple Headers (xmin, xmax, t_ctid), Dead Tuples, and Heap-Only Tuple (HOT) Optimization</text>
+<rect x="40" y="90" width="960" height="390" rx="10" fill="#090d16" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="60" y="105" width="300" height="24" rx="12" fill="#1e3a8a"/><text x="210" y="120" fill="#93C5FD" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL 8KB Heap Page Block (Block #0)</text>
+<rect x="70" y="145" width="410" height="200" rx="8" fill="#1a1118" stroke="#ef4444" stroke-width="1.5"/>
+<rect x="85" y="158" width="200" height="20" rx="10" fill="#7f1d1d"/><text x="185" y="171" fill="#FECACA" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tuple 1 (Dead Row Version)</text>
+<text x="85" y="198" fill="#F87171" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Header Metadata:</text>
+<text x="95" y="218" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• xmin: 100  (Created by Transaction 100)</text>
+<text x="95" y="236" fill="#FCA5A5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• xmax: 105  (Deleted/Superceded by Tx 105)</text>
+<text x="95" y="254" fill="#FBBF24" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• t_ctid: (0, 2)  -&gt; Forward pointer to Tuple 2!</text>
+<text x="95" y="272" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• infomask: HEAP_HOT_UPDATED | HEAP_XMAX_COMMITTED</text>
+<rect x="85" y="285" width="380" height="48" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="95" y="303" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">User Data Payload: id = 1, name = 'Alice', balance = 100.00</text>
+<text x="95" y="321" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Status: DEAD (Invisible to snapshots with xmin &gt; 105; Reclaimable by VACUUM)</text>
+<path d="M 480 250 L 540 250" stroke="#FBBF24" stroke-width="2.5" fill="none" marker-end="url(#arr-a)"/>
+<rect x="465" y="220" width="90" height="22" rx="4" fill="#78350f" stroke="#f59e0b" stroke-width="1"/>
+<text x="510" y="235" fill="#FDE68A" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">t_ctid HOT Chain</text>
+<rect x="560" y="145" width="410" height="200" rx="8" fill="#0b1e19" stroke="#10b981" stroke-width="1.5"/>
+<rect x="575" y="158" width="200" height="20" rx="10" fill="#064e3b"/><text x="675" y="171" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tuple 2 (Live Row Version)</text>
+<text x="575" y="198" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Header Metadata:</text>
+<text x="585" y="218" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• xmin: 105  (Created by Transaction 105)</text>
+<text x="585" y="236" fill="#6EE7B7" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• xmax: 0    (Row is currently LIVE; not deleted)</text>
+<text x="585" y="254" fill="#22D3EE" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• t_ctid: (0, 2)  -&gt; Self pointer (Latest version)</text>
+<text x="585" y="272" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• infomask: HEAP_ONLY_TUPLE (No index pointer directly to it!)</text>
+<rect x="575" y="285" width="380" height="48" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="585" y="303" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">User Data Payload: id = 1, name = 'Alice', balance = 150.00</text>
+<text x="585" y="321" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Status: LIVE (Visible to all active transactions with snapshot xmin &gt;= 105)</text>
+<rect x="70" y="360" width="900" height="100" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="90" y="382" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">HOT (Heap-Only Tuple) Optimization Mechanics:</text>
+<text x="90" y="402" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. In PostgreSQL, UPDATE is implemented as an INSERT of a new tuple version followed by setting xmax on the old tuple.</text>
+<text x="90" y="420" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. If indexed columns do NOT change and new tuple fits in the same 8KB page, PostgreSQL avoids inserting a new B+Tree index entry.</text>
+<text x="90" y="438" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. B+Tree still points to Tuple 1 ItemId; the engine follows the internal t_ctid HOT chain directly in the heap page, preventing index bloat!</text>
+<rect x="40" y="495" width="960" height="45" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="520" y="522" fill="#94A3B8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">VACUUM reclaims Dead Tuples once OldestActiveXID &gt; xmax, freeing space for new allocations without rewriting the file.</text>
+</svg>

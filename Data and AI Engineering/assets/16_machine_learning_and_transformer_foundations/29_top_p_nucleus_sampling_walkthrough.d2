@@ -1,0 +1,14 @@
+classes: {
+  step_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  keep_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  norm_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+}
+
+topp: "Top-p (Nucleus = 0.90) Sampling Walkthrough" {
+  s1: "1. Sort Tokens by Prob\nParis: 0.50, London: 0.25\nRome: 0.12, Berlin: 0.08" { class: step_box }
+  s2: "2. Cumulative Sum\nParis (0.50) -> London (0.75)\nRome (0.87) -> Berlin (0.95: Exceeded!)" { class: step_box }
+  s3: "3. Truncate Tail\nKeep Paris, London, Rome, Berlin\nDiscard Madrid (logit = -inf)" { class: keep_box }
+  s4: "4. Renormalize & Sample\nSum = 0.95; scale to 1.0" { class: norm_box }
+
+  s1 -> s2 -> s3 -> s4
+}

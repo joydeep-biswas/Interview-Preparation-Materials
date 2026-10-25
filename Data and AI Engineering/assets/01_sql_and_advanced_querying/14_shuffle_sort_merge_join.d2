@@ -1,0 +1,16 @@
+# Shuffle Sort-Merge Join (SMJ) Execution Timeline
+direction: right
+
+stage1: "Stage 1: Network Shuffle\n• Hash(Key) % P\n• All-to-All network exchange\n• Co-locates matching keys" {
+  style.stroke: "#3B82F6"
+}
+
+stage2: "Stage 2: Parallel Local Sort\n• Sorts partitions by key\n• External merge sort O(N log N)" {
+  style.stroke: "#F59E0B"
+}
+
+stage3: "Stage 3: Linear Merge\n• Two-pointer streaming cursor\n• Single linear pass O(N+M)\n• Zero RAM spill risk" {
+  style.stroke: "#10B981"
+}
+
+stage1 -> stage2 -> stage3

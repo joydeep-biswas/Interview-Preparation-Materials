@@ -1,0 +1,25 @@
+direction: down
+title: Unified Pipeline Observability Triad: Metrics, Logs & Traces
+
+exec: Pipeline Ingestion Execution {
+  run: "Run ID: run_98124 | Task: stage_orders"
+}
+
+triad: Unified Pipeline Observability Triad {
+  metrics: 1. Metrics (Prometheus / StatsD) {
+    data: "Aggregatable numbers: rows_ingested, duration_sec, lag"
+    style.stroke: "#3b82f6"
+  }
+  logs: 2. Logs (Structured JSON) {
+    data: "Contextual event breadcrumbs: run_id, partition, error traces"
+    style.stroke: "#10b981"
+  }
+  traces: 3. Traces (OpenTelemetry) {
+    data: "End-to-end distributed lifecycle spans: API -> Kafka -> Spark -> S3"
+    style.stroke: "#8b5cf6"
+  }
+}
+
+exec -> triad.metrics
+exec -> triad.logs
+exec -> triad.traces

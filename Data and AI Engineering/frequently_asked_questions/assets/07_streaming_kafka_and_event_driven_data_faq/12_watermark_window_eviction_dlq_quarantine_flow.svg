@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 360" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+      .lbl { fill: #CBD5E1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="360" fill="#0B0F19"/>
+
+  <!-- Left: Ingress & Watermark -->
+  <g transform="translate(30, 40)">
+    <rect width="320" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="160" y="30" class="title" fill="#93C5FD">Kafka Stream Ingress</text>
+    <line x1="15" y1="42" x2="305" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="15" y="55" width="290" height="42" rx="6" ry="6" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="160" y="80" class="title" font-size="11" fill="#FCD34D">Watermark: 12:30 - 15m = 12:15 PM</text>
+
+    <rect x="15" y="110" width="290" height="42" rx="6" ry="6" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+    <text x="160" y="135" class="body-txt" text-anchor="middle" fill="#A7F3D0">Event A: ts = 12:22 PM (Valid &gt;= 12:15)</text>
+
+    <rect x="15" y="160" width="290" height="42" rx="6" ry="6" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+    <text x="160" y="185" class="body-txt" text-anchor="middle" fill="#A7F3D0">Event B: ts = 12:18 PM (Valid &gt;= 12:15)</text>
+
+    <rect x="15" y="210" width="290" height="42" rx="6" ry="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="160" y="235" class="title" font-size="11" fill="#FECACA">Event C: ts = 12:08 PM (LATE! &lt; 12:15)</text>
+  </g>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 350 155 L 430 155" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <text x="390" y="145" class="lbl" fill="#6EE7B7">Valid Events</text>
+
+  <path fill="none" d="M 350 231 L 430 231 C 540 231, 620 290, 680 290" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+  <text x="470" y="275" class="lbl" fill="#FCA5A5">Dropped by Watermark</text>
+
+  <!-- Middle: State Engine (RocksDB) -->
+  <g transform="translate(430, 40)">
+    <rect width="250" height="200" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="125" y="30" class="title" fill="#6EE7B7">RocksDB State Store</text>
+    <line x1="15" y1="42" x2="235" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+
+    <rect x="15" y="55" width="220" height="50" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="125" y="78" class="title" font-size="11" fill="#A7F3D0">Window [12:15 - 12:30]</text>
+    <text x="125" y="94" class="body-txt" text-anchor="middle" fill="#A7F3D0">🟢 OPEN in RAM</text>
+
+    <rect x="15" y="125" width="220" height="55" rx="6" ry="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="125" y="148" class="title" font-size="11" fill="#FECACA">Window [12:00 - 12:15]</text>
+    <text x="125" y="165" class="body-txt" text-anchor="middle" fill="#FCA5A5">⛔ EVICTED from Memory</text>
+  </g>
+
+  <!-- Output Targets -->
+  <g transform="translate(740, 50)">
+    <rect width="250" height="110" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="125" y="32" class="title" fill="#A7F3D0">Target Delta Lake</text>
+    <line x1="15" y1="44" x2="235" y2="44" stroke="#047857" stroke-width="1.5"/>
+    <text x="20" y="70" class="body-txt" fill="#A7F3D0">• Accepts Events A &amp; B</text>
+    <text x="20" y="90" class="body-txt" fill="#A7F3D0">• Clean production metrics</text>
+  </g>
+
+  <path fill="none" d="M 680 105 L 740 105" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+  <!-- DLQ -->
+  <g transform="translate(740, 235)">
+    <rect width="250" height="100" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <text x="125" y="30" class="title" fill="#FECACA">DLQ Quarantine Sink</text>
+    <line x1="15" y1="42" x2="235" y2="42" stroke="#991B1B" stroke-width="1.5"/>
+    <text x="20" y="65" class="body-txt" fill="#FECACA">• Captures late Event C</text>
+    <text x="20" y="85" class="body-txt" fill="#FCA5A5">• Scheduled batch replay</text>
+  </g>
+</svg>

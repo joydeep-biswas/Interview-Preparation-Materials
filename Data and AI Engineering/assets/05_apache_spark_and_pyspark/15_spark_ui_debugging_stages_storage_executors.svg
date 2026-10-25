@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Spark UI Performance Diagnostics &amp; Root Cause Architecture</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Mastering the 5 Vital Spark UI Tabs for identifying data skew, memory starvation, and executor failures</text>
+
+  <!-- Top Center Hub -->
+  <rect x="380" y="85" width="360" height="40" rx="8" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="560" y="110" font-size="13" font-weight="700" fill="#38BDF8" text-anchor="middle">SPARK UI PERFORMANCE MONITORING HUB</text>
+
+  <!-- Tab 1: Jobs Tab -->
+  <rect x="40" y="145" width="320" height="145" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="145" width="320" height="32" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="200" y="166" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">1. JOBS TAB (HIGH-LEVEL ACTION TIMELINE)</text>
+
+  <text x="55" y="195" font-size="10" font-weight="600" fill="#F8FAFC" text-anchor="start">What it measures:</text>
+  <text x="55" y="212" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Action duration: total time for .count(), .write, etc.</text>
+  <text x="55" y="229" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Completed vs Failed Jobs and root failure exception</text>
+  <text x="55" y="252" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="start">Diagnostic Signal:</text>
+  <text x="55" y="269" font-size="9" fill="#CBD5E1" text-anchor="start">Pinpoints which specific Action in the code is bottlenecked.</text>
+
+  <!-- Tab 2: Stages Tab -->
+  <rect x="400" y="145" width="320" height="145" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="400" y="145" width="320" height="32" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="560" y="166" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">2. STAGES TAB (THE MOST CRITICAL TAB!)</text>
+
+  <text x="415" y="195" font-size="10" font-weight="600" fill="#F8FAFC" text-anchor="start">What it measures:</text>
+  <text x="415" y="212" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Task Metrics Table: Min / 25% / Median / 75% / Max duration</text>
+  <text x="415" y="229" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Shuffle Read / Write sizes, GC Time vs Task Run Time</text>
+  <text x="415" y="252" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Diagnostic Signal: Spot Data Skew!</text>
+  <text x="415" y="269" font-size="9" fill="#A7F3D0" text-anchor="start">If Median = 2s but Max = 45m, severe partition skew exists!</text>
+
+  <!-- Tab 3: Executors Tab -->
+  <rect x="760" y="145" width="320" height="145" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#C084FC" stroke-width="1.5"/>
+  <rect x="760" y="145" width="320" height="32" rx="8" fill="#3B0764" fill-opacity="0.8" stroke="#C084FC" stroke-width="1.5"/>
+  <text x="920" y="166" font-size="11" font-weight="700" fill="#C084FC" text-anchor="middle">3. EXECUTORS TAB (WORKER FLEET HEALTH)</text>
+
+  <text x="775" y="195" font-size="10" font-weight="600" fill="#F8FAFC" text-anchor="start">What it measures:</text>
+  <text x="775" y="212" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Task Time vs GC Time ratio (Task:GC &gt; 10:1 required)</text>
+  <text x="775" y="229" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Shuffle Spill (Memory) and Shuffle Spill (Disk)</text>
+  <text x="775" y="252" font-size="10" font-weight="700" fill="#F87171" text-anchor="start">Diagnostic Signal: OOM &amp; Starvation</text>
+  <text x="775" y="269" font-size="9" fill="#CBD5E1" text-anchor="start">Spill &gt; 0 indicates RAM starvation; dead executors = OOM kill.</text>
+
+  <!-- Tab 4: Storage Tab -->
+  <rect x="160" y="310" width="380" height="150" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="160" y="310" width="380" height="32" rx="8" fill="#78350F" fill-opacity="0.8" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="350" y="331" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">4. STORAGE TAB (CACHED RDDs &amp; DATAFRAMES)</text>
+
+  <text x="175" y="360" font-size="10" font-weight="600" fill="#F8FAFC" text-anchor="start">What it measures:</text>
+  <text x="175" y="377" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Cached RDD / DataFrame tables and Storage Levels</text>
+  <text x="175" y="394" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Fraction Cached (100% vs partial eviction)</text>
+  <text x="175" y="411" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Size in Memory vs Size on Disk (Deserialized memory footprint)</text>
+  <text x="175" y="432" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="start">Diagnostic Signal: Cache Eviction Penalty</text>
+  <text x="175" y="447" font-size="9" fill="#FDE68A" text-anchor="start">Fraction &lt; 100% forces costly partition recomputations!</text>
+
+  <!-- Tab 5: SQL Tab -->
+  <rect x="580" y="310" width="380" height="150" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#22D3EE" stroke-width="1.5"/>
+  <rect x="580" y="310" width="380" height="32" rx="8" fill="#083344" fill-opacity="0.8" stroke="#22D3EE" stroke-width="1.5"/>
+  <text x="770" y="331" font-size="11" font-weight="700" fill="#22D3EE" text-anchor="middle">5. SQL / DATAFRAME TAB (CATALYST EXECUTION)</text>
+
+  <text x="595" y="360" font-size="10" font-weight="600" fill="#F8FAFC" text-anchor="start">What it measures:</text>
+  <text x="595" y="377" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Visual Catalyst Physical Plan with operator boxes</text>
+  <text x="595" y="394" font-size="9.5" fill="#CBD5E1" text-anchor="start">• Number of output rows per operator, scan read rates</text>
+  <text x="595" y="411" font-size="9.5" fill="#CBD5E1" text-anchor="start">• WholeStageCodegen blocks (indicated by asterisk: *)</text>
+  <text x="595" y="432" font-size="10" font-weight="700" fill="#22D3EE" text-anchor="start">Diagnostic Signal: Join Strategy Verification</text>
+  <text x="595" y="447" font-size="9" fill="#A5F3FC" text-anchor="start">Confirm if BroadcastHashJoin or SortMergeJoin was chosen!</text>
+
+  <!-- Connectors from Hub to Tabs -->
+  <path d="M 420 125 L 420 130 Q 420 135 415 135 L 205 135 Q 200 135 200 140 L 200 145" fill="none" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <line x1="560" y1="125" x2="560" y2="145" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <path d="M 700 125 L 700 130 Q 700 135 705 135 L 915 135 Q 920 135 920 140 L 920 145" fill="none" stroke="#C084FC" stroke-width="1.5" marker-end="url(#arr-p)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Spark UI Invariant: The Stages tab diagnoses task-level data skew; the Executors tab identifies GC and disk spill bottlenecks; the SQL tab verifies physical join strategy selection.</text>
+</svg>

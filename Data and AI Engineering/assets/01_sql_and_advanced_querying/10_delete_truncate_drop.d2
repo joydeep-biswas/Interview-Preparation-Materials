@@ -1,0 +1,14 @@
+# DELETE vs TRUNCATE vs DROP
+direction: right
+
+delete: "DELETE (DML)\n• Row-by-row WAL logging\n• Leaves dead MVCC tuples\n• Slow; row locks" {
+  style.stroke: "#EF4444"
+}
+
+truncate: "TRUNCATE (DDL)\n• Deallocates data pages\n• Minimal WAL; resets HWM\n• Instant; table lock" {
+  style.stroke: "#3B82F6"
+}
+
+drop: "DROP (DDL)\n• Removes catalog metadata\n• Unlinks OS disk files\n• Destroys table & indexes" {
+  style.stroke: "#8B5CF6"
+}

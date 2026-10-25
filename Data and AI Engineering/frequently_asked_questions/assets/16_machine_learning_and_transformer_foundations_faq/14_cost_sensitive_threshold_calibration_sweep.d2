@@ -1,0 +1,12 @@
+direction: right
+classes: {
+  cost_box: { style: { fill: "#0D1526", stroke: "#EF4444" } }
+  sweep_box: { style: { fill: "#0D1526", stroke: "#F59E0B" } }
+  serve_box: { style: { fill: "#064E3B", stroke: "#10B981" } }
+}
+
+Matrix: "Cost Asymmetry\n• False Positive: $500\n• False Negative: $50" { class: cost_box }
+Sweep: "Threshold Sweep\n• tau = 0.50 -> $14,500\n• tau = 0.82 -> $4,200 (-71%)" { class: sweep_box }
+Deploy: "Production Serving\nDeploy tau = 0.82" { class: serve_box }
+
+Matrix -> Sweep -> Deploy

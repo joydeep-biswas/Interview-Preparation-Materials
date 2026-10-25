@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Incoming Tx -->
+  <rect x="25" y="100" width="160" height="80" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="105" y="125" class="title-txt" text-anchor="middle">Incoming Transaction</text>
+  <text x="35" y="146" class="mono-txt" text-anchor="start">Card, Amount, IP, Device</text>
+  <text x="35" y="162" class="body-txt" text-anchor="start">Sub-50ms latency SLA</text>
+
+  <path d="M 185 140 L 225 140" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Rules Engine -->
+  <polygon points="295,95 365,140 295,185 225,140" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="295" y="135" class="title-txt" text-anchor="middle">Deterministic</text>
+  <text x="295" y="151" class="sub-txt" text-anchor="middle">Blacklist?</text>
+
+  <!-- Hard Block Branch -->
+  <path d="M 295 95 L 295 65 Q 295 55 310 55 L 420 55" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <rect x="310" y="42" width="60" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="340" y="55" class="edge-txt" text-anchor="middle" fill="#EF4444">MATCH</text>
+
+  <rect x="420" y="30" width="200" height="50" rx="6" ry="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="520" y="52" class="title-txt" text-anchor="middle" fill="#FECACA">Immediate Rejection</text>
+  <text x="520" y="68" class="mono-txt" text-anchor="middle">Stolen card / sanctioned IP</text>
+
+  <!-- Pass to ML Pipeline -->
+  <path d="M 365 140 L 420 140" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="370" y="127" width="45" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="392" y="140" class="edge-txt" text-anchor="middle" fill="#10B981">PASS</text>
+
+  <!-- ML Inference Pipeline Container -->
+  <rect x="420" y="100" width="310" height="180" rx="10" ry="10" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="440" y="125" class="title-txt" fill="#6EE7B7">ML Inference Pipeline (PR-AUC Tuned)</text>
+
+  <rect x="440" y="140" width="270" height="55" rx="6" ry="6" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="450" y="162" class="title-txt" text-anchor="start">Feature Store Lookup</text>
+  <text x="450" y="180" class="mono-txt" text-anchor="start">Redis: 1h tx velocity, rolling sum</text>
+
+  <rect x="440" y="205" width="270" height="60" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="450" y="227" class="title-txt" text-anchor="start" fill="#A7F3D0">XGBoost / LightGBM Scoring</text>
+  <text x="450" y="247" class="mono-txt" text-anchor="start">Score in [0.0, 1.0] (tau = 0.85)</text>
+
+  <!-- Split into Approve vs 2FA -->
+  <path d="M 730 190 L 780 190 Q 795 190 795 145 L 810 145" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="810" y="120" width="130" height="50" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="875" y="142" class="title-txt" text-anchor="middle" fill="#A7F3D0">Approve Tx</text>
+  <text x="875" y="158" class="mono-txt" text-anchor="middle">Score &lt;= 0.85</text>
+
+  <path d="M 730 190 L 780 190 Q 795 190 795 240 L 810 240" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <rect x="810" y="215" width="130" height="50" rx="6" ry="6" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="875" y="237" class="title-txt" text-anchor="middle" fill="#FDE68A">Step-Up 2FA</text>
+  <text x="875" y="253" class="mono-txt" text-anchor="middle">Score &gt; 0.85</text>
+</svg>

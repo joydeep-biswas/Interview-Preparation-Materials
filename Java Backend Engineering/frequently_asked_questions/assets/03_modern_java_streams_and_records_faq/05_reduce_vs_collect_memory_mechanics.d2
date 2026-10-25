@@ -1,0 +1,19 @@
+direction: right
+
+reduce_model: "reduce(): Immutable Folding" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  op: "stream.reduce('', (acc, s) -> acc + s)"
+  allocation: "Allocates new object per step"
+  complexity: "O(N^2) memory copying & GC pressure"
+}
+
+collect_model: "collect(): Mutable Container" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  op: "stream.collect(StringBuilder::new, sb::append)"
+  allocation: "Mutates single container in-place"
+  complexity: "O(N) time, zero intermediate GC garbage"
+}
+
+reduce_model -> collect_model: "Immutable vs Mutable reduction trade-off"

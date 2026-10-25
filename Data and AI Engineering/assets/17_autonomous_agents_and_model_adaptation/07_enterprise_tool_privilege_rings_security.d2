@@ -1,0 +1,15 @@
+classes: {
+  r0_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+  r1_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  r2_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  r3_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+}
+
+rings: "Enterprise Tool Privilege Rings" {
+  r0: "RING 0: Safe Read-Only (Auto-Executed)\nsearch_docs(), read_sql(), get_pod_status()\nZero side-effects; auto-run" { class: r0_box }
+  r1: "RING 1: Reversible Mutations (Monitored)\ncreate_branch(), set_cache_key()\nLogged to audit ledger" { class: r1_box }
+  r2: "RING 2: Destructive / High-Privilege (Strict HITL)\nterminate_pod(), drop_table(), wire_transfer()\nHALTS execution; requires human sign-off" { class: r2_box }
+  r3: "RING 3: Forbidden Root (Hard Blocked)\nrm -rf, modify_iam(), disable_audit()\nStrictly prohibited by kernel guardrails" { class: r3_box }
+
+  r0 -> r1 -> r2 -> r3: "Escalating blast radius & governance"
+}

@@ -1,0 +1,33 @@
+direction: down
+
+ref: "Parent p = new Child();" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  desc: "Reference: Parent | Heap Object: Child"
+}
+
+static_call: "Static Binding: p.staticPrint()" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  bytecode: "invokestatic Parent.staticPrint()"
+  result: "Prints Parent staticPrint (Method Hiding)"
+}
+
+virtual_call: "Dynamic Dispatch: p.instancePrint()" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  bytecode: "invokevirtual Parent.instancePrint()"
+  result: "Prints Child instancePrint (vtable Polymorphism)"
+}
+
+ref -> static_call: "Compile-Time Type Bound" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+ref -> virtual_call: "Runtime Instance Bound" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}

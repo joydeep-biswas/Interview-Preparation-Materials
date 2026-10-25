@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1200" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1200" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="600" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Four Enterprise Caching Patterns</text>
+  <text x="600" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Cache-Aside (Lazy Loading), Read-Through, Write-Through &amp; Write-Behind (Asynchronous Write-Back)</text>
+  <line x1="40" y1="68" x2="1160" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Pattern 1: Cache-Aside -->
+  <rect x="40" y="105" width="265" height="360" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="40" y="105" width="265" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="172" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Cache-Aside (Lazy)</text>
+
+  <rect x="55" y="150" width="235" height="130" rx="6" fill="#0F172A" stroke="#0284C7" stroke-width="1"/>
+  <text x="172" y="172" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">Application Orchestrated</text>
+  <text x="65" y="195" font-size="9" fill="#CBD5E1">1. App checks Cache</text>
+  <text x="65" y="215" font-size="9" fill="#CBD5E1">2. On Miss: App reads DB</text>
+  <text x="65" y="235" font-size="9" fill="#CBD5E1">3. App writes back to Cache</text>
+  <text x="65" y="255" font-size="9" fill="#34D399">&#x2714; Only requested data is cached</text>
+
+  <rect x="55" y="295" width="235" height="155" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="65" y="320" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics:</text>
+  <text x="65" y="342" font-size="9" fill="#CBD5E1">&#x2022; Most common in Spring Boot</text>
+  <text x="65" y="360" font-size="8" font-family="'JetBrains Mono', monospace" fill="#7DD3FC">@Cacheable("users")</text>
+  <text x="65" y="382" font-size="9" fill="#CBD5E1">&#x2022; Resilient to cache crashes</text>
+  <text x="65" y="402" font-size="9" fill="#FCA5A5">&#x26A0; High latency on first cold read</text>
+  <text x="65" y="425" font-size="8" fill="#94A3B8">Stale data on direct DB writes</text>
+
+  <!-- Pattern 2: Read-Through -->
+  <rect x="330" y="105" width="265" height="360" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="330" y="105" width="265" height="30" rx="8" fill="#064E3B"/>
+  <text x="462" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. Read-Through</text>
+
+  <rect x="345" y="150" width="235" height="130" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="462" y="172" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Cache Library Orchestrated</text>
+  <text x="355" y="195" font-size="9" fill="#CBD5E1">1. App reads ONLY from Cache</text>
+  <text x="355" y="215" font-size="9" fill="#CBD5E1">2. Cache itself fetches from DB</text>
+  <text x="355" y="235" font-size="9" fill="#CBD5E1">3. Cache populates transparently</text>
+  <text x="355" y="255" font-size="9" fill="#34D399">&#x2714; App code decoupled from DB</text>
+
+  <rect x="345" y="295" width="235" height="155" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="355" y="320" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics:</text>
+  <text x="355" y="342" font-size="9" fill="#CBD5E1">&#x2022; Implemented via CacheLoader</text>
+  <text x="355" y="360" font-size="8" font-family="'JetBrains Mono', monospace" fill="#6EE7B7">LoadingCache.get(key)</text>
+  <text x="355" y="382" font-size="9" fill="#CBD5E1">&#x2022; Transparent to caller</text>
+  <text x="355" y="402" font-size="9" fill="#FDE68A">&#x2022; Synchronous on cache miss</text>
+  <text x="355" y="425" font-size="8" fill="#94A3B8">Requires data access logic in cache</text>
+
+  <!-- Pattern 3: Write-Through -->
+  <rect x="620" y="105" width="265" height="360" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="620" y="105" width="265" height="30" rx="8" fill="#78350F"/>
+  <text x="752" y="125" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">3. Write-Through</text>
+
+  <rect x="635" y="150" width="235" height="130" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+  <text x="752" y="172" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle">Synchronous Dual-Write</text>
+  <text x="645" y="195" font-size="9" fill="#CBD5E1">1. App writes data to Cache</text>
+  <text x="645" y="215" font-size="9" fill="#CBD5E1">2. Cache synchronously writes DB</text>
+  <text x="645" y="235" font-size="9" fill="#CBD5E1">3. Returns success ONLY after DB</text>
+  <text x="645" y="255" font-size="9" fill="#34D399">&#x2714; Zero staleness; cache fresh</text>
+
+  <rect x="635" y="295" width="235" height="155" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="645" y="320" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics:</text>
+  <text x="645" y="342" font-size="9" fill="#CBD5E1">&#x2022; Complete write consistency</text>
+  <text x="645" y="362" font-size="9" fill="#FCA5A5">&#x26A0; High write latency (Cache + DB)</text>
+  <text x="645" y="382" font-size="9" fill="#CBD5E1">&#x2022; Many writes never read</text>
+  <text x="645" y="405" font-size="8" fill="#FDE68A">Use: Critical transactional data</text>
+  <text x="645" y="425" font-size="8" fill="#94A3B8">where read consistency is mandatory</text>
+
+  <!-- Pattern 4: Write-Behind -->
+  <rect x="910" y="105" width="265" height="360" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="910" y="105" width="265" height="30" rx="8" fill="#4C1D95"/>
+  <text x="1042" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">4. Write-Behind (Write-Back)</text>
+
+  <rect x="925" y="150" width="235" height="130" rx="6" fill="#0F172A" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="1042" y="172" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">Asynchronous Batch Drain</text>
+  <text x="935" y="195" font-size="9" fill="#CBD5E1">1. App writes data to Cache</text>
+  <text x="935" y="215" font-size="9" fill="#CBD5E1">2. Cache ACKs immediately</text>
+  <text x="935" y="235" font-size="9" fill="#CBD5E1">3. Async worker drains to DB in batch</text>
+  <text x="935" y="255" font-size="9" fill="#34D399">&#x2714; Ultra-fast sub-millisecond writes</text>
+
+  <rect x="925" y="295" width="235" height="155" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="935" y="320" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics:</text>
+  <text x="935" y="342" font-size="9" fill="#CBD5E1">&#x2022; Write coalescing &amp; batching</text>
+  <text x="935" y="362" font-size="9" fill="#34D399">&#x2022; Huge throughput increase</text>
+  <text x="935" y="382" font-size="9" font-weight="700" fill="#EF4444">&#x26A0; Potential Data Loss Risk:</text>
+  <text x="935" y="402" font-size="8" fill="#FCA5A5">If cache crashes before async flush</text>
+  <text x="935" y="425" font-size="8" fill="#94A3B8">Use: Counters, IoT telemetry, clickstream</text>
+
+  <!-- Bottom Invariant Banner -->
+  <rect x="40" y="480" width="1135" height="25" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="607" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Trade-off Spectrum: Write-Behind prioritizes write latency over durability. Write-Through prioritizes consistency over speed. Cache-Aside balances both.</text>
+</svg>

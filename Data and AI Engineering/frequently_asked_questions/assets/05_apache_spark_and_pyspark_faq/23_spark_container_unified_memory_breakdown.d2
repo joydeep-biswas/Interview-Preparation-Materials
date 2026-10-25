@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+total: "Total Container Memory (YARN / K8s Pod)" {
+  class: box
+  style.stroke: "#3B82F6"
+  heap: "JVM Heap Memory (spark.executor.memory)" {
+    unified: "Unified Memory Pool (60%): Execution + Storage"
+    user: "User Memory (40%): UDFs, Custom Arrays"
+    res: "Reserved (300 MB): Spark Engine Core"
+  }
+  native: "Non-JVM Off-Heap Memory (spark.executor.memoryOverhead)" {
+    py: "PySpark Python Worker Daemons (CPython)"
+    off: "Tungsten Unsafe Off-Heap Memory"
+    nio: "Netty Buffers, JVM Metaspace, C++"
+  }
+}
+
+spill: "NVMe Disk Spill\nTriggered when Execution memory exceeds RAM" { class: box; style.stroke: "#F59E0B" }
+oom: "Linux OOM Killer (Signal 9 / Exit 137)\nTriggered when CPython/Overhead exceeds cgroup" { class: box; style.stroke: "#EF4444" }
+
+total.heap -> spill
+total.native -> oom

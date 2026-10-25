@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  customer: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  copilot: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  sentiment: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  desk: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+c: "Customer Shopper" { class: customer }
+ai: "AI Copilot" { class: copilot }
+s: "Sentiment Tracker" { class: sentiment }
+d: "Human Desk (Zendesk)" { class: desk }
+
+c -> ai: "1. Frustrated Complaint"
+ai -> s: "2. Check Sentiment & Refund"
+s -> ai: "Frustrated (0.92) | $450 Refund"
+ai -> d: "3. Enqueue Ticket + Context"
+ai -> c: "4. Transfer Confirmation"

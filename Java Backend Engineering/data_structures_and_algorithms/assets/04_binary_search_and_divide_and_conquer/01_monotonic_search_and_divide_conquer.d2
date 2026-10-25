@@ -1,0 +1,25 @@
+direction: right
+title: Binary Search & Divide-and-Conquer Pipeline
+
+BSearch: 1. Binary Search Space Reduction {
+  Range: "Search Space [L .. R]"
+  Mid: "Midpoint Evaluation"
+  TrueBranch: "Predicate TRUE -> R = mid - 1"
+  FalseBranch: "Predicate FALSE -> L = mid + 1"
+  Range -> Mid
+  Mid -> TrueBranch
+  Mid -> FalseBranch
+}
+
+DnC: 2. Divide and Conquer Pipeline {
+  Problem: "Problem (Size N)"
+  Sub1: "Subproblem (N/2)"
+  Sub2: "Subproblem (N/2)"
+  Base: "Base Cases (Size 1)"
+  Merge: "Combine / Merge O(N)"
+  Problem -> Sub1
+  Problem -> Sub2
+  Sub1 -> Base
+  Sub2 -> Base
+  Base -> Merge
+}

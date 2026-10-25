@@ -1,0 +1,38 @@
+direction: right
+title: Class Blueprint vs Heap Instances
+
+Blueprint: Metaspace Class Blueprint {
+  style.fill: "#0B132B"
+  style.stroke: "#1D4ED8"
+  
+  AccountClass: class Account (Loaded ONCE) {
+    fields: "accountNumber: String, balance: double"
+    methods: "deposit(), withdraw()"
+    static: "MIN_BALANCE = 50.00"
+  }
+}
+
+HeapSpace: JVM Heap Space {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  
+  Instance1: Heap Instance 1 (0x7fa810) {
+    header: "Mark Word + Klass Word"
+    accountNumber: "'ACC-001'"
+    balance: "$100.00"
+  }
+  
+  Instance2: Heap Instance 2 (0x7fa838) {
+    header: "Mark Word + Klass Word"
+    accountNumber: "'ACC-002'"
+    balance: "$500.00"
+  }
+}
+
+Blueprint -> HeapSpace.Instance1: new Account("ACC-1", $100) {
+  style.stroke: "#10B981"
+}
+
+Blueprint -> HeapSpace.Instance2: new Account("ACC-2", $500) {
+  style.stroke: "#10B981"
+}

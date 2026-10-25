@@ -1,0 +1,19 @@
+classes: {
+  pod_old: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  db_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  pod_new: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2 } }
+}
+
+old_app: "Old App Pods (v1.0)\nReads & Writes full_name" { class: pod_old }
+database: "PostgreSQL Database\nUsers Table" { class: db_box }
+new_app: "New App Pods (v2.0)\nDual-Writes full_name + display_name" { class: pod_new }
+
+phase1: "Phase 1: Expand\nADD COLUMN display_name NULLABLE\nDeploy v2.0 dual-writing pods"
+phase2: "Phase 2: Backfill\nBatched background worker UPDATE\nSyncs historical rows without locking"
+phase3: "Phase 3: Contract\nDecommission v1.0 pods\nDeploy v2.1 (reads display_name only)\nDROP COLUMN full_name"
+
+database -> phase1: "1. Expand schema"
+new_app -> phase1: "2. Dual-write"
+database -> phase2: "3. Batched UPDATE"
+new_app -> phase3: "4. Read display_name"
+database -> phase3: "5. Drop legacy column"

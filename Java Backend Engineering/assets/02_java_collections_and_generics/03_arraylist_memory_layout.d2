@@ -1,0 +1,28 @@
+direction: down
+title: ArrayList Backing Array & Geometric Resizing Architecture
+
+Buffer: Contiguous Object[] elementData {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  cells: "Index 0: 'Alpha' | Index 1: 'Bravo' | Index 2: 'Charlie' | Index 3: 'Delta' | Index 4: 'Echo'"
+  unused: "Index 5: null | Index 6: null | Index 7: null"
+  state: "size = 5 (active) | capacity = 8 (allocated buffer)"
+}
+
+Resizing: 1.5x Geometric Capacity Expansion {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  formula: "newCapacity = oldCapacity + (oldCapacity >> 1)"
+  expansion: "Growth progression: 10 -> 15 -> 22 -> 33 -> 49..."
+  copy: "Uses System.arraycopy (native SIMD memory block transfer)"
+}
+
+Proof: Amortized O(1) Complexity {
+  style.fill: "#0B132B"
+  style.stroke: "#1D4ED8"
+  work: "Total copy work for N inserts: N + N/2 + N/4... < 2N"
+  amortized: "Cost per append: 2N / N = 2 = O(1) average!"
+}
+
+Buffer -> Resizing: Triggers when size == capacity
+Resizing -> Proof

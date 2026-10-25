@@ -1,0 +1,37 @@
+direction: right
+title: Spark UI Performance Diagnostics Architecture
+
+Hub: Spark UI Diagnostic Hub {
+  style.stroke: "#38BDF8"
+}
+
+JobsTab: 1. Jobs Tab {
+  style.stroke: "#38BDF8"
+  Desc: High-level Action duration, status, and failure timeline
+}
+
+StagesTab: 2. Stages Tab {
+  style.stroke: "#34D399"
+  Desc: Min/Median/Max task durations, shuffle bytes, and task skew
+}
+
+ExecutorsTab: 3. Executors Tab {
+  style.stroke: "#C084FC"
+  Desc: Task Time vs GC Time ratio, disk spills, and lost nodes
+}
+
+StorageTab: 4. Storage Tab {
+  style.stroke: "#FBBF24"
+  Desc: Cached DataFrame fraction in memory vs disk eviction
+}
+
+SQLTab: 5. SQL / DataFrame Tab {
+  style.stroke: "#22D3EE"
+  Desc: Catalyst physical plan, WholeStageCodegen, and row counts
+}
+
+Hub -> JobsTab
+Hub -> StagesTab
+Hub -> ExecutorsTab
+Hub -> StorageTab
+Hub -> SQLTab

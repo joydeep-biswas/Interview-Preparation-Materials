@@ -1,0 +1,46 @@
+direction: right
+classes: {
+  c_blue: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  c_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  c_purple: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  c_pink: { style: { fill: "#0D1526", stroke: "#EC4899" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+Ingress: "1. Ingress & Security" {
+  class: c_blue
+  WAF: "API Gateway (Envoy/APIM)" { class: card_dark }
+  Rate: "Rate Limiter (RPM/TPM)" { class: card_dark }
+  Guard: "Input Guardrail" { class: card_dark }
+  WAF -> Rate -> Guard
+}
+
+Gateway: "2. Core LLM Gateway" {
+  class: c_green
+  Cache: "Semantic Cache (< 15ms)" { class: card_dark }
+  Router: "Dynamic Router & Fallback" { class: card_dark }
+  Cache -> Router
+}
+
+Serving: "3. Model Execution" {
+  class: c_purple
+  Primary: "Primary: GPT-4o / Claude 3.5" { class: card_dark }
+  Fallback: "Fallback: Azure OpenAI" { class: card_dark }
+  SelfHosted: "Self-Hosted: vLLM on H100s" { class: card_dark }
+}
+
+Egress: "4. Egress & Telemetry" {
+  class: c_pink
+  OutputGuard: "Output Guardrails" { class: card_dark }
+  OTel: "OTel Tracing & Spans" { class: card_dark }
+  FinOps: "FinOps & Online Eval" { class: card_dark }
+  OutputGuard -> OTel -> FinOps
+}
+
+Ingress.Guard -> Gateway.Cache
+Gateway.Router -> Serving.Primary
+Gateway.Router -> Serving.Fallback
+Gateway.Router -> Serving.SelfHosted
+Serving.Primary -> Egress.OutputGuard
+Serving.Fallback -> Egress.OutputGuard
+Serving.SelfHosted -> Egress.OutputGuard

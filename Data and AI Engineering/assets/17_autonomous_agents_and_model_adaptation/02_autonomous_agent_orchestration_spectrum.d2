@@ -1,0 +1,31 @@
+classes: {
+  chain_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  dag_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
+  agent_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+c1: "1. Linear Chain" {
+  a: "Step A: Ingest" { class: chain_box }
+  b: "Step B: Translate" { class: chain_box }
+  c: "Step C: Summarize" { class: chain_box }
+  a -> b -> c
+}
+
+c2: "2. Router / DAG Workflow" {
+  classify: "Step A: Classify Intent" { class: dag_box }
+  router: "Router (if/else)" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  billing: "Billing Branch" { class: dag_box }
+  tech: "Tech Support" { class: dag_box }
+
+  classify -> router
+  router -> billing
+  router -> tech
+}
+
+c3: "3. Autonomous Agent" {
+  goal: "Goal: Fix Issue #402" { class: agent_box }
+  core: "LLM Reasoning Core\nReAct Loop with Tools" { class: agent_box }
+  done: "Goal Completed" { class: agent_box }
+
+  goal -> core -> done
+}

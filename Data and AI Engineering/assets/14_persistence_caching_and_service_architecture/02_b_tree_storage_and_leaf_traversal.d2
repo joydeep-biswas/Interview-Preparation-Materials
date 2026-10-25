@@ -1,0 +1,44 @@
+classes: {
+  node_root: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  node_internal: { style: { fill: "#1e293b"; stroke: "#c084fc"; stroke-width: 2 } }
+  node_leaf: { style: { fill: "#1e293b"; stroke: "#4ade80"; stroke-width: 2 } }
+  heap_target: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+}
+
+root: "Root Page\n[100 | 500]" { class: node_root }
+
+internal: {
+  n1: "Internal Node A\nKeys < 100" { class: node_internal }
+  n2: "Internal Node B\n100 <= Keys < 500" { class: node_internal }
+  n3: "Internal Node C\nKeys >= 500" { class: node_internal }
+}
+
+leaves: {
+  la: "Leaf A\n[10, 25, 45]" { class: node_leaf }
+  lb: "Leaf B\n[55, 75, 95]" { class: node_leaf }
+  lc: "Leaf C\n[120, 180]" { class: node_leaf }
+  ld: "Leaf D\n[260, 350]" { class: node_leaf }
+  le: "Leaf E\n[550, 680]" { class: node_leaf }
+  lf: "Leaf F\n[760, 890]" { class: node_leaf }
+
+  la <-> lb: "Bidirectional Link"
+  lb <-> lc: "Bidirectional Link"
+  lc <-> ld: "Bidirectional Link"
+  ld <-> le: "Bidirectional Link"
+  le <-> lf: "Bidirectional Link"
+}
+
+heap: "PostgreSQL Table Heap\nTuple Storage Block" { class: heap_target }
+
+root -> internal.n1
+root -> internal.n2
+root -> internal.n3
+
+internal.n1 -> leaves.la
+internal.n1 -> leaves.lb
+internal.n2 -> leaves.lc
+internal.n2 -> leaves.ld
+internal.n3 -> leaves.le
+internal.n3 -> leaves.lf
+
+leaves.la -> heap: "ItemPointer (ctid)"

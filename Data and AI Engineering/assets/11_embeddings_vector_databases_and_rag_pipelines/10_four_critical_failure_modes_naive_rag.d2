@@ -1,0 +1,13 @@
+direction: right
+classes: {
+  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  warn: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  purp: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+f1: "1. Flawed Extraction\n(Multi-column garble & flattened tables)" { class: fail }
+f2: "2. Semantic Fragmentation\n(Fixed splits bisect critical clauses)" { class: warn }
+f3: "3. Dense Vector Blind Spots\n(Part numbers & error codes fail)" { class: purp }
+f4: "4. Lost-in-the-Middle\n(Attention dilution on middle chunks)" { class: fail }
+
+f1 -> f2 -> f3 -> f4

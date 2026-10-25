@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  inp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  slice: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  step: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+prompt: "Long User Prompt\n(4,000 tokens)" { class: inp }
+split: "Split into 4x 1,000-Token Chunks" { class: slice }
+
+pipeline: "Chunked Execution Pipeline" {
+  s1: "Iter N: Chunk 1 + Decode 32 streams" { class: step }
+  s2: "Iter N+1: Chunk 2 + Decode 32 streams" { class: step }
+  s3: "Iter N+2: Chunk 3 + Decode 32 streams" { class: step }
+  s4: "Iter N+3: Chunk 4 + Decode 32 streams" { class: step }
+
+  s1 -> s2 -> s3 -> s4
+}
+
+prompt -> split -> pipeline.s1

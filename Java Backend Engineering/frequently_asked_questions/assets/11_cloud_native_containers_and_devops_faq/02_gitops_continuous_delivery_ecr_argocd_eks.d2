@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+}
+
+phase1: "Phase 1: Continuous Integration & Verification" {
+  dev: "Developer Git Push\nCommit triggers workflow" { class: box; style.stroke: "#3B82F6" }
+  ci: "GitHub Actions CI\nBuild, JUnit & SonarQube quality gate" { class: box; style.stroke: "#3B82F6" }
+  docker: "Distroless Docker Build\nMulti-stage build & Trivy CVE scan" { class: box; style.stroke: "#3B82F6" }
+
+  dev -> ci -> docker
+}
+
+phase2: "Phase 2: GitOps & Kubernetes Delivery" {
+  ecr: "Container Registry (ECR)\nSigned immutable image tag" { class: box; style.stroke: "#10B981" }
+  argo: "ArgoCD GitOps\nReconciles target cluster state" { class: box; style.stroke: "#10B981" }
+  eks: "AWS EKS Cluster\nRolling deployment with PDB" { class: box; style.stroke: "#10B981" }
+
+  ecr -> argo -> eks
+}
+
+phase1.docker -> phase2.ecr: "Push Image"

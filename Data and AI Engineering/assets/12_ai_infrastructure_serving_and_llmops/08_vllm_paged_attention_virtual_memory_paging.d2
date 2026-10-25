@@ -1,0 +1,32 @@
+direction: right
+classes: {
+  log: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  table: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  phys: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+logical: "Logical Sequence View (Request A)" {
+  l0: "Logical Block 0 (Tokens 0-15)" { class: log }
+  l1: "Logical Block 1 (Tokens 16-31)" { class: log }
+  l2: "Logical Block 2 (Tokens 32-41)" { class: log }
+}
+
+block_table: "Page Table / Block Table" {
+  bt0: "Entry 0 -> P7" { class: table }
+  bt1: "Entry 1 -> P2" { class: table }
+  bt2: "Entry 2 -> P11" { class: table }
+}
+
+physical: "Physical GPU VRAM (Scattered Pages)" {
+  p2: "Physical Block P2" { class: phys }
+  p7: "Physical Block P7" { class: phys }
+  p11: "Physical Block P11" { class: phys }
+}
+
+logical.l0 -> block_table.bt0
+logical.l1 -> block_table.bt1
+logical.l2 -> block_table.bt2
+
+block_table.bt0 -> physical.p7
+block_table.bt1 -> physical.p2
+block_table.bt2 -> physical.p11

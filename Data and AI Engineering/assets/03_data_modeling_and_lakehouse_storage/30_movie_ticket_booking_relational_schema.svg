@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="440" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Movie Ticket Booking Engine: Relational Concurrency Schema</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Entity Relationships Supporting High-Throughput Seat Allocation and Optimistic Locking</text>
+  
+  
+    <rect x="30" y="95" width="170" height="85" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="115.0" y="121" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">THEATER</text>
+    <text x="115.0" y="137" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Complex Master</text>
+    <circle cx="46" cy="150" r="2" fill="#3b82f6"/>
+    <text x="54" y="153" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">theater_id: BIGINT [PK]</text>
+    <circle cx="46" cy="166" r="2" fill="#3b82f6"/>
+    <text x="54" y="169" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">name, city, state</text>
+  
+    <rect x="30" y="220" width="170" height="85" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="115.0" y="246" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">AUDITORIUM</text>
+    <text x="115.0" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Screen Hall</text>
+    <circle cx="46" cy="275" r="2" fill="#3b82f6"/>
+    <text x="54" y="278" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">auditorium_id: BIGINT [PK]</text>
+    <circle cx="46" cy="291" r="2" fill="#3b82f6"/>
+    <text x="54" y="294" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">theater_id: BIGINT [FK]</text>
+    <circle cx="46" cy="307" r="2" fill="#3b82f6"/>
+    <text x="54" y="310" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">screen_type: IMAX/3D</text>
+  
+    <rect x="30" y="345" width="170" height="75" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="115.0" y="371" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SEAT</text>
+    <text x="115.0" y="387" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Physical Seat</text>
+    <circle cx="46" cy="400" r="2" fill="#3b82f6"/>
+    <text x="54" y="403" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">seat_id: BIGINT [PK]</text>
+    <circle cx="46" cy="416" r="2" fill="#3b82f6"/>
+    <text x="54" y="419" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">auditorium_id: [FK]</text>
+    <circle cx="46" cy="432" r="2" fill="#3b82f6"/>
+    <text x="54" y="435" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">row_char, seat_num</text>
+
+  
+    <rect x="240" y="95" width="180" height="85" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="330.0" y="121" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MOVIE</text>
+    <text x="330.0" y="137" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Film Master</text>
+    <circle cx="256" cy="150" r="2" fill="#8b5cf6"/>
+    <text x="264" y="153" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">movie_id: BIGINT [PK]</text>
+    <circle cx="256" cy="166" r="2" fill="#8b5cf6"/>
+    <text x="264" y="169" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">title, duration_min</text>
+    <circle cx="256" cy="182" r="2" fill="#8b5cf6"/>
+    <text x="264" y="185" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">rating: PG-13/R</text>
+  
+    <rect x="240" y="220" width="180" height="100" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="330.0" y="246" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SHOWTIME</text>
+    <text x="330.0" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Event Schedule</text>
+    <circle cx="256" cy="275" r="2" fill="#8b5cf6"/>
+    <text x="264" y="278" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">showtime_id: BIGINT [PK]</text>
+    <circle cx="256" cy="291" r="2" fill="#8b5cf6"/>
+    <text x="264" y="294" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">movie_id: BIGINT [FK]</text>
+    <circle cx="256" cy="307" r="2" fill="#8b5cf6"/>
+    <text x="264" y="310" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">auditorium_id: [FK]</text>
+    <circle cx="256" cy="323" r="2" fill="#8b5cf6"/>
+    <text x="264" y="326" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">start_time, end_time</text>
+
+  
+    <rect x="460" y="150" width="260" height="200" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="590.0" y="176" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SHOW_SEAT</text>
+    <text x="590.0" y="192" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">High-Concurrency Join Entity</text>
+    <rect x="592" y="160" width="122" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="653.0" y="172" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CONCURRENCY CORE</text>
+    <circle cx="476" cy="205" r="2" fill="#f59e0b"/>
+    <text x="484" y="208" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">show_seat_id: BIGINT [PK]</text>
+    <circle cx="476" cy="221" r="2" fill="#f59e0b"/>
+    <text x="484" y="224" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">showtime_id: BIGINT [FK]</text>
+    <circle cx="476" cy="237" r="2" fill="#f59e0b"/>
+    <text x="484" y="240" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">seat_id: BIGINT [FK]</text>
+    <circle cx="476" cy="253" r="2" fill="#f59e0b"/>
+    <text x="484" y="256" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">seat_status: 'AVAILABLE'|'LOCKED'|'BOOKED'</text>
+    <circle cx="476" cy="269" r="2" fill="#f59e0b"/>
+    <text x="484" y="272" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">lock_expiration: TIMESTAMP</text>
+    <circle cx="476" cy="285" r="2" fill="#f59e0b"/>
+    <text x="484" y="288" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">booking_id: BIGINT [FK, NULLABLE]</text>
+    <circle cx="476" cy="301" r="2" fill="#f59e0b"/>
+    <text x="484" y="304" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">version: INT [Optimistic Locking Version]</text>
+
+  
+    <rect x="760" y="150" width="190" height="110" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="855.0" y="176" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">BOOKING</text>
+    <text x="855.0" y="192" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Order Header</text>
+    <circle cx="776" cy="205" r="2" fill="#10b981"/>
+    <text x="784" y="208" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">booking_id: BIGINT [PK]</text>
+    <circle cx="776" cy="221" r="2" fill="#10b981"/>
+    <text x="784" y="224" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">user_id: BIGINT [FK]</text>
+    <circle cx="776" cy="237" r="2" fill="#10b981"/>
+    <text x="784" y="240" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">total_amount: DECIMAL</text>
+    <circle cx="776" cy="253" r="2" fill="#10b981"/>
+    <text x="784" y="256" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">booking_status: VARCHAR</text>
+  
+    <rect x="760" y="300" width="190" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="855.0" y="326" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">USER</text>
+    <text x="855.0" y="342" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Customer Account</text>
+    <circle cx="776" cy="355" r="2" fill="#10b981"/>
+    <text x="784" y="358" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">user_id: BIGINT [PK]</text>
+    <circle cx="776" cy="371" r="2" fill="#10b981"/>
+    <text x="784" y="374" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">email, full_name, phone</text>
+
+  
+    <line x1="115" y1="180" x2="115" y2="220" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="115.0" y="192.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">contains</text>
+  
+    <line x1="115" y1="305" x2="115" y2="345" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="115.0" y="317.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">has</text>
+  
+    <line x1="330" y1="180" x2="330" y2="220" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="330.0" y="192.0" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">schedules</text>
+  
+    <line x1="200" y1="262" x2="240" y2="262" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="220.0" y="254.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">hosts</text>
+  
+    <line x1="420" y1="270" x2="460" y2="270" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="440.0" y="262.0" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">allocates</text>
+  
+    <path d="M 200.0 382.0 L 210.0 382.0 C 328.0 382.0, 328.0 300.0, 446.0 300.0 L 460.0 300.0" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="330.0" y="333.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">seat FK</text>
+  
+    <line x1="760" y1="205" x2="720" y2="205" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="740.0" y="197.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">reserves</text>
+  
+    <line x1="855" y1="300" x2="855" y2="260" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="855.0" y="272.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">places</text>
+
+</svg>

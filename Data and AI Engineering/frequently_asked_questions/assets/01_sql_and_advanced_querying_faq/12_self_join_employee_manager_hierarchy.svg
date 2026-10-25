@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 300" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-b12s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g12s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="460" y="32" class="title-text">Self-Join: Employee vs Manager Salary Evaluation</text>
+
+  <!-- Left: Employee (e) -->
+  <rect x="40" y="60" width="230" height="95" class="card card-blue"/>
+  <text x="155" y="85" class="card-title" fill="#93C5FD">Employee Instance (e)</text>
+  <text x="55" y="110" class="card-body">• ID: 1, Name: 'Joe'</text>
+  <text x="55" y="128" class="card-body">• Salary: $80,000 | manager_id: 2</text>
+
+  <!-- Left: Manager (m) -->
+  <rect x="40" y="175" width="230" height="95" class="card card-blue"/>
+  <text x="155" y="200" class="card-title" fill="#93C5FD">Manager Instance (m)</text>
+  <text x="55" y="225" class="card-body">• ID: 2, Name: 'Henry'</text>
+  <text x="55" y="243" class="card-body">• Salary: $70,000</text>
+
+  <!-- Center: Join & Compare -->
+  <rect x="330" y="105" width="240" height="120" class="card card-amber"/>
+  <text x="450" y="132" class="card-title" fill="#FDE68A">Self-Join &amp; Predicate</text>
+  <text x="345" y="157" class="card-body" font-family="monospace">ON e.manager_id = m.id</text>
+  <text x="345" y="177" class="card-body" font-family="monospace">WHERE e.salary &gt; m.salary</text>
+  <text x="345" y="200" class="card-body">• 80,000 &gt; 70,000 -> TRUE</text>
+
+  <!-- Right: Result -->
+  <rect x="630" y="105" width="250" height="120" class="card card-green"/>
+  <text x="755" y="132" class="card-title" fill="#6EE7B7">Employee: Joe (Flagged!)</text>
+  <text x="645" y="157" class="card-body">• Joe earns more than manager</text>
+  <text x="645" y="177" class="card-body">• Delta: +$10,000 salary advantage</text>
+  <text x="645" y="200" class="card-body" fill="#34D399">• Emitted to final result set</text>
+
+  <!-- Connectors with straight runways -->
+  <!-- Top Left to Center: exit 270,107 -> curve -> enter 330,145 with runway dx>=14 -->
+  <path fill="none" d="M 270 107 C 295 107, 305 145, 316 145 L 330 145" class="edge edge-blue" marker-end="url(#arr-b12s)"/>
+
+  <!-- Bottom Left to Center: exit 270,222 -> curve -> enter 330,185 with runway dx>=14 -->
+  <path fill="none" d="M 270 222 C 295 222, 305 185, 316 185 L 330 185" class="edge edge-blue" marker-end="url(#arr-b12s)"/>
+
+  <!-- Center to Right: horizontal straight -->
+  <path fill="none" d="M 570 165 L 630 165" class="edge edge-green" marker-end="url(#arr-g12s)"/>
+</svg>

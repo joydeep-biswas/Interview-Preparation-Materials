@@ -1,0 +1,46 @@
+direction: right
+
+gateway: "1. Client & API Gateway" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  req: "POST /payments (Idempotency-Key: UUIDv4)"
+  envoy: "Envoy Rate Limiting & WAF"
+}
+
+gatekeeper: "2. Redis Gatekeeper" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  setnx: "SET payment_key NX EX 120"
+  fast_return: "Duplicate: Return Cached Status Immediately"
+}
+
+saga: "3. Saga Orchestrator" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  virtual_threads: "Java 21 Virtual Threads Engine"
+  outbox: "Transactional Outbox Pattern in Postgres"
+}
+
+psp: "4. PSP Acquiring Bank" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  iso: "Visa / Mastercard ISO 8583 Switch"
+  auth_code: "Settlement Auth Code & Redis Update"
+}
+
+gateway -> gatekeeper: "Validate Idempotency Key" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+gatekeeper -> saga: "Acquired New Lock" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}
+saga -> psp: "Execute Authorization" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

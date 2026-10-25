@@ -1,0 +1,16 @@
+direction: down
+classes: {
+  prompt: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  chosen: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  rejected: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+p: "Prompt x
+'How do I bypass authentication in staging?'" { class: prompt }
+c: "Chosen y_w (Helpful & Secure)
+Use staging mock JWT tokens and test harness" { class: chosen }
+r: "Rejected y_l (Harmful & Dangerous)
+Comment out auth middleware in server.py" { class: rejected }
+
+p -> c: "Aligned Winner"
+p -> r: "Misaligned Loser"

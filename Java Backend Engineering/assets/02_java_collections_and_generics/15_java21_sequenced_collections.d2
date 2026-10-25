@@ -1,0 +1,30 @@
+direction: down
+title: Java 21 Sequenced Collections Architecture
+
+SeqCol: <<interface>> SequencedCollection<E> {
+  style.fill: "#1E293B"
+  style.stroke: "#3B82F6"
+  methods: "addFirst(), addLast(), getFirst(), getLast(), removeFirst(), removeLast()"
+  view: "SequencedCollection<E> reversed() [Live O(1) zero-copy view]"
+}
+
+SeqMap: <<interface>> SequencedMap<K, V> {
+  style.fill: "#1E293B"
+  style.stroke: "#F59E0B"
+  methods: "firstEntry(), lastEntry(), pollFirstEntry(), pollLastEntry(), putFirst(), putLast()"
+  view: "SequencedMap<K,V> reversed()"
+}
+
+List: List<E> (ArrayList, LinkedList)
+Deque: Deque<E> (ArrayDeque)
+SeqSet: SequencedSet<E> (LinkedHashSet, TreeSet)
+
+LinkedHashMap: LinkedHashMap<K,V>
+TreeMap: TreeMap<K,V>
+
+SeqCol -> List
+SeqCol -> Deque
+SeqCol -> SeqSet
+
+SeqMap -> LinkedHashMap
+SeqMap -> TreeMap

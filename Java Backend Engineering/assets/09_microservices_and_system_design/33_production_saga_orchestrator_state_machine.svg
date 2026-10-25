@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 580" width="1080" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Production Saga Orchestrator: State Machine &amp; Compensation Rollback</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Guaranteed Eventual Consistency across Microservices with Forward Execution and Backward Recovery</text>
+<rect x="40" y="120" width="175" height="110" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="40" y="120" width="175" height="30" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="127" y="140" fill="#3b82f6" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. SAGA_STARTED</text>
+<text x="50" y="168" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Client submits order</text>
+<text x="50" y="183" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Creates SagaLog record</text>
+<text x="50" y="198" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Initializes correlationId</text>
+<line x1="215" y1="175" x2="245" y2="175" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="245" y="120" width="175" height="110" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<rect x="245" y="120" width="175" height="30" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="332" y="140" fill="#06b6d4" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. ORDER_PENDING</text>
+<text x="255" y="168" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Order row inserted</text>
+<text x="255" y="183" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Status: PENDING</text>
+<text x="255" y="198" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Sends Charge command</text>
+<line x1="420" y1="175" x2="450" y2="175" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="450" y="120" width="175" height="110" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<rect x="450" y="120" width="175" height="30" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="537" y="140" fill="#10b981" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. PAYMENT_AUTH</text>
+<text x="460" y="168" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Funds captured in Stripe</text>
+<text x="460" y="183" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Ledger entry recorded</text>
+<text x="460" y="198" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Sends Reserve command</text>
+<line x1="625" y1="175" x2="655" y2="175" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="655" y="120" width="175" height="110" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="655" y="120" width="175" height="30" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="742" y="140" fill="#f59e0b" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. INVENTORY_OK</text>
+<text x="665" y="168" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Stock reserved in bin</text>
+<text x="665" y="183" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Sends Ship command</text>
+<text x="665" y="198" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Awaits final dispatch</text>
+<line x1="830" y1="175" x2="860" y2="175" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="860" y="120" width="175" height="110" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+<rect x="860" y="120" width="175" height="30" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.5"/>
+<text x="947" y="140" fill="#34d399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">5. COMPLETED</text>
+<text x="870" y="168" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Order marked ACTIVE</text>
+<text x="870" y="183" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• TERMINAL SUCCESS</text>
+<text x="870" y="198" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Audit event emitted</text>
+<rect x="540" y="245" width="200" height="32" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="640" y="265" fill="#FECACA" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stock Out / Warehouse Error!</text>
+<path d="M 740.0 230.0 L 740.0 233.8 Q 740.0 237.5 736.2 237.5 L 643.8 237.5 Q 640.0 237.5 640.0 241.2 L 640.0 245.0" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+<rect x="655" y="300" width="175" height="110" rx="8" fill="#1a1118" stroke="#ef4444" stroke-width="1.5"/>
+<rect x="655" y="300" width="175" height="30" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="742" y="320" fill="#ef4444" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">COMPENSATING_PAYMENT</text>
+<text x="665" y="348" fill="#FECACA" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Invokes RefundPayment API</text>
+<text x="665" y="363" fill="#FECACA" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Reverses Stripe auth</text>
+<text x="665" y="378" fill="#FECACA" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Status: REFUNDED</text>
+<rect x="450" y="300" width="175" height="110" rx="8" fill="#1a1118" stroke="#ef4444" stroke-width="1.5"/>
+<rect x="450" y="300" width="175" height="30" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="537" y="320" fill="#ef4444" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">COMPENSATING_ORDER</text>
+<text x="460" y="348" fill="#FECACA" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Marks order CANCELLED</text>
+<text x="460" y="363" fill="#FECACA" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cleans up pending reservation</text>
+<text x="460" y="378" fill="#FECACA" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Emits OrderCancelledEvent</text>
+<rect x="245" y="300" width="175" height="110" rx="8" fill="#1a1118" stroke="#7f1d1d" stroke-width="1.5"/>
+<rect x="245" y="300" width="175" height="30" rx="8" fill="#0f172a" stroke="#7f1d1d" stroke-width="1.5"/>
+<text x="332" y="320" fill="#7f1d1d" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SAGA_FAILED (Terminal)</text>
+<text x="255" y="348" fill="#FECACA" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• All compensations completed</text>
+<text x="255" y="363" fill="#FECACA" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Consistent baseline restored</text>
+<text x="255" y="378" fill="#FECACA" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• User notified: Out of Stock</text>
+<path d="M 640.0 277.0 L 640.0 282.8 Q 640.0 288.5 645.8 288.5 L 734.2 288.5 Q 740.0 288.5 740.0 294.2 L 740.0 300.0" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+<line x1="655" y1="355" x2="625" y2="355" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+<line x1="450" y1="355" x2="420" y2="355" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+<rect x="40" y="445" width="1000" height="95" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="470" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Saga Compensation Invariants (ACID vs BASE):</text>
+<text x="65" y="490" fill="#FDE68A" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• No Isolation ('I' in ACID): Sagas lack database isolation; uncommitted saga states are visible to other transactions (Dirty Reads).</text>
+<text x="65" y="506" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Compensations Must Be Idempotent: Network retries may invoke refund() twice. Compensation methods MUST handle repeated calls cleanly.</text>
+<text x="65" y="522" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Forward Recovery vs Backward Recovery: In payment authorization failures, we backward-recover (rollback). In shipping network stalls, we forward-retry.</text>
+</svg>

@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+sources: "Disparate Upstream Feeds" {
+  class: box
+  style.stroke: "#3B82F6"
+  erp: "ERP: ID 101 | Addr: New York | Priority: 1"
+  crm: "CRM: ID 101 | Addr: Boston   | Priority: 2"
+}
+
+union_node: "Unified Staging\nunionByName(allowMissingColumns=True)" { class: box; style.stroke: "#F59E0B" }
+
+rank_node: "Window Ranking Resolution\nROW_NUMBER() OVER (\nPARTITION BY customer_id\nORDER BY source_priority ASC, updated_at DESC)" {
+  class: box
+  style.stroke: "#10B981"
+}
+
+winner: "Golden Master Record\nWinner: ERP Record 101 (Priority 1 wins over newer CRM)" { class: box; style.stroke: "#10B981" }
+
+sources -> union_node -> rank_node -> winner

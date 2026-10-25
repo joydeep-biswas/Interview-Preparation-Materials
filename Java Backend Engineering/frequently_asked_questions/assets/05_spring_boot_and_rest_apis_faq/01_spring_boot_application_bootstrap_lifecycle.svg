@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Spring Boot Application Bootstrap &amp; Startup Lifecycle</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Step-by-step progression from SpringApplication.run() to ApplicationReadyEvent</text>
+
+  <!-- Step 1: Bootstrap & Environment -->
+  <g transform="translate(40, 75)">
+    <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="110" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">1. Environment Prep</text>
+
+    <rect x="15" y="45" width="190" height="65" rx="6" ry="6" fill="#1E293B"/>
+    <text x="95" y="66" class="badge" fill="#93C5FD" text-anchor="middle">SpringApplication.run()</text>
+    <text x="25" y="86" class="card-body" font-family="monospace">StopWatch start()</text>
+    <text x="25" y="100" class="card-body">Deduce web app type</text>
+
+    <rect x="15" y="120" width="190" height="110" rx="6" ry="6" fill="#1E293B" stroke="#3B82F6"/>
+    <text x="95" y="142" class="badge" fill="#60A5FA" text-anchor="middle">StandardEnvironment</text>
+    <text x="20" y="164" class="card-body">• Load application.yml</text>
+    <text x="20" y="180" class="card-body">• Resolve active profiles</text>
+    <text x="20" y="196" class="card-body">• Bind CLI args &amp; OS env</text>
+    <text x="20" y="214" class="badge" fill="#34D399">• PropertySources loaded</text>
+
+    <rect x="15" y="245" width="190" height="90" rx="6" ry="6" fill="#0F172A"/>
+    <text x="95" y="268" class="badge" fill="#93C5FD" text-anchor="middle">Listener Notification</text>
+    <text x="20" y="290" class="card-body">SpringApplicationRun-</text>
+    <text x="20" y="306" class="card-body">Listeners multicast</text>
+    <text x="20" y="322" class="card-body">environmentPrepared</text>
+  </g>
+
+  <!-- Step 2: Context Creation -->
+  <g transform="translate(290, 75)">
+    <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#92400E"/>
+    <text x="115" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">2. Context Creation</text>
+
+    <rect x="15" y="45" width="200" height="85" rx="6" ry="6" fill="#1E293B"/>
+    <text x="100" y="66" class="badge" fill="#FDE68A" text-anchor="middle">Instantiate Context</text>
+    <text x="15" y="88" class="card-body" font-family="monospace">AnnotationConfigServlet-</text>
+    <text x="15" y="104" class="card-body" font-family="monospace">WebServerApplicationContext</text>
+    <text x="15" y="120" class="card-body" font-size="11" fill="#FDE68A">Contains DefaultListableBeanFactory</text>
+
+    <rect x="15" y="140" width="200" height="100" rx="6" ry="6" fill="#1E293B" stroke="#F59E0B"/>
+    <text x="100" y="162" class="badge" fill="#FCD34D" text-anchor="middle">BeanFactoryPostProcessors</text>
+    <text x="15" y="184" class="card-body" font-family="monospace">ConfigurationClassPost-</text>
+    <text x="15" y="200" class="card-body" font-family="monospace">Processor executes:</text>
+    <text x="15" y="218" class="card-body">• Scans @Component, @Bean</text>
+    <text x="15" y="232" class="badge" fill="#FDE68A">• Auto-Configuration evaluated</text>
+
+    <rect x="15" y="255" width="200" height="80" rx="6" ry="6" fill="#0F172A"/>
+    <text x="100" y="278" class="badge" fill="#FCD34D" text-anchor="middle">Bean Definitions</text>
+    <text x="15" y="300" class="card-body">Registers BeanDefinition</text>
+    <text x="15" y="316" class="card-body">metadata in BeanFactory</text>
+  </g>
+
+  <!-- Step 3: Refresh Context (Bean Instantiation) -->
+  <g transform="translate(545, 75)">
+    <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="115" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">3. refresh() &amp; Beans</text>
+
+    <rect x="15" y="45" width="200" height="90" rx="6" ry="6" fill="#1E293B"/>
+    <text x="100" y="66" class="badge" fill="#A7F3D0" text-anchor="middle">Embedded Web Server</text>
+    <text x="15" y="88" class="card-body">• onRefresh() hook starts</text>
+    <text x="15" y="104" class="card-body">  Tomcat / Jetty / Undertow</text>
+    <text x="15" y="120" class="card-body" font-size="11" fill="#34D399">Binds HTTP port (e.g., 8080)</text>
+
+    <rect x="15" y="145" width="200" height="105" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+    <text x="100" y="168" class="badge" fill="#34D399" text-anchor="middle">Singletons Instantiated</text>
+    <text x="15" y="190" class="card-body">• Dependency Injection</text>
+    <text x="15" y="206" class="card-body">• BeanPostProcessors run</text>
+    <text x="15" y="222" class="card-body">• AOP dynamic proxies minted</text>
+    <text x="15" y="238" class="badge" fill="#A7F3D0">• @PostConstruct executed</text>
+
+    <rect x="15" y="260" width="200" height="75" rx="6" ry="6" fill="#0F172A"/>
+    <text x="100" y="282" class="badge" fill="#A7F3D0" text-anchor="middle">Context Refreshed</text>
+    <text x="15" y="302" class="card-body">All beans initialized and</text>
+    <text x="15" y="318" class="card-body">ready for service</text>
+  </g>
+
+  <!-- Step 4: Ready Event -->
+  <g transform="translate(800, 75)">
+    <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#5B21B6"/>
+    <text x="110" y="20" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Ready &amp; Running</text>
+
+    <g transform="translate(15, 45)">
+      <rect x="0" y="0" width="190" height="80" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#DDD6FE">Runners Execute</text>
+      <text x="15" y="40" class="card-body" font-family="monospace">ApplicationRunner</text>
+      <text x="15" y="56" class="card-body" font-family="monospace">CommandLineRunner</text>
+      <text x="15" y="70" class="card-body" font-size="11" fill="#C4B5FD">Post-startup warmups</text>
+
+      <rect x="0" y="90" width="190" height="90" rx="6" ry="6" fill="#4C1D95" stroke="#8B5CF6"/>
+      <text x="15" y="112" class="badge" fill="#DDD6FE">ApplicationReadyEvent</text>
+      <text x="15" y="132" class="card-body">• Traffic allowed by k8s</text>
+      <text x="15" y="148" class="card-body">• Readines probe = UP</text>
+      <text x="15" y="166" class="badge" fill="#34D399">• Serving HTTP requests!</text>
+    </g>
+
+    <rect x="15" y="260" width="190" height="75" rx="6" ry="6" fill="#0F172A"/>
+    <text x="95" y="282" class="badge" fill="#DDD6FE" text-anchor="middle">Uptime Recorded</text>
+    <text x="95" y="302" class="card-body" font-size="11" text-anchor="middle">Logs: Started in X.XX sec</text>
+    <text x="95" y="318" class="card-body" font-size="11" text-anchor="middle">(JVM running for Y.YY)</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 260 260 L 278 260 L 290 260" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrow-yellow)"/>
+  <path d="M 520 260 L 533 260 L 545 260" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <path d="M 775 260 L 788 260 L 800 260" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arrow-purple)"/>
+</svg>

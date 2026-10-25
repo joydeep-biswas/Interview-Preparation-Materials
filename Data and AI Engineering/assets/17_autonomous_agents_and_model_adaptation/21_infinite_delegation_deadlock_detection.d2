@@ -1,0 +1,15 @@
+classes: {
+  pro_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  opp_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  judge_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+agent_a: "Agent A (Proponent / Creator)" { class: pro_box }
+agent_b: "Agent B (Opponent / Red Team)" { class: opp_box }
+judge: "Judge Agent (Synthesizer)" { class: judge_box }
+
+agent_a -> agent_b: "Round 1: 'Dual-write to both DBs'"
+agent_b -> agent_a: "Critique: 'Risks race conditions without 2PC'"
+agent_a -> agent_b: "Round 2: 'CDC via Debezium + Kafka'"
+agent_b -> judge: "Round 2 Review: 'CDC mitigates locking; approved'"
+judge -> judge: "Deliver validated consensus plan"

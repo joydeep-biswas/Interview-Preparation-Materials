@@ -1,0 +1,27 @@
+direction: right
+title: Databricks Classic Architecture: Control vs Data Plane
+
+ControlPlane: Databricks Control Plane {
+  style.stroke: "#38BDF8"
+  UI: Web UI & Notebooks
+  Workflow: Workflows & Cluster Manager
+  UC: Unity Catalog Service
+}
+
+Tunnel: Secure Transit (Relay / PrivateLink) {
+  style.stroke: "#FBBF24"
+  Desc: No Public IPs, Outbound 443 Only
+}
+
+DataPlane: Customer Cloud Account {
+  style.stroke: "#34D399"
+  Driver: Driver VM Node
+  Workers: Worker VMs (Photon Execution)
+  Storage: Cloud Object Storage (S3 / ADLS Gen2)
+
+  Driver <-> Workers: Tasks
+  Workers <-> Storage: Direct Parquet & Delta Read/Write
+}
+
+ControlPlane.Workflow -> Tunnel: Instructions { style.stroke: "#FBBF24" }
+Tunnel -> DataPlane.Driver: Cluster Management { style.stroke: "#34D399" }

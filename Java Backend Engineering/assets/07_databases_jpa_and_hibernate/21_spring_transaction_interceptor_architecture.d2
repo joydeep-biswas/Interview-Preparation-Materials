@@ -1,0 +1,43 @@
+direction: right
+title: "Spring AOP Transaction Interceptor Architecture"
+
+caller: "External Caller
+Controller / Listener" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+
+proxy: "CGLIB Proxy
+OrderService$$SpringCGLIB
+Inspects @Transactional" {
+  style.fill: "#0f172a"
+  style.stroke: "#10b981"
+}
+
+interceptor: "TransactionInterceptor
+invokeWithinTransaction()
+Manages advice chain" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+txmgr: "PlatformTransactionManager
+Acquires DB Connection
+Binds to ThreadLocal" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+target: "Target Service Method
+OrderService.placeOrder()
+Executes Business Logic" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+caller -> proxy: "1. Calls placeOrder()"
+proxy -> interceptor: "2. Delegates to AOP Advice"
+interceptor -> txmgr: "3. Begin Tx / Get Conn"
+txmgr -> target: "4. Execute Target Method"
+target -> interceptor: "5. Return / Throw"
+interceptor -> txmgr: "6. Commit or Rollback"

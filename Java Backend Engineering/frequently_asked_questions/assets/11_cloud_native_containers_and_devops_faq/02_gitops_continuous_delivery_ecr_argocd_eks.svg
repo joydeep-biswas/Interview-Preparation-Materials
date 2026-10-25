@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .phase-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-blue { stroke: #3B82F6; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-green { stroke: #10B981; }
+      .edge-purple { stroke: #8B5CF6; }
+      .badge-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; fill: #C4B5FD; text-anchor: middle; }
+    </style>
+    <marker id="arr-b112" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g112" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-p112" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Phase 1 Container -->
+  <rect x="30" y="25" width="890" height="180" class="phase-box" stroke="#3B82F6"/>
+  <text x="475" y="52" class="title-text" fill="#60A5FA">Phase 1: Continuous Integration &amp; Verification</text>
+
+  <!-- Dev -->
+  <rect x="60" y="70" width="240" height="105" class="card card-blue"/>
+  <text x="180" y="98" class="card-title" fill="#93C5FD">Developer Git Push</text>
+  <text x="75" y="123" class="card-body">• Commit triggers workflow</text>
+  <text x="75" y="143" class="card-body">• Semantic version tagging</text>
+  <text x="75" y="163" class="card-body">• Pre-commit security linter</text>
+
+  <!-- CI -->
+  <rect x="355" y="70" width="240" height="105" class="card card-blue"/>
+  <text x="475" y="98" class="card-title" fill="#93C5FD">GitHub Actions CI</text>
+  <text x="370" y="123" class="card-body">• Maven test &amp; verify</text>
+  <text x="370" y="143" class="card-body">• Testcontainers integration</text>
+  <text x="370" y="163" class="card-body">• SonarQube quality gate</text>
+
+  <!-- Docker Build -->
+  <rect x="650" y="70" width="240" height="105" class="card card-blue"/>
+  <text x="770" y="98" class="card-title" fill="#93C5FD">Distroless Docker Build</text>
+  <text x="665" y="123" class="card-body">• Multi-stage distroless base</text>
+  <text x="665" y="143" class="card-body">• Trivy CVE vulnerability scan</text>
+  <text x="665" y="163" class="card-body">• Cosign image signing</text>
+
+  <!-- Phase 1 Edges -->
+  <path fill="none" d="M 300 122 L 355 122" class="edge edge-blue" marker-end="url(#arr-b112)"/>
+  <path fill="none" d="M 595 122 L 650 122" class="edge edge-blue" marker-end="url(#arr-b112)"/>
+
+  <!-- Phase 2 Container -->
+  <rect x="30" y="270" width="890" height="180" class="phase-box" stroke="#10B981"/>
+  <text x="475" y="297" class="title-text" fill="#6EE7B7">Phase 2: GitOps &amp; Kubernetes Delivery</text>
+
+  <!-- ECR -->
+  <rect x="650" y="315" width="240" height="105" class="card card-green"/>
+  <text x="770" y="343" class="card-title" fill="#6EE7B7">Container Registry (ECR)</text>
+  <text x="665" y="368" class="card-body">• Signed immutable image tag</text>
+  <text x="665" y="388" class="card-body">• Cross-region replication</text>
+  <text x="665" y="408" class="card-body">• AWS IAM fine-grained RBAC</text>
+
+  <!-- ArgoCD -->
+  <rect x="355" y="315" width="240" height="105" class="card card-green"/>
+  <text x="475" y="343" class="card-title" fill="#6EE7B7">ArgoCD GitOps Engine</text>
+  <text x="370" y="368" class="card-body">• Reconciles target cluster state</text>
+  <text x="370" y="388" class="card-body">• Automated drift detection</text>
+  <text x="370" y="408" class="card-body">• Rollback on metric anomaly</text>
+
+  <!-- EKS -->
+  <rect x="60" y="315" width="240" height="105" class="card card-green"/>
+  <text x="180" y="343" class="card-title" fill="#6EE7B7">AWS EKS Cluster</text>
+  <text x="75" y="368" class="card-body">• Rolling deployment with PDB</text>
+  <text x="75" y="388" class="card-body">• Multi-AZ Pod topology spread</text>
+  <text x="75" y="408" class="card-body">• Zero-downtime traffic shifts</text>
+
+  <!-- Phase 2 Edges (Right to Left flow for delivery cycle) -->
+  <path fill="none" d="M 650 368 L 595 368" class="edge edge-green" marker-end="url(#arr-g112)"/>
+  <path fill="none" d="M 355 368 L 300 368" class="edge edge-green" marker-end="url(#arr-g112)"/>
+
+  <!-- Inter-Phase Connector: DockerBuild to ECR (Vertical straight) -->
+  <path fill="none" d="M 770 175 L 770 315" class="edge edge-purple" marker-end="url(#arr-p112)"/>
+  <text x="830" y="245" class="badge-text">Push Image</text>
+</svg>

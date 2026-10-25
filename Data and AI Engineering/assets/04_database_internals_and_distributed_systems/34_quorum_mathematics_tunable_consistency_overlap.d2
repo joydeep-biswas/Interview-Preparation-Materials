@@ -1,0 +1,28 @@
+direction: right
+title: Quorum Mathematics & Tunable Consistency (W + R > N)
+
+write_req: Client Write (W = 2)
+read_req: Client Read (R = 2)
+
+replicas: 3 Replicas (N = 3) {
+  n1: Node 1 (Write Ack: v2) {
+    style.stroke: "#10b981"
+  }
+  n2: Node 2 (Guaranteed Overlap Node: v2) {
+    style.stroke: "#f59e0b"
+  }
+  n3: Node 3 (Lagging Stale: v1) {
+    style.stroke: "#ef4444"
+  }
+}
+
+client_resolution: Strong Consistency Resolution {
+  result: Client inspects v2 and v1 -> Selects v2 (Latest Timestamp)
+  repair: Read Repair updates Node 3 to v2
+}
+
+write_req -> replicas.n1: "Write Ack"
+write_req -> replicas.n2: "Write Ack"
+read_req -> replicas.n2: "Read Probe"
+read_req -> replicas.n3: "Read Probe"
+replicas.n2 -> client_resolution: "Guaranteed Overlap"

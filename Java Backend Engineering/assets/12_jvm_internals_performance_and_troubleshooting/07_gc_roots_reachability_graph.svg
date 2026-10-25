@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="500" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="500" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">HotSpot Garbage Collection: Reachability Analysis &amp; Root Sets</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Tracing live objects from GC Roots vs Unreachable cyclical 'Islands of Isolation'</text>
+
+  <!-- Column 1: GC Root Set -->
+  <rect x="40" y="85" width="340" height="375" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="40" y="85" width="340" height="36" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="210" y="108" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">GC ROOT SET (ALWAYS ACCESSIBLE)</text>
+
+  <!-- Root 1: Thread Stack Frames -->
+  <rect x="55" y="135" width="310" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="157" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">1. Active Thread Stack Frames</text>
+  <text x="70" y="174" font-size="10" fill="#94A3B8" text-anchor="start">• Local variables, method arguments</text>
+  <text x="70" y="189" font-size="10" fill="#94A3B8" text-anchor="start">• Active execution frames in all live threads</text>
+
+  <!-- Root 2: Metaspace Statics -->
+  <rect x="55" y="210" width="310" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="232" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">2. Metaspace Class Statics</text>
+  <text x="70" y="249" font-size="10" fill="#94A3B8" text-anchor="start">• Static references held by loaded Class objects</text>
+  <text x="70" y="264" font-size="10" fill="#94A3B8" text-anchor="start">• Static singletons, constant pool references</text>
+
+  <!-- Root 3: JNI Handles -->
+  <rect x="55" y="285" width="310" height="65" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="307" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">3. JNI Global &amp; Local Handles</text>
+  <text x="70" y="324" font-size="10" fill="#94A3B8" text-anchor="start">• Native C/C++ pointers created via JNI</text>
+  <text x="70" y="339" font-size="10" fill="#94A3B8" text-anchor="start">• NewGlobalRef(), NewLocalRef() pinned handles</text>
+
+  <!-- Root 4: JVM Monitors &amp; System -->
+  <rect x="55" y="360" width="310" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="70" y="382" font-size="11" font-weight="700" fill="#F8FAFC" text-anchor="start">4. JVM Internal Monitors &amp; Classes</text>
+  <text x="70" y="399" font-size="10" fill="#94A3B8" text-anchor="start">• System ClassLoader and core classes</text>
+  <text x="70" y="414" font-size="10" fill="#94A3B8" text-anchor="start">• Objects held for synchronization monitors</text>
+  <text x="70" y="429" font-size="10" fill="#94A3B8" text-anchor="start">• JVM internal exception tables &amp; hooks</text>
+
+  <!-- Column 2: Reachable Live Object Graph -->
+  <rect x="420" y="85" width="340" height="375" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="420" y="85" width="340" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="590" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">LIVE REACHABLE GRAPH (TRACED &amp; KEPT)</text>
+
+  <!-- Object A -->
+  <rect x="445" y="145" width="290" height="65" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="460" y="167" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Live Object A (Direct Root Child)</text>
+  <text x="460" y="184" font-size="10" fill="#94A3B8" text-anchor="start">• Referenced directly by Stack Local Variable</text>
+  <text x="460" y="199" font-size="10" fill="#34D399" text-anchor="start">Status: Marked ALIVE (GC Traced)</text>
+
+  <!-- Object B -->
+  <rect x="445" y="250" width="290" height="65" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="460" y="272" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Live Object B (Transitive Reference)</text>
+  <text x="460" y="289" font-size="10" fill="#94A3B8" text-anchor="start">• Referenced via objA.orderService field</text>
+  <text x="460" y="304" font-size="10" fill="#34D399" text-anchor="start">Status: Marked ALIVE (Transitively Reachable)</text>
+
+  <!-- Object C -->
+  <rect x="445" y="355" width="290" height="65" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="460" y="377" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Live Object C (Leaf Node)</text>
+  <text x="460" y="394" font-size="10" fill="#94A3B8" text-anchor="start">• Referenced via objB.paymentDetails list</text>
+  <text x="460" y="409" font-size="10" fill="#34D399" text-anchor="start">Status: Marked ALIVE (Survives GC)</text>
+
+  <!-- Connectors Live Graph -->
+  <line x1="365" y1="167" x2="445" y2="167" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <line x1="590" y1="210" x2="590" y2="250" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <line x1="590" y1="315" x2="590" y2="355" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Column 3: Island of Isolation -->
+  <rect x="800" y="85" width="280" height="375" rx="8" fill="#450A0A" fill-opacity="0.2" stroke="#EF4444" stroke-width="1.5"/>
+  <rect x="800" y="85" width="280" height="36" rx="8" fill="#450A0A" fill-opacity="0.8" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="940" y="108" font-size="12" font-weight="700" fill="#F87171" text-anchor="middle">UNREACHABLE ISLAND (COLLECTED!)</text>
+
+  <!-- Object D -->
+  <rect x="820" y="155" width="240" height="75" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="835" y="177" font-size="11" font-weight="700" fill="#F87171" text-anchor="start">Dead Object D (Cyclic Pointer)</text>
+  <text x="835" y="194" font-size="10" fill="#94A3B8" text-anchor="start">• objD.neighbor = objE</text>
+  <text x="835" y="214" font-size="10" font-weight="600" fill="#EF4444" text-anchor="start">NO PATH FROM ANY GC ROOT</text>
+
+  <!-- Object E -->
+  <rect x="820" y="290" width="240" height="75" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="835" y="312" font-size="11" font-weight="700" fill="#F87171" text-anchor="start">Dead Object E (Cyclic Pointer)</text>
+  <text x="835" y="329" font-size="10" fill="#94A3B8" text-anchor="start">• objE.neighbor = objD</text>
+  <text x="835" y="349" font-size="10" font-weight="600" fill="#EF4444" text-anchor="start">NO PATH FROM ANY GC ROOT</text>
+
+  <!-- Cyclic arrows between D and E -->
+  <path d="M 880 230 L 880 290" fill="none" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+  <text x="870" y="265" font-size="9" fill="#F87171" text-anchor="end">ref E</text>
+
+  <path d="M 1000 290 L 1000 230" fill="none" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+  <text x="1010" y="265" font-size="9" fill="#F87171" text-anchor="start">ref D</text>
+
+  <!-- Sweeper Box / Verdict -->
+  <rect x="820" y="385" width="240" height="60" rx="6" fill="#1E293B" stroke="#EF4444" stroke-dasharray="3 3" stroke-width="1"/>
+  <text x="940" y="405" font-size="10" font-weight="700" fill="#F87171" text-anchor="middle">Tracing GC Verdict</text>
+  <text x="940" y="422" font-size="9.5" fill="#CBD5E1" text-anchor="middle">Ref counting would leak this cycle (count=1).</text>
+  <text x="940" y="436" font-size="9.5" font-weight="600" fill="#FCA5A5" text-anchor="middle">HotSpot sweeps both objects cleanly!</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="468" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="484" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Reachability Invariant: An object is alive if and only if there exists a directed pointer path originating from a member of the GC Root set.</text>
+</svg>

@@ -1,0 +1,28 @@
+direction: right
+title: BST Invariant & Prefix Trie Architecture
+
+BST: 1. BST Invariant {
+  Root: "Root (8)"
+  L1: "Left (3)"
+  R1: "Right (10)"
+  L2: "Node (1)"
+  L3: "Node (6)"
+  R2: "Node (14)"
+  Root -> L1
+  Root -> R1
+  L1 -> L2
+  L1 -> L3
+  R1 -> R2
+}
+
+Trie: 2. 26-Way Prefix Trie {
+  TRoot: Trie Root
+  C: "['c']"
+  A: "['a']"
+  R: "['r'] (isEnd)"
+  T: "['t'] (isEnd)"
+  Cart_T: "['t'] (isEnd: cart)"
+  TRoot -> C -> A
+  A -> R -> Cart_T
+  A -> T
+}

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1040" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="560" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="520" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">RabbitMQ Flow Control: Consumer basicQos (Prefetch) Backpressure</text>
+  <text x="520" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Preventing Worker Heap Saturation &amp; OOM Crashes via Bounded Unacknowledged Message Windows</text>
+  <line x1="40" y1="68" x2="1000" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Actor 1: RabbitMQ Broker -->
+  <rect x="80" y="95" width="240" height="45" rx="6" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="200" y="122" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle">RabbitMQ Broker</text>
+  <line x1="200" y1="140" x2="200" y2="490" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Actor 2: Worker Pod -->
+  <rect x="720" y="95" width="240" height="45" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+  <text x="840" y="122" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Worker Pod (prefetch=2)</text>
+  <line x1="840" y1="140" x2="840" y2="490" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Initial Setup -->
+  <rect x="680" y="150" width="320" height="35" rx="4" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="840" y="172" font-size="9" font-family="'JetBrains Mono', monospace" fill="#34D399" text-anchor="middle">channel.basicQos(2, false);</text>
+
+  <!-- Step 1: Push Msg 1 -->
+  <path fill="none" d="M 200 210 L 840 210" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <text x="520" y="202" font-size="9" fill="#FBBF24" text-anchor="middle">1. Push Message 1 (Unacked count: 1)</text>
+
+  <!-- Step 2: Push Msg 2 -->
+  <path fill="none" d="M 200 250 L 840 250" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <text x="520" y="242" font-size="9" fill="#FBBF24" text-anchor="middle">2. Push Message 2 (Unacked count: 2 - PREFETCH LIMIT REACHED!)</text>
+
+  <!-- Step 3: Broker Pauses -->
+  <rect x="350" y="275" width="340" height="36" rx="4" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="520" y="297" font-size="9" font-weight="700" fill="#F87171" text-anchor="middle">&#x23F8; Broker PAUSES pushing to this consumer pod</text>
+
+  <!-- Step 4: Worker completes Msg 1 -->
+  <rect x="760" y="325" width="160" height="30" rx="4" fill="#0F172A" stroke="#34D399" stroke-width="1"/>
+  <text x="840" y="344" font-size="8" fill="#CBD5E1" text-anchor="middle">Completes Message 1 CPU work</text>
+
+  <!-- Step 5: ACK Msg 1 -->
+  <path fill="none" d="M 840 375 L 200 375" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="520" y="367" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle">3. basicAck(deliveryTag=1, multiple=false)</text>
+
+  <!-- Step 6: Broker decrements unacked -->
+  <rect x="70" y="400" width="260" height="30" rx="4" fill="#06201B" stroke="#10B981" stroke-width="1"/>
+  <text x="200" y="420" font-size="8" fill="#6EE7B7" text-anchor="middle">Unacked count decrements: 2 &#x2192; 1 (Slot available!)</text>
+
+  <!-- Step 7: Push Msg 3 -->
+  <path fill="none" d="M 200 450 L 840 450" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <text x="520" y="442" font-size="9" fill="#FBBF24" text-anchor="middle">4. Push Message 3 (Unacked count: 2)</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="50" y="515" width="940" height="30" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="520" y="535" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Backpressure Rule: Never run RabbitMQ consumers with unbounded prefetch (prefetch=0). Always bound prefetch to prevent memory starvation during traffic spikes.</text>
+</svg>

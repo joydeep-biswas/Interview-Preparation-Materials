@@ -1,0 +1,38 @@
+direction: right
+
+file_layout: "Parquet File Structural Hierarchy" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  header: "Magic Header: PAR1 (4 bytes)"
+  row_group_1: "Row Group 1 (128MB - 512MB)\nColumn Chunks A, B, C"
+  row_group_2: "Row Group 2 (Subsequent Data Partition)"
+  footer: "File Metadata Footer (Thrift)\nMin/Max Stats, Schema, Offsets"
+  end_magic: "Footer Length + Magic: PAR1"
+}
+
+chunk_deep_dive: "Column Chunk & Data Page Internals" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  dict: "Dictionary Page: Bit-packed unique tokens"
+  data: "Data Page: Definition levels (NULLs) + Repetition levels"
+  page_header: "Page Header: Compressed/Uncompressed sizes + Page stats"
+}
+
+scan_opt: "Engine Scan Optimization: Predicate Pushdown" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+  skipping: "Row Group Skipping: Reads footer stats, skips 256MB I/O"
+  vectorized: "Vectorized SIMD: Decompresses only requested columns"
+}
+
+file_layout.row_group_1 -> chunk_deep_dive: "Examine Chunk" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+file_layout.footer -> scan_opt: "Evaluates Predicates" {
+  style.stroke: "#F59E0B"
+  style.stroke-width: 2
+}

@@ -1,0 +1,32 @@
+direction: right
+title: Java Fail-Fast Iteration & modCount Detection Mechanics
+
+Stage1: 1. Iterator Initialization {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  init: "it = list.iterator()"
+  state: "expectedModCount = list.modCount = 5"
+}
+
+Stage2: 2. Direct Modification {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  mutation: "list.add('Element') -> list.modCount++ (6)"
+  desync: "list.modCount (6) != it.expectedModCount (5)"
+}
+
+Stage3: 3. Fail-Fast Exception {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  check: "it.next() checks: modCount == expectedModCount"
+  error: "Throws ConcurrentModificationException"
+}
+
+SafePattern: Safe Alternative {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  solution: "Use it.remove(): syncs expectedModCount = modCount"
+}
+
+Stage1 -> Stage2: Mutation occurs during loop
+Stage2 -> Stage3: Next it.next() call triggers check

@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0d1527"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Node Surface Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142e2b"/>
+      <stop offset="100%" stop-color="#091d1a"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d2212"/>
+      <stop offset="100%" stop-color="#181308"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#261b3d"/>
+      <stop offset="100%" stop-color="#130c24"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b181e"/>
+      <stop offset="100%" stop-color="#1f090d"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112d38"/>
+      <stop offset="100%" stop-color="#071920"/>
+    </linearGradient>
+
+    <!-- Matched Arrow Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base Dark Card Background -->
+  <rect width="1000" height="500" rx="12" fill="url(#bg)"/>
+  <rect width="1000" height="500" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Centered Header Section -->
+  <g id="header-group">
+    <text x="500" y="32" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.3">Autonomous Coding Agent Sandboxed Repair Loop</text>
+    <text x="500" y="52" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Test-Driven Patch Generation with Circuit-Breaker Iteration Gates to Prevent Runaway Token Burn</text>
+  </g>
+
+  <!-- Diagram Inner Content -->
+  
+  <!-- Step 1: Bug Ticket -->
+  <rect x="50" y="90" width="220" height="65" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="70" y="115" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">Failing Test / Bug Ticket</text>
+  <text x="70" y="137" fill="#cbd5e1" font-family="sans-serif" font-size="11">Stack trace &amp; reproduction step</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 270 122 L 320 122" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Step 2: Agent Fix Plan -->
+  <rect x="320" y="90" width="240" height="65" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="340" y="115" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">Agent Formulates Plan</text>
+  <text x="340" y="137" fill="#cbd5e1" font-family="sans-serif" font-size="11">AST search + localization prompt</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 560 122 L 610 122" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#arr-p)"/>
+
+  <!-- Step 3: Patch Generation -->
+  <rect x="610" y="90" width="240" height="65" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="630" y="115" fill="#c084fc" font-family="sans-serif" font-size="12" font-weight="700">Generate Git Diff Patch</text>
+  <text x="630" y="137" fill="#cbd5e1" font-family="monospace" font-size="10">Unified diff: --- a/file +++ b/file</text>
+
+  <!-- Arrow 3 Down to Sandbox -->
+  <path d="M 730 155 L 730 200" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Sandbox Verifier Container -->
+  <rect x="180" y="200" width="670" height="130" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="200" y="225" fill="#34d399" font-family="sans-serif" font-size="13" font-weight="700">Isolated E2B MicroVM Execution Sandbox</text>
+
+  <rect x="200" y="240" width="180" height="65" rx="6" fill="#091d1a" stroke="#059669" stroke-width="1"/>
+  <text x="215" y="262" fill="#6ee7b7" font-family="sans-serif" font-size="11" font-weight="600">1. Apply Patch</text>
+  <text x="215" y="280" fill="#cbd5e1" font-family="monospace" font-size="10">git apply --check</text>
+
+  <path d="M 380 272 L 420 272" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <rect x="420" y="240" width="220" height="65" rx="6" fill="#091d1a" stroke="#059669" stroke-width="1"/>
+  <text x="435" y="262" fill="#6ee7b7" font-family="sans-serif" font-size="11" font-weight="600">2. Execute Test Runner</text>
+  <text x="435" y="280" fill="#cbd5e1" font-family="monospace" font-size="10">pytest tests/ --timeout=30</text>
+
+  <path d="M 640 272 L 680 272" fill="none" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+  <rect x="680" y="240" width="150" height="65" rx="6" fill="#181308" stroke="#fbbf24" stroke-width="1"/>
+  <text x="755" y="265" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="11" font-weight="700">Pass/Fail Eval</text>
+  <text x="755" y="285" text-anchor="middle" fill="#fde68a" font-family="sans-serif" font-size="10">All tests green?</text>
+
+  <!-- Pass Branch (Right/Down) -->
+  <path d="M 830 272 L 900 272 L 900 375" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <rect x="850" y="255" width="50" height="18" rx="3" fill="#091d1a"/>
+  <text x="875" y="268" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9" font-weight="700">YES</text>
+
+  <rect x="780" y="375" width="190" height="85" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="875" y="405" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">Success: Open PR</text>
+  <text x="875" y="425" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="11">Attach execution logs &amp;</text>
+  <text x="875" y="443" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="11">unit test coverage proof</text>
+
+  <!-- Fail Branch (Left/Down) -->
+  <path d="M 755 305 L 755 360 L 580 360" fill="none" stroke="#f87171" stroke-width="2" marker-end="url(#arr-r)"/>
+  <rect x="680" y="345" width="50" height="18" rx="3" fill="#1f090d"/>
+  <text x="705" y="358" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="9" font-weight="700">FAIL</text>
+
+  <!-- Decision: Iteration < 4 -->
+  <polygon points="510,360 570,395 510,430 450,395" fill="#1e293b" stroke="#f87171" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="510" y="392" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="10" font-weight="700">Iteration</text>
+  <text x="510" y="406" text-anchor="middle" fill="#fca5a5" font-family="sans-serif" font-size="10">&lt; 4 Steps?</text>
+
+  <!-- Retry Loop: Iteration < 4 YES -> back to Plan -->
+  <path d="M 450 395 L 400 395 L 400 155" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arr-p)"/>
+  <rect x="360" y="350" width="75" height="18" rx="3" fill="#130c24"/>
+  <text x="397" y="363" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="9" font-weight="700">YES (Retry)</text>
+
+  <!-- Abort Loop: Iteration >= 4 NO -> Human Alert -->
+  <path d="M 510 430 L 510 450 L 320 450" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arr-r)"/>
+  <rect x="440" y="440" width="65" height="18" rx="3" fill="#1f090d"/>
+  <text x="472" y="453" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="9" font-weight="700">NO (Exceeded)</text>
+
+  <rect x="70" y="420" width="250" height="60" rx="6" fill="#3b181e" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="195" y="443" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="11" font-weight="700">Halt &amp; Alert Human Developer</text>
+  <text x="195" y="462" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10">Circuit breaker prevents infinite token burn</text>
+
+</svg>

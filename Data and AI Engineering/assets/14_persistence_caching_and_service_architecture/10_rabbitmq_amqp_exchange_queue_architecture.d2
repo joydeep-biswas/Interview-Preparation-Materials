@@ -1,0 +1,17 @@
+classes: {
+  endpoint_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2; font-color: "#f8fafc" } }
+  exchange_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; font-color: "#f8fafc" } }
+  binding_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  queue_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+producer: "Producer Application\nPublishes to exchange" { class: endpoint_box }
+exchange: "AMQP Exchange\n(Topic / Direct / Fanout)" { class: exchange_box }
+binding: "Queue Binding\nPattern: 'orders.*'" { class: binding_box }
+queue: "Durable Message Queue\nFIFO buffer in RAM & Disk" { class: queue_box }
+consumer: "Consumer Worker\n(basic_ack / basic_nack)" { class: endpoint_box }
+
+producer -> exchange: "Publishes with routing key 'orders.eu'" { style: { stroke: "#38bdf8"; stroke-width: 2 } }
+exchange -> binding: "Evaluates binding pattern" { style: { stroke: "#fbbf24"; stroke-width: 2 } }
+binding -> queue: "Routes message into buffer" { style: { stroke: "#4ade80"; stroke-width: 2 } }
+queue -> consumer: "Dispatches with prefetch limit" { style: { stroke: "#94a3b8"; stroke-width: 2 } }

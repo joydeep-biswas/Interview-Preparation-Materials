@@ -1,0 +1,13 @@
+# Generators: Streaming 50GB Files in 15MB RAM
+direction: right
+
+file: "50GB File on Disk"
+g1: "1. stream_lines()\n• 4 KB buffer"
+g2: "2. parse_json()\n• 8 KB Dict"
+g3: "3. filter_anomalies()\n• Zero overhead"
+sink: "4. Micro-Batch Sink\n• Flushes 5,000 records"
+
+file -> g1: "Line by line"
+g1 -> g2: "yield raw_str"
+g2 -> g3: "yield dict"
+g3 -> sink: "yield clean_rec"

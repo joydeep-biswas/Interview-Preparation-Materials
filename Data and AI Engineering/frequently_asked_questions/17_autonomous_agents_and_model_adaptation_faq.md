@@ -6,43 +6,9 @@ A comprehensive, production-grade guide to real-world interview scenarios coveri
 
 ## Architectural Overview: Autonomous Agent Cognitive Runtime & Fine-Tuning Mesh
 
-```mermaid
-flowchart TD
-    subgraph CognitiveLoop ["1. Cognitive Agent Runtime (MAPE-K & ReAct)"]
-        Goal["User Goal / Prompt"] --> Plan["Reasoning & Plan Synthesis<br/>(LLM Foundation Engine)"]
-        Plan --> SelectTool{"Tool Decision"}
-        SelectTool -->|External Action| MCP["Model Context Protocol (MCP)<br/>Client / Tool Gateway"]
-        SelectTool -->|Code Execution| Sandbox["Isolated Code Sandbox<br/>(gVisor / Docker)"]
-        SelectTool -->|Direct Answer| Response["Synthesize Response"]
-        MCP --> Observe["Environment Feedback & JSON Trace"]
-        Sandbox --> Observe
-        Observe --> Reflect{"Evaluator-Optimizer Check<br/>Goal Completed?"}
-        Reflect -->|Self-Correction Needed| Plan
-        Reflect -->|Success| Response
-    end
+![Autonomous Agent Cognitive Runtime & Fine-Tuning Mesh](assets/17_autonomous_agents_and_model_adaptation_faq/01_autonomous_agent_cognitive_runtime_mesh.svg)
 
-    subgraph StateAndMemory ["2. Memory & State Persistence (LangGraph)"]
-        ShortTerm["Working Memory Scratchpad<br/>(Context Window Messages)"]
-        Episodic["Episodic Store (PostgreSQL / SQLite Checkpointer)"]
-        Semantic["Semantic Vector Store (Chroma / Qdrant)"]
-        Plan <--> ShortTerm
-        Plan <--> Episodic
-        Plan <--> Semantic
-    end
-
-    subgraph ModelAdaptation ["3. Model Adaptation & Alignment"]
-        BaseLLM["Pre-trained Foundation Model"] --> LoRA["LoRA / QLoRA PEFT<br/>Low-Rank Adapter Matrices (W = W0 + B*A)"]
-        LoRA --> Align{"Alignment Strategy"}
-        Align -->|Preference Optimization| DPO["Direct Preference Optimization (DPO)<br/>Implicit Reward Optimization"]
-        Align -->|Reward Model + PPO| RLHF["Reinforcement Learning from Human Feedback"]
-    end
-
-    ModelAdaptation --> CognitiveLoop
-
-    style CognitiveLoop fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StateAndMemory fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style ModelAdaptation fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/01_autonomous_agent_cognitive_runtime_mesh.d2](assets/17_autonomous_agents_and_model_adaptation_faq/01_autonomous_agent_cognitive_runtime_mesh.d2)
 
 ---
 
@@ -98,27 +64,9 @@ An **AI Agent** is an autonomous, goal-directed computational system that pairs 
 | **State Persistence** | Stateless or simple conversational sliding-window buffer | Stateful execution graph; tracks task progress, pending sub-goals, and intermediate variables |
 | **Termination Criteria**| End of sequence (`<|im_end|>`) token | Completion of high-level objective evaluated by reflection heuristics |
 
-```mermaid
-flowchart TD
-    subgraph TraditionalLLM ["Traditional LLM / RAG (Linear DAG)"]
-        direction LR
-        P1["User Query"] --> P2["Vector Retrieval"] --> P3["LLM Context"] --> P4["Final Output"]
-    end
+![Traditional Linear LLM/RAG vs Autonomous Agent MAPE-K Loop](assets/17_autonomous_agents_and_model_adaptation_faq/02_traditional_rag_vs_autonomous_agent_loop.svg)
 
-    subgraph AutonomousAgent ["Autonomous AI Agent (Cyclical MAPE-K Loop)"]
-        direction TB
-        Goal["User Goal / Task"] --> Reason["1. Reasoning & Planning<br/>(Analyze state, select tool)"]
-        Reason --> Action["2. Action Execution<br/>(Call API / MCP Tool / Run SQL)"]
-        Action --> Environment[("External Environment<br/>Database / Web / API")]
-        Environment --> Observation["3. Observation & Ingestion<br/>(Receive JSON payload / Error trace)"]
-        Observation --> Reflection{"4. Reflection & Evaluator<br/>Goal Achieved?"}
-        Reflection -->|No / Error Encountered| Reason
-        Reflection -->|Yes| Finish["Final Answer & Artifact Delivery"]
-    end
-
-    style TraditionalLLM fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AutonomousAgent fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/02_traditional_rag_vs_autonomous_agent_loop.d2](assets/17_autonomous_agents_and_model_adaptation_faq/02_traditional_rag_vs_autonomous_agent_loop.d2)
 
 *Deep-dive theoretical reference: See [Module 17: Autonomous Agents & Model Adaptation](../17_autonomous_agents_and_model_adaptation.md#1-the-autonomous-agent-paradigm)*
 
@@ -161,19 +109,9 @@ flowchart TD
 
 #### Production Prompt Engineering Taxonomy
 
-```mermaid
-flowchart LR
-    subgraph Techniques ["Core Production Techniques"]
-        direction TB
-        SP["<b>1. System Prompts & Guardrails</b><br/>Role definition, output contracts, ethical constraints"]
-        FS["<b>2. Few-Shot In-Context Learning</b><br/>Exemplar demonstration of input/output distributions"]
-        CoT["<b>3. Chain-of-Thought (CoT)</b><br/>Step-by-step reasoning tokens before final conclusion"]
-        ReAct["<b>4. ReAct (Reason + Act)</b><br/>Interleaving thoughts with external tool invocations"]
-        SO["<b>5. Structured Outputs (JSON Schema)</b><br/>Constrained grammar decoding & Pydantic validation"]
-    end
+![Core Production Prompt Engineering Techniques](assets/17_autonomous_agents_and_model_adaptation_faq/03_production_prompt_engineering_techniques_hierarchy.svg)
 
-    style Techniques fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-```
+*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/03_production_prompt_engineering_techniques_hierarchy.d2](assets/17_autonomous_agents_and_model_adaptation_faq/03_production_prompt_engineering_techniques_hierarchy.d2)
 
 1. **System Prompts & Boundary Engineering:** Defines role boundaries, persona, permissions, and hard negative constraints.
 2. **Few-Shot In-Context Learning:** Supplies 3 to 5 clear input-output exemplars illustrating edge cases and desired syntax.
@@ -192,35 +130,9 @@ flowchart LR
 
 #### Production Defense Architecture: The 4-Layer Safeguard
 
-```mermaid
-flowchart TD
-    subgraph AgentLayer ["1. Client-Side Idempotency Generation"]
-        A1["Root Agent starts task"] --> A2["Generate Deterministic Idempotency Key<br/>idempotency_key = UUIDv5(task_id, step_index)"]
-        A2 --> A3["Attach key to MCP Tool Call Request Payload"]
-    end
+![MCP Tool Execution: Client Idempotency & Database Unique Constraints](assets/17_autonomous_agents_and_model_adaptation_faq/04_mcp_idempotency_key_two_phase_deduction_flow.svg)
 
-    subgraph MCPLayer ["2. MCP Server 2-Phase Check & DB Unique Constraint"]
-        A3 --> M1{"Inspect Ledger Transactions Table<br/>WHERE idempotency_key = :key"}
-        M1 -->|Key Found: SUCCESS| M2["Return Cached Success Payload (Do Not Deduct Again!)"]
-        M1 -->|Key Found: PENDING| M3["Return In-Progress Status / Await Resolution"]
-        M1 -->|Key Not Found| M4["Open ACID DB Transaction"]
-        M4 --> M5["Insert into payments (idempotency_key, amount, status)<br/>UNIQUE CONSTRAINT on idempotency_key"]
-        M5 --> M6["Atomic Debit Balance (balance >= amount)"]
-        M6 --> M7["Commit Transaction & Return Success"]
-    end
-
-    subgraph AgentRetryLayer ["3. Pre-Retry Verification Protocol"]
-        A3 -.->|Timeout / Server Crash| R1["Agent receives TimeoutException"]
-        R1 --> R2["🚨 NEVER BLINDLY RETRY DEBIT!"]
-        R2 --> R3["Call verify_transaction_status(idempotency_key)"]
-        R3 -->|Found: COMPLETED| R4["Adopt Success! Goal Done!"]
-        R3 -->|Found: NOT_FOUND| R5["Safe to Retry with Same Idempotency Key"]
-    end
-
-    style AgentLayer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MCPLayer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style AgentRetryLayer fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-```
+*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/04_mcp_idempotency_key_two_phase_deduction_flow.d2](assets/17_autonomous_agents_and_model_adaptation_faq/04_mcp_idempotency_key_two_phase_deduction_flow.d2)
 
 1. **Client-Side Deterministic Idempotency Keys:** Every mutation tool call requires an `idempotency_key` generated deterministically from `UUIDv5(workflow_id, step_number)`.
 2. **Database Hard Unique Constraints:** The SQL ledger table enforces `idempotency_key VARCHAR(64) UNIQUE`. Retries with the same key collide at the DB level, triggering a cached response replay instead of a second debit.
@@ -235,47 +147,9 @@ flowchart TD
 **Topic Covered:** Production Project Walkthrough, Supervisor-Worker Pattern, Sandboxing, Evaluation  
 **Question:** Explain the end-to-end architecture of a production Generative AI / Multi-Agent project you have built or designed. Detail the ingress, agent orchestration, tool security, guardrails, and observability layers.
 
-```mermaid
-flowchart TD
-    subgraph IngressSecurity ["1. Enterprise Ingress & Security Boundary"]
-        User["Corporate User / Client App"] --> Gateway["API Gateway (FastAPI / Envoy)"]
-        Gateway --> Auth["Entra ID / Okta JWT Auth (Extract Roles & ACLs)"]
-        Auth --> InputShield["Input Guardrail (Llama-Guard 3: Prompt Injection, Jailbreak & PII)"]
-    end
+![Enterprise Multi-Agent Collaboration Mesh: Supervisor & Specialist Workers](assets/17_autonomous_agents_and_model_adaptation_faq/05_enterprise_multi_agent_mesh_supervisor_specialists.svg)
 
-    subgraph AgentOrchestrator ["2. Stateful Multi-Agent Mesh (LangGraph + PostgreSQL Checkpointer)"]
-        InputShield --> Supervisor["Supervisor / Router Agent<br/>(Intent Classification & Plan Synthesis)"]
-        
-        Supervisor -->|Task: Document Research| WorkerRAG["RAG & Research Agent<br/>(Hybrid Search, ColPali, Document QA)"]
-        Supervisor -->|Task: Financial Ledger / SQL| WorkerSQL["Data Analysis Agent<br/>(Text-to-SQL & Ledger Operations)"]
-        Supervisor -->|Task: External Integration| WorkerTool["Integration Agent<br/>(MCP Client: Salesforce, Jira, Slack)"]
-        
-        WorkerRAG --> Reducer["State Aggregator & Consensus Evaluator"]
-        WorkerSQL --> Reducer
-        WorkerTool --> Reducer
-        Reducer -->|Self-Correction Needed| Supervisor
-    end
-
-    subgraph ToolSandbox ["3. Secure Isolated Tool Execution Layer (MCP Servers)"]
-        WorkerSQL <-->|MCP stdio / SSE| MCPSQL["MCP SQL Server (Read-only replicas + Row-Level Security)"]
-        WorkerTool <-->|MCP stdio / SSE| MCPTools["MCP Service Server (Idempotent REST APIs + Circuit Breaker)"]
-        WorkerRAG <-->|RPC| VectorDB[("Vector DB (Qdrant) & Hybrid Index")]
-    end
-
-    subgraph QualityAndFinOps ["4. Production LLMOps & Telemetry Flywheel"]
-        Reducer --> OutputShield["Output Guardrail (Presidio PII Scrubber + Grounding Check)"]
-        OutputShield --> User
-        
-        OutputShield -.-> OTel["OpenTelemetry Traces & OpenInference Spans"]
-        OTel --> Langfuse["Langfuse / Phoenix: TTFT, TPOT, Step Count, Cost"]
-        OTel --> EvalCron["Async Eval Suite (Ragas Faithfulness & TruLens Triad)"]
-    end
-
-    style IngressSecurity fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AgentOrchestrator fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ToolSandbox fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style QualityAndFinOps fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-```
+*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/05_enterprise_multi_agent_mesh_supervisor_specialists.d2](assets/17_autonomous_agents_and_model_adaptation_faq/05_enterprise_multi_agent_mesh_supervisor_specialists.d2)
 
 *Deep-dive theoretical reference: See [Module 17: Autonomous Agents & Model Adaptation](../17_autonomous_agents_and_model_adaptation.md#10-architectural-topologies-for-collaboration)*
 
@@ -301,24 +175,9 @@ Where:
 - $B$ is initialized to 0, ensuring $\\Delta W = 0$ at the start of training.
 - $\\alpha$ is a constant scaling hyperparameter (typically set to $2r$ or $r$). When changing $r$, scaling by $\\frac{\\alpha}{r}$ prevents needing to retune learning rates.
 
-```mermaid
-flowchart LR
-    X["Input Activation x<br/>(d-dimensional)"] --> W0["Frozen Base Weights W0<br/>(d x k)"]
-    X --> A["LoRA Adapter Matrix A<br/>(k x r) Initialized N(0, sigma^2)"]
-    A --> B["LoRA Adapter Matrix B<br/>(r x d) Initialized 0"]
-    B --> Scale["Scale factor: alpha / r"]
-    W0 --> Sum(("Sum (+)"))
-    Scale --> Sum
-    Sum --> H["Output Activation h<br/>(d-dimensional)"]
+![LoRA / QLoRA Low-Rank Adapter Matrix Multiplication Architecture](assets/17_autonomous_agents_and_model_adaptation_faq/06_lora_qlora_low_rank_adapter_matrix_geometry.svg)
 
-    style X fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style W0 fill:#0f172a,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style A fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style B fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Scale fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Sum fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style H fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/06_lora_qlora_low_rank_adapter_matrix_geometry.d2](assets/17_autonomous_agents_and_model_adaptation_faq/06_lora_qlora_low_rank_adapter_matrix_geometry.d2)
 
 #### QLoRA: 3 Architectural Innovations
 QLoRA (Dettmers et al., 2023) reduces VRAM by another 60%, allowing a 70B parameter model to be fine-tuned on a single 48GB GPU:
@@ -350,22 +209,9 @@ Substituting this into the Bradley-Terry preference loss yields the exact **DPO 
 $$\\mathcal{L}_{	ext{DPO}}(\\pi_\\theta; \\pi_{	ext{ref}}) = - \\mathbb{E}_{(x, y_w, y_l)} \\left[ \\log \\sigma \\left( \\beta \\log \\frac{\\pi_\\theta(y_w|x)}{\\pi_{	ext{ref}}(y_w|x)} - \\beta \\log \\frac{\\pi_\\theta(y_l|x)}{\\pi_{	ext{ref}}(y_l|x)} \\right) \\right]$$
 Where $y_w$ is the winning (preferred) response, and $y_l$ is the losing response.
 
-```mermaid
-flowchart TD
-    subgraph TraditionalRLHF ["Traditional RLHF Pipeline (4 Models)"]
-        direction TB
-        HumanPrefs["Pairwise Human Preferences (yw vs yl)"] --> RewardModel["Train Reward Model (Critic)"]
-        RewardModel --> PPO["PPO Reinforcement Loop<br/>Requires Actor + Critic + Value + Ref Models<br/>High VRAM & Prone to Reward Hacking"]
-    end
+![Direct Preference Optimization (DPO) vs Traditional RLHF with PPO](assets/17_autonomous_agents_and_model_adaptation_faq/07_dpo_vs_traditional_rlhf_ppo_comparison.svg)
 
-    subgraph DPO_Pipeline ["Direct Preference Optimization (2 Models)"]
-        direction TB
-        Prefs["Pairwise Preferences (yw vs yl)"] --> DPOLoss["Direct Binary Cross-Entropy on Log-Ratios<br/>Requires only Active Policy + Frozen Ref<br/>Stable, Deterministic & Exact"]
-    end
-
-    style TraditionalRLHF fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style DPO_Pipeline fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/07_dpo_vs_traditional_rlhf_ppo_comparison.d2](assets/17_autonomous_agents_and_model_adaptation_faq/07_dpo_vs_traditional_rlhf_ppo_comparison.d2)
 
 #### Why DPO Dominates Production Workflows:
 1. **Zero Reinforcement Learning:** Formulated purely as a standard supervised classification loss (Binary Cross-Entropy).
@@ -390,24 +236,9 @@ flowchart TD
    - Hash previous tool arguments: `hash(tool_name + str(args))`. If the exact same tool call occurs twice within the last 3 steps, the agent is thrashing.
    - Inject a system interrupt prompt: *"System Alert: You have invoked query_user with the same parameters twice. The entity does not exist. Do not retry this query. Formulate an alternate approach or inform the user."*
 
-```mermaid
-flowchart TD
-    Task["Incoming Task"] --> Gen["Generator Agent<br/>Produces Tool Call"]
-    Gen --> ToolExec["Execute Tool"]
-    ToolExec --> Eval{"Evaluator / Assertions"}
-    Eval -->|Pass| Done["Return Success Payload"]
-    Eval -->|Fail| TrackLoop{"Cycle Detector<br/>Duplicate Tool Call or Step > 5?"}
-    TrackLoop -->|No| Reflect["Inject Error Trace into Working Scratchpad"]
-    Reflect --> Gen
-    TrackLoop -->|Yes: Cycle Detected| Fallback["Escalate to Human / Graceful Exit"]
+![Self-Correction, Reflexion & Evaluator-Optimizer Cycle Breaker](assets/17_autonomous_agents_and_model_adaptation_faq/08_agent_self_correction_reflexion_cycle_breaker.svg)
 
-    style Task fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Gen fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Eval fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style TrackLoop fill:#1e293b,stroke:#ec4899,stroke-width:2px,color:#fff
-    style Fallback fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Done fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/08_agent_self_correction_reflexion_cycle_breaker.d2](assets/17_autonomous_agents_and_model_adaptation_faq/08_agent_self_correction_reflexion_cycle_breaker.d2)
 
 *Deep-dive theoretical reference: See [Module 17: Autonomous Agents & Model Adaptation](../17_autonomous_agents_and_model_adaptation.md#6-stateful-orchestration-with-langgraph)*
 
@@ -458,33 +289,9 @@ flowchart TD
 
 #### Enterprise Code Sandbox Architecture
 
-```mermaid
-flowchart TD
-    subgraph HostEngine ["Host Kubernetes Cluster"]
-        Agent["Autonomous Agent"] --> RPC["gRPC / REST Gateway"]
-    end
+![Sandboxed Autonomous Code Interpreter: gVisor / Docker Isolation](assets/17_autonomous_agents_and_model_adaptation_faq/09_sandboxed_autonomous_code_interpreter_gvisor.svg)
 
-    subgraph SandboxedPod ["Isolated Sandboxed Execution Environment"]
-        RPC --> Manager["Sandbox Container Agent"]
-        Manager --> Runner["Ephemeral Python Kernel (gVisor runsc)"]
-        
-        subgraph HardenedSecurity ["Kernel & Resource Boundaries"]
-            direction TB
-            Seccomp["seccomp & AppArmor Profiles (Drop ALL dangerous syscalls)"]
-            NetNS["Isolated Network Namespace (No outbound public internet)"]
-            Cgroups["cgroups v2: Hard CPU (1 core) & RAM limit (512MB)"]
-            Timeout["Hard Wall-Clock Watchdog: 10-second SIGKILL"]
-        end
-    end
-
-    Runner --- HardenedSecurity
-    Runner --> OutStream["Capture stdout / stderr / matplotlib PNGs"]
-    OutStream --> RPC
-
-    style HostEngine fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SandboxedPod fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style HardenedSecurity fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-```
+*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/09_sandboxed_autonomous_code_interpreter_gvisor.d2](assets/17_autonomous_agents_and_model_adaptation_faq/09_sandboxed_autonomous_code_interpreter_gvisor.d2)
 
 1. **Kernel Virtualization via gVisor (`runsc`):** Standard Docker containers share the host Linux kernel (`syscall` vulnerabilities risk host escape). gVisor intercepts all system calls in user space, presenting a virtualized kernel barrier.
 2. **Network Isolation (Zero Egress):** The sandboxed pod runs in an isolated network namespace with zero outbound internet access. The agent cannot download malicious binaries or exfiltrate environment tokens.
@@ -508,19 +315,9 @@ When an LLM agent consumes untrusted third-party data, the model cannot inherent
 
 #### Defense Architecture: 4 Boundary Layers
 
-```mermaid
-flowchart LR
-    Data["Untrusted External Data<br/>(Email / Web Scrape)"] --> Cleanse["1. Data Pre-Parser & HTML Stripper"]
-    Cleanse --> Delimit["2. XML / JSON Structural Framing<br/>(&lt;untrusted_data&gt; ... &lt;/untrusted_data&gt;)"]
-    Delimit --> PrivCheck["3. Privilege Boundary & Scope Separation"]
-    PrivCheck --> HITL["4. Mandatory HITL for High-Impact Tools"]
+![Enterprise Multi-Agent Security: Indirect Prompt Injection Defense](assets/17_autonomous_agents_and_model_adaptation_faq/10_multi_agent_indirect_prompt_injection_defense.svg)
 
-    style Data fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style Cleanse fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style Delimit fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style PrivCheck fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style HITL fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/10_multi_agent_indirect_prompt_injection_defense.d2](assets/17_autonomous_agents_and_model_adaptation_faq/10_multi_agent_indirect_prompt_injection_defense.d2)
 
 1. **Structural Delimitation & Prompt Tagging:** Wrap untrusted inputs in unambiguous, escaped XML boundaries:
    ```markdown

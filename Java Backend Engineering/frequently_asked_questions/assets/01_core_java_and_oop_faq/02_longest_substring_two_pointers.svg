@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 360" width="100%" height="100%">
+    <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+    .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
+  </style>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <text x="525" y="32" class="title" font-size="19" text-anchor="middle">Sliding Window Two-Pointer Algorithm: Longest Substring Without Repeats</text>
+  <text x="525" y="52" class="subtitle" text-anchor="middle">Dynamic window [L ... R] expansion, HashMap character index lookup, and O(1) jump on duplicate collision</text>
+
+  <!-- Left Pointer & Ingress -->
+  <g transform="translate(40, 75)">
+    <rect width="210" height="250" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="210" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="105" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">1. Window Pointers</text>
+    <text x="16" y="60" class="card-body" font-weight="600" fill="#60A5FA">• Pointers Initialization:</text>
+    <text x="24" y="80" class="card-body">  - L = 0 (Left Boundary)</text>
+    <text x="24" y="100" class="card-body">  - R = 0 (Right Scanner)</text>
+    <text x="16" y="130" class="card-body" font-weight="600" fill="#60A5FA">• Window [L ... R]:</text>
+    <text x="24" y="150" class="card-body">  - Represents unique</text>
+    <text x="24" y="170" class="card-body">    contiguous substring</text>
+    <rect x="16" y="215" width="178" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="105" y="230" class="badge" fill="#93C5FD" text-anchor="middle">Initial Window State</text>
+  </g>
+
+  <!-- Seen Map Inspection -->
+  <g transform="translate(285, 75)">
+    <rect width="240" height="250" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <text x="120" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Map&lt;Char, Index&gt;</text>
+    <text x="16" y="60" class="card-body" font-weight="600" fill="#34D399">• Constant-Time Check:</text>
+    <text x="24" y="80" class="card-body">  - char c = s.charAt(R)</text>
+    <text x="24" y="100" class="card-body">  - map.containsKey(c)</text>
+    <text x="16" y="130" class="card-body" font-weight="600" fill="#34D399">• Collision Condition:</text>
+    <text x="24" y="150" class="card-body">  - IF lastSeen &gt;= L:</text>
+    <text x="24" y="170" class="card-body">    Duplicate is inside window!</text>
+    <text x="24" y="190" class="card-body">  - ELSE: Safe to expand R</text>
+    <rect x="16" y="215" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="120" y="230" class="badge" fill="#A7F3D0" text-anchor="middle">O(1) Hash Map Lookup</text>
+  </g>
+
+  <!-- Branch: Duplicate Found (Jump L) -->
+  <g transform="translate(565, 75)">
+    <rect width="215" height="115" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="215" height="28" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="107" y="19" class="card-title" fill="#FCA5A5" text-anchor="middle">Duplicate Found</text>
+    <text x="14" y="50" class="card-body" font-weight="700" fill="#F87171">• Shift L = lastSeen + 1</text>
+    <text x="14" y="70" class="card-body">• Skips multiple characters in 1 jump!</text>
+    <text x="14" y="90" class="card-body">• Guarantees O(N) single-pass</text>
+  </g>
+
+  <!-- Branch: No Duplicate (Expand R) -->
+  <g transform="translate(565, 210)">
+    <rect width="215" height="115" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="215" height="28" rx="10" ry="10" fill="#064E3B"/>
+    <text x="107" y="19" class="card-title" fill="#A7F3D0" text-anchor="middle">No Duplicate</text>
+    <text x="14" y="50" class="card-body" font-weight="700" fill="#34D399">• Expand Right: R++</text>
+    <text x="14" y="70" class="card-body">• maxLen = max(maxLen, R-L+1)</text>
+    <text x="14" y="90" class="card-body">• map.put(c, R)</text>
+  </g>
+
+  <!-- Output Max Length -->
+  <g transform="translate(820, 75)">
+    <rect width="190" height="250" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="190" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <text x="95" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">3. Max Length</text>
+    <text x="14" y="60" class="card-body" font-weight="600" fill="#A78BFA">• Optimal Metric:</text>
+    <text x="18" y="80" class="card-body">  - Max unique length</text>
+    <text x="18" y="100" class="card-body">  - Preserved across loop</text>
+    <text x="14" y="130" class="card-body" font-weight="600" fill="#A78BFA">• Complexity:</text>
+    <text x="18" y="150" class="card-body">  - Time: O(N)</text>
+    <text x="18" y="170" class="card-body">  - Space: O(min(N, M))</text>
+    <rect x="14" y="215" width="162" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <text x="95" y="230" class="badge" fill="#DDD6FE" text-anchor="middle">Final Result</text>
+  </g>
+
+  <!-- Connectors with Straight Runways -->
+  <path d="M 250 200 L 273 200 L 285 200" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  
+  <path d="M 525 130 L 553 130 L 565 130" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <path d="M 525 270 L 553 270 L 565 270" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <path d="M 780 130 L 808 130 L 820 130" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <path d="M 780 270 L 808 270 L 820 270" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrow-purple)"/>
+</svg>

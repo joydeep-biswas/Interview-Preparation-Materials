@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 240" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-green { stroke: #10B981; }
+      .card-amber { stroke: #F59E0B; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-green { stroke: #10B981; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-g3" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a3" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="460" y="32" class="title-text">Window Analytical Offsets: LAG vs LEAD Execution</text>
+
+  <!-- Row N-1 -->
+  <rect x="40" y="70" width="230" height="120" class="card card-blue"/>
+  <text x="155" y="100" class="card-title" fill="#93C5FD">Row N-1 (Previous)</text>
+  <text x="55" y="130" class="card-body">• Month: 2024-01</text>
+  <text x="55" y="150" class="card-body">• Sales: $80,000</text>
+  <text x="55" y="170" class="card-body">• Relative Offset: -1</text>
+
+  <!-- Row N -->
+  <rect x="345" y="70" width="230" height="120" class="card card-green"/>
+  <text x="460" y="100" class="card-title" fill="#6EE7B7">Row N (Current Row)</text>
+  <text x="360" y="130" class="card-body">• Month: 2024-02</text>
+  <text x="360" y="150" class="card-body">• Sales: $95,000</text>
+  <text x="360" y="170" class="card-body" fill="#34D399">• Growth: +$15,000 (+18.7%)</text>
+
+  <!-- Row N+1 -->
+  <rect x="650" y="70" width="230" height="120" class="card card-amber"/>
+  <text x="765" y="100" class="card-title" fill="#FDE68A">Row N+1 (Next Row)</text>
+  <text x="665" y="130" class="card-body">• Month: 2024-03</text>
+  <text x="665" y="150" class="card-body">• Sales: $110,000</text>
+  <text x="665" y="170" class="card-body">• Relative Offset: +1</text>
+
+  <!-- Straight Connectors with Labels -->
+  <path fill="none" d="M 270 130 L 345 130" class="edge edge-green" marker-end="url(#arr-g3)"/>
+  <text x="307" y="120" class="edge-label" fill="#6EE7B7">LAG(1)</text>
+
+  <path fill="none" d="M 575 130 L 650 130" class="edge edge-amber" marker-end="url(#arr-a3)"/>
+  <text x="612" y="120" class="edge-label" fill="#FDE68A">LEAD(1)</text>
+</svg>

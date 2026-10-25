@@ -1,0 +1,30 @@
+# Transaction Isolation: Non-Repeatable Read under READ COMMITTED
+direction: down
+
+t1_read1: "Time t1: Transaction 1
+• SELECT balance WHERE id = 1
+• Statement Snapshot 1
+• Reads: $100" {
+  style.stroke: "#3B82F6"
+}
+
+t2_write: "Time t2: Transaction 2
+• UPDATE balance = 250 WHERE id = 1
+• COMMIT" {
+  style.stroke: "#F59E0B"
+}
+
+t1_read2: "Time t3: Transaction 1
+• SELECT balance WHERE id = 1
+• NEW Statement Snapshot 2
+• Reads: $250! (Anomaly: $100 ≠ $250)" {
+  style.stroke: "#EF4444"
+}
+
+solution: "Architectural Fix: REPEATABLE READ
+• Transaction-level snapshot taken at BEGIN
+• Consistent $100 read via MVCC undo log" {
+  style.stroke: "#10B981"
+}
+
+t1_read1 -> t2_write -> t1_read2 -> solution

@@ -1,0 +1,19 @@
+direction: right
+title: JVM Thread Execution Stack Frame Internals
+
+Stack: Thread Stack {
+  f3: "Frame 3: calculateTax() [Active Top]"
+  f2: "Frame 2: processOrder()"
+  f1: "Frame 1: checkout()"
+  f1 -> f2 -> f3
+}
+
+FrameDetail: Frame 3 Internal Architecture {
+  style.fill: "#0F172A"
+  style.stroke: "#10B981"
+  lva: "1. Local Variables Array (Slot 0 this, Slot 1-2 amount, Slot 3 rate)"
+  os: "2. Operand Stack (LIFO: dload, dmul)"
+  fd: "3. Frame Data (Constant Pool Pointer, Return PC, Exception Table)"
+}
+
+Stack.f3 -> FrameDetail: Active execution view { style.stroke: "#10B981" }

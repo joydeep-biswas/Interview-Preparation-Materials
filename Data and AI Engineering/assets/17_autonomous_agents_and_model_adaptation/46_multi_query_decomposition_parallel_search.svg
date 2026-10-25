@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0d1527"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Node Surface Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142e2b"/>
+      <stop offset="100%" stop-color="#091d1a"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d2212"/>
+      <stop offset="100%" stop-color="#181308"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#261b3d"/>
+      <stop offset="100%" stop-color="#130c24"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b181e"/>
+      <stop offset="100%" stop-color="#1f090d"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112d38"/>
+      <stop offset="100%" stop-color="#071920"/>
+    </linearGradient>
+
+    <!-- Matched Arrow Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base Dark Card Background -->
+  <rect width="1000" height="480" rx="12" fill="url(#bg)"/>
+  <rect width="1000" height="480" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Centered Header Section -->
+  <g id="header-group">
+    <text x="500" y="32" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.3">Multi-Query Decomposition &amp; Parallel Search Fan-Out</text>
+    <text x="500" y="52" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Scatter-Gather Query Orchestration: Decomposing Compound Inquiries across Domain-Specific Search APIs</text>
+  </g>
+
+  <!-- Diagram Inner Content -->
+  
+  <!-- Top: Complex User Goal -->
+  <rect x="200" y="85" width="600" height="55" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="108" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">Compound Research Inquiry</text>
+  <text x="500" y="127" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11">"Evaluate commercial viability of solid-state batteries in aviation by 2035"</text>
+
+  <!-- Arrow to Query Decomposer -->
+  <path d="M 500 140 L 500 165" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#arr-p)"/>
+
+  <!-- Decomposition Model -->
+  <rect x="300" y="165" width="400" height="45" rx="6" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="192" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="12" font-weight="700">LLM Multi-Query Decomposition Prompt</text>
+
+  <!-- Diverging Fan-Out Lines to 4 Sub-Queries -->
+  <path d="M 380.0 210.0 L 380.0 218.0 C 380.0 228.0, 150.0 228.0, 150.0 238.0 L 150.0 250.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  <path d="M 450.0 210.0 L 450.0 218.0 C 450.0 228.0, 380.0 228.0, 380.0 238.0 L 380.0 250.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  <path d="M 550.0 210.0 L 550.0 218.0 C 550.0 228.0, 620.0 228.0, 620.0 238.0 L 620.0 250.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+  <path d="M 620.0 210.0 L 620.0 218.0 C 620.0 228.0, 850.0 228.0, 850.0 238.0 L 850.0 250.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+
+  <!-- 4 Sub-Queries -->
+  <rect x="50" y="250" width="200" height="75" rx="6" fill="#130c24" stroke="#c084fc" stroke-width="1"/>
+  <text x="65" y="272" fill="#c084fc" font-family="sans-serif" font-size="11" font-weight="700">Q1: Energy Density</text>
+  <text x="65" y="292" fill="#cbd5e1" font-family="sans-serif" font-size="10">Solid-state battery Wh/kg</text>
+  <text x="65" y="308" fill="#cbd5e1" font-family="sans-serif" font-size="10">current vs target specs</text>
+
+  <rect x="280" y="250" width="200" height="75" rx="6" fill="#130c24" stroke="#c084fc" stroke-width="1"/>
+  <text x="295" y="272" fill="#c084fc" font-family="sans-serif" font-size="11" font-weight="700">Q2: Aviation Thresholds</text>
+  <text x="295" y="292" fill="#cbd5e1" font-family="sans-serif" font-size="10">Commercial minimum</text>
+  <text x="295" y="308" fill="#cbd5e1" font-family="sans-serif" font-size="10">specific energy limits</text>
+
+  <rect x="520" y="250" width="200" height="75" rx="6" fill="#130c24" stroke="#c084fc" stroke-width="1"/>
+  <text x="535" y="272" fill="#c084fc" font-family="sans-serif" font-size="11" font-weight="700">Q3: OEM Roadmaps</text>
+  <text x="535" y="292" fill="#cbd5e1" font-family="sans-serif" font-size="10">QuantumScape, CATL,</text>
+  <text x="535" y="308" fill="#cbd5e1" font-family="sans-serif" font-size="10">Toyota 2030-2035 milestones</text>
+
+  <rect x="750" y="250" width="200" height="75" rx="6" fill="#130c24" stroke="#c084fc" stroke-width="1"/>
+  <text x="765" y="272" fill="#c084fc" font-family="sans-serif" font-size="11" font-weight="700">Q4: FAA Certification</text>
+  <text x="765" y="292" fill="#cbd5e1" font-family="sans-serif" font-size="10">EASA / FAA airworthiness</text>
+  <text x="765" y="308" fill="#cbd5e1" font-family="sans-serif" font-size="10">thermal runaway rules</text>
+
+  <!-- Connectors to Specialized Search Engines -->
+  <path d="M 150 325 L 150 365 L 230 365 L 230 385" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <path d="M 380 325 L 380 365 L 230 365 L 230 385" fill="none" stroke="#34d399" stroke-width="1.5"/>
+  <path d="M 620 325 L 620 385" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <path d="M 850 325 L 850 385" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- 3 Parallel Specialized Search Engines -->
+  <rect x="100" y="385" width="260" height="70" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="120" y="412" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">arXiv &amp; Semantic Scholar</text>
+  <text x="120" y="432" fill="#cbd5e1" font-family="sans-serif" font-size="11">Peer-reviewed materials science</text>
+
+  <rect x="400" y="385" width="240" height="70" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="420" y="412" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">Google Patents API</text>
+  <text x="420" y="432" fill="#cbd5e1" font-family="sans-serif" font-size="11">OEM solid electrolyte IP filings</text>
+
+  <rect x="680" y="385" width="240" height="70" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="700" y="412" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">SEC EDGAR 10-K Filings</text>
+  <text x="700" y="432" fill="#cbd5e1" font-family="sans-serif" font-size="11">Commercial delivery targets</text>
+
+</svg>

@@ -6,33 +6,9 @@ A comprehensive, production-grade guide to Dynamic Programming (DP), Memoization
 
 ## Architectural Overview: State Transition Graphs & Space Optimization
 
-```mermaid
-flowchart TD
-    subgraph StateDAG ["1. State Transition DAG & Overlapping Subproblems"]
-        direction LR
-        DP_i["DP[i]<br/>Current State"] -->|"Transition: max(DP[i-1] + val, val)"| DP_next["DP[i+1]<br/>Next Subproblem"]
-        Sub1["Subproblem (i-1)"] --> DP_i
-        Sub2["Subproblem (i-2)"] --> DP_i
-    end
+![Dynamic Programming State Transition DAG & Space Compression](assets/07_dynamic_programming_and_state_transitions/01_dp_state_dag_and_space_compression.svg)
 
-    subgraph SpaceCompression ["2. Rolling State Memory Compression"]
-        direction LR
-        FullTable["Full 2D Matrix: DP[N][W]<br/>Space: O(N * W)"] -->|"Rolling Buffer"| CompressedRow["1D Array: DP[W]<br/>Space: O(W)"]
-        CompressedRow -->|"Scalar Registers"| Scalars["Two Variables: prev1, prev2<br/>Space: O(1)"]
-    end
-
-    StateDAG --> SpaceCompression
-
-    style StateDAG fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SpaceCompression fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style DP_i fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DP_next fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Sub1 fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Sub2 fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style FullTable fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style CompressedRow fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Scalars fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/07_dynamic_programming_and_state_transitions/01_dp_state_dag_and_space_compression.d2](assets/07_dynamic_programming_and_state_transitions/01_dp_state_dag_and_space_compression.d2)
 
 ---
 

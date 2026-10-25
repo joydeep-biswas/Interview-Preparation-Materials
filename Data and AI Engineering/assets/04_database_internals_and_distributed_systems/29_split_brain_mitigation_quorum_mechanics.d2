@@ -1,0 +1,19 @@
+direction: right
+title: Split-Brain Mitigation: Majority Quorum Mechanics
+
+partition: Network Partition Bisects 5-Node Cluster {
+  west: West Partition (2 Nodes) - MINORITY {
+    n1: Node 1 (Old Leader)
+    n2: Node 2 (Follower)
+    rule: "Quorum Fails: 2 < 3. Node 1 MUST step down to follower!"
+    style.stroke: "#ef4444"
+  }
+
+  east: East Partition (3 Nodes) - MAJORITY QUORUM {
+    n3: Node 3 (Elected New Leader)
+    n4: Node 4 (Follower)
+    n5: Node 5 (Follower)
+    rule: "Quorum Won: 3 >= 3. Node 3 operates as legitimate leader"
+    style.stroke: "#10b981"
+  }
+}

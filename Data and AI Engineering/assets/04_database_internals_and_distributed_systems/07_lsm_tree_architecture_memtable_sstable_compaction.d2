@@ -1,0 +1,28 @@
+direction: right
+title: Log-Structured Merge-Tree (LSM-Tree) Architecture
+
+memory: In-Memory Tier {
+  client: Client PUT(k, v)
+  wal: 1. Append to WAL (Disk) {
+    style.stroke: "#ef4444"
+  }
+  memtable: 2. Insert into MemTable (Concurrent SkipList in RAM) {
+    style.stroke: "#06b6d4"
+  }
+  client -> wal: "Durability fsync"
+  client -> memtable: "O(log N) insert"
+}
+
+disk: Flush & Compaction Engine {
+  l0: Level 0 SSTables (Disk) {
+    keys: "Keys overlap across files [1-100] [50-150]"
+  }
+  l1: Level 1 SSTables (Disk) {
+    keys: "Non-overlapping key ranges [1-50] [51-100] [101-150]"
+  }
+  l2: Level 2 SSTables (Disk - 10x Capacity)
+  l0 -> l1: "Compaction Merge"
+  l1 -> l2: "Cascading Compaction"
+}
+
+memory.memtable -> disk.l0: "When MemTable reaches 64MB"

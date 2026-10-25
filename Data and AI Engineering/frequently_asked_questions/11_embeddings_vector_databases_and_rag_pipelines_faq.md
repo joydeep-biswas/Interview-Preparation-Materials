@@ -138,48 +138,9 @@ RAG shifts the LLM's primary responsibility from being a **knowledge repository*
 
 #### Visual Architecture: The Complete Request Lifecycle
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Client Application / User
-    participant Gateway as API Gateway & Security Guardrails
-    participant QueryEngine as Query Transformation Engine (HyDE / Rewrite)
-    participant Retrieval as Hybrid Retrieval Layer (Dense + BM25)
-    participant Storage as Vector DB (pgvector / Qdrant) & ES Index
-    participant Reranker as Cross-Encoder Reranker (BGE / Cohere)
-    participant ContextEngine as Context Assembler & Prompt Compiler
-    participant LLM as Foundation LLM (Claude / GPT-4o / Llama-3)
-    participant OutputGuard as Output Verification & Hallucination Scrubber
+![Complete RAG Request Lifecycle Sequence Architecture](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/01_rag_complete_request_lifecycle_sequence.svg)
 
-    User->>Gateway: POST /v1/chat/completions (Query + Bearer JWT)
-    Note over Gateway: 1. Validate JWT, resolve ACL groups, check rate limits (Token Bucket)<br/>2. Llama-Guard / NeMo check (block prompt injections & jailbreaks)
-    
-    Gateway->>QueryEngine: Forward Sanitized User Query
-    Note over QueryEngine: 3. Session history contextualization (resolve coreferences)<br/>4. Generate HyDE hypothetical passage or decomposed sub-queries
-    
-    QueryEngine->>Retrieval: Fan-out transformed query + ACL filter tokens
-    
-    par Dual-Path Candidate Fetch
-        Retrieval->>Storage: Dense Semantic Search (HNSW Top-100) with ACL Pre-filter
-        Retrieval->>Storage: Sparse Lexical BM25 Search (Top-100) with ACL Pre-filter
-    end
-    Storage-->>Retrieval: Return candidate chunks + metadata payloads
-    
-    Note over Retrieval: 5. Reciprocal Rank Fusion (RRF k=60) merges lists to Top-50 candidates
-    
-    Retrieval->>Reranker: Send (Query, Candidate_Passages) [50 pairs]
-
-    Note over Reranker: 6. Full cross-attention scoring; prune candidates to Top-5 most relevant chunks
-    
-    Reranker-->>ContextEngine: Return Top-5 high-confidence chunks (relevance > 0.65)
-    
-    Note over ContextEngine: 7. Format system prompt, deduplicate passages, inject citation anchors
-    ContextEngine->>LLM: Dispatch Compiled Prompt (System + Retrieved Chunks + User Query)
-    
-    LLM-->>OutputGuard: Stream generated token chunks (SSE)
-    Note over OutputGuard: 8. Real-time Presidio PII check + citation grounding verification
-    OutputGuard-->>User: Stream verified response with Markdown citations & references
-```
+*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/01_rag_complete_request_lifecycle_sequence.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/01_rag_complete_request_lifecycle_sequence.d2)
 
 #### Step-by-Step Architectural Layer Breakdown
 1. **API Gateway & Ingress Defense:**
@@ -226,36 +187,9 @@ Standard naive RAG (fixed 500-token chunks + pure vector similarity) frequently 
 
 #### Production Optimization Strategies
 
-```mermaid
-flowchart TD
-    subgraph QueryOpt ["1. Query Optimization Layer"]
-        Q["User Query"] --> HyDE["HyDE Generation<br/>(Hallucinate ideal doc)"]
-        Q --> SubQ["Sub-Query Decomposition<br/>(Multi-hop breakdown)"]
-    end
+![Production RAG Optimization: HyDE, Hybrid Search, RRF & Parent Context](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/02_production_rag_optimization_strategies_pipeline.svg)
 
-    subgraph DualRetrieval ["2. Multi-Vector & Hybrid Search"]
-        HyDE --> Dense["Dense HNSW Search<br/>(Semantic Concepts)"]
-        SubQ --> Dense
-        Q --> BM25["Sparse BM25 Search<br/>(Keywords, Acronyms, SKUs)"]
-    end
-
-    subgraph FusionRerank ["3. Fusion & Neural Re-Ranking"]
-        Dense --> RRF["Reciprocal Rank Fusion<br/>(Score-agnostic union)"]
-        BM25 --> RRF
-        RRF --> Rerank["Cross-Encoder Reranker<br/>(All-to-All Cross Attention)"]
-    end
-
-    subgraph ChunkAssembly ["4. Hierarchical Context Expansion"]
-        Rerank --> TopK["Top-5 Matched Chunks"]
-        TopK --> ParentDoc["Parent Document / Sentence Window Retrieval<br/>(Expand to full parent paragraph)"]
-        ParentDoc --> Prompt["Grounding Prompt Context"]
-    end
-
-    style QueryOpt fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DualRetrieval fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style FusionRerank fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style ChunkAssembly fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-```
+*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/02_production_rag_optimization_strategies_pipeline.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/02_production_rag_optimization_strategies_pipeline.d2)
 
 1. **Hybrid Retrieval (Dense + Sparse with RRF):**
    - Pair dense vector embeddings with an inverted BM25 index. Dense retrieval captures high-level semantics, while BM25 guarantees precision on error codes (`HTTP-504`), product names, and alphanumeric IDs.
@@ -283,21 +217,9 @@ flowchart TD
 
 #### Architectural Comparison & Selection Matrix
 
-```mermaid
-flowchart TD
-    Start{"What is your primary engineering objective?"}
-    
-    Start -->|"Add dynamic knowledge,<br/>factual policies, or private docs"| RAG["Choose <b>Retrieval-Augmented Generation (RAG)</b><br/>• Zero training overhead<br/>• Real-time updates & instant deletes<br/>• Strict citation provenance & ACL enforcement"]
-    
-    Start -->|"Modify behavioral style,<br/>response tone, syntax, or output format"| SFT["Choose <b>Supervised Fine-Tuning (SFT / LoRA)</b><br/>• Enforce specialized output schema (JSON/SQL)<br/>• Teach niche domain nomenclature (ICD-10)<br/>• Low inference latency (no retrieval fan-out)"]
-    
-    Start -->|"Both: Dynamic private data +<br/>strict specialized syntax or small edge model"| Hybrid["Choose <b>Hybrid (Fine-Tuning + RAG)</b><br/>1. Fine-tune a compact 8B model to master tool-calling & RAG synthesis<br/>2. Feed dynamic retrieval contexts into the fine-tuned model"]
+![RAG vs Supervised Fine-Tuning (SFT) vs Hybrid Architecture Selection](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/03_rag_vs_sft_vs_hybrid_decision_matrix.svg)
 
-    style Start fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style RAG fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style SFT fill:#1e1b4b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Hybrid fill:#0f172a,stroke:#ec4899,stroke-width:2px,color:#fbcfe8
-```
+*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/03_rag_vs_sft_vs_hybrid_decision_matrix.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/03_rag_vs_sft_vs_hybrid_decision_matrix.d2)
 
 | Evaluation Criteria | Retrieval-Augmented Generation (RAG) | Supervised Fine-Tuning (SFT / LoRA) | Hybrid Approach (Fine-Tuned + RAG) |
 | :--- | :--- | :--- | :--- |
@@ -335,28 +257,9 @@ In secure enterprise RAG architectures, **never perform post-retrieval filtering
 
 #### Architecture: Dynamic ACL Resolution and Query Injection
 
-```mermaid
-flowchart TD
-    UserQuery["Incoming User Request<br/>(Bearer JWT: Alice)"] --> IAM["Identity & Access Management (Okta / Entra ID)"]
-    IAM -->|"Resolve User ID & Security Groups"| TokenContext["Security Context:<br/>User: alice@corp.com<br/>Groups: ['ENG_DEV', 'APAC_REGION', 'PUBLIC']"]
-    
-    TokenContext --> FilterCompiler["Vector Engine Filter Compiler"]
-    
-    subgraph VectorDB ["Vector Database Index Engine (Qdrant / pgvector)"]
-        FilterCompiler -->|"Execute Pre-Filtered ANN Traversal"| StorageFilter{"Pre-Filter Clause:<br/>(allowed_users CONTAINS 'alice@corp.com'<br/>OR allowed_groups OVERLAPS ['ENG_DEV', 'APAC_REGION'])<br/>AND (classification != 'RESTRICTED')"}
-        StorageFilter --> HNSW["ANN Graph Search (Restricted Candidates Only)"]
-    end
+![Dynamic ACL Resolution & Vector Database Pre-Filtering Architecture](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/04_dynamic_acl_resolution_and_vector_prefiltering.svg)
 
-    HNSW --> CleanCandidates["Strictly Authorized Chunks (Zero Data Leakage)"]
-    CleanCandidates --> LLM["LLM Grounding Context"]
-
-    style UserQuery fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style IAM fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style TokenContext fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style VectorDB fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#c4b5fd
-    style StorageFilter fill:#1e293b,stroke:#ec4899,stroke-width:1.5px,color:#fff
-    style CleanCandidates fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/04_dynamic_acl_resolution_and_vector_prefiltering.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/04_dynamic_acl_resolution_and_vector_prefiltering.d2)
 
 #### Production Implementation Blueprint
 1. **Document Ingestion Metadata Tagging:**
@@ -404,27 +307,9 @@ flowchart TD
 Evaluating a RAG system by inspecting the final output alone is an anti-pattern: if the LLM output is incorrect, was it caused by poor document retrieval, bad ranking, or LLM hallucination despite correct context?
 Production evaluation splits the system into two independent evaluation stages: **Retrieval Evaluation** and **Generation Evaluation**.
 
-```mermaid
-flowchart LR
-    subgraph RetrievalEval ["1. Retrieval Evaluation (Independent of LLM)"]
-        direction TB
-        Q["Test Query"] --> Ret["Retrieval Pipeline"]
-        Ret --> Chunks["Retrieved Chunks"]
-        Chunks --> R1["<b>Context Precision</b><br/>(Are retrieved chunks relevant?)"]
-        Chunks --> R2["<b>Context Recall</b><br/>(Did we capture all ground-truth facts?)"]
-    end
+![RAG Component-Wise Evaluation: Retrieval vs Generation Metrics](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/05_rag_evaluation_componentwise_precision_recall_faithfulness.svg)
 
-    subgraph GenerationEval ["2. Generation Evaluation (Grounding & Faithfulness)"]
-        direction TB
-        Chunks --> Gen["LLM Synthesis"]
-        Gen --> Ans["Final Answer"]
-        Ans --> G1["<b>Faithfulness / Groundedness</b><br/>(Is every claim supported by context?)"]
-        Ans --> G2["<b>Answer Relevance</b><br/>(Did the answer address the question?)"]
-    end
-
-    style RetrievalEval fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style GenerationEval fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/05_rag_evaluation_componentwise_precision_recall_faithfulness.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/05_rag_evaluation_componentwise_precision_recall_faithfulness.d2)
 
 #### Core Metric Framework: The RAG Triad (Ragas / TruLens)
 
@@ -467,22 +352,9 @@ In enterprise user-facing interfaces, conversational latency is as critical as a
 #### 1. Failure Isolation Framework: Retrieval Defect vs. Generation Defect
 When a RAG system returns an incorrect answer, engineers must never tweak prompts blindly. You must evaluate the **Root Cause Matrix**:
 
-```mermaid
-flowchart TD
-    UserQuery["User Reports: 'Incorrect Answer'"] --> TraceAudit["Inspect OpenTelemetry / Langfuse Trace"]
-    TraceAudit --> ExtractContext["Extract Injected Context Chunks & Final Output"]
+![RAG Failure Isolation: Retrieval Defect vs Generation Defect Diagnostic Tree](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/06_rag_failure_isolation_retrieval_vs_generation_defect.svg)
 
-    ExtractContext --> Decision{"Does the Retrieved Context contain the Ground-Truth Answer?"}
-
-    Decision -->|NO: Ground Truth Missing| RetFail["🔴 RETRIEVAL FAILURE (Context Recall = 0.0)<br/>Root Causes:<br/>• Query-document semantic gap (lexical vs semantic mismatch)<br/>• Chunk boundary split critical sentence in half<br/>• Top-K too small (K=3 missed rank 5)<br/>• Reranker discarded relevant document"]
-
-    Decision -->|YES: Ground Truth Present| GenFail["🔴 GENERATION FAILURE (Faithfulness < 1.0)<br/>Root Causes:<br/>• Context window too long ('Lost in the Middle' distraction)<br/>• Conflicting claims across multiple retrieved chunks<br/>• LLM prior training weights overrode retrieved context<br/>• System prompt lacked strict grounding directives"]
-
-    style UserQuery fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Decision fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style RetFail fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style GenFail fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/06_rag_failure_isolation_retrieval_vs_generation_defect.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/06_rag_failure_isolation_retrieval_vs_generation_defect.d2)
 
 - **If Retrieval Failure:** Do NOT modify the LLM prompt. Optimize the retrieval pipeline: switch from dense-only to **Hybrid Search (Dense + BM25 via RRF)**, expand $K$ from 5 to 50 with Cross-Encoder reranking, and implement **Parent-Child Chunking**.
 - **If Generation Failure:** Do NOT modify embeddings or vector indexes. Refactor the LLM context: inject citations (`[Chunk 1]`), position the most relevant chunk at the very beginning or end of context (counteracting the *Lost in the Middle* phenomenon), and instruct: *"If the provided context does not explicitly state the answer, state 'Insufficient information' rather than guessing."*

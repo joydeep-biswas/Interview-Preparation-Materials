@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 540" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-blue { stroke: #3B82F6; }
+      .card-green { stroke: #10B981; }
+      .card-purple { stroke: #8B5CF6; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-green { stroke: #10B981; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #D1D5DB; text-anchor: middle; }
+    </style>
+    <marker id="arr-b121" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g121" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-p121" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Column 1: JVM Memory Layout -->
+  <rect x="20" y="20" width="340" height="500" class="pillar-box" stroke="#3B82F6"/>
+  <text x="190" y="48" class="title-text" fill="#60A5FA">1. JVM Memory Layout &amp; Zones</text>
+
+  <!-- Young Gen -->
+  <rect x="40" y="70" width="300" height="75" class="card card-blue"/>
+  <text x="190" y="93" class="card-title" fill="#93C5FD">Young Generation</text>
+  <text x="55" y="115" class="card-body">• Eden Space (rapid object allocation)</text>
+  <text x="55" y="133" class="card-body">• Survivor Spaces (S0 / S1 ping-pong aging)</text>
+
+  <!-- Old Gen -->
+  <rect x="40" y="165" width="300" height="75" class="card card-blue"/>
+  <text x="190" y="188" class="card-title" fill="#93C5FD">Old Generation (Tenured)</text>
+  <text x="55" y="210" class="card-body">• Long-lived objects surviving tenuring threshold</text>
+  <text x="55" y="228" class="card-body">• Spring Singletons, caches &amp; session states</text>
+
+  <!-- Metaspace -->
+  <rect x="40" y="255" width="300" height="75" class="card card-blue"/>
+  <text x="190" y="278" class="card-title" fill="#93C5FD">Metaspace (Native Off-Heap)</text>
+  <text x="55" y="300" class="card-body">• Class definitions, method bytecode &amp; constant pool</text>
+  <text x="55" y="318" class="card-body">• Dynamic proxy &amp; CGLIB generated classes</text>
+
+  <!-- Code Cache -->
+  <rect x="40" y="345" width="300" height="75" class="card card-blue"/>
+  <text x="190" y="368" class="card-title" fill="#93C5FD">Code Cache</text>
+  <text x="55" y="390" class="card-body">• JIT Compiled C1 (Tier 1-3) &amp; C2 (Tier 4) native code</text>
+  <text x="55" y="408" class="card-body">• Inlined hot methods and deoptimization guards</text>
+
+  <!-- Direct Buffers -->
+  <rect x="40" y="435" width="300" height="70" class="card card-blue"/>
+  <text x="190" y="458" class="card-title" fill="#93C5FD">Direct Off-Heap Buffers</text>
+  <text x="55" y="480" class="card-body">• NIO Direct ByteBuffer for zero-copy socket I/O</text>
+  <text x="55" y="495" class="card-body">• Netty pooled byte allocators</text>
+
+  <!-- Young to Old internal flow -->
+  <path fill="none" d="M 190 145 L 190 165" class="edge edge-blue" marker-end="url(#arr-b121)"/>
+
+  <!-- Column 2: Garbage Collection & Safepoint Plane -->
+  <rect x="390" y="20" width="340" height="500" class="pillar-box" stroke="#10B981"/>
+  <text x="560" y="48" class="title-text" fill="#6EE7B7">2. GC &amp; Safepoint Plane</text>
+
+  <!-- ZGC / Shenandoah -->
+  <rect x="410" y="80" width="300" height="110" class="card card-green"/>
+  <text x="560" y="105" class="card-title" fill="#6EE7B7">ZGC / Shenandoah (Low Latency)</text>
+  <text x="425" y="130" class="card-body">• Sub-millisecond pause times regardless of heap size</text>
+  <text x="425" y="150" class="card-body">• Colored pointers &amp; load barriers</text>
+  <text x="425" y="170" class="card-body">• Concurrent marking, relocation &amp; reference processing</text>
+
+  <!-- G1 GC -->
+  <rect x="410" y="220" width="300" height="110" class="card card-green"/>
+  <text x="560" y="245" class="card-title" fill="#6EE7B7">G1 Garbage Collector</text>
+  <text x="425" y="270" class="card-body">• Region-based heap layout (1MB to 32MB regions)</text>
+  <text x="425" y="290" class="card-body">• Mixed collections prioritize highest garbage regions</text>
+  <text x="425" y="310" class="card-body">• Soft real-time target: -XX:MaxGCPauseMillis</text>
+
+  <!-- Safepoint Engine -->
+  <rect x="410" y="360" width="300" height="130" class="card card-green"/>
+  <text x="560" y="385" class="card-title" fill="#6EE7B7">JVM Safepoint Engine &amp; TTSP</text>
+  <text x="425" y="410" class="card-body">• Global pause where all mutator threads stop</text>
+  <text x="425" y="430" class="card-body">• Time-To-Safepoint (TTSP) latency diagnosis</text>
+  <text x="425" y="450" class="card-body">• Handshakes for single-thread biased revocation</text>
+  <text x="425" y="470" class="card-body">• JIT polling pages injected into loop branches</text>
+
+  <!-- Column 3: Troubleshooting Toolkit -->
+  <rect x="760" y="20" width="340" height="500" class="pillar-box" stroke="#8B5CF6"/>
+  <text x="930" y="48" class="title-text" fill="#C4B5FD">3. Production Troubleshooting Toolkit</text>
+
+  <!-- Thread Dumps -->
+  <rect x="780" y="70" width="300" height="95" class="card card-purple"/>
+  <text x="930" y="95" class="card-title" fill="#D8B4FE">Thread Dumps (jstack / kill -3)</text>
+  <text x="795" y="120" class="card-body">• Snapshot of all thread call stacks &amp; states</text>
+  <text x="795" y="140" class="card-body">• Built-in deadlock detection engine</text>
+  <text x="795" y="158" class="card-body">• Diagnoses BLOCKED &amp; WAITING starvation</text>
+
+  <!-- Heap Dumps -->
+  <rect x="780" y="180" width="300" height="95" class="card card-purple"/>
+  <text x="930" y="205" class="card-title" fill="#D8B4FE">Heap Dumps (jcmd / HPROF)</text>
+  <text x="795" y="230" class="card-body">• -XX:+HeapDumpOnOutOfMemoryError</text>
+  <text x="795" y="250" class="card-body">• Complete binary snapshot of live object graph</text>
+  <text x="795" y="268" class="card-body">• Captures incoming &amp; outgoing object references</text>
+
+  <!-- MAT -->
+  <rect x="780" y="290" width="300" height="105" class="card card-purple"/>
+  <text x="930" y="315" class="card-title" fill="#D8B4FE">Eclipse MAT Analysis</text>
+  <text x="795" y="340" class="card-body">• Dominator Tree sorts objects by retained size</text>
+  <text x="795" y="360" class="card-body">• Automated Leak Suspects Report (>20% heap)</text>
+  <text x="795" y="380" class="card-body">• Path to GC Roots excluding weak/soft refs</text>
+
+  <!-- JFR -->
+  <rect x="780" y="410" width="300" height="95" class="card card-purple"/>
+  <text x="930" y="435" class="card-title" fill="#D8B4FE">Java Flight Recorder (JFR)</text>
+  <text x="795" y="460" class="card-body">• Kernel &amp; JVM low-overhead event recorder (&lt;1% CPU)</text>
+  <text x="795" y="480" class="card-body">• Profiles CPU, lock contention, allocations &amp; I/O</text>
+
+  <!-- Heap Dump to MAT flow -->
+  <path fill="none" d="M 930 275 L 930 290" class="edge edge-purple" marker-end="url(#arr-p121)"/>
+
+  <!-- Cross-pillar connectors with straight runways -->
+  <!-- Young Gen to G1GC: exit 340,107 -> curve -> enter 410,245 with runway dx>=14 -->
+  <path fill="none" d="M 340 107 C 370 107, 375 245, 396 245 L 410 245" class="edge edge-green" marker-end="url(#arr-g121)"/>
+
+  <!-- Old Gen to ZGC: exit 340,202 -> curve -> enter 410,135 with runway dx>=14 -->
+  <path fill="none" d="M 340 202 C 370 202, 375 135, 396 135 L 410 135" class="edge edge-green" marker-end="url(#arr-g121)"/>
+
+  <!-- Old Gen to Heap Dump: exit 340,215 -> curve across to enter 780,227 with runway dx>=14 -->
+  <path fill="none" d="M 340 215 C 500 215, 680 227, 766 227 L 780 227" class="edge edge-purple" marker-end="url(#arr-p121)"/>
+</svg>

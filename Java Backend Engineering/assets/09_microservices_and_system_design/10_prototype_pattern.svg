@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Prototype Pattern: Efficient Cloning of Pre-Warmed Complex States</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Deep / Defensive State Forking to Bypass Expensive Database Queries and CPU Deserialization</text>
+<rect x="50" y="120" width="260" height="300" rx="8" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
+<rect x="65" y="135" width="180" height="20" rx="10" fill="#6d28d9"/><text x="155" y="148" fill="#EDE9FE" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. PROTOTYPE CONTRACT</text>
+<text x="180" y="180" fill="#C4B5FD" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;</text>
+<text x="180" y="198" fill="#C084FC" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Prototype&amp;lt;T&amp;gt;</text>
+<rect x="65" y="225" width="230" height="65" rx="6" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
+<text x="180" y="250" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+copy(): T</text>
+<text x="180" y="270" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Enforces deep/defensive clone</text>
+<text x="70" y="315" fill="#F87171" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why not java.lang.Cloneable?</text>
+<text x="70" y="335" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cloneable is flawed: No public clone()</text>
+<text x="70" y="352" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Default super.clone() is SHALLOW</text>
+<text x="70" y="370" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Throws CloneNotSupportedException</text>
+<text x="70" y="395" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Custom copy() / Copy Constructor is clean!</text>
+<rect x="370" y="120" width="340" height="300" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="2"/>
+<rect x="385" y="135" width="240" height="20" rx="10" fill="#1e3a8a"/><text x="505" y="148" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. PRE-WARMED PROTOTYPE</text>
+<text x="540" y="180" fill="#60A5FA" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ReportConfiguration</text>
+<text x="390" y="208" fill="#93C5FD" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Expensive Pre-Loaded State:</text>
+<text x="390" y="228" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• 500+ complex layout styling rules</text>
+<text x="390" y="244" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Pre-compiled Jasper/BIRT report templates</text>
+<text x="390" y="260" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Takes 1.5 seconds to load from DB/disk</text>
+<rect x="385" y="280" width="310" height="115" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="395" y="300" fill="#6EE7B7" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">public ReportConfiguration copy() {</text>
+<text x="405" y="318" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">return new ReportConfiguration(</text>
+<text x="415" y="334" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">this.templateCache, // shared immutable</text>
+<text x="415" y="350" fill="#38BDF8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">new HashMap&lt;&gt;(this.customHeaders),</text>
+<text x="415" y="366" fill="#38BDF8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">new ArrayList&lt;&gt;(this.columns));</text>
+<text x="395" y="384" fill="#6EE7B7" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">}</text>
+<rect x="770" y="120" width="260" height="300" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
+<rect x="785" y="135" width="180" height="20" rx="10" fill="#047857"/><text x="875" y="148" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. TENANT INSTANCES</text>
+<text x="900" y="180" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Report Engine Client</text>
+<rect x="785" y="205" width="230" height="80" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="900" y="225" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tenant A Clone (50µs)</text>
+<text x="900" y="245" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Forks baseline -&gt; adds tenant header</text>
+<text x="900" y="260" fill="#34D399" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zero DB query overhead!</text>
+<rect x="785" y="300" width="230" height="80" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+<text x="900" y="320" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tenant B Clone (50µs)</text>
+<text x="900" y="340" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Forks baseline -&gt; sets currency = EUR</text>
+<text x="900" y="355" fill="#34D399" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Independent isolated copy!</text>
+<line x1="310" y1="270" x2="370" y2="270" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-p)"/>
+<line x1="710" y1="270" x2="770" y2="270" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<rect x="40" y="455" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="478" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">When to Use the Prototype Pattern:</text>
+<text x="65" y="498" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Direct instantiation is cost-prohibitive: Object initialization requires reading 10MB of XML, executing heavy regex parsing, or making 5 network calls.</text>
+<text x="65" y="515" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Pre-warm a golden prototype in RAM at application startup. For every request, clone the pre-warmed prototype in ~50 microseconds!</text>
+</svg>

@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Sort-Merge Join (SMJ) Architecture &amp; Execution Phases</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">The 3-phase execution engine for robust, large-scale multi-terabyte distributed relational joins</text>
+
+  <!-- Phase 1: Hash Shuffle Phase -->
+  <rect x="40" y="85" width="330" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="40" y="85" width="330" height="40" rx="8" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="205" y="105" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle">PHASE 1: HASH SHUFFLE</text>
+  <text x="205" y="119" font-size="10" font-weight="600" fill="#FDE68A" text-anchor="middle">Partitioning by Join Key across Network</text>
+
+  <!-- Table 1 Input -->
+  <rect x="55" y="140" width="300" height="75" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="70" y="162" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">Table 1 (Orders - 2 TB)</text>
+  <text x="70" y="180" font-size="10" fill="#CBD5E1" text-anchor="start">• Hash partitions on: <tspan font-family="monospace">hash(customer_id) % 200</tspan></text>
+  <text x="70" y="196" font-size="9.5" fill="#94A3B8" text-anchor="start">• Writes sorted shuffle files to local NVMe</text>
+
+  <!-- Table 2 Input -->
+  <rect x="55" y="230" width="300" height="75" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="70" y="252" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">Table 2 (Customers - 500 GB)</text>
+  <text x="70" y="270" font-size="10" fill="#CBD5E1" text-anchor="start">• Hash partitions on: <tspan font-family="monospace">hash(customer_id) % 200</tspan></text>
+  <text x="70" y="286" font-size="9.5" fill="#94A3B8" text-anchor="start">• Writes sorted shuffle files to local NVMe</text>
+
+  <!-- Network Exchange Box -->
+  <rect x="55" y="320" width="300" height="135" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1"/>
+  <text x="70" y="342" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="start">Network Shuffle Exchange</text>
+  <text x="70" y="362" font-size="10" fill="#CBD5E1" text-anchor="start">• All rows with the same key hash end up on</text>
+  <text x="70" y="377" font-size="10" fill="#CBD5E1" text-anchor="start">  the exact same reducer executor node!</text>
+  <text x="70" y="395" font-size="9.5" fill="#A7F3D0" text-anchor="start">Example: All customer_id=1054 rows go to Reducer 14</text>
+  <text x="70" y="415" font-size="9" fill="#94A3B8" text-anchor="start">Cost: High network bandwidth consumption</text>
+  <text x="70" y="430" font-size="9" font-weight="600" fill="#FBBF24" text-anchor="start">Stage Barrier: Must complete before Phase 2</text>
+
+  <!-- Phase 2: Local Sort Phase -->
+  <rect x="395" y="85" width="330" height="385" rx="8" fill="#1E293B" fill-opacity="0.6" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="395" y="85" width="330" height="40" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="560" y="105" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">PHASE 2: LOCAL IN-MEMORY SORT</text>
+  <text x="560" y="119" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Ordering Keys on Reducer Worker Node</text>
+
+  <!-- Sorter 1 -->
+  <rect x="410" y="140" width="300" height="100" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="425" y="162" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">Sort Table 1 Partition Keys</text>
+  <text x="425" y="182" font-size="10" font-family="monospace" fill="#CBD5E1" text-anchor="start">Keys: [101, 105, 105, 108, 112...]</text>
+  <text x="425" y="200" font-size="9.5" fill="#94A3B8" text-anchor="start">• Tungsten RadixSort &amp; TimSort</text>
+  <text x="425" y="217" font-size="9.5" fill="#34D399" text-anchor="start">• Spills to NVMe if partition exceeds RAM</text>
+
+  <!-- Sorter 2 -->
+  <rect x="410" y="255" width="300" height="100" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="425" y="277" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="start">Sort Table 2 Partition Keys</text>
+  <text x="425" y="297" font-size="10" font-family="monospace" fill="#CBD5E1" text-anchor="start">Keys: [100, 105, 108, 115...]</text>
+  <text x="425" y="315" font-size="9.5" fill="#94A3B8" text-anchor="start">• Tungsten RadixSort &amp; TimSort</text>
+  <text x="425" y="332" font-size="9.5" fill="#34D399" text-anchor="start">• Spills to NVMe if partition exceeds RAM</text>
+
+  <!-- Why SMJ Beats SHJ Box -->
+  <rect x="410" y="370" width="300" height="85" rx="6" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1"/>
+  <text x="425" y="390" font-size="10" font-weight="700" fill="#34D399" text-anchor="start">Why SMJ is the Default for Big Data:</text>
+  <text x="425" y="408" font-size="9.5" fill="#CBD5E1" text-anchor="start">Hash joins must fit the build table in RAM.</text>
+  <text x="425" y="423" font-size="9.5" font-weight="600" fill="#A7F3D0" text-anchor="start">SMJ spills gracefully to disk with ZERO OOM!</text>
+
+  <!-- Link Phase 1 -> Phase 2 -->
+  <line x1="355" y1="275" x2="410" y2="275" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Phase 3: Linear Pointer Merge -->
+  <rect x="750" y="85" width="330" height="385" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="750" y="85" width="330" height="40" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="915" y="105" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">PHASE 3: LINEAR POINTER MERGE</text>
+  <text x="915" y="119" font-size="10" font-weight="600" fill="#A7F3D0" text-anchor="middle">O(N + M) Streaming Two-Pointer Traversal</text>
+
+  <!-- Pointer Visual Box -->
+  <rect x="765" y="140" width="300" height="150" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="780" y="162" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Two-Pointer Stepping Algorithm</text>
+  
+  <text x="780" y="185" font-size="10" font-family="monospace" fill="#93C5FD" text-anchor="start">ptr1 -&gt; Table 1: [101, 105, 105, 108]</text>
+  <text x="780" y="202" font-size="10" font-family="monospace" fill="#FBBF24" text-anchor="start">ptr2 -&gt; Table 2: [100, 105, 108, 115]</text>
+
+  <text x="780" y="225" font-size="9.5" fill="#CBD5E1" text-anchor="start">• If ptr1 &lt; ptr2: Advance ptr1</text>
+  <text x="780" y="240" font-size="9.5" fill="#CBD5E1" text-anchor="start">• If ptr1 &gt; ptr2: Advance ptr2</text>
+  <text x="780" y="255" font-size="9.5" font-weight="700" fill="#34D399" text-anchor="start">• If ptr1 == ptr2: Emit matched joined row!</text>
+  <text x="780" y="272" font-size="9" fill="#94A3B8" text-anchor="start">Handles duplicates via mark &amp; rewind buffer</text>
+
+  <!-- Output Stream -->
+  <rect x="765" y="305" width="300" height="150" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="2"/>
+  <text x="780" y="327" font-size="11" font-weight="700" fill="#34D399" text-anchor="start">Joined Output Stream</text>
+  <text x="780" y="347" font-size="10" fill="#CBD5E1" text-anchor="start">• Time Complexity: <tspan fill="#34D399" font-weight="700">Strictly Linear O(N + M)</tspan></text>
+  <text x="780" y="364" font-size="10" fill="#CBD5E1" text-anchor="start">• Zero hash table memory overhead</text>
+  <text x="780" y="381" font-size="10" fill="#CBD5E1" text-anchor="start">• Streams records directly to output sink</text>
+  <text x="780" y="405" font-size="9.5" font-weight="600" fill="#A7F3D0" text-anchor="start">Benchmark:</text>
+  <text x="780" y="422" font-size="9" fill="#CBD5E1" text-anchor="start">Scales to petabytes with zero memory pressure.</text>
+  <text x="780" y="437" font-size="9" fill="#94A3B8" text-anchor="start">Enabled by default in Spark 2.x and 3.x.</text>
+
+  <!-- Link Phase 2 -> Phase 3 -->
+  <line x1="710" y1="275" x2="765" y2="275" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">SortMergeJoin Invariant: By partitioning and sorting both tables prior to joining, SMJ avoids the high RAM constraints of hash tables, merging multi-terabyte data streams in linear O(N+M) time.</text>
+</svg>

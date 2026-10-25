@@ -1,0 +1,25 @@
+direction: right
+classes: {
+  phase: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+p1: "Phase 1: Expand Phase (Additive)" {
+  class: phase
+  style.stroke: "#3B82F6"
+  desc: "Prod adds new column customer_address_v2\nOld column address preserved\nDual-write to both columns active"
+}
+
+p2: "Phase 2: Translation & Deprecation" {
+  class: phase
+  style.stroke: "#F59E0B"
+  desc: "Semantic view v2_orders exposes v2 address\nDownstream BI dashboards migrate\n60-day deprecation migration window"
+}
+
+p3: "Phase 3: Contract Phase" {
+  class: phase
+  style.stroke: "#10B981"
+  desc: "Drop dual-write pipeline\nArchive and retire legacy column address\nZero query downtime or breaking schema locks"
+}
+
+p1 -> p2: "Schema Extended"
+p2 -> p3: "Consumers Migrated"

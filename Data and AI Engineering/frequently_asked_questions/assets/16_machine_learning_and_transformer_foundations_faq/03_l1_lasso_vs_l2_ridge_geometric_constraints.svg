@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Decision -->
+  <polygon points="480,20 600,55 480,90 360,55" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="480" y="50" class="title-txt" text-anchor="middle">Feature Space</text>
+  <text x="480" y="66" class="sub-txt" text-anchor="middle">Characteristic?</text>
+
+  <!-- Left: L1 Lasso -->
+  <path d="M 360 55 L 245 55 Q 230 55 230 70 L 230 110" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <rect x="235" y="42" width="115" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="292" y="55" class="edge-txt" text-anchor="middle" fill="#38BDF8">High Dim &amp; Sparse</text>
+
+  <rect x="30" y="110" width="410" height="160" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="235" y="136" class="title-txt" text-anchor="middle" fill="#93C5FD">L1 (Lasso) Constraint: Diamond Corner Geometry</text>
+  <text x="45" y="162" class="body-txt" text-anchor="start">• <tspan font-weight="700">Constraint Equation:</tspan> |w1| + |w2| &lt;= t</text>
+  <text x="45" y="182" class="body-txt" text-anchor="start">• Loss contours first intersect the L1 diamond at sharp axis vertices</text>
+  <text x="45" y="202" class="mono-txt" text-anchor="start">Results in exact zero weights (w_i = 0)</text>
+  <text x="45" y="222" class="body-txt" text-anchor="start">• Operates as automatic embedded feature selection</text>
+  <text x="45" y="246" class="badge-txt" fill="#38BDF8">✓ Enforces Sparse Representations</text>
+
+  <!-- Right: L2 Ridge -->
+  <path d="M 600 55 L 715 55 Q 730 55 730 70 L 730 110" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="610" y="42" width="115" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="667" y="55" class="edge-txt" text-anchor="middle" fill="#10B981">Collinear &amp; Dense</text>
+
+  <rect x="520" y="110" width="410" height="160" rx="10" ry="10" fill="#0D1526" stroke="#10B981" stroke-width="1.5"/>
+  <text x="725" y="136" class="title-txt" text-anchor="middle" fill="#6EE7B7">L2 (Ridge) Constraint: Circular Tangent Geometry</text>
+  <text x="535" y="162" class="body-txt" text-anchor="start">• <tspan font-weight="700">Constraint Equation:</tspan> w1^2 + w2^2 &lt;= t^2</text>
+  <text x="535" y="182" class="body-txt" text-anchor="start">• Loss contours contact smooth circular sphere tangentially</text>
+  <text x="535" y="202" class="mono-txt" text-anchor="start">Weights shrink smoothly towards zero, never zero</text>
+  <text x="535" y="222" class="body-txt" text-anchor="start">• Handles multicollinearity by sharing weights across features</text>
+  <text x="535" y="246" class="badge-txt" fill="#10B981">✓ Rotational Invariant Weight Decay</text>
+</svg>

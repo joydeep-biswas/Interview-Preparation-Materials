@@ -1,0 +1,19 @@
+direction: right
+
+proc: "Stored Procedure (Explicit)" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  call: "CallableStatement: Explicit RPC"
+  tx: "Can manage its own transactions"
+  use: "Batch data crunching & ETL"
+}
+
+trigger: "Database Trigger (Implicit)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  hook: "Fires on INSERT, UPDATE, DELETE"
+  tx: "Bound to calling transaction (Rollback aborts all)"
+  use: "Audit trails, pseudo-records (:NEW, :OLD)"
+}
+
+proc -> trigger: "Explicit execution vs Implicit hook"

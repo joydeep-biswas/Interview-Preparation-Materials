@@ -1,0 +1,36 @@
+direction: right
+title: Traditional Data Warehouse (EDW) ETL Architecture
+
+sources: Operational Sources {
+  oltp: OLTP Databases (Oracle/Postgres)
+  crm: Salesforce CRM API
+  erp: SAP ERP Core
+}
+
+etl: Heavy Batch ETL Engine {
+  informatica: Informatica / DataStage / SSIS {
+    shape: rectangle
+    type: "Nightly batch transformations"
+    rules: "Rigid schema-on-write mapping"
+  }
+}
+
+edw: Enterprise Data Warehouse {
+  mpp: Snowflake / Teradata / Redshift {
+    shape: cylinder
+    storage: "Proprietary Columnar"
+    schema: "3NF & Kimball Star"
+  }
+}
+
+bi: BI Consumers {
+  pbi: Power BI Dashboards
+  tableau: Tableau Analytics
+}
+
+sources.oltp -> etl.informatica
+sources.crm -> etl.informatica
+sources.erp -> etl.informatica
+etl.informatica -> edw.mpp: "Strict Schema-on-Write"
+edw.mpp -> bi.pbi: "SQL Queries"
+edw.mpp -> bi.tableau: "SQL Queries"

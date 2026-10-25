@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 220" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-gray { stroke: #64748B; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-b7py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-a7py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g7py" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">Streaming Log Extraction: Generator, Precompiled Regex &amp; Top-K Heap</text>
+
+  <!-- Step 1 -->
+  <rect x="25" y="65" width="180" height="120" class="card card-gray"/>
+  <text x="115" y="92" class="card-title" fill="#CBD5E1">100 GB Audit Log</text>
+  <text x="35" y="117" class="card-body">• /var/log/audit.log</text>
+  <text x="35" y="137" class="card-body">• Millions of SQL queries</text>
+  <text x="35" y="157" class="card-body">• Disk file pointer</text>
+
+  <!-- Step 2 -->
+  <rect x="235" y="65" width="180" height="120" class="card card-blue"/>
+  <text x="325" y="92" class="card-title" fill="#93C5FD">1. Line Generator</text>
+  <text x="245" y="117" class="card-body">• with open() as f:</text>
+  <text x="245" y="137" class="card-body">• Buffer: 64 KB</text>
+  <text x="245" y="157" class="card-body" fill="#34D399">• Constant O(1) RAM</text>
+
+  <!-- Step 3 -->
+  <rect x="445" y="65" width="185" height="120" class="card card-amber"/>
+  <text x="537" y="92" class="card-title" fill="#FDE68A">2. Compiled Regex</text>
+  <text x="455" y="117" class="card-body">• re.compile() cached</text>
+  <text x="455" y="137" class="card-body">• Matches FROM / JOIN</text>
+  <text x="455" y="157" class="card-body">• Extracts table tokens</text>
+
+  <!-- Step 4 -->
+  <rect x="660" y="65" width="185" height="120" class="card card-green"/>
+  <text x="752" y="92" class="card-title" fill="#6EE7B7">3. Counter Hash</text>
+  <text x="670" y="117" class="card-body">• collections.Counter</text>
+  <text x="670" y="137" class="card-body">• Key: Table Name</text>
+  <text x="670" y="157" class="card-body" fill="#34D399">• &lt; 10 MB total RAM</text>
+
+  <!-- Step 5 -->
+  <rect x="875" y="65" width="160" height="120" class="card card-green"/>
+  <text x="955" y="92" class="card-title" fill="#6EE7B7">4. Top-10 Heap</text>
+  <text x="885" y="117" class="card-body">• most_common(10)</text>
+  <text x="885" y="137" class="card-body">• Min-heap O(K) size</text>
+  <text x="885" y="157" class="card-body" fill="#34D399">• Emitted to stdout</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 205 125 L 235 125" class="edge edge-blue" marker-end="url(#arr-b7py)"/>
+  <path fill="none" d="M 415 125 L 445 125" class="edge edge-amber" marker-end="url(#arr-a7py)"/>
+  <path fill="none" d="M 630 125 L 660 125" class="edge edge-green" marker-end="url(#arr-g7py)"/>
+  <path fill="none" d="M 845 125 L 875 125" class="edge edge-green" marker-end="url(#arr-g7py)"/>
+</svg>

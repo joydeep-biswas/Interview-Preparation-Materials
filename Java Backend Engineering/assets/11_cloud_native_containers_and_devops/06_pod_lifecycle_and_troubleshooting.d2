@@ -1,0 +1,21 @@
+direction: down
+title: Kubernetes Pod Lifecycle State Machine
+
+HappyPath: Pod Lifecycle Stages {
+  pending: "1. PENDING (Scheduling)"
+  creating: "2. CONTAINER_CREATING (CRI, CNI, CSI)"
+  starting: "3. APP_STARTING (Startup Probe)"
+  running: "4. RUNNING & READY (Readiness Probe)"
+  pending -> creating -> starting -> running
+}
+
+FailureModes: Diagnostic Failure States {
+  img: "ImagePullBackOff (Auth / Bad Tag)"
+  crash: "CrashLoopBackOff (Config / Crash on boot)"
+  oom: "OOMKilled Exit 137 (memory.max breached)"
+  ready: "Readiness Failure (0/1 Ready, unrouted)"
+}
+
+HappyPath.creating -> FailureModes.img: Registry error { style.stroke: "#EF4444" }
+HappyPath.starting -> FailureModes.crash: Boot crash { style.stroke: "#EF4444" }
+HappyPath.running -> FailureModes.oom: Memory spike { style.stroke: "#EF4444" }

@@ -1,0 +1,19 @@
+direction: right
+title: Historical Backfilling Strategies: Chunked vs. Monolithic
+
+naive: Anti-Pattern: Monolithic Backfill {
+  run: "Naive Backfill: Run full 5-year range at once"
+  exhaust: "Resource Exhaustion: Cluster OOM & locks production source DB"
+  run -> exhaust
+  style.stroke: "#ef4444"
+}
+
+chunked: Recommended: Idempotent Chunked Backfill {
+  orch: "Partitioned Orchestration: Iterate day-by-day in sequence"
+  c1: "Run 2026-01-01"
+  c2: "Run 2026-01-02"
+  cn: "Run 2026-01-31"
+  success: "Safe Execution: Bounded memory, zero lock contention, isolated retries"
+  orch -> c1 -> c2 -> cn -> success
+  style.stroke: "#10b981"
+}

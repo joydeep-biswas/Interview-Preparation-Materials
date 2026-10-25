@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+}
+
+User: "User / Client" { class: box }
+Gateway: "API Gateway\nAuth & Guardrails" { class: box }
+QueryEngine: "Query Engine\nHyDE & Rewriting" { class: box }
+Search: "Hybrid Retrieval\nDense HNSW + BM25" { class: box }
+Reranker: "Cross-Encoder Reranker\nTop-5 Filter" { class: box }
+LLM: "LLM & Output Safety\nSynthesis & Citations" { class: box }
+
+User -> Gateway: "1. POST /v1/chat"
+Gateway -> QueryEngine: "2. Sanitized Query"
+QueryEngine -> Search: "3. Fan-out Search"
+Search -> Reranker: "4. Top-50 Candidates"
+Reranker -> LLM: "5. Top-5 Chunks"
+LLM -> User: "6. Streamed Tokens"

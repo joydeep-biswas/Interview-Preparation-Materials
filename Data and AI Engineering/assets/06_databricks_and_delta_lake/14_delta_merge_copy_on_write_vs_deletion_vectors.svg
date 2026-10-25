@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Lake Deletion Vectors vs Copy-on-Write (COW)</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Eliminating write amplification: Roaring Bitmap soft-deletes vs rewriting 500MB Parquet data files</text>
+<rect x="30" y="85" width="470" height="410" rx="8" fill="#1a1116" stroke="#ef4444" stroke-width="1.5"/>
+<text x="265" y="112" fill="#FCA5A5" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Traditional Copy-on-Write (COW)</text>
+<rect x="170" y="122" width="190" height="18" rx="9" fill="#991b1b"/><text x="265" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">High I/O Write Amplification</text>
+<rect x="50" y="155" width="430" height="70" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
+<text x="65" y="178" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Original Parquet Data File: part-00001.parquet</text>
+<text x="65" y="198" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Size: 500 MB  |  1,000,000 Total Physical Rows</text>
+<text x="65" y="214" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Target Mutation: Delete or Update 1 row (Row #42)</text>
+<line x1="265" y1="225" x2="265" y2="260" stroke="#F87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+<text x="265" y="248" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Mutation: Delete 1 row</text>
+<rect x="50" y="265" width="430" height="95" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
+<text x="65" y="288" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Rewritten Parquet File: part-00002.parquet</text>
+<text x="65" y="308" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Reads 1,000,000 rows into executor memory</text>
+<text x="65" y="326" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Filters out Row #42, compresses 999,999 surviving rows</text>
+<text x="65" y="344" fill="#FCA5A5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Writes entire NEW 500 MB Parquet file to cloud object storage!</text>
+<rect x="50" y="380" width="430" height="95" rx="8" fill="#2d1215" stroke="#dc2626" stroke-width="1"/>
+<text x="265" y="403" fill="#F87171" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The COW Performance Penalty</text>
+<text x="65" y="425" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Network / Storage I/O: 500 MB written for 1 row!</text>
+<text x="65" y="443" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• High write latency, frequent checkpointing overhead</text>
+<text x="65" y="461" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Causes severe write-write contention during concurrent updates</text>
+<rect x="540" y="85" width="470" height="410" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
+<text x="775" y="112" fill="#6EE7B7" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Modern Deletion Vectors (DV)</text>
+<rect x="680" y="122" width="190" height="18" rx="9" fill="#047857"/><text x="775" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zero Data File Rewrites!</text>
+<rect x="560" y="155" width="430" height="70" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+<text x="575" y="178" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Original Parquet Data File: part-00001.parquet</text>
+<text x="575" y="198" fill="#94A3B8" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Size: 500 MB  |  1,000,000 Total Physical Rows</text>
+<text x="575" y="214" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Status: 100% UNTOUCHED! No bytes rewritten to storage</text>
+<rect x="560" y="240" width="430" height="75" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1"/>
+<text x="575" y="262" fill="#A7F3D0" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Tiny Deletion Vector (.dv file or inline in log)</text>
+<text x="575" y="282" fill="#D1FAE5" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Size: ~2 KB Roaring Bitmap bitmask</text>
+<text x="575" y="300" fill="#6EE7B7" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Bit 42 marked as DELETED: [0, 0, ... 1, ... 0]</text>
+<line x1="775" y1="225" x2="775" y2="240" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<line x1="775" y1="315" x2="775" y2="335" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+<rect x="560" y="335" width="430" height="60" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+<text x="575" y="355" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Reader Engine Scan (Photon / Apache Spark)</text>
+<text x="575" y="373" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Photon applies bitmap filter at wire-speed: Row #42 skipped instantly!</text>
+<text x="575" y="388" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero CPU deserialization penalty for deleted rows</text>
+<rect x="560" y="410" width="430" height="65" rx="8" fill="#0f2e28" stroke="#059669" stroke-width="1"/>
+<text x="775" y="430" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Deletion Vector Advantage</text>
+<text x="575" y="450" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• 100x Faster Write Performance: Writes 2 KB instead of 500 MB</text>
+<text x="575" y="466" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Background OPTIMIZE purges tombstoned rows asynchronously off-peak</text>
+</svg>

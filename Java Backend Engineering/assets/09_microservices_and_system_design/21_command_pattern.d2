@@ -1,0 +1,33 @@
+direction: right
+title: "Command Pattern: Encapsulated Request Objects with Undo/Redo & Queuing"
+
+client: "OrderActionService
+Creates CreateOrderCommand" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+cmd: "CreateOrderCommand <<interface>>
++execute()
++undo()" {
+  style.fill: "#064e3b"
+  style.stroke: "#10b981"
+}
+
+invoker: "CommandExecutorQueue
+Queues & triggers execute()
+Handles undo() on failure" {
+  style.fill: "#111827"
+  style.stroke: "#f59e0b"
+}
+
+receiver: "OrderDatabaseReceiver
+insertOrderRow()
+deleteOrderRow()" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+}
+
+client -> cmd: "1. Instantiates"
+cmd -> invoker: "2. Submitted to"
+invoker -> receiver: "3. Dispatches execute() / undo()"

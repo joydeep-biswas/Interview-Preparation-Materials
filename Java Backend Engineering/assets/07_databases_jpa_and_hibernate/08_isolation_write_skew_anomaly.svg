@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 580" width="1060" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1060" height="580" rx="10" fill="url(#bg)"/>
+  <text x="530" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Isolation Anomaly: Write Skew Under Repeatable Read</text>
+  <text x="530" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Concurrent Decisions on Overlapping Predicates Without Direct Row Lock Contention</text>
+<rect x="60" y="90" width="240" height="50" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+<text x="180" y="112" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Dr. Alice (Tx 1: Repeatable Read)</text>
+<text x="180" y="130" fill="#94A3B8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Wants to request leave</text>
+<rect x="410" y="90" width="240" height="50" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="2"/>
+<text x="530" y="112" fill="#F87171" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Hospital Database Engine</text>
+<text x="530" y="130" fill="#FCA5A5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Rule: COUNT(on_call=true) &gt;= 1</text>
+<rect x="760" y="90" width="240" height="50" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+<text x="880" y="112" fill="#FBBF24" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Dr. Bob (Tx 2: Repeatable Read)</text>
+<text x="880" y="130" fill="#94A3B8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Wants to request leave</text>
+<line x1="180" y1="140" x2="180" y2="480" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<line x1="530" y1="140" x2="530" y2="480" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<line x1="880" y1="140" x2="880" y2="480" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+<rect x="420" y="150" width="220" height="26" rx="4" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
+<text x="530" y="167" fill="#93C5FD" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Initial: Alice=true, Bob=true (Count=2)</text>
+<line x1="180" y1="195" x2="530" y2="195" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<line x1="530" y1="213" x2="180" y2="213" stroke="#34D399" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-g)"/>
+<rect x="75" y="185" width="210" height="36" rx="6" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="180" y="201" fill="#93C5FD" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. SELECT COUNT(*) WHERE on_call=true</text>
+<text x="180" y="215" fill="#6EE7B7" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Result: 2 -&gt; Safe to leave!</text>
+<line x1="880" y1="250" x2="530" y2="250" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<line x1="530" y1="268" x2="880" y2="268" stroke="#34D399" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-g)"/>
+<rect x="775" y="240" width="210" height="36" rx="6" fill="#78350f" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="880" y="256" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. SELECT COUNT(*) WHERE on_call=true</text>
+<text x="880" y="270" fill="#6EE7B7" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Result: 2 -&gt; Safe to leave!</text>
+<line x1="180" y1="310" x2="530" y2="310" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+<rect x="75" y="300" width="210" height="36" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="180" y="316" fill="#D1FAE5" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. UPDATE Alice on_call=false; COMMIT;</text>
+<text x="180" y="330" fill="#6EE7B7" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Success! (Locks Alice's row only)</text>
+<line x1="880" y1="370" x2="530" y2="370" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<rect x="775" y="360" width="210" height="36" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="880" y="376" fill="#D1FAE5" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. UPDATE Bob on_call=false; COMMIT;</text>
+<text x="880" y="390" fill="#6EE7B7" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Success! No row-level lock conflict!</text>
+<rect x="380" y="430" width="300" height="48" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>
+<text x="530" y="450" fill="#FECACA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CRITICAL INVARIANT VIOLATION!</text>
+<text x="530" y="468" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Alice=false, Bob=false -&gt; 0 Doctors On Call!</text>
+<rect x="50" y="495" width="960" height="68" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="70" y="517" fill="#F87171" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why Repeatable Read Fails: Repeatable read only protects individual rows against dirty/lost writes.</text>
+<text x="70" y="533" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Both transactions read a premise (Count=2), but modify disjoint rows (Alice vs Bob), avoiding write-locks.</text>
+<text x="70" y="549" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Remediation: (1) SERIALIZABLE isolation (detects rw-antidependencies) OR (2) Explicit SELECT ... FOR UPDATE / Predicate locking.</text>
+</svg>

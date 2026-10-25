@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 520" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-amber { stroke: #F59E0B; }
+      .card-cyan { stroke: #06B6D4; }
+      .card-pink { stroke: #EC4899; }
+      .card-blue { stroke: #3B82F6; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-green { stroke: #10B981; }
+      .edge-cyan { stroke: #06B6D4; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #D1D5DB; text-anchor: middle; }
+    </style>
+    <marker id="arr-b113" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-p113" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-g113" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-c113" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06B6D4"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Left Container: AWS Compute Continuum -->
+  <rect x="25" y="25" width="310" height="470" class="pillar-box" stroke="#3B82F6"/>
+  <text x="180" y="55" class="title-text" fill="#60A5FA">AWS Compute Continuum</text>
+
+  <!-- EC2 -->
+  <rect x="45" y="80" width="270" height="95" class="card card-amber"/>
+  <text x="180" y="105" class="card-title" fill="#FDE68A">Amazon EC2 (IaaS)</text>
+  <text x="60" y="130" class="card-body">• Full OS / Linux Kernel tuning</text>
+  <text x="60" y="150" class="card-body">• Stateful legacy monoliths</text>
+  <text x="60" y="170" class="card-body">• Dedicated NVMe disk I/O</text>
+
+  <!-- ECS Fargate -->
+  <rect x="45" y="200" width="270" height="110" class="card card-cyan"/>
+  <text x="180" y="225" class="card-title" fill="#A5F3FC">Amazon ECS Fargate (CaaS)</text>
+  <text x="60" y="250" class="card-body">• Serverless container runtime</text>
+  <text x="60" y="270" class="card-body">• 24/7 steady REST APIs &amp; daemons</text>
+  <text x="60" y="290" class="card-body">• Zero EC2 patch management</text>
+
+  <!-- AWS Lambda -->
+  <rect x="45" y="335" width="270" height="110" class="card card-pink"/>
+  <text x="180" y="360" class="card-title" fill="#FBCFE8">AWS Lambda (FaaS)</text>
+  <text x="60" y="385" class="card-body">• SnapStart / GraalVM Native AOT</text>
+  <text x="60" y="405" class="card-body">• Event-driven queue consumers</text>
+  <text x="60" y="425" class="card-body">• Automatic scale-to-zero</text>
+
+  <!-- Right Container: Observability Pipeline -->
+  <rect x="365" y="25" width="670" height="470" class="pillar-box" stroke="#10B981"/>
+  <text x="700" y="55" class="title-text" fill="#6EE7B7">Enterprise AWS Observability Pipeline</text>
+
+  <!-- ALB -->
+  <rect x="390" y="80" width="280" height="85" class="card card-blue"/>
+  <text x="530" y="105" class="card-title" fill="#93C5FD">Application Load Balancer</text>
+  <text x="405" y="130" class="card-body">• Generates X-Amzn-Trace-Id</text>
+  <text x="405" y="150" class="card-body">• Terminates TLS &amp; forwards HTTP/2</text>
+
+  <!-- JVM Telemetry Ingress -->
+  <rect x="390" y="200" width="280" height="240" class="card card-purple"/>
+  <text x="530" y="225" class="card-title" fill="#D8B4FE">JVM Telemetry Ingress</text>
+  <text x="405" y="255" class="card-body">• AWS X-Ray / OTel Filter</text>
+  <text x="415" y="275" class="card-body" fill="#C4B5FD">Extracts Trace ID &amp; active span</text>
+  <text x="405" y="305" class="card-body">• Micrometer MeterRegistry</text>
+  <text x="415" y="325" class="card-body" fill="#C4B5FD">JVM heap, GC pauses &amp; custom metrics</text>
+  <text x="405" y="355" class="card-body">• SLF4J Structured Logging</text>
+  <text x="415" y="375" class="card-body" fill="#C4B5FD">Propagates traceparent into MDC</text>
+
+  <!-- Observability Sinks (Right Side) -->
+  <!-- CW Metrics -->
+  <rect x="730" y="80" width="280" height="95" class="card card-green"/>
+  <text x="870" y="105" class="card-title" fill="#6EE7B7">CloudWatch Metrics (EMF)</text>
+  <text x="745" y="130" class="card-body">• Zero-overhead async STDOUT</text>
+  <text x="745" y="150" class="card-body">• Embedded Metric Format extractor</text>
+
+  <!-- CW Logs -->
+  <rect x="730" y="205" width="280" height="95" class="card card-green"/>
+  <text x="870" y="230" class="card-title" fill="#6EE7B7">CloudWatch Logs Insights</text>
+  <text x="745" y="255" class="card-body">• Shipped via Fluent Bit / FireLens</text>
+  <text x="745" y="275" class="card-body">• Fast JSON indexing by traceId</text>
+
+  <!-- AWS X-Ray -->
+  <rect x="730" y="330" width="280" height="95" class="card card-green"/>
+  <text x="870" y="355" class="card-title" fill="#6EE7B7">AWS X-Ray Distributed Tracing</text>
+  <text x="745" y="380" class="card-body">• Daemon / UDP trace collector</text>
+  <text x="745" y="400" class="card-body">• Service map &amp; subsegment latency</text>
+
+  <!-- Connectors with Straight Runways -->
+  <!-- Fargate -> ALB: exit 315,255 -> curve -> enter 390,122 with runway dx>=14 -->
+  <path fill="none" d="M 315 255 C 345 255, 355 122, 376 122 L 390 122" class="edge edge-cyan" marker-end="url(#arr-c113)"/>
+
+  <!-- ALB -> JVM Runtime (Vertical straight) -->
+  <path fill="none" d="M 530 165 L 530 200" class="edge edge-blue" marker-end="url(#arr-b113)"/>
+
+  <!-- JVM Runtime -> CW Metrics: exit 670,250 -> curve -> enter 730,127 with runway dx>=14 -->
+  <path fill="none" d="M 670 250 C 695 250, 700 127, 716 127 L 730 127" class="edge edge-green" marker-end="url(#arr-g113)"/>
+  <text x="695" y="160" class="edge-label" fill="#6EE7B7">EMF</text>
+
+  <!-- JVM Runtime -> CW Logs: exit 670,275 -> curve -> enter 730,252 with runway dx>=14 -->
+  <path fill="none" d="M 670 275 C 690 275, 700 252, 716 252 L 730 252" class="edge edge-green" marker-end="url(#arr-g113)"/>
+  <text x="700" y="240" class="edge-label" fill="#6EE7B7">Logs</text>
+
+  <!-- JVM Runtime -> X-Ray: exit 670,360 -> curve -> enter 730,377 with runway dx>=14 -->
+  <path fill="none" d="M 670 360 C 690 360, 700 377, 716 377 L 730 377" class="edge edge-green" marker-end="url(#arr-g113)"/>
+  <text x="700" y="395" class="edge-label" fill="#6EE7B7">Traces</text>
+</svg>

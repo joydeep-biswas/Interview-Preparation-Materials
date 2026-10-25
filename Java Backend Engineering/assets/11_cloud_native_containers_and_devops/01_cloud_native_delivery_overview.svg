@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1200" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1200" height="560" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="600" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Cloud Native Enterprise Delivery Architecture</text>
+  <text x="600" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Multi-Stage OCI Containerization -&gt; GitOps Automated Deployment (ArgoCD) -&gt; Kubernetes Resilient Orchestration</text>
+  <line x1="40" y1="68" x2="1160" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- Section 1: Containerization -->
+  <rect x="40" y="100" width="340" height="380" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="40" y="100" width="340" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="210" y="120" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Containerization &amp; Layering</text>
+
+  <rect x="60" y="145" width="300" height="80" rx="6" fill="#1E293B" stroke="#38BDF8"/>
+  <text x="210" y="170" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">Spring Boot Application Code</text>
+  <text x="75" y="195" font-size="9" fill="#CBD5E1">&#x2022; Java 21 LTS + Spring Boot 3</text>
+  <text x="75" y="213" font-size="9" fill="#CBD5E1">&#x2022; Maven / Gradle multi-module build</text>
+
+  <rect x="60" y="240" width="300" height="110" rx="6" fill="#0F172A" stroke="#0284C7"/>
+  <text x="210" y="265" font-size="10" font-weight="700" fill="#7DD3FC" text-anchor="middle">Multi-Stage Distroless Dockerfile</text>
+  <text x="75" y="288" font-size="8" fill="#CBD5E1">Stage 1: Maven Builder (Compile &amp; Test)</text>
+  <text x="75" y="306" font-size="8" fill="#CBD5E1">Stage 2: jlink Custom Minified JRE</text>
+  <text x="75" y="324" font-size="8" fill="#34D399">&#x2714; Final Runner: gcr.io/distroless/java21-debian12</text>
+  <text x="75" y="340" font-size="7" fill="#94A3B8">Zero bash, zero package managers, non-root user</text>
+
+  <rect x="60" y="365" width="300" height="95" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="210" y="390" font-size="10" font-weight="700" fill="#E2E8F0" text-anchor="middle">OCI Hardened Container Image</text>
+  <text x="75" y="412" font-size="8" fill="#34D399">&#x2714; Footprint: ~140MB (vs 800MB standard)</text>
+  <text x="75" y="430" font-size="8" fill="#CBD5E1">&#x2022; Trivy CVE Vulnerability Scan: ZERO Criticals</text>
+  <text x="75" y="448" font-size="8" fill="#CBD5E1">&#x2022; Pushed to Azure Container Registry (ACR)</text>
+
+  <!-- Connectors in 1 -->
+  <path fill="none" d="M 210 225 L 210 240" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <path fill="none" d="M 210 350 L 210 365" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  <!-- Section 2: GitOps &amp; Delivery -->
+  <rect x="420" y="100" width="340" height="380" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="420" y="100" width="340" height="30" rx="8" fill="#064E3B"/>
+  <text x="590" y="120" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. CI/CD &amp; GitOps Automation</text>
+
+  <rect x="440" y="145" width="300" height="80" rx="6" fill="#1E293B" stroke="#10B981"/>
+  <text x="590" y="170" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Git Repository (Declarative Manifests)</text>
+  <text x="455" y="195" font-size="9" fill="#CBD5E1">&#x2022; Kustomize / Helm Charts</text>
+  <text x="455" y="213" font-size="9" fill="#CBD5E1">&#x2022; Single source of deployment truth</text>
+
+  <rect x="440" y="240" width="300" height="110" rx="6" fill="#0F172A" stroke="#10B981"/>
+  <text x="590" y="265" font-size="10" font-weight="700" fill="#6EE7B7" text-anchor="middle">ArgoCD Controller (In-Cluster)</text>
+  <text x="455" y="288" font-size="8" fill="#CBD5E1">&#x2022; Continuous reconciliation loop</text>
+  <text x="455" y="306" font-size="8" fill="#CBD5E1">&#x2022; Compares Git Target vs K8s Live State</text>
+  <text x="455" y="324" font-size="8" fill="#34D399">&#x2714; Automated drift correction (Self-healing)</text>
+  <text x="455" y="340" font-size="8" fill="#FBBF24">&#x2022; Zero human write access to production cluster!</text>
+
+  <rect x="440" y="365" width="300" height="95" rx="6" fill="#1E293B" stroke="#334155"/>
+  <text x="590" y="390" font-size="10" font-weight="700" fill="#E2E8F0" text-anchor="middle">Release Strategies</text>
+  <text x="455" y="412" font-size="8" fill="#CBD5E1">&#x2022; Argo Rollouts: Automated Canary analysis</text>
+  <text x="455" y="430" font-size="8" fill="#CBD5E1">&#x2022; Prometheus metric metrics verification</text>
+  <text x="455" y="448" font-size="8" fill="#FCA5A5">&#x2022; Instant automated rollback on error spikes</text>
+
+  <!-- Connectors in 2 -->
+  <path fill="none" d="M 590 225 L 590 240" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <path fill="none" d="M 590 350 L 590 365" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- Bridge from ACR to GitOps -->
+  <path fill="none" d="M 360 412 L 440 412" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+
+  <!-- Section 3: Kubernetes Orchestration -->
+  <rect x="800" y="100" width="360" height="380" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="800" y="100" width="360" height="30" rx="8" fill="#4C1D95"/>
+  <text x="980" y="120" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">3. Kubernetes Production Orchestration</text>
+
+  <rect x="820" y="145" width="320" height="85" rx="6" fill="#0F172A" stroke="#8B5CF6"/>
+  <text x="980" y="170" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle">Ingress &amp; Service Mesh Layer</text>
+  <text x="835" y="193" font-size="8" fill="#CBD5E1">&#x2022; NGINX Ingress / Azure Application Gateway (WAF)</text>
+  <text x="835" y="211" font-size="8" fill="#CBD5E1">&#x2022; Automated TLS via cert-manager (Let's Encrypt)</text>
+
+  <rect x="820" y="245" width="320" height="110" rx="6" fill="#1E293B" stroke="#8B5CF6"/>
+  <text x="980" y="270" font-size="10" font-weight="700" fill="#E9D5FF" text-anchor="middle">Java Spring Boot Pods (Replicas)</text>
+  <text x="835" y="293" font-size="8" fill="#34D399">&#x2714; Horizontal Pod Autoscaler (HPA: CPU/QPS)</text>
+  <text x="835" y="311" font-size="8" fill="#CBD5E1">&#x2022; Startup, Readiness &amp; Liveness Probes (/actuator/health)</text>
+  <text x="835" y="329" font-size="8" fill="#CBD5E1">&#x2022; Workload Identity: Passwordless Azure Key Vault secrets</text>
+  <text x="835" y="347" font-size="8" fill="#FDE68A">&#x2022; cgroup-aware JVM: MaxRAMPercentage=75.0</text>
+
+  <rect x="820" y="370" width="320" height="90" rx="6" fill="#0F172A" stroke="#334155"/>
+  <text x="980" y="393" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="middle">Observability &amp; Telemetry</text>
+  <text x="835" y="415" font-size="8" fill="#CBD5E1">&#x2022; OpenTelemetry JVM Instrumentation (Traces &amp; Spans)</text>
+  <text x="835" y="433" font-size="8" fill="#CBD5E1">&#x2022; Prometheus Scraping + Grafana Dashboards</text>
+  <text x="835" y="450" font-size="8" fill="#94A3B8">&#x2022; Azure Log Analytics / Fluentbit Log Shipping</text>
+
+  <path fill="none" d="M 740 295 L 820 295" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="500" width="1120" height="35" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="600" y="522" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Cloud Native Invariant: Containers encapsulate runtime binaries and dependencies; Kubernetes guarantees declarative state; GitOps enforces immutable auditability.</text>
+</svg>

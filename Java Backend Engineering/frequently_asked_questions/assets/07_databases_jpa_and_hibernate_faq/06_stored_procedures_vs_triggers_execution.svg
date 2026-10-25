@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Stored Procedures vs Database Triggers Execution Mechanics</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Explicit remote procedure call vs implicit event-driven hook firing within transaction boundaries</text>
+
+  <!-- Left: Stored Procedure -->
+  <g transform="translate(40, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <text x="230" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">Stored Procedure: Explicit Invocation (RPC)</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="60" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#93C5FD">1. Explicit Application Call</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">CallableStatement cs = con.prepareCall("{call transferFunds(?,?)}");</text>
+      <text x="15" y="52" class="card-body" font-size="11" fill="#93C5FD">Caller deliberately triggers routine with input/output params</text>
+
+      <rect x="0" y="70" width="420" height="75" rx="6" ry="6" fill="#1E293B" stroke="#3B82F6"/>
+      <text x="15" y="90" class="badge" fill="#60A5FA">2. Internal Procedural Logic</text>
+      <text x="15" y="108" class="card-body">• Contains loops, conditionals, business logic in PL/SQL / T-SQL</text>
+      <text x="15" y="124" class="card-body">• Executes directly on DB CPU, reducing network round-trips</text>
+      <text x="15" y="138" class="badge" fill="#34D399">• Returns result sets or output status codes</text>
+
+      <rect x="0" y="155" width="420" height="70" rx="6" ry="6" fill="#0F172A" stroke="#3B82F6"/>
+      <text x="15" y="175" class="badge" fill="#93C5FD">Architectural Trade-offs</text>
+      <text x="15" y="195" class="card-body">• Pro: High performance for batch data transformations</text>
+      <text x="15" y="211" class="card-body">• Con: Hard to version control, unit test, and vendor lock-in!</text>
+    </g>
+
+    <rect x="20" y="295" width="420" height="55" rx="6" ry="6" fill="#1E293B"/>
+    <text x="210" y="318" class="badge" fill="#93C5FD" text-anchor="middle">Transactional Control</text>
+    <text x="210" y="334" class="card-body" font-size="11" text-anchor="middle">Can initiate, commit, or rollback its own independent transactions</text>
+  </g>
+
+  <!-- Right: Database Trigger -->
+  <g transform="translate(560, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#92400E"/>
+    <text x="230" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">Database Trigger: Implicit Event-Driven Hook</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="60" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#FDE68A">1. Implicit Event Trigger</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">INSERT INTO orders ...; // Application does NOT call trigger!</text>
+      <text x="15" y="52" class="card-body" font-size="11" fill="#FDE68A">DB engine fires trigger on BEFORE/AFTER INSERT, UPDATE, DELETE</text>
+
+      <rect x="0" y="70" width="420" height="75" rx="6" ry="6" fill="#451A03" stroke="#F59E0B"/>
+      <text x="15" y="90" class="badge" fill="#FDE68A">2. Executes Inside Calling Transaction</text>
+      <text x="15" y="108" class="card-body">• Access to pseudo-records: :NEW and :OLD row values</text>
+      <text x="15" y="124" class="card-body">• Writes audit log or enforces complex integrity constraints</text>
+      <text x="15" y="138" class="badge" fill="#EF4444">• If trigger throws exception -&gt; Entire user transaction rolls back!</text>
+
+      <rect x="0" y="155" width="420" height="70" rx="6" ry="6" fill="#0F172A" stroke="#F59E0B"/>
+      <text x="15" y="175" class="badge" fill="#FDE68A">Architectural Trade-offs &amp; Danger</text>
+      <text x="15" y="195" class="card-body">• Pro: Bulletproof audit logging regardless of which client writes</text>
+      <text x="15" y="211" class="card-body">• Con: Hidden side effects! Cascading triggers kill write throughput.</text>
+    </g>
+
+    <rect x="20" y="295" width="420" height="55" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+    <text x="210" y="318" class="badge" fill="#FCA5A5" text-anchor="middle">No Independent Commit</text>
+    <text x="210" y="334" class="card-body" font-size="11" text-anchor="middle">Triggers CANNOT commit or rollback; bound to parent transaction</text>
+  </g>
+</svg>

@@ -6,49 +6,9 @@ A comprehensive, production-grade guide to real-world interview scenarios coveri
 
 ## Architectural Overview: Cloud-Native Infrastructure & Telemetry Plane
 
-```mermaid
-flowchart TD
-    subgraph K8s_Cluster ["1. Kubernetes Cloud Platform Cluster"]
-        direction TB
-        Ingress["Cloud Load Balancer / Ingress Controller"]
-        
-        subgraph Compute_Pods ["Workload Pod Fleet"]
-            APIPod["FastAPI / Backend Pods (HPA Scaled)"]
-            LLMPod["vLLM / Triton GPU Pods (Startup/Liveness Probes)"]
-            RayWorker["Ray / Spark Distributed Worker Pods"]
-        end
-        
-        Ingress --> APIPod
-        APIPod --> LLMPod
-        APIPod --> RayWorker
-    end
+![Cloud-Native Infrastructure & Telemetry Plane](assets/15_cloud_infrastructure_containers_and_observability_faq/01_cloud_native_kubernetes_infrastructure_telemetry_mesh.svg)
 
-    subgraph Observability_Mesh ["2. OpenTelemetry & Prometheus Telemetry Plane"]
-        direction TB
-        OTelAgent["OpenTelemetry Collector DaemonSet<br/>(Extracts Traces, Spans & Host Metrics)"]
-        Prometheus["Prometheus Server (TSDB)<br/>Scrapes /metrics & GPU Exporters"]
-        AlertManager["Alertmanager (PagerDuty / Slack P1 Alerts)"]
-        Grafana["Grafana Dashboards (SLIs/SLOs & Error Budgets)"]
-        
-        Compute_Pods -.->|OTLP gRPC| OTelAgent
-        Compute_Pods -.->|Prometheus Scrape| Prometheus
-        Prometheus --> AlertManager
-        Prometheus --> Grafana
-        OTelAgent --> Grafana
-    end
-
-    subgraph IaC_GitOps ["3. Infrastructure as Code & GitOps"]
-        Terraform["Terraform State (Remote S3 / Azure Blob Lock)"]
-        ArgoCD["ArgoCD GitOps Sync Engine"]
-        Terraform --> K8s_Cluster
-        ArgoCD --> K8s_Cluster
-    end
-
-    style K8s_Cluster fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Compute_Pods fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Observability_Mesh fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style IaC_GitOps fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-```
+*D2 Source:* [assets/15_cloud_infrastructure_containers_and_observability_faq/01_cloud_native_kubernetes_infrastructure_telemetry_mesh.d2](assets/15_cloud_infrastructure_containers_and_observability_faq/01_cloud_native_kubernetes_infrastructure_telemetry_mesh.d2)
 
 ---
 
@@ -185,29 +145,9 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 **Topic Covered:** Ray, KubeRay, GCS (Global Control Store), Worker Groups, Autoscaling  
 **Question:** Explain the architecture of Ray on Kubernetes using the KubeRay Operator. How does the Head Node coordinate with Worker Pods, and what happens if the Head Node crashes?
 
-```mermaid
-flowchart TD
-    subgraph KubeRayCluster ["KubeRay Managed Cluster"]
-        direction TB
-        RayHead["Ray Head Node Pod<br/>(GCS Metadata, Dashboard, Ray Driver)"]
-        
-        subgraph WorkerGroups ["Ray Worker Fleet"]
-            CPUGroup["CPU Worker Group<br/>(Data Preprocessing & Shuffling)"]
-            GPUGroup["GPU Worker Group<br/>(vLLM / PyTorch Model Parallelism)"]
-        end
-        
-        RayHead <-->|gRPC & Heartbeats| CPUGroup
-        RayHead <-->|gRPC & Heartbeats| GPUGroup
-    end
+![KubeRay Operator Head Node vs Worker Fleet Scaling](assets/15_cloud_infrastructure_containers_and_observability_faq/02_kuberay_operator_head_node_worker_scaling_architecture.svg)
 
-    GCS_Redis[("External GCS Storage<br/>(Redis / PostgreSQL State Backup)")]
-    RayHead -.->|Persist State| GCS_Redis
-
-    style KubeRayCluster fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RayHead fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CPUGroup fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style GPUGroup fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/15_cloud_infrastructure_containers_and_observability_faq/02_kuberay_operator_head_node_worker_scaling_architecture.d2](assets/15_cloud_infrastructure_containers_and_observability_faq/02_kuberay_operator_head_node_worker_scaling_architecture.d2)
 - **Global Control Store (GCS):** The Ray Head node maintains cluster metadata (actor locations, object store directory) in GCS.
 - **Fault Tolerance:** If external Redis storage is configured for GCS, a crashed Head Pod can be recreated by Kubernetes and seamlessly restore cluster state without terminating in-flight worker tasks.
 
@@ -258,20 +198,9 @@ flowchart TD
 **Topic Covered:** OOMKilled (137), CUDA OOM, PyTorch Allocator, cgroups Limits  
 **Question:** In a model training/serving cluster, what is the precise operational difference between an application crash displaying `torch.cuda.OutOfMemoryError` versus a pod terminating with Kubernetes `Exit Code 137 (OOMKilled)`?
 
-```mermaid
-flowchart TD
-    MemFailure["Memory Failure Detected"] --> TypeCheck{"Where did allocation fail?"}
-    
-    TypeCheck -->|GPU VRAM Allocation| CUDA["PyTorch CUDA OOM<br/>(Process remains ALIVE; Python exception raised)"]
-    TypeCheck -->|Host System RAM Allocation| K8s["Host RAM Exceeds cgroup limits.memory<br/>(Linux Kernel OOM-Killer sends SIGKILL 9)"]
-    
-    CUDA --> FixCUDA["Resolution: Decrease batch_size, enable gradient_checkpointing, use FlashAttention"]
-    K8s --> FixK8s["Resolution: Kubernetes Exit Code 137. Increase pod resources.limits.memory"]
+![Triage: Kubernetes Pod OOMKilled (Exit 137) vs PyTorch CUDA OOM](assets/15_cloud_infrastructure_containers_and_observability_faq/03_kubernetes_pod_oomkilled_vs_pytorch_cuda_oom_triage.svg)
 
-    style MemFailure fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CUDA fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style K8s fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/15_cloud_infrastructure_containers_and_observability_faq/03_kubernetes_pod_oomkilled_vs_pytorch_cuda_oom_triage.d2](assets/15_cloud_infrastructure_containers_and_observability_faq/03_kubernetes_pod_oomkilled_vs_pytorch_cuda_oom_triage.d2)
 - **CUDA OOM:** The PyTorch CUDA caching allocator fails to allocate VRAM on the physical GPU. The Python process remains alive; an exception is thrown that can be caught in code.
 - **Exit Code 137 (`OOMKilled`):** Host physical RAM (or container memory cgroup limit) was exceeded. The Linux kernel OOM-killer immediately sends `SIGKILL` ($128 + 9 = 137$) to the container process. The process terminates instantly with zero stack trace.
 

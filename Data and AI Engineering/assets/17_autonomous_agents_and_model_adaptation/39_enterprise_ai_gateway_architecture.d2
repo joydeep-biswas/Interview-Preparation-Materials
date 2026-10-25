@@ -1,0 +1,26 @@
+direction: right
+classes: {
+  blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  purple: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+  amber: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+}
+
+auth: "1. IAM & AuthN
+Virtual API keys
+Role-based ACL" { class: blue }
+rate: "2. Rate Limiting
+Redis Token Bucket
+RPM / TPM limits" { class: green }
+router: "3. Smart Router
+Complexity classifier
+Cost vs SLA balance" { class: purple }
+breaker: "4. Circuit Breakers
+Auto failover
+Request hedging" { class: red }
+telemetry: "5. Telemetry
+OpenInference tracing
+FinOps attribution" { class: amber }
+
+auth -> rate -> router -> breaker -> telemetry

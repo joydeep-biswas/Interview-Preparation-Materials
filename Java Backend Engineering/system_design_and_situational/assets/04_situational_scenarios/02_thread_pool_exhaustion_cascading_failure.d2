@@ -1,0 +1,54 @@
+direction: right
+
+client: "Client Application" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  req: "1. POST /orders"
+  timeout: "5. HTTP 504 Gateway Timeout"
+  fallback: "6. Fast Fallback Response (<5ms)"
+}
+
+gateway: "API Gateway (Envoy)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  forward: "2. Forward Request to Order Svc"
+}
+
+order_svc: "Order Service (Tomcat Pool)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+  thread: "Allocates Thread-1"
+  starved: "3. 200/200 Threads Blocked Waiting"
+  cb: "Resilience4j Trips OPEN -> Threads Restored"
+}
+
+fraud_svc: "Downstream Fraud Service" {
+  style.fill: "#111827"
+  style.stroke: "#6B7280"
+  style.stroke-width: 2
+  hang: "4. HANGS INDEFINITELY (No Socket Timeout)"
+}
+
+client -> gateway: "Submit Order" {
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+}
+gateway -> order_svc: "Route to Tomcat Pool" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+order_svc -> fraud_svc: "Call Fraud Check" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}
+order_svc -> gateway: "Timeout Response" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}
+gateway -> client: "504 Gateway Timeout" {
+  style.stroke: "#EF4444"
+  style.stroke-width: 2
+}

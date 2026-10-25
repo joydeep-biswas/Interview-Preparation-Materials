@@ -1,0 +1,30 @@
+direction: right
+classes: {
+  container_cyan: { style: { fill: "#0D1526", stroke: "#06B6D4" } }
+  container_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  box_blue: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
+  box_amber: { style: { fill: "#111827", stroke: "#F59E0B", stroke-width: 2 } }
+  box_purple: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
+  box_cyan: { style: { fill: "#111827", stroke: "#06B6D4", stroke-width: 2 } }
+  box_green: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
+}
+
+Stage1: "Stage 1: Landing & Document Intelligence" {
+  class: container_cyan
+  A: "Raw Documents\n• PDFs, Invoices, Scans" { class: box_blue }
+  B: "ADLS Gen2 Landing\n• Raw binary storage" { class: box_blue }
+  C: "Document Intelligence\n• OCR, Layout & Table Parser" { class: box_amber }
+
+  A -> B -> C
+}
+
+Stage2: "Stage 2: Extraction & Multimodal Storage" {
+  class: container_green
+  D: "Parsed Output\n• Clean JSON key-values\n• Markdown text chunks" { class: box_purple }
+  E: "Embedding Model\n• text-embedding-3-large\n• Generates vectors" { class: box_cyan }
+  F: "Vector Search & Delta\n• Azure AI Search\n• gold.fact_invoices" { class: box_green }
+
+  D -> E -> F
+}
+
+Stage1.C -> Stage2.D: "Structured Output"

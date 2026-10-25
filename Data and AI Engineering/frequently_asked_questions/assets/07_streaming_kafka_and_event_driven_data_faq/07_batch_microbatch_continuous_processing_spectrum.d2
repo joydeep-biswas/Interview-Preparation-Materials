@@ -1,0 +1,11 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+batch: "Batch Processing\nHours / Days\nMax Throughput, High Latency" { class: card; style.stroke: "#3B82F6" }
+micro: "Micro-Batching (Default)\n100ms to 60s\nBalanced Throughput & Latency" { class: card; style.stroke: "#10B981" }
+cont: "Continuous Processing\nSub-Millisecond (~1ms)\nUltra-Low Latency, Restricted SQL" { class: card; style.stroke: "#EF4444" }
+
+batch -> micro: "Lower Latency"
+micro -> cont: "Real-Time Push"

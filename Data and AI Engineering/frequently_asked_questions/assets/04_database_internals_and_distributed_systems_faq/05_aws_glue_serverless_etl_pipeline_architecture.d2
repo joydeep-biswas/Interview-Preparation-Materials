@@ -1,0 +1,13 @@
+direction: right
+classes: {
+  card: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+raw: "S3 Raw Landing\nJSON / CSV" { class: card; style.stroke: "#3B82F6" }
+job: "AWS Glue PySpark Job\nWorker Type G.1X\nJob Bookmarks & Quality Checks" { class: card; style.stroke: "#F59E0B" }
+curated: "S3 Curated Parquet\nPartitioned by Date" { class: card; style.stroke: "#10B981" }
+catalog: "AWS Glue Catalog\nData Schema & Metastore" { class: card; style.stroke: "#8B5CF6" }
+
+raw -> job
+job -> curated: "Writes Parquet"
+job -> catalog: "Syncs Partitions"

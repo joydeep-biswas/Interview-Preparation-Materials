@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 320" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+      .lbl { fill: #CBD5E1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="320" fill="#0B0F19"/>
+
+  <!-- Left: Ingress Events -->
+  <g transform="translate(30, 105)">
+    <rect width="210" height="110" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="105" y="32" class="title" fill="#93C5FD">Ingress Events</text>
+    <line x1="15" y1="44" x2="195" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="105" y="68" class="body-txt" text-anchor="middle">Stream of Kafka Messages</text>
+    <text x="105" y="88" class="body-txt" text-anchor="middle">Event timestamp embedded</text>
+  </g>
+
+  <path fill="none" d="M 240 160 L 290 160" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+
+  <!-- Middle: Watermark Decision -->
+  <g transform="translate(290, 105)">
+    <rect width="260" height="110" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="130" y="32" class="title" fill="#FCD34D">Watermark Evaluation</text>
+    <line x1="15" y1="44" x2="245" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <text x="130" y="68" class="body-txt" text-anchor="middle">event_time &gt;= max_event_time</text>
+    <text x="130" y="88" class="body-txt" text-anchor="middle">- 2 hours (Late threshold)?</text>
+  </g>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 550 145 L 590 145 C 610 145, 620 75, 640 75 L 660 75" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <text x="600" y="65" class="lbl" fill="#6EE7B7">YES (Valid)</text>
+
+  <path fill="none" d="M 550 175 L 590 175 C 610 175, 620 245, 640 245 L 660 245" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+  <text x="600" y="260" class="lbl" fill="#FCA5A5">NO (Late)</text>
+
+  <!-- Right Top: State Store Update -->
+  <g transform="translate(660, 30)">
+    <rect width="310" height="90" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="155" y="28" class="title" fill="#A7F3D0">Update State Store (RocksDB)</text>
+    <line x1="15" y1="38" x2="295" y2="38" stroke="#047857" stroke-width="1"/>
+    <text x="15" y="58" class="body-txt" fill="#A7F3D0">• Window aggregate updated in memory</text>
+    <text x="15" y="74" class="body-txt" fill="#A7F3D0">• Output emitted to target Delta sink</text>
+  </g>
+
+  <!-- Right Bottom: Dropped -->
+  <g transform="translate(660, 200)">
+    <rect width="310" height="90" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <text x="155" y="28" class="title" fill="#FECACA">Dropped as Too Late</text>
+    <line x1="15" y1="38" x2="295" y2="38" stroke="#991B1B" stroke-width="1"/>
+    <text x="15" y="58" class="body-txt" fill="#FECACA">• Discarded immediately without updating state</text>
+    <text x="15" y="74" class="body-txt" fill="#FCA5A5">• Prevents unbounded memory growth / OOM</text>
+  </g>
+</svg>

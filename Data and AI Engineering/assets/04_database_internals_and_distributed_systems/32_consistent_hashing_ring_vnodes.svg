@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Consistent Hashing Ring &amp; Virtual Nodes (V-Nodes)</text>
+  <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Minimizing Key Migration Overhead During Dynamic Cluster Rebalancing (1/N Keys Moved)</text>
+  
+  
+    <rect x="30" y="95" width="430" height="290" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Consistent Hashing Ring (0 to 2^32 - 1)</text>
+  
+    <rect x="45" y="135" width="180" height="70" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="135.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Server A</text>
+    <text x="135.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Token: 1,000,000</text>
+    <rect x="167" y="145" width="52" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="193.0" y="157" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">NODE A</text>
+    <circle cx="61" cy="190" r="2" fill="#3b82f6"/>
+    <text x="69" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Holds keys in range</text>
+    <circle cx="61" cy="206" r="2" fill="#3b82f6"/>
+    <text x="69" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">(3.5M..1.0M]</text>
+  
+    <rect x="260" y="135" width="185" height="70" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="352.5" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Server B</text>
+    <text x="352.5" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Token: 2,000,000</text>
+    <rect x="387" y="145" width="52" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="413.0" y="157" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">NODE B</text>
+    <circle cx="276" cy="190" r="2" fill="#3b82f6"/>
+    <text x="284" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Holds keys in range</text>
+    <circle cx="276" cy="206" r="2" fill="#3b82f6"/>
+    <text x="284" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">(1.0M..2.0M]</text>
+  
+    <rect x="150" y="220" width="180" height="70" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="240.0" y="246" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Server C</text>
+    <text x="240.0" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Token: 3,500,000</text>
+    <rect x="272" y="230" width="52" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="298.0" y="242" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">NODE C</text>
+    <circle cx="166" cy="275" r="2" fill="#3b82f6"/>
+    <text x="174" y="278" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Holds keys in range</text>
+    <circle cx="166" cy="291" r="2" fill="#3b82f6"/>
+    <text x="174" y="294" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">(2.0M..3.5M]</text>
+
+  <text x="245" y="325" fill="#10b981" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Key 'user_8412' (Hash: 1.45M) -&gt; Walks Clockwise -&gt; Assigned to Node B!</text>
+  <text x="245" y="345" fill="#10b981" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Key 'user_9911' (Hash: 2.80M) -&gt; Walks Clockwise -&gt; Assigned to Node C!</text>
+
+  
+    <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Virtual Nodes (V-Nodes): Hotspot Elimination</text>
+  
+    <rect x="535" y="135" width="400" height="120" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="735.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Why Raw Consistent Hashing Causes Hotspots</text>
+    <text x="735.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Non-Uniform Key Distribution</text>
+    <rect x="870" y="145" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="899.5" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">V-NODES</text>
+    <circle cx="551" cy="190" r="2" fill="#10b981"/>
+    <text x="559" y="193" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">With only 3 physical nodes, token ranges are unevenly spaced.</text>
+    <circle cx="551" cy="206" r="2" fill="#10b981"/>
+    <text x="559" y="209" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">One server might own 70% of the token circumference!</text>
+    <circle cx="551" cy="222" r="2" fill="#10b981"/>
+    <text x="559" y="225" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Solution: Virtual Nodes (V-Nodes)!</text>
+    <circle cx="551" cy="238" r="2" fill="#10b981"/>
+    <text x="559" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">256 vnodes per physical node distributed across ring.</text>
+    <circle cx="551" cy="254" r="2" fill="#10b981"/>
+    <text x="559" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Guarantees near-perfect 33.3% load distribution across all servers.</text>
+  
+    <rect x="535" y="265" width="400" height="95" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="735.0" y="291" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Dynamic Node Addition / Removal Invariant</text>
+    <text x="735.0" y="307" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Zero Global Rehash</text>
+    <rect x="828" y="275" width="101" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="878.5" y="287" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1/N REBALANCE</text>
+    <circle cx="551" cy="320" r="2" fill="#f59e0b"/>
+    <text x="559" y="323" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Adding Server D only takes keys from its immediate clockwise neighbors.</text>
+    <circle cx="551" cy="336" r="2" fill="#f59e0b"/>
+    <text x="559" y="339" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Exactly 1/N keys migrate over the network!</text>
+    <circle cx="551" cy="352" r="2" fill="#f59e0b"/>
+    <text x="559" y="355" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Zero cache storms; 99% of keys remain completely stationary.</text>
+
+</svg>

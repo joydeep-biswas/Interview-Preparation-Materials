@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1240" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1240" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="620" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">The Four Core Cryptographic Primitives</text>
+  <text x="620" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Symmetric Encryption, Asymmetric Key Pairs, One-Way Hashes, and Keyed Message Authentication (HMAC)</text>
+  <line x1="40" y1="68" x2="1200" y2="68" stroke="#334155" stroke-width="1"/>
+
+  <!-- 1. Symmetric Encryption -->
+  <rect x="40" y="105" width="275" height="360" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="40" y="105" width="275" height="30" rx="8" fill="#0C4A6E"/>
+  <text x="177" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Symmetric Encryption</text>
+
+  <rect x="55" y="150" width="245" height="55" rx="5" fill="#1E293B" stroke="#334155"/>
+  <text x="65" y="172" font-size="10" font-weight="700" fill="#38BDF8">Algorithm Standard:</text>
+  <text x="65" y="192" font-size="9" font-family="'JetBrains Mono', monospace" fill="#F8FAFC">AES-256-GCM (Authenticated)</text>
+
+  <rect x="55" y="215" width="245" height="110" rx="5" fill="#0F172A" stroke="#0284C7" stroke-width="1"/>
+  <text x="177" y="235" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="middle">Single Secret Key K</text>
+  <path fill="none" d="M 80 260 L 140 260" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <text x="75" y="255" font-size="9" fill="#94A3B8">Plaintext</text>
+  <rect x="145" y="248" width="65" height="24" rx="3" fill="#1E293B" stroke="#0284C7"/>
+  <text x="177" y="264" font-size="8" fill="#38BDF8" text-anchor="middle">Ciphertext</text>
+  <path fill="none" d="M 215 260 L 275 260" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <text x="177" y="295" font-size="9" fill="#34D399" text-anchor="middle">&#x2714; SAME key encrypts &amp; decrypts</text>
+  <text x="177" y="312" font-size="8" fill="#94A3B8" text-anchor="middle">GCM Tag guarantees integrity</text>
+
+  <rect x="55" y="335" width="245" height="115" rx="5" fill="#1E293B" stroke="#334155"/>
+  <text x="65" y="357" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics &amp; Use Cases:</text>
+  <text x="65" y="378" font-size="9" fill="#CBD5E1">&#x2022; Extremely fast (Hardware AES-NI)</text>
+  <text x="65" y="398" font-size="9" fill="#CBD5E1">&#x2022; Use: Data-at-rest (DB columns),</text>
+  <text x="65" y="415" font-size="9" fill="#CBD5E1">  bulk TLS data channel payloads</text>
+  <text x="65" y="435" font-size="9" fill="#FCA5A5">&#x26A0; Challenge: Key exchange sharing</text>
+
+  <!-- 2. Asymmetric Key Pairs -->
+  <rect x="335" y="105" width="275" height="360" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="335" y="105" width="275" height="30" rx="8" fill="#064E3B"/>
+  <text x="472" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. Asymmetric Key Pairs</text>
+
+  <rect x="350" y="150" width="245" height="55" rx="5" fill="#1E293B" stroke="#334155"/>
+  <text x="360" y="172" font-size="10" font-weight="700" fill="#34D399">Algorithm Standards:</text>
+  <text x="360" y="192" font-size="9" font-family="'JetBrains Mono', monospace" fill="#F8FAFC">RSA-3072 / 4096, ECC Ed25519</text>
+
+  <rect x="350" y="215" width="245" height="110" rx="5" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="472" y="235" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="middle">Public / Private Key Pair</text>
+  <text x="365" y="260" font-size="9" fill="#7DD3FC">&#x2022; Encrypt: <tspan fill="#38BDF8">Public Key</tspan> (Public to all)</text>
+  <text x="365" y="280" font-size="9" fill="#34D399">&#x2022; Decrypt: <tspan fill="#34D399">Private Key</tspan> (Kept secret)</text>
+  <text x="365" y="302" font-size="9" fill="#FDE68A">&#x2022; Digital Signature: Sign with Private,</text>
+  <text x="365" y="318" font-size="8" fill="#CBD5E1">  anyone verifies with Public key!</text>
+
+  <rect x="350" y="335" width="245" height="115" rx="5" fill="#1E293B" stroke="#334155"/>
+  <text x="360" y="357" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics &amp; Use Cases:</text>
+  <text x="360" y="378" font-size="9" fill="#CBD5E1">&#x2022; ~1000x slower than symmetric AES</text>
+  <text x="360" y="398" font-size="9" fill="#CBD5E1">&#x2022; Use: TLS Key Exchange, JWT (RS256)</text>
+  <text x="360" y="415" font-size="9" fill="#CBD5E1">  X.509 Digital Certificates, SSH keys</text>
+  <text x="360" y="435" font-size="9" fill="#34D399">&#x2714; Solves key distribution problem</text>
+
+  <!-- 3. Cryptographic Hashing -->
+  <rect x="630" y="105" width="275" height="360" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="630" y="105" width="275" height="30" rx="8" fill="#78350F"/>
+  <text x="767" y="125" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">3. Cryptographic Hash</text>
+
+  <rect x="645" y="150" width="245" height="55" rx="5" fill="#1E293B" stroke="#334155"/>
+  <text x="655" y="172" font-size="10" font-weight="700" fill="#FBBF24">Algorithm Standards:</text>
+  <text x="655" y="192" font-size="9" font-family="'JetBrains Mono', monospace" fill="#F8FAFC">SHA-256, SHA-384, SHA-3, BLAKE3</text>
+
+  <rect x="645" y="215" width="245" height="110" rx="5" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+  <text x="767" y="235" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="middle">One-Way Trapdoor Digest</text>
+  <text x="660" y="258" font-size="9" fill="#CBD5E1">Any Size Input &#x2192; Fixed 256-bit Digest</text>
+  <text x="660" y="278" font-size="9" fill="#34D399">&#x2714; Deterministic &amp; Fast</text>
+  <text x="660" y="296" font-size="9" fill="#FCA5A5">&#x2718; Irreversible (Cannot un-hash!)</text>
+  <text x="660" y="314" font-size="8" fill="#94A3B8">&#x2022; Pre-image &amp; Collision Resistant</text>
+
+  <rect x="645" y="335" width="245" height="115" rx="5" fill="#1E293B" stroke="#334155"/>
+  <text x="655" y="357" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics &amp; Use Cases:</text>
+  <text x="655" y="378" font-size="9" fill="#CBD5E1">&#x2022; Use: File integrity checksums,</text>
+  <text x="655" y="398" font-size="9" fill="#CBD5E1">  Git commit SHA-1/256, deduplication</text>
+  <text x="655" y="418" font-size="9" font-weight="700" fill="#EF4444">&#x26A0; DO NOT USE for passwords!</text>
+  <text x="655" y="435" font-size="8" fill="#FCA5A5">  Use Argon2id / BCrypt (salted + slow)</text>
+
+  <!-- 4. HMAC &amp; Authentication Tags -->
+  <rect x="925" y="105" width="275" height="360" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="925" y="105" width="275" height="30" rx="8" fill="#4C1D95"/>
+  <text x="1062" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">4. HMAC &amp; Auth Tags</text>
+
+  <rect x="940" y="150" width="245" height="55" rx="5" fill="#1E293B" stroke="#334155"/>
+  <text x="950" y="172" font-size="10" font-weight="700" fill="#C084FC">Algorithm Standards:</text>
+  <text x="950" y="192" font-size="9" font-family="'JetBrains Mono', monospace" fill="#F8FAFC">HMAC-SHA256, HMAC-SHA512</text>
+
+  <rect x="940" y="215" width="245" height="110" rx="5" fill="#0F172A" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="1062" y="235" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="middle">Keyed Hash Authenticity</text>
+  <text x="955" y="258" font-size="9" fill="#CBD5E1">Message + Shared Secret Key</text>
+  <text x="955" y="278" font-size="9" fill="#34D399">&#x2714; Guarantees Message Authenticity</text>
+  <text x="955" y="296" font-size="9" fill="#34D399">&#x2714; Guarantees Data Integrity</text>
+  <text x="955" y="314" font-size="8" fill="#94A3B8">Attacker cannot forge tag without key</text>
+
+  <rect x="940" y="335" width="245" height="115" rx="5" fill="#1E293B" stroke="#334155"/>
+  <text x="950" y="357" font-size="10" font-weight="700" fill="#F8FAFC">Characteristics &amp; Use Cases:</text>
+  <text x="950" y="378" font-size="9" fill="#CBD5E1">&#x2022; Use: Webhook verification (GitHub/Stripe)</text>
+  <text x="950" y="398" font-size="9" fill="#CBD5E1">&#x2022; JWT HS256 symmetric signature</text>
+  <text x="950" y="415" font-size="9" fill="#CBD5E1">&#x2022; AWS SigV4 API request signing</text>
+  <text x="950" y="435" font-size="9" fill="#34D399">&#x2714; Immune to length-extension attacks</text>
+
+  <!-- Bottom Invariant Banner -->
+  <rect x="40" y="480" width="1160" height="25" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="620" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Rule of Thumb: Encrypt for Confidentiality (AES), Sign for Authenticity (RSA/ECDSA), Hash for Integrity (SHA-256), Salt+Cost for Passwords (Argon2id).</text>
+</svg>

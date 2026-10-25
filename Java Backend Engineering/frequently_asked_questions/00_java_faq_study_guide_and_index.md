@@ -8,45 +8,9 @@ All questions have been systematically grouped by conceptual similarity, mapped 
 
 ## Recommended Chronological Study Order
 
-```mermaid
-flowchart TD
-    subgraph Tier1 ["Tier 1: Core Java Language, Data Structures & Concurrency"]
-        direction LR
-        Step1["01. Core Java & Algorithms<br/>(Memory, two-pointers, virtual threads)"] --> Step2["02. Collections Framework<br/>(HashMap, ConcurrentHashMap CAS)"] --> Step3["03. Modern Java & Streams<br/>(Lambdas, Streams, Records)"] --> Step4["04. Concurrency & Async<br/>(JMM, volatile, ThreadPools, deadlocks)"]
-    end
+![Java FAQ Curriculum Roadmap & Tier Progression](assets/00_java_faq_study_guide_and_index/01_java_faq_curriculum_roadmap.svg)
 
-    subgraph Tier2 ["Tier 2: Spring Framework, REST, Security & Databases"]
-        direction LR
-        Step5["05. Spring Boot & REST APIs<br/>(IoC container, Auto-config, REST)"] --> Step6["06. Security, OAuth2 & JWT<br/>(SecurityFilterChain, BCrypt, PKCE)"] --> Step7["07. Databases, JPA & Hibernate<br/>(ACID, N+1 query, @Transactional)"]
-    end
-
-    subgraph Tier3 ["Tier 3: Distributed Systems, Cloud Containers & Reliability"]
-        direction LR
-        Step8["08. Messaging: Kafka & RMQ<br/>(Partitions, consumer groups, DLQ)"] --> Step9["09. Microservices Design<br/>(Circuit Breakers, Saga, Outbox, CAP)"] --> Step10["10. Testing & Quality<br/>(JUnit 5, Testcontainers, ArchUnit)"]
-        Step10 --> Step11["11. Cloud Native & DevOps<br/>(Docker, K8s, CI/CD, GitOps)"] --> Step12["12. JVM Internals & Tuning<br/>(GC, Thread Dumps, Off-Heap)"] --> Step13["13. Linux Networking & SRE<br/>(epoll, OTel, Async-profiler)"]
-    end
-
-    Step4 --> Step5
-    Step7 --> Step8
-
-    style Tier1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Tier2 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Tier3 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style Step1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Step2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Step3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Step4 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Step5 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Step6 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Step7 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Step8 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Step9 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Step10 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Step11 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Step12 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Step13 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/00_java_faq_study_guide_and_index/01_java_faq_curriculum_roadmap.d2](assets/00_java_faq_study_guide_and_index/01_java_faq_curriculum_roadmap.d2)
 
 ---
 

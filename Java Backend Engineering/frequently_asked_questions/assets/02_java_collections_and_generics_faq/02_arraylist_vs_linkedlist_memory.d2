@@ -1,0 +1,19 @@
+direction: right
+
+arraylist: "ArrayList Memory Architecture" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  layout: "Contiguous array: [0][1][2][3]"
+  cache: "64-byte CPU cache line prefetching"
+  access: "O(1) direct address arithmetic"
+}
+
+linkedlist: "LinkedList Memory Architecture" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  layout: "Dispersed heap nodes: prev-item-next"
+  cache: "Frequent L1/L2 cache misses"
+  overhead: "24 bytes overhead per node object"
+}
+
+arraylist -> linkedlist: "Cache locality vs Fragmentation"

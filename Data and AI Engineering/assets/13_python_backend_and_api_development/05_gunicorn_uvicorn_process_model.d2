@@ -1,0 +1,19 @@
+direction: right
+classes: {
+  master: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  worker: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+gunicorn: "Gunicorn Master Daemon\n(Signal handling SIGHUP/SIGTERM\nSupervises PIDs)" { class: master }
+
+workers: "Supervised Uvicorn Workers" {
+  w1: "Worker 1 (UvicornWorker - PID 101)" { class: worker }
+  w2: "Worker 2 (UvicornWorker - PID 102)" { class: worker }
+  w3: "Worker 3 (UvicornWorker - PID 103)" { class: worker }
+  w4: "Worker 4 (UvicornWorker - PID 104)" { class: worker }
+}
+
+gunicorn -> workers.w1: "Forks & Monitors"
+gunicorn -> workers.w2: "Forks & Monitors"
+gunicorn -> workers.w3: "Forks & Monitors"
+gunicorn -> workers.w4: "Forks & Monitors"

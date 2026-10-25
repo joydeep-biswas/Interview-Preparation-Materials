@@ -1,0 +1,31 @@
+direction: right
+title: Data Lake Architecture & Schema-on-Read Mechanics
+
+sources: Heterogeneous Sources {
+  db: PostgreSQL CDC
+  logs: Application Logs
+  media: Audio / PDF Media
+  iot: IoT MQTT Telemetry
+}
+
+storage: Cloud Object Storage (S3 / ADLS Gen2 / GCS) {
+  shape: cylinder
+  description: "Low-cost, infinite scale, schema-on-read storage substrate"
+}
+
+compute: Compute on Demand {
+  spark: Apache Spark / EMR
+  trino: Trino / Presto Distributed SQL
+  duckdb: DuckDB Embedded SQL
+  ml: PyTorch / TensorFlow AI Pipelines
+}
+
+sources.db -> storage: "HTTP PUT"
+sources.logs -> storage: "Log forwarder"
+sources.media -> storage: "Blob upload"
+sources.iot -> storage: "Stream landing"
+
+storage -> compute.spark: "Read Parquet"
+storage -> compute.trino: "Scan on query"
+storage -> compute.duckdb: "Direct read"
+storage -> compute.ml: "Load tensors"

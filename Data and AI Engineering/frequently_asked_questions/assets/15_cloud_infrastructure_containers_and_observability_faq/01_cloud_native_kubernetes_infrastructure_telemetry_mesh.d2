@@ -1,0 +1,39 @@
+direction: right
+classes: {
+  gitops_box: { style: { fill: "#0D1526", stroke: "#F59E0B" } }
+  k8s_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  obs_box: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+GitOps: "1. IaC & GitOps" {
+  class: gitops_box
+  Terraform: "Terraform (S3/Dynamo Lock)" { class: card_dark }
+  ArgoCD: "ArgoCD Sync Engine" { class: card_dark }
+  Terraform -> ArgoCD
+}
+
+K8sCluster: "2. Kubernetes Cluster" {
+  class: k8s_box
+  Ingress: "Cloud Load Balancer" { class: card_dark }
+  APIPods: "FastAPI Pods (HPA)" { class: card_dark }
+  LLMPods: "vLLM GPU Pods" { class: card_dark }
+  RayWorkers: "KubeRay Workers" { class: card_dark }
+  Ingress -> APIPods -> LLMPods
+  APIPods -> RayWorkers
+}
+
+Observability: "3. Observability Mesh" {
+  class: obs_box
+  OTel: "OTel Collector DaemonSet" { class: card_dark }
+  Prom: "Prometheus TSDB" { class: card_dark }
+  Alerts: "Alertmanager (PagerDuty)" { class: card_dark }
+  Grafana: "Grafana Dashboards" { class: card_dark }
+  OTel -> Grafana
+  Prom -> Alerts
+  Prom -> Grafana
+}
+
+GitOps.ArgoCD -> K8sCluster.Ingress
+K8sCluster.LLMPods -> Observability.OTel: "OTLP gRPC"
+K8sCluster.LLMPods -> Observability.Prom: "Metrics Scrape"

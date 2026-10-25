@@ -1,0 +1,17 @@
+direction: right
+title: Query Execution Engine Models: Volcano vs. Vectorized vs. JIT
+
+volcano: 1. Volcano Model (Tuple-at-a-Time) {
+  flow: "Aggregate.next() -> Filter.next() -> Scan.next()"
+  drawback: "Virtual call overhead & CPU L1i cache misses"
+}
+
+vectorized: 2. Vectorized Model (SIMD Batches) {
+  flow: "L1 Data Cache -> SIMD Registers (AVX-512) -> Output Buffer"
+  feature: "Processes 1024-value columnar vectors per CPU cycle"
+}
+
+jit: 3. Whole-Stage JIT Compilation (HyPer / Spark) {
+  flow: "Plan compiled directly into flattened native while() loop"
+  feature: "Data stays in CPU hardware registers; zero call overhead"
+}

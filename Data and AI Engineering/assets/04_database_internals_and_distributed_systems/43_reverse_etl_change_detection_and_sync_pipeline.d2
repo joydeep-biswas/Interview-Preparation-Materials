@@ -1,0 +1,21 @@
+direction: right
+title: Reverse ETL: Change Detection & Diff Evaluation
+
+detection: Change Detection & Diff Evaluation {
+  dw: Warehouse Gold Table (gold.dim_customer_360)
+  diff: Diff Engine: Computes SHA256(attributes)
+  check: Hash matches previous state? {
+    shape: diamond
+  }
+  skip: Skip Egress (Zero API credits consumed)
+  dw -> diff -> check
+  check -> skip: "Yes: Unchanged"
+}
+
+sync: Throttled SaaS Synchronization {
+  limiter: Token Bucket Rate Limiter (Max 100 req/s)
+  saas: Salesforce REST API (PATCH /Contact/{id})
+  limiter -> saas
+}
+
+detection.check -> sync.limiter: "No: Changed Record"

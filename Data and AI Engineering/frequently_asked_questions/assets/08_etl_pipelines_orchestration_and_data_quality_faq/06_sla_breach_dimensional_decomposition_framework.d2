@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  temporal_box: { style: { fill: "#0D1526", stroke: "#EF4444" } }
+  spatial_box: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+TemporalDecomposition: "1. Temporal Component Slicing" {
+  class: temporal_box
+  Metric: "🚨 Delivery Spikes +8 Min on Weekends\nBaseline: 28m -> 36m" { class: card_dark }
+  Intervals: "Decomposed Time Intervals:\n• Prep Time: +1 min\n• Driver Transit: +0 min\n• Driver Wait Time: +7 min (90% of breach!)" { class: card_dark }
+
+  Metric -> Intervals
+}
+
+SpatialDecomposition: "2. Entity & Spatial Slicing" {
+  class: spatial_box
+  Geo: "Spatial / Geo Partitioning:\n• City Suburbs: No breach\n• Downtown Cluster: +12 min spike" { class: card_dark }
+  Merchant: "Merchant Category Breakdown:\n• Fast food: Normal\n• Boutique Bakeries: +14 min lag" { class: card_dark }
+
+  Geo -> Merchant
+}

@@ -6,34 +6,9 @@ A comprehensive, production-grade guide to Binary Heaps, Priority Queues, Two He
 
 ## Architectural Overview: Heap Memory Invariants & Interval Sweep-Line
 
-```mermaid
-flowchart TD
-    subgraph DualHeapArch ["1. Two Heaps Continuous Streaming Median Architecture"]
-        direction LR
-        InStream["Unbounded Input Stream"] --> MaxH["Max-Heap (Lower Half: <= Median)<br/>Root = Max of Lower Half"]
-        InStream --> MinH["Min-Heap (Upper Half: >= Median)<br/>Root = Min of Upper Half"]
-        MaxH <--->|"Balance Invariant: 0 <= size(MaxH) - size(MinH) <= 1"| MinH
-    end
+![Two-Heaps Median Architecture & Interval Sweep-Line Mechanics](assets/05_heaps_intervals_and_greedy_algorithms/01_two_heaps_and_interval_sweep_line.svg)
 
-    subgraph SweepLineArch ["2. Interval Sweep-Line Coordinate Projection"]
-        direction LR
-        Event1["Start Event (+1 Room)"] --> Event2["Start Event (+1 Room)"]
-        Event2 --> Event3["End Event (-1 Room)"]
-        Event3 --> MaxRooms["Peak Concurrent Rooms = Active Counter Max"]
-    end
-
-    DualHeapArch --> SweepLineArch
-
-    style DualHeapArch fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SweepLineArch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style InStream fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style MaxH fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style MinH fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Event1 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Event2 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Event3 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style MaxRooms fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_heaps_intervals_and_greedy_algorithms/01_two_heaps_and_interval_sweep_line.d2](assets/05_heaps_intervals_and_greedy_algorithms/01_two_heaps_and_interval_sweep_line.d2)
 
 ---
 

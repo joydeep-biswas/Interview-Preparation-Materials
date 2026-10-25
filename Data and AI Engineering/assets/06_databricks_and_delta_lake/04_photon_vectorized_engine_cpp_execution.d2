@@ -1,0 +1,28 @@
+direction: right
+title: Photon Vectorized Query Engine Architecture
+
+Query: User Query (PySpark / Spark SQL)
+Catalyst: Catalyst Logical Optimizer (JVM)
+Decision: Is Photon Engine Enabled? {
+  shape: diamond
+  style.stroke: "#FBBF24"
+}
+
+Query -> Catalyst -> Decision
+
+Classic: Classic JVM Spark (Project Tungsten) {
+  style.stroke: "#64748B"
+  CodeGen: Whole-Stage CodeGen via Janino
+  JVM: JIT compiled loops in Java
+  Limits: JVM JIT cannot reliably auto-vectorize; UTF-16 strings
+}
+
+Photon: Photon Engine (Native C++ SIMD) {
+  style.stroke: "#34D399"
+  SIMD: Explicit SIMD (AVX-512) vectorized batch instructions
+  Memory: 100% Off-heap memory (Zero JVM GC overhead)
+  Strings: Native UTF-8 string processing & bitmask null flags
+}
+
+Decision -> Classic: No (Fallback to JVM) { style.stroke: "#64748B" }
+Decision -> Photon: Yes (Photon native execution) { style.stroke: "#34D399" }

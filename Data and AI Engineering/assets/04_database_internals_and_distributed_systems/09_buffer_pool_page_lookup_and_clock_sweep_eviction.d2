@@ -1,0 +1,14 @@
+direction: right
+title: Buffer Pool Management & Page Eviction Algorithms
+
+query: Query Engine Requests Page #4096
+hash_table: Page Hash Table (Maps PageID -> FrameID in RAM)
+frames: Buffer Pool Frames in RAM (Array of 8KB Page Buffers)
+evictor: Clock Sweep / LRU Eviction Engine
+disk: Disk Subsystem (NVMe SSD)
+
+query -> hash_table: "Look up PageID"
+hash_table -> frames: "Cache Hit: Read Frame in RAM"
+hash_table -> evictor: "Cache Miss: Select victim frame"
+evictor -> frames: "Evict unpinned frame"
+disk -> frames: "Load Page #4096 into victim frame"

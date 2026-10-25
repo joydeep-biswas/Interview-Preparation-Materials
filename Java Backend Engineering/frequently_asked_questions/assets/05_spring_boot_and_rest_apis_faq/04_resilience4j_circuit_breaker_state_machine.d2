@@ -1,0 +1,26 @@
+direction: right
+
+closed: "CLOSED (Normal Traffic)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  requests: "100% permitted"
+  window: "Evaluates sliding window failure rate"
+}
+
+open: "OPEN (Tripped)" {
+  style.fill: "#111827"
+  style.stroke: "#EF4444"
+  fail_fast: "Throws CallNotPermittedException"
+  timer: "Waits e.g. 60s in open state"
+}
+
+half_open: "HALF_OPEN (Probing)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  probes: "Permits 10 trial requests"
+}
+
+closed -> open: "Failure rate > threshold"
+open -> half_open: "Wait timer expires"
+half_open -> closed: "Trial probes succeed"
+half_open -> open: "Trial probes fail"

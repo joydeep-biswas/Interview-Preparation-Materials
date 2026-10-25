@@ -1,0 +1,22 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+normal: "Normal Tasks 1..199 (3 GB each)\nExecution: 0s to 120s\nFinish in 2 Minutes" {
+  class: box
+  style.stroke: "#10B981"
+}
+
+idle: "Cluster Idling: 199 Tasks Waiting\n120s to 7200s (1 Hour 58 Min)\nMassive wasted cloud compute cost" {
+  class: box
+  style.stroke: "#EF4444"
+}
+
+skew: "Skewed Task 200 (400 GB data)\nExecution: 0s to 7200s (2 Hours)\nMassive disk spills & straggler barrier" {
+  class: box
+  style.stroke: "#F59E0B"
+}
+
+normal -> idle: "Cores Idle"
+skew -> idle: "Blocks Stage Completion"

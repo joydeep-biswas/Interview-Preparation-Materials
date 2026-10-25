@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="360" viewBox="0 0 1040 360">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1040" height="360" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Three-Valued Logic (3VL): Why NOT IN with NULL Returns Zero Rows</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">De Morgan's Law expansion under ANSI SQL: UNKNOWN truth-value propagation in WHERE clauses</text>
+
+  <!-- 3 Equal Width Columns (w=315 each) -->
+
+  <!-- Card 1: Expression Expansion -->
+  <g transform="translate(30, 80)">
+    <rect width="315" height="240" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
+    <text x="157" y="28" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">1. De Morgan's Law Expansion</text>
+
+    <rect x="15" y="45" width="285" height="175" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
+    <text x="157" y="70" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">WHERE id NOT IN (1, 2, NULL)</text>
+    <text x="25" y="95" font-size="11" fill="#94A3B8" text-anchor="start">• Evaluates mathematically as:</text>
+    <text x="25" y="115" font-size="11" fill="#60A5FA" font-weight="600" text-anchor="start">  id &lt;&gt; 1 AND id &lt;&gt; 2 AND id &lt;&gt; NULL</text>
+    <text x="25" y="140" font-size="11" fill="#94A3B8" text-anchor="start">• For any row candidate (e.g. id = 5):</text>
+    <text x="25" y="160" font-size="11" fill="#94A3B8" text-anchor="start">  5 &lt;&gt; 1 → TRUE</text>
+    <text x="25" y="180" font-size="11" fill="#94A3B8" text-anchor="start">  5 &lt;&gt; 2 → TRUE</text>
+    <text x="25" y="200" font-size="11" fill="#EF4444" font-weight="600" text-anchor="start">  5 &lt;&gt; NULL → UNKNOWN</text>
+  </g>
+
+  <!-- Arrow 1 to 2 -->
+  <path d="M 345 200 L 388 200" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+
+  <!-- Card 2: 3VL Truth Reduction -->
+  <g transform="translate(390, 80)">
+    <rect width="315" height="240" rx="8" fill="#2E1C05" stroke="#F59E0B" stroke-width="2"/>
+    <text x="157" y="28" font-size="13" font-weight="700" fill="#FDE68A" text-anchor="middle">2. ANSI 3VL Truth Reduction</text>
+
+    <rect x="15" y="45" width="285" height="175" rx="6" fill="#451A03" stroke="#F59E0B" stroke-width="1.2"/>
+    <text x="157" y="70" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">AND Chain Truth Reduction</text>
+    <text x="25" y="95" font-size="11" fill="#FDE68A" text-anchor="start">• Combining the conjunction:</text>
+    <text x="25" y="115" font-size="11" fill="#FDE68A" font-weight="600" text-anchor="start">  TRUE AND TRUE AND UNKNOWN</text>
+    <text x="25" y="140" font-size="11" fill="#FDE68A" text-anchor="start">• In 3-Valued Logic truth tables:</text>
+    <text x="25" y="160" font-size="11" fill="#EF4444" font-weight="600" text-anchor="start">  TRUE AND UNKNOWN = UNKNOWN</text>
+    <text x="25" y="185" font-size="11" fill="#FDE68A" text-anchor="start">• The entire predicate reduces to:</text>
+    <text x="25" y="205" font-size="11" fill="#EF4444" font-weight="700" text-anchor="start">  Result = UNKNOWN</text>
+  </g>
+
+  <!-- Arrow 2 to 3 -->
+  <path d="M 705 200 L 748 200" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+
+  <!-- Card 3: Execution Outcome -->
+  <g transform="translate(750, 80)">
+    <rect width="260" height="240" rx="8" fill="#2A0B0B" stroke="#EF4444" stroke-width="2"/>
+    <text x="130" y="28" font-size="13" font-weight="700" fill="#FCA5A5" text-anchor="middle">3. Engine Filter Outcome</text>
+
+    <rect x="15" y="45" width="230" height="175" rx="6" fill="#4C0505" stroke="#EF4444" stroke-width="1.2"/>
+    <text x="130" y="70" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">WHERE Clause Policy</text>
+    <text x="25" y="95" font-size="11" fill="#FCA5A5" text-anchor="start">• Requires strictly TRUE</text>
+    <text x="25" y="115" font-size="11" fill="#FCA5A5" text-anchor="start">• UNKNOWN is discarded!</text>
+    <text x="25" y="145" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="start">Total Rows Returned: 0</text>
+    <text x="25" y="175" font-size="11" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ Production Fix:</text>
+    <text x="25" y="195" font-size="11" fill="#6EE7B7" text-anchor="start">Use NOT EXISTS (...)</text>
+  </g>
+</svg>

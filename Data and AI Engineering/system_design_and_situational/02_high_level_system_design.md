@@ -6,47 +6,9 @@ A comprehensive, production-grade guide to enterprise Data Platform High-Level D
 
 ## Architectural Overview: Enterprise Multi-Tier Real-Time Data & AI Lakehouse
 
-```mermaid
-flowchart TD
-    subgraph IngestionGateways ["1. Ingestion Gateways & Telemetry Ingress"]
-        OLTP["Operational OLTP Databases<br/>(PostgreSQL / MySQL with Debezium CDC)"]
-        EventStream["High-Volume Event Telemetry<br/>(Millions events/sec -> Kafka / Azure Event Hubs)"]
-        MarketTicks["Global Exchange Ticks & Order Feeds<br/>(NASDAQ / LSE / FIX Protocol / WebSockets)"]
-        BatchFeed["External Batch & Regulatory Feeds<br/>(SFTP, Parquet, JSON -> ADLS / S3 Landing)"]
-    end
+![Enterprise Multi-Tier Real-Time Data & AI Lakehouse Architecture](assets/02_high_level_system_design/01_enterprise_multitier_realtime_lakehouse.svg)
 
-    subgraph LakehouseEngine ["2. Lakehouse Engine & Medallion Pipeline (Databricks / Spark / Flink)"]
-        Bronze["Bronze Layer<br/>(Append-only raw immutable history)"]
-        Silver["Silver Layer<br/>(Cleaned, conformed, deduplicated, CDC MERGE)"]
-        Gold["Gold Layer<br/>(Dimensional star schema, aggregations, data marts)"]
-        
-        Bronze -->|"PySpark Structured Streaming Cleansing"| Silver
-        Silver -->|"dbt / Spark Batch Aggregations"| Gold
-    end
-
-    subgraph AnalyticalServing ["3. Analytical Serving, AI & Regulatory Tier"]
-        RealTimeOLAP["Real-Time OLAP (ClickHouse / Apache Pinot)<br/>(Sub-second user-facing dashboard queries)"]
-        TradeSurveillance["Trade Surveillance CEP Engine<br/>(Sliding window pattern detection)"]
-        RegulatoryArchive["Regulatory Snapshot Archive<br/>(Iceberg / Delta Time-Travel Snapshots)"]
-        EnterpriseDW["Cloud Data Warehouse (Snowflake / Databricks SQL)<br/>(BI semantic models & executive dashboards)"]
-        FeatureStore["ML Feature Store & Vector DB<br/>(Online inference + offline training)"]
-        
-        Silver --> RealTimeOLAP
-        Silver --> TradeSurveillance
-        Silver --> RegulatoryArchive
-        Gold --> EnterpriseDW
-        Gold --> FeatureStore
-    end
-
-    OLTP --> Bronze
-    EventStream --> Bronze
-    MarketTicks --> Bronze
-    BatchFeed --> Bronze
-
-    style IngestionGateways fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LakehouseEngine fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style AnalyticalServing fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_high_level_system_design/01_enterprise_multitier_realtime_lakehouse.d2](assets/02_high_level_system_design/01_enterprise_multitier_realtime_lakehouse.d2)
 
 ---
 
@@ -97,19 +59,9 @@ flowchart TD
 ### DE-HLD 2. Change Data Capture (CDC) at Petabyte Scale (Debezium + Kafka + Delta Lake)
 **Core Mechanics:** Transaction Log Mining, Ordered Event Streams, Idempotent Delta MERGE.
 
-```mermaid
-flowchart LR
-    Postgres[("Source PostgreSQL<br/>(WAL Replication Log)")] --> Debezium["Debezium Connector<br/>(Kafka Connect Cluster)"]
-    Debezium --> Kafka["Kafka Topic: orders.cdc<br/>(Partitioned by order_id)"]
-    Kafka --> SparkStream["Spark Structured Streaming<br/>(Micro-Batch 30s)"]
-    SparkStream --> DeltaSilver[("Delta Lake Silver<br/>MERGE INTO orders")]
+![Petabyte-Scale Change Data Capture (CDC): Debezium + Kafka + Delta Lake](assets/02_high_level_system_design/02_petabyte_scale_cdc_pipeline.svg)
 
-    style Postgres fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Debezium fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Kafka fill:#1e293b,stroke:#ec4899,stroke-width:2px,color:#fff
-    style SparkStream fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style DeltaSilver fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/02_high_level_system_design/02_petabyte_scale_cdc_pipeline.d2](assets/02_high_level_system_design/02_petabyte_scale_cdc_pipeline.d2)
 
 1. **Transaction Log Mining:** Debezium reads PostgreSQL Write-Ahead Logs (WAL) or MySQL binlogs directly without issuing SQL `SELECT` queries, avoiding performance overhead on OLTP workloads.
 2. **Ordering Guarantee:** CDC events must be partitioned on the source primary key (`order_id`) so all mutation events (`INSERT`, `UPDATE`, `DELETE`) for a specific entity arrive in strict monotonic sequence within a single Kafka partition.
@@ -179,49 +131,9 @@ flowchart LR
 **Question:** *Design a trade surveillance system that flags market manipulation across millions of orders a day. How do you correlate orders across venues and time zones in near real time?*
 
 #### Architectural Blueprint
-```mermaid
-flowchart TD
-    subgraph Venues ["1. Heterogeneous Market Ingress"]
-        V1["Venue A (LSE - London)<br/>FIX 4.4 Protocol (UTC)"]
-        V2["Venue B (Euronext - Paris)<br/>ITCH / OUCH Binary (UTC+1)"]
-        V3["Venue C (Dark Pool / ATS)<br/>Proprietary JSON Stream"]
-    end
+![Financial Market Data Surveillance & Real-Time CEP Engine](assets/02_high_level_system_design/03_financial_market_data_surveillance_engine.svg)
 
-    subgraph Normalization ["2. Ingress Gateways & Hardware Time Normalization"]
-        Gateways["Distributed FIX/Binary Ingress Gateways (Netty / C++)"]
-        ClockSync["PTP (Precision Time Protocol IEEE 1588)<br/>Hardware GPS Nanosecond Timestamps"]
-        Gateways <--> ClockSync
-        V1 --> Gateways
-        V2 --> Gateways
-        V3 --> Gateways
-    end
-
-    subgraph KafkaStream ["3. Partitioned Kafka Backplane"]
-        Gateways --> KafkaOrders["Kafka: normalized-orders-by-symbol<br/>Partitioned by (AssetClass, Symbol)"]
-    end
-
-    subgraph CEPEngine ["4. Stateful Complex Event Processing (Flink / Spark Streaming)"]
-        KafkaOrders --> Flink["Apache Flink CEP Cluster<br/>(RocksDB State Store with Watermarks)"]
-        
-        subgraph DetectionRules ["Manipulation Pattern Matchers"]
-            Spoofing["Spoofing & Layering<br/>(Large non-bona-fide orders cancelled within 200ms)"]
-            WashTrading["Wash Trading<br/>(Same beneficial owner buying & selling simultaneously)"]
-            FrontRunning["Front-Running / Insider Flow<br/>(Aggressive client order preceding large block trade)"]
-        end
-        Flink --> DetectionRules
-    end
-
-    subgraph Alerts_Storage ["5. Alert Dispatch & Historical Audit Lakehouse"]
-        DetectionRules -->|"Near-Real-Time Alert (< 2s)"| ComplianceAlerts["Compliance Investigation UI (Kafka -> WebSockets)"]
-        DetectionRules --> GoldMarts[("Iceberg Historical Audit Store<br/>(Immutable Parquet with Nanosecond Precision)")]
-    end
-
-    style Venues fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Normalization fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style KafkaStream fill:#0f172a,stroke:#ec4899,stroke-width:2px,color:#fff
-    style CEPEngine fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Alerts_Storage fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_high_level_system_design/03_financial_market_data_surveillance_engine.d2](assets/02_high_level_system_design/03_financial_market_data_surveillance_engine.d2)
 
 #### Core Mechanics & Technical Solutions
 1. **Nanosecond Time Normalization Across Venues:**
@@ -242,49 +154,9 @@ flowchart TD
 **Question:** *Design the regulatory reporting pipeline that submits transaction data to regulators every day. How do you guarantee completeness, and reproduce exactly what was reported six months ago?*
 
 #### Architectural Blueprint
-```mermaid
-flowchart TD
-    subgraph Sources ["1. Core Banking & Trading Ledgers"]
-        Ledger1["Core Banking System A (DB2 CDC)"]
-        Ledger2["Payment Processing Gateway (Kafka)"]
-        Ledger3["Foreign Exchange Platform (PostgreSQL CDC)"]
-    end
+![Mission-Critical Financial Ledger & Regulatory Snapshot Lakehouse](assets/02_high_level_system_design/04_mission_critical_financial_ledger_lakehouse.svg)
 
-    subgraph Ingestion ["2. Zero-Loss Ingestion Tier"]
-        IngressWorker["Transactional Ingestion Workers<br/>(Kafka Consumer with Read Committed)"]
-        Ledger1 --> IngressWorker
-        Ledger2 --> IngressWorker
-        Ledger3 --> IngressWorker
-    end
-
-    subgraph ImmutableLakehouse ["3. Immutable Lakehouse with Snapshot Manifests"]
-        IngressWorker --> BronzeDelta[("Bronze Raw Ledger Log<br/>(Append-Only, Hash Checksums)")]
-        BronzeDelta --> SilverCleansed[("Silver Conformed Ledger (Apache Iceberg)<br/>Snapshot S_2026_04_20")]
-        
-        subgraph IcebergMetadataTree ["Iceberg Time-Travel Metadata Tree"]
-            SnapPointer["Catalog: current_snapshot_id -> S_1045"]
-            ManifestList["Manifest List (Snapshot S_1045)"]
-            ManifestFiles["Manifest Files (Partition Bounds, Min/Max Stats)"]
-            DataFiles["Data Files (Parquet on Cloud Object Storage)"]
-            
-            SnapPointer --> ManifestList --> ManifestFiles --> DataFiles
-        end
-        SilverCleansed --- IcebergMetadataTree
-    end
-
-    subgraph RegulatoryEngine ["4. Deterministic Reporting Engine"]
-        ReportGenerator["Scheduled Spark Regulatory Runner<br/>(Runs query at exact Snapshot ID S_1045)"]
-        SilverCleansed --> ReportGenerator
-        ReportGenerator --> CryptographicHash["Cryptographic SHA-256 Checksum Manifest"]
-        ReportGenerator --> RegOutput["Regulatory XML/CSV Submission (BoE / SEC / BaFin)"]
-        CryptographicHash --> AuditStore[("Immutable Regulatory Audit Registry")]
-    end
-
-    style Sources fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Ingestion fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style ImmutableLakehouse fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style RegulatoryEngine fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-```
+*D2 Source:* [assets/02_high_level_system_design/04_mission_critical_financial_ledger_lakehouse.d2](assets/02_high_level_system_design/04_mission_critical_financial_ledger_lakehouse.d2)
 
 #### Core Mechanics & Guarantees
 1. **The Reproducibility Invariant:**
@@ -330,46 +202,9 @@ flowchart TD
 **Question:** *Design a data warehouse for payments, customers, merchants, refunds, and chargebacks. How do you implement incremental data loading and historical backfills?*
 
 #### Data Modeling Architecture
-```mermaid
-erDiagram
-    DIM_CUSTOMER ||--o{ FACT_PAYMENT_TRANSACTION : places
-    DIM_MERCHANT ||--o{ FACT_PAYMENT_TRANSACTION : accepts
-    DIM_PAYMENT_METHOD ||--o{ FACT_PAYMENT_TRANSACTION : uses
-    DIM_DATE ||--o{ FACT_PAYMENT_TRANSACTION : occurs_on
-    FACT_PAYMENT_TRANSACTION ||--o{ FACT_REFUND : has
-    FACT_PAYMENT_TRANSACTION ||--o{ FACT_CHARGEBACK : disputes
+![Payment Processing Star Schema & Dimensional Data Model](assets/02_high_level_system_design/05_payment_processing_star_schema_data_model.svg)
 
-    FACT_PAYMENT_TRANSACTION {
-        bigint payment_key PK
-        string transaction_uuid
-        bigint customer_key FK
-        bigint merchant_key FK
-        bigint payment_method_key FK
-        int date_key FK
-        decimal amount
-        string currency
-        string status
-        timestamp transaction_timestamp
-    }
-
-    DIM_CUSTOMER {
-        bigint customer_key PK
-        string customer_id
-        string risk_tier
-        string country
-        date valid_from
-        date valid_to
-        boolean is_current
-    }
-
-    FACT_REFUND {
-        bigint refund_key PK
-        bigint payment_key FK
-        decimal refund_amount
-        string reason_code
-        timestamp refund_timestamp
-    }
-```
+*D2 Source:* [assets/02_high_level_system_design/05_payment_processing_star_schema_data_model.d2](assets/02_high_level_system_design/05_payment_processing_star_schema_data_model.d2)
 
 1. **SCD Type 2 Tracking:** Dimensions (`DIM_CUSTOMER`, `DIM_MERCHANT`) maintain `valid_from`, `valid_to`, and `is_current` flags to preserve historical context of risk ratings and merchant acquiring categories at the exact time a payment occurred.
 2. **Incremental Loading & Historical Backfills:**
@@ -395,38 +230,9 @@ erDiagram
 **Question:** *Design a petabyte-scale, high-concurrency Retrieval-Augmented Generation (RAG) platform indexing 100M enterprise documents with sub-100ms retrieval latency for 10,000 concurrent active users.*
 
 #### Architectural Blueprint
-```mermaid
-flowchart TD
-    subgraph Ingestion ["1. Multi-Source Document Ingestion"]
-        S3["Raw Object Storage (S3 / ADLS)"] --> Airflow["Airflow / Prefect Ingestion DAGs"]
-        Airflow --> Chunking["Document Layout & Chunking Engine (Unstructured / PyMuPDF)"]
-        Chunking --> Dedupe["MinHash LSH Deduplication & Metadata Enrichment"]
-    end
+![Enterprise RAG Knowledge Lakehouse: Hybrid Search & Vector Pipeline](assets/02_high_level_system_design/06_enterprise_rag_knowledge_lakehouse.svg)
 
-    subgraph Embedding_Generation ["2. Distributed Vector Embeddings"]
-        Dedupe --> Kafka["Vector Ingestion Kafka Topic"]
-        Kafka --> Ray["Ray Cluster (GPU Embedding Workers - BGE-large / text-embedding-3)"]
-        Ray --> Qdrant["Clustered Vector DB (Qdrant / Milvus - HNSW + IVF-PQ)"]
-        Ray --> Elastic["OpenSearch / Tantivy (Lexical BM25 Inverted Index)"]
-    end
-
-    subgraph Query_Serving ["3. Hybrid Retrieval & Re-ranking"]
-        UserQuery["Client Query"] --> Gateway["FastAPI API Gateway"]
-        Gateway --> SemanticCache["Semantic Cache (Redis / GPTCache)"]
-        SemanticCache -->|Cache Miss| QueryFanout["Parallel Search Coordinator"]
-        QueryFanout --> Qdrant
-        QueryFanout --> Elastic
-        Qdrant --> RRF["Reciprocal Rank Fusion (RRF)"]
-        Elastic --> RRF
-        RRF --> Reranker["Cross-Encoder Reranker (bge-reranker-large)"]
-        Reranker --> PromptAssembly["Context Budget Assembly & Guardrails"]
-        PromptAssembly --> vLLM["vLLM GPU Inference Cluster"]
-    end
-
-    style Ingestion fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Embedding_Generation fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Query_Serving fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/02_high_level_system_design/06_enterprise_rag_knowledge_lakehouse.d2](assets/02_high_level_system_design/06_enterprise_rag_knowledge_lakehouse.d2)
 
 ---
 
@@ -445,37 +251,9 @@ flowchart TD
 **Question:** *Your fraud model's precision drops 15% over three months with no code change. How do you detect the drift, find the cause, and retrain without letting fraud through in the meantime?*
 
 #### Architectural Blueprint
-```mermaid
-flowchart TD
-    subgraph LiveServing ["1. Production Model Serving & Telemetry Logging"]
-        Swipe["Incoming Transaction"] --> ModelV1["Production Fraud Model (v1.4)"]
-        ModelV1 --> Decision["Live Decision (Approve/Decline)"]
-        Swipe --> FeatureLogger["Streaming Inference Logger"]
-        ModelV1 --> FeatureLogger
-        FeatureLogger --> KafkaDrift["Kafka: model-telemetry-events"]
-    end
+![Real-Time Fraud Detection ML Mesh: Online & Offline Feature Store](assets/02_high_level_system_design/07_realtime_fraud_detection_ml_mesh.svg)
 
-    subgraph DriftDetection ["2. Real-Time Drift Analysis Engine (Evidently / WhyLogs)"]
-        KafkaDrift --> DriftWorker["Daily / Hourly Drift Evaluator (Spark / Ray)"]
-        RefBaseline[("Reference Baseline Features<br/>(Training Distribution)")] --> DriftWorker
-        
-        DriftWorker --> KS_Test["Kolmogorov-Smirnov (KS) Test<br/>(Continuous Features: Amount, Velocity)"]
-        DriftWorker --> PSI_Test["Population Stability Index (PSI)<br/>(Categorical: Merchant Code, Country)"]
-    end
-
-    subgraph RetrainingLoop ["3. Automated Champion-Challenger Retraining"]
-        PSI_Test -->|"PSI > 0.25 (Severe Drift Alert)"| TriggerRetrain["Airflow Retraining Pipeline"]
-        TriggerRetrain --> TrainJob["Distributed Training (XGBoost / LightGBM)"]
-        TrainJob --> ModelV2["Challenger Model (v1.5)"]
-        
-        ModelV2 --> ShadowEvaluation["Shadow Mode Deployment<br/>(Scores live traffic silently for 7 days)"]
-        ShadowEvaluation -->|"Precision Verified >= Target"| CanaryPromotion["Canary Promotion (10% -> 50% -> 100%)"]
-    end
-
-    style LiveServing fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DriftDetection fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style RetrainingLoop fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/02_high_level_system_design/07_realtime_fraud_detection_ml_mesh.d2](assets/02_high_level_system_design/07_realtime_fraud_detection_ml_mesh.d2)
 
 1. **Detecting Drift:**
    - **Data Drift (Covariate Shift):** The input features change. Evaluated using **Population Stability Index (PSI)**:

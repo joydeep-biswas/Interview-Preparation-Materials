@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 280" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-red { stroke: #EF4444; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-b20" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-a20" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g20" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="32" class="title-text">Rolling 7-Day Window: Sparse Date Spining &amp; Framing</text>
+
+  <!-- Left: The Problem -->
+  <rect x="30" y="65" width="260" height="175" class="card card-red"/>
+  <text x="160" y="92" class="card-title" fill="#FCA5A5">Naive ROWS with Missing Dates</text>
+  <text x="45" y="117" class="card-body">• Oct 1: $100</text>
+  <text x="45" y="137" class="card-body" fill="#EF4444">• Oct 2, Oct 3, Oct 4: MISSING</text>
+  <text x="45" y="157" class="card-body">• Oct 5: $200</text>
+  <text x="45" y="177" class="card-body">• Takes 6 physical rows prior</text>
+  <text x="45" y="197" class="card-body" fill="#FCA5A5">• Covers 12 calendar days! (Bug)</text>
+
+  <!-- Step 1: Calendar Spine -->
+  <rect x="330" y="65" width="180" height="175" class="card card-blue"/>
+  <text x="420" y="92" class="card-title" fill="#93C5FD">1. dim_date Spine</text>
+  <text x="345" y="117" class="card-body">• Unbroken sequence</text>
+  <text x="345" y="137" class="card-body">• Oct 1, Oct 2, Oct 3</text>
+  <text x="345" y="157" class="card-body">• Oct 4, Oct 5, Oct 6</text>
+  <text x="345" y="177" class="card-body">• Oct 7</text>
+  <text x="345" y="197" class="card-body">• Continuous grid</text>
+
+  <!-- Step 2: Zero Fill -->
+  <rect x="545" y="65" width="180" height="175" class="card card-amber"/>
+  <text x="635" y="92" class="card-title" fill="#FDE68A">2. Zero Fill Gaps</text>
+  <text x="560" y="117" class="card-body">• LEFT JOIN sales</text>
+  <text x="560" y="137" class="card-body">• COALESCE(sales, 0)</text>
+  <text x="560" y="157" class="card-body" fill="#34D399">• Oct 2 -> $0.00</text>
+  <text x="560" y="177" class="card-body" fill="#34D399">• Oct 3 -> $0.00</text>
+  <text x="560" y="197" class="card-body" fill="#34D399">• Oct 4 -> $0.00</text>
+
+  <!-- Step 3: Rolling Window -->
+  <rect x="760" y="65" width="170" height="175" class="card card-green"/>
+  <text x="845" y="92" class="card-title" fill="#6EE7B7">3. Rolling Window</text>
+  <text x="775" y="117" class="card-body">• ROWS BETWEEN</text>
+  <text x="775" y="137" class="card-body">  6 PRECEDING</text>
+  <text x="775" y="157" class="card-body">• Strictly 7 days</text>
+  <text x="775" y="177" class="card-body" fill="#34D399">• Perfect accuracy</text>
+  <text x="775" y="197" class="card-body">• Zero bias drift</text>
+
+  <!-- Connectors -->
+  <path fill="none" d="M 290 150 L 330 150" class="edge edge-blue" marker-end="url(#arr-b20)"/>
+  <path fill="none" d="M 510 150 L 545 150" class="edge edge-amber" marker-end="url(#arr-a20)"/>
+  <path fill="none" d="M 725 150 L 760 150" class="edge edge-green" marker-end="url(#arr-g20)"/>
+</svg>

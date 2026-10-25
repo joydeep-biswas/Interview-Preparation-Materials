@@ -1,0 +1,35 @@
+direction: right
+classes: {
+  client: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  gate: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  prov: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+clients: "Client Microservices" {
+  chat: "Chat Web App" { class: client }
+  worker: "Background Worker" { class: client }
+  agents: "Agent Swarm" { class: client }
+}
+
+gateway: "Enterprise AI Gateway" {
+  auth: "1. Virtual Keys & Quotas" { class: gate }
+  rate: "2. Redis Token Bucket (RPM/TPM)" { class: gate }
+  cache: "3. Semantic Cache (&lt;20ms)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  router: "4. Intelligent Fallback Router" { class: prov }
+  cost: "5. Real-Time Cost Metering" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+
+  auth -> rate -> cache -> router -> cost
+}
+
+providers: "Upstream Model Providers" {
+  openai: "OpenAI API (Primary: gpt-4o)" { class: prov }
+  anthropic: "Anthropic (Fallback 1)" { class: prov }
+  azure: "Azure OpenAI (Fallback 2)" { class: prov }
+  vllm: "Self-Hosted vLLM (Fallback 3)" { class: gate }
+}
+
+clients.chat -> gateway.auth: "REST API"
+gateway.router -> providers.openai: "Primary"
+gateway.router -> providers.anthropic: "Fallback 1"
+gateway.router -> providers.azure: "Fallback 2"
+gateway.router -> providers.vllm: "Fallback 3"

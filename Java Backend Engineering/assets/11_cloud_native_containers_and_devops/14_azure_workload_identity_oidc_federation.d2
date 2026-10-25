@@ -1,0 +1,15 @@
+direction: down
+title: Azure Workload Identity OIDC Federation
+
+Pod: Java Pod on AKS
+K8s: K8s API Server (OIDC Issuer)
+Entra: Microsoft Entra ID (Azure AD)
+AKV: Azure Key Vault
+
+Pod -> K8s: 1. Request projected ServiceAccount token { style.stroke: "#38BDF8" }
+K8s -> Pod: 2. Return signed K8s JWT { style.stroke: "#34D399" }
+Pod -> Entra: 3. Exchange JWT for Azure AD OAuth token { style.stroke: "#C084FC" }
+Entra -> K8s: 4. Validates OIDC JWKS keys { style.stroke: "#C084FC" }
+Entra -> Pod: 5. Emits Azure AD access token { style.stroke: "#34D399" }
+Pod -> AKV: 6. GET /secrets/db-password (Bearer token) { style.stroke: "#F59E0B" }
+AKV -> Pod: 7. Returns secret value { style.stroke: "#34D399" }

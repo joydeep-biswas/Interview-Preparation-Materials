@@ -1,0 +1,19 @@
+classes: {
+  super_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  worker_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+user: "User Request"
+supervisor: "Supervisor Orchestrator\nDecomposes tasks & synthesizes" { class: super_box }
+
+w_sql: "Worker 1: SQL Specialist\nQueries Read-Replica" { class: worker_box }
+w_doc: "Worker 2: Doc Search\nQdrant Vector Retrieval" { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2 } }
+w_code: "Worker 3: Python Specialist\nE2B Sandbox Analysis" { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+
+user -> supervisor: "Analyze churn"
+supervisor -> w_sql: "1. Dispatch SQL task"
+w_sql -> supervisor: "2. Tabular metrics"
+supervisor -> w_doc: "3. Policy search"
+w_doc -> supervisor: "4. Qualitative citations"
+supervisor -> w_code: "5. Python chart & report"
+w_code -> supervisor: "6. Final report artifacts"

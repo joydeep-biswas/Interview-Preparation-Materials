@@ -1,0 +1,32 @@
+direction: right
+title: Kappa Architecture: Single Append-Only Log Substrate
+
+log: Distributed Event Log Substrate (Kafka / Pulsar) {
+  shape: cylinder
+  retention: "Long-term / Infinite log retention"
+}
+
+compute: Single Stream Processing Framework (Apache Flink) {
+  v1: Live Pipeline v1 {
+    shape: rectangle
+    status: "Active live processing"
+  }
+  v2: Backfill Pipeline v2 {
+    shape: rectangle
+    status: "Replaying from offset 0"
+    style.stroke-dash: 4
+  }
+}
+
+serving: Serving Data Stores {
+  store_v1: Serving Store v1 (Live Traffic)
+  store_v2: Serving Store v2 (Rebuilt Backfill) {
+    style.stroke-dash: 4
+  }
+}
+
+log -> compute.v1: "Tail active offsets"
+compute.v1 -> serving.store_v1: "Live updates"
+
+log -> compute.v2: "Seek offset 0 & replay"
+compute.v2 -> serving.store_v2: "Rebuild store v2"

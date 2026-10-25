@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 1.5; fill: none; }
+    </style>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="360" fill="#0B0F19"/>
+
+  <!-- Left: repartition (Amber) -->
+  <g transform="translate(30, 25)">
+    <rect width="450" height="310" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="225" y="28" class="title" fill="#FCD34D">repartition(2) from 4: Full Network Shuffle</text>
+    <line x1="20" y1="38" x2="430" y2="38" stroke="#1F2937" stroke-width="1.5"/>
+
+    <!-- 4 Source Partitions -->
+    <rect x="25" y="55" width="85" height="42" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1"/>
+    <text x="67.5" y="80" class="body-txt" text-anchor="middle">Part 1</text>
+
+    <rect x="25" y="105" width="85" height="42" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1"/>
+    <text x="67.5" y="130" class="body-txt" text-anchor="middle">Part 2</text>
+
+    <rect x="25" y="155" width="85" height="42" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1"/>
+    <text x="67.5" y="180" class="body-txt" text-anchor="middle">Part 3</text>
+
+    <rect x="25" y="205" width="85" height="42" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1"/>
+    <text x="67.5" y="230" class="body-txt" text-anchor="middle">Part 4</text>
+
+    <!-- Shuffle Center -->
+    <rect x="155" y="100" width="140" height="100" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <text x="225" y="135" class="title" font-size="12" fill="#FECACA">Full Network</text>
+    <text x="225" y="155" class="title" font-size="12" fill="#FECACA">Shuffle</text>
+    <text x="225" y="175" class="body-txt" text-anchor="middle" fill="#FCA5A5">Hash Partitioning</text>
+
+    <!-- Target Partitions -->
+    <rect x="335" y="85" width="95" height="55" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="382.5" y="112" class="title" font-size="11" fill="#FCD34D">New Part 1</text>
+    <text x="382.5" y="128" class="body-txt" text-anchor="middle">Balanced</text>
+
+    <rect x="335" y="160" width="95" height="55" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="382.5" y="187" class="title" font-size="11" fill="#FCD34D">New Part 2</text>
+    <text x="382.5" y="203" class="body-txt" text-anchor="middle">Balanced</text>
+
+    <!-- Edges Left -->
+    <path fill="none" d="M 110 76 L 155 120" class="edge" stroke="#F59E0B"/>
+    <path fill="none" d="M 110 126 L 155 135" class="edge" stroke="#F59E0B"/>
+    <path fill="none" d="M 110 176 L 155 165" class="edge" stroke="#F59E0B"/>
+    <path fill="none" d="M 110 226 L 155 180" class="edge" stroke="#F59E0B"/>
+    <path fill="none" d="M 295 130 L 335 112" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+    <path fill="none" d="M 295 170 L 335 187" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+
+    <text x="225" y="280" class="body-txt" text-anchor="middle" fill="#FCD34D">Expensive all-to-all shuffle, but guarantees equal sizes</text>
+  </g>
+
+  <!-- Right: coalesce (Green) -->
+  <g transform="translate(520, 25)">
+    <rect width="450" height="310" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="225" y="28" class="title" fill="#6EE7B7">coalesce(2) from 4: Local Narrow Merge (Zero Shuffle)</text>
+    <line x1="20" y1="38" x2="430" y2="38" stroke="#1F2937" stroke-width="1.5"/>
+
+    <!-- 4 Source Partitions -->
+    <rect x="25" y="55" width="130" height="42" rx="6" ry="6" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
+    <text x="90" y="80" class="body-txt" text-anchor="middle">Node 1: Part 1</text>
+
+    <rect x="25" y="105" width="130" height="42" rx="6" ry="6" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
+    <text x="90" y="130" class="body-txt" text-anchor="middle">Node 1: Part 2</text>
+
+    <rect x="25" y="170" width="130" height="42" rx="6" ry="6" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
+    <text x="90" y="195" class="body-txt" text-anchor="middle">Node 2: Part 3</text>
+
+    <rect x="25" y="220" width="130" height="42" rx="6" ry="6" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
+    <text x="90" y="245" class="body-txt" text-anchor="middle">Node 2: Part 4</text>
+
+    <!-- Target Merged Partitions -->
+    <rect x="250" y="70" width="175" height="65" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="337.5" y="98" class="title" font-size="11" fill="#A7F3D0">New Part 1 (Node 1)</text>
+    <text x="337.5" y="118" class="body-txt" text-anchor="middle" fill="#A7F3D0">Merged Locally (1 + 2)</text>
+
+    <rect x="250" y="185" width="175" height="65" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="337.5" y="213" class="title" font-size="11" fill="#A7F3D0">New Part 2 (Node 2)</text>
+    <text x="337.5" y="233" class="body-txt" text-anchor="middle" fill="#A7F3D0">Merged Locally (3 + 4)</text>
+
+    <!-- Direct narrow edges with straight runways -->
+    <path fill="none" d="M 155 76 L 200 76 C 220 76, 230 90, 250 90" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+    <path fill="none" d="M 155 126 L 200 126 C 220 126, 230 115, 250 115" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+    <path fill="none" d="M 155 191 L 200 191 C 220 191, 230 205, 250 205" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+    <path fill="none" d="M 155 241 L 200 241 C 220 241, 230 230, 250 230" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+
+    <text x="225" y="285" class="body-txt" text-anchor="middle" fill="#6EE7B7">Zero network movement! Avoids shuffle when reducing partitions</text>
+  </g>
+</svg>

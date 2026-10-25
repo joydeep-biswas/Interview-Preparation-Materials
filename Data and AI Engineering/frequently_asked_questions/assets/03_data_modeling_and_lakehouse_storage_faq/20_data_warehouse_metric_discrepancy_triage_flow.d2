@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  alert: { style: { fill: "#1F2937"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
+  decision: { style: { fill: "#111827"; stroke: "#F59E0B"; stroke-width: 2; rx: 8 } }
+  cause: { style: { fill: "#1E293B"; stroke: "#3B82F6"; stroke-width: 1.5; rx: 8 } }
+}
+
+alert_node: "1. Metric Alert\nSource Total: $1,050,000\nDW Total: $1,020,000 (-$30k)" { class: alert }
+step1: "Quantify Granularity\nIsolate to hour, tenant, or status" { class: decision }
+check_deletes: "2. Check Hard Deletes\nSource count vs DW count" { class: decision }
+
+hard_delete: "Root Cause: Unrecorded Hard Deletes\nSource purged rows without tombstone -> Enable CDC" { class: cause; style.stroke: "#EF4444" }
+check_watermark: "3. Audit In-Flight Txns\nCheck transaction commit time" { class: decision }
+watermark_lag: "Root Cause: Watermark Lag\nTxn committed post-cutoff -> Add lookback buffer" { class: cause; style.stroke: "#F59E0B" }
+precision_skew: "Root Cause: FX / Precision Skew\nFloating point drift or stale conversion rates" { class: cause; style.stroke: "#8B5CF6" }
+
+alert_node -> step1 -> check_deletes
+check_deletes -> hard_delete: "Source < DW"
+check_deletes -> check_watermark: "Source > DW"
+check_watermark -> watermark_lag: "Timestamp Gap Found"
+check_watermark -> precision_skew: "Counts Match, Revenue Differs"

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Circuit Breaker Pattern: Resilience4j Finite State Machine</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Preventing Cascading Failures in Distributed Call Graphs via CLOSED, OPEN, and HALF_OPEN States</text>
+<rect x="50" y="140" width="280" height="220" rx="10" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+<rect x="65" y="155" width="140" height="22" rx="11" fill="#047857"/><text x="135" y="169" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. CLOSED (Normal)</text>
+<text x="190" y="195" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Operational State</text>
+<text x="65" y="225" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Requests execute normally downstream</text>
+<text x="65" y="245" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Sliding Ring Buffer tracks outcomes:</text>
+<text x="75" y="262" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Count-based (e.g. last 100 calls) or</text>
+<text x="75" y="278" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Time-based (e.g. last 60 seconds)</text>
+<text x="65" y="305" fill="#FDE68A" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">TRIP CONDITION:</text>
+<text x="65" y="325" fill="#F87171" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">If failure rate &gt; 50% OR slow call &gt; 70%</text>
+<text x="65" y="342" fill="#EF4444" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">-&gt; Transitions immediately to OPEN!</text>
+<rect x="400" y="140" width="280" height="220" rx="10" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>
+<rect x="415" y="155" width="140" height="22" rx="11" fill="#7f1d1d"/><text x="485" y="169" fill="#FECACA" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. OPEN (Tripped)</text>
+<text x="540" y="195" fill="#F87171" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Fail-Fast Protection</text>
+<text x="415" y="225" fill="#FECACA" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• ZERO downstream calls allowed!</text>
+<text x="415" y="245" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Fast-fails all incoming requests with</text>
+<text x="425" y="262" fill="#EF4444" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">CallNotPermittedException in 0ms!</text>
+<text x="415" y="285" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Executes fallback method or returns cache</text>
+<text x="415" y="310" fill="#6EE7B7" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">RECOVERY TIMER:</text>
+<text x="415" y="330" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Wait duration in open state (e.g. 10s)</text>
+<text x="415" y="345" fill="#FBBF24" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">After timer expires -&gt; HALF_OPEN!</text>
+<rect x="750" y="140" width="280" height="220" rx="10" fill="#78350f" stroke="#f59e0b" stroke-width="2"/>
+<rect x="765" y="155" width="160" height="22" rx="11" fill="#b45309"/><text x="845" y="169" fill="#FEF3C7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. HALF_OPEN (Trial)</text>
+<text x="890" y="195" fill="#FBBF24" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Health Probing State</text>
+<text x="765" y="225" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Permits limited trial calls (e.g. 10 calls)</text>
+<text x="765" y="245" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Evaluates recovery rate:</text>
+<text x="765" y="270" fill="#34D399" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">IF TRIAL CALLS SUCCEED:</text>
+<text x="775" y="288" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Failure rate &amp;lt; threshold</text>
+<text x="775" y="304" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">-&gt; Transitions back to CLOSED!</text>
+<text x="765" y="325" fill="#F87171" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">IF TRIAL CALLS FAIL:</text>
+<text x="775" y="342" fill="#EF4444" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">-&gt; Trips back to OPEN immediately!</text>
+<line x1="330" y1="220" x2="400" y2="220" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+<rect x="330" y="210" width="70" height="18" rx="9" fill="#7f1d1d"/><text x="365" y="222" fill="#FECACA" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Fail &gt; 50%</text>
+<line x1="680" y1="220" x2="750" y2="220" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
+<rect x="680" y="210" width="70" height="18" rx="9" fill="#78350f"/><text x="715" y="222" fill="#FDE68A" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Timer 10s</text>
+<path d="M 890 140 L 890 80 L 190 80 L 190 140" stroke="#34D399" stroke-width="2" fill="none" marker-end="url(#arr-g)"/>
+<rect x="500" y="70" width="100" height="20" rx="10" fill="#064e3b"/><text x="550" y="83" fill="#6EE7B7" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Success (Healed)</text>
+<line x1="750" y1="300" x2="680" y2="300" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+<rect x="680" y="290" width="70" height="18" rx="9" fill="#7f1d1d"/><text x="715" y="302" fill="#FECACA" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Trial Fails</text>
+<rect x="40" y="440" width="1000" height="85" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="465" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Resilience4j vs Cascading Thread Exhaustion:</text>
+<text x="65" y="485" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Without a circuit breaker, an unresponsive downstream service blocks caller threads (Tomcat worker pool exhaustion), causing the entire system to crash.</text>
+<text x="65" y="502" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• The circuit breaker isolates the fault, gives the struggling service breathing room to recover, and delivers graceful fallbacks to end users.</text>
+</svg>

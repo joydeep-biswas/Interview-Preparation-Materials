@@ -1,0 +1,14 @@
+classes: {
+  base_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
+  sft_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  align_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+stages: "The Three Stages of Model Construction" {
+  base: "1. Pretraining (Base Model)\n15T+ tokens next-token prediction\nRaw text completion engine" { class: base_box }
+  sft: "2. Supervised Fine-Tuning (Instruct)\n100k+ conversational Q&A pairs\nLearns to follow instructions" { class: sft_box }
+  align: "3. Preference Alignment (RLHF / DPO)\n(Prompt, Chosen, Rejected) pairs\nSafe, honest, helpful assistant" { class: align_box }
+
+  base -> sft: "Instruct tuning"
+  sft -> align: "Preference optimization"
+}

@@ -1,0 +1,11 @@
+classes: {
+  char_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
+  word_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
+  subword_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+tokenization: "Why Subword Tokenization Won" {
+  char: "1. Character-Level ('c', 'a', 't')\nTiny 256 vocab\nFlaw: 6x longer sequence length (36x attention compute)" { class: char_box }
+  word: "2. Word-Level ('cat', 'sat')\nShort sequence length\nFlaw: Vocabulary explosion (millions) & OOV on typos" { class: word_box }
+  subword: "3. Subword Tokenization (BPE / SentencePiece)\nSweet spot: 32k-128k vocabulary\nFrequent words 1 token, rare words split into stems" { class: subword_box }
+}

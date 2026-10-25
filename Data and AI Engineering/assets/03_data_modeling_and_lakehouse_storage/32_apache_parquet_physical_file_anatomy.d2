@@ -1,0 +1,35 @@
+direction: down
+title: Apache Parquet Physical File Anatomy
+
+header: File Header: Magic Bytes 'PAR1' (4 Bytes)
+
+rg1: Row Group 1 (128 MB - 512 MB) {
+  col_a: Column Chunk A (User_ID) {
+    p1: Page 1 (Data)
+    p2: Page 2 (Data)
+  }
+  col_b: Column Chunk B (Timestamp) {
+    p1: Page 1 (Data)
+    p2: Page 2 (Data)
+  }
+  col_c: Column Chunk C (Amount) {
+    p1: Page 1 (Dictionary)
+    p2: Page 2 (Data)
+  }
+}
+
+rg2: Row Group 2 (128 MB - 512 MB) {
+  col2_a: Column Chunk A
+  col2_b: Column Chunk B
+  col2_c: Column Chunk C
+}
+
+footer: File Metadata Footer (Read First) {
+  meta: Schema & Row Group Offsets
+  stats: Column Min/Max Stats (Data Skipping)
+  trailer: 4-Byte Footer Length + 'PAR1'
+}
+
+header -> rg1
+rg1 -> rg2
+rg2 -> footer

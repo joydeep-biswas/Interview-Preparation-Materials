@@ -1,0 +1,13 @@
+direction: down
+title: Cross-Site Request Forgery (CSRF) Attack Mechanics vs Defense
+
+Victim: Victim User Browser
+Bank: Bank Portal (Cookie Auth)
+Attacker: Malicious Forum Site
+
+Victim -> Bank: 1. User logs in { style.stroke: "#38BDF8" }
+Bank -> Victim: 2. Returns JSESSIONID cookie { style.stroke: "#34D399" }
+Victim -> Attacker: 3. Visits malicious site in another tab { style.stroke: "#F59E0B" }
+Attacker -> Victim: 4. Fires hidden auto-submitting POST form { style.stroke: "#EF4444" }
+Victim -> Bank: 5. Browser automatically sends cookie to bank! { style.stroke: "#EF4444" }
+Bank -> Bank: 6. SameSite=Strict or CSRF token header blocks unauthorized request { style.stroke: "#10B981" }

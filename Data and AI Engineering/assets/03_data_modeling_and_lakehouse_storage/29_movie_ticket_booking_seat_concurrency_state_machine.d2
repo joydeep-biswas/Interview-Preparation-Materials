@@ -1,0 +1,21 @@
+direction: right
+title: Movie Ticket Booking Seat Concurrency State Machine
+
+available: AVAILABLE {
+  status: "Free seat visible on seating map"
+  style.stroke: "#10b981"
+}
+
+locked: LOCKED {
+  status: "Acquires 10-min Redis TTL + DB Row Lock"
+  style.stroke: "#f59e0b"
+}
+
+booked: BOOKED {
+  status: "Payment Confirmed (Atomic DB Commit)"
+  style.stroke: "#ef4444"
+}
+
+available -> locked: "1. User selects seat"
+locked -> booked: "2. Payment confirmed"
+locked -> available: "3. TTL expires or payment fails"

@@ -1,0 +1,30 @@
+direction: right
+title: "API Gateway Architecture: Routing & Security Offloading"
+
+client: "Public Clients
+Web, Mobile, B2B" {
+  style.fill: "#0f172a"
+  style.stroke: "#3b82f6"
+}
+
+gw: "API Gateway
+Spring Cloud Gateway / Envoy" {
+  style.fill: "#083344"
+  style.stroke: "#06b6d4"
+
+  tls: "1. TLS Termination"
+  jwt: "2. JWT Authentication"
+  rate: "3. Redis Rate Limiting"
+  route: "4. L7 Path Routing"
+
+  tls -> jwt -> rate -> route
+}
+
+services: "Internal Services
+Order, Payment, User" {
+  style.fill: "#062e24"
+  style.stroke: "#10b981"
+}
+
+client -> gw: "HTTPS / 443"
+gw -> services: "Plain HTTP / mTLS"

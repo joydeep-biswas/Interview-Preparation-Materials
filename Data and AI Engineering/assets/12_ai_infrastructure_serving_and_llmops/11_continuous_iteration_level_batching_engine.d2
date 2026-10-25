@@ -1,0 +1,23 @@
+direction: down
+classes: {
+  done: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  run: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  inject: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+}
+
+iter1: "Iteration 1: Active Execution Batch [A, B, C]" {
+  a: "Req A: Generates &lt;|endoftext|&gt;\n(Completed immediately!)" { class: done }
+  b: "Req B: Generates token 42" { class: run }
+  c: "Req C: Generates token 18" { class: run }
+}
+
+action: "Evict Req A -> Inject Req D into vacant slot!" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+
+iter2: "Iteration 2: Active Execution Batch [D, B, C]" {
+  d: "Req D: Injected & starts Token 1!" { class: inject }
+  b2: "Req B: Generates token 43" { class: run }
+  c2: "Req C: Generates token 19" { class: run }
+}
+
+iter1.a -> action: "Finished"
+action -> iter2.d: "Inject slot"

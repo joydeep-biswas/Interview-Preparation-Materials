@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Python UDF Bottlenecks vs Vectorized Pandas UDF (Arrow)</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Why standard Python UDFs suffer severe serialization lag, and how Apache Arrow enables zero-copy batch execution</text>
+
+  <!-- Top Panel: Standard Python UDF -->
+  <rect x="40" y="85" width="1040" height="185" rx="8" fill="#450A0A" fill-opacity="0.2" stroke="#EF4444" stroke-width="1.5"/>
+  <rect x="40" y="85" width="1040" height="30" rx="8" fill="#450A0A" fill-opacity="0.8" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="560" y="105" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">STANDARD PYTHON UDF (@udf): ROW-BY-ROW SERIALIZATION BOTTLENECK</text>
+
+  <!-- JVM Worker Side -->
+  <rect x="60" y="130" width="250" height="85" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="185" y="152" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">JVM Executor Worker</text>
+  <text x="185" y="172" font-size="9.5" fill="#CBD5E1" text-anchor="middle">• Holds Tungsten binary rows</text>
+  <text x="185" y="189" font-size="9.5" fill="#EF4444" text-anchor="middle">1. Serializes row-by-row via Pickle</text>
+  <text x="185" y="204" font-size="9.5" fill="#94A3B8" text-anchor="middle">Double memory allocation!</text>
+
+  <!-- IPC Socket -->
+  <rect x="360" y="142" width="180" height="60" rx="4" fill="#1E293B" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="450" y="165" font-size="10" font-weight="700" fill="#F87171" text-anchor="middle">Unix Domain Socket / IPC</text>
+  <text x="450" y="182" font-size="9" fill="#CBD5E1" text-anchor="middle">Row byte stream transfer</text>
+
+  <!-- Python Process -->
+  <rect x="590" y="130" width="270" height="85" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="725" y="152" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle">Python Worker Subprocess</text>
+  <text x="725" y="172" font-size="9.5" fill="#CBD5E1" text-anchor="middle">2. Deserializes into Python object</text>
+  <text x="725" y="189" font-size="9.5" fill="#FBBF24" text-anchor="middle">3. Runs lambda in Python GIL loop</text>
+  <text x="725" y="204" font-size="9.5" fill="#CBD5E1" text-anchor="middle">4. Re-serializes return value</text>
+
+  <!-- Deserialization Return -->
+  <rect x="910" y="130" width="150" height="85" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1"/>
+  <text x="985" y="157" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">JVM Deserialization</text>
+  <text x="985" y="177" font-size="9" fill="#CBD5E1" text-anchor="middle">5. Reads output row</text>
+  <text x="985" y="195" font-size="9" fill="#EF4444" text-anchor="middle">Catastrophic GC churn!</text>
+
+  <!-- Connectors Top Panel -->
+  <line x1="310" y1="172" x2="360" y2="172" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+  <line x1="540" y1="172" x2="590" y2="172" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+  <line x1="860" y1="172" x2="910" y2="172" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <text x="560" y="245" font-size="9.5" font-weight="600" fill="#FCA5A5" text-anchor="middle">Bottlenecks: 10M rows = 20M serialize/deserialize calls + 10M Python virtual method dispatches. Slowdown: 10x to 50x!</text>
+
+  <!-- Bottom Panel: Vectorized Pandas UDF via Arrow -->
+  <rect x="40" y="290" width="1040" height="185" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="40" y="290" width="1040" height="30" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="560" y="310" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">VECTORIZED PANDAS UDF (@pandas_udf): APACHE ARROW ZERO-COPY BATCHES</text>
+
+  <!-- JVM Arrow RecordBatch -->
+  <rect x="60" y="335" width="280" height="85" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="200" y="357" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">JVM Executor Worker</text>
+  <text x="200" y="377" font-size="9.5" fill="#CBD5E1" text-anchor="middle">• Converts batches (10,000 rows)</text>
+  <text x="200" y="394" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="middle">Apache Arrow Columnar RecordBatch</text>
+  <text x="200" y="409" font-size="9" fill="#A7F3D0" text-anchor="middle">Native shared memory format!</text>
+
+  <!-- Shared Memory Arrow Stream -->
+  <rect x="390" y="347" width="220" height="60" rx="4" fill="#064E3B" fill-opacity="0.4" stroke="#34D399" stroke-width="1.5"/>
+  <text x="500" y="370" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Arrow Memory Pipe</text>
+  <text x="500" y="387" font-size="9" fill="#A7F3D0" text-anchor="middle">Direct pointer pass / Zero copy!</text>
+
+  <!-- Python Pandas Vectorized -->
+  <rect x="660" y="335" width="400" height="85" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="1.5"/>
+  <text x="860" y="357" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Python Pandas / NumPy Vectorized Compute</text>
+  <text x="860" y="377" font-size="9.5" fill="#CBD5E1" text-anchor="middle">• Arrow batch wraps directly into <tspan font-family="monospace" fill="#38BDF8">pandas.Series</tspan></text>
+  <text x="860" y="394" font-size="9.5" fill="#CBD5E1" text-anchor="middle">• Executes vectorized C/SIMD instructions on entire column</text>
+  <text x="860" y="409" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="middle">100% C-speed execution; bypasses Python interpreter loop!</text>
+
+  <!-- Connectors Bottom Panel -->
+  <line x1="340" y1="377" x2="390" y2="377" stroke="#34D399" stroke-width="2.5" marker-end="url(#arr-g)"/>
+  <line x1="610" y1="377" x2="660" y2="377" stroke="#34D399" stroke-width="2.5" marker-end="url(#arr-g)"/>
+
+  <text x="560" y="450" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="middle">Result: Vectorized Pandas UDF runs up to 100x faster than standard Python UDFs, matching native Scala performance.</text>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="488" width="1040" height="24" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="504" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">UDF Invariant: Never use standard @udf in PySpark production; always prefer native Spark SQL functions or @pandas_udf with Apache Arrow memory sharing.</text>
+</svg>

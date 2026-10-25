@@ -1,0 +1,31 @@
+direction: right
+title: Java Concurrency & Thread Memory Architecture Overview
+
+SharedMemory: Shared Process Memory (Heap/Metaspace) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  heap: "JVM Heap: Object instances, shared fields"
+  metaspace: "Metaspace: Class bytecodes, static variables"
+  jmm: "JMM: Happens-before ordering & memory barriers"
+}
+
+PlatformThreads: Platform Threads (1:1 OS Kernel) {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  stack: "1 MB dedicated OS stack per thread"
+  cost: "Context switch: 1-2 microseconds"
+  scale: "Max ~10,000 threads before OOM"
+  best: "Ideal for CPU-bound computations"
+}
+
+VirtualThreads: Virtual Threads (M:N Loom) {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  stack: "Dynamic continuation stack on Heap (few KB)"
+  cost: "Context switch: 10-20 nanoseconds"
+  scale: "Millions of threads concurrently"
+  best: "Ideal for high-throughput I/O microservices"
+}
+
+SharedMemory -> PlatformThreads: JMM visibility & pointers
+PlatformThreads -> VirtualThreads: Carriers execute virtual continuations

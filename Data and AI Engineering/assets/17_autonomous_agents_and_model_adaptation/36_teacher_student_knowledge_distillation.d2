@@ -1,0 +1,21 @@
+direction: down
+classes: {
+  prompt: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  teacher: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  student: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  kl: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+p: "Input Training Prompt x" { class: prompt }
+t: "Teacher Foundation Model (405B)
+Computes Soft Logits (Dark Knowledge)" { class: teacher }
+s: "Student Model (8B)
+Computes Student Logits" { class: student }
+loss: "KL Divergence Loss
+L_KD = T² · KL(q || p)
+Aligns student distribution to teacher" { class: kl }
+
+p -> t
+p -> s
+t -> loss
+s -> loss

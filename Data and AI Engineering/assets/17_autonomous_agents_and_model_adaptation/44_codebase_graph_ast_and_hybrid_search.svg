@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0d1527"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Node Surface Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142e2b"/>
+      <stop offset="100%" stop-color="#091d1a"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d2212"/>
+      <stop offset="100%" stop-color="#181308"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#261b3d"/>
+      <stop offset="100%" stop-color="#130c24"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b181e"/>
+      <stop offset="100%" stop-color="#1f090d"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112d38"/>
+      <stop offset="100%" stop-color="#071920"/>
+    </linearGradient>
+
+    <!-- Matched Arrow Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base Dark Card Background -->
+  <rect width="1000" height="480" rx="12" fill="url(#bg)"/>
+  <rect width="1000" height="480" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Centered Header Section -->
+  <g id="header-group">
+    <text x="500" y="32" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.3">Repository-Scale Graph &amp; AST Vector Indexing</text>
+    <text x="500" y="52" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Tree-Sitter Multilingual Parsing Decomposed into Code Knowledge Graphs &amp; Dual Vector/Symbol Indices</text>
+  </g>
+
+  <!-- Diagram Inner Content -->
+  
+  <!-- Top Root: Git Repo -->
+  <rect x="360" y="85" width="280" height="50" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="115" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">Repository Source Code (Git Repo)</text>
+
+  <!-- Arrow to Tree-Sitter -->
+  <path d="M 500 135 L 500 160" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Tree-Sitter Parser -->
+  <rect x="250" y="160" width="500" height="60" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="500" y="185" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="13" font-weight="700">Tree-Sitter Multilingual AST Parser</text>
+  <text x="500" y="205" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="11">Extracts function AST signatures, class inheritance, types &amp; dependency imports</text>
+
+  <!-- Diverging Arrows to Graph &amp; Hybrid Search -->
+  <path d="M 380 220 L 380 250 L 250 250 L 250 280" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path d="M 620 220 L 620 250 L 750 250 L 750 280" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Left Branch: Code Knowledge Graph -->
+  <rect x="50" y="280" width="410" height="170" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="70" y="305" fill="#34d399" font-family="sans-serif" font-size="13" font-weight="700">Code Knowledge Graph (Neo4j / Memgraph)</text>
+  
+  <!-- Sub-Nodes in Graph -->
+  <rect x="70" y="320" width="150" height="35" rx="4" fill="#091d1a" stroke="#34d399" stroke-width="1"/>
+  <text x="145" y="342" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="11">Class: OrderService</text>
+
+  <path d="M 220 337 L 270 337" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <text x="245" y="330" text-anchor="middle" fill="#6ee7b7" font-family="sans-serif" font-size="9">CONTAINS</text>
+
+  <rect x="270" y="320" width="170" height="35" rx="4" fill="#091d1a" stroke="#34d399" stroke-width="1"/>
+  <text x="355" y="342" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="11">Method: processPayment()</text>
+
+  <path d="M 355 355 L 355 385" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <text x="390" y="375" fill="#6ee7b7" font-family="sans-serif" font-size="9">IMPLEMENTS</text>
+
+  <rect x="250" y="390" width="190" height="35" rx="4" fill="#091d1a" stroke="#34d399" stroke-width="1"/>
+  <text x="345" y="412" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="11">Interface: PaymentGateway</text>
+
+  <!-- Right Branch: Dual Indexing (Dense + BM25) -->
+  <rect x="530" y="280" width="420" height="170" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="550" y="305" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">Dual Search Indexing</text>
+
+  <rect x="550" y="320" width="380" height="50" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
+  <text x="565" y="340" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Dense BGE-Code Vector Index</text>
+  <text x="565" y="358" fill="#cbd5e1" font-family="sans-serif" font-size="10">Semantic conceptual search: "handles credit card authorization"</text>
+
+  <rect x="550" y="385" width="380" height="50" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
+  <text x="565" y="405" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">BM25 Exact Symbol Index (cscope / ctags)</text>
+  <text x="565" y="423" fill="#cbd5e1" font-family="sans-serif" font-size="10">Exact symbol resolution: find definition of AuthTokenExpiredException</text>
+
+</svg>

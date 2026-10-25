@@ -6,51 +6,46 @@ A comprehensive, production-grade guide to database storage engines (B+ Trees, L
 
 ## Architectural Overview: Database Storage Engine & Memory Hierarchy Architecture
 
-```mermaid
-flowchart TD
-    subgraph ClientAndParser ["Client Query & Parser Tier"]
-        Client["SQL Query Execution<br/>(Transaction BEGIN, DML, COMMIT)"]
-        Parser["Parser & Semantic Analyzer<br/>(Lexer, AST generation, Catalog validation)"]
-        Client --> Parser
-    end
+![01 Database Engine And Memory Hierarchy Architecture](assets/04_database_internals_and_distributed_systems/01_database_engine_and_memory_hierarchy_architecture.svg)
 
-    subgraph QueryOptimizer ["Query Optimizer & Execution Engine"]
-        Rewriter["Query Rewriter (View expansion, Predicate pushdown)"]
-        CBO["Cost-Based Optimizer (CBO)<br/>(Dynamic programming / Cascades, Statistics, Plan selection)"]
-        Executor["Execution Engine<br/>(Volcano Iterator vs Vectorized SIMD vs JIT CodeGen)"]
-        Parser --> Rewriter --> CBO --> Executor
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph MemoryBufferPool ["In-Memory Buffer Pool & Cache Management"]
-        BufferPool["Buffer Pool Manager<br/>(LRU / Clock Sweep eviction, Slotted Page Frame Table)"]
-        WALBuffer["WAL Ring Buffer<br/>(Sequential redo log records, LSN tracking)"]
-        LockManager["Lock & Latch Manager<br/>(2PL, Shared/Exclusive, Deadlock Wait-For Graph)"]
-    end
+```d2
+direction: right
+title: Database Storage Engine & Memory Hierarchy Architecture
 
-    subgraph PhysicalStorageEngines ["Physical Storage Engines on Non-Volatile Disk"]
-        BTree["B+ Tree Storage Engine (OLTP)<br/>(Slotted pages, balanced tree fan-out, in-place updates)"]
-        LSM["LSM-Tree Storage Engine (Write-Heavy)<br/>(MemTable -> Immutable SSTables, Bloom Filters, Compaction)"]
-        WALDisk["Write-Ahead Log (WAL / Redo Log)<br/>(Append-only sequential fsync for Durability)"]
-    end
+client: 1. Client & Parser Tier {
+  sql: SQL Client Query Execution
+  parser: Parser & AST Analyzer
+  sql -> parser: "SQL String"
+}
 
-    Executor --> BufferPool
-    Executor --> LockManager
-    BufferPool --> WALBuffer
-    WALBuffer -->|"fsync before commit return"| WALDisk
-    BufferPool -->|"Dirty page background flush"| BTree
-    BufferPool -->|"Flush MemTable & Merge"| LSM
+optimizer: 2. Query Optimizer Tier {
+  rewriter: Query Rewriter (Predicate Pushdown)
+  cbo: Cost-Based Optimizer (CBO)
+  executor: Execution Engine (Volcano / SIMD)
+  rewriter -> cbo -> executor
+}
 
-    style ClientAndParser fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style QueryOptimizer fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style MemoryBufferPool fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style PhysicalStorageEngines fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Client fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style BufferPool fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style WALBuffer fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style BTree fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style LSM fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style WALDisk fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+buffer_pool: 3. In-Memory Buffer Pool {
+  bpm: Buffer Pool Manager (8KB Pages, Clock Sweep)
+  wal_buffer: WAL Ring Buffer (LSN Tracking)
+  lock_mgr: Lock & Latch Manager (2PL Concurrency)
+}
+
+disk: 4. Disk Storage Subsystem {
+  heap: Table Heap Files (Slotted Pages)
+  wal: WAL Redo Logs (Append-Only fsync)
+  indexes: Secondary Indexes (B+ Tree)
+}
+
+client.parser -> optimizer.rewriter: "AST"
+optimizer.executor -> buffer_pool.bpm: "Request Page"
+buffer_pool.bpm -> disk.heap: "Checkpointer Flush"
+buffer_pool.wal_buffer -> disk.wal: "Synchronous fsync"
 ```
+</details>
 
 ---
 
@@ -170,33 +165,34 @@ How data is serialized onto non-volatile storage blocks dictates query efficienc
 - **Column-Oriented:** Data is serialized column by column: `[Col ID: R1, R2...] [Col Name: R1, R2...] [Col Age: R1, R2...]`.
 
 #### 2. Hardware Cache & Memory Bus Impact
-```mermaid
-flowchart LR
-    subgraph QueryTarget ["Target Query: SELECT AVG(dwell_time) FROM page_views WHERE date = '2026-10-01'"]
-        direction TD
-        subgraph RowStorePath ["Row Store (OLTP) - High I/O Overhead"]
-            RS1["Disk Page 1: (ID, IP, User, Date, DwellTime, Country, Session, Device...)"]
-            RS2["Disk Page 2: (ID, IP, User, Date, DwellTime, Country, Session, Device...)"]
-            RS1 & RS2 --> RSIO["Must scan 100% of bytes off disk -> Severe I/O Bottleneck!"]
-        end
+![02 Row Vs Column Storage Io Mechanics](assets/04_database_internals_and_distributed_systems/02_row_vs_column_storage_io_mechanics.svg)
 
-        subgraph ColStorePath ["Column Store (OLAP) - Columnar Pruning"]
-            CS1["Column File: 'date' (Header min/max stats -> Prune unneeded files)"]
-            CS2["Column File: 'dwell_time' (Dense contiguous float array)"]
-            CS1 & CS2 --> CSIO["Scans ONLY 2 target columns -> 90%+ I/O Reduction & High Compression!"]
-        end
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style QueryTarget fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style RowStorePath fill:#1e293b,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style ColStorePath fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#86efac
-    style RS1 fill:#182234,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style RS2 fill:#182234,stroke:#ef4444,stroke-width:1.5px,color:#fff
-    style RSIO fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style CS1 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style CS2 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style CSIO fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
+```d2
+direction: right
+title: Row-Oriented vs. Column-Oriented Storage Mechanics
+
+target_query: "Target Query: SELECT AVG(dwell_time) FROM page_views WHERE date = '2026-10-01'"
+
+row_store: Row Store (OLTP) - High I/O Overhead {
+  p1: "Page 1: [ID, IP, User, Date, DwellTime, Country, Session, Device...]"
+  p2: "Page 2: [ID, IP, User, Date, DwellTime, Country, Session, Device...]"
+  result: "Must scan 100% of bytes off disk -> Severe I/O Bottleneck"
+  p1 -> result
+  p2 -> result
+}
+
+col_store: Column Store (OLAP) - Columnar Pruning {
+  c_date: "Column File 'date' (Min/Max Header Stats -> File Pruning)"
+  c_dwell: "Column File 'dwell_time' (Dense Contiguous Float Array)"
+  result: "Scans ONLY 2 target columns -> 90%+ I/O Reduction & High Compression"
+  c_date -> result
+  c_dwell -> result
+}
 ```
+</details>
 
 ---
 
@@ -204,29 +200,45 @@ flowchart LR
 
 NoSQL systems prioritize horizontal scalability, schema flexibility, and partition tolerance by relaxing ACID guarantees.
 
-```mermaid
-flowchart TD
-    NoSQL[NoSQL Taxonomy]
-    NoSQL --> KV[Key-Value Store]
-    NoSQL --> Doc[Document Store]
-    NoSQL --> Col[Wide-Column Store]
-    NoSQL --> Graph[Graph Database]
+![03 Nosql Database Taxonomy And Use Cases](assets/04_database_internals_and_distributed_systems/03_nosql_database_taxonomy_and_use_cases.svg)
 
-    KV --- KV_Ex["Redis, DynamoDB<br/>(Caches, Session Store)"]
-    Doc --- Doc_Ex["MongoDB, Couchbase<br/>(JSON, Product Catalogs)"]
-    Col --- Col_Ex["Cassandra, ScyllaDB, Bigtable<br/>(IoT Telemetry, Time-Series)"]
-    Graph --- Graph_Ex["Neo4j, Amazon Neptune<br/>(Fraud Rings, Social Graphs)"]
+<details>
+<summary>View D2 Source</summary>
 
-    style NoSQL fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style KV fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Doc fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Col fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Graph fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style KV_Ex fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Doc_Ex fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Col_Ex fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Graph_Ex fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
+```d2
+direction: down
+title: NoSQL Database Taxonomy & Architectural Paradigms
+
+nosql: NoSQL Taxonomy {
+  shape: rectangle
+}
+
+kv: Key-Value Store {
+  examples: "Redis, AWS DynamoDB"
+  use: "Caches, Sessions, Rate Limiters"
+}
+
+doc: Document Store {
+  examples: "MongoDB, Couchbase"
+  use: "JSON Catalogs, Content Management"
+}
+
+col: Wide-Column Store {
+  examples: "Apache Cassandra, ScyllaDB, Bigtable"
+  use: "IoT Telemetry, High-Throughput Time-Series"
+}
+
+graph: Graph Database {
+  examples: "Neo4j, Amazon Neptune"
+  use: "Fraud Rings, Knowledge Graphs, Social Graphs"
+}
+
+nosql -> kv
+nosql -> doc
+nosql -> col
+nosql -> graph
 ```
+</details>
 
 #### Comparison Matrix: Relational vs. NoSQL
 
@@ -244,35 +256,49 @@ flowchart TD
 
 Normalization systematically removes redundancy and eliminates insertion, update, and deletion anomalies.
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'attributeBackgroundColorOdd': '#1e293b', 'attributeBackgroundColorEven': '#0f172a', 'entityBackgroundColor': '#1e293b', 'entityBorderColor': '#3b82f6', 'entityTextColor': '#ffffff' }}}%%
-erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    ORDER ||--|{ ORDER_ITEM : contains
-    ITEM ||--o{ ORDER_ITEM : referenced_in
+![04 Relational Normalization Bcnf Schema](assets/04_database_internals_and_distributed_systems/04_relational_normalization_bcnf_schema.svg)
 
-    CUSTOMER {
-        bigint customer_id PK
-        varchar name
-        varchar email
-    }
-    ORDER {
-        bigint order_id PK
-        bigint customer_id FK
-        timestamp order_date
-    }
-    ORDER_ITEM {
-        bigint order_id PK, FK
-        bigint item_id PK, FK
-        int quantity
-        numeric unit_price
-    }
-    ITEM {
-        bigint item_id PK
-        varchar item_name
-        numeric current_price
-    }
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: Relational Schema Normalization: 3NF & BCNF Architecture
+
+customer: CUSTOMER {
+  shape: sql_table
+  customer_id: bigint [pk]
+  name: varchar
+  email: varchar
+}
+
+order: ORDER {
+  shape: sql_table
+  order_id: bigint [pk]
+  customer_id: bigint [fk]
+  order_date: timestamp
+}
+
+order_item: ORDER_ITEM {
+  shape: sql_table
+  order_id: bigint [pk, fk]
+  item_id: bigint [pk, fk]
+  quantity: int
+  unit_price: numeric
+}
+
+item: ITEM {
+  shape: sql_table
+  item_id: bigint [pk]
+  item_name: varchar
+  current_price: numeric
+}
+
+customer -> order: "places (1:N)"
+order -> order_item: "contains (1:N)"
+item -> order_item: "referenced_in (1:N)"
 ```
+</details>
 
 #### Normalization Hierarchy & Mathematical Rules:
 1. **First Normal Form (1NF):**
@@ -333,23 +359,46 @@ CREATE TABLE crm.accounts (
 
 Foreign keys establish parent-child relationships and enforce referential integrity across relational entities.
 
-```mermaid
-flowchart LR
-    Parent["Parent: crm.accounts<br/>account_id = 501"]
-    Child1["Child: crm.contacts<br/>contact_id = 1, account_id = 501"]
-    Child2["Child: crm.contacts<br/>contact_id = 2, account_id = 501"]
+![05 Foreign Key Referential Integrity Cascade Action](assets/04_database_internals_and_distributed_systems/05_foreign_key_referential_integrity_cascade_action.svg)
 
-    Parent -->|Referenced by FK| Child1
-    Parent -->|Referenced by FK| Child2
-    
-    DeleteTrigger["DELETE FROM crm.accounts WHERE account_id = 501"] -.->|ON DELETE CASCADE| DropChild["Deletes Child 1 & Child 2 Automatically"]
+<details>
+<summary>View D2 Source</summary>
 
-    style Parent fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Child1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Child2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DeleteTrigger fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DropChild fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
+```d2
+direction: right
+title: Foreign Keys & Referential Integrity: ON DELETE CASCADE
+
+parent: Parent: crm.accounts {
+  account_id: "501 [PK]"
+  company: "Acme Corp"
+}
+
+child1: Child 1: crm.contacts {
+  contact_id: "1 [PK]"
+  account_id: "501 [FK]"
+}
+
+child2: Child 2: crm.contacts {
+  contact_id: "2 [PK]"
+  account_id: "501 [FK]"
+}
+
+delete_op: DELETE FROM crm.accounts WHERE account_id = 501 {
+  style.stroke: "#ef4444"
+}
+
+cascade_action: ON DELETE CASCADE {
+  action: "Deletes Child 1 & Child 2 Automatically"
+  style.stroke: "#ef4444"
+}
+
+parent -> child1: "Referenced by FK"
+parent -> child2: "Referenced by FK"
+delete_op -> cascade_action: "Triggers cascade"
+cascade_action -> child1: "Drops"
+cascade_action -> child2: "Drops"
 ```
+</details>
 
 #### Production DDL with Cascade Policies:
 ```sql
@@ -400,36 +449,40 @@ In traditional relational engines (PostgreSQL, MySQL InnoDB, SQLite), disk I/O o
 
 Because tuples vary in length, engines implement the **Slotted Page Architecture**:
 
-```mermaid
-flowchart TD
-    subgraph SlottedPage ["8 KB Slotted Page Physical Memory/Disk Layout"]
-        direction TD
-        Header["Page Header (24 bytes)<br/>(LSN (Log Sequence Number for WAL), Checksum, pd_lower (Offset to start of free space), pd_upper (Offset to end of free space), Special Space Pointer)"]
-        
-        subgraph LinePointers ["Line Pointer Array (Slot Array - Grows Downward)"]
-            LP1["Slot 1: [Offset: 8100, Length: 92 bytes, Flags: Live]"]
-            LP2["Slot 2: [Offset: 7950, Length: 150 bytes, Flags: Live]"]
-            LP3["Slot 3: [Offset: 7800, Length: 150 bytes, Flags: Dead/Tombstone]"]
-            LPN["... Free Space Gap ..."]
-        end
+![06 Slotted Page Physical Layout 8Kb](assets/04_database_internals_and_distributed_systems/06_slotted_page_physical_layout_8kb.svg)
 
-        subgraph TupleHeap ["Tuple Storage Heap (Grows Upward from Bottom of Page)"]
-            direction TD
-            T3["Tuple 3 Data (Bytes 7800 - 7949)"]
-            T2["Tuple 2 Data (Bytes 7950 - 8099)"]
-            T1["Tuple 1 Data (Bytes 8100 - 8191)"]
-        end
+<details>
+<summary>View D2 Source</summary>
 
-        Header --> LinePointers
-        LinePointers --> LPN
-        LPN --> TupleHeap
-    end
+```d2
+direction: right
+title: 8 KB Slotted Page Physical Storage Architecture
 
-    style SlottedPage fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Header fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style LinePointers fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style TupleHeap fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
+page: 8 KB Slotted Page Layout {
+  header: Page Header (24 Bytes) {
+    lsn: "pd_lsn: WAL Log Sequence Number"
+    pointers: "pd_lower (start free), pd_upper (end free)"
+  }
+  slots: Line Pointers / Slot Array {
+    direction: "Grows FORWARD from byte 24 ->"
+    slot1: "Slot 1: Offset 8096, Length 96B"
+    slot2: "Slot 2: Offset 7980, Length 116B"
+  }
+  free_space: Free Space Hole {
+    status: "Allocatable unfragmented bytes"
+    style.stroke-dash: 4
+  }
+  tuples: Heap Tuples / Records {
+    direction: "Grows BACKWARD from byte 8191 <-"
+    t1: "Tuple 1 (Byte 8096..8191)"
+    t2: "Tuple 2 (Byte 7980..8095)"
+  }
+  header -> slots: "Grows forward"
+  slots -> free_space
+  free_space -> tuples: "Grows backward"
+}
 ```
+</details>
 
 #### Why the Slotted Page Design is Brilliant:
 1. **Stable Physical Row Identifier (Tuple ID / ItemPointer):** A row's physical address is designated as a `(PageNumber, SlotNumber)` pair (e.g., in PostgreSQL, `ctid = (42, 3)`).
@@ -481,51 +534,73 @@ Optimizing any two parameters inevitably compromises the third. B+ Trees priorit
 2. **MemTable:** The write is immediately inserted into an in-memory concurrent sorted data structure (typically a **SkipList** or Red-Black Tree). The client receives an immediate success response ($O(1)$ latency).
 3. **Flushing to L0 SSTable:** When the `MemTable` reaches a threshold (e.g., 64 MB), it transitions to an immutable state, and a background thread flushes its sorted contents sequentially to disk as a **Sorted String Table (SSTable)** in Level 0 ($L_0$).
 
-```mermaid
-flowchart TD
-    subgraph MemoryTier ["In-Memory Tier"]
-        ClientPut["Client: PUT(k, v)"] --> WAL["1. Append to WAL on Disk (Sequential fsync)"]
-        ClientPut --> MemTable["2. Insert into MemTable (Concurrent SkipList in RAM)"]
-    end
+![07 Lsm Tree Architecture Memtable Sstable Compaction](assets/04_database_internals_and_distributed_systems/07_lsm_tree_architecture_memtable_sstable_compaction.svg)
 
-    subgraph FlushCompaction ["Flush & Compaction Engine"]
-        MemTable -->|"When MemTable reaches 64 MB"| L0["Level 0 SSTables (Disk)<br/>Keys overlap across files<br/>[File A: 1-100] [File B: 50-150]"]
-        L0 -->|"Compaction Triggered"| L1["Level 1 SSTables (Disk)<br/>Non-overlapping key ranges<br/>[File 1: 1-50] [File 2: 51-100] [File 3: 101-150]"]
-        L1 -->|"Compaction Merge"| L2["Level 2 SSTables (Disk - 10x larger capacity)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style MemoryTier fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style FlushCompaction fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style MemTable fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style WAL fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style L0 fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style L1 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style L2 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+direction: right
+title: Log-Structured Merge-Tree (LSM-Tree) Architecture
+
+memory: In-Memory Tier {
+  client: Client PUT(k, v)
+  wal: 1. Append to WAL (Disk) {
+    style.stroke: "#ef4444"
+  }
+  memtable: 2. Insert into MemTable (Concurrent SkipList in RAM) {
+    style.stroke: "#06b6d4"
+  }
+  client -> wal: "Durability fsync"
+  client -> memtable: "O(log N) insert"
+}
+
+disk: Flush & Compaction Engine {
+  l0: Level 0 SSTables (Disk) {
+    keys: "Keys overlap across files [1-100] [50-150]"
+  }
+  l1: Level 1 SSTables (Disk) {
+    keys: "Non-overlapping key ranges [1-50] [51-100] [101-150]"
+  }
+  l2: Level 2 SSTables (Disk - 10x Capacity)
+  l0 -> l1: "Compaction Merge"
+  l1 -> l2: "Cascading Compaction"
+}
+
+memory.memtable -> disk.l0: "When MemTable reaches 64MB"
 ```
+</details>
 
 #### 2. Compaction Strategies: Size-Tiered vs. Leveled Compaction
 
-```mermaid
-flowchart TD
-    subgraph STCS_Arch ["Size-Tiered Compaction Strategy (STCS - Cassandra Default)"]
-        direction TB
-        ST_Files["Accumulate 4 SSTables of Similar Size (100MB each)"]
-        ST_MergeOp["<b>Tier Compaction:</b><br/>Sequential Read & Merge Sort"]
-        ST_Target["New Tier SSTable (400MB)"]
-        ST_Files --> ST_MergeOp --> ST_Target
-    end
+![08 Compaction Strategies Size Tiered Vs Leveled](assets/04_database_internals_and_distributed_systems/08_compaction_strategies_size_tiered_vs_leveled.svg)
 
-    subgraph LCS_Arch ["Leveled Compaction Strategy (LCS - RocksDB Default)"]
-        direction TB
-        L0_Files["<b>Level 0 (MemTable Flush):</b><br/>Keys Overlap Across SSTables"]
-        L1_Files["<b>Level 1 (Target: 10MB):</b><br/>[Key A-G] | [Key H-N] | [Key O-Z]<br/><i>(Strictly Non-Overlapping Key Ranges)</i>"]
-        L2_Files["<b>Level 2 (Target: 100MB - 10x Size):</b><br/>[A-C] | [D-F] | [G-I] ... [X-Z]<br/><i>(Strictly Non-Overlapping Key Ranges)</i>"]
-        L0_Files -->|"Merge Compaction"| L1_Files -->|"Cascading Level Merge"| L2_Files
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style STCS_Arch fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LCS_Arch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
+```d2
+direction: right
+title: Compaction Strategies: Size-Tiered vs. Leveled
+
+stcs: Size-Tiered Compaction Strategy (STCS - Cassandra Default) {
+  files: "Accumulate 4 SSTables of Similar Size (100MB each)"
+  merge: "Sequential Read & Merge Sort"
+  output: "New Tier SSTable (400MB)"
+  tradeoff: "High write throughput, high space amplification (50% headroom needed)"
+  files -> merge -> output -> tradeoff
+}
+
+lcs: Leveled Compaction Strategy (LCS - RocksDB Default) {
+  l0: "Level 0 (MemTable Flush): Overlapping Keys"
+  l1: "Level 1 (Target: 10MB): [A-G] | [H-N] | [O-Z] (Non-Overlapping)"
+  l2: "Level 2 (Target: 100MB): 10x Capacity, Non-Overlapping"
+  tradeoff: "Predictable reads (1 SSTable/level), low space overhead (<10%)"
+  l0 -> l1: "Merge"
+  l1 -> l2: "Cascading Merge"
+  l2 -> tradeoff
+}
 ```
+</details>
 
 | Evaluation Dimension | Size-Tiered Compaction (STCS) | Leveled Compaction (LCS) |
 | :--- | :--- | :--- |
@@ -540,29 +615,28 @@ flowchart TD
 
 Database engines never read or write directly to disk files during query execution. All reads and modifications happen inside an in-memory memory region called the **Buffer Pool** (Shared Buffers in PostgreSQL, Buffer Pool in MySQL InnoDB).
 
-```mermaid
-flowchart LR
-    subgraph PageAccessFlow ["Buffer Pool Page Lookup & Eviction Pipeline"]
-        Query["Query Engine Requests: Page #4096"]
-        HashTable["Page Hash Table<br/>(Maps PageID -> FrameID in RAM)"]
-        FrameArray["Buffer Pool Frames (RAM)<br/>[Frame 0] [Frame 1] [Frame 2] ..."]
-        DiskReader["Disk Subsystem (NVMe SSD)"]
-        Evictor["Clock Sweep / LRU Eviction Engine"]
+![09 Buffer Pool Page Lookup And Clock Sweep Eviction](assets/04_database_internals_and_distributed_systems/09_buffer_pool_page_lookup_and_clock_sweep_eviction.svg)
 
-        Query --> HashTable
-        HashTable -->|"Cache Hit: Page in RAM"| FrameArray
-        HashTable -->|"Cache Miss: Not in RAM"| Evictor
-        Evictor -->|"Select victim frame"| FrameArray
-        DiskReader -->|"Load Page #4096 into Frame"| FrameArray
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style PageAccessFlow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Query fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style HashTable fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style FrameArray fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style DiskReader fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Evictor fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
+```d2
+direction: right
+title: Buffer Pool Management & Page Eviction Algorithms
+
+query: Query Engine Requests Page #4096
+hash_table: Page Hash Table (Maps PageID -> FrameID in RAM)
+frames: Buffer Pool Frames in RAM (Array of 8KB Page Buffers)
+evictor: Clock Sweep / LRU Eviction Engine
+disk: Disk Subsystem (NVMe SSD)
+
+query -> hash_table: "Look up PageID"
+hash_table -> frames: "Cache Hit: Read Frame in RAM"
+hash_table -> evictor: "Cache Miss: Select victim frame"
+evictor -> frames: "Evict unpinned frame"
+disk -> frames: "Load Page #4096 into victim frame"
 ```
+</details>
 
 #### Eviction Algorithms: LRU vs. Clock Sweep (Second Chance) vs. LRU-K
 - **Pure LRU Flaw (Sequential Scan Flooding):** If an analyst runs `SELECT * FROM massive_table`, a pure LRU (Least Recently Used) cache will evict the entire working set of active OLTP indexes and hot rows, replacing them with pages that will only ever be read once.
@@ -585,45 +659,73 @@ Databases operate under the **Steal/No-Force Policy**:
 - **NO-FORCE:** The engine does *not* force dirty data pages to disk before committing. A transaction can commit as soon as its small sequential delta is written to the Write-Ahead Log.
 - **STEAL:** The buffer pool manager is permitted to "steal" a dirty page from an uncommitted transaction and flush it to disk if memory is completely full.
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    participant App as Client Application
-    participant BP as Buffer Pool (RAM)
-    participant WAL as Write-Ahead Log (WAL Disk)
-    participant Data as Data Files (Table Heap Disk)
+![10 Wal Redo Log Sequence Durability](assets/04_database_internals_and_distributed_systems/10_wal_redo_log_sequence_durability.svg)
 
-    App->>BP: 1. UPDATE accounts SET balance = balance - 100 WHERE id = 1;
-    Note over BP: Page modified in RAM (Dirty Page)<br/>Tagged with Log Sequence Number (PageLSN = 5024)
-    BP->>WAL: 2. Write Redo Record to WAL Buffer (LSN: 5024)
-    App->>BP: 3. COMMIT Transaction;
-    BP->>WAL: 4. Flush WAL Buffer to Disk via fsync()
-    WAL-->>App: 5. COMMIT Acknowledged (Durability Guaranteed!)
-    Note over BP,Data: Async Lazy Writer / Checkpointer Process
-    BP->>Data: 6. Flushes Dirty Data Page to Disk (Only when checkpoint runs)
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: Write-Ahead Logging (WAL) & ACID Durability Sequence
+
+client: Client Application
+bp: Buffer Pool (RAM) {
+  dirty: "Page modified in RAM (PageLSN = 5024)"
+}
+wal_buf: WAL Ring Buffer (RAM) {
+  record: "Redo record appended with LSN 5024"
+}
+wal_disk: WAL Disk Files (NVMe) {
+  durable: "Synchronous fsync() guarantees durability"
+}
+table_disk: Data Files (Table Heap Disk)
+
+client -> bp: "1. UPDATE accounts SET balance = balance - 100"
+bp -> wal_buf: "2. Write Redo Record (LSN: 5024)"
+client -> bp: "3. COMMIT Transaction"
+bp -> wal_buf: "Flush WAL Buffer"
+wal_buf -> wal_disk: "4. fsync() to Disk"
+wal_disk -> client: "5. COMMIT Acknowledged (Durability Guaranteed)"
+bp -> table_disk: "Async Lazy Checkpointer Flush" {
+  style.stroke-dash: 4
+}
 ```
+</details>
 
 #### 2. The ARIES Recovery Algorithm
 When a server crashes (power failure, kernel panic), the data files on disk contain an inconsistent mix of uncommitted stolen pages and missing unforced updates. Upon reboot, the database executes the **ARIES (Algorithms for Recovery and Isolation Exploiting Semantics)** protocol:
 
-```mermaid
-flowchart LR
-    subgraph ARIES_Phases ["The Three Phases of ARIES Crash Recovery"]
-        direction LR
-        P1["<b>Phase 1: Analysis</b><br/>(Scan WAL forward from the latest checkpoint, Reconstruct the Dirty Page Table (DPT) and Transaction Table, Identify all active 'loser' transactions that did not commit before crash)"]
-        
-        P2["<b>Phase 2: Redo ('Repeat History')</b><br/>(Scan forward from the smallest RecLSN in the DPT, Replay all changes (both committed and uncommitted transactions) to restore the exact state of memory at the millisecond of crash)"]
-        
-        P3["<b>Phase 3: Undo</b><br/>(Scan WAL backward from the end of log, Roll back all changes made by 'loser' (uncommitted) transactions, Write Compensation Log Records (CLRs) to ensure recovery itself survives crashes!)"]
-    end
+![11 Aries Crash Recovery Protocol Phases](assets/04_database_internals_and_distributed_systems/11_aries_crash_recovery_protocol_phases.svg)
 
-    P1 --> P2 --> P3
+<details>
+<summary>View D2 Source</summary>
 
-    style ARIES_Phases fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style P1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style P2 fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style P3 fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
+```d2
+direction: right
+title: The Three Phases of ARIES Crash Recovery
+
+p1: Phase 1: Analysis {
+  action: "Scan WAL forward from latest checkpoint"
+  reconstruct: "Reconstruct Dirty Page Table (DPT) & Transaction Table"
+  identify: "Identify all active 'loser' transactions"
+}
+
+p2: Phase 2: Redo ('Repeat History') {
+  action: "Scan forward from smallest RecLSN in DPT"
+  replay: "Replay all changes (committed & uncommitted)"
+  state: "Restores exact millisecond state of crash"
+}
+
+p3: Phase 3: Undo {
+  action: "Scan WAL backward from end of log"
+  rollback: "Roll back changes made by loser transactions"
+  clrs: "Write Compensation Log Records (CLRs) for idempotency"
+}
+
+p1 -> p2: "State reconstructed"
+p2 -> p3: "History repeated"
 ```
+</details>
 
 > [!TIP]
 > **Deep-Dive Interview Scenarios:**
@@ -645,44 +747,52 @@ Indexes are auxiliary physical data structures engineered to accelerate data ret
 #### Definition
 Without an index, the database engine must execute a **Full Table Scan (Sequential Scan)**, inspecting every page on disk from start to finish ($O(N)$ time complexity). An index provides a sorted lookup directory that allows the engine to locate matching rows in logarithmic $O(\log N)$ or constant $O(1)$ time.
 
-```mermaid
-flowchart TD
-    subgraph BPlusTreeTopology ["B+ Tree 3-Level Physical Index Topology"]
-        Root["Root Page (Level 2)<br/>Keys: [100 | 200]"]
-        
-        Branch1["Branch Page A: Keys [30 | 70]"]
-        Branch2["Branch Page B: Keys [130 | 170]"]
-        Branch3["Branch Page C: Keys [230 | 270]"]
+![12 Bplus Tree Physical Index Topology](assets/04_database_internals_and_distributed_systems/12_bplus_tree_physical_index_topology.svg)
 
-        Leaf1["Leaf Page 1<br/>[10..29] -> ctid"]
-        Leaf2["Leaf Page 2<br/>[30..69] -> ctid"]
-        Leaf3["Leaf Page 3<br/>[70..99] -> ctid"]
-        Leaf4["Leaf Page 4<br/>[100..129] -> ctid"]
-        Leaf5["Leaf Page 5<br/>[130..169] -> ctid"]
-        Leaf6["Leaf Page 6<br/>[170..199] -> ctid"]
+<details>
+<summary>View D2 Source</summary>
 
-        Root --> Branch1
-        Root --> Branch2
-        Root --> Branch3
+```d2
+direction: down
+title: B+ Tree 3-Level Physical Index Topology
 
-        Branch1 --> Leaf1 & Leaf2 & Leaf3
-        Branch2 --> Leaf4 & Leaf5 & Leaf6
+root: Root Page (Level 2) {
+  keys: "[100 | 200]"
+}
 
-        Leaf1 <== Doubly Linked List ==> Leaf2 <==> Leaf3 <==> Leaf4 <==> Leaf5 <==> Leaf6
-    end
+branches: Intermediate Branch Pages (Level 1) {
+  b1: Branch Page A [30 | 70]
+  b2: Branch Page B [130 | 170]
+  b3: Branch Page C [230 | 270]
+}
 
-    style BPlusTreeTopology fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Root fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Branch1 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Branch2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Branch3 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Leaf1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Leaf2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Leaf3 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Leaf4 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Leaf5 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Leaf6 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
+leaves: Doubly-Linked Leaf Pages (Level 0) {
+  l1: Leaf 1 [10..29]
+  l2: Leaf 2 [30..69]
+  l3: Leaf 3 [70..99]
+  l4: Leaf 4 [100..129]
+  l5: Leaf 5 [130..169]
+  l6: Leaf 6 [170..199]
+
+  l1 <-> l2: "Double link"
+  l2 <-> l3
+  l3 <-> l4
+  l4 <-> l5
+  l5 <-> l6
+}
+
+root -> branches.b1
+root -> branches.b2
+root -> branches.b3
+
+branches.b1 -> leaves.l1
+branches.b1 -> leaves.l2
+branches.b1 -> leaves.l3
+branches.b2 -> leaves.l4
+branches.b2 -> leaves.l5
+branches.b2 -> leaves.l6
 ```
+</details>
 
 ---
 
@@ -771,28 +881,34 @@ A composite index is an index constructed over multiple columns: `CREATE INDEX i
 
 When an index satisfies a query entirely on its own without requiring a secondary trip to the base table heap, it is called a **Covering Index**. The query executes an **Index-Only Scan**.
 
-```mermaid
-flowchart LR
-    subgraph TraditionalLookup ["Standard Index Scan (2-Hop I/O)"]
-        direction LR
-        I1["1. Traverse Index B+ Tree for email = 'alice@corp.com'"] --> H1["2. Extract ctid = (Page 42, Slot 3)"]
-        H1 --> T1["3. Random I/O Read from Table Heap Disk Page to fetch 'user_id'"]
-    end
+![13 Covering Index Index Only Scan Include](assets/04_database_internals_and_distributed_systems/13_covering_index_index_only_scan_include.svg)
 
-    subgraph IndexOnlyLookup ["Index-Only Scan with INCLUDE (1-Hop I/O)"]
-        direction LR
-        I2["1. Traverse Index B+ Tree for email = 'alice@corp.com'"]
-        I2 --> Extract["2. Extract 'user_id' directly from Index Leaf payload!<br/><b>Zero Table Heap Reads Required!</b>"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style TraditionalLookup fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style IndexOnlyLookup fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style I1 fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style H1 fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style T1 fill:#1e293b,stroke:#ef4444,stroke-width:1px,color:#fff
-    style I2 fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Extract fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
+```d2
+direction: right
+title: Covering Indexes & Index-Only Scans (The INCLUDE Clause)
+
+standard: Standard Index Scan (2-Hop I/O) {
+  i1: 1. Traverse Index B+ Tree for email = 'alice@corp.com'
+  h1: 2. Extract ctid = (Page 42, Slot 3)
+  t1: 3. Random I/O Read from Table Heap Disk to fetch user_id {
+    style.stroke: "#ef4444"
+  }
+  i1 -> h1 -> t1
+}
+
+include_scan: Index-Only Scan with INCLUDE (1-Hop I/O) {
+  i2: 1. Traverse Index on (email) INCLUDE (user_id)
+  extract: 2. Extract user_id directly from Index Leaf payload! {
+    details: "Zero Table Heap Reads Required! 100% Cache Friendly"
+    style.stroke: "#10b981"
+  }
+  i2 -> extract
+}
 ```
+</details>
 
 ```sql
 -- Covering index using the INCLUDE clause
@@ -810,35 +926,34 @@ WHERE email = 'alice@example.com';
 
 ### 2.6 Clustered Indexes vs. Heap-Organized Tables with Secondary Indexes
 
-```mermaid
-flowchart TD
-    subgraph ClusteredArch ["1. Clustered Table / Index-Organized (MySQL InnoDB / SQL Server)"]
-        direction TB
-        C_Root["Primary Key B+ Tree"]
-        C_Leaf["Leaf Pages: <b>Contain the actual entire table row data!</b>"]
-        C_Sec["Secondary Index Leaf: Stores the <b>Primary Key Value</b> (Forces double lookup)"]
-        C_Root --> C_Leaf
-        C_Sec -.->|"Double B-Tree Traversal"| C_Root
-    end
+![14 Clustered Index Vs Heap Organized Tables](assets/04_database_internals_and_distributed_systems/14_clustered_index_vs_heap_organized_tables.svg)
 
-    subgraph HeapArch ["2. Heap-Organized Table (PostgreSQL / Oracle)"]
-        direction TB
-        H_Heap["Heap Data Files: Rows placed unordered in any page with free space"]
-        H_PK["Primary Key B+ Tree: Leaf points to (Block, Offset)"]
-        H_Sec["Secondary B+ Tree: Leaf points directly to (Block, Offset)"]
-        H_PK --> H_Heap
-        H_Sec --> H_Heap
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style ClusteredArch fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style HeapArch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style C_Root fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style C_Leaf fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style C_Sec fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style H_Heap fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style H_PK fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style H_Sec fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
+```d2
+direction: right
+title: Clustered Indexes vs. Heap-Organized Tables
+
+clustered: 1. Clustered Table / Index-Organized (MySQL InnoDB) {
+  pk_tree: Primary Key B+ Tree {
+    leaf: "Leaf pages contain the actual table row data!"
+  }
+  sec_tree: Secondary Index {
+    leaf: "Stores Primary Key value (forces double lookup)"
+  }
+  sec_tree -> pk_tree: "Double B-Tree Traversal"
+}
+
+heap: 2. Heap-Organized Table (PostgreSQL / Oracle) {
+  heap_files: "Heap Data Files: Rows placed unordered in slotted pages"
+  pk_index: "PK B+ Tree: Leaf points to (Block, Slot) ctid"
+  sec_index: "Secondary B+ Tree: Leaf points directly to (Block, Slot) ctid"
+  pk_index -> heap_files: "Direct read"
+  sec_index -> heap_files: "Direct read"
+}
 ```
+</details>
 
 ---
 
@@ -891,30 +1006,30 @@ The Query Optimizer translates declarative SQL into an optimal physical pipeline
 
 ### 3.1 The Query Execution Pipeline (Parser, Rewriter, CBO, Executor)
 
-```mermaid
-flowchart TD
-    SQL["Declarative SQL Query String"] --> Parser["1. Lexer & Parser (Generates Abstract Syntax Tree)"]
-    Parser --> Rewriter["2. Query Rewriter<br/>(View expansion, Constant folding (2 + 2 -> 4), Subquery unnesting / Decorrelation)"]
-    Rewriter --> Logical["3. Logical Query Plan (Relational Algebra Tree)"]
-    
-    subgraph CBO_Engine ["4. Cost-Based Optimizer Search Engine"]
-        SearchSpace["Generate Equivalent Plan Candidates<br/>(Join order permutations, Index vs Seq scan)"]
-        CostModel["Evaluate Cost Formulas using Database Statistics<br/>Cost = (Disk I/O * 1.0) + (CPU Instructions * 0.01)"]
-        SearchSpace <--> CostModel
-    end
+![15 Query Execution Pipeline Cbo Optimizer](assets/04_database_internals_and_distributed_systems/15_query_execution_pipeline_cbo_optimizer.svg)
 
-    Logical --> CBO_Engine
-    CBO_Engine --> Physical["5. Optimal Physical Execution Plan"]
-    Physical --> Engine["6. Physical Execution Engine (Tuple Execution)"]
+<details>
+<summary>View D2 Source</summary>
 
-    style SQL fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Parser fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style Rewriter fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Logical fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style CBO_Engine fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Physical fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Engine fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
+```d2
+direction: right
+title: The Query Execution Pipeline (Parser to Executor)
+
+sql: Declarative SQL Query String
+parser: 1. Lexer & Parser (Generates AST)
+rewriter: 2. Query Rewriter (View expansion & constant folding)
+cbo: 3. Cost-Based Optimizer (CBO Search Engine) {
+  search: Join Permutations & Index Selection
+  cost: Cost Formula = Disk I/O + CPU Instructions
+}
+executor: 4. Physical Execution Engine (Tuple Processing)
+
+sql -> parser: "Raw SQL"
+parser -> rewriter: "Validated AST"
+rewriter -> cbo: "Logical Plan"
+cbo -> executor: "Optimal Physical Plan"
 ```
+</details>
 
 ---
 
@@ -959,38 +1074,39 @@ ANALYZE inventory.cars;
 
 ### 3.4 Optimization Primitives: Predicate Pushdown, Projection Pushdown & Partition Pruning
 
-```mermaid
-flowchart TD
-    subgraph LogicalPlan ["1. Unoptimized Relational Algebra Tree"]
-        direction TB
-        L_Proj["Project (name, SUM(amount))"]
-        L_Filter["Filter (date >= 2026-01-01 AND country = US)"]
-        L_Join["Join (customer_id = id)"]
-        L_ScanOrders["Scan (orders: all columns)"]
-        L_ScanCust["Scan (customers: all columns)"]
-        L_Proj --> L_Filter --> L_Join
-        L_Join --> L_ScanOrders
-        L_Join --> L_ScanCust
-    end
+![16 Relational Optimization Pushdowns And Pruning](assets/04_database_internals_and_distributed_systems/16_relational_optimization_pushdowns_and_pruning.svg)
 
-    subgraph OptimizedPlan ["2. CBO Optimized Plan (Pushed Down to Physical Storage)"]
-        direction TB
-        O_Proj["Project (name, SUM(amount))"]
-        O_Join["Hash Join (customer_id = id)"]
-        O_ScanOrders["<b>Physical Scan: orders (Parquet)</b><br/>(Partition pruning, projection pushdown, and row-group min/max skip)"]
-        O_ScanCust["<b>Physical Scan: customers</b><br/>(Projection pushdown [id, name, country] and scan-level predicate filtering)"]
-        O_Proj --> O_Join
-        O_Join --> O_ScanOrders
-        O_Join --> O_ScanCust
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    LogicalPlan ==>|"Cost-Based Optimizer Rules"| OptimizedPlan
+```d2
+direction: right
+title: Relational Optimization Primitives: Pushdowns & Partition Pruning
 
-    style LogicalPlan fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style OptimizedPlan fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style O_ScanOrders fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style O_ScanCust fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
+unoptimized: 1. Unoptimized Relational Algebra Tree {
+  proj: Project (name, SUM(amount))
+  filter: Filter (date >= 2026-01-01 AND country = 'US')
+  join: Join (customer_id = id)
+  scan_orders: Scan (orders: all columns, all partitions)
+  scan_cust: Scan (customers: all columns)
+  proj -> filter -> join
+  join -> scan_orders
+  join -> scan_cust
+}
+
+optimized: 2. CBO Optimized Plan (Pushed Down to Physical Storage) {
+  o_proj: Project (name, SUM(amount))
+  o_join: Hash Join (customer_id = id)
+  o_scan_orders: Scan orders (Partition Pruning + Projection + Predicate)
+  o_scan_cust: Scan customers (WHERE country = 'US' + Index Scan)
+  o_proj -> o_join
+  o_join -> o_scan_orders
+  o_join -> o_scan_cust
+}
+
+unoptimized -> optimized: "CBO Transformation"
 ```
+</details>
 
 | Optimization Primitive | Target Stage in Pipeline | Physical Engine Mechanism | Hardware / Network Impact |
 | :--- | :--- | :--- | :--- |
@@ -1004,35 +1120,34 @@ flowchart TD
 
 Every logical `JOIN` in SQL must be executed by one of three physical join algorithms:
 
-```mermaid
-flowchart TD
-    subgraph NLJ_Flow ["1. Nested Loop Join (Index Probe)"]
-        direction TB
-        NL_Outer["Outer Stream (Driving Table)"] -->|"For Each Row (id=K)"| NL_Idx["Inner B+ Tree Index Probe (Key=K)"]
-        NL_Idx -->|"Match Found"| NL_Emit["Emit Joined Tuple"]
-    end
+![17 Physical Join Algorithms Nested Loop Hash Merge](assets/04_database_internals_and_distributed_systems/17_physical_join_algorithms_nested_loop_hash_merge.svg)
 
-    subgraph HJ_Flow ["2. Hash Join (Two-Phase Execution)"]
-        direction TB
-        HJ_Build["Build Table (Smaller Relation)"] -->|"Hash(key) & Insert"| HJ_Table["In-Memory Hash Table (work_mem)"]
-        HJ_Probe["Probe Table (Larger Relation)"] -->|"Hash(key) & Lookup Bucket"| HJ_Table
-        HJ_Table -->|"Bucket Match"| HJ_Emit["Emit Joined Tuple"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph SMJ_Flow ["3. Merge Sort Join (Two-Pointer Scan)"]
-        direction TB
-        SM_StreamA["Sorted Stream A [Cursor 1]"]
-        SM_StreamB["Sorted Stream B [Cursor 2]"]
-        SM_Comp["<b>Compare Keys (A.key vs B.key)</b><br/>(Advance cursors on mismatch or emit and advance on key equality)"]
-        SM_StreamA --> SM_Comp
-        SM_StreamB --> SM_Comp
-        SM_Comp --> SM_Emit["Emit Joined Tuple"]
-    end
+```d2
+direction: right
+title: Physical Join Algorithms: Nested Loop vs. Hash Join vs. Merge Sort
 
-    style NLJ_Flow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style HJ_Flow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SMJ_Flow fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
+nlj: 1. Nested Loop Join (Index Probe) {
+  complexity: "O(M * log N)"
+  mechanics: "For each outer row, probe inner B+ Tree index"
+  best_for: "Small outer table with indexed inner table"
+}
+
+hash_join: 2. Hash Join (Build & Probe) {
+  complexity: "O(M + N)"
+  mechanics: "Build in-memory hash table on small table, stream probe large table"
+  best_for: "Large unsorted datasets with equality joins (=)"
+}
+
+merge_join: 3. Merge Sort Join (Synchronized Scan) {
+  complexity: "O(M + N) sorted"
+  mechanics: "Advance two pointers along sorted streams"
+  best_for: "Pre-sorted inputs via B+ Tree indexes"
+}
 ```
+</details>
 
 #### Physical Join Mechanics & Engine Execution
 
@@ -1067,34 +1182,31 @@ flowchart TD
 
 The physical execution engine translates the physical plan produced by the Cost-Based Optimizer into executed machine instructions. The choice of execution engine dictates how CPU registers, L1/L2 caches, and instruction branches are utilized.
 
-```mermaid
-flowchart TD
-    subgraph VolcanoFlow ["1. Volcano Model: Deep Virtual Call Stack (Tuple-at-a-Time)"]
-        direction TB
-        V_Agg["Aggregate.next()"]
-        V_Filt["Filter.next()"]
-        V_Scan["Scan.next()"]
-        V_Agg -->|"Virtual Call"| V_Filt -->|"Virtual Call"| V_Scan
-        V_Scan -.->|"Return 1 Tuple"| V_Filt -.->|"Return 1 Tuple"| V_Agg
-    end
+![18 Execution Engine Models Volcano Vectorized Jit](assets/04_database_internals_and_distributed_systems/18_execution_engine_models_volcano_vectorized_jit.svg)
 
-    subgraph VectorFlow ["2. Vectorized Model: Columnar Batch Loops (SIMD)"]
-        direction TB
-        Vec_Mem["L1 Data Cache<br/>[1024 Ints Array]"]
-        Vec_Reg["SIMD Registers (AVX-512)<br/>8x 64-bit Parallel Filter"]
-        Vec_Out["Output Column Buffer<br/>[1024 Filtered Ints]"]
-        Vec_Mem -->|"Load Vector"| Vec_Reg -->|"Single Instruction Cycle"| Vec_Out
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph JITFlow ["3. Whole-Stage JIT: Flattened Loop (CPU Registers)"]
-        direction TB
-        JIT_Code["<b>Generated Native Assembly / Machine Code:</b><br/>while(scan.hasNext()) {<br/>&nbsp;&nbsp;int val = raw_buffer[i];<br/>&nbsp;&nbsp;if (val > 100) sum += val;<br/>&nbsp;&nbsp;i++;<br/>}<br/><i>(Data resides in CPU Registers EAX/EBX; Zero Function Dispatch)</i>"]
-    end
+```d2
+direction: right
+title: Query Execution Engine Models: Volcano vs. Vectorized vs. JIT
 
-    style VolcanoFlow fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style VectorFlow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style JITFlow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
+volcano: 1. Volcano Model (Tuple-at-a-Time) {
+  flow: "Aggregate.next() -> Filter.next() -> Scan.next()"
+  drawback: "Virtual call overhead & CPU L1i cache misses"
+}
+
+vectorized: 2. Vectorized Model (SIMD Batches) {
+  flow: "L1 Data Cache -> SIMD Registers (AVX-512) -> Output Buffer"
+  feature: "Processes 1024-value columnar vectors per CPU cycle"
+}
+
+jit: 3. Whole-Stage JIT Compilation (HyPer / Spark) {
+  flow: "Plan compiled directly into flattened native while() loop"
+  feature: "Data stays in CPU hardware registers; zero call overhead"
+}
 ```
+</details>
 
 #### Multi-Dimensional Engineering Comparison Matrix
 
@@ -1133,22 +1245,41 @@ Planning Time: 0.850 ms
 Execution Time: 187.120 ms
 ```
 
-```mermaid
-flowchart TD
-    HJ["<b>Hash Join</b><br/>Cost: 1250.00..54200.00 | Actual Time: 185.32 ms<br/>Condition: f.customer_id = c.customer_id"]
-    SeqScan["<b>Seq Scan on fact_orders (f)</b><br/>Cost: 0.00..48500.00 | 500,000 rows<br/>Filter: order_date >= '2026-01-01'"]
-    HashOp["<b>Hash Operator</b><br/>Batches: 1 | Memory: 720 kB"]
-    IdxScan["<b>Index Scan on dim_customer (c)</b><br/>Using: idx_customer_tier | 8,000 rows<br/>Filter: tier = 'PLATINUM'"]
+![19 Explain Analyze Execution Plan Tree](assets/04_database_internals_and_distributed_systems/19_explain_analyze_execution_plan_tree.svg)
 
-    HJ --> SeqScan
-    HJ --> HashOp
-    HashOp --> IdxScan
+<details>
+<summary>View D2 Source</summary>
 
-    style HJ fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style SeqScan fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style HashOp fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style IdxScan fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
+```d2
+direction: down
+title: Forensic EXPLAIN & EXPLAIN ANALYZE Execution Plan Tree
+
+hj: Hash Join {
+  cost: "Cost: 1250.00..54200.00 | Actual Time: 185.32 ms"
+  condition: "f.customer_id = c.customer_id"
+}
+
+seq_scan: Seq Scan on fact_orders (f) {
+  cost: "Cost: 0.00..48500.00 | 500,000 rows"
+  filter: "order_date >= '2026-01-01' (Bottleneck: missing index)"
+  style.stroke: "#ef4444"
+}
+
+hash_op: Hash Operator {
+  memory: "Batches: 1 | Memory: 720 kB"
+}
+
+idx_scan: Index Scan on dim_customer (c) {
+  cost: "Using: idx_customer_tier | 8,000 rows"
+  filter: "tier = 'PLATINUM'"
+  style.stroke: "#10b981"
+}
+
+hj -> seq_scan: "Outer Stream"
+hj -> hash_op: "Inner Build Table"
+hash_op -> idx_scan
 ```
+</details>
 
 | Execution Plan Node | Est. Rows vs Actual Rows | Cost Range | Actual Time | Physical I/O & Memory |
 | :--- | :---: | :---: | :---: | :--- |
@@ -1183,45 +1314,34 @@ Transaction management guarantees that multi-step operations remain consistent a
 
 ACID guarantees are not theoretical software abstractions; they are concrete engineering mechanisms designed to maintain data integrity across physical hardware failure boundaries (CPU register loss, volatile RAM loss, operating system kernel panics, and storage controller power interruptions).
 
-```mermaid
-flowchart TD
-    subgraph VolatileDomain ["VOLATILE BOUNDARY (Lost on Kernel Panic / Power Failure / SIGKILL)"]
-        direction TB
-        subgraph CPU_Mem ["CPU & Volatile RAM"]
-            Txn["Active Transactions<br/>(Private Workspace)"]
-            LockTable["Lock Manager & In-Memory MVCC<br/>(Enforces <b>ISOLATION</b>)"]
-            Constraints["Schema Validator & Catalog<br/>(Enforces <b>CONSISTENCY</b>)"]
-            BufferPool["Dirty Pages in Buffer Pool<br/>(Uncommitted & Committed Writes)"]
-            WAL_Buffer["WAL In-Memory Ring Buffer"]
-        end
-    end
+![20 Acid Guarantees And Hardware Failure Boundaries](assets/04_database_internals_and_distributed_systems/20_acid_guarantees_and_hardware_failure_boundaries.svg)
 
-    subgraph HardwareBoundary ["PHYSICAL HARDWARE FAILURE BOUNDARY"]
-        Barrier["═══════════════════ OS fsync() / flush barrier ═══════════════════"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph NonVolatileDomain ["NON-VOLATILE PERSISTENCE (Survives Sudden Power Loss)"]
-        direction TB
-        subgraph DiskStorage ["Physical NVMe SSD / Storage Subsystem"]
-            WAL_Disk["<b>Write-Ahead Log (WAL / Redo Log)</b><br/>Appended sequentially via fsync before COMMIT response<br/>(Guarantees <b>DURABILITY</b>)"]
-            UndoLog["<b>Undo Segments / Rollback Log</b><br/>Records previous state to revert aborted transactions<br/>(Guarantees <b>ATOMICITY</b>)"]
-            DataFiles["Table Data Blocks & Indexes (Heap / SSTables)<br/>Lazily flushed by background checkpoint process"]
-        end
-    end
+```d2
+direction: down
+title: ACID Guarantees & Hardware Failure Boundaries
 
-    Txn -->|"Verify Constraints"| Constraints
-    Txn -->|"Acquire Read/Write Locks"| LockTable
-    Txn -->|"Modify In-Memory Rows"| BufferPool
-    Txn -->|"Write Redo Records"| WAL_Buffer
-    WAL_Buffer ==>|"Synchronous fsync at Commit"| Barrier ==> WAL_Disk
-    UndoLog -.->|"Reverts Uncommitted Changes during Crash Recovery"| BufferPool
-    BufferPool -.->|"Asynchronous Checkpoint Flush"| DataFiles
+volatile: VOLATILE BOUNDARY (Lost on Kernel Panic / Power Loss) {
+  tx: Active Transactions (Private Workspace)
+  locks: Lock Manager & MVCC (Enforces ISOLATION & CONSISTENCY)
+  buffers: Buffer Pool Dirty Pages & WAL Ring Buffer in RAM
+}
 
-    style VolatileDomain fill:#1e1e2e,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style HardwareBoundary fill:#0f172a,stroke:#eab308,stroke-width:2px,color:#fde047
-    style NonVolatileDomain fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Barrier fill:#334155,stroke:#eab308,stroke-width:1px,color:#fde047
+barrier: Physical Hardware Boundary: OS fsync() Barrier
+
+persistent: NON-VOLATILE PERSISTENCE (Survives Power Loss) {
+  wal: Write-Ahead Log (WAL / Redo Log) {
+    guarantee: "Enforces ATOMICITY & DURABILITY (Append-only fsync)"
+  }
+  heap: Table Heap & Index Files (Slotted Pages on NVMe)
+}
+
+volatile -> barrier: "fsync() Flush"
+barrier -> persistent
 ```
+</details>
 
 #### Hardware Failure Boundaries & ACID Crash Recovery Matrix
 
@@ -1266,27 +1386,40 @@ In PostgreSQL, all row versions (both live and dead) are stored directly inside 
 - `t_xmin`: The Transaction ID ($XID$) that inserted this tuple version.
 - `t_xmax`: The Transaction ID that deleted or updated this tuple version (set to 0 if currently active).
 
-```mermaid
-flowchart LR
-    subgraph PG_MVCC ["PostgreSQL In-Heap Tuple Versioning (ctid Tracking)"]
-        direction LR
-        V1["Tuple Version 1 (ctid: 1, 1)<br/>xmin: 100 | xmax: 105<br/>[Name: 'Alice' | Balance: $500]"]
-        V2["Tuple Version 2 (ctid: 1, 2)<br/>xmin: 105 | xmax: 0 (Active)<br/>[Name: 'Alice' | Balance: $400]"]
-        V1 -.->|"Updated by Tx 105 (Points to new ctid)"| V2
-    end
+![21 Mvcc Internals Tuple Versioning Visibility](assets/04_database_internals_and_distributed_systems/21_mvcc_internals_tuple_versioning_visibility.svg)
 
-    subgraph TxSnapshot ["Transaction Snapshot Visibility (Tx 102)"]
-        Tx102["Transaction 102 Snapshot:<br/>Active XIDs: [105]<br/>(Reads Version 1 (xmin 100 < 102 and xmax 105 is active))"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    Tx102 --> V1
+```d2
+direction: right
+title: PostgreSQL MVCC Internals: In-Heap Tuple Versioning
 
-    style PG_MVCC fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TxSnapshot fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style V1 fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style V2 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Tx102 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
+pg_mvcc: PostgreSQL In-Heap Tuple Versioning (ctid Tracking) {
+  v1: Tuple Version 1 (ctid: 1, 1) {
+    xmin: "100"
+    xmax: "105"
+    data: "Name: 'Alice', Balance: $500"
+    style.stroke: "#ef4444"
+  }
+  v2: Tuple Version 2 (ctid: 1, 2) {
+    xmin: "105"
+    xmax: "0 (Active)"
+    data: "Name: 'Alice', Balance: $400"
+    style.stroke: "#10b981"
+  }
+  v1 -> v2: "Updated by Tx 105 (ctid pointer)"
+}
+
+snapshot: Transaction Snapshot Visibility (Tx 102) {
+  tx102: Transaction 102 Snapshot {
+    rule: "Reads Version 1 because xmin 100 < 102 and xmax 105 is active"
+  }
+}
+
+snapshot.tx102 -> pg_mvcc.v1: "Reads Version 1"
 ```
+</details>
 
 #### 2. MySQL InnoDB MVCC: The Undo Log & Rollback Segment
 Unlike PostgreSQL, MySQL InnoDB keeps **only the latest active row version** in the clustered index leaf page. 
@@ -1301,32 +1434,46 @@ Unlike PostgreSQL, MySQL InnoDB keeps **only the latest active row version** in 
 
 In PostgreSQL, when rows are updated or deleted, the old versions remain as **Dead Tuples** in the table heap. Over time, tables suffer from **Bloat**: 80% of a table's disk footprint may consist of dead tuples, forcing queries to scan gigabytes of wasted space.
 
-```mermaid
-stateDiagram-v2
-    classDef live fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#ffffff
-    classDef updated fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#ffffff
-    classDef dead fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    classDef frozen fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
+![22 Tuple Visibility Dead Tuples And Autovacuum](assets/04_database_internals_and_distributed_systems/22_tuple_visibility_dead_tuples_and_autovacuum.svg)
 
-    [*] --> LiveTuple: INSERT (xmin = current_xid, xmax = 0)
-    LiveTuple --> UpdatedTuple: UPDATE (Old tuple xmax = current_xid)
-    LiveTuple --> DeadTuple: DELETE (xmax = current_xid)
-    UpdatedTuple --> DeadTuple: Transaction Commits (Old version dead to new queries)
-    
-    state DeadTuple {
-        [*] --> Retained: Active snapshots still reference tuple
-        Retained --> EligibleForVacuum: Oldest active xmin advances past xmax
-    }
+<details>
+<summary>View D2 Source</summary>
 
-    EligibleForVacuum --> ReclaimedSpace: AUTOVACUUM runs (Reclaims slot in Page Header)
-    LiveTuple --> FrozenTuple: VACUUM FREEZE (Replaces xmin with FrozenXID 2)
-    ReclaimedSpace --> [*]
+```d2
+direction: right
+title: Tuple Visibility, Dead Tuples & The AUTOVACUUM Engine
 
-    class LiveTuple live
-    class UpdatedTuple updated
-    class DeadTuple dead
-    class FrozenTuple frozen
+live: 1. Live Tuple {
+  status: "xmin = current_xid, xmax = 0"
+  style.stroke: "#10b981"
+}
+
+updated: 2. Updated / Deleted Tuple {
+  status: "xmax set to current_xid"
+  style.stroke: "#f59e0b"
+}
+
+dead: 3. Dead Tuple (Retained) {
+  status: "Retained while active snapshots reference it"
+  style.stroke: "#ef4444"
+}
+
+eligible: 4. Eligible for Vacuum {
+  status: "Oldest active xmin advances past xmax"
+  style.stroke: "#8b5cf6"
+}
+
+reclaimed: 5. Reclaimed Space {
+  status: "AUTOVACUUM reclaims slot in Page Header"
+  style.stroke: "#10b981"
+}
+
+live -> updated: "UPDATE / DELETE"
+updated -> dead: "Tx Commits"
+dead -> eligible: "Snapshots advance"
+eligible -> reclaimed: "AUTOVACUUM runs"
 ```
+</details>
 
 #### The Transaction ID Wraparound Catastrophe
 PostgreSQL transaction IDs ($XID$) are 32-bit unsigned integers, wrapping around every $2^{32} \approx 4.2 \text{ Billion}$ transactions.
@@ -1341,42 +1488,43 @@ PostgreSQL transaction IDs ($XID$) are 32-bit unsigned integers, wrapping around
 #### 1. Deadlock Detection & Mitigation
 A deadlock occurs when concurrent transactions form a circular dependency waiting for resources locked by each other:
 
-```mermaid
-flowchart TD
-    subgraph TransactionsAndLocks ["Two-Phase Locking Dependency Graph"]
-        direction LR
-        subgraph TxCluster ["Transactions"]
-            Tx1["<b>Transaction 1</b>"]
-            Tx2["<b>Transaction 2</b>"]
-        end
+![23 Two Phase Locking Deadlock Detection Cycle](assets/04_database_internals_and_distributed_systems/23_two_phase_locking_deadlock_detection_cycle.svg)
 
-        subgraph ResourceCluster ["Account Records"]
-            RowA["<b>Account 101</b>"]
-            RowB["<b>Account 202</b>"]
-        end
+<details>
+<summary>View D2 Source</summary>
 
-        Tx1 -->|Holds lock on| RowA
-        Tx1 -->|Waiting for lock on| RowB
-        Tx2 -->|Holds lock on| RowB
-        Tx2 -->|Waiting for lock on| RowA
-    end
+```d2
+direction: right
+title: Two-Phase Locking & Deadlock Detection Cycle
 
-    subgraph DetectionEngine ["Deadlock Resolution Engine"]
-        Deadlock["<b>DEADLOCK CYCLE DETECTED</b><br/>Wait-for Graph Cycle Detected: Tx1 &harr; Tx2<br/>Engine picks victim and aborts youngest transaction"]
-    end
+graph: Two-Phase Locking Dependency Graph {
+  tx1: Transaction 1 (TxID: 101)
+  tx2: Transaction 2 (TxID: 102)
+  row_a: Account 101
+  row_b: Account 202
 
-    TransactionsAndLocks --> Deadlock
+  tx1 -> row_a: "Holds Lock"
+  tx1 -> row_b: "Waiting for Lock" {
+    style.stroke: "#ef4444"
+    style.stroke-dash: 4
+  }
+  tx2 -> row_b: "Holds Lock"
+  tx2 -> row_a: "Waiting for Lock" {
+    style.stroke: "#ef4444"
+    style.stroke-dash: 4
+  }
+}
 
-    style TransactionsAndLocks fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DetectionEngine fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style TxCluster fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style ResourceCluster fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style Tx1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Tx2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style RowA fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style RowB fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Deadlock fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
+engine: Deadlock Detection Engine {
+  resolution: DEADLOCK CYCLE DETECTED {
+    details: "Wait-for graph cycle: Tx1 <-> Tx2. Engine aborts youngest victim (Tx 2)"
+    style.stroke: "#ef4444"
+  }
+}
+
+graph -> engine.resolution: "Cycle detected via DFS"
 ```
+</details>
 
 ##### Production Mitigation: Deterministic Resource Ordering
 Always acquire locks on multiple entities in the **exact same deterministic order** across the entire application codebase:
@@ -1421,55 +1569,43 @@ Instead, the library adopts **MapReduce**:
 4. **Shuffle & Sort:** The cards are collected and sorted across the room so that **all** cards for words starting with $A-M$ go to Table 1, and all cards for words starting with $N-Z$ go to Table 2.
 5. **Reduce:** Two head librarians (Reducers) sit at Table 1 and Table 2. The Table 1 librarian sums all the incoming tallies for `"apple"` and outputs the definitive grand total: `("apple", 418,920)`.
 
-```mermaid
-flowchart TD
-    RawData["Raw Input Dataset (100 GB Distributed across HDFS)"] --> S1["Input Split 0 (64MB)"] & S2["Input Split 1 (64MB)"] & S3["Input Split 2 (64MB)"]
-    
-    subgraph MapPhase ["1. Map Phase (Local Worker Compute)"]
-        S1 --> M1["Mapper 0<br/>Emits: (word, 1)"]
-        S2 --> M2["Mapper 1<br/>Emits: (word, 1)"]
-        S3 --> M3["Mapper 2<br/>Emits: (word, 1)"]
-    end
+![24 Mapreduce Paradigm Distributed Execution](assets/04_database_internals_and_distributed_systems/24_mapreduce_paradigm_distributed_execution.svg)
 
-    subgraph CombinerPhase ["2. Combiner Phase (Map-Side Local Aggregation)"]
-        M1 --> C1["Combiner 0<br/>Sum local keys"]
-        M2 --> C2["Combiner 1<br/>Sum local keys"]
-        M3 --> C3["Combiner 2<br/>Sum local keys"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph ShufflePhase ["3. Shuffle & Sort Phase (All-to-All Network Transfer)"]
-        C1 & C2 & C3 --> HashPart["HashPartitioner: hash(key) % numReducers"]
-        HashPart --> ShuffleSort["Network Shuffle: Sort by Key across Network"]
-    end
+```d2
+direction: right
+title: MapReduce Paradigm: Distributed Storage & Compute
 
-    subgraph ReducePhase ["4. Reduce Phase (Final Global Aggregation)"]
-        ShuffleSort --> R1["Reducer 0 (Keys: 'apple'..'mango')<br/>Sums values -> (key, total_count)"]
-        ShuffleSort --> R2["Reducer 1 (Keys: 'navy'..'zebra')<br/>Sums values -> (key, total_count)"]
-    end
+raw: Raw Input Dataset (100 GB HDFS) {
+  s1: Input Split 0 (64MB)
+  s2: Input Split 1 (64MB)
+  s3: Input Split 2 (64MB)
+}
 
-    R1 & R2 --> HDFSOut[("HDFS / Cloud Object Storage<br/>part-r-00000, part-r-00001")]
+map_phase: 1. Map & Combiner Phase {
+  m1: Mapper 0 + Combiner 0
+  m2: Mapper 1 + Combiner 1
+  m3: Mapper 2 + Combiner 2
+}
 
-    style MapPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CombinerPhase fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style ShufflePhase fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ReducePhase fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
+shuffle: 2. Shuffle & Sort Phase {
+  part: HashPartitioner: hash(key) % numReducers
+  sort: Network Shuffle & Merge Sort
+  part -> sort
+}
 
-    style RawData fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style M1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style M2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style M3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style C1 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style C2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style C3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style HashPart fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ShuffleSort fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style R1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style R2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style HDFSOut fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
+reduce_phase: 3. Reduce Phase (Final Aggregation) {
+  r1: Reducer 0 ('apple' -> 48)
+  r2: Reducer 1 ('banana' -> 12)
+}
+
+raw -> map_phase: "Data Locality Read"
+map_phase -> shuffle: "Emit (key, sum)"
+shuffle -> reduce_phase: "Sorted key streams"
 ```
+</details>
 
 #### Detailed Step-by-Step Execution Trace
 
@@ -1563,27 +1699,36 @@ Formulated by Eric Brewer in 2000 and mathematically proven by Seth Gilbert and 
 2. **Availability (A):** Every non-failing node must return a non-error response for every received request (no guarantees that it contains the freshest write).
 3. **Partition Tolerance (P):** The system continues to function despite arbitrary network packet drops, delayed messages, or complete network bisisections between servers.
 
-```mermaid
-flowchart TD
-    P["Partition Tolerance (P)<br/>(MANDATORY: Physical Networks WILL Partition)"]
-    
-    subgraph CP_Systems ["CP Systems (Consistency > Availability)"]
-        CP["Google Spanner, HBase, Bigtable, ZooKeeper<br/>(Blocks writes or returns HTTP 503 on minority split, Guarantees zero stale reads and zero linearizability breaches)"]
-    end
+![25 Cap Theorem Tradeoffs Cp Vs Ap](assets/04_database_internals_and_distributed_systems/25_cap_theorem_tradeoffs_cp_vs_ap.svg)
 
-    subgraph AP_Systems ["AP Systems (Availability > Consistency)"]
-        AP["Apache Cassandra, Amazon DynamoDB, CouchDB<br/>(Accepts writes and reads on both sides of partition, Returns potentially stale reads; reconciles conflicts later)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    P --> CP
-    P --> AP
+```d2
+direction: down
+title: CAP Theorem: Architectural Trade-Offs (CP vs. AP)
 
-    style CP_Systems fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AP_Systems fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style P fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CP fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style AP fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+p: Partition Tolerance (P) {
+  note: "MANDATORY: Physical networks WILL experience latency and partitions"
+  style.stroke: "#8b5cf6"
+}
+
+cp: CP Systems (Consistency > Availability) {
+  examples: "Google Spanner, HBase, Bigtable, ZooKeeper, etcd"
+  behavior: "Blocks writes or returns HTTP 503 on minority split; guarantees zero stale reads"
+  style.stroke: "#3b82f6"
+}
+
+ap: AP Systems (Availability > Consistency) {
+  examples: "Apache Cassandra, Amazon DynamoDB, CouchDB"
+  behavior: "Accepts reads and writes on both sides; returns eventual data; reconciles conflicts later"
+  style.stroke: "#10b981"
+}
+
+p -> cp: "Trade Availability for Correctness"
+p -> ap: "Trade Consistency for 100% Uptime"
 ```
+</details>
 
 #### Why "CA Systems" Do Not Exist in Reality
 Junior engineers frequently ask: *"Can I build a CA database by choosing Consistency and Availability?"*
@@ -1618,39 +1763,41 @@ $$\text{If } \mathbf{P} \text{ (Partition)} \implies \text{Choose } (\mathbf{A} 
 - **If there is a Partition ($P$):** How does the system trade off **Availability ($A$)** versus **Consistency ($C$)**?
 - **Else ($E$ - Normal Operation):** How does the system trade off **Latency ($L$)** versus **Consistency ($C$)**?
 
-```mermaid
-flowchart TD
-    State{"Is Cluster Currently Partitioned?"}
+![26 Pacelc Theorem Tradeoffs Normal Vs Partition](assets/04_database_internals_and_distributed_systems/26_pacelc_theorem_tradeoffs_normal_vs_partition.svg)
 
-    subgraph PartitionTradeoff ["Partition Mode (P): Network Split"]
-        ChoiceP{"Trade-off Choice?"}
-        PA_Node["<b>PA: High Availability</b><br/>Accept writes, return stale data<br/>(Cassandra, DynamoDB)"]
-        PC_Node["<b>PC: Strong Consistency</b><br/>Reject writes, preserve correctness<br/>(Spanner, CockroachDB, HBase)"]
-        ChoiceP -- "Availability (PA)" --> PA_Node
-        ChoiceP -- "Consistency (PC)" --> PC_Node
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph NormalTradeoff ["Normal Operation (E): Low Latency vs Consistency"]
-        ChoiceE{"Trade-off Choice?"}
-        EL_Node["<b>EL: Low Latency</b><br/>Single-replica local read (sub-2ms)<br/>(Cassandra ONE, DynamoDB Eventual)"]
-        EC_Node["<b>EC: Strong Consistency</b><br/>Multi-replica synchronous commit (30ms+)<br/>(Spanner TrueTime, Postgres Sync Replica)"]
-        ChoiceE -- "Low Latency (EL)" --> EL_Node
-        ChoiceE -- "Strong Consistency (EC)" --> EC_Node
-    end
+```d2
+direction: down
+title: PACELC Theorem: Trade-Offs in Normal vs. Partition Operations
 
-    State -- "Yes: Partition Mode (P)" --> ChoiceP
-    State -- "No: Normal Operation (E)" --> ChoiceE
+state: Is Cluster Currently Partitioned? {
+  shape: diamond
+}
 
-    style State fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style PartitionTradeoff fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style NormalTradeoff fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ChoiceP fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style ChoiceE fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style PA_Node fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style PC_Node fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style EL_Node fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style EC_Node fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
+partition_mode: Partition Mode (P): Network Split {
+  pa: PA: High Availability (Cassandra, DynamoDB) {
+    behavior: "Accepts writes, returns stale reads"
+  }
+  pc: PC: Strong Consistency (Spanner, CockroachDB) {
+    behavior: "Rejects writes, preserves correctness"
+  }
+}
+
+normal_mode: Normal Operation (E): Latency vs Consistency {
+  el: EL: Low Latency (Cassandra ONE, DynamoDB Eventual) {
+    behavior: "Sub-2ms local replica read; skips quorum"
+  }
+  ec: EC: Strong Consistency (Spanner TrueTime, Postgres Sync) {
+    behavior: "Synchronous multi-replica commit (30ms+)"
+  }
+}
+
+state -> partition_mode: "If Partitioned (P)"
+state -> normal_mode: "Else Normal (E)"
 ```
+</details>
 
 #### The $2 \times 2$ PACELC Classification Matrix
 
@@ -1671,15 +1818,37 @@ In distributed computing, **Consensus** is the foundational problem of getting m
 - **Paxos (Leslie Lamport, 1998):** Historically the premier consensus protocol. Mathematically proven and elegant, but notoriously abstract and difficult to implement in real software. Multi-Paxos requires complex edge-case handling for leader election and log compaction.
 - **Raft (Ongaro & Ousterhout, Stanford, 2014):** Explicitly designed to be understandable. It decomposes consensus into three discrete sub-problems: **Leader Election**, **Log Replication**, and **Safety**. Raft powers **Kubernetes (etcd)**, **Kafka 3.x+ (KRaft)**, and **HashiCorp Consul**.
 
-```mermaid
-stateDiagram-v2
-    [*] --> Follower
-    Follower --> Candidate: Election Timeout Fires (No Heartbeat received within 150-300ms)
-    Candidate --> Candidate: Split Vote / Timeout: Increment Term & Restart Election
-    Candidate --> Leader: Receives Majority of Votes (> N / 2)
-    Candidate --> Follower: Discovers Current Leader or Newer Term
-    Leader --> Follower: Discovers Node with Higher Term
+![27 Raft Consensus State Machine](assets/04_database_internals_and_distributed_systems/27_raft_consensus_state_machine.svg)
+
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: Raft Distributed Consensus State Machine
+
+follower: Follower {
+  status: "Passive node responding to RPCs"
+  style.stroke: "#3b82f6"
+}
+
+candidate: Candidate {
+  status: "Campaigning for election in Term T"
+  style.stroke: "#f59e0b"
+}
+
+leader: Leader {
+  status: "Active coordinator managing replicated log"
+  style.stroke: "#10b981"
+}
+
+follower -> candidate: "Election timeout fires (150-300ms)"
+candidate -> leader: "Receives majority votes (> N/2)"
+candidate -> follower: "Discovers higher term or valid leader"
+candidate -> candidate: "Split vote: Increment term & retry"
+leader -> follower: "Discovers higher term -> Steps down"
 ```
+</details>
 
 #### Raft Execution Protocol: Step-by-Step
 1. **Node Roles:** Every node is always in one of three states:
@@ -1703,25 +1872,42 @@ stateDiagram-v2
 A distributed lock guarantees that only one worker across an entire cluster executes a critical section (e.g., executing a non-reentrant financial settlement batch).
 However, naive lease-based locks (e.g., standard Redis `SET lock:name value EX 30 NX`) suffer from the **Martin Kleppmann Pause Hazard**:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Client1 as Worker 1 (Acquires Lock)
-    participant Redis as Distributed Lock Store (Redis)
-    participant Storage as Shared Data Storage (S3 / DB)
-    participant Client2 as Worker 2 (Next in Queue)
+![28 Distributed Locking Fencing Token Safety](assets/04_database_internals_and_distributed_systems/28_distributed_locking_fencing_token_safety.svg)
 
-    Client1->>Redis: Acquire lock with 30-second TTL
-    Redis-->>Client1: Lock Granted (Token: Valid for 30s)
-    Note over Client1: Long Garbage Collection (GC) Pause for 35 seconds!<br/>Worker 1 process is frozen!
-    Note over Redis: 30 seconds elapse... Lock TTL expires!
-    Client2->>Redis: Acquire lock (Key has expired)
-    Redis-->>Client2: Lock Granted to Worker 2
-    Client2->>Storage: Writes file: part-001.parquet (Clean Commit)
-    Note over Client1: GC Pause ends! Worker 1 wakes up unaware time passed!
-    Client1->>Storage: Overwrites part-001.parquet with STALE DATA! (CORRUPTION!)
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: Distributed Locks & Fencing Tokens
+
+c1: Client 1 {
+  status: "Acquires lock with Token 33, then hits 60s GC pause"
+  style.stroke: "#ef4444"
+}
+
+lock_service: Lock Service (ZooKeeper / etcd) {
+  counter: "Monotonically increasing fencing tokens (33 -> 34)"
+}
+
+c2: Client 2 {
+  status: "Acquires lock with Token 34 after lease expires"
+  style.stroke: "#10b981"
+}
+
+storage: Storage Service {
+  rule: "Rejects writes with token < current_token (33 < 34)"
+}
+
+c1 -> lock_service: "Acquire lock (Token 33)"
+lock_service -> c2: "Lease expired: Grant Token 34"
+c2 -> storage: "Write with Token 34 (ACCEPTED)"
+c1 -> storage: "Late write with Token 33 (REJECTED!)" {
+  style.stroke: "#ef4444"
+  style.stroke-dash: 4
+}
 ```
+</details>
 
 #### The Architectural Solution: Fencing Tokens
 To prevent stale zombie workers from corrupting storage after a long GC pause or network partition, the lock service must issue a monotonically increasing **Fencing Token** (e.g., `Token 43`). Storage targets validate that incoming write tokens are strictly greater than the highest token previously committed:
@@ -1763,32 +1949,33 @@ storage.commit_write("balance", "150.00", fencing_token=41)  # REJECTED!
 #### The Split-Brain Problem
 When a network partition bisects a 5-node cluster into two isolated sub-networks (e.g., 2 nodes on West coast, 3 nodes on East coast), if both sub-clusters believe the other side is dead, both will elect their own Leader. Clients connected to West write conflicting records to those connected to East, creating **irreparable split-brain data corruption**.
 
-```mermaid
-flowchart TD
-    subgraph NetworkCut ["Network Partition Bisects Cluster"]
-        subgraph WestSplit ["West Partition (2 Nodes) - MINORITY"]
-            Node1["Node 1 (Believes it is Leader)"] --- Node2["Node 2"]
-        end
+![29 Split Brain Mitigation Quorum Mechanics](assets/04_database_internals_and_distributed_systems/29_split_brain_mitigation_quorum_mechanics.svg)
 
-        subgraph EastSplit ["East Partition (3 Nodes) - MAJORITY QUORUM"]
-            Node3["Node 3 (Elected New Leader)"] --- Node4["Node 4"] --- Node5["Node 5"]
-        end
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    Node1 -.->|"Quorum Check Fails: 2 < 3"| ForceStepDown["Node 1 MUST Step Down to Follower!"]
-    Node3 -->|"Quorum Won: 3 > 2.5"| ValidWrite["Node 3 Operates as Legitimate Leader"]
+```d2
+direction: right
+title: Split-Brain Mitigation: Majority Quorum Mechanics
 
-    style NetworkCut fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,stroke-dasharray: 5 5,color:#fca5a5
-    style WestSplit fill:#1e293b,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style EastSplit fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#86efac
-    style Node1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Node2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Node3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Node4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Node5 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ForceStepDown fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style ValidWrite fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
+partition: Network Partition Bisects 5-Node Cluster {
+  west: West Partition (2 Nodes) - MINORITY {
+    n1: Node 1 (Old Leader)
+    n2: Node 2 (Follower)
+    rule: "Quorum Fails: 2 < 3. Node 1 MUST step down to follower!"
+    style.stroke: "#ef4444"
+  }
+
+  east: East Partition (3 Nodes) - MAJORITY QUORUM {
+    n3: Node 3 (Elected New Leader)
+    n4: Node 4 (Follower)
+    n5: Node 5 (Follower)
+    rule: "Quorum Won: 3 >= 3. Node 3 operates as legitimate leader"
+    style.stroke: "#10b981"
+  }
+}
 ```
+</details>
 
 #### Quorum Arithmetic: Why Odd Node Counts are Mandatory
 In distributed consensus clusters, the minimum number of nodes required to form a majority quorum ($Q$) is defined mathematically as:
@@ -1830,32 +2017,34 @@ Cassandra and DynamoDB use **Gossip Protocols**:
 #### Architectural Overview & Scalability Mechanics
 When a data warehouse, transactional datastore, or distributed processing engine experiences throughput saturation or storage depletion, engineering teams face a fundamental architectural choice: expand the computing resources of the existing host (**Vertical Scaling / Scale-Up**) or partition the workload across a cluster of cooperating hosts (**Horizontal Scaling / Scale-Out**).
 
-```mermaid
-flowchart LR
-    subgraph ScaleUp ["Vertical Scaling (Scale-Up)"]
-        direction TB
-        Host1["Single Large Host<br/>(128 Cores, 4TB RAM, NVMe Array)<br/>IPC via Shared Memory / L3 Cache"]
-    end
+![30 Horizontal Vs Vertical Scaling Amdahls Law](assets/04_database_internals_and_distributed_systems/30_horizontal_vs_vertical_scaling_amdahls_law.svg)
 
-    subgraph ScaleOut ["Horizontal Scaling (Scale-Out)"]
-        direction TB
-        Router["Cluster Coordinator / Load Balancer"]
-        N1["Node 1 (16 Cores, 64GB)"]
-        N2["Node 2 (16 Cores, 64GB)"]
-        N3["Node N (16 Cores, 64GB)"]
-        Router --> N1
-        Router --> N2
-        Router --> N3
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style ScaleUp fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ScaleOut fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Host1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Router fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style N1 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style N2 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style N3 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
+```d2
+direction: right
+title: Horizontal vs. Vertical Scaling: Hardware Limits & Amdahl's Law
+
+scale_up: Vertical Scaling (Scale-Up) {
+  server: Single Large Host (128 Cores, 4TB RAM) {
+    features: "Shared memory IPC, zero network overhead"
+    limits: "Hardware ceiling, exponential cost, single point of failure"
+  }
+}
+
+scale_out: Horizontal Scaling (Scale-Out) {
+  lb: Load Balancer / Shard Router
+  n1: Node 1 (16 Cores, 64GB)
+  n2: Node 2 (16 Cores, 64GB)
+  n_n: Node N (16 Cores, 64GB)
+  lb -> n1
+  lb -> n2
+  lb -> n_n
+  features: "Infinite elastic scaling, fault isolation, commodity pricing"
+}
 ```
+</details>
 
 #### 1. Vertical Scaling (Scale-Up): Anatomy & Physics
 Vertical scaling involves migrating the database instance to larger hardware—provisioning faster CPU clock speeds, higher core counts, denser RAM configurations, and higher IOPS NVMe arrays on a single motherboard.
@@ -1892,31 +2081,36 @@ If 5% of your data pipeline is strictly serial (e.g., initial metadata catalog l
 - **Partitioning:** Slicing a large table into distinct physical files residing **on the same single database server** (e.g., PostgreSQL table partitioning by month). Improves local disk I/O through partition pruning.
 - **Sharding:** Distributing distinct slices of data across **completely separate physical database servers located on distinct network IP addresses** (e.g., MongoDB, Citus, Spanner).
 
-```mermaid
-flowchart TD
-    subgraph SingleHost ["Single-Host Partitioning (PostgreSQL)"]
-        ParentTable["Customer Orders Table<br/>(One DB Instance: 192.168.1.50)"]
-        ParentTable --> File1["orders_2026_q1.dat"]
-        ParentTable --> File2["orders_2026_q2.dat"]
-    end
+![31 Database Sharding Vs Single Host Partitioning](assets/04_database_internals_and_distributed_systems/31_database_sharding_vs_single_host_partitioning.svg)
 
-    subgraph ShardedCluster ["Distributed Sharding (Multiple Network Hosts)"]
-        Router["Query Shard Router"]
-        Router -->|"hash(customer_id) in [0, 33]"| DB1[("Physical Server 1<br/>IP: 10.0.1.10")]
-        Router -->|"hash(customer_id) in [34, 66]"| DB2[("Physical Server 2<br/>IP: 10.0.1.11")]
-        Router -->|"hash(customer_id) in [67, 100]"| DB3[("Physical Server 3<br/>IP: 10.0.1.12")]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style SingleHost fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ShardedCluster fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style ParentTable fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style File1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style File2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Router fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style DB1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DB2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DB3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+```d2
+direction: right
+title: Database Sharding vs. Single-Host Partitioning Topologies
+
+single_host: Single-Host Partitioning (PostgreSQL) {
+  parent: Parent Table: fact_orders (Single Instance)
+  f1: orders_2026_q1.dat
+  f2: orders_2026_q2.dat
+  parent -> f1
+  parent -> f2
+  note: "All partitions share single host CPU, RAM, and disk bus"
+}
+
+sharded: Distributed Sharding (Multiple Network Hosts) {
+  router: Query Shard Router
+  db1: Shard 1 (Server 1 - IP: 10.0.1.10)
+  db2: Shard 2 (Server 2 - IP: 10.0.1.11)
+  db3: Shard 3 (Server 3 - IP: 10.0.1.12)
+  router -> db1: "hash in [0, 33]"
+  router -> db2: "hash in [34, 66]"
+  router -> db3: "hash in [67, 100]"
+  note: "Dedicated compute, memory, and disk IOPS per shard"
+}
 ```
+</details>
 
 #### The Hotspotting / Shard Skew Trap
 If you shard a database table by a monotonically increasing sequential key (e.g., `created_at` timestamp or auto-incrementing `id`), **100% of all current write traffic slams into the single shard holding the latest range**, while all remaining 99 shards sit idle!
@@ -1936,24 +2130,34 @@ Consistent Hashing maps both **Data Keys** and **Physical Nodes** onto an abstra
 3. To assign a key to a server, move **clockwise** around the ring until you encounter the first server.
 4. When a new node joins, **only $K / N$ keys are reassigned** (where $K$ is total keys, $N$ is total servers).
 
-```mermaid
-flowchart TD
-    subgraph HashRing ["Consistent Hashing Ring (0 to 2^32 - 1)"]
-        NodeA["Server A (Token: 1,000,000)"]
-        NodeB["Server B (Token: 2,000,000)"]
-        NodeC["Server C (Token: 3,500,000)"]
-        
-        Key1["Key 'user_8412' (Hash: 1,450,000)"] -->|Walk Clockwise| NodeB
-        Key2["Key 'user_9911' (Hash: 2,800,000)"] -->|Walk Clockwise| NodeC
-    end
+![32 Consistent Hashing Ring Vnodes](assets/04_database_internals_and_distributed_systems/32_consistent_hashing_ring_vnodes.svg)
 
-    style HashRing fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style NodeA fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style NodeB fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style NodeC fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Key1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Key2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: Consistent Hashing Ring & Virtual Nodes (V-Nodes)
+
+ring: Consistent Hashing Ring (0 to 2^32 - 1) {
+  node_a: Server A (Token: 1,000,000)
+  node_b: Server B (Token: 2,000,000)
+  node_c: Server C (Token: 3,500,000)
+  k1: Key 'user_8412' (Hash: 1.45M)
+  k2: Key 'user_9911' (Hash: 2.80M)
+
+  k1 -> node_b: "Walk Clockwise"
+  k2 -> node_c: "Walk Clockwise"
+}
+
+vnodes: Virtual Nodes (V-Nodes: 256 per node) {
+  benefit1: "Eliminates token range hotspots"
+  benefit2: "Adding/removing node migrates exactly 1/N keys"
+}
+
+ring -> vnodes: "V-Node Enhancement"
 ```
+</details>
 
 #### Why Virtual Nodes (V-Nodes) are Essential
 In a simple ring with only 3 physical servers, nodes are rarely spaced uniformly. One server may end up responsible for 70% of the ring's arc, creating a massive hot-spot.
@@ -2027,46 +2231,41 @@ print("Distribution across nodes (Uniformity Check):", dict(assignments))
 
 ### 6.4 Database Replication Topologies: Single-Leader, Multi-Leader & Leaderless
 
-```mermaid
-flowchart LR
-    subgraph Leaderless ["3. Leaderless (Cassandra / DynamoDB Quorum)"]
-        direction LR
-        W3[Client Write] --> N_A[Storage Node A]
-        W3 --> N_B[Storage Node B]
-        W3 --> N_C[Storage Node C]
-    end
+![33 Replication Topologies Single Multi Leaderless](assets/04_database_internals_and_distributed_systems/33_replication_topologies_single_multi_leaderless.svg)
 
-    subgraph MultiLeader ["2. Multi-Leader (Cross-Region Active-Active)"]
-        direction LR
-        W2A[US Client Write] --> L_US[US Region Leader]
-        W2B[EU Client Write] --> L_EU[EU Region Leader]
-        L_US <-->|Async Replication Sync & Conflict Resolution| L_EU
-    end
-    
-    subgraph SingleLeader ["1. Single-Leader (Postgres / MySQL)"]
-        direction LR
-        W1[Client Write] --> Leader1[Primary Node]
-        Leader1 -->|Replication Stream| Rep1[Replica 1]
-        Leader1 -->|Replication Stream| Rep2[Replica 2]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style SingleLeader fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MultiLeader fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Leaderless fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
+```d2
+direction: right
+title: Database Replication Topologies
 
-    style W1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Leader1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Rep1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Rep2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style W2A fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style W2B fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style L_US fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style L_EU fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style W3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style N_A fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style N_B fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style N_C fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+single_leader: 1. Single-Leader (Postgres / MySQL) {
+  leader: Primary Node (Accepts Writes)
+  rep1: Replica 1 (Read-Only)
+  rep2: Replica 2 (Read-Only)
+  leader -> rep1: "Replication Stream"
+  leader -> rep2: "Replication Stream"
+}
+
+multi_leader: 2. Multi-Leader (Cross-Region Active-Active) {
+  us_lead: US Region Leader
+  eu_lead: EU Region Leader
+  us_lead <-> eu_lead: "Async cross-region sync & conflict resolution"
+}
+
+leaderless: 3. Leaderless (Cassandra / DynamoDB) {
+  client: Client Write / Read
+  n_a: Storage Node A
+  n_b: Storage Node B
+  n_c: Storage Node C
+  client -> n_a: "Quorum write"
+  client -> n_b: "Quorum write"
+  client -> n_c: "Quorum write"
+  note: "Tunable Consistency: W + R > N guarantees strong consistency"
+}
 ```
+</details>
 
 #### Detailed Architecture Comparison
 
@@ -2105,27 +2304,42 @@ $$W + R > N$$
 - $W$ = Write Quorum (Number of replicas that must acknowledge a write before returning success).
 - $R$ = Read Quorum (Number of replicas that must respond to a read request).
 
-```mermaid
-flowchart LR
-    subgraph ClusterReplicas ["3 Replicas (N = 3)"]
-        Node1["Node 1 (Write Ack: v2)"]
-        Node2["Node 2 (Write Ack: v2)"]
-        Node3["Node 3 (Lagging: v1)"]
-    end
+![34 Quorum Mathematics Tunable Consistency Overlap](assets/04_database_internals_and_distributed_systems/34_quorum_mathematics_tunable_consistency_overlap.svg)
 
-    ClientWrite["Client Write (W = 2)"] --> Node1 & Node2
-    ClientRead["Client Read (R = 2)"] --> Node2 & Node3
-    
-    Node2 -.->|"Guaranteed Overlap Node!"| OverlapResult["Client inspects v2 and v1 -> Selects v2 (Latest Timestamp) -> STRONG CONSISTENCY!"]
+<details>
+<summary>View D2 Source</summary>
 
-    style ClusterReplicas fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Node1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Node2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Node3 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style ClientWrite fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ClientRead fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style OverlapResult fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
+```d2
+direction: right
+title: Quorum Mathematics & Tunable Consistency (W + R > N)
+
+write_req: Client Write (W = 2)
+read_req: Client Read (R = 2)
+
+replicas: 3 Replicas (N = 3) {
+  n1: Node 1 (Write Ack: v2) {
+    style.stroke: "#10b981"
+  }
+  n2: Node 2 (Guaranteed Overlap Node: v2) {
+    style.stroke: "#f59e0b"
+  }
+  n3: Node 3 (Lagging Stale: v1) {
+    style.stroke: "#ef4444"
+  }
+}
+
+client_resolution: Strong Consistency Resolution {
+  result: Client inspects v2 and v1 -> Selects v2 (Latest Timestamp)
+  repair: Read Repair updates Node 3 to v2
+}
+
+write_req -> replicas.n1: "Write Ack"
+write_req -> replicas.n2: "Write Ack"
+read_req -> replicas.n2: "Read Probe"
+read_req -> replicas.n3: "Read Probe"
+replicas.n2 -> client_resolution: "Guaranteed Overlap"
 ```
+</details>
 
 #### Why the Overlap Guarantees Correctness: The Pigeonhole Principle
 If $N=3, W=2, R=2$:
@@ -2147,20 +2361,48 @@ By Dirichlet's Pigeonhole Principle, the set of nodes written to and the set of 
 
 Distributed systems do not operate in a binary "strong vs. eventual" world. They exist along a formal hierarchy of consistency models:
 
-```mermaid
-flowchart LR
-    L["<b>1. Strict Linearizability</b><br/>Global real-time clock order<br/>(Spanner, etcd)"]
-    --> S["<b>2. Sequential Consistency</b><br/>Identical sequence across all nodes<br/>(ZooKeeper, Raft)"]
-    --> C["<b>3. Causal Consistency</b><br/>Cause precedes effect<br/>(Git, Cosmos DB Causal)"]
-    --> RC["<b>4. Read Committed</b><br/>No dirty reads allowed<br/>(PostgreSQL, Oracle)"]
-    --> EC["<b>5. Eventual Consistency</b><br/>Replicas converge over time<br/>(Cassandra, DynamoDB, S3)"]
+![35 Distributed Consistency Spectrum Hierarchy](assets/04_database_internals_and_distributed_systems/35_distributed_consistency_spectrum_hierarchy.svg)
 
-    style L fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style S fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style C fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style RC fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style EC fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: Distributed Consistency Spectrum Hierarchy
+
+c1: 1. Strict Linearizability {
+  examples: "Google Spanner TrueTime, etcd"
+  desc: "Global real-time clock order; zero stale reads"
+  style.stroke: "#ef4444"
+}
+
+c2: 2. Sequential Consistency {
+  examples: "Apache ZooKeeper, Raft replicated log"
+  desc: "Operations executed in identical sequence across nodes"
+}
+
+c3: 3. Causal Consistency {
+  examples: "Git commit history, Cosmos DB Causal"
+  desc: "Causally related writes preserved in order"
+}
+
+c4: 4. Read Committed {
+  examples: "PostgreSQL, Oracle Database"
+  desc: "Zero dirty reads; queries only read committed rows"
+}
+
+c5: 5. Eventual Consistency {
+  examples: "Apache Cassandra, Amazon DynamoDB, AWS S3"
+  desc: "Replicas converge over time; sub-millisecond writes"
+  style.stroke: "#10b981"
+}
+
+c1 -> c2: "Relax real-time"
+c2 -> c3: "Relax total order"
+c3 -> c4: "Relax causal graph"
+c4 -> c5: "Relax transactional view"
 ```
+</details>
 
 | Consistency Model | Network Overhead | Write Latency | Stale Reads Possible? | Typical Systems |
 | :--- | :---: | :---: | :---: | :--- |
@@ -2197,36 +2439,37 @@ flowchart LR
 
 Modern data pipelines integrate with external SaaS endpoints and internal microservices across three primary API protocols:
 
-```mermaid
-flowchart LR
-    subgraph REST_Archetype ["1. REST (HTTP/1.1 JSON Text)"]
-        direction LR
-        RClient[Client App] -->|"GET /api/v1/users/501"| RServer[REST Server]
-        RServer -->|"Returns all 45 columns in JSON text (Heavy Over-Fetching)"| RClient
-    end
+![36 Api Protocols Rest Graphql Grpc Comparison](assets/04_database_internals_and_distributed_systems/36_api_protocols_rest_graphql_grpc_comparison.svg)
 
-    subgraph GraphQL_Archetype ["2. GraphQL (HTTP/1.1 or HTTP/2 Dynamic Query)"]
-        direction LR
-        GClient[Client App] -->|"POST /graphql: query { user(id: 501) { name ltv } }"| GServer[GraphQL Server]
-        GServer -->|"Returns exact requested fields (Zero Over-Fetching)"| GClient
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph gRPC_Archetype ["3. gRPC (HTTP/2 Multiplexed Binary Protobuf)"]
-        direction LR
-        PClient[Worker Microservice] -->|"UserRequest(id=501) via compiled RPC stub"| PServer[gRPC Server]
-        PServer -->|"Binary compressed Protobuf byte buffer (10x faster)"| PClient
-    end
+```d2
+direction: right
+title: API Protocols: REST vs. GraphQL vs. gRPC
 
-    style REST_Archetype fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style GraphQL_Archetype fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style gRPC_Archetype fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style RClient fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RServer fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style GClient fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style GServer fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style PClient fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style PServer fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
+rest: 1. REST (HTTP/1.1 JSON Text) {
+  client: Client App
+  server: REST Server
+  client -> server: "GET /api/v1/users/501"
+  server -> client: "Returns all 45 columns in JSON text (Heavy Over-Fetching)"
+}
+
+graphql: 2. GraphQL (Dynamic Query) {
+  gclient: Client App
+  gserver: GraphQL Server
+  gclient -> gserver: "POST /graphql: query { user { name ltv } }"
+  gserver -> gclient: "Returns exact requested fields (Zero Over-Fetching)"
+}
+
+grpc: 3. gRPC (HTTP/2 Multiplexed Protobuf) {
+  pclient: Worker Microservice
+  pserver: gRPC Server
+  pclient -> pserver: "UserRequest(id=501) via compiled RPC stub"
+  pserver -> pclient: "Binary compressed Protobuf byte buffer (10x faster)"
+}
 ```
+</details>
 
 #### Detailed Architecture Comparison Matrix
 
@@ -2349,27 +2592,33 @@ $$\text{JWT} = \text{Base64Url}(\text{Header}) \; . \; \text{Base64Url}(\text{Pa
 
 Automated data pipelines operate as headless background jobs without human interactive logins. They authenticate using the **OAuth 2.0 Client Credentials Grant**:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Pipeline as Data Ingestion Worker
-    participant Auth as OAuth 2.0 Auth Server (Okta / Azure AD)
-    participant SaaS as Protected SaaS API (Salesforce / Stripe)
+![37 Oauth2 Client Credentials Flow Sequence](assets/04_database_internals_and_distributed_systems/37_oauth2_client_credentials_flow_sequence.svg)
 
-    Pipeline->>Auth: POST /oauth/v2/token<br/>(grant_type=client_credentials, client_id, client_secret)
-    Auth->>Auth: Authenticate client_id & client_secret against directory
-    Auth-->>Pipeline: 200 OK {access_token: "eyJhbGci...", expires_in: 3600}
-    
-    loop Fetch Data Pages (Within 1 Hour Validity Window)
-        Pipeline->>SaaS: GET /v1/customers?page=1<br/>(Header: Authorization: Bearer <access_token>)
-        SaaS-->>Pipeline: 200 OK [Customer Records JSON]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    Note over Pipeline,Auth: 55 Minutes elapse: Token approaches expiration
-    Pipeline->>Auth: POST /oauth/v2/token (Proactive Token Refresh)
-    Auth-->>Pipeline: 200 OK {access_token: "new_token_eyJ...", expires_in: 3600}
+```d2
+direction: right
+title: OAuth 2.0 Client Credentials Grant for M2M Pipelines
+
+pipeline: Data Ingestion Worker {
+  creds: "client_id, client_secret stored in KMS"
+}
+
+auth: OAuth 2.0 Auth Server (Okta / Azure AD) {
+  token: "Generates signed JWT Access Token (expires in 3600s)"
+}
+
+saas: Protected SaaS API (Salesforce / Stripe) {
+  validator: "Verifies JWT RSA signature locally via public key"
+}
+
+pipeline -> auth: "1. POST /oauth/v2/token (client_credentials)"
+auth -> pipeline: "2. 200 OK {access_token: 'eyJ...', expires_in: 3600}"
+pipeline -> saas: "3. Loop GET /v1/customers (Header: Bearer <token>)"
+saas -> pipeline: "4. Return customer records"
 ```
+</details>
 
 #### Production Python OAuth2 Token Manager with Auto-Refresh
 ```python
@@ -2422,21 +2671,28 @@ class OAuth2TokenManager:
 In standard TLS, only the server proves its identity via a certificate; the client remains anonymous until it sends an HTTP header.
 In **Mutual TLS (mTLS)**, both client and server present X.509 certificates during the initial TCP handshake:
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    autonumber
-    participant Client as Data Pipeline Worker
-    participant Server as Enterprise Ingestion Ingress (Envoy)
+![38 Mutual Tls Mtls Zero Trust Handshake](assets/04_database_internals_and_distributed_systems/38_mutual_tls_mtls_zero_trust_handshake.svg)
 
-    Client->>Server: 1. ClientHello (TLS 1.3 Ciphers)
-    Server->>Client: 2. ServerHello + Server X.509 Certificate
-    Client->>Client: 3. Verify Server Certificate against Corporate CA Root
-    Server->>Client: 4. CertificateRequest (Demands Client Identity Proof)
-    Client->>Server: 5. Client X.509 Certificate + Digital Signature Proof
-    Server->>Server: 6. Verify Client Certificate against Corporate CA Root
-    Note over Client,Server: Mutual Cryptographic Trust Established! Begin Encrypted Traffic
+<details>
+<summary>View D2 Source</summary>
+
+```d2
+direction: right
+title: Mutual TLS (mTLS) for Zero Trust Pipeline Ingress
+
+client: Data Pipeline Worker
+ca: Corporate Root CA (Trust Anchor)
+server: Enterprise Ingress Gateway (Envoy)
+
+client -> server: "1. ClientHello (TLS 1.3 Ciphers)"
+server -> client: "2. ServerHello + Server X.509 Certificate"
+client -> ca: "3. Verify Server Certificate against CA"
+server -> client: "4. CertificateRequest (Demands Client Identity)"
+client -> server: "5. Client X.509 Certificate + Digital Signature"
+server -> ca: "6. Verify Client Certificate against CA"
+client <-> server: "Mutual Cryptographic Trust Established (AES-GCM Tunnel)"
 ```
+</details>
 *Enterprise Impact:* Even if an attacker steals an API token, they cannot connect without the physical private cryptographic key certificate installed on the worker node.
 
 ---
@@ -2449,41 +2705,42 @@ sequenceDiagram
 
 External APIs protect their infrastructure against denial-of-service through four primary rate limiting algorithms:
 
-```mermaid
-flowchart LR
-    subgraph TokenBucketFlow ["1. Token Bucket: Allows Bursts up to Capacity"]
-        direction LR
-        Refill["Continuous Refill: +r tokens/sec"] --> Bucket["Token Bucket (Cap: 100)"]
-        Req1["Request Arrives"] --> CheckTB{"Token Available?"}
-        Bucket --> CheckTB
-        CheckTB -- Yes --> ExecTB["Consume 1 Token -> Execute Request"]
-        CheckTB -- No --> DropTB["HTTP 429: Throttled"]
-    end
+![39 Rate Limiting Token Bucket Vs Leaky Bucket](assets/04_database_internals_and_distributed_systems/39_rate_limiting_token_bucket_vs_leaky_bucket.svg)
 
-    subgraph LeakyBucketFlow ["2. Leaky Bucket: Smooths Traffic to Constant Rate"]
-        direction LR
-        Burst["Bursty Requests Ingress"] --> FIFO["Bounded FIFO Buffer (Cap: 50)"]
-        FIFO --> Overflow{"Buffer Full?"}
-        Overflow -- Yes --> DropLB["HTTP 429: Queue Full"]
-        Overflow -- No --> Queue["Enqueued"]
-        Queue --> ConstantLeak["Leak at Strict Constant Rate (10 req/s)"]
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style TokenBucketFlow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style LeakyBucketFlow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Refill fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Bucket fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Req1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CheckTB fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ExecTB fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style DropTB fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Burst fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style FIFO fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Overflow fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DropLB fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Queue fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ConstantLeak fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
+```d2
+direction: right
+title: Rate Limiting Algorithms: Token Bucket vs. Leaky Bucket
+
+token_bucket: 1. Token Bucket: Allows Bursts up to Capacity {
+  refill: "Continuous Refill: +r tokens/sec"
+  bucket: "Token Bucket (Cap: 100)"
+  check: "Token Available?" {
+    shape: diamond
+  }
+  exec: "Consume 1 Token -> Execute Request"
+  drop: "HTTP 429: Throttled"
+  refill -> bucket -> check
+  check -> exec: "Yes"
+  check -> drop: "No"
+}
+
+leaky_bucket: 2. Leaky Bucket: Smooths Traffic to Constant Rate {
+  ingress: "Bursty Requests Ingress"
+  fifo: "Bounded FIFO Buffer (Cap: 50)"
+  overflow: "Buffer Full?" {
+    shape: diamond
+  }
+  leak: "Leak at Strict Constant Rate (10 req/s)"
+  drop_lb: "HTTP 429: Queue Full"
+  ingress -> fifo -> overflow
+  overflow -> leak: "No"
+  overflow -> drop_lb: "Yes"
+}
 ```
+</details>
 
 #### Algorithmic Comparison Matrix
 
@@ -2504,51 +2761,39 @@ In 2015, Marc Brooker (AWS Principal Engineer) proved mathematically that **Full
 
 $$T_{\text{sleep}} = \text{random}(0, \; \min(T_{\text{max}}, \; T_{\text{base}} \times 2^{\text{attempt}}))$$
 
-```mermaid
-flowchart TD
-    subgraph RequestPhase ["Initial Request & Status Dispatch"]
-        Req["<b>HTTP Request Dispatched</b>"] --> Resp{"Status Code?"}
-        Done["<b>Process Payload (200 OK)</b>"]
-        Resp -- "200 OK" --> Done
-    end
+![40 Exponential Backoff Full Jitter Retry Loop](assets/04_database_internals_and_distributed_systems/40_exponential_backoff_full_jitter_retry_loop.svg)
 
-    subgraph BackoffCalculation ["Backoff & Jitter Evaluation"]
-        RetryHeader{"Server Sent 'Retry-After' Header?"}
-        Resp -- "429 Throttled" --> RetryHeader
-        SleepDirect["<b>Direct Sleep</b><br/>(Header duration + random epsilon)"]
-        CalcBackoff["<b>Exponential Cap</b><br/>Cap = min(MaxSleep, Base * 2^attempt)"]
-        RandomJitter["<b>Full Jitter</b><br/>Sleep = Uniform(0, Cap)"]
+<details>
+<summary>View D2 Source</summary>
 
-        RetryHeader -- "Yes" --> SleepDirect
-        RetryHeader -- "No" --> CalcBackoff --> RandomJitter
-    end
+```d2
+direction: down
+title: Exponential Backoff with Full Jitter: Retry Architecture
 
-    subgraph ExecutionGate ["Retry Execution & Budget Control"]
-        Sleep["<b>Execute time.sleep()</b>"]
-        Inc["<b>attempt = attempt + 1</b>"]
-        CheckBudget{"attempt < MaxRetries?"}
-        RaiseTimeout["<b>Raise TimeoutError & Trigger PagerDuty</b>"]
+request: Initial HTTP Request Dispatched {
+  status: "Evaluates Status Code (200 OK vs 429/503)"
+}
 
-        SleepDirect & RandomJitter --> Sleep --> Inc --> CheckBudget
-        CheckBudget -- "Yes" --> Req
-        CheckBudget -- "No" --> RaiseTimeout
-    end
+backoff: Backoff & Jitter Evaluation {
+  cap: "Exponential Cap: min(MaxSleep, Base * 2^attempt)"
+  jitter: "Full Jitter: Sleep = Uniform(0, Cap)"
+  cap -> jitter
+}
 
-    style RequestPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BackoffCalculation fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ExecutionGate fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style Req fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Resp fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Done fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style RetryHeader fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SleepDirect fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style CalcBackoff fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style RandomJitter fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Sleep fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Inc fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CheckBudget fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style RaiseTimeout fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
+gate: Retry Execution Gate {
+  sleep: "Execute time.sleep()"
+  check: "attempt < MaxRetries?" {
+    shape: diamond
+  }
+  sleep -> check
+}
+
+request -> backoff: "HTTP 429 Throttled"
+backoff.jitter -> gate.sleep
+gate.check -> request: "Yes: Retry with Jitter"
+gate.check -> timeout: "No: Raise TimeoutException"
 ```
+</details>
 
 ---
 
@@ -2557,29 +2802,39 @@ flowchart TD
 If an upstream database or REST API crashes completely, continuing to send 10,000 requests per second consumes worker threads, leaks TCP connections, and prevents the upstream service from recovering.
 A **Circuit Breaker** acts as an automatic electrical fuse:
 
-```mermaid
-stateDiagram-v2
-    [*] --> Closed
+![41 Circuit Breaker Resilience State Machine](assets/04_database_internals_and_distributed_systems/41_circuit_breaker_resilience_state_machine.svg)
 
-    Closed --> Open: Failure rate exceeds threshold (>50% errors over 60s)
-    note right of Closed
-        Normal Operation:
-        All requests forwarded directly
-    end note
+<details>
+<summary>View D2 Source</summary>
 
-    Open --> HalfOpen: Sleep window expires (e.g., 60 seconds elapses)
-    note right of Open
-        Tripped:
-        Fail-fast immediately without sending network requests
-    end note
+```d2
+direction: right
+title: Circuit Breaker Design Pattern for Upstream Fault Isolation
 
-    HalfOpen --> Closed: Trial probe requests succeed cleanly
-    HalfOpen --> Open: Any trial request fails
-    note right of HalfOpen
-        Testing recovery:
-        Sends a single canary request
-    end note
+closed: CLOSED {
+  status: "Normal Operation: All requests forwarded directly"
+  style.stroke: "#10b981"
+}
+
+open: OPEN {
+  status: "Tripped: Fail-fast immediately without sending network requests"
+  style.stroke: "#ef4444"
+}
+
+half_open: HALF-OPEN {
+  status: "Testing Recovery: Sends a single trial canary request"
+  style.stroke: "#f59e0b"
+}
+
+closed -> open: "Failure rate > 50% over 60s"
+open -> half_open: "Sleep window (60s) expires"
+half_open -> closed: "Canary probe succeeds cleanly"
+half_open -> open: "Any trial request fails" {
+  style.stroke: "#ef4444"
+  style.stroke-dash: 4
+}
 ```
+</details>
 
 #### Production Python Circuit Breaker Implementation
 ```python
@@ -2647,35 +2902,42 @@ try:
 #### Architectural Overview & Real-Time Ingestion Mechanics
 Modern data engineering pipelines increasingly ingest real-time events directly from external SaaS platforms, transactional microservices, and IoT gateways. In legacy architectures, consumers relied on naive **Periodic Polling** (e.g., executing an HTTP GET every 30 seconds), where over 95% of queries returned empty payloads, wasting network bandwidth, compute cycles, and exhausting API rate limits. Modern integration relies on push- or streaming-oriented communication models.
 
-```mermaid
-flowchart TD
-    subgraph Hook ["1. Webhook (Reverse API Push)"]
-        direction LR
-        S1["Producer Server"] -->|"HTTP POST /webhook<br/>(Event Triggered)"| C1["Consumer Ingestion API"]
-    end
+![42 Realtime Api Patterns Webhooks Sse Websockets](assets/04_database_internals_and_distributed_systems/42_realtime_api_patterns_webhooks_sse_websockets.svg)
 
-    subgraph Poll ["2. Long Polling (Held-Open Pull)"]
-        direction LR
-        C2["Consumer Client"] -->|"HTTP GET /events<br/>(Socket Held Open)"| S2["Producer Server"]
-        S2 -.->|"HTTP Response<br/>(When Event Occurs or Timeout)"| C2
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    subgraph SSE ["3. Server-Sent Events (Unidirectional Stream)"]
-        direction LR
-        C3["Consumer Client"] -->|"HTTP GET (Accept: text/event-stream)"| S3["Producer Server"]
-        S3 -->|"data: {...}\n\ndata: {...}\n\n(Persistent HTTP Stream)"| C3
-    end
+```d2
+direction: right
+title: Real-Time API Protocols: Webhooks vs. Polling vs. SSE vs. WebSockets
 
-    subgraph WS ["4. WebSockets (Full Duplex)"]
-        direction LR
-        C4["Client Host"] <-->|"Bidirectional TCP Frames<br/>(ws:// or wss://)"| S4["Server Host"]
-    end
+webhook: 1. Webhook (Reverse API Push) {
+  producer: Producer Server
+  consumer: Consumer Ingestion API
+  producer -> consumer: "HTTP POST /webhook on event"
+}
 
-    style Hook fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Poll fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style SSE fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style WS fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
+polling: 2. Long Polling (Held-Open Pull) {
+  pclient: Client
+  pserver: Server
+  pclient -> pserver: "HTTP GET /events (socket held open)"
+  pserver -> pclient: "Response on event or timeout"
+}
+
+sse: 3. Server-Sent Events (SSE) {
+  sclient: Client
+  sserver: Server
+  sclient -> sserver: "HTTP GET text/event-stream"
+  sserver -> sclient: "Continuous unidirectional chunk stream"
+}
+
+ws: 4. WebSockets (Full Duplex) {
+  wclient: Client
+  wserver: Server
+  wclient <-> wserver: "Bidirectional binary/text frames"
+}
 ```
+</details>
 
 #### Detailed Breakdown of the 4 Integration Paradigms
 
@@ -2743,31 +3005,35 @@ Because webhook providers guarantee **at-least-once delivery**, network drops wi
 
 Reverse ETL operationalizes the data warehouse by reading modeled dimensions and predictive scores (e.g., Customer LTV, Churn Risk Score, Propensity to Buy) and syncing them to operational CRM systems (Salesforce, Zendesk, HubSpot).
 
-```mermaid
-flowchart TD
-    subgraph ChangeDetection ["Reverse ETL: Change Detection & Diff Evaluation"]
-        DW[("<b>Warehouse Gold Table</b><br/>gold.dim_customer_360")] --> DiffEngine["<b>Diff Engine</b><br/>Computes Hash: SHA256(attributes)"]
-        DiffEngine --> CacheCheck{"Hash matches previous sync state?"}
-        Skip["<b>Skip Egress</b><br/>Zero API credits consumed"]
-        CacheCheck -- "Yes: Unchanged" --> Skip
-    end
+![43 Reverse Etl Change Detection And Sync Pipeline](assets/04_database_internals_and_distributed_systems/43_reverse_etl_change_detection_and_sync_pipeline.svg)
 
-    subgraph SyncExecution ["Throttled SaaS Synchronization"]
-        RateLimiter["<b>Token Bucket Rate Limiter</b><br/>Max 100 API calls/sec"]
-        SaaS["<b>Salesforce REST API</b><br/>PATCH /services/data/v58.0/sobjects/Contact/{id}"]
-        CacheCheck -- "No: Changed Record" --> RateLimiter
-        RateLimiter --> SaaS
-    end
+<details>
+<summary>View D2 Source</summary>
 
-    style ChangeDetection fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SyncExecution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style DW fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DiffEngine fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CacheCheck fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Skip fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style RateLimiter fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SaaS fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
+```d2
+direction: right
+title: Reverse ETL: Change Detection & Diff Evaluation
+
+detection: Change Detection & Diff Evaluation {
+  dw: Warehouse Gold Table (gold.dim_customer_360)
+  diff: Diff Engine: Computes SHA256(attributes)
+  check: Hash matches previous state? {
+    shape: diamond
+  }
+  skip: Skip Egress (Zero API credits consumed)
+  dw -> diff -> check
+  check -> skip: "Yes: Unchanged"
+}
+
+sync: Throttled SaaS Synchronization {
+  limiter: Token Bucket Rate Limiter (Max 100 req/s)
+  saas: Salesforce REST API (PATCH /Contact/{id})
+  limiter -> saas
+}
+
+detection.check -> sync.limiter: "No: Changed Record"
 ```
+</details>
 
 #### Diff Calculation via Row Hashing
 To prevent exhausting SaaS API rate limits, Reverse ETL engines compute an SHA-256 hash of all synced attributes:

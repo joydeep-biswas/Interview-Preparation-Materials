@@ -6,29 +6,9 @@ A comprehensive guide answering all 8 questions on message broker concepts, Rabb
 
 ## Architectural Overview: RabbitMQ vs Apache Kafka
 
-```mermaid
-flowchart TD
-    subgraph RabbitMQArch["RabbitMQ: AMQP Broker & Ephemeral Queue"]
-        P1["Producer"] --> EX["Exchange (Direct/Topic/Fanout)"]
-        EX -->|"Routing Key"| Q1["Queue 1"]
-        Q1 -->|"Pushes message"| C1["Consumer"]
-    end
+![Event Streaming vs Message Queuing: RabbitMQ vs Apache Kafka](assets/08_caching_redis_and_kafka_faq/01_rabbitmq_vs_kafka_architecture.svg)
 
-    subgraph KafkaArch["Apache Kafka: Distributed Commit Log"]
-        P2["Producer"] --> TP["Topic: orders"]
-        TP --> Part0["Partition 0 [0|1|2|3|4]"]
-        TP --> Part1["Partition 1 [0|1|2|3]"]
-        Part0 -->|"Pulls offset"| CG1["Consumer Group Worker 1"]
-        Part1 -->|"Pulls offset"| CG2["Consumer Group Worker 2"]
-    end
-
-    style RabbitMQArch fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style KafkaArch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style EX fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style Q1 fill:#1f2937,stroke:#06b6d4,stroke-width:1px,color:#fff
-    style Part0 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-    style Part1 fill:#1f2937,stroke:#10b981,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka_faq/01_rabbitmq_vs_kafka_architecture.d2](assets/08_caching_redis_and_kafka_faq/01_rabbitmq_vs_kafka_architecture.d2)
 
 ---
 
@@ -160,19 +140,9 @@ Direct dual-writing from application code to both a database and Kafka creates d
 2. **Change Data Capture (CDC via Debezium)**: Debezium reads the database transaction log (PostgreSQL WAL or MySQL binlog) directly and streams every INSERT, UPDATE, and DELETE event into Kafka topics with zero application code changes.
 3. **Kafka Connect**: Distributed framework for streaming data between Kafka and external datastores via pluggable Source (DB $\to$ Kafka) and Sink (Kafka $\to$ DB / Elasticsearch) connectors.
 
-```mermaid
-flowchart LR
-    App["Spring Boot App"] -->|"1. ACID Local Transaction"| DB[("PostgreSQL DB<br/>(Business Tables + outbox table)")]
-    DB -->|"2. Tail Transaction Log (WAL)"| Debezium["Debezium CDC Connector"]
-    Debezium -->|"3. Stream Ordered Events"| KafkaCluster[("Kafka Topics")]
-    KafkaCluster -->|"4. Kafka Connect Sink"| Elastic[("Elasticsearch / Read Replica")]
+![Transactional Outbox Pattern & Debezium CDC Architecture](assets/08_caching_redis_and_kafka_faq/02_transactional_outbox_pattern_debezium.svg)
 
-    style App fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DB fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#6ee7b7
-    style Debezium fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style KafkaCluster fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#93c5fd
-    style Elastic fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka_faq/02_transactional_outbox_pattern_debezium.d2](assets/08_caching_redis_and_kafka_faq/02_transactional_outbox_pattern_debezium.d2)
 
 ---
 
@@ -230,44 +200,9 @@ When consumer instances report healthy HTTP liveness/readiness probes and contin
    - Prolonged Full GC pauses exceeding `session.timeout.ms` (e.g. 45s) prevent the consumer background heartbeat thread from pinging the broker, causing involuntary group rebalances.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph LagIncident ["Symptom: Kafka Consumer Lag Monotonically Increasing"]
-        LagAlert["Prometheus Alert: kafka_consumergroup_lag > 50,000"]
-    end
+![Kafka Consumer Lag Troubleshooting & Triage Hierarchy](assets/08_caching_redis_and_kafka_faq/03_kafka_consumer_lag_troubleshooting.svg)
 
-    subgraph InvestigationTree ["Root Cause Diagnostic Decision Tree"]
-        CheckSkew{"Partition Lag Distribution<br/>Single vs All Partitions?"}
-        SinglePart["Hot Partition / Key Skew<br/>(One partition has 90% lag)"]
-        AllParts["Uniform Lag Across All Partitions<br/>(Systemic Downstream Bottleneck)"]
-        
-        CheckCapacity{"Are Partitions Saturated?<br/>Consumer Count == Partition Count?"}
-        AddPartitions["Partition Ceiling Reached<br/>Scale Topic Partitions & Pods"]
-        CheckIO{"Is Worker CPU High or I/O Blocked?"}
-        TuneDB["Slow DB / I/O Bottleneck<br/>Enable Batch Ingestion & Virtual Threads"]
-        RebalanceSpiral["max.poll.interval.ms Expired<br/>Lower max.poll.records to 50"]
-    end
-
-    LagAlert --> CheckSkew
-    CheckSkew -->|Single Hot Partition| SinglePart
-    CheckSkew -->|All Partitions Lagging| AllParts
-    AllParts --> CheckCapacity
-    CheckCapacity -->|Pods == Partitions| AddPartitions
-    CheckCapacity -->|Pods < Partitions| CheckIO
-    CheckIO -->|Low CPU / High Latency| TuneDB
-    CheckIO -->|Frequent Rebalances| RebalanceSpiral
-
-    style LagIncident fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style InvestigationTree fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CheckSkew fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style SinglePart fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style AllParts fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style CheckCapacity fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style AddPartitions fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style CheckIO fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style TuneDB fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style RebalanceSpiral fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka_faq/03_kafka_consumer_lag_troubleshooting.d2](assets/08_caching_redis_and_kafka_faq/03_kafka_consumer_lag_troubleshooting.d2)
 
 #### Production Implementation / Tuning Configuration
 ```yaml
@@ -324,35 +259,9 @@ A common enterprise misunderstanding is assuming `acks=all` guarantees multi-bro
 - **Enterprise Gold Standard:** Set `replication.factor = 3`, `min.insync.replicas = 2`, and `acks = all`. If 2 brokers crash, only 1 replica remains ($1 < 2$), and the leader rejects incoming writes with `NotEnoughReplicasException`, preserving strict consistency over availability (CP system under CAP).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph ProducerAckModes ["Producer acks Configuration Comparison"]
-        direction LR
-        P0["acks=0<br/>Fire-and-forget<br/>Max throughput, Zero durability"]
-        P1["acks=1<br/>Leader only<br/>Lost write if leader crashes before sync"]
-        Pall["acks=all (-1)<br/>Leader + min.insync.replicas<br/>Zero data loss guarantee"]
-    end
+![Kafka Producer acks Configuration & Durability Matrix](assets/08_caching_redis_and_kafka_faq/04_kafka_producer_acks_durability_matrix.svg)
 
-    subgraph BrokerCluster ["Broker Cluster (Replication Factor = 3, min.insync = 2)"]
-        direction TB
-        Leader["Broker 1 (Partition Leader)<br/>Writes to local segment log"]
-        Follower1["Broker 2 (Follower - In ISR)<br/>Fetches and acknowledges"]
-        Follower2["Broker 3 (Follower - Offline)<br/>Dropped from ISR"]
-        Leader --> Follower1
-        Leader -.->|Failed| Follower2
-    end
-
-    Pall -->|"Wait for Leader + Broker 2 ACK"| Leader
-
-    style ProducerAckModes fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style BrokerCluster fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style P0 fill:#7f1d1d,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-    style P1 fill:#1f2937,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style Pall fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Leader fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Follower1 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Follower2 fill:#7f1d1d,stroke:#ef4444,stroke-width:1px,color:#fca5a5
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka_faq/04_kafka_producer_acks_durability_matrix.d2](assets/08_caching_redis_and_kafka_faq/04_kafka_producer_acks_durability_matrix.d2)
 
 #### Production Implementation / Producer Configuration
 ```java
@@ -420,43 +329,9 @@ public class ResilientKafkaProducerConfig {
 
 #### Architectural Mechanics & Core Concepts
 
-```mermaid
-flowchart TD
-    subgraph FailureScenario ["The Crash Window & Split-Brain State"]
-        direction TB
-        K_Read["1. Consumer reads msg (Offset: 450, OrderId: ORD-99)"] --> DB_Write["2. Consumer writes to DB & commits transaction"]
-        DB_Write --> Crash["3. Consumer JVM CRASHES before consumer.commitSync()!"]
-        Crash --> Rebalance["4. Kafka Rebalance: New Consumer assigned partition"]
-        Rebalance --> K_ReRead["5. New Consumer re-reads Offset 450 (ORD-99)!"]
-    end
+![Cache-Aside Mutation: Delete vs Update & Stale Data Races](assets/08_caching_redis_and_kafka_faq/05_distributed_cache_aside_mutation_split_brain.svg)
 
-    subgraph IdempotentDefense ["Production Architecture: Transactional De-duplication Store"]
-        direction TB
-        Incoming["Incoming Redelivered Event (ORD-99)"] --> TxBoundary["Begin DB Transaction"]
-        TxBoundary --> DedupeInsert["INSERT INTO processed_events (event_id, processed_at)<br/>VALUES ('ORD-99', NOW());"]
-        DedupeInsert --> CheckUnique{"Unique Constraint Violation?"}
-        CheckUnique -->|"Duplicate Key! (Crash Redelivery)"| FastAck["Rollback DB Txn; Acknowledge Kafka Offset Immediately!<br/>(Zero Duplicate Business Effects)"]
-        CheckUnique -->|"Success (First Time)"| ExecBiz["Execute Business Logic (Debit balance, update inventory)<br/>COMMIT DB Txn"]
-        ExecBiz --> AckKafka["Commit Kafka Offset"]
-    end
-
-    FailureScenario ==> IdempotentDefense
-
-    style FailureScenario fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style IdempotentDefense fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style K_Read fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style DB_Write fill:#1e293b,stroke:#10b981,stroke-width:1px,color:#fff
-    style Crash fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Rebalance fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fff
-    style K_ReRead fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style Incoming fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style TxBoundary fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-    style DedupeInsert fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style CheckUnique fill:#1e293b,stroke:#8b5cf6,stroke-width:1px,color:#fff
-    style FastAck fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style ExecBiz fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style AckKafka fill:#1e293b,stroke:#3b82f6,stroke-width:1px,color:#fff
-```
+*D2 Source:* [assets/08_caching_redis_and_kafka_faq/05_distributed_cache_aside_mutation_split_brain.d2](assets/08_caching_redis_and_kafka_faq/05_distributed_cache_aside_mutation_split_brain.d2)
 
 The Two Flawed Approaches:
 1. **Flawed Approach A (Auto-commit `enable.auto.commit=true`):** Offsets commit in the background every 5 seconds. If the consumer crashes before DB write finishes, data is lost permanently (at-most-once).

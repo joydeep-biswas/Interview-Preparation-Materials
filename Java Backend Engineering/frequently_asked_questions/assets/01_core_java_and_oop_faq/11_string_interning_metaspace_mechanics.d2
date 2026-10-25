@@ -1,0 +1,33 @@
+direction: right
+
+cp: "1. Class Constant Pool" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  style.stroke-width: 2
+  ldc: "ldc #7 (Symbolic 'hello' String)"
+}
+
+table: "2. StringTable (Native Hash)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+  hashtable: "Native C++ StringTable in Heap"
+  intern: "intern() returns pooled canonical ref"
+}
+
+equality: "3. Runtime Equality" {
+  style.fill: "#111827"
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+  identity: "str.intern() == 'hello' is TRUE"
+  caution: "Avoid interning dynamic high-cardinality keys"
+}
+
+cp -> table: "JVM StringTable Lookup" {
+  style.stroke: "#10B981"
+  style.stroke-width: 2
+}
+table -> equality: "Canonical Pointer Return" {
+  style.stroke: "#8B5CF6"
+  style.stroke-width: 2
+}

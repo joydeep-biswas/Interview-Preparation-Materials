@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Left: Curated Gold Table -->
+  <rect x="25" y="120" width="220" height="90" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="135" y="146" class="title-txt" text-anchor="middle">Single Gold Table</text>
+  <text x="37" y="170" class="mono-txt" text-anchor="start">prod_catalog.commercial</text>
+  <text x="37" y="188" class="mono-txt" text-anchor="start">.sales_orders</text>
+
+  <!-- Arrow to Policy Engine -->
+  <path d="M 245 165 L 295 165" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Policy Engine -->
+  <rect x="295" y="115" width="210" height="100" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="400" y="142" class="title-txt" text-anchor="middle" fill="#C084FC">Dynamic Policy Engine</text>
+  <text x="307" y="165" class="body-txt" text-anchor="start">• Injects Row Filters</text>
+  <text x="307" y="185" class="body-txt" text-anchor="start">• Injects Column Masks</text>
+  <text x="307" y="202" class="mono-txt" text-anchor="start">Based on session principal</text>
+
+  <!-- Connectors into 3 Entitlements -->
+  <path d="M 505 140 L 545 140 Q 560 140 560 115 L 560 75 Q 560 60 575 60 L 600 60" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <rect x="515" y="70" width="75" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="552" y="83" class="edge-txt" text-anchor="middle" fill="#10B981">finance_team</text>
+
+  <path d="M 505 165 L 600 165" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <rect x="515" y="152" width="75" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="552" y="165" class="edge-txt" text-anchor="middle" fill="#F59E0B">marketing</text>
+
+  <path d="M 505 190 L 545 190 Q 560 190 560 215 L 560 255 Q 560 270 575 270 L 600 270" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <rect x="515" y="240" width="75" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <text x="552" y="253" class="edge-txt" text-anchor="middle" fill="#06B6D4">operations</text>
+
+  <!-- Right: 3 Role Entitlement Views -->
+  <!-- Finance -->
+  <rect x="600" y="25" width="330" height="75" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="615" y="48" class="title-txt" fill="#A7F3D0">Finance Entitlement</text>
+  <text x="615" y="68" class="body-txt">• Bank Details: <tspan fill="#A7F3D0">CLEARTEXT</tspan> | Revenue: <tspan fill="#A7F3D0">VISIBLE</tspan></text>
+  <text x="615" y="86" class="body-txt">• Rows: All rows visible across all regions</text>
+
+  <!-- Marketing -->
+  <rect x="600" y="130" width="330" height="75" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="615" y="153" class="title-txt" fill="#FDE68A">Marketing Entitlement</text>
+  <text x="615" y="173" class="body-txt">• Bank Details: <tspan fill="#EF4444">REDACTED (NULL)</tspan> | Rev: Binned into $100 tiers</text>
+  <text x="615" y="191" class="body-txt">• Rows: Opt-in marketing consented users only</text>
+
+  <!-- Operations -->
+  <rect x="600" y="235" width="330" height="75" rx="8" ry="8" fill="#111827" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="615" y="258" class="title-txt" fill="#67E8F9">Operations Entitlement</text>
+  <text x="615" y="278" class="body-txt">• PII: <tspan fill="#EF4444">MASKED (SHA-256 Hash)</tspan></text>
+  <text x="615" y="296" class="mono-txt">WHERE status IN ('PENDING', 'SHIPPED')</text>
+</svg>

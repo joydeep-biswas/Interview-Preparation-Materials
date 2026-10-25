@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Service Mesh Architecture: Istio &amp; Envoy Sidecar Proxies</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Transparent Zero-Trust Mutual TLS (mTLS), Spiffe Identity, and Traffic Management Without Application Changes</text>
+<rect x="50" y="110" width="420" height="320" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="2"/>
+<rect x="65" y="125" width="240" height="22" rx="11" fill="#1e3a8a"/><text x="185" y="139" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POD: order-service-7f89b</text>
+<rect x="70" y="170" width="380" height="95" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="260" y="195" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Boot Application Container</text>
+<text x="260" y="215" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Makes plain HTTP call to 'http://payment-service'</text>
+<text x="260" y="232" fill="#38BDF8" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">iptables intercepts outbound traffic -&gt; redirects to Envoy!</text>
+<rect x="70" y="295" width="380" height="110" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="2"/>
+<text x="260" y="320" fill="#22D3EE" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Envoy Sidecar Proxy (C++)</text>
+<text x="85" y="345" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Listens on localhost (127.0.0.1:15001)</text>
+<text x="85" y="362" fill="#A7F3D0" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• SPIFFE Identity: spiffe://cluster.local/ns/default/sa/order-sa</text>
+<text x="85" y="380" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Encrypts payload with ephemeral x509 certs</text>
+<line x1="260" y1="265" x2="260" y2="295" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<text x="340" y="282" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Localhost (Loopback)</text>
+<rect x="610" y="110" width="420" height="320" rx="10" fill="#1a140b" stroke="#f59e0b" stroke-width="2"/>
+<rect x="625" y="125" width="260" height="22" rx="11" fill="#78350f"/><text x="755" y="139" fill="#FDE68A" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POD: payment-service-3c41a</text>
+<rect x="630" y="170" width="380" height="110" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="2"/>
+<text x="820" y="195" fill="#22D3EE" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Envoy Sidecar Proxy (C++)</text>
+<text x="645" y="220" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Terminates mTLS tunnel from Envoy 1</text>
+<text x="645" y="238" fill="#A7F3D0" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Validates SPIFFE identity &amp; AuthorizationPolicy</text>
+<text x="645" y="255" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Forwards decrypted HTTP payload to localhost</text>
+<rect x="630" y="305" width="380" height="95" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="820" y="330" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Boot Application Container</text>
+<text x="820" y="350" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Receives plain HTTP request on port 8080</text>
+<text x="820" y="368" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zero security/mTLS boilerplate in Java code!</text>
+<line x1="820" y1="280" x2="820" y2="305" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+<text x="900" y="295" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Localhost (Loopback)</text>
+<path d="M 450 350 L 540 350 L 540 225 L 630 225" stroke="#34D399" stroke-width="3" fill="none" marker-end="url(#arr-g)"/>
+<rect x="440" y="270" width="200" height="48" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+<text x="540" y="290" fill="#D1FAE5" font-size="10" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zero-Trust mTLS Tunnel</text>
+<text x="540" y="306" fill="#6EE7B7" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Mutual Certificate Handshake</text>
+<rect x="40" y="455" width="1000" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="478" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Why Service Mesh Solves Microservice Enterprise Security:</text>
+<text x="65" y="498" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Developers never configure keystores, truststores, or TLS certificates in Spring Boot. Istio issues and rotates short-lived x509 certs automatically.</text>
+<text x="65" y="515" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Network eavesdropping between Kubernetes worker nodes is mathematically impossible due to hardware-accelerated AES-GCM mTLS encryption.</text>
+</svg>

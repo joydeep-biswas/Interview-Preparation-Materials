@@ -1,0 +1,33 @@
+direction: right
+classes: {
+  c_blue: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  c_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  c_purple: { style: { fill: "#0D1526", stroke: "#8B5CF6" } }
+  c_pink: { style: { fill: "#0D1526", stroke: "#EC4899" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+QueryOpt: "1. Query Optimization" {
+  class: c_blue
+  HyDE: "HyDE Generation" { class: card_dark }
+  SubQ: "Sub-Query Split" { class: card_dark }
+}
+
+HybridSearch: "2. Hybrid Retrieval" {
+  class: c_green
+  Dense: "Dense HNSW (Semantic)" { class: card_dark }
+  BM25: "Sparse BM25 (Exact)" { class: card_dark }
+}
+
+FusionRerank: "3. Fusion & Rerank" {
+  class: c_purple
+  RRF: "RRF Fusion (Top-50)" { class: card_dark }
+  Rerank: "Cross-Encoder (Top-5)" { class: card_dark }
+}
+
+Expansion: "4. Context Expansion" {
+  class: c_pink
+  Parent: "Parent Document Window\nExpands to 1500 tokens" { class: card_dark }
+}
+
+QueryOpt -> HybridSearch -> FusionRerank -> Expansion

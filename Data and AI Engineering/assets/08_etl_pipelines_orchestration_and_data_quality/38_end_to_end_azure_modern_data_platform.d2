@@ -1,0 +1,43 @@
+direction: right
+classes: {
+  src: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  ing: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  lake: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  serve: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+}
+
+sources: "Upstream Sources" {
+  db: "OLTP RDBMS" { class: src }
+  apis: "REST SaaS APIs" { class: src }
+  streams: "IoT / Clickstreams" { class: src }
+}
+
+ingestion: "Ingestion Tier" {
+  adf: "Azure Data Factory" { class: ing }
+  eventhubs: "Azure Event Hubs" { class: ing }
+}
+
+storage: "ADLS Gen2 (Delta Lake)" {
+  bronze: "Bronze Container\n(Raw Append)" { class: lake }
+  silver: "Silver Container\n(Cleaned & Filtered)" { class: lake }
+  gold: "Gold Container\n(Aggregated Marts)" { class: lake }
+
+  bronze -> silver -> gold
+}
+
+serving: "Analytics & Serving Tier" {
+  synapse: "Synapse Dedicated SQL" { class: serve }
+  serverless: "Synapse Serverless SQL" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  pbi: "Power BI Direct Lake" { class: lake }
+  cosmos: "Cosmos DB" { class: ing }
+}
+
+sources.db -> ingestion.adf
+sources.apis -> ingestion.adf
+sources.streams -> ingestion.eventhubs
+ingestion.adf -> storage.bronze
+ingestion.eventhubs -> storage.bronze
+storage.gold -> serving.synapse
+storage.gold -> serving.serverless
+storage.gold -> serving.pbi
+storage.gold -> serving.cosmos

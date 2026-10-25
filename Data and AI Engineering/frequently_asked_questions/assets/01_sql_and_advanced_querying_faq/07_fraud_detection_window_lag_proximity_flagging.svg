@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 240" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-red { stroke: #EF4444; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-red { stroke: #EF4444; }
+      .edge-green { stroke: #10B981; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-r7" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-g7" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="460" y="32" class="title-text">Fraud Detection: Temporal LAG Proximity Flagging</text>
+
+  <!-- Booking 1 -->
+  <rect x="40" y="70" width="230" height="120" class="card card-blue"/>
+  <text x="155" y="100" class="card-title" fill="#93C5FD">Booking 1 (Baseline)</text>
+  <text x="55" y="130" class="card-body">• Timestamp: 14:00:00</text>
+  <text x="55" y="150" class="card-body">• Account: U-918</text>
+  <text x="55" y="170" class="card-body">• IP: 198.51.100.4</text>
+
+  <!-- Booking 2 -->
+  <rect x="345" y="70" width="230" height="120" class="card card-red"/>
+  <text x="460" y="100" class="card-title" fill="#FCA5A5">Booking 2 (FLAGGED!)</text>
+  <text x="360" y="130" class="card-body">• Timestamp: 14:04:00</text>
+  <text x="360" y="150" class="card-body" fill="#EF4444">• Delta: 4 minutes (&lt; 10m)</text>
+  <text x="360" y="170" class="card-body" fill="#FCA5A5">• Bot / Replay Fraud Suspect</text>
+
+  <!-- Booking 3 -->
+  <rect x="650" y="70" width="230" height="120" class="card card-green"/>
+  <text x="765" y="100" class="card-title" fill="#6EE7B7">Booking 3 (Normal)</text>
+  <text x="665" y="130" class="card-body">• Timestamp: 14:24:00</text>
+  <text x="665" y="150" class="card-body">• Delta: 20 minutes (&gt; 10m)</text>
+  <text x="665" y="170" class="card-body" fill="#34D399">• Normal user session cadence</text>
+
+  <!-- Horizontal Straight Connectors -->
+  <path fill="none" d="M 270 130 L 345 130" class="edge edge-red" marker-end="url(#arr-r7)"/>
+  <text x="307" y="120" class="edge-label" fill="#EF4444">4 min</text>
+
+  <path fill="none" d="M 575 130 L 650 130" class="edge edge-green" marker-end="url(#arr-g7)"/>
+  <text x="612" y="120" class="edge-label" fill="#6EE7B7">20 min</text>
+</svg>

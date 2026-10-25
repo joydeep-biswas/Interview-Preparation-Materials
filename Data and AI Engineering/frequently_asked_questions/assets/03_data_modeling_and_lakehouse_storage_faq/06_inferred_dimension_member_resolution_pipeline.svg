@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-green { stroke: #10B981; }
+      .card-red { stroke: #EF4444; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-green { stroke: #10B981; }
+      .edge-red { stroke: #EF4444; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-a6lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g6lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-r6lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-b6lk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="530" y="32" class="title-text">Inferred Dimension Member Creation &amp; Two-Stage Reconciliation</text>
+
+  <!-- Step 1: Order Ingress -->
+  <rect x="25" y="85" width="200" height="110" class="card card-blue"/>
+  <text x="125" y="112" class="card-title" fill="#93C5FD">Order Ingested</text>
+  <text x="40" y="137" class="card-body">• customer_id = 999</text>
+  <text x="40" y="157" class="card-body">• amount = $150.00</text>
+  <text x="40" y="177" class="card-body">• Real-time event stream</text>
+
+  <!-- Step 2: Lookup Gate -->
+  <rect x="270" y="85" width="200" height="110" class="card card-amber"/>
+  <text x="370" y="112" class="card-title" fill="#FDE68A">dim_customer Lookup</text>
+  <text x="285" y="137" class="card-body">• Check natural key 999</text>
+  <text x="285" y="157" class="card-body">• Exists in dimension?</text>
+  <text x="285" y="177" class="card-body">• Early branch</text>
+
+  <!-- Branch 1: Found -->
+  <rect x="520" y="55" width="230" height="75" class="card card-green"/>
+  <text x="635" y="80" class="card-title" fill="#6EE7B7">Assign Existing Key</text>
+  <text x="535" y="105" class="card-body" fill="#34D399">• Attach customer_sk to fact</text>
+
+  <!-- Branch 2: Inferred Member -->
+  <rect x="520" y="155" width="230" height="100" class="card card-red"/>
+  <text x="635" y="180" class="card-title" fill="#FCA5A5">Inferred Placeholder</text>
+  <text x="535" y="205" class="card-body">• is_inferred = TRUE</text>
+  <text x="535" y="225" class="card-body">• name = 'UNKNOWN'</text>
+  <text x="535" y="243" class="card-body" fill="#34D399">• Zero pipeline stoppage</text>
+
+  <!-- Late CRM Ingress -->
+  <rect x="270" y="245" width="200" height="95" class="card card-blue"/>
+  <text x="370" y="272" class="card-title" fill="#93C5FD">Late CRM Batch</text>
+  <text x="285" y="297" class="card-body">• cust_id=999, name='Alice'</text>
+  <text x="285" y="317" class="card-body">• Arrives 4 hours later</text>
+
+  <!-- Reconcile Node -->
+  <rect x="800" y="155" width="230" height="100" class="card card-green"/>
+  <text x="915" y="180" class="card-title" fill="#6EE7B7">SCD Overwrite &amp; Fix</text>
+  <text x="815" y="205" class="card-body" fill="#34D399">• name='Alice', is_inferred=F</text>
+  <text x="815" y="225" class="card-body">• Same customer_sk kept</text>
+  <text x="815" y="243" class="card-body">• Fact foreign keys intact</text>
+
+  <!-- Connectors with straight runways -->
+  <path fill="none" d="M 225 140 L 270 140" class="edge edge-amber" marker-end="url(#arr-a6lk)"/>
+
+  <!-- Lookup to Found: exit 470,140 -> curve -> enter 520,92 with runway dx>=14 -->
+  <path fill="none" d="M 470 140 C 490 140, 495 92, 506 92 L 520 92" class="edge edge-green" marker-end="url(#arr-g6lk)"/>
+  <text x="495" y="110" class="edge-label" fill="#6EE7B7">Found</text>
+
+  <!-- Lookup to Inferred: exit 470,140 -> curve -> enter 520,205 with runway dx>=14 -->
+  <path fill="none" d="M 470 140 C 490 140, 495 205, 506 205 L 520 205" class="edge edge-red" marker-end="url(#arr-r6lk)"/>
+  <text x="495" y="180" class="edge-label" fill="#EF4444">Missing</text>
+
+  <!-- Inferred to Reconcile: horizontal straight -->
+  <path fill="none" d="M 750 205 L 800 205" class="edge edge-green" marker-end="url(#arr-g6lk)"/>
+
+  <!-- Late CRM to Reconcile: exit 470,292 -> curve -> enter 800,225 with runway dx>=14 -->
+  <path fill="none" d="M 470 292 C 600 292, 750 225, 786 225 L 800 225" class="edge edge-blue" marker-end="url(#arr-b6lk)"/>
+</svg>

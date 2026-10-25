@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  succ: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  eval: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+}
+
+up1: "Upstream Task 1 (Succeeds)" { class: succ }
+up2: "Upstream Task 2 (Fails)" { class: fail }
+
+join: "Trigger Rule Check" { class: eval }
+
+stop: "Blocked: Task Skipped\n(all_success default)" { class: fail }
+alert: "Executes: Send Incident Alert\n(one_failed)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+cleanup: "Executes: Teardown Cluster\n(all_done)" { class: succ }
+
+up1 -> join
+up2 -> join
+join -> stop: "all_success"
+join -> alert: "one_failed"
+join -> cleanup: "all_done"

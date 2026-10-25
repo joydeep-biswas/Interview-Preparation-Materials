@@ -1,0 +1,28 @@
+direction: right
+title: Databricks Workflows Multi-Task DAG
+
+Task1: Task 1: Ingest Bronze (Notebook) {
+  style.stroke: "#38BDF8"
+}
+
+Task2: Task 2: Cleanse Silver (Python Script) {
+  style.stroke: "#34D399"
+}
+
+Task3: Task 3: Build Gold Sales (Serverless SQL) {
+  style.stroke: "#FBBF24"
+}
+
+Task4: Task 4: ML Feature Pipeline (Python Wheel) {
+  style.stroke: "#C084FC"
+}
+
+Task5: Task 5: Success Webhook Alert {
+  style.stroke: "#34D399"
+}
+
+Task1 -> Task2: depends_on { style.stroke: "#38BDF8" }
+Task2 -> Task3: depends_on { style.stroke: "#34D399" }
+Task2 -> Task4: depends_on { style.stroke: "#34D399" }
+Task3 -> Task5: depends_on { style.stroke: "#FBBF24" }
+Task4 -> Task5: depends_on { style.stroke: "#C084FC" }

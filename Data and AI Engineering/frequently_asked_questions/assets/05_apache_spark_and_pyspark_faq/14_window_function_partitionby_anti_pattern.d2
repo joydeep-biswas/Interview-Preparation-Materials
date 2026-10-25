@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  box_red: { style: { fill: "#111827"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+}
+
+bad: "Anti-Pattern: Window without partitionBy" {
+  class: box_red
+  d1: "100M Records across 10 Executors"
+  node0: "Single Executor 0 (1 Core)\nProcesses ALL 100M rows\nOOM Crash / Thrashing!"
+  d1 -> node0: "Full Shuffle Collapse"
+}
+
+good: "Best Practice: Window with partitionBy" {
+  class: box_green
+  d2: "100M Records"
+  e1: "Executor 1: Dept A"
+  e2: "Executor 2: Dept B"
+  e3: "Executor 3: Dept C"
+  d2 -> e1: "Balanced Hash"
+  d2 -> e2: "Balanced Hash"
+  d2 -> e3: "Balanced Hash"
+}

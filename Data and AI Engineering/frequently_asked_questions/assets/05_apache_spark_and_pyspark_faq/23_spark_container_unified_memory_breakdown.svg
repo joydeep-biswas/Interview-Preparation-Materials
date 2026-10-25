@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 440" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .edge { stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="440" fill="#0B0F19"/>
+
+  <!-- Master Container -->
+  <g transform="translate(30, 20)">
+    <rect width="660" height="400" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="330" y="26" class="title" fill="#93C5FD">Total Container Memory Allocated by YARN / Kubernetes</text>
+    <line x1="20" y1="36" x2="640" y2="36" stroke="#1F2937" stroke-width="1.5"/>
+
+    <!-- Left Box: JVM Heap -->
+    <rect x="25" y="50" width="370" height="330" rx="8" ry="8" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
+    <text x="210" y="74" class="title" font-size="12" fill="#67E8F9">JVM Heap (spark.executor.memory)</text>
+
+    <!-- Spark Unified Pool -->
+    <rect x="40" y="90" width="340" height="125" rx="6" ry="6" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+    <text x="210" y="112" class="title" font-size="11" fill="#6EE7B7">Spark Unified Pool (fraction = 0.6)</text>
+
+    <rect x="50" y="125" width="150" height="75" rx="4" ry="4" fill="#064E3B"/>
+    <text x="125" y="145" class="title" font-size="11" fill="#A7F3D0">Storage (50%)</text>
+    <text x="125" y="165" class="body-txt" text-anchor="middle" fill="#A7F3D0">Cached DataFrames</text>
+    <text x="125" y="182" class="body-txt" text-anchor="middle" fill="#A7F3D0">Broadcasts</text>
+
+    <rect x="215" y="125" width="155" height="75" rx="4" ry="4" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
+    <text x="292.5" y="145" class="title" font-size="11" fill="#6EE7B7">Execution (50%)</text>
+    <text x="292.5" y="165" class="body-txt" text-anchor="middle">Shuffles, joins</text>
+    <text x="292.5" y="182" class="body-txt" text-anchor="middle">Aggregation maps</text>
+
+    <!-- User Memory -->
+    <rect x="40" y="230" width="340" height="70" rx="6" ry="6" fill="#111827" stroke="#F59E0B" stroke-width="1"/>
+    <text x="210" y="252" class="title" font-size="11" fill="#FCD34D">User Memory (40%)</text>
+    <text x="210" y="272" class="body-txt" text-anchor="middle">Custom UDF structures, hashes, arrays</text>
+    <text x="210" y="288" class="body-txt" text-anchor="middle" fill="#FCD34D">Saturated = Full GC STW Pause!</text>
+
+    <!-- Reserved Memory -->
+    <rect x="40" y="315" width="340" height="50" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+    <text x="210" y="344" class="body-txt" text-anchor="middle" fill="#FCA5A5">Reserved Memory (300 MB): Spark Engine Guard</text>
+
+    <!-- Right Box: Non-JVM Off-Heap -->
+    <rect x="415" y="50" width="225" height="330" rx="8" ry="8" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="527.5" y="74" class="title" font-size="12" fill="#FCD34D">Non-JVM Memory Overhead</text>
+    <text x="527.5" y="92" class="body-txt" text-anchor="middle">(spark.executor.memoryOverhead)</text>
+
+    <rect x="425" y="110" width="205" height="75" rx="6" ry="6" fill="#111827" stroke="#EF4444" stroke-width="1"/>
+    <text x="527.5" y="132" class="title" font-size="11" fill="#FCA5A5">PySpark Daemons</text>
+    <text x="527.5" y="152" class="body-txt" text-anchor="middle">CPython process memory</text>
+    <text x="527.5" y="168" class="body-txt" text-anchor="middle">Arrow columnar IPC</text>
+
+    <rect x="425" y="195" width="205" height="75" rx="6" ry="6" fill="#111827" stroke="#8B5CF6" stroke-width="1"/>
+    <text x="527.5" y="218" class="title" font-size="11" fill="#C4B5FD">Tungsten Off-Heap</text>
+    <text x="527.5" y="238" class="body-txt" text-anchor="middle">Unsafe off-heap buffers</text>
+    <text x="527.5" y="254" class="body-txt" text-anchor="middle">Bypasses GC sweeps</text>
+
+    <rect x="425" y="280" width="205" height="85" rx="6" ry="6" fill="#111827" stroke="#334155" stroke-width="1"/>
+    <text x="527.5" y="302" class="title" font-size="11" fill="#E2E8F0">JVM Native / OS</text>
+    <text x="527.5" y="322" class="body-txt" text-anchor="middle">Metaspace, thread stacks</text>
+    <text x="527.5" y="340" class="body-txt" text-anchor="middle">Netty zero-copy I/O</text>
+  </g>
+
+  <!-- Connectors to Failure / Spill Handlers -->
+  <!-- Execution -> NVMe Spill -->
+  <path fill="none" d="M 690 160 L 740 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+
+  <!-- PyWorker -> OOM Killer -->
+  <path fill="none" d="M 690 280 L 740 310" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+
+  <!-- NVMe Spill Box -->
+  <g transform="translate(740, 50)">
+    <rect width="250" height="120" rx="10" ry="10" fill="#1F2937" stroke="#F59E0B" stroke-width="2"/>
+    <text x="125" y="30" class="title" fill="#FCD34D">Local NVMe Disk Spill</text>
+    <line x1="15" y1="42" x2="235" y2="42" stroke="#374151" stroke-width="1"/>
+    <text x="20" y="65" class="body-txt">• Triggered on Execution memory exhaustion</text>
+    <text x="20" y="85" class="body-txt">• Evicts Storage cache first</text>
+    <text x="20" y="105" class="body-txt" fill="#FCD34D">• Performance drops, but job survives</text>
+  </g>
+
+  <!-- OOM Killer Box -->
+  <g transform="translate(740, 240)">
+    <rect width="250" height="130" rx="10" ry="10" fill="#1F2937" stroke="#EF4444" stroke-width="2"/>
+    <text x="125" y="30" class="title" fill="#FCA5A5">Container OOM Killer</text>
+    <line x1="15" y1="42" x2="235" y2="42" stroke="#374151" stroke-width="1"/>
+    <text x="20" y="65" class="body-txt">• Total container footprint &gt; limit</text>
+    <text x="20" y="85" class="body-txt">• Linux OS kills Pod (Exit 137)</text>
+    <text x="20" y="105" class="body-txt" fill="#FCA5A5">• Cannot be caught by Java try/catch!</text>
+  </g>
+</svg>

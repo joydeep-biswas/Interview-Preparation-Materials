@@ -1,0 +1,30 @@
+direction: right
+title: The Prototype-in-Singleton Injection Dilemma & Solutions
+
+bug: "The Trap: Prototype-in-Singleton Frozen Instance" {
+  style.fill: "#1a1116"
+  style.stroke: "#ef4444"
+
+  svc1: "AuthenticationService (Singleton)"
+  gen1: "TokenGenerator Instance #1 (FROZEN!)\nInjected once at startup"
+  reqs: "All Requests 1, 2, 3 share Instance #1\n(State pollution bug!)"
+
+  svc1 -> gen1: "Injected once"
+  gen1 -> reqs
+}
+
+fix: "The Solution: ObjectProvider Resolution" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  svc2: "AuthenticationService (Singleton)"
+  provider: "ObjectProvider<TokenGenerator>"
+  t1: "TokenGen #1 (Req 1)"
+  t2: "TokenGen #2 (Req 2)"
+  t3: "TokenGen #3 (Req 3)"
+
+  svc2 -> provider: "provider.getObject()"
+  provider -> t1
+  provider -> t2
+  provider -> t3
+}

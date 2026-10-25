@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <style>
+      .col-title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; text-anchor: middle; }
+      .col-sub { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: middle; }
+      .row-lbl { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; }
+      .row-val { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; }
+    </style>
+  </defs>
+
+  <rect width="960" height="300" fill="#0B0F19"/>
+
+  <!-- Col 1: Permanent Table -->
+  <g transform="translate(30, 30)">
+    <rect width="280" height="240" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="140" y="34" class="col-title" fill="#93C5FD">Permanent Table</text>
+    <text x="140" y="52" class="col-sub">Mission-Critical Production</text>
+    <line x1="20" y1="64" x2="260" y2="64" stroke="#1F2937" stroke-width="1.5"/>
+
+    <text x="25" y="95" class="row-lbl">Visibility:</text>
+    <text x="25" y="115" class="row-val">• All sessions and authorized users</text>
+
+    <text x="25" y="145" class="row-lbl">Time Travel:</text>
+    <text x="25" y="165" class="row-val">• 0 to 90 Days (Standard/Enterprise)</text>
+
+    <text x="25" y="195" class="row-lbl">Fail-Safe:</text>
+    <text x="25" y="215" class="row-val">• Mandatory 7 Days (Snowflake-only)</text>
+    <text x="25" y="235" class="row-val" fill="#3B82F6">Full disaster recovery protection</text>
+  </g>
+
+  <!-- Col 2: Transient Table -->
+  <g transform="translate(340, 30)">
+    <rect width="280" height="240" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <text x="140" y="34" class="col-title" fill="#6EE7B7">Transient Table</text>
+    <text x="140" y="52" class="col-sub">Cost-Optimized Staging &amp; ETL</text>
+    <line x1="20" y1="64" x2="260" y2="64" stroke="#1F2937" stroke-width="1.5"/>
+
+    <text x="25" y="95" class="row-lbl">Visibility:</text>
+    <text x="25" y="115" class="row-val">• All sessions and authorized users</text>
+
+    <text x="25" y="145" class="row-lbl">Time Travel:</text>
+    <text x="25" y="165" class="row-val">• 0 or 1 Day maximum</text>
+
+    <text x="25" y="195" class="row-lbl">Fail-Safe:</text>
+    <text x="25" y="215" class="row-val">• NONE (0 Days)</text>
+    <text x="25" y="235" class="row-val" fill="#10B981">Zero Fail-Safe storage surcharges</text>
+  </g>
+
+  <!-- Col 3: Temporary Table -->
+  <g transform="translate(650, 30)">
+    <rect width="280" height="240" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <text x="140" y="34" class="col-title" fill="#FCD34D">Temporary Table</text>
+    <text x="140" y="52" class="col-sub">Session Scratchpad &amp; Temp Joins</text>
+    <line x1="20" y1="64" x2="260" y2="64" stroke="#1F2937" stroke-width="1.5"/>
+
+    <text x="25" y="95" class="row-lbl">Visibility:</text>
+    <text x="25" y="115" class="row-val">• ONLY creating user &amp; current session</text>
+
+    <text x="25" y="145" class="row-lbl">Time Travel:</text>
+    <text x="25" y="165" class="row-val">• 0 or 1 Day (Bounded to session life)</text>
+
+    <text x="25" y="195" class="row-lbl">Fail-Safe:</text>
+    <text x="25" y="215" class="row-val">• NONE (0 Days)</text>
+    <text x="25" y="235" class="row-val" fill="#F59E0B">Dropped immediately on disconnect</text>
+  </g>
+</svg>

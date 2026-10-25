@@ -1,0 +1,34 @@
+direction: right
+title: Multi-Bean Injection & The Dynamic Strategy Pattern
+
+container: "Spring ApplicationContext" {
+  style.fill: "#0b1329"
+  style.stroke: "#3b82f6"
+
+  scan: "Discovers all PaymentProcessor beans"
+  ocp: "Open-Closed Principle: New processors added without modifying service"
+}
+
+registry: "Injected Strategy Map" {
+  style.fill: "#1a1c12"
+  style.stroke: "#f59e0b"
+
+  map: "Map<PaymentMethod, PaymentProcessor>"
+  dispatch: "O(1) map.get(method).execute(req)\n(Zero switch statements!)"
+}
+
+strategies: "Concrete Strategy Implementations" {
+  style.fill: "#0c1d1a"
+  style.stroke: "#10b981"
+
+  cc: "CreditCardProcessor (CREDIT_CARD)"
+  apple: "ApplePayProcessor (APPLE_PAY)"
+  paypal: "PayPalProcessor (PAYPAL)"
+  crypto: "CryptoProcessor (CRYPTO)"
+}
+
+container.scan -> registry.map: "Auto-inject collection"
+registry.dispatch -> strategies.cc
+registry.dispatch -> strategies.apple
+registry.dispatch -> strategies.paypal
+registry.dispatch -> strategies.crypto

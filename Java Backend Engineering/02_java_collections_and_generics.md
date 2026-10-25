@@ -6,41 +6,9 @@ A comprehensive guide to Java Collections Framework, internal data structures, a
 
 ## Architectural Overview: Java Collections Framework & Map Architecture
 
-```mermaid
-flowchart TD
-    subgraph IterableRoot ["Root Iteration Engine"]
-        Iterable["Iterable<T><br/>(java.lang - iterator() contract)"]
-    end
+![Java Collections Framework & Map Architecture](assets/02_java_collections_and_generics/01_collections_framework_architecture.svg)
 
-    subgraph CollectionHierarchy ["Collection Hierarchy (java.util)"]
-        Collection["Collection<E><br/>(add, remove, size, stream)"]
-        List["List<E><br/>(Ordered, indexed: ArrayList, CopyOnWriteArrayList)"]
-        Set["Set<E><br/>(Unique elements: HashSet, TreeSet, ConcurrentSkipListSet)"]
-        Queue["Queue<E> & Deque<E><br/>(FIFO / LIFO: ArrayDeque, PriorityQueue, BlockingQueue)"]
-    end
-
-    subgraph MapHierarchy ["Map Hierarchy (Key-Value Store)"]
-        Map["Map<K, V><br/>(Key-value hashing: HashMap, LinkedHashMap, TreeMap)"]
-        ConcurrentMap["ConcurrentMap<K, V><br/>(Thread-safe CAS / Node locks: ConcurrentHashMap)"]
-    end
-
-    Iterable --> Collection
-    Collection --> List
-    Collection --> Set
-    Collection --> Queue
-    Map --> ConcurrentMap
-
-    style IterableRoot fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CollectionHierarchy fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style MapHierarchy fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Iterable fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Collection fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style List fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Set fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Queue fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Map fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style ConcurrentMap fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source: [`01_collections_framework_architecture.d2`](assets/02_java_collections_and_generics/01_collections_framework_architecture.d2)*
 
 ---
 
@@ -67,67 +35,9 @@ flowchart TD
 The Java Collections Framework (JCF) is a unified architecture located in `java.util` for representing and manipulating groups of objects. It defines core interfaces (`Collection`, `List`, `Set`, `Queue`, `Deque`) and their corresponding concrete classes. Note that `Map` is part of the framework but does not inherit from `Collection`.
 
 #### Visual Hierarchy
-```mermaid
-classDiagram
-    direction TB
-    class Iterable~E~ {
-        <<interface>>
-        +iterator() Iterator~E~
-        +forEach(Consumer action)
-        +spliterator() Spliterator~E~
-    }
-    class Collection~E~ {
-        <<interface>>
-        +size() int
-        +add(E e) boolean
-        +contains(Object o) boolean
-        +stream() Stream~E~
-    }
-    class List~E~ {
-        <<interface>>
-        +get(int index) E
-        +set(int index, E element) E
-    }
-    class Set~E~ {
-        <<interface>>
-        +contains(Object o) boolean
-    }
-    class Queue~E~ {
-        <<interface>>
-        +offer(E e) boolean
-        +poll() E
-        +peek() E
-    }
-    class Deque~E~ {
-        <<interface>>
-        +addFirst(E e) void
-        +addLast(E e) void
-        +pollFirst() E
-        +pollLast() E
-    }
-    class Map~K_V~ {
-        <<interface>>
-        +put(K key, V value) V
-        +get(Object key) V
-        +values() Collection~V~
-        +keySet() Set~K~
-    }
+![Java List Interface Hierarchy & Implementation Characteristics](assets/02_java_collections_and_generics/02_list_hierarchy.svg)
 
-    Iterable <|-- Collection : extends
-    Collection <|-- List : extends
-    Collection <|-- Set : extends
-    Collection <|-- Queue : extends
-    Queue <|-- Deque : extends
-    Map ..> Collection : values() view
-
-    style Iterable fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ffffff
-    style Collection fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ffffff
-    style List fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    style Set fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#ffffff
-    style Queue fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#ffffff
-    style Deque fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#ffffff
-    style Map fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#ffffff
-```
+*D2 Source: [`02_list_hierarchy.d2`](assets/02_java_collections_and_generics/02_list_hierarchy.d2)*
 
 #### Quick Selection Rules for Backend Engineers:
 - **General-Purpose Defaults**: Prefer `ArrayList` for indexed lists, `HashSet` for unique sets, and `HashMap` for key-value lookups.
@@ -175,23 +85,9 @@ A resizable, dynamically growing array implementation of the `List` interface. W
 Default choice for storing ordered collections where frequent random reads (`get(i)`) occur and elements are appended primarily to the end.
 
 #### Visual Structure
-```mermaid
-flowchart LR
-    subgraph ArrayListHeap["ArrayList Backing Array (Continuous Memory)"]
-        direction LR
-        I0["Index 0: 'A'"] --- I1["Index 1: 'B'"] --- I2["Index 2: 'C'"] --- I3["Index 3: null"] --- I4["Index 4: null"]
-    end
-    Pointer["size = 3 | capacity = 5"] -.-> ArrayListHeap
+![ArrayList Backing Array & Geometric Resizing Architecture](assets/02_java_collections_and_generics/03_arraylist_memory_layout.svg)
 
-    style ArrayListHeap fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-
-    style I0 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style I1 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style I2 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style I3 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style I4 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Pointer fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`03_arraylist_memory_layout.d2`](assets/02_java_collections_and_generics/03_arraylist_memory_layout.d2)*
 
 #### Working Code Example
 ```java
@@ -231,41 +127,9 @@ public class ArrayListDemo {
 A doubly-linked list implementation of `List` and `Deque`. Each element is wrapped inside a discrete `Node` object containing references to the element, the previous node, and the next node.
 
 #### Visual Structure
-```mermaid
-flowchart TD
-    Head["Head"] --> N1
-    subgraph N1["Node 1"]
-        direction LR
-        P1["prev: null"] --- D1["data: 'A'"] --- X1["next: Node 2"]
-    end
-    N1 <--> N2
-    subgraph N2["Node 2"]
-        direction LR
-        P2["prev: Node 1"] --- D2["data: 'B'"] --- X2["next: Node 3"]
-    end
-    N2 <--> N3
-    subgraph N3["Node 3"]
-        direction LR
-        P3["prev: Node 2"] --- D3["data: 'C'"] --- X3["next: null"]
-    end
-    Tail["Tail"] --> N3
+![LinkedList Internal Memory Anatomy: Doubly-Linked Heap Nodes](assets/02_java_collections_and_generics/04_linkedlist_doubly_linked_nodes.svg)
 
-    style N1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style N2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style N3 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style Head fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style P1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style D1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style X1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style P2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style D2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style X2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style P3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style D3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style X3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Tail fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`04_linkedlist_doubly_linked_nodes.d2`](assets/02_java_collections_and_generics/04_linkedlist_doubly_linked_nodes.d2)*
 
 #### Working Code Example
 ```java
@@ -549,31 +413,9 @@ public class PriorityQueueDemo {
 #### Advanced Production Pattern: Interval Scheduling & Min-Heap Resource Allocation (Meeting Rooms II)
 A classic high-concurrency problem in backend distributed systems is determining the minimum concurrent server instances, worker threads, or conference rooms required to handle overlapping time intervals without resource collision.
 
-```mermaid
-flowchart TD
-    subgraph Intervals ["Meeting / Task Intervals"]
-        direction TB
-        I1["Interval 1: [0, 30]"]
-        I2["Interval 2: [5, 10]"]
-        I3["Interval 3: [15, 20]"]
-    end
+![PriorityQueue Min-Heap for Interval Scheduling (Meeting Rooms II)](assets/02_java_collections_and_generics/05_priority_queue_interval_scheduling.svg)
 
-    subgraph MinHeap ["Min-Heap: Tracks Earliest End Time"]
-        direction TB
-        H1["Room 1: ends at 30"]
-        H2["Room 2: ends at 10 -> reusable for [15, 20]"]
-    end
-
-    Intervals -->|"Sort by Start Time"| MinHeap
-
-    style Intervals fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MinHeap fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style I1 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style I2 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style I3 fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style H1 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style H2 fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source: [`05_priority_queue_interval_scheduling.d2`](assets/02_java_collections_and_generics/05_priority_queue_interval_scheduling.d2)*
 
 ```java
 import java.util.Arrays;
@@ -657,33 +499,9 @@ An unbounded, thread-safe, lock-free FIFO queue implementation of `Queue` based 
 Ideal for high-throughput multi-threaded producer-consumer architectures where worker threads should never block or sleep waiting for locks (e.g. high-frequency message ingestion, task dispatching).
 
 #### Visual Lock-Free CAS Enqueue
-```mermaid
-flowchart TD
-    subgraph ListBounds ["LinkedList Traversal Boundaries"]
-        direction LR
-        Head["<b>Head Pointer</b><br/>First node in list"]
-        Tail["<b>Tail Pointer</b><br/>Last node in list"]
-    end
+![ConcurrentLinkedQueue Lock-Free CAS Enqueue Algorithm](assets/02_java_collections_and_generics/06_concurrent_linked_queue_cas.svg)
 
-    subgraph NodeChain ["Doubly-Linked Node Chain"]
-        direction LR
-        N1["<b>Node 1</b><br/>prev: null, next: N2"]
-        N2["<b>Node 2</b><br/>prev: N1, next: N3"]
-        N3["<b>Node 3</b><br/>prev: N2, next: null"]
-        N1 <-->|"Double Link"| N2 <-->|"Double Link"| N3
-    end
-
-    Head --> N1
-    Tail --> N3
-
-    style ListBounds fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style NodeChain fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Head fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Tail fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style N1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style N2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style N3 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source: [`06_concurrent_linked_queue_cas.d2`](assets/02_java_collections_and_generics/06_concurrent_linked_queue_cas.d2)*
 
 #### Working Code Example
 ```java
@@ -751,19 +569,9 @@ A `Queue` that supports operations that wait for the queue to become non-empty w
 Blocking queues are also commonly used as work queues between executor workers and submitted tasks; see [Topic 04: Executor Framework & Thread Pools](./04_java_concurrency_and_multithreading.md#thread-pools).
 
 #### Visual Producer-Consumer Architecture
-```mermaid
-flowchart LR
-    P1["Producer Thread 1"] -->|"put() blocks if full"| BQ["BlockingQueue (Capacity: N)"]
-    P2["Producer Thread 2"] -->|"put()"| BQ
-    BQ -->|"take() blocks if empty"| C1["Consumer Thread 1"]
-    BQ -->|"take()"| C2["Consumer Thread 2"]
+![BlockingQueue Producer-Consumer Concurrency Architecture](assets/02_java_collections_and_generics/07_blocking_queue_producer_consumer.svg)
 
-    style P1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style BQ fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style P2 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style C1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style C2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`07_blocking_queue_producer_consumer.d2`](assets/02_java_collections_and_generics/07_blocking_queue_producer_consumer.d2)*
 
 #### Concurrency Mechanics & Locking Architecture of Blocking Queues
 `BlockingQueue` implementations synchronize concurrent producer-consumer pipelines by managing thread blocking states when queues are either completely full or empty:
@@ -920,18 +728,9 @@ A specialized blocking queue in which each insert operation (`put`) must wait fo
 Acts as a direct thread-to-thread handoff mechanism. It is the default queue used by `Executors.newCachedThreadPool()` to hand submitted tasks directly to an idle worker thread or immediately spawn a new thread.
 
 #### Visual Direct Handoff
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'actorBkg': '#1e293b', 'actorBorder': '#3b82f6', 'actorTextColor': '#ffffff', 'signalColor': '#93c5fd', 'signalTextColor': '#ffffff', 'noteBkgColor': '#1e293b', 'noteBorderColor': '#f59e0b', 'noteTextColor': '#fde68a', 'activationBkgColor': '#3b82f6', 'sequenceNumberColor': '#ffffff' }}}%%
-sequenceDiagram
-    participant Producer as Producer Thread
-    participant SQ as SynchronousQueue (0 Capacity)
-    participant Consumer as Consumer Thread
+![SynchronousQueue Direct Handoff Sequence Diagram](assets/02_java_collections_and_generics/08_synchronous_queue_direct_handoff.svg)
 
-    Producer->>SQ: put(Task A) - Blocks!
-    Consumer->>SQ: take()
-    SQ-->>Consumer: Task A handed off directly
-    SQ-->>Producer: put() unblocks
-```
+*D2 Source: [`08_synchronous_queue_direct_handoff.d2`](assets/02_java_collections_and_generics/08_synchronous_queue_direct_handoff.d2)*
 
 #### Working Code Example
 ```java
@@ -1075,27 +874,9 @@ A highly concurrent, thread-safe hash table implementation that allows concurren
 - **Java 8+**: Replaced segments with **CAS (Compare-And-Swap) for empty bucket insertions** and **`synchronized` locks on the head node** of the bucket during collisions. Bucket structures transition from linked lists to red-black trees just like `HashMap`.
 
 #### Visual Architecture
-```mermaid
-flowchart TD
-    subgraph TableArray["Node&lt;K,V&gt;[] Table Array"]
-        B0["Bucket 0 (Empty)"]
-        B1["Bucket 1 (Head Node)"]
-        B2["Bucket 2 (TreeBin Root)"]
-    end
+![ConcurrentHashMap Internal Architecture (Java 8+)](assets/02_java_collections_and_generics/09_concurrenthashmap_internal_architecture.svg)
 
-    Thread1["Writer Thread 1"] -->|"CAS insert on empty slot (Lock-Free)"| B0
-    Thread2["Writer Thread 2"] -->|"synchronized(Head Node)"| B1
-    Thread3["Reader Thread 3"] -->|"volatile read (Lock-Free)"| B2
-
-    style TableArray fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-
-    style B0 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style B1 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style B2 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Thread1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Thread2 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Thread3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`09_concurrenthashmap_internal_architecture.d2`](assets/02_java_collections_and_generics/09_concurrenthashmap_internal_architecture.d2)*
 
 #### Working Code Example
 ```java
@@ -1216,45 +997,9 @@ public class HashtableLegacyDemo {
 3. Array bucket index is computed using bitwise AND: `index = (n - 1) & hash` (where $n$ is always a power of 2).
 
 #### Visual Bucket Structure & Treeification
-```mermaid
-flowchart TD
-    subgraph BucketArray["Bucket Array: Node&lt;K,V&gt;[] table"]
-        direction TB
-        B0["Bucket 0: null"]
-        B1["Bucket 1: Single Node"]
-        B2["Bucket 2: Collided Linked List (< 8 nodes)"]
-        B3["Bucket 3: Red-Black Tree (>= 8 nodes & table.cap >= 64)"]
-    end
+![HashMap Bucket Collision & Treeification Threshold Mechanics](assets/02_java_collections_and_generics/10_hashmap_treeification_threshold.svg)
 
-    subgraph LinkedListDetail["Linked List Chaining"]
-        N1["Node(K1, V1)"] --> N2["Node(K2, V2)"] --> N3["Node(K3, V3)"]
-    end
-
-    subgraph TreeDetail["Red-Black Tree (TreeBin)"]
-        TR["TreeNode (Root)"]
-        TL["TreeNode (Left)"]
-        TRight["TreeNode (Right)"]
-        TR --> TL
-        TR --> TRight
-    end
-
-    B2 --> LinkedListDetail
-    B3 --> TreeDetail
-
-    style BucketArray fill:#0f172a,stroke:#06b6d4,stroke-width:1.5px,color:#67e8f9
-    style LinkedListDetail fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style TreeDetail fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-
-    style B0 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style B1 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style B2 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style B3 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style N1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style N3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style TR fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style TL fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style TRight fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source: [`10_hashmap_treeification_threshold.d2`](assets/02_java_collections_and_generics/10_hashmap_treeification_threshold.d2)*
 
 #### Treeification Thresholds
 - **TREEIFY_THRESHOLD = 8**: If a collision chain reaches 8 nodes and the table capacity is at least 64, the linked list is converted into a Red-Black Tree, reducing lookup from $O(n)$ to $O(\log n)$.
@@ -1331,17 +1076,9 @@ public class ComparisonDemo {
 - **Weakly Consistent / Fail-Safe**: Iterators on concurrent collections (`ConcurrentHashMap`, `CopyOnWriteArrayList`) operate on a snapshot or tolerate concurrent modifications without throwing `ConcurrentModificationException`.
 
 #### Visual Modification Check
-```mermaid
-flowchart TD
-    Start["Iterator.next() Called"] --> Check{"expectedModCount == modCount?"}
-    Check -- Yes --> Return["Return Element"]
-    Check -- No --> Throw["Throw ConcurrentModificationException (Fail-Fast)"]
+![Java Fail-Fast Iteration & modCount Detection Mechanics](assets/02_java_collections_and_generics/11_fail_fast_iterator_modcount.svg)
 
-    style Start fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Check fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Return fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Throw fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-```
+*D2 Source: [`11_fail_fast_iterator_modcount.d2`](assets/02_java_collections_and_generics/11_fail_fast_iterator_modcount.d2)*
 
 **Primary Source Reference**: [GeeksforGeeks - Fail Fast and Fail Safe Iterators in Java](https://www.geeksforgeeks.org/fail-fast-fail-safe-iterators-java/)
 
@@ -1391,65 +1128,9 @@ public class ImmutableCollectionsDemo {
 
 ### Collection Selection Decision Tree
 
-```mermaid
-flowchart TD
-    Start["<b>Java Collections Selection</b><br/>Decision Root"] --> Q1{"Key-Value pairs or<br/>Individual Elements?"}
+![Java Collections Framework Selection Decision Tree](assets/02_java_collections_and_generics/12_collection_selection_decision_tree.svg)
 
-    subgraph MapBranch ["Key-Value Maps"]
-        direction TB
-        Q2{"Sorted Keys or Concurrency?"}
-        TreeMap["<b>TreeMap</b><br/>Red-Black tree ($O(\log N)$)"]
-        ConcurrentHashMap["<b>ConcurrentHashMap</b><br/>CAS + synchronized bins"]
-        HashMap["<b>HashMap</b><br/>Hash table with buckets ($O(1)$)"]
-        Q2 -- "Sorted" --> TreeMap
-        Q2 -- "Concurrent" --> ConcurrentHashMap
-        Q2 -- "Standard" --> HashMap
-    end
-
-    subgraph SetBranch ["Unique Sets (No Duplicates)"]
-        direction TB
-        Q4{"Sort or Insertion Order?"}
-        TreeSet["<b>TreeSet</b><br/>NavigableSet backed by TreeMap"]
-        LinkedHashSet["<b>LinkedHashSet</b><br/>Maintains insertion order"]
-        HashSet["<b>HashSet</b><br/>Standard hash table set"]
-        Q4 -- "Sorted" --> TreeSet
-        Q4 -- "Insertion Order" --> LinkedHashSet
-        Q4 -- "Unordered" --> HashSet
-    end
-
-    subgraph SequenceBranch ["Sequences & Queues (Duplicates Allowed)"]
-        direction TB
-        Q5{"Semantics & Concurrency?"}
-        ArrayDeque["<b>ArrayDeque</b><br/>Ring buffer ($O(1)$ head/tail)"]
-        BlockingQueue["<b>BlockingQueue</b><br/>Thread-safe producer-consumer"]
-        ArrayList["<b>ArrayList</b><br/>Resizing array ($O(1)$ random access)"]
-        Q5 -- "FIFO / Deque" --> ArrayDeque
-        Q5 -- "Thread-Safe" --> BlockingQueue
-        Q5 -- "Index Access" --> ArrayList
-    end
-
-    Q1 -- "Key-Value Pairs" --> MapBranch
-    Q1 -- "Unique Elements" --> SetBranch
-    Q1 -- "Duplicates Allowed" --> SequenceBranch
-
-    style Start fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#f8fafc
-    style Q1 fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fde68a
-    style MapBranch fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style SetBranch fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style SequenceBranch fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Q2 fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Q4 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Q5 fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style TreeMap fill:#1e293b,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style ConcurrentHashMap fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-    style HashMap fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style TreeSet fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style LinkedHashSet fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style HashSet fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style ArrayDeque fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style BlockingQueue fill:#1e293b,stroke:#06b6d4,stroke-width:1.5px,color:#fff
-    style ArrayList fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#fff
-```
+*D2 Source: [`12_collection_selection_decision_tree.d2`](assets/02_java_collections_and_generics/12_collection_selection_decision_tree.d2)*
 
 > [!TIP]
 > **Deep-Dive Interview Scenarios:**
@@ -1552,30 +1233,9 @@ public class NumericStats<T extends Number> {
 - Use **`? super T`** when you only **write/insert data into** a collection (the collection is a *Consumer* of items).
 
 #### Visual PECS Flow
-```mermaid
-flowchart LR
-    subgraph ProducerExtends["Producer: ? extends Number (Read Only)"]
-        direction LR
-        PCollection["List<? extends Number>"] -->|Reading is Safe: returns Number| ReadTarget["Number num = list.get(0)"]
-        WriteAttempt["list.add(10)"] -.->|COMPILATION ERROR!| PCollection
-    end
+![Java Generics PECS Rule: Producer Extends, Consumer Super](assets/02_java_collections_and_generics/13_pecs_generics_variance.svg)
 
-    subgraph ConsumerSuper["Consumer: ? super Integer (Write Safe)"]
-        direction LR
-        WriteSafe["list.add(42)"] -->|Writing Integer is Safe| SCollection["List<? super Integer>"]
-        SCollection -.->|Reading yields only Object!| ObjectRead["Object obj = list.get(0)"]
-    end
-
-    style ProducerExtends fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ConsumerSuper fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style PCollection fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ReadTarget fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style WriteAttempt fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style WriteSafe fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SCollection fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style ObjectRead fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`13_pecs_generics_variance.d2`](assets/02_java_collections_and_generics/13_pecs_generics_variance.d2)*
 
 #### Working Code Example
 ```java
@@ -1621,34 +1281,9 @@ public class PecsDemo {
 Java implements generics via **Type Erasure**. The compiler enforces type constraints at compile time, and then **erases (removes)** all type parameters when generating bytecode, replacing unbounded parameters with `Object` and bounded parameters with their upper bound.
 
 #### Visual Bytecode Transformation
-```mermaid
-flowchart TD
-    subgraph SourceCode["Source Code (Compile Time)"]
-        direction TD
-        C1["List&lt;String&gt; list = new ArrayList<>();"]
-        C2["list.add('Hello');"]
-        C3["String s = list.get(0);"]
-    end
+![Java Generics Type Erasure & Synthetic Bridge Methods](assets/02_java_collections_and_generics/14_type_erasure_bytecode_bridge.svg)
 
-    subgraph Bytecode["Compiled Bytecode (Runtime Erasure)"]
-        direction TD
-        B1["List list = new ArrayList();"]
-        B2["list.add('Hello');"]
-        B3["String s = (String) list.get(0); // Synthetic Cast"]
-    end
-
-    SourceCode -->|javac Type Erasure| Bytecode
-
-    style SourceCode fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Bytecode fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-
-    style C1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style C2 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style C3 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style B1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style B2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style B3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source: [`14_type_erasure_bytecode_bridge.d2`](assets/02_java_collections_and_generics/14_type_erasure_bytecode_bridge.d2)*
 
 #### Implications of Type Erasure
 1. Cannot create instances of type parameters (`new T()`).
@@ -1723,37 +1358,9 @@ When a class implements a parameterized interface with a concrete type (e.g. `cl
 
 Prior to Java 21, the Collections Framework lacked a unified abstraction representing a collection with a defined encounter order. For example, getting the first element required `list.get(0)`, `deque.getFirst()`, `sortedSet.first()`, or `linkedHashSet.iterator().next()`. Java 21 introduced **Sequenced Collections** (JEP 431) to establish consistent first/last access and reverse-order iteration.
 
-```mermaid
-flowchart TD
-    subgraph SequencedHierarchy ["Java 21 Sequenced Collections Architecture"]
-        CollectionNode["Collection&lt;E&gt;"]
-        SeqCollection["SequencedCollection&lt;E&gt;<br/>(addFirst, addLast, getFirst, getLast, reversed)"]
-        ListNode["List&lt;E&gt;"]
-        DequeNode["Deque&lt;E&gt;"]
-        SeqSet["SequencedSet&lt;E&gt;<br/>(reversed returns SequencedSet)"]
-        SetNode["Set&lt;E&gt;"]
-        LinkedHashSetNode["LinkedHashSet&lt;E&gt;"]
-        SortedSetNode["SortedSet&lt;E&gt;"]
+![Java 21 Sequenced Collections Architecture](assets/02_java_collections_and_generics/15_java21_sequenced_collections.svg)
 
-        CollectionNode --> SeqCollection
-        SeqCollection --> ListNode
-        SeqCollection --> DequeNode
-        SeqCollection --> SeqSet
-        SetNode --> SeqSet
-        SeqSet --> LinkedHashSetNode
-        SeqSet --> SortedSetNode
-    end
-
-    style SequencedHierarchy fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CollectionNode fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style SeqCollection fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ListNode fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style DequeNode fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style SeqSet fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style SetNode fill:#1f2937,stroke:#64748b,stroke-width:2px,color:#fff
-    style LinkedHashSetNode fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SortedSetNode fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source: [`15_java21_sequenced_collections.d2`](assets/02_java_collections_and_generics/15_java21_sequenced_collections.d2)*
 
 #### Production Code: Java 21 Sequenced Collections & Reverse Iteration
 ```java

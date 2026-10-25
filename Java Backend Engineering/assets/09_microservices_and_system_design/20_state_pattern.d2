@@ -1,0 +1,43 @@
+direction: right
+title: "State Pattern: Finite State Machine & Validated State Transitions"
+
+pending: "1. PENDING_PAYMENT
+Awaiting payment" {
+  style.fill: "#1e293b"
+  style.stroke: "#3b82f6"
+}
+paid: "2. PAID
+Funds captured" {
+  style.fill: "#1e293b"
+  style.stroke: "#10b981"
+}
+shipped: "3. SHIPPED
+In transit with carrier" {
+  style.fill: "#1e293b"
+  style.stroke: "#06b6d4"
+}
+delivered: "4. DELIVERED
+Customer received" {
+  style.fill: "#1e293b"
+  style.stroke: "#8b5cf6"
+}
+
+cancelled: "CANCELLED
+Releases stock" {
+  style.fill: "#450a0a"
+  style.stroke: "#ef4444"
+}
+refunded: "REFUNDED
+Reverses payment" {
+  style.fill: "#78350f"
+  style.stroke: "#f59e0b"
+}
+
+pending -> paid: "pay()"
+paid -> shipped: "ship()"
+shipped -> delivered: "deliver()"
+
+pending -> cancelled: "cancel()"
+paid -> cancelled: "cancel()"
+paid -> refunded: "refund()"
+shipped -> refunded: "refund()"

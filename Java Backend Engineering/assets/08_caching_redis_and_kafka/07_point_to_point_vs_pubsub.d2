@@ -1,0 +1,26 @@
+direction: right
+title: Point-to-Point Task Queues vs Publish-Subscribe Topics
+
+PTP: 1. Point-to-Point Queue (RabbitMQ) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  prod: Producer
+  q: Work Queue
+  w1: Worker Pod 1
+  w2: Worker Pod 2
+  prod -> q
+  q -> w1: Consumed once
+  q -> w2: Competing worker
+}
+
+PubSub: 2. Publish-Subscribe Topics (Kafka) {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  prod: Producer
+  topic: Event Topic
+  sub1: Billing Service Group
+  sub2: Notification Service Group
+  prod -> topic
+  topic -> sub1: Broadcast copy
+  topic -> sub2: Broadcast copy
+}

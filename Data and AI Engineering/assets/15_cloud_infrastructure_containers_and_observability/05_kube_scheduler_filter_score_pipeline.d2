@@ -1,0 +1,15 @@
+classes: {
+  pod_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
+  filter_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
+  score_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2 } }
+  bind_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
+}
+
+pod: "Unscheduled Pod Queue\nspec.nodeName is empty" { class: pod_box }
+filter: "1. Filter Phase (Predicates)\nDisqualifies nodes lacking CPU/RAM\nEvaluates taints & tolerations" { class: filter_box }
+score: "2. Score Phase (Priorities)\nRanks surviving nodes 0 to 100\nBalances load & checks cached images" { class: score_box }
+bind: "3. Binding Cycle\nAsynchronously writes nodeName to etcd\nTarget Kubelet begins container pull" { class: bind_box }
+
+pod -> filter: "Pop pending pod"
+filter -> score: "Pass surviving candidate nodes"
+score -> bind: "Select node with highest score"

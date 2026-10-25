@@ -1,0 +1,27 @@
+direction: right
+
+source: "1. Data Source" {
+  style.fill: "#111827"
+  style.stroke: "#3B82F6"
+  origin: "Collection, Array, Spliterator"
+  invariant: "Non-storing, traversable once"
+}
+
+intermediate: "2. Intermediate Ops (Lazy)" {
+  style.fill: "#111827"
+  style.stroke: "#F59E0B"
+  stateless: "filter(), map() -> Fused Sinks"
+  stateful: "sorted(), distinct() -> Buffering barrier"
+  eval: "ZERO execution until terminal call"
+}
+
+terminal: "3. Terminal Op (Execution)" {
+  style.fill: "#111827"
+  style.stroke: "#10B981"
+  pull: "Pulls elements through fused pipeline"
+  short_circuit: "findFirst(), limit() halt early"
+  result: "collect(), reduce(), forEach()"
+}
+
+source -> intermediate: "Creates pipeline stages"
+intermediate -> terminal: "Terminal op pulls execution"

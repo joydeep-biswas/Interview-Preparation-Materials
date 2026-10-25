@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- Error Alert -->
+  <rect x="25" y="70" width="160" height="120" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="105" y="96" class="title-txt" text-anchor="middle" fill="#FECACA">Permission Denied</text>
+  <text x="37" y="122" class="body-txt" text-anchor="start">• Table not found or</text>
+  <text x="37" y="142" class="body-txt" text-anchor="start">• Access denied error</text>
+  <text x="37" y="162" class="mono-txt" text-anchor="start">HTTP 403 Forbidden</text>
+
+  <path d="M 185 130 L 225 130" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+  <!-- Step 1: USE Hierarchy -->
+  <rect x="225" y="55" width="160" height="150" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="305" y="80" class="title-txt" text-anchor="middle" fill="#F59E0B">Step 1: USE Chain</text>
+  <text x="235" y="105" class="body-txt" text-anchor="start">• Does user have:</text>
+  <text x="235" y="125" class="mono-txt" text-anchor="start">  USE CATALOG prod</text>
+  <text x="235" y="145" class="mono-txt" text-anchor="start">  USE SCHEMA gold</text>
+  <text x="235" y="165" class="body-txt" text-anchor="start">• Common 90% culprit!</text>
+
+  <path d="M 385 130 L 415 130" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- Step 2: Cluster Access Mode -->
+  <rect x="415" y="55" width="160" height="150" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="495" y="80" class="title-txt" text-anchor="middle">Step 2: Cluster Mode</text>
+  <text x="425" y="105" class="body-txt" text-anchor="start">• Is cluster running in:</text>
+  <text x="425" y="125" class="body-txt" text-anchor="start">  'Single User' (locked)</text>
+  <text x="425" y="145" class="body-txt" text-anchor="start">  instead of</text>
+  <text x="425" y="165" class="mono-txt" text-anchor="start">  'Shared / Isolation'?</text>
+
+  <path d="M 575 130 L 605 130" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Step 3: Grants Inspection -->
+  <rect x="605" y="55" width="160" height="150" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="685" y="80" class="title-txt" text-anchor="middle" fill="#C084FC">Step 3: Check Grants</text>
+  <text x="615" y="105" class="body-txt" text-anchor="start">• Inspect grants:</text>
+  <text x="615" y="125" class="mono-txt" text-anchor="start">SHOW GRANTS</text>
+  <text x="615" y="145" class="mono-txt" text-anchor="start">ON TABLE sales</text>
+  <text x="615" y="165" class="body-txt" text-anchor="start">• Direct vs Group grant</text>
+
+  <path d="M 765 130 L 795 130" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- Step 4: Row Filter / Masking -->
+  <rect x="795" y="55" width="140" height="150" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+  <text x="865" y="80" class="title-txt" text-anchor="middle" fill="#10B981">Step 4: Row Filter</text>
+  <text x="805" y="105" class="body-txt" text-anchor="start">• Check table policies</text>
+  <text x="805" y="125" class="body-txt" text-anchor="start">• Does Row Filter</text>
+  <text x="805" y="145" class="mono-txt" text-anchor="start">evaluate FALSE</text>
+  <text x="805" y="165" class="body-txt" text-anchor="start">for user's region?</text>
+</svg>

@@ -1,0 +1,20 @@
+direction: right
+title: Authentication vs Authorization (Airport Model)
+
+AuthN: Authentication (AuthN): "Who are you?" {
+  style.fill: "#06201B"
+  style.stroke: "#10B981"
+  checkpoint: "TSA Checkpoint: Passport & Biometrics"
+  outcome: "Identity confirmed: 'You are John Doe'"
+  status: "Failure: 401 Unauthorized"
+}
+
+AuthZ: Authorization (AuthZ): "What are you permitted to do?" {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  gate: "Gate Agent: Flight 402, Seat 12B allowed"
+  lounge: "VIP Lounge: Economy ticket denied"
+  status: "Failure: 403 Forbidden"
+}
+
+AuthN -> AuthZ: Authenticated identity passed to authorization manager { style.stroke: "#38BDF8" }

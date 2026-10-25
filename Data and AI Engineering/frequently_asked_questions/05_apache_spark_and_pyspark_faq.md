@@ -105,53 +105,9 @@ A comprehensive, production-grade guide answering Apache Spark and PySpark archi
 **Question:** Spark Architecture (Driver, Executors, Cluster Manager, DAG Scheduler, and Task Scheduler).
 
 #### Spark Physical Cluster Architecture (Q30)
-```mermaid
-flowchart TD
-    subgraph DriverNode ["Driver Node (JVM Coordinator)"]
-        direction LR
-        SparkContext["SparkContext / SparkSession"] --> DAGSched["DAG Scheduler<br/>(Stages at Shuffles)"] --> TaskSched["Task Scheduler<br/>(TaskSets)"]
-    end
+![Spark Cluster Architecture Driver Executors](assets/05_apache_spark_and_pyspark_faq/01_spark_cluster_architecture_driver_executors.svg)
 
-    subgraph ClusterMgr ["Cluster Manager (Kubernetes / YARN / Standalone)"]
-        CM["Allocates Containers & Tracks Heartbeats"]
-    end
-
-    subgraph Worker1 ["Worker Node 1"]
-        subgraph Exec1 ["Executor 1 (JVM Container)"]
-            direction LR
-            Slot1["Task Slot 1 (Core)"] --- Slot2["Task Slot 2 (Core)"] --- BlockMgr1["Block Manager (RAM)"]
-        end
-    end
-
-    subgraph Worker2 ["Worker Node 2"]
-        subgraph Exec2 ["Executor 2 (JVM Container)"]
-            direction LR
-            Slot3["Task Slot 1 (Core)"] --- Slot4["Task Slot 2 (Core)"] --- BlockMgr2["Block Manager (RAM)"]
-        end
-    end
-
-    SparkContext <-->|Request & Allocate Containers| CM
-    CM -->|Launch Containers| BlockMgr1 & BlockMgr2
-    TaskSched -->|Distribute Tasks| Slot1 & Slot2 & Slot3 & Slot4
-
-    style DriverNode fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ClusterMgr fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Worker1 fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style Worker2 fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#94a3b8
-    style Exec1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#86efac
-    style Exec2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#86efac
-
-    style SparkContext fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style DAGSched fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style TaskSched fill:#182234,stroke:#3b82f6,stroke-width:1.5px,color:#fff
-    style CM fill:#182234,stroke:#8b5cf6,stroke-width:1.5px,color:#fff
-    style Slot1 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Slot2 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style BlockMgr1 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Slot3 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style Slot4 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style BlockMgr2 fill:#182234,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/01_spark_cluster_architecture_driver_executors.d2](assets/05_apache_spark_and_pyspark_faq/01_spark_cluster_architecture_driver_executors.d2)
 
 ---
 
@@ -211,28 +167,9 @@ An **RDD (Resilient Distributed Dataset)** is an immutable, distributed collecti
 - **`groupByKey()` (Anti-Pattern):** Shuffles **all individual `<K, V>` pairs** across the network before grouping. Satures network bandwidth and causes catastrophic Executor OOMs.
 - **`reduceByKey()` (Optimized):** Performs a **Map-Side Combiner** locally on each executor prior to shuffling. It aggregates values for each key in-memory, sending only the single reduced value across the network. Reduces network shuffle by 95%+.
 
-```mermaid
-flowchart TD
-    subgraph groupByKey ["groupByKey: Massive Network Transfer (Anti-Pattern)"]
-        direction LR
-        M1["Mapper: ('a', 1), ('a', 1), ('a', 1)"] --> S1["Shuffle ALL 3 records over Network"] --> R1["Reducer: ('a', [1, 1, 1])"]
-    end
-    
-    subgraph reduceByKey ["reduceByKey: Local Pre-Aggregation (Combiner Optimized)"]
-        direction LR
-        M2["Mapper: ('a', 1), ('a', 1), ('a', 1)"] --> C1["Map-Side Combiner: ('a', 3)"] --> S2["Shuffle ONLY 1 record over Network"] --> R2["Reducer: ('a', 3)"]
-    end
+![groupByKey vs reduceByKey Network Shuffle](assets/05_apache_spark_and_pyspark_faq/02_groupbykey_vs_reducebykey_network_shuffle.svg)
 
-    style groupByKey fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style reduceByKey fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style M1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style S1 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style R1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style M2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style C1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style R2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/02_groupbykey_vs_reducebykey_network_shuffle.d2](assets/05_apache_spark_and_pyspark_faq/02_groupbykey_vs_reducebykey_network_shuffle.d2)
 
 ---
 
@@ -388,33 +325,9 @@ When 199 tasks finish in 10 seconds but Task 200 runs for 45 minutes or 2 hours:
 
 #### Mitigation Technique 1: Key Salting (Q3)
 **Salting** breaks down a hot skewed key into $K$ uniform sub-keys by appending a random integer.
-```mermaid
-flowchart LR
-    subgraph HotKeyProblem ["Before Salting: Single Partition Bottleneck"]
-        direction TB
-        R1["Row: Key='NULL'"] & R2["Row: Key='NULL'"] & R3["Row: Key='NULL'"] --> P3["Partition 3 (OOM Crash / Straggler Task)"]
-    end
+![Hot Key Data Skew Salting Repartition](assets/05_apache_spark_and_pyspark_faq/03_hot_key_data_skew_salting_repartition.svg)
 
-    subgraph SaltingSolution ["After Salting: Split into K=3 Sub-Buckets"]
-        direction TB
-        S1["Row: Key='NULL_0'"] --> P1["Partition 1"]
-        S2["Row: Key='NULL_1'"] --> P2["Partition 2"]
-        S3["Row: Key='NULL_2'"] --> P3_new["Partition 3"]
-    end
-
-    style HotKeyProblem fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style SaltingSolution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style R1 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style R2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style R3 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style P3 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style S1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style P1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style P2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style P3_new fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/03_hot_key_data_skew_salting_repartition.d2](assets/05_apache_spark_and_pyspark_faq/03_hot_key_data_skew_salting_repartition.d2)
 
 ```python
 from pyspark.sql import functions as F
@@ -470,36 +383,9 @@ When AQE detects a partition larger than the threshold, it automatically splits 
 | **Partition Size Balance**| Creates uniformly balanced partitions. Fixes skew. | Can result in uneven partition sizes (stragglers). |
 | **Production Use Case** | Before an expensive join or group-by to eliminate skew, or to scale up partition count. | Right before writing output to disk to reduce small files without triggering a shuffle! |
 
-```mermaid
-flowchart LR
-    subgraph Repartition ["repartition(2) from 4: Full Network Shuffle"]
-        direction TB
-        P1["Part 1"] & P2["Part 2"] & P3["Part 3"] & P4["Part 4"] --> Shuff["Full Network Shuffle (Hash Partitioned)"]
-        Shuff --> NP1["New Part 1"] & NP2["New Part 2"]
-    end
+![Repartition vs Coalesce Mechanics](assets/05_apache_spark_and_pyspark_faq/04_repartition_vs_coalesce_mechanics.svg)
 
-    subgraph Coalesce ["coalesce(2) from 4: Local Narrow Merge"]
-        direction TB
-        CP1["Part 1"] & CP2["Part 2"] --> CNP1["New Part 1 (Merged Locally)"]
-        CP3["Part 3"] & CP4["Part 4"] --> CNP2["New Part 2 (Merged Locally)"]
-    end
-
-    style Repartition fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Coalesce fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style P1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style P2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style P3 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style P4 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Shuff fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style NP1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style NP2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style CP1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CP2 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CP3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CP4 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style CNP1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style CNP2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/04_repartition_vs_coalesce_mechanics.d2](assets/05_apache_spark_and_pyspark_faq/04_repartition_vs_coalesce_mechanics.d2)
 
 ---
 
@@ -577,22 +463,9 @@ $$\text{Ideal Partitions} = \frac{\text{Total Uncompressed Dataset Size}}{128\te
 
 #### Adaptive Query Execution (AQE) 3-Pillar Architecture (Q16)
 AQE re-optimizes execution plans at runtime based on actual stage runtime statistics:
-```mermaid
-flowchart TD
-    subgraph AQEFramework ["Adaptive Query Execution (AQE) Dynamic Re-Optimization"]
-        S1["Stage 1 Finishes (Materializes Shuffle Data)"] --> AQE{"AQE Evaluates Real Shuffle Statistics"}
-        AQE --> Opt1["1. Dynamically Coalesce Shuffle Partitions<br/>(Merges tiny post-shuffle partitions to target 64MB)"]
-        AQE --> Opt2["2. Dynamically Switch Join Strategy<br/>(Converts Sort-Merge to Broadcast Join if table < 10MB)"]
-        AQE --> Opt3["3. Dynamically Optimize Skew Joins<br/>(Splits skewed partitions into parallel sub-tasks)"]
-    end
+![Adaptive Query Execution AQE Dynamic Reoptimization](assets/05_apache_spark_and_pyspark_faq/05_adaptive_query_execution_aqe_dynamic_reoptimization.svg)
 
-    style AQEFramework fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c084fc
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style AQE fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Opt1 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style Opt2 fill:#1f2937,stroke:#06b6d4,stroke-width:2px,color:#fff
-    style Opt3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/05_adaptive_query_execution_aqe_dynamic_reoptimization.d2](assets/05_apache_spark_and_pyspark_faq/05_adaptive_query_execution_aqe_dynamic_reoptimization.d2)
 
 ---
 
@@ -621,42 +494,9 @@ When an intermediate DataFrame becomes massive and degrades downstream stages:
 
 #### Spark Unified Memory Architecture Breakdown (Q36)
 Inside each Executor JVM container (e.g., 32 GB RAM):
-```mermaid
-flowchart TD
-    subgraph Container["Total Executor Memory Container (e.g. 32 GB RAM)"]
-        subgraph Heap["JVM On-Heap Memory (spark.executor.memory)"]
-            Reserved["Reserved Memory: 300 MB<br/>(Hardcoded Engine Safety Buffer)"]
-            User["User Memory: ~40% of Usable Heap<br/>(Custom UDF Data Structures, Hashes)"]
-            subgraph SparkPool["Spark Unified Memory Pool: ~60% (spark.memory.fraction = 0.6)"]
-                direction LR
-                Storage["Storage Memory (50% Default)<br/>(Cached DataFrames / RDDs, Broadcasts)"]
-                Execution["Execution Memory (50% Default)<br/>(Shuffles, Joins, Aggregation Hash Maps)"]
-                Execution -->|"1. Borrows Free Pool Space & Forces Eviction"| Storage
-                Storage -.->|"2. Borrows Free Pool (Cannot Evict Execution)"| Execution
-            end
-        end
-        OffHeap["Off-Heap Memory (spark.memory.offHeap.size)<br/>Tungsten Binary UnsafeRow Formats"]
-        Overhead["Memory Overhead (spark.executor.memoryOverhead)<br/>Py4J IPC Buffers, OS Page Cache, Native C Libraries"]
-        DiskSpill["Node Local Scratch SSD Spill<br/>(/tmp/spark-scratch/blockmgr-*)"]
-        
-        Execution -->|"3. Disk Spill on Memory Exhaustion"| DiskSpill
-        OffHeap -.->|"Direct Off-Heap Buffering"| Execution
-    end
+![Spark Executor Memory Pool Architecture](assets/05_apache_spark_and_pyspark_faq/06_spark_executor_memory_pool_architecture.svg)
 
-    classDef res fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fef2f2;
-    classDef usr fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#f8fafc;
-    classDef stor fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
-    classDef exec fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5;
-    classDef ext fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#f8fafc;
-    classDef spill fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca;
-
-    class Reserved res;
-    class User usr;
-    class Storage stor;
-    class Execution exec;
-    class OffHeap,Overhead ext;
-    class DiskSpill spill;
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/06_spark_executor_memory_pool_architecture.d2](assets/05_apache_spark_and_pyspark_faq/06_spark_executor_memory_pool_architecture.d2)
 
 | Memory Region | Allocation / Configuration Flag | Operational Purpose & Eviction Behavior |
 | :--- | :--- | :--- |
@@ -692,26 +532,9 @@ flowchart TD
 **Question:** A PySpark job is running out of memory (OutOfMemoryError). What would you check first?
 
 #### OutOfMemoryError (OOM) Diagnostic Playbook (Q17)
-```mermaid
-flowchart TD
-    subgraph OOMDiagnostics ["Spark OutOfMemoryError (OOM) Root-Cause Decision Tree"]
-        OOM["OutOfMemoryError Detected"] --> Type{"Driver or Executor OOM?"}
-        Type -->|Driver OOM| D1["Root Cause: df.collect(), large broadcast join, or oversized SparkContext lineage.<br/>Fix: Replace collect() with take(10) or df.write(); increase spark.driver.memory."]
-        Type -->|Executor OOM| E1{"Is it caused by Skew or Spill?"}
-        E1 -->|Skew| E2["One partition too large.<br/>Fix: Salting, AQE skew join."]
-        E1 -->|Heavy Shuffle| E3["Fix: Increase spark.sql.shuffle.partitions or enable off-heap memory."]
-        E1 -->|GC Thrashing| E4["Fix: Switch to G1GC, reduce executor cores from 8 to 4-5."]
-    end
+![Spark OOM Root Cause Decision Tree](assets/05_apache_spark_and_pyspark_faq/07_spark_oom_root_cause_decision_tree.svg)
 
-    style OOMDiagnostics fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style OOM fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-    style Type fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style D1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style E1 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style E2 fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style E3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style E4 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/07_spark_oom_root_cause_decision_tree.d2](assets/05_apache_spark_and_pyspark_faq/07_spark_oom_root_cause_decision_tree.d2)
 
 ---
 
@@ -976,20 +799,9 @@ When 1 partition out of 200 holds 40% of the data in a 1 TB dataset:
 5. **Stage Retries & Zombie Cascade:** Spark retries the failed task up to `spark.task.maxFailures` (default 4 times). Each retry fails on the same 400 GB partition, eventually killing the entire multi-hour pipeline.
 
 #### Visualizing the Stage Execution Timeline
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'fontFamily': 'ui-sans-serif, system-ui, sans-serif', 'primaryColor': '#1e293b', 'primaryTextColor': '#f8fafc', 'primaryBorderColor': '#3b82f6', 'lineColor': '#64748b', 'secondaryColor': '#0f172a', 'tertiaryColor': '#1e293b' }}}%%
-gantt
-    title Spark Stage Execution with 40% Skew Straggler
-    dateFormat  X
-    axisFormat %s sec
+![Spark Stage Execution Skew Straggler Timeline](assets/05_apache_spark_and_pyspark_faq/08_spark_stage_execution_skew_straggler_timeline.svg)
 
-    section Normal Tasks (199 tasks)
-    Tasks 1 to 199 (3GB each)     :active, t1, 0, 120
-    Cluster Idling (Waiting...)   :crit, t2, 120, 7200
-
-    section Skewed Task (1 task)
-    Task 200 (400GB data + disk spills) :done, t3, 0, 7200
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/08_spark_stage_execution_skew_straggler_timeline.d2](assets/05_apache_spark_and_pyspark_faq/08_spark_stage_execution_skew_straggler_timeline.d2)
 
 #### Remediation Playbook
 1. **Enable Spark 3.x Adaptive Query Execution (AQE):**
@@ -1045,32 +857,9 @@ df = spark.read.format("jdbc").option("url", url).option("dbtable", "massive_ord
 Spark launches **only 1 single task on 1 single executor core**! All other 99 executors sit 100% idle because no partitioning parameters were specified.
 
 #### The 4-Step Systematic Diagnostic Checklist
-```mermaid
-flowchart TD
-    subgraph ExtractionTriage ["Spark JDBC Extraction Triage"]
-        Issue["🚨 <b>Slow JDBC Read</b><br/>Single core saturated, cluster idling"] --> S1["<b>1. Partitioning Strategy Check</b><br/>Are numPartitions and partitionColumn specified?"]
-        S1 -->|Missing Partitioning| F1["<b>Fix: Add Partitioning</b><br/>Set numPartitions=20 with lower/upper bounds"]
-        S1 -->|Partitioned| S2["<b>2. Partition Column Distribution</b><br/>Is column integer/date with uniform distribution?"]
-    end
+![Spark JDBC Extraction Triage Flow](assets/05_apache_spark_and_pyspark_faq/09_spark_jdbc_extraction_triage_flow.svg)
 
-    subgraph NetworkRemediation ["Network & Database Tuning"]
-        S2 -->|Skewed Column| F2["<b>Fix: Address Skew</b><br/>Select balanced integer/date column or salted hash"]
-        S2 -->|Evenly Distributed| S3["<b>3. FetchSize Parameter Check</b><br/>Default fetchsize=10 causes millions of roundtrips"]
-        S3 -->|Default FetchSize| F3["<b>Fix: Set FetchSize</b><br/>Set fetchsize=50000 to buffer network roundtrips"]
-        S3 -->|FetchSize OK| S4["<b>4. Source Query Execution Plan</b><br/>Check if database is performing unindexed sequential scan"]
-    end
-
-    style ExtractionTriage fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style NetworkRemediation fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Issue fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#10b981,stroke-width:2px,color:#fff
-    style S4 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style F1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style F2 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style F3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/09_spark_jdbc_extraction_triage_flow.d2](assets/05_apache_spark_and_pyspark_faq/09_spark_jdbc_extraction_triage_flow.d2)
 
 #### Production-Tuned Distributed JDBC Read
 ```python
@@ -1140,19 +929,9 @@ df = (
 | **Memory Format** | Serialized Java objects (heavy GC overhead). | **Tungsten off-heap binary format** (Zero GC, cache-aware). | Tungsten binary encoders. |
 | **Python Overhead** | Heavy serialization across Python worker & JVM via Py4J. | Minimal. Python expressions compile directly to JVM Catalyst physical plans. | N/A (Not available in Python). |
 
-```mermaid
-flowchart LR
-    subgraph PySparkExecution ["DataFrame vs RDD Execution Engine"]
-        DF["PySpark DataFrame<br/>df.filter(col('age') > 25)"] --> Catalyst["Catalyst Optimizer<br/>(Predicate Pushdown, Projection Pruning)"]
-        Catalyst --> Tungsten["Tungsten Binary Engine<br/>(Off-heap memory, Whole-Stage CodeGen)"]
-        
-        RDD["PySpark RDD<br/>rdd.filter(lambda x: x['age'] > 25)"] --> Py4J["Python Worker Subprocess<br/>(Pickling serialization overhead per row)"]
-    end
-    style DF fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Tungsten fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style RDD fill:#1f2937,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Py4J fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+![DataFrame Catalyst vs RDD Py4J Execution](assets/05_apache_spark_and_pyspark_faq/10_dataframe_catalyst_vs_rdd_py4j_execution.svg)
+
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/10_dataframe_catalyst_vs_rdd_py4j_execution.d2](assets/05_apache_spark_and_pyspark_faq/10_dataframe_catalyst_vs_rdd_py4j_execution.d2)
 
 ---
 
@@ -1327,17 +1106,9 @@ In technical whiteboard and screen-share interviews without IDE autocompletion o
 4. **Deterministic Tie-Breaking:** Never leaving window ranking non-deterministic.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    Imports["1. Standard Imports<br/>functions as F, Window as W"] --> Plan["2. Break into Logical Stages<br/>Filter -> Join -> Aggregate -> Rank"]
-    Plan --> Fluency["3. Fluent Method Chaining<br/>wrapped in (df.filter().join())"]
-    Fluency --> Deterministic["4. Explicit Datatypes & Aliases<br/>.cast('decimal(10,2)'), .alias()"]
+![PySpark Clean Code Architecture Stages](assets/05_apache_spark_and_pyspark_faq/11_pyspark_clean_code_architecture_stages.svg)
 
-    style Imports fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Plan fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Fluency fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Deterministic fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/11_pyspark_clean_code_architecture_stages.d2](assets/05_apache_spark_and_pyspark_faq/11_pyspark_clean_code_architecture_stages.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1392,26 +1163,9 @@ By default, Spark’s `spark.sql.autoBroadcastJoinThreshold` is **10 MB**.
 - If an executor has 8 GB of memory, broadcasting 800 MB across all nodes consumes substantial memory, but completely **eliminates shuffling the 2 TB fact table** across the network!
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph ShuffleJoin ["Without Broadcast: Sort-Merge Join (DISASTER)"]
-        F1["2 TB Fact Table"] --> Shuffle1["Shuffle 2 TB over Network (Spills to Disk)"]
-        D1["200 MB Dimension"] --> Shuffle2["Shuffle 200 MB over Network"]
-        Shuffle1 & Shuffle2 --> MergeNode["Executors Sort & Merge"]
-    end
+![Broadcast Hash Join vs Sort Merge Join](assets/05_apache_spark_and_pyspark_faq/12_broadcast_hash_join_vs_sort_merge_join.svg)
 
-    subgraph BroadcastJoin ["With Broadcast Join (OPTIMAL)"]
-        D2["200 MB Dimension Table"] --> Driver["Driver Deserializes (P2P Torrent)"]
-        Driver --> E1["Executor 1 (In-Memory Hash Table)"]
-        Driver --> E2["Executor 2 (In-Memory Hash Table)"]
-        F2["2 TB Fact Table"] --> FastJoin["Local Map-Side Hash Join<br/>Zero Fact Shuffle!"]
-        E1 & E2 --> FastJoin
-    end
-
-    style ShuffleJoin fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style BroadcastJoin fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style FastJoin fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/12_broadcast_hash_join_vs_sort_merge_join.d2](assets/05_apache_spark_and_pyspark_faq/12_broadcast_hash_join_vs_sort_merge_join.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1445,30 +1199,9 @@ joined_df = fact_2tb_df.join(
 **Question:** How would you investigate high memory usage and slow data processing in a production Spark cluster?
 
 #### Systematic 4-Stage Diagnostic Framework
-```mermaid
-flowchart TD
-    subgraph DiagnosticTriage ["Spark UI Diagnostic Inspection"]
-        Issue["🚨 <b>High Memory Usage / Slow Processing</b>"] --> S1["<b>1. Executors Tab: GC Time vs Task Time</b><br/>Inspect GC pause ratio (Is GC > 15%?)"]
-        S1 -->|High GC| F1["<b>Fix: GC Tuning</b><br/>Size Java Heap, reduce executor cores from 8 to 4-5"]
-        S1 -->|Low GC| S2["<b>2. Stages Tab: Spills & Task Skew</b><br/>Check Spill (Memory) and Spill (Disk)"]
-    end
+![Spark UI Memory and Spill Diagnostic Triage](assets/05_apache_spark_and_pyspark_faq/13_spark_ui_memory_and_spill_diagnostic_triage.svg)
 
-    subgraph MemoryRemediation ["Memory & Disk Spill Remediation"]
-        S2 -->|High Disk Spill| F2["<b>Fix: Shuffle Spilling</b><br/>Increase spark.sql.shuffle.partitions & spark.memory.fraction"]
-        S2 -->|Zero Spill| S3["<b>3. Off-Heap & Native Memory</b><br/>Check Python UDFs & Netty buffers exceeding cgroups"]
-        S3 --> F3["<b>Fix: Overhead Sizing</b><br/>Increase spark.executor.memoryOverhead (default 10% to 25%)"]
-    end
-
-    style DiagnosticTriage fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style MemoryRemediation fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Issue fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style S1 fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style S2 fill:#1f2937,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style S3 fill:#1f2937,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style F1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style F2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style F3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/13_spark_ui_memory_and_spill_diagnostic_triage.d2](assets/05_apache_spark_and_pyspark_faq/13_spark_ui_memory_and_spill_diagnostic_triage.d2)
 
 #### Production Diagnostic Checklist:
 1. **GC Time Ratio:** If $(\text{GC Time} / \text{Task Time}) > 15\%$, worker threads are starving. Allocate larger heap space or reduce cores per executor from 8 to 4–5 to reduce concurrent thread pressure on the JVM garbage collector.
@@ -1491,24 +1224,9 @@ In Apache Spark, window functions (`over(Window.partitionBy(...).orderBy(...))`)
 - **The Empty partitionBy Disaster:** Calling `Window.orderBy("created_at")` without `partitionBy` forces Spark to route **100% of the dataset onto a single executor core**, completely neutralizing cluster parallelism and causing catastrophic OOM.
 - **Frame Memory Consumption:** An unbounded frame (`rowsBetween(Window.unboundedPreceding, Window.currentRow)`) requires the executor to buffer historical partition states in execution memory, triggering disk spills when partitions are large.
 
-```mermaid
-flowchart TD
-    subgraph BadWindow ["Anti-Pattern: Window without partitionBy"]
-        Data1["100M Records across 10 Executors"] -->|Full Shuffle Collapse| SingleNode["Single Executor 0 (1 Core)<br/>Processes all 100M rows<br/>OOM Crash / Thrashing!"]
-    end
-    subgraph GoodWindow ["Best Practice: Window with partitionBy"]
-        Data2["100M Records"] -->|Balanced Hash Partition| E1["Executor 1: Dept A"]
-        Data2 -->|Balanced Hash Partition| E2["Executor 2: Dept B"]
-        Data2 -->|Balanced Hash Partition| E3["Executor 3: Dept C"]
-    end
+![Window Function PartitionBy Anti Pattern](assets/05_apache_spark_and_pyspark_faq/14_window_function_partitionby_anti_pattern.svg)
 
-    style BadWindow fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style GoodWindow fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style SingleNode fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style E1 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style E2 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-    style E3 fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/14_window_function_partitionby_anti_pattern.d2](assets/05_apache_spark_and_pyspark_faq/14_window_function_partitionby_anti_pattern.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1553,39 +1271,9 @@ In Apache Spark, transformations (`map`, `filter`, `join`, `groupBy`) are **lazy
 **Topic Covered:** Separation of Compute and Storage, File vs Table Formats  
 **Question:** Discuss the interplay and separation of concerns between Parquet, Delta Lake, and Spark executors.
 
-```mermaid
-flowchart TD
-    subgraph ComputeLayer ["Compute Engine: Apache Spark"]
-        Driver["Spark Driver (Coordinates DAG & Commits)"]
-        E1["Spark Executor 1<br/>(In-Memory CPU / RAM Processing)"]
-        E2["Spark Executor 2<br/>(Tungsten Off-Heap Vectors)"]
-        Driver --> E1 & E2
-    end
+![Spark Delta Lake Parquet Architecture](assets/05_apache_spark_and_pyspark_faq/15_spark_delta_lake_parquet_architecture.svg)
 
-    subgraph TableFormat ["ACID Table Format: Delta Lake"]
-        DeltaLog["_delta_log/ (JSON Commit History & State)"]
-        Metadata["Schema Enforcement, Time Travel & Compaction"]
-        DeltaLog --- Metadata
-    end
-
-    subgraph StorageFormat ["Physical Storage Format: Apache Parquet"]
-        F1["part-00000.parquet<br/>(Columnar chunks, dictionary encoded, snappy)"]
-        F2["part-00001.parquet<br/>(Columnar chunks, min/max statistics)"]
-    end
-
-    E1 & E2 <--> DeltaLog
-    DeltaLog --> F1 & F2
-
-    style ComputeLayer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TableFormat fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style StorageFormat fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Driver fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style E1 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style E2 fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DeltaLog fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style F1 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style F2 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/15_spark_delta_lake_parquet_architecture.d2](assets/05_apache_spark_and_pyspark_faq/15_spark_delta_lake_parquet_architecture.d2)
 
 | Component | Layer / Classification | Primary Role & Responsibility |
 | :--- | :--- | :--- |
@@ -1698,23 +1386,9 @@ When the broadcast table is too large:
 - **Broadcast Timeout:** If the driver takes longer than `spark.sql.broadcastTimeout` (default: 300 seconds) to collect and serialize the table, the job fails with `SparkException: Could not execute broadcast in 300 secs`.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph BHJ_Flow ["Broadcast Hash Join Execution Pipeline"]
-        Dim["Dimension Table (>spark.sql.autoBroadcastJoinThreshold)"] --> Collect["1. Driver Collects Table to RAM"]
-        Collect --> DriverCheck{"Fits in spark.driver.memory?"}
-        DriverCheck -- "No" --> DriverOOM["💥 Driver Crash: OutOfMemoryError: Java heap space"]
-        DriverCheck -- "Yes" --> Torrent["2. Torrent Broadcast Protocol to Executors"]
-        Torrent --> ExecCheck{"Fits in Executor Execution RAM?"}
-        ExecCheck -- "No" --> ExecOOM["💥 Executor Crash / Pod Eviction (OOMKilled)"]
-        ExecCheck -- "Yes" --> FastJoin["⚡ Blazing Fast O(1) Local Hash Join (No Shuffle!)"]
-    end
+![Broadcast Hash Join Execution Pipeline](assets/05_apache_spark_and_pyspark_faq/16_broadcast_hash_join_execution_pipeline.svg)
 
-    style BHJ_Flow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style DriverOOM fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style ExecOOM fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-    style FastJoin fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/16_broadcast_hash_join_execution_pipeline.d2](assets/05_apache_spark_and_pyspark_faq/16_broadcast_hash_join_execution_pipeline.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1777,23 +1451,9 @@ In distributed systems, distributed locks (via Redis Redlock, ZooKeeper, or Dyna
    A lock must **never** grant bare access. Every time a lock is acquired, the coordinator increments and issues a monotonically increasing **Fencing Token** (e.g., Token 42 for Worker A, Token 43 for Worker B). Downstream storage (or Delta Lake transaction log) verifies that writes have a token $\ge$ the latest seen token. When Worker A awakens with Token 42, storage rejects its write because Token 43 was already committed.
 
 #### Visual Flow
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Lock as 🔒 Lock Service (TTL: 30s)
-    participant WorkerA as 🐢 Worker A (Spark)
-    participant WorkerB as 🚀 Worker B (Spark)
-    participant Storage as 🗄️ Storage Engine (Fencing Token Check)
+![Distributed Lock Lease Fencing Token Sequence](assets/05_apache_spark_and_pyspark_faq/17_distributed_lock_lease_fencing_token_sequence.svg)
 
-    WorkerA->>Lock: Acquire Lock -> Granted (TTL: 30s, Token: 42)
-    Note over WorkerA: 💥 Full GC Stop-The-World Pause (40 Seconds!)
-    Note over Lock: 30s Elapses -> Lease Expires!
-    WorkerB->>Lock: Acquire Lock -> Granted (TTL: 30s, Token: 43)
-    WorkerB->>Storage: Commit Data with Fencing Token 43 -> SUCCESS (Storage Highest Token: 43)
-    Note over WorkerA: Awakes from GC at Second 40!
-    WorkerA->>Storage: Attempts Commit with Stale Token 42
-    Storage-->>WorkerA: ❌ REJECTED! (Token 42 < Current Highest Token 43)
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/17_distributed_lock_lease_fencing_token_sequence.d2](assets/05_apache_spark_and_pyspark_faq/17_distributed_lock_lease_fencing_token_sequence.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1851,34 +1511,9 @@ The memory is consumed in 4 off-heap locations:
 4. **PyArrow / Parquet Decompression:** Native columnar C++ decoders allocate native memory outside the JVM.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph K8sPod ["Kubernetes Executor Pod (cgroup Limit = 10 GB)"]
-        subgraph JVMHeap ["JVM Heap: 6 GB (Configured 7 GB)"]
-            UsedHeap["Active JVM Heap: 4.2 GB (Only 60% Used!)<br/>Spark UI reports: HEALTHY"]
-        end
+![Kubernetes Executor Pod Cgroup OOM Killer](assets/05_apache_spark_and_pyspark_faq/18_kubernetes_executor_pod_cgroup_oom_killer.svg)
 
-        subgraph OffHeapOverhead ["Native / Off-Heap Memory (Configured Overhead: 1 GB)"]
-            PyDaemon["Python Worker (PySpark / Arrow): 2.5 GB!"]
-            Netty["Netty Shuffle Direct Buffers: 1.2 GB"]
-            JvmNative["Metaspace & Thread Stacks: 0.8 GB"]
-            TotalOff["Total Off-Heap: 4.5 GB (EXCEEDS 1 GB OVERHEAD!)"]
-            PyDaemon --> TotalOff
-            Netty --> TotalOff
-            JvmNative --> TotalOff
-        end
-
-        TotalMemory["Actual Physical Container Footprint: 4.2 GB + 4.5 GB = 8.7 GB"]
-    end
-
-    K8sKiller["🚨 Linux Kernel OOM Killer:<br/>Container exceeds cgroup limit!<br/>Terminates pod -> Exit Code 137"]
-    TotalMemory --> K8sKiller
-
-    style K8sPod fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style JVMHeap fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style OffHeapOverhead fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style K8sKiller fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fca5a5
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/18_kubernetes_executor_pod_cgroup_oom_killer.d2](assets/05_apache_spark_and_pyspark_faq/18_kubernetes_executor_pod_cgroup_oom_killer.d2)
 
 #### Production Implementation / Tuning Playbook
 ```bash
@@ -1920,29 +1555,9 @@ Controlling the physical distribution of data across partitions dictates network
    - **Use Case:** Preparing data for sorted ranged file output or range-bounded time-series queries.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph RepartitionFlow ["repartition(N): Full Network Shuffle (All-to-All)"]
-        R_In["4 Partitions"] --> R_Shuffle["Shuffle Exchange HashPartitioning"]
-        R_Shuffle --> R_Out["8 Partitions (Evenly Balanced)"]
-    end
+![Repartition vs Coalesce Network Locality Flow](assets/05_apache_spark_and_pyspark_faq/19_repartition_vs_coalesce_network_locality_flow.svg)
 
-    subgraph CoalesceFlow ["coalesce(N): Zero Shuffle (Locality Merge)"]
-        C_P1["Node 1: Part 1"]
-        C_P2["Node 1: Part 2"]
-        C_P3["Node 2: Part 3"]
-        C_P4["Node 2: Part 4"]
-        C_Merge1["Node 1: Merged (Part 1 + 2)"]
-        C_Merge2["Node 2: Merged (Part 3 + 4)"]
-        C_P1 --> C_Merge1
-        C_P2 --> C_Merge1
-        C_P3 --> C_Merge2
-        C_P4 --> C_Merge2
-    end
-
-    style RepartitionFlow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CoalesceFlow fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/19_repartition_vs_coalesce_network_locality_flow.d2](assets/05_apache_spark_and_pyspark_faq/19_repartition_vs_coalesce_network_locality_flow.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -1997,30 +1612,9 @@ When conflicting records share the same `customer_id` or unified `tax_identifier
 3. Filter where `ROW_NUMBER() = 1` to extract the authoritative golden record.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph HeterogeneousSources ["Disparate Upstream Feeds"]
-        ERP["ERP Record: ID 101 | Address: New York | Updated: 2024-10-10 | Priority: 1"]
-        CRM["CRM Record: ID 101 | Address: Boston   | Updated: 2024-10-15 | Priority: 2"]
-    end
+![Multi Source Entity Resolution Window Ranking](assets/05_apache_spark_and_pyspark_faq/20_multi_source_entity_resolution_window_ranking.svg)
 
-    subgraph UnionStaging ["Unified Staged Schema"]
-        Union["unionByName(allowMissingColumns=True)"]
-        ERP --> Union
-        CRM --> Union
-    end
-
-    subgraph GoldenResolution ["Window Ranking Resolution"]
-        Rank["ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY source_priority ASC, updated_at DESC)"]
-        Union --> Rank
-        Winner["Winner: ERP Record 101 (Source Priority 1 supersedes newer CRM timestamp)"]
-        Rank --> Winner
-    end
-
-    style HeterogeneousSources fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style UnionStaging fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#fff
-    style GoldenResolution fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/20_multi_source_entity_resolution_window_ranking.d2](assets/05_apache_spark_and_pyspark_faq/20_multi_source_entity_resolution_window_ranking.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2087,18 +1681,9 @@ Finding top $N$ items per partition requires a multi-stage distributed execution
 4. **Filter:** Restrict to `rank <= 3`.
 
 #### Visual Flow
-```mermaid
-flowchart LR
-    Fact["fact_sales:<br/>(order_id, region, product_id, qty)"] --> Agg["1. groupBy('region', 'product_id')<br/>.agg(sum('qty'))"]
-    Agg --> WindowRank["2. dense_rank().over(<br/>Window.partitionBy('region')<br/>.orderBy(desc('total_sold')))"]
-    WindowRank --> Filter["3. filter(col('rank') <= 3)"]
-    Filter --> Output["Final Regional Top 3 Matrix"]
+![Regional Sales Top K Window Ranking Pipeline](assets/05_apache_spark_and_pyspark_faq/21_regional_sales_top_k_window_ranking_pipeline.svg)
 
-    style Fact fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Agg fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fff
-    style WindowRank fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Output fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/21_regional_sales_top_k_window_ranking_pipeline.d2](assets/05_apache_spark_and_pyspark_faq/21_regional_sales_top_k_window_ranking_pipeline.d2)
 
 #### Production Implementation / Code Solution
 ```python
@@ -2494,34 +2079,9 @@ Rather than exploding the entire dimension table, filter the dataset into two di
 - **Merge Streams:** `UNION ALL` the two streams with zero skew.
 
 #### Visual Flow: Standard Hash vs. Salting Mechanics
-```mermaid
-flowchart TD
-    subgraph ProblemSkew ["Standard Join: All Skewed Rows Hit Executor 4"]
-        F1["Orders (Hot Merchant M1: 10M Rows)"] --> H1["Hash(M1) % 4 = Partition 3"]
-        F2["Orders (Tail Merchants: 1M Rows)"] --> H2["Hash Split across Partitions 0, 1, 2"]
-        H1 --> E4["⛔ Executor Core 4: 10M Rows (OOM Crash / 45 Min Straggler)"]
-        H2 --> E13["Executors 1-3: Idle in 2 Min"]
-    end
+![Data Skew Salting Executor Load Balancing](assets/05_apache_spark_and_pyspark_faq/22_data_skew_salting_executor_load_balancing.svg)
 
-    subgraph SolutionSalting ["Salting Pipeline: Hot Key Split Uniformly Across K=4 Partitions"]
-        S1["Orders M1 + Salt 0..3"] --> P0["Partition 0 (2.5M Rows)"]
-        S1 --> P1["Partition 1 (2.5M Rows)"]
-        S1 --> P2["Partition 2 (2.5M Rows)"]
-        S1 --> P3["Partition 3 (2.5M Rows)"]
-        P0 --> Core0["Core 0: Finished in 3 Min"]
-        P1 --> Core1["Core 1: Finished in 3 Min"]
-        P2 --> Core2["Core 2: Finished in 3 Min"]
-        P3 --> Core3["Core 3: Finished in 3 Min"]
-    end
-
-    style ProblemSkew fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style SolutionSalting fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style E4 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Core0 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Core1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Core2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Core3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/22_data_skew_salting_executor_load_balancing.d2](assets/05_apache_spark_and_pyspark_faq/22_data_skew_salting_executor_load_balancing.d2)
 
 #### Production PySpark Implementation
 ```python
@@ -2608,36 +2168,9 @@ Engineers often conflate **Spilling** and **Garbage Collection (GC)** because bo
 | **Spark UI Indicator** | **Spill (Memory)**: 120 GB, **Spill (Disk)**: 35 GB in Stage metrics | **Task Deserialization Time** / **GC Time** columns showing red bars ($>10\%$ of task duration) |
 
 #### Visual Flow: Spark Executor Memory Layout
-```mermaid
-flowchart TD
-    subgraph TotalContainerMemory ["Total Container Memory Allocated by YARN / Kubernetes"]
-        subgraph JVMHeap ["JVM Heap Memory (spark.executor.memory)"]
-            subgraph SparkPool ["Spark Unified Memory Pool (spark.memory.fraction = 0.6)"]
-                Storage["Storage Memory (50%)<br/>Cached DataFrames & Broadcasts"]
-                Execution["Execution Memory (50%)<br/>Shuffles, Joins, Aggregations<br/><i>(Spills to disk if exceeded)</i>"]
-            end
-            UserMemory["User Memory (40%)<br/>UDFs, Custom Data Structures, Internal Metadata<br/><i>(Triggers Full GC if saturated)</i>"]
-            ReservedMemory["Reserved Memory (300 MB)<br/>Spark Internal Engine Safeguard"]
-        end
+![Spark Container Unified Memory Breakdown](assets/05_apache_spark_and_pyspark_faq/23_spark_container_unified_memory_breakdown.svg)
 
-        subgraph NonJVMHeap ["Off-Heap & Native Worker Memory (spark.executor.memoryOverhead)"]
-            PyWorker["PySpark Python Worker Daemons<br/>(CPython process memory)"]
-            OffHeap["spark.memory.offHeap.size<br/>(Tungsten Unsafe memory)"]
-            NIO["JVM Overhead: Metaspace, Thread Stacks, Native C++ I/O"]
-        end
-    end
-
-    Execution -->|Memory Exceeded| NVMeSpill[("Local NVMe Disk Spill<br/>(Slow I/O, No Crash)")]
-    UserMemory -->|Saturated with Tiny Objects| StopTheWorld["⛔ G1GC Full GC STW Pause<br/>(Executor Heartbeat Timeout)"]
-    PyWorker -->|Exceeds Overhead| OOMKill["☠️ Container Killed by OS OOM Killer<br/>(Container memory exceeded limit)"]
-
-    style TotalContainerMemory fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style JVMHeap fill:#1e293b,stroke:#06b6d4,stroke-width:1px,color:#67e8f9
-    style NonJVMHeap fill:#1e293b,stroke:#f59e0b,stroke-width:1px,color:#fde68a
-    style NVMeSpill fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style StopTheWorld fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-    style OOMKill fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/23_spark_container_unified_memory_breakdown.d2](assets/05_apache_spark_and_pyspark_faq/23_spark_container_unified_memory_breakdown.d2)
 
 #### Diagnostic & Triage Playbook
 

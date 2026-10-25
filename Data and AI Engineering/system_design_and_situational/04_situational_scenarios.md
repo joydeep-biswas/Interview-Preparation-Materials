@@ -6,31 +6,9 @@ A comprehensive, production-grade guide answering real-world situational enginee
 
 ## Architectural Overview: Enterprise Data Platform Incident & Stakeholder Governance
 
-```mermaid
-flowchart TD
-    subgraph TriagePhase ["Phase 1: Detection, Blast Radius Assessment & Active Mitigation"]
-        direction LR
-        Alert["1. Pipeline / Quality Alert<br/>(PagerDuty / Monte Carlo)"] --> Blast["2. Blast Radius Assessment<br/>(Financial Reports vs Internal Dashboards)"]
-        Blast --> Contain["3. Active Mitigation<br/>(Freeze Writes / Pin Golden Snapshot)"]
-    end
+![Enterprise Incident Management & Engineering Governance Lifecycle](assets/04_situational_scenarios/01_enterprise_incident_and_governance_framework.svg)
 
-    subgraph CommPhase ["Phase 2: Stakeholder Communication & Technical Rectification"]
-        direction LR
-        Comms["4. Transparent Comms<br/>(Exec Briefing & Status Banner)"] --> RCA["5. Root Cause Analysis<br/>(Infra vs Data Defect Isolation)"]
-        RCA --> Remediate["6. Idempotent Backfill<br/>(Delta Time Travel / Data Contracts)"]
-    end
-
-    Contain -->|"Contained State"| Comms
-
-    style TriagePhase fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style CommPhase fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Alert fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Blast fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Contain fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Comms fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style RCA fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Remediate fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_situational_scenarios/01_enterprise_incident_and_governance_framework.d2](assets/04_situational_scenarios/01_enterprise_incident_and_governance_framework.d2)
 
 ---
 
@@ -97,40 +75,9 @@ The structured response framework follows four stages:
 
 #### Visual Flow
 
-```mermaid
-flowchart TD
-    subgraph S1 ["Step 1: Declare & Contain"]
-        direction LR
-        Alert["Alert Triggered<br/>(PagerDuty)"] --> Declare["Declare Sev-1<br/>(Appoint Incident Commander)"]
-        Declare --> Contain["Contain Blast Radius<br/>(Halt writes / Enable DLQ)"]
-    end
+![Sev-1 Incident Mitigation & Idempotent Backfill Lifecycle](assets/04_situational_scenarios/02_sev1_incident_mitigation_and_backfill_lifecycle.svg)
 
-    subgraph S2 ["Step 2: Mitigate, Patch & Backfill"]
-        direction LR
-        Mitigate["Mitigate Downstream<br/>(Serve cached Silver layer)"] --> Patch["Targeted Hotfix<br/>(Isolate poison partition)"]
-        Patch --> Backfill["Idempotent Replay<br/>(Delta MERGE / SQL Upsert)"]
-    end
-
-    subgraph S3 ["Step 3: Blameless Post-Mortem"]
-        direction LR
-        Timeline["Incident Timeline<br/>(TTD, TTI, TTM, TTR)"] --> ActionItems["P0 Action Items<br/>(Schema Contract + Circuit Breakers)"]
-    end
-
-    Contain --> Mitigate
-    Backfill --> Timeline
-
-    style S1 fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style S2 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style S3 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Alert fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Declare fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Contain fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Mitigate fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Patch fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Backfill fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Timeline fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style ActionItems fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_situational_scenarios/02_sev1_incident_mitigation_and_backfill_lifecycle.d2](assets/04_situational_scenarios/02_sev1_incident_mitigation_and_backfill_lifecycle.d2)
 
 #### Production STAR Implementation
 - **Situation:** During Black Friday peak volume, a core real-time aggregation pipeline processing 25,000 transactions/second began failing with cascading executor `OutOfMemoryError` (OOM) and executor heartbeats timing out in Apache Spark on Kubernetes. Downstream order-fulfillment dashboards fell behind by 90 minutes.
@@ -254,23 +201,9 @@ The **Triad Protocol for Critical Pre-Dawn Incidents**:
 **Question:** *How do you quickly distinguish between an infrastructure-level issue (e.g. cluster, memory, network) and a data-level issue (e.g. skew, null values, schema drift)?*
 
 #### Diagnostic Decision Tree
-```mermaid
-flowchart TD
-    Failure["Pipeline Failed / Breached SLA"] --> LogCheck{"Where is the failure logged?"}
-    
-    LogCheck -->|"Executor Lost / Node Evicted / Timeout"| InfraCheck["Suspect Infrastructure Layer"]
-    LogCheck -->|"Cast Error / Assertion / Out-of-Bounds"| DataCheck["Suspect Data / Schema Layer"]
-    LogCheck -->|"Single Task Straggler (99% done)"| SkewCheck["Suspect Data Skew / Key Collision"]
+![Pipeline Failure Diagnostic Decision Tree](assets/04_situational_scenarios/03_pipeline_failure_diagnostic_decision_tree.svg)
 
-    InfraCheck --> V1["Check Cloud Quotas, OOMKilled dmesg, Spot termination notice"]
-    DataCheck --> V2["Inspect failing record via dead-letter quarantine table"]
-    SkewCheck --> V3["Examine shuffle read bytes across tasks in Spark UI"]
-
-    style Failure fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-    style InfraCheck fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style DataCheck fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style SkewCheck fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_situational_scenarios/03_pipeline_failure_diagnostic_decision_tree.d2](assets/04_situational_scenarios/03_pipeline_failure_diagnostic_decision_tree.d2)
 
 1. **Step 1: Check Task Distribution:** If 199 tasks finish in 20 seconds and 1 task runs for 45 minutes, it is a **data-level skew issue**, not an infrastructure failure.
 2. **Step 2: Check Exit Codes:** Exit code 137 indicates OS `SIGKILL` (infrastructure/memory limits), whereas Java `NumberFormatException` or Python `KeyError` indicates upstream data contract violations.
@@ -416,49 +349,9 @@ Decoupled real-time operational fraud screening (sub-50ms using Redis HyperLogLo
 
 #### Architectural Architecture Flowchart
 
-```mermaid
-flowchart TD
-    subgraph IngestionTier ["1. Raw Ingestion & Landing (Azure ADLS Gen2)"]
-        direction LR
-        Sources["Operational DBs & Webhooks<br/>(Salesforce, SAP, Kafka)"] --> ADF["Azure Data Factory (ADF)<br/>(Batch CDC & File Copy)"]
-        ADF --> ADLS_Bronze["ADLS Gen2: Bronze Zone<br/>(Raw Delta / JSON Landing)"]
-    end
+![Azure Modern Data Platform: End-to-End Enterprise Reference Architecture](assets/04_situational_scenarios/04_azure_enterprise_modern_data_platform.svg)
 
-    subgraph TransformationTier ["2. Distributed Compute & Lakehouse (Databricks & Spark)"]
-        direction LR
-        ADLS_Bronze --> SparkTransform["Databricks PySpark Cluster<br/>(Cleansing, Conforming, SCD-2)"]
-        SparkTransform --> ADLS_Silver["ADLS Gen2: Silver Zone<br/>(Curated Delta Lake)"]
-    end
-
-    subgraph OrchestrationTier ["3. Enterprise Orchestration (Apache Airflow)"]
-        direction TB
-        Airflow["Apache Airflow DAGs<br/>(Astronomer / Managed Airflow)"]
-        Airflow -.->|"Triggers & Monitors"| ADF
-        Airflow -.->|"Submits Databricks Run"| SparkTransform
-        Airflow -.->|"Executes Snowflake DDL/DML"| SnowPipe
-    end
-
-    subgraph ServingTier ["4. Analytical Warehouse & BI (Snowflake & Power BI)"]
-        direction LR
-        ADLS_Silver --> SnowPipe["Snowpipe / Storage Integration<br/>(Automated S3/ADLS Stage Load)"]
-        SnowPipe --> SnowflakeDW["Snowflake Enterprise Warehouse<br/>(Dimensional Star Schema Marts)"]
-        SnowflakeDW --> PowerBI["Power BI / Executive Dashboards<br/>(Semantic Models & Self-Service)"]
-    end
-
-    style IngestionTier fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TransformationTier fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style OrchestrationTier fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ServingTier fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Sources fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ADF fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style ADLS_Bronze fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style SparkTransform fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style ADLS_Silver fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Airflow fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style SnowPipe fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style SnowflakeDW fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style PowerBI fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_situational_scenarios/04_azure_enterprise_modern_data_platform.d2](assets/04_situational_scenarios/04_azure_enterprise_modern_data_platform.d2)
 
 #### Production Walkthrough
 1. **Azure Ingestion:** ADF handles scheduled file pickups from on-prem SFTP/SAP and triggers Azure Event Hubs/Kafka connectors, landing raw payloads into Azure Data Lake Storage Gen2 (Bronze layer).
@@ -493,28 +386,9 @@ flowchart TD
 **Question:** *How do you integrate CI/CD for data pipelines, especially for Spark jobs or Azure Data Factory workflows?*
 
 #### CI/CD Pipeline Lifecycle
-```mermaid
-flowchart LR
-    Dev["Developer Branch<br/>(Git Feature Branch)"] --> PR["Pull Request Build<br/>(GitHub Actions / Azure DevOps)"]
-    
-    subgraph TestGates ["Automated Quality Gates"]
-        direction TB
-        Unit["PySpark pytest Suite<br/>(Local SparkSession Mocks)"]
-        SQLFluff["SQLFluff / Black Linter"]
-        ADFValidate["ADF ArmTemplateValidator CLI"]
-    end
-    
-    PR --> TestGates
-    TestGates --> Merge["Merge to Main"]
-    Merge --> StagingDeploy["Deploy to Staging via ARM/Terraform"]
-    StagingDeploy --> IntegrationTest["End-to-End Smoke Test on Staging"]
-    IntegrationTest --> ProdDeploy["Automated Production Deployment"]
+![Data Platform CI/CD: Automated Quality Gates & Safe Deployment](assets/04_situational_scenarios/05_cicd_automated_quality_gates_lifecycle.svg)
 
-    style Dev fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style TestGates fill:#1e293b,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style StagingDeploy fill:#1e293b,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style ProdDeploy fill:#1e293b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-```
+*D2 Source:* [assets/04_situational_scenarios/05_cicd_automated_quality_gates_lifecycle.d2](assets/04_situational_scenarios/05_cicd_automated_quality_gates_lifecycle.d2)
 
 1. **For Apache Spark / PySpark Code:**
    - **Local Unit Testing:** Test transformation functions locally with `pytest` using mocked, small in-memory DataFrames without spinning up cloud clusters.
@@ -597,32 +471,9 @@ flowchart LR
 
 In distributed data systems, waiting for 100% information before deciding guarantees analysis paralysis and missed market windows. Senior and Staff Data Engineers categorize technical decisions using the **Two-Way Door (Type 1 vs. Type 2)** framework:
 
-```mermaid
-flowchart TD
-    subgraph DecisionTriage ["Decision Classification & Risk Containment"]
-        direction TB
-        Incoming["Architectural Challenge<br/>(Incomplete Information)"] --> Eval{"Decision Type?"}
-        
-        Eval -->|"Type 1: Irreversible / One-Way Door<br/>(Storage format, primary key, cloud vendor)"| Type1["Deep Risk Modeling & Spikes"]
-        Eval -->|"Type 2: Reversible / Two-Way Door<br/>(Compute sizing, orchestration engine, micro-batch interval)"| Type2["Rapid Execution with Guardrails"]
-        
-        Type1 --> Spike["5-Day Empirical Canary Spike<br/>(1% Representative Load Benchmark)"]
-        Spike --> AbsLayer["Decoupled Abstraction Layer<br/>(dbt SQL / PyIceberg / Open Catalog API)"]
-        AbsLayer --> StopLoss["Pre-agreed Stop-Loss Criteria<br/>(Cost > +20% or Latency > +15% => Auto-Rollback)"]
-        
-        Type2 --> Monitor["Deploy with Observability<br/>(Feature flags, Shadow Pipeline)"]
-    end
+![Architectural Framework: Two-Way Doors & Empirical Risk Containment](assets/04_situational_scenarios/06_twoway_doors_empirical_risk_containment.svg)
 
-    style DecisionTriage fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Incoming fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style Eval fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Type1 fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Type2 fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style Spike fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style AbsLayer fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style StopLoss fill:#1e293b,stroke:#ef4444,stroke-width:2px,color:#fff
-    style Monitor fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_situational_scenarios/06_twoway_doors_empirical_risk_containment.d2](assets/04_situational_scenarios/06_twoway_doors_empirical_risk_containment.d2)
 
 #### Production STAR Scenario
 
@@ -659,33 +510,9 @@ flowchart TD
 
 In high-growth enterprises, business strategy evolves faster than data pipeline release cycles. Hard-coding business definitions (e.g., "Active User", "Attributed Revenue", "Customer Churn") into physical ETL jobs results in brittle pipelines, expensive multi-week backfills, and engineering burnout. The solution is **Decoupled Architecture**:
 
-```mermaid
-flowchart LR
-    subgraph InvariantLayer ["Layer 1: Immutable Audit Invariants (Bronze)"]
-        direction TB
-        Raw["Raw Append-Only Events<br/>(Kafka / ADLS / S3)"] --> Ingestion["Strict Data Contract Schema<br/>(No Business Filters Applied)"]
-    end
+![Decoupled Data Contracts & Semantic Metric Virtualization](assets/04_situational_scenarios/07_decoupled_data_contracts_metric_virtualization.svg)
 
-    subgraph CleanseLayer ["Layer 2: Standardized Entities (Silver)"]
-        direction TB
-        Ingestion --> Silver["Deduplicated Entities<br/>(H3 Geospatial / SCD Type 2)"]
-    end
-
-    subgraph MetricLayer ["Layer 3: Virtualized Semantic Layer (Gold)"]
-        direction TB
-        Silver --> Semantic["dbt Semantic Models / Metric Views<br/>(Dynamic KPI Definitions)"]
-        Semantic --> BI["BI Dashboards & Executive ML<br/>(Instant Logic Repointing)"]
-    end
-
-    style InvariantLayer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style CleanseLayer fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style MetricLayer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Raw fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Ingestion fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style Silver fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff
-    style Semantic fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-    style BI fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
-```
+*D2 Source:* [assets/04_situational_scenarios/07_decoupled_data_contracts_metric_virtualization.d2](assets/04_situational_scenarios/07_decoupled_data_contracts_metric_virtualization.d2)
 
 #### Production STAR Scenario
 

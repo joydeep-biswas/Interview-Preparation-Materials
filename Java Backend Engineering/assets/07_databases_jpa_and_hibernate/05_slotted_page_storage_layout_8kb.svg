@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Internal 8KB Database Page Anatomy: Slotted Page Architecture</text>
+  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Physical disk block layout: Page header, downward-growing line pointers (ItemIds), free space gap, and upward-growing tuples</text>
+<rect x="160" y="85" width="720" height="435" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="2"/>
+<text x="520" y="112" fill="#60A5FA" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Internal 8KB Database Page Layout (Slotted Page Architecture)</text>
+<rect x="410" y="122" width="220" height="18" rx="9" fill="#1d4ed8"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">8192 Bytes Fixed Block</text>
+<rect x="190" y="155" width="660" height="60" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="210" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Page Header (24 Bytes fixed at offset 0)</text>
+<text x="210" y="198" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• pd_lsn (Log Sequence Number for WAL) | pd_checksum | pd_lower (ItemId boundary)</text>
+<text x="210" y="208" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• pd_upper (Tuple boundary pointer) | pd_special (B+tree index sibling pointers)</text>
+<rect x="190" y="225" width="660" height="65" rx="8" fill="#062e3d" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="210" y="248" fill="#22D3EE" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">ItemId Array / Line Pointers (Grows Downwards from offset 24)</text>
+<rect x="210" y="258" width="145" height="24" rx="4" fill="#0891b2" stroke="#06b6d4" stroke-width="1"/>
+<text x="282" y="274" fill="#ffffff" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ItemId 1 -&gt; Offset 7800 (Len 120)</text>
+<rect x="365" y="258" width="145" height="24" rx="4" fill="#0891b2" stroke="#06b6d4" stroke-width="1"/>
+<text x="437" y="274" fill="#ffffff" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ItemId 2 -&gt; Offset 7640 (Len 160)</text>
+<rect x="520" y="258" width="145" height="24" rx="4" fill="#0891b2" stroke="#06b6d4" stroke-width="1"/>
+<text x="592" y="274" fill="#ffffff" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ItemId 3 -&gt; Offset 7490 (Len 150)</text>
+<rect x="675" y="258" width="145" height="24" rx="4" fill="#334155" stroke="#06b6d4" stroke-width="1"/>
+<text x="747" y="274" fill="#ffffff" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ItemId 4 (Empty Ptr)</text>
+<rect x="190" y="300" width="660" height="60" rx="8" fill="#1a1c12" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="520" y="325" fill="#FDE68A" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Free Space Gap (Hole for future tuple &amp; pointer allocations)</text>
+<text x="520" y="345" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Allocates downward pointers &amp; upward tuples until pd_lower == pd_upper (Page Full!)</text>
+<rect x="190" y="370" width="660" height="95" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+<text x="210" y="393" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Tuple Data Heap Storage (Grows Upwards from 8192 boundary)</text>
+<rect x="210" y="405" width="205" height="48" rx="4" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+<text x="218" y="423" fill="#D1FAE5" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Tuple 3: (id=103, 'Charlie', balance=400)</text>
+<text x="218" y="439" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Header: xmin=500, xmax=0</text>
+<rect x="425" y="405" width="205" height="48" rx="4" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+<text x="433" y="423" fill="#D1FAE5" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Tuple 2: (id=102, 'Bob', balance=250)</text>
+<text x="433" y="439" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Header: xmin=500, xmax=0</text>
+<rect x="640" y="405" width="195" height="48" rx="4" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+<text x="648" y="423" fill="#D1FAE5" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Tuple 1: (id=101, 'Alice', balance=500)</text>
+<text x="648" y="439" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Header: xmin=500, xmax=0</text>
+<rect x="190" y="475" width="660" height="30" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="520" y="495" fill="#FBBF24" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Key Architecture Guarantee: Tuples can be defragmented/moved inside the page without changing their external ItemPointer (BlockID, OffsetIndex)!</text>
+</svg>

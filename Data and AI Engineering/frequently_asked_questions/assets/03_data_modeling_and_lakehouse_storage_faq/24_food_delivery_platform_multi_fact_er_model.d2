@@ -1,0 +1,35 @@
+direction: right
+classes: {
+  dim: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 1.5; rx: 8 } }
+  fact: { style: { fill: "#1F2937"; stroke: "#F59E0B"; stroke-width: 2; rx: 10 } }
+}
+
+dim_cust: "dim_customer\ncustomer_key (PK)" { class: dim }
+dim_dash: "dim_dasher\ndasher_key (PK)" { class: dim }
+dim_store: "dim_merchant_store\nstore_key (PK)" { class: dim }
+dim_geo: "dim_geo_zone\ngeo_zone_key (PK)" { class: dim }
+dim_date: "dim_date\norder_date_key (PK)" { class: dim }
+
+fact_delivery: "fact_delivery_lifecycle (Granular Fulfillment)\ndelivery_key (PK)\norder_id, customer_key (FK), dasher_key (FK)\nstore_key (FK), geo_zone_key (FK), order_date_key (FK)\norder_placed_at, store_accepted_at, dasher_arrived_at\npicked_up_at, delivered_at, total_fulfillment_seconds" {
+  class: fact
+}
+
+fact_fin: "fact_order_financials\norder_key (PK)\ndelivery_key (FK)\ngross_food_amt, delivery_fee, surge_fee\nplatform_margin, driver_payout" {
+  class: fact
+  style.stroke: "#10B981"
+}
+
+fact_payout: "fact_merchant_payout_settlement\nsettlement_key (PK)\nstore_key (FK), settlement_date_key (FK)\ngross_sales, platform_commission, net_payout" {
+  class: fact
+  style.stroke: "#8B5CF6"
+}
+
+dim_cust -> fact_delivery: "places"
+dim_dash -> fact_delivery: "delivers"
+dim_store -> fact_delivery: "prepares"
+dim_geo -> fact_delivery: "located_in"
+dim_date -> fact_delivery: "placed_on"
+
+fact_delivery -> fact_fin: "1:1 reconciles"
+dim_store -> fact_payout: "1:N settles"
+dim_date -> fact_payout: "settled_on"

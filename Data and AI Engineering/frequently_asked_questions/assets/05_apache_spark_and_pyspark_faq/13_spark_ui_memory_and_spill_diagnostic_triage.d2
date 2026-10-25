@@ -1,0 +1,19 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+}
+
+issue: "High Memory Usage / Slow Processing" { class: box; style.stroke: "#EF4444" }
+s1: "1. Executors Tab: GC Ratio\nIs GC pause time > 15%?" { class: box; style.stroke: "#3B82F6" }
+f1: "Fix: GC Tuning\nReduce cores from 8 to 4-5, size heap" { class: box; style.stroke: "#10B981" }
+s2: "2. Stages Tab: Spills & Skew\nCheck Spill (Memory) vs Spill (Disk)" { class: box; style.stroke: "#F59E0B" }
+f2: "Fix: Shuffle Tuning\nIncrease shuffle partitions & memory fraction" { class: box; style.stroke: "#10B981" }
+s3: "3. Off-Heap & Native Memory\nPython UDFs & Netty exceeding cgroup" { class: box; style.stroke: "#8B5CF6" }
+f3: "Fix: Overhead Sizing\nIncrease spark.executor.memoryOverhead (25%)" { class: box; style.stroke: "#10B981" }
+
+issue -> s1
+s1 -> f1: "High GC"
+s1 -> s2: "Low GC"
+s2 -> f2: "High Spill"
+s2 -> s3: "Zero Spill"
+s3 -> f3: "Exceeds Cgroup"

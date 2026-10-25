@@ -6,39 +6,9 @@ A comprehensive, production-grade guide to real-world interview scenarios and di
 
 ## Architectural Overview: JVM Runtime Engine & Diagnostic Plane
 
-```mermaid
-flowchart TD
-    subgraph JVM_Memory_Subsystem ["1. JVM Memory Layout & Generation Zones"]
-        direction TB
-        Young["Young Generation (Eden + S0/S1 Survivors)"] --> Old["Old Generation (Tenured Objects)"]
-        Meta["Metaspace (Off-Heap Class Metadata)"]
-        CodeCache["Code Cache (JIT Compiled C1/C2 Native Assembly)"]
-        DirectMem["Direct Off-Heap Buffers (NIO Channels)"]
-    end
+![JVM Subsystems: Memory Layout, Execution & Garbage Collection](assets/12_jvm_internals_performance_and_troubleshooting_faq/01_jvm_subsystems_memory_execution_gc_architecture.svg)
 
-    subgraph GC_Engine ["2. Garbage Collection & Safepoint Plane"]
-        direction TB
-        ZGC["ZGC / Shenandoah (Sub-Millisecond Concurrent Mark & Relocate)"]
-        G1GC["G1 GC (Region-Based Mixed Collections & Ergonomics)"]
-        Safepoints["JVM Safepoints & Time-To-Safepoint (TTSP)"]
-    end
-
-    subgraph Production_Diagnostics ["3. Production Troubleshooting Toolkit"]
-        jstack["Thread Dumps (jstack / kill -3: Deadlocks & BLOCKED threads)"]
-        jmap["Heap Dumps (jcmd / -XX:+HeapDumpOnOutOfMemoryError)"]
-        MAT["Eclipse Memory Analyzer (Dominator Trees & Leak Suspects)"]
-        JFR["Java Flight Recorder (Low-overhead profiling & GC pauses)"]
-        
-        jmap --> MAT
-    end
-
-    JVM_Memory_Subsystem <--> GC_Engine
-    JVM_Memory_Subsystem -.-> Production_Diagnostics
-
-    style JVM_Memory_Subsystem fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style GC_Engine fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0
-    style Production_Diagnostics fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting_faq/01_jvm_subsystems_memory_execution_gc_architecture.d2](assets/12_jvm_internals_performance_and_troubleshooting_faq/01_jvm_subsystems_memory_execution_gc_architecture.d2)
 
 ---
 
@@ -202,46 +172,9 @@ Where:
 - $\frac{W}{C}$ = Wait-to-Compute ratio ($\text{Wait Time} / \text{Service Time}$).
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Diagnosis ["Phase 1: Shell & Metric Diagnostic Commands"]
-        direction TB
-        Cmd1["top -H -p PID<br/>(Check CPU user% vs sys%)"]
-        Cmd2["pidstat -w 1 5<br/>(Measure context switches/sec: cswch/s)"]
-        Cmd3["jcmd PID Thread.print > threads.tdump<br/>(Capture 3 thread dumps 5s apart)"]
-        Cmd1 --> Cmd2 --> Cmd3
-    end
+![CPU Spike Thread Dump Analysis Decision Tree](assets/12_jvm_internals_performance_and_troubleshooting_faq/02_cpu_spike_thread_dump_analysis_decision_tree.svg)
 
-    subgraph Analysis ["Phase 2: Thread State Triage"]
-        direction TB
-        StateCheck{"Analyze Thread States in Dump"}
-        StateBlocked["Many BLOCKED on java.lang.Object monitor<br/>--> Severe Lock Contention / Serial Bottleneck"]
-        StateWaiting["Many WAITING in parking to wait for HikariPool<br/>--> Connection Pool Starvation"]
-        StateRunnable["Many RUNNABLE with high sys% CPU<br/>--> Context switch storm / Thread over-provisioning"]
-        StateCheck -->|BLOCKED| StateBlocked
-        StateCheck -->|WAITING| StateWaiting
-        StateCheck -->|RUNNABLE| StateRunnable
-    end
-
-    subgraph Solution ["Phase 3: Production Remediation"]
-        direction TB
-        Fix1["Shrink Thread Pool & Implement Virtual Threads (Java 21+)"]
-        Fix2["Size HikariCP Pool = 2 * Cores + Spindle Count"]
-        Fix3["Replace Monolithic Locks with Striped / Non-blocking Locks"]
-    end
-
-    Diagnosis --> Analysis
-    StateBlocked --> Fix3
-    StateWaiting --> Fix2
-    StateRunnable --> Fix1
-
-    style Diagnosis fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Analysis fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Solution fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style StateBlocked fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style StateWaiting fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style StateRunnable fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting_faq/02_cpu_spike_thread_dump_analysis_decision_tree.d2](assets/12_jvm_internals_performance_and_troubleshooting_faq/02_cpu_spike_thread_dump_analysis_decision_tree.d2)
 
 #### Production Implementation / Code Solution
 ```java
@@ -339,39 +272,9 @@ The 5 distinct flavors of OOM in Spring Boot production environments:
 | `java.lang.OutOfMemoryError: unable to create new native thread` | OS Process Memory / PID Table | OS thread limit reached (`ulimit -u`), kernel PID limit reached (`/proc/sys/kernel/pid_max`), or host virtual memory exhausted. |
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph Trigger ["Crash Event"]
-        OOM["JVM throws OutOfMemoryError"]
-        CrashDump["JVM automatically writes HPROF dump via<br/>-XX:+HeapDumpOnOutOfMemoryError"]
-        OOM --> CrashDump
-    end
+![OOM Heap Dump Analysis Dominator Tree](assets/12_jvm_internals_performance_and_troubleshooting_faq/03_oom_heap_dump_analysis_dominator_tree.svg)
 
-    subgraph Triage ["Offline Triage in Eclipse MAT"]
-        MAT["Open .hprof in Eclipse Memory Analyzer (MAT)"]
-        DomTree["Inspect Dominator Tree<br/>(Sort by Retained Heap Size)"]
-        LeakSuspects["Run Leak Suspects Report<br/>(Identify Objects holding > 20% of Heap)"]
-        GCRoots["Path to GC Roots (Exclude Weak/Soft/Phantom References)"]
-        MAT --> DomTree --> GCRoots
-        MAT --> LeakSuspects --> GCRoots
-    end
-
-    subgraph RootCause ["Root Cause Identification"]
-        direction TB
-        CauseStatic["Static Collection / Unbounded Cache"]
-        CauseThreadLocal["ThreadLocal Leak in Pooled Tomcat Thread"]
-        CauseMetaspace["CGLIB / Spring Reflection Classloader Leak"]
-        GCRoots --> CauseStatic
-        GCRoots --> CauseThreadLocal
-        GCRoots --> CauseMetaspace
-    end
-
-    CrashDump --> MAT
-
-    style Trigger fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style Triage fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style RootCause fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting_faq/03_oom_heap_dump_analysis_dominator_tree.d2](assets/12_jvm_internals_performance_and_troubleshooting_faq/03_oom_heap_dump_analysis_dominator_tree.d2)
 
 #### Production Implementation / Code Solution
 ##### 1. Mandatory JVM Flags for Container Production Deployments (`Dockerfile` / Kubernetes Pod spec)
@@ -481,29 +384,9 @@ The primary architectural triggers of GC activity under low external load:
 4. **Failure of JVM Escape Analysis:** The JIT (Just-In-Time) compiler utilizes **Escape Analysis** to determine if an object allocated inside a method escapes the method scope. If it does not escape, JIT applies **Scalar Replacement**, allocating primitives directly on the CPU stack instead of the heap. Code patterns that prevent scalar replacement (e.g. passing objects to non-inlinable virtual methods or storing them in fields) force heap allocation.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph GenerationalFlow ["Premature Tenuring & Allocation Churn Mechanics"]
-        direction LR
-        Alloc["High Allocation Churn<br/>(Polling Loops / String Churn)"]
-        Eden["Eden Space<br/>(Rapidly Exhausted)"]
-        Survivor["Survivor Spaces S0 / S1<br/>(Dynamic Aging Threshold Exceeded)"]
-        OldGen["Old Generation (Tenured)<br/>(Filled with Short-Lived Junk)"]
-        FullGC["Major GC / Full GC Triggered<br/>(Stop-the-World Latency Spike)"]
+![Premature Tenuring & Allocation Churn Mechanics](assets/12_jvm_internals_performance_and_troubleshooting_faq/04_premature_tenuring_allocation_churn_mechanics.svg)
 
-        Alloc --> Eden
-        Eden -->|Premature Promotion| Survivor
-        Survivor -->|Tenuring Overflow| OldGen
-        OldGen --> FullGC
-    end
-
-    style GenerationalFlow fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Alloc fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style Eden fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Survivor fill:#1f2937,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style OldGen fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style FullGC fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fecaca
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting_faq/04_premature_tenuring_allocation_churn_mechanics.d2](assets/12_jvm_internals_performance_and_troubleshooting_faq/04_premature_tenuring_allocation_churn_mechanics.d2)
 
 #### Production Implementation / Code Solution
 ##### Bad Code (Allocation Churn in Background Polling) vs Good Code (Zero-Allocation Buffer Re-use)
@@ -619,37 +502,9 @@ When concurrency jumps from 10 to 1,000, if throughput ($\lambda$) cannot scale 
    - 1,000 concurrent threads creating large request/response object trees overwhelm Eden generation, causing continuous Stop-The-World GC pauses that freeze the application, causing load balancer health checks to fail.
 
 #### Visual Flow
-```mermaid
-flowchart TD
-    subgraph IngressLayer ["Step 1: Ingress & Edge Diagnostics"]
-        direction LR
-        LoadTest["k6 / JMeter Ramp: 10 -> 1,000 Users"] --> GatewayCheck{"Check Ingress Proxy Metrics"}
-        GatewayCheck -->|HTTP 502 / Connection Refused| OSCheck["Check OS ulimit -n & somaxconn"]
-        GatewayCheck -->|HTTP 504 Gateway Timeout| TomcatCheck["Check Tomcat Thread Pool Active Threads"]
-    end
+![High-Throughput Microservice Bottleneck Triage Flow](assets/12_jvm_internals_performance_and_troubleshooting_faq/05_high_throughput_microservice_bottleneck_triage_flow.svg)
 
-    subgraph AppLayer ["Step 2: JVM & Container Inspection"]
-        direction LR
-        TomcatCheck -->|Threads == maxThreads (200)| TomcatFull["Tomcat Executor Exhausted<br/>(Requests queued in accept-count)"]
-        TomcatCheck -->|Threads < maxThreads| HikariCheck["Check HikariCP Active vs Idle Connections"]
-    end
-
-    subgraph DBLayer ["Step 3: Database & Lock Triage"]
-        direction LR
-        HikariCheck -->|Active == MaxPoolSize| PoolExhaust["HikariCP Pool Starvation<br/>(Threads waiting for DB connection lease)"]
-        HikariCheck -->|Active < MaxPoolSize| DBLocks["Inspect Database pg_stat_activity<br/>(Row lock contention & sequential table scans)"]
-    end
-
-    IngressLayer --> AppLayer
-    AppLayer --> DBLayer
-
-    style IngressLayer fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style AppLayer fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style DBLayer fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style OSCheck fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style TomcatFull fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-    style PoolExhaust fill:#7f1d1d,stroke:#ef4444,stroke-width:1.5px,color:#fecaca
-```
+*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting_faq/05_high_throughput_microservice_bottleneck_triage_flow.d2](assets/12_jvm_internals_performance_and_troubleshooting_faq/05_high_throughput_microservice_bottleneck_triage_flow.d2)
 
 #### Production Implementation / Code Solution
 ##### 1. Production `application.yml` Tuned for 1,000 Concurrency

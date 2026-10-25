@@ -1,0 +1,28 @@
+direction: down
+title: Java Collections Framework Selection Decision Tree
+
+Root: Java Collections Selection Root {
+  style.fill: "#1E293B"
+  style.stroke: "#3B82F6"
+  question: "Key-Value pairs OR Individual Elements?"
+}
+
+MapBranch: Map<K,V> Branch {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  concurrent: "ConcurrentHashMap: Thread-safe, fine-grained bucket locks"
+  sorted: "TreeMap: Sorted keys, O(log N) red-black tree"
+  order: "LinkedHashMap: Insertion or access order (LRU)"
+  default: "HashMap: Standard O(1) hash table for 90% use cases"
+}
+
+CollectionBranch: Collection<E> Branch {
+  style.fill: "#0B132B"
+  style.stroke: "#1D4ED8"
+  unique: "Unique Elements -> HashSet (O(1)), TreeSet (sorted), LinkedHashSet"
+  queue: "FIFO/LIFO -> ArrayDeque (circular buffer), PriorityQueue (heap)"
+  list: "Indexed List -> ArrayList (contiguous memory, O(1) access)"
+}
+
+Root -> MapBranch: Key-Value Pairs { style.stroke: "#F59E0B" }
+Root -> CollectionBranch: Individual Elements { style.stroke: "#3B82F6" }

@@ -6,51 +6,9 @@ A comprehensive, production-grade guide to real-world interview scenarios and en
 
 ## Architectural Overview: High-Concurrency Async ASGI Runtime for AI Services
 
-```mermaid
-flowchart TD
-    subgraph Client_Traffic ["1. Client Requests"]
-        HTTP_Req["REST / HTTP Ingress"]
-        SSE_Req["SSE Token Streaming Request"]
-        WS_Req["Bidirectional WebSocket"]
-    end
+![High-Concurrency Async ASGI Runtime for AI Services](assets/13_python_backend_and_api_development_faq/01_high_concurrency_async_asgi_runtime_topology.svg)
 
-    subgraph ASGI_Gateway ["2. FastAPI / Uvicorn ASGI Server"]
-        Uvicorn["Uvicorn Worker (uvloop epoll engine)"]
-        Middleware["Middleware Stack (Tracing, CORS, Rate-Limiting)"]
-        Router["APIRouter & Pydantic v2 Serialization"]
-        
-        Uvicorn --> Middleware --> Router
-    end
-
-    subgraph Event_Loop_Isolation ["3. Event Loop & Execution Scheduling"]
-        EventLoop["Single-Threaded AsyncIO Event Loop"]
-        AsyncRoutes["Non-Blocking Async Routes (httpx, AsyncSession)"]
-        ThreadPool["run_in_executor ThreadPool (Light CPU, Tokenizers)"]
-        ProcessPool["ProcessPoolExecutor (Heavy CPU, Image Tensor Ops)"]
-        
-        Router --> EventLoop
-        EventLoop --> AsyncRoutes
-        EventLoop --> ThreadPool
-        EventLoop --> ProcessPool
-    end
-
-    subgraph Downstream_Services ["4. Upstream & Storage Integration"]
-        vLLM["vLLM Model Gateway (SSE Stream)"]
-        RedisLock["Redis (Distributed Rate-Limiting & Cache)"]
-        Postgres[("PostgreSQL via SQLAlchemy 2.0 Async")]
-        
-        AsyncRoutes --> vLLM
-        AsyncRoutes --> RedisLock
-        AsyncRoutes --> Postgres
-    end
-
-    Client_Traffic --> ASGI_Gateway
-
-    style Client_Traffic fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style ASGI_Gateway fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Event_Loop_Isolation fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Downstream_Services fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-```
+*D2 Source:* [assets/13_python_backend_and_api_development_faq/01_high_concurrency_async_asgi_runtime_topology.d2](assets/13_python_backend_and_api_development_faq/01_high_concurrency_async_asgi_runtime_topology.d2)
 
 ---
 

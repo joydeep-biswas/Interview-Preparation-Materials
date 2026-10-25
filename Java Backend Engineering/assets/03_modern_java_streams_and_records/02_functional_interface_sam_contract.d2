@@ -1,0 +1,23 @@
+direction: right
+title: Single Abstract Method (SAM) Contract & Functional Interfaces
+
+Interface: <<@FunctionalInterface>> CryptoTransformer<T, R> {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  sam: "R transform(T rawInput) [EXACTLY 1 ABSTRACT METHOD]"
+  defaultMethod: "default void log(T val) [Allowed]"
+  staticMethod: "static CryptoTransformer identity() [Allowed]"
+  objectMethod: "boolean equals(Object) [Allowed, does not count]"
+}
+
+LambdaRuntime: Lambda Runtime via invokedynamic {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  callsite: "CryptoTransformer<String, String> t = s -> s.toUpperCase()"
+  bootstrap: "LambdaMetafactory links call site to in-memory MethodHandle"
+  benefit: "No anonymous inner class .class files generated; direct JIT inlining"
+}
+
+Interface -> LambdaRuntime: Compiles to invokedynamic instruction {
+  style.stroke: "#8B5CF6"
+}

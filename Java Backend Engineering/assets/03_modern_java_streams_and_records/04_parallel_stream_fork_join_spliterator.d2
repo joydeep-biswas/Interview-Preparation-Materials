@@ -1,0 +1,29 @@
+direction: right
+title: Parallel Stream Execution: Fork-Join Spliterator & Work-Stealing
+
+Dataset: Parallel Stream (10,000,000 Records)
+
+ForkPhase: 1. Fork Phase (Spliterator) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  split: "Spliterator.trySplit() recursively divides data in O(1)"
+  chunks: "Generates balanced sub-chunks down to threshold"
+}
+
+Execution: 2. ForkJoinPool Workers {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  workers: "Worker-1..4 process chunks concurrently"
+  stealing: "Work-Stealing: idle threads steal from tails of busy deques"
+}
+
+JoinPhase: 3. Join Phase (Reduction) {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  merge: "Binary associative reduction combines partial results"
+  rule: "NQ Model: N*Q > 10,000; strictly CPU-bound only (no blocking I/O)"
+}
+
+Dataset -> ForkPhase
+ForkPhase -> Execution
+Execution -> JoinPhase

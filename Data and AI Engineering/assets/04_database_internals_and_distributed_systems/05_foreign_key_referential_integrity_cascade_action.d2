@@ -1,0 +1,32 @@
+direction: right
+title: Foreign Keys & Referential Integrity: ON DELETE CASCADE
+
+parent: Parent: crm.accounts {
+  account_id: "501 [PK]"
+  company: "Acme Corp"
+}
+
+child1: Child 1: crm.contacts {
+  contact_id: "1 [PK]"
+  account_id: "501 [FK]"
+}
+
+child2: Child 2: crm.contacts {
+  contact_id: "2 [PK]"
+  account_id: "501 [FK]"
+}
+
+delete_op: DELETE FROM crm.accounts WHERE account_id = 501 {
+  style.stroke: "#ef4444"
+}
+
+cascade_action: ON DELETE CASCADE {
+  action: "Deletes Child 1 & Child 2 Automatically"
+  style.stroke: "#ef4444"
+}
+
+parent -> child1: "Referenced by FK"
+parent -> child2: "Referenced by FK"
+delete_op -> cascade_action: "Triggers cascade"
+cascade_action -> child1: "Drops"
+cascade_action -> child2: "Drops"

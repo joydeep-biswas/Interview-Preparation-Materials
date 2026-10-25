@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="360" viewBox="0 0 1040 360">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1040" height="360" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">LEFT SEMI JOIN vs. LEFT ANTI JOIN: Existence Filtering</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Short-circuit matching without row duplication vs. existence negation in relational algebra</text>
+
+  <!-- Left: SEMI JOIN -->
+  <g transform="translate(30, 80)">
+    <rect width="475" height="240" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <text x="237" y="28" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">LEFT SEMI JOIN (WHERE EXISTS)</text>
+
+    <rect x="15" y="45" width="445" height="175" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+    <text x="237" y="68" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Returns Left Row on FIRST Match (Never Duplicates)</text>
+
+    <!-- Visual Match Flow -->
+    <rect x="35" y="85" width="130" height="26" fill="#0F172A" stroke="#10B981"/>
+    <text x="100" y="102" font-size="11" fill="#A7F3D0" text-anchor="middle">Left Row [ID = 10]</text>
+
+    <path d="M 165 98 L 225 98" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+
+    <rect x="235" y="85" width="180" height="48" fill="#0F172A" stroke="#3B82F6"/>
+    <text x="325" y="102" font-size="10" fill="#93C5FD" text-anchor="middle">Right Matches: 5 rows found</text>
+    <text x="325" y="118" font-size="9" fill="#FDE68A" text-anchor="middle">(Stops on 1st match! Short-circuit)</text>
+
+    <text x="35" y="152" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">Output: Emits exactly 1 row [ID = 10]</text>
+    <text x="35" y="172" font-size="11" fill="#A7F3D0" text-anchor="start">• Crucial: Right matches CANNOT multiply left row count</text>
+    <text x="35" y="190" font-size="11" fill="#A7F3D0" text-anchor="start">• Used by optimizer for WHERE EXISTS (SELECT 1 ...)</text>
+    <text x="35" y="208" font-size="11" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ Safe from Cartesian explosion</text>
+  </g>
+
+  <!-- Right: ANTI JOIN -->
+  <g transform="translate(535, 80)">
+    <rect width="475" height="240" rx="8" fill="#2A0B0B" stroke="#EF4444" stroke-width="2"/>
+    <text x="237" y="28" font-size="13" font-weight="700" fill="#FCA5A5" text-anchor="middle">LEFT ANTI JOIN (WHERE NOT EXISTS)</text>
+
+    <rect x="15" y="45" width="445" height="175" rx="6" fill="#4C0505" stroke="#EF4444" stroke-width="1.2"/>
+    <text x="237" y="68" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Returns Left Row ONLY IF Zero Matches Exist</text>
+
+    <!-- Visual Match Flow -->
+    <rect x="35" y="85" width="130" height="26" fill="#0F172A" stroke="#EF4444"/>
+    <text x="100" y="102" font-size="11" fill="#FCA5A5" text-anchor="middle">Left Row [ID = 20]</text>
+
+    <path d="M 165 98 L 225 98" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
+
+    <rect x="235" y="85" width="180" height="48" fill="#0F172A" stroke="#64748B"/>
+    <text x="325" y="102" font-size="10" fill="#CBD5E1" text-anchor="middle">Right Matches: 0 rows</text>
+    <text x="325" y="118" font-size="9" fill="#A7F3D0" text-anchor="middle">(No match found → KEEP row)</text>
+
+    <text x="35" y="152" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">Output: Emits row [ID = 20]</text>
+    <text x="35" y="172" font-size="11" fill="#FCA5A5" text-anchor="start">• If ANY right match is found, row is immediately DROPPED</text>
+    <text x="35" y="190" font-size="11" fill="#FCA5A5" text-anchor="start">• Used for WHERE NOT EXISTS and EXCEPT</text>
+    <text x="35" y="208" font-size="11" fill="#FCA5A5" font-weight="600" text-anchor="start">✓ Immune to 3VL NULL traps (unlike NOT IN)</text>
+  </g>
+</svg>

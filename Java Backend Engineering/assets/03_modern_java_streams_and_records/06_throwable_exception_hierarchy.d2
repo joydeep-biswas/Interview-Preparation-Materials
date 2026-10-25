@@ -1,0 +1,32 @@
+direction: down
+title: Java Throwable & Exception Class Hierarchy
+
+Root: java.lang.Throwable {
+  style.fill: "#1E293B"
+  style.stroke: "#3B82F6"
+}
+
+FatalErrors: java.lang.Error (Fatal JVM Failures) {
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  types: "OutOfMemoryError, StackOverflowError, VirtualMachineError"
+  rule: "Unrecoverable; NEVER catch in application code"
+}
+
+Checked: java.lang.Exception (Checked Exceptions) {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  types: "IOException, SQLException, TimeoutException"
+  rule: "Enforced by javac compiler (mandatory try-catch or throws)"
+}
+
+Unchecked: java.lang.RuntimeException (Unchecked) {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  types: "NullPointerException, IllegalArgumentException"
+  rule: "Software bugs; fix root cause rather than catching"
+}
+
+Root -> FatalErrors: Unrecoverable { style.stroke: "#EF4444" }
+Root -> Checked: Recoverable External { style.stroke: "#F59E0B" }
+Checked -> Unchecked: Programming Bugs { style.stroke: "#10B981" }

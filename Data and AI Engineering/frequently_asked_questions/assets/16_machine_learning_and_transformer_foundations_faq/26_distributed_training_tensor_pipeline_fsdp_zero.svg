@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 280" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#EF4444" />
+    </marker>
+  </defs>
+  <style>
+    .title-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F8FAFC; }
+    .sub-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #94A3B8; }
+    .body-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 400; fill: #CBD5E1; }
+    .mono-txt { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #93C5FD; }
+    .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
+    .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
+  </style>
+  <rect width="100%" height="100%" fill="#0B0F19"/>
+
+  <!-- TP -->
+  <rect x="30" y="40" width="280" height="200" rx="10" ry="10" fill="#0D1526" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="170" y="66" class="title-txt" text-anchor="middle" fill="#93C5FD">1. Tensor Parallelism (TP)</text>
+  <text x="45" y="95" class="body-txt">• Splits individual weight matrices</text>
+  <text x="45" y="115" class="mono-txt">Column-parallel QKV, Row-parallel Out</text>
+  <text x="45" y="145" class="sub-txt">Requires ultra-fast NVLink (900 GB/s)</text>
+  <text x="45" y="165" class="body-txt">• Intra-node only (e.g. 8 GPUs / box)</text>
+  <text x="45" y="185" class="mono-txt">All-Reduce sum per layer</text>
+  <text x="45" y="215" class="badge-txt" fill="#38BDF8">Megatron-LM Standard</text>
+
+  <!-- PP -->
+  <rect x="340" y="40" width="280" height="200" rx="10" ry="10" fill="#0D1526" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="480" y="66" class="title-txt" text-anchor="middle" fill="#FDE68A">2. Pipeline Parallelism (PP)</text>
+  <text x="355" y="95" class="body-txt">• Slices model vertically by layers</text>
+  <text x="355" y="115" class="mono-txt">Node 1: L1-20 | Node 2: L21-40</text>
+  <text x="355" y="145" class="sub-txt">Tolerates slower InfiniBand / inter-node</text>
+  <text x="355" y="165" class="body-txt">• Activations passed between nodes</text>
+  <text x="355" y="185" class="mono-txt">1F1B schedule minimizes bubble</text>
+  <text x="355" y="215" class="badge-txt" fill="#FDE68A">Inter-Node Layer Slicing</text>
+
+  <!-- FSDP / ZeRO-3 -->
+  <rect x="650" y="40" width="280" height="200" rx="10" ry="10" fill="#0D1F1C" stroke="#10B981" stroke-width="1.5"/>
+  <text x="790" y="66" class="title-txt" text-anchor="middle" fill="#6EE7B7">3. ZeRO-3 / FSDP</text>
+  <text x="665" y="95" class="body-txt">• Shards parameters, grads &amp; optimizer</text>
+  <text x="665" y="115" class="mono-txt">Each GPU holds only 1/N weights</text>
+  <text x="665" y="145" class="sub-txt">All-Gather weights on-the-fly</text>
+  <text x="665" y="165" class="body-txt">• Discards weights immediately after use</text>
+  <text x="665" y="185" class="mono-txt">Zero redundant VRAM consumption</text>
+  <text x="665" y="215" class="badge-txt" fill="#10B981">✓ Scales to Trillion Parameters</text>
+</svg>

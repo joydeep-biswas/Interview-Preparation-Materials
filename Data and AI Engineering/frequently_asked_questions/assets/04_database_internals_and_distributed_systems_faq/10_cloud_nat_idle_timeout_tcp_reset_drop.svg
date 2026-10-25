@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" width="100%" height="100%">
+  <defs>
+    <style>
+      .actor-title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .seq-msg { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .note-title { fill: #FCD34D; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 700; }
+      .note-desc { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .seq-line { stroke: #334155; stroke-dasharray: 4 4; stroke-width: 1.5; }
+      .edge { stroke-width: 1.5; fill: none; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="420" fill="#0B0F19"/>
+
+  <!-- Actors -->
+  <g transform="translate(60, 20)">
+    <rect width="200" height="40" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="100" y="25" class="actor-title" fill="#93C5FD">Ingestion App (HikariCP)</text>
+    <line x1="100" y1="40" x2="100" y2="390" class="seq-line"/>
+  </g>
+
+  <g transform="translate(380, 20)">
+    <rect width="200" height="40" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="100" y="25" class="actor-title" fill="#FCD34D">Cloud NAT / Gateway (350s)</text>
+    <line x1="100" y1="40" x2="100" y2="390" class="seq-line"/>
+  </g>
+
+  <g transform="translate(700, 20)">
+    <rect width="200" height="40" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+    <text x="100" y="25" class="actor-title" fill="#6EE7B7">Downstream DB / REST API</text>
+    <line x1="100" y1="40" x2="100" y2="390" class="seq-line"/>
+  </g>
+
+  <!-- Query 1 Successful -->
+  <path fill="none" d="M 160 90 L 475 90" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <text x="180" y="82" class="seq-msg">1. TCP Handshake &amp; Query 1 Executed</text>
+
+  <path fill="none" d="M 480 90 L 795 90" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+
+  <path fill="none" d="M 800 120 L 165 120" class="edge" stroke="#10B981" stroke-dasharray="3 3" marker-end="url(#arr-green)"/>
+  <text x="350" y="112" class="seq-msg">Query 1 Success (Result returned)</text>
+
+  <!-- Note: 400s Idle Time -->
+  <rect x="130" y="150" width="700" height="45" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="145" y="170" class="note-title" fill="#FCD34D">⏳ Inactivity Pause: Pipeline pauses processing for 400 seconds (No keepalive traffic)</text>
+  <text x="145" y="186" class="note-desc">Client socket remains OPEN in HikariCP pool; OS maintains socket state</text>
+
+  <!-- Note: NAT 350s Timer Drops State -->
+  <rect x="360" y="215" width="470" height="45" rx="6" ry="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="375" y="235" class="note-title" fill="#FECACA">🚨 NAT 350s Idle Limit Expires</text>
+  <text x="375" y="251" class="note-desc" fill="#FCA5A5">NAT silently purges connection from IP translation table (No FIN/RST packet sent!)</text>
+
+  <!-- Query 2 Fails -->
+  <path fill="none" d="M 160 290 L 475 290" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+  <text x="180" y="282" class="seq-msg">2. App reuses idle pooled connection -&gt; Sends Query 2</text>
+
+  <path fill="none" d="M 480 325 L 165 325" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+  <text x="210" y="317" class="seq-msg" fill="#FCA5A5">3. NAT returns TCP RST (Connection Reset: Unrecognized Packet!)</text>
+
+  <!-- Crash Note -->
+  <rect x="110" y="350" width="350" height="40" rx="6" ry="6" fill="#1F2937" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="125" y="375" class="seq-msg" fill="#EF4444" font-weight="700">💥 Crash: SocketException: Connection reset by peer!</text>
+</svg>

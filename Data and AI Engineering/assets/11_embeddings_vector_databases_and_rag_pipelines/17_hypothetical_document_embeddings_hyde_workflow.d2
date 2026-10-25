@@ -1,0 +1,14 @@
+direction: right
+classes: {
+  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  gen: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  hyp: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  real: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+}
+
+user_q: "1. User Query\n(Short, ambiguous)" { class: q }
+llm_gen: "2. Zero-Shot LLM\n(Generates hypothetical answer)" { class: gen }
+hyp_doc: "3. Hypothetical Document Vector\n(Embeds hallucinated answer)" { class: hyp }
+corpus_search: "4. Vector DB Search\n(Document-Document match finds real docs!)" { class: real }
+
+user_q -> llm_gen -> hyp_doc -> corpus_search

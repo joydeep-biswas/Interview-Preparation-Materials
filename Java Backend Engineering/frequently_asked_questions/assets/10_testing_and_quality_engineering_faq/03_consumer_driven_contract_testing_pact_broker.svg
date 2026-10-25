@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-green { stroke: #10B981; }
+      .card-amber { stroke: #F59E0B; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-blue { stroke: #3B82F6; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-green { stroke: #10B981; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; font-weight: 600; fill: #E5E7EB; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue3" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-purple3" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-green3" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-amber3" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="35" class="title-text">Consumer-Driven Contract Testing (Pact Broker Architecture)</text>
+
+  <!-- Left: Consumer Microservice -->
+  <rect x="40" y="80" width="250" height="150" class="card card-blue"/>
+  <text x="165" y="110" class="card-title" fill="#93C5FD">Consumer Microservice</text>
+  <text x="55" y="135" class="card-body">• Web / Mobile / Client Service</text>
+  <text x="55" y="155" class="card-body">• Writes Pact unit tests</text>
+  <text x="55" y="175" class="card-body">• Generates contract JSON file</text>
+  <text x="55" y="195" class="card-body">• Defines exact required fields</text>
+
+  <!-- Center: Pact Broker -->
+  <rect x="360" y="80" width="240" height="160" class="card card-purple"/>
+  <text x="480" y="110" class="card-title" fill="#C4B5FD">Pact Broker Store</text>
+  <text x="375" y="135" class="card-body">• Central contract repository</text>
+  <text x="375" y="155" class="card-body">• Version compatibility matrix</text>
+  <text x="375" y="175" class="card-body">• Webhook triggers on changes</text>
+  <text x="375" y="195" class="card-body">• Tracks consumer &amp; provider tags</text>
+
+  <!-- Right: Provider Microservice -->
+  <rect x="670" y="80" width="250" height="150" class="card card-green"/>
+  <text x="795" y="110" class="card-title" fill="#6EE7B7">Provider Microservice</text>
+  <text x="685" y="135" class="card-body">• Backend Producer API</text>
+  <text x="685" y="155" class="card-body">• Fetches contract in CI</text>
+  <text x="685" y="175" class="card-body">• Replays requests against code</text>
+  <text x="685" y="195" class="card-body">• Publishes pass/fail results</text>
+
+  <!-- Bottom: can-i-deploy Gate -->
+  <rect x="250" y="310" width="460" height="120" class="card card-amber"/>
+  <text x="480" y="340" class="card-title" fill="#FDE68A">can-i-deploy Pipeline Release Gate</text>
+  <text x="270" y="365" class="card-body">• Queries Pact Broker compatibility matrix prior to artifact promotion</text>
+  <text x="270" y="385" class="card-body">• Blocks deployment if provider verification failed or is missing</text>
+  <text x="270" y="405" class="card-body">• Completely eliminates breaking API changes in staging &amp; production</text>
+
+  <!-- Connections with Straight Runways -->
+  <!-- 1. Consumer -> Pact Broker: Publish Contract -->
+  <path fill="none" d="M 290 130 L 360 130" class="edge edge-blue" marker-end="url(#arr-blue3)"/>
+  <text x="325" y="120" class="edge-label" fill="#93C5FD">1. Publish</text>
+
+  <!-- 2. Pact Broker -> Provider: Fetch Contract -->
+  <path fill="none" d="M 600 130 L 670 130" class="edge edge-purple" marker-end="url(#arr-purple3)"/>
+  <text x="635" y="120" class="edge-label" fill="#C4B5FD">2. Fetch</text>
+
+  <!-- 3. Provider -> Pact Broker: Publish Verification Result (Lower path) -->
+  <path fill="none" d="M 670 180 L 600 180" class="edge edge-green" marker-end="url(#arr-green3)"/>
+  <text x="635" y="170" class="edge-label" fill="#6EE7B7">3. Verify</text>
+
+  <!-- 4. can-i-deploy -> Pact Broker (Vertical upward straight) -->
+  <path fill="none" d="M 480 310 L 480 240" class="edge edge-amber" marker-end="url(#arr-amber3)"/>
+  <text x="530" y="275" class="edge-label" fill="#FDE68A">4. Check Matrix</text>
+
+  <!-- 5. can-i-deploy -> Consumer Deployment (Curved with straight runway) -->
+  <path fill="none" d="M 250 370 C 165 370, 165 245, 165 238 L 165 230" class="edge edge-amber" marker-end="url(#arr-amber3)"/>
+  <text x="110" y="295" class="edge-label" fill="#FDE68A">5. Deploy Gate</text>
+</svg>

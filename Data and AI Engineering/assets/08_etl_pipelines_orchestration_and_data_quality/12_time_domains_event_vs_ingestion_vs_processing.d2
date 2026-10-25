@@ -1,0 +1,23 @@
+direction: right
+title: The Three Time Domains in Stream Processing
+
+event: 1. EVENT TIME {
+  time: "10:14:02 AM on Client Phone / IoT Sensor"
+  details: "When real-world action occurred; deterministic"
+  style.stroke: "#3b82f6"
+}
+
+broker: 2. INGESTION TIME {
+  time: "10:45:00 AM on Kafka Broker"
+  details: "When message broker received event; includes network lag"
+  style.stroke: "#f59e0b"
+}
+
+engine: 3. PROCESSING TIME {
+  time: "10:45:03 AM on Spark / Flink Worker"
+  details: "Local machine clock; non-deterministic across re-runs"
+  style.stroke: "#10b981"
+}
+
+event -> broker: "Network delay & offline mobile caching"
+broker -> engine: "Streaming consumer fetch"

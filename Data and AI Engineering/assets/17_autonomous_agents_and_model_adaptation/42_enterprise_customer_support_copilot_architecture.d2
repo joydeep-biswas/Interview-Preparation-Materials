@@ -1,0 +1,30 @@
+direction: right
+classes: {
+  blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  purple: { style: { fill: "#261b3d"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
+  amber: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  red: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+ingress: "1. Ingress & Security
+Cloudflare WAF
+Presidio PII Vault
+Llama Guard 3" { class: blue }
+orchestrator: "2. Support Orchestrator
+FastAPI State Engine
+Vision Router" { class: purple }
+context: "3. Tools & Context
+Qdrant Vector DB
+Salesforce CRM API" { class: green }
+serving: "4. vLLM Serving (H100)
+LLaMA-3.1-70B FP8
+PagedAttention" { class: amber }
+escalation: "5. Human Escalation
+Zendesk Queue
+Frustration > 0.85" { class: red }
+
+ingress -> orchestrator
+orchestrator <-> context
+orchestrator -> serving
+orchestrator -> escalation: "Trigger Escalation" { style: { stroke-dash: 4 } }

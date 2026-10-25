@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .title { font-weight: 700; fill: #F3F4F6; }
+    .subtitle { fill: #9CA3AF; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 14px; }
+    .card-body { font-size: 12px; fill: #D1D5DB; }
+    .badge { font-weight: 600; font-size: 11px; }
+  </style>
+
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+
+  <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Bulkhead Pattern: Fault Domain &amp; Thread Pool Isolation</text>
+  <text x="530" y="52" class="subtitle" text-anchor="middle">Nautical bulkhead analogy: Isolating slow 3rd-party dependencies into bounded thread pools prevents total gateway collapse</text>
+
+  <!-- Left: The Disaster without Bulkhead -->
+  <g transform="translate(40, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <text x="230" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">Shared Thread Pool: Cascading Starvation Collapse</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="65" rx="6" ry="6" fill="#1E293B"/>
+      <text x="15" y="20" class="badge" fill="#93C5FD">Gateway Tomcat Container Pool</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">server.tomcat.threads.max = 200 (Shared across all endpoints)</text>
+      <text x="15" y="52" class="card-body" font-size="11" fill="#9CA3AF">All routes compete for the exact same pool</text>
+
+      <rect x="0" y="75" width="420" height="90" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+      <text x="15" y="95" class="badge" fill="#F87171">Slow Dependency: Recommendations API Latency Spike</text>
+      <text x="15" y="113" class="card-body">• 3rd-party Recommendation vendor degrades from 50ms to 30s!</text>
+      <text x="15" y="131" class="card-body" font-size="11" fill="#FCA5A5">• All 200 Tomcat threads block waiting on Recommendation socket read!</text>
+      <text x="15" y="147" class="badge" fill="#FCA5A5">TOMCAT THREAD POOL COMPLETELY EXHAUSTED (0 FREE!)</text>
+
+      <rect x="0" y="175" width="420" height="75" rx="6" ry="6" fill="#450A0A" stroke="#EF4444"/>
+      <text x="15" y="195" class="badge" fill="#F87171">Catastrophic Blast Radius</text>
+      <text x="15" y="215" class="card-body">Critical, healthy services (/checkout, /login, /orders) CANNOT accept</text>
+      <text x="15" y="231" class="card-body" font-size="11">incoming connections. The entire application goes 100% down!</text>
+    </g>
+
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#450A0A"/>
+    <text x="210" y="328" class="badge" fill="#FCA5A5" text-anchor="middle">One secondary feature failure sank the entire ship!</text>
+  </g>
+
+  <!-- Right: The Production Solution with Bulkhead -->
+  <g transform="translate(560, 75)">
+    <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#065F46"/>
+    <text x="230" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">Bulkhead Isolation: Compartmentalized Thread Pools</text>
+
+    <g transform="translate(20, 48)">
+      <rect x="0" y="0" width="420" height="75" rx="6" ry="6" fill="#064E3B" stroke="#10B981"/>
+      <text x="15" y="20" class="badge" fill="#34D399">Compartment A: Core Payment &amp; Order Pool</text>
+      <text x="15" y="38" class="card-body" font-family="monospace">ThreadPoolExecutor orderPool (max = 150)</text>
+      <text x="15" y="54" class="card-body">• Dedicated to high-value revenue transactions</text>
+      <text x="15" y="68" class="badge" fill="#A7F3D0">100% capacity reserved and protected!</text>
+
+      <rect x="0" y="85" width="420" height="75" rx="6" ry="6" fill="#1E293B" stroke="#F59E0B"/>
+      <text x="15" y="105" class="badge" fill="#FDE68A">Compartment B: Resilience4j Bulkhead (Recommendations)</text>
+      <text x="15" y="123" class="card-body" font-family="monospace">@Bulkhead(name="recommendations", maxConcurrentCalls=20)</text>
+      <text x="15" y="139" class="card-body" font-size="11">• Maximum 20 threads can ever be consumed</text>
+      <text x="15" y="153" class="badge" fill="#FCD34D">21st call fails fast immediately or uses fallback cache!</text>
+
+      <rect x="0" y="170" width="420" height="75" rx="6" ry="6" fill="#0F172A" stroke="#10B981"/>
+      <text x="15" y="190" class="badge" fill="#34D399">Nautical Analogy: Water-Tight Compartments</text>
+      <text x="15" y="210" class="card-body">If the recommendation compartment fills with water, only that single</text>
+      <text x="15" y="226" class="card-body" font-size="11">compartment floods. The rest of the ship stays 100% afloat!</text>
+    </g>
+
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#064E3B"/>
+    <text x="210" y="328" class="badge" fill="#A7F3D0" text-anchor="middle">Mission-critical checkout remains 100% operational!</text>
+  </g>
+</svg>

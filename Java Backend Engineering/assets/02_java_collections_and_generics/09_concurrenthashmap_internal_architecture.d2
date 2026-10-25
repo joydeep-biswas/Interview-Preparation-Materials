@@ -1,0 +1,41 @@
+direction: right
+title: ConcurrentHashMap Internal Architecture (Java 8+)
+
+Table: volatile Node<K,V>[] table {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  b0: "Bucket 0 (Empty)"
+  b1: "Bucket 1 (Collision)"
+  b2: "Bucket 2 (TreeBin)"
+  b3: "Bucket 3 (Resizing)"
+}
+
+B0_Logic: Lock-Free CAS Insert {
+  style.fill: "#06201B"
+  style.stroke: "#047857"
+  cas: "casTabAt(tab, i, null, node) -> 100% lock-free"
+}
+
+B1_Logic: Synchronized Head Bin {
+  style.fill: "#1C1917"
+  style.stroke: "#F59E0B"
+  sync: "synchronized(firstNode) { appends to chain }"
+  benefit: "Only collided bucket contends; others proceed"
+}
+
+B2_Logic: TreeBin (Red-Black Tree) {
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  tree: "hash = -2; O(log N) lookup; Hash-DoS immune"
+}
+
+B3_Logic: ForwardingNode (Resizing) {
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  moved: "hash = -1; threads help transfer to nextTable"
+}
+
+Table.b0 -> B0_Logic
+Table.b1 -> B1_Logic
+Table.b2 -> B2_Logic
+Table.b3 -> B3_Logic

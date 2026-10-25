@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" width="1080" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Facade Pattern: Simplified Coordinated Subsystem Entry Point</text>
+  <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Shielding Ingress Clients from Multi-Service Orchestration Complexity and Distributed Failure Recovery</text>
+<rect x="390" y="95" width="300" height="65" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="540" y="119" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client: OrderController</text>
+<text x="540" y="139" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">facade.fulfillOrder(orderId, paymentToken)</text>
+<rect x="340" y="205" width="400" height="90" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+<text x="540" y="231" fill="#FBBF24" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderFulfillmentFacade</text>
+<text x="540" y="251" fill="#FDE68A" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Single Unified Coordination Method: fulfillOrder()</text>
+<text x="540" y="273" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Coordinates 4 separate subsystems with rollback compensation</text>
+<line x1="540" y1="160" x2="540" y2="205" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
+<rect x="40" y="340" width="235" height="85" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="40" y="340" width="235" height="32" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="157" y="360" fill="#3b82f6" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">InventoryService</text>
+<text x="157" y="390" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+reserveStock(items)</text>
+<text x="157" y="410" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Locks warehouse stock</text>
+<path d="M 540.0 295.0 L 540.0 304.0 C 540.0 315.2, 157.0 315.2, 157.0 326.5 L 157.0 340.0" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-s)"/>
+<rect x="295" y="340" width="235" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+<rect x="295" y="340" width="235" height="32" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+<text x="412" y="360" fill="#10b981" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PaymentService</text>
+<text x="412" y="390" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+charge(token, amt)</text>
+<text x="412" y="410" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Captures Stripe payment</text>
+<path d="M 540.0 295.0 L 540.0 304.0 C 540.0 315.2, 412.0 315.2, 412.0 326.5 L 412.0 340.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-s)"/>
+<rect x="550" y="340" width="235" height="85" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="550" y="340" width="235" height="32" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="667" y="360" fill="#f59e0b" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ShippingService</text>
+<text x="667" y="390" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+createShipment(addr)</text>
+<text x="667" y="410" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Generates FedEx/UPS label</text>
+<path d="M 540.0 295.0 L 540.0 304.0 C 540.0 315.2, 667.0 315.2, 667.0 326.5 L 667.0 340.0" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-s)"/>
+<rect x="805" y="340" width="235" height="85" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+<rect x="805" y="340" width="235" height="32" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="922" y="360" fill="#06b6d4" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">NotificationService</text>
+<text x="922" y="390" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">+sendConfirmation()</text>
+<text x="922" y="410" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Dispatches customer email</text>
+<path d="M 540.0 295.0 L 540.0 304.0 C 540.0 315.2, 922.0 315.2, 922.0 326.5 L 922.0 340.0" fill="none" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#arr-s)"/>
+<rect x="40" y="460" width="1000" height="75" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+<text x="65" y="483" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Facade vs Adapter Distinction:</text>
+<text x="65" y="503" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Adapter converts ONE interface into another to resolve incompatibility. Facade creates a NEW, simplified interface over MANY complex subsystems.</text>
+<text x="65" y="520" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Clients remain loosely coupled to the Facade and are insulated when internal subsystem implementations change.</text>
+</svg>

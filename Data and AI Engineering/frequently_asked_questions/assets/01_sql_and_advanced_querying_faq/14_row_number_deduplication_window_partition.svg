@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .card { fill: #111827; stroke-width: 1.5; rx: 10; ry: 10; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-purple { stroke: #8B5CF6; }
+      .card-green { stroke: #10B981; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #F3F4F6; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #9CA3AF; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-amber { stroke: #F59E0B; }
+      .edge-purple { stroke: #8B5CF6; }
+      .edge-green { stroke: #10B981; }
+    </style>
+    <marker id="arr-a14" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p14" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-g14" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <text x="480" y="32" class="title-text">ROW_NUMBER() Window Partition Deduplication</text>
+
+  <!-- Step 1 -->
+  <rect x="30" y="65" width="200" height="120" class="card card-blue"/>
+  <text x="130" y="92" class="card-title" fill="#93C5FD">1. Input Stream</text>
+  <text x="45" y="117" class="card-body">• Cust 101, v1 (10:00)</text>
+  <text x="45" y="137" class="card-body">• Cust 101, v2 (10:05)</text>
+  <text x="45" y="157" class="card-body">• Multiple mutable events</text>
+
+  <!-- Step 2 -->
+  <rect x="260" y="65" width="205" height="120" class="card card-amber"/>
+  <text x="362" y="92" class="card-title" fill="#FDE68A">2. Window Partition</text>
+  <text x="275" y="117" class="card-body">• PARTITION BY id</text>
+  <text x="275" y="137" class="card-body">• ORDER BY timestamp DESC</text>
+  <text x="275" y="157" class="card-body">• Discrete per-entity frame</text>
+
+  <!-- Step 3 -->
+  <rect x="495" y="65" width="205" height="120" class="card card-purple"/>
+  <text x="597" y="92" class="card-title" fill="#D8B4FE">3. Number Assignment</text>
+  <text x="510" y="117" class="card-body" fill="#34D399">• v2 (10:05) -> rn = 1</text>
+  <text x="510" y="137" class="card-body" fill="#EF4444">• v1 (10:00) -> rn = 2</text>
+  <text x="510" y="157" class="card-body">• Strict ordinal sequence</text>
+
+  <!-- Step 4 -->
+  <rect x="730" y="65" width="200" height="120" class="card card-green"/>
+  <text x="830" y="92" class="card-title" fill="#6EE7B7">4. Exact Winner</text>
+  <text x="745" y="117" class="card-body">• WHERE rn = 1</text>
+  <text x="745" y="137" class="card-body" fill="#34D399">• Emits v2 (Latest State)</text>
+  <text x="745" y="157" class="card-body">• Zero duplicates guaranteed</text>
+
+  <!-- Straight Horizontal Connectors -->
+  <path fill="none" d="M 230 125 L 260 125" class="edge edge-amber" marker-end="url(#arr-a14)"/>
+  <path fill="none" d="M 465 125 L 495 125" class="edge edge-purple" marker-end="url(#arr-p14)"/>
+  <path fill="none" d="M 700 125 L 730 125" class="edge edge-green" marker-end="url(#arr-g14)"/>
+</svg>

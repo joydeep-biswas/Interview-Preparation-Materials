@@ -1,0 +1,26 @@
+direction: right
+classes: {
+  container_blue: { style: { fill: "#0D1526", stroke: "#3B82F6" } }
+  container_green: { style: { fill: "#0D1526", stroke: "#10B981" } }
+  card_dark: { style: { fill: "#111827", stroke: "#1E293B" } }
+}
+
+UCStructure: "Unity Catalog 3-Level Namespace" {
+  class: container_blue
+  Catalog: "1. Catalog: prod_analytics\n• Root storage container" { class: card_dark }
+  Schema: "2. Schema: finance\n• Business domain boundaries" { class: card_dark }
+  Table: "3. Table: fact_transactions\n• prod_analytics.finance.fact_transactions" { class: card_dark }
+
+  Catalog -> Schema -> Table
+}
+
+GovernanceEnforcement: "Governance Enforcement Policies" {
+  class: container_green
+  RM: "Row-Level Security\nregion_code = CURRENT_USER_REGION()" { class: card_dark }
+  CM: "Column-Level Masking\nCASE WHEN IS_MEMBER('hr') THEN ssn" { class: card_dark }
+  Lineage: "Column Lineage Graph\nSource -> Spark -> PowerBI" { class: card_dark }
+}
+
+UCStructure.Table -> GovernanceEnforcement.RM
+UCStructure.Table -> GovernanceEnforcement.CM
+UCStructure.Table -> GovernanceEnforcement.Lineage

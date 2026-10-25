@@ -1,0 +1,15 @@
+direction: right
+classes: {
+  box: { style: { fill: "#111827", stroke: "#3B82F6" } }
+}
+
+DataDog: "APM / Prometheus" { class: box }
+OnCall: "On-Call Engineer" { class: box }
+Registry: "Model Registry" { class: box }
+FeatureStore: "Feast Feature Store" { class: box }
+
+DataDog -> OnCall: "1. P0 Alert: Accuracy Drop!"
+OnCall -> Registry: "2. Check Rollouts"
+OnCall -> FeatureStore: "3. Check Feature Drift"
+FeatureStore -> OnCall: "4. Null rate jumped to 84%!"
+OnCall -> FeatureStore: "5. Deploy Hotfix Alias"

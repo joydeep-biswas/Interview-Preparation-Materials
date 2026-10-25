@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0d1527"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Node Surface Gradients -->
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="card-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#142e2b"/>
+      <stop offset="100%" stop-color="#091d1a"/>
+    </linearGradient>
+    <linearGradient id="card-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d2212"/>
+      <stop offset="100%" stop-color="#181308"/>
+    </linearGradient>
+    <linearGradient id="card-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#261b3d"/>
+      <stop offset="100%" stop-color="#130c24"/>
+    </linearGradient>
+    <linearGradient id="card-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b181e"/>
+      <stop offset="100%" stop-color="#1f090d"/>
+    </linearGradient>
+    <linearGradient id="card-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112d38"/>
+      <stop offset="100%" stop-color="#071920"/>
+    </linearGradient>
+
+    <!-- Matched Arrow Markers -->
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94a3b8"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Base Dark Card Background -->
+  <rect width="1000" height="480" rx="12" fill="url(#bg)"/>
+  <rect width="1000" height="480" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Centered Header Section -->
+  <g id="header-group">
+    <text x="500" y="32" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.3">Decoupling Asynchronous Ingestion &amp; Online Query Serving</text>
+    <text x="500" y="52" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400">Preventing Document Ingestion Spikes from Starving Real-Time User Query Concurrency</text>
+  </g>
+
+  <!-- Diagram Inner Content -->
+  
+  <!-- Top Plane: Asynchronous Document Ingestion Plane -->
+  <rect x="50" y="85" width="900" height="170" rx="10" fill="#0c1726" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="70" y="112" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">1. Asynchronous Document Ingestion Plane (Offline / Batch Processing)</text>
+
+  <!-- Step A: Enterprise Repos -->
+  <rect x="70" y="130" width="160" height="100" rx="6" fill="url(#card-blue)" stroke="#0284c7" stroke-width="1"/>
+  <text x="85" y="155" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Repositories</text>
+  <text x="85" y="175" fill="#cbd5e1" font-family="sans-serif" font-size="10">• SharePoint &amp; S3</text>
+  <text x="85" y="193" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Confluence &amp; Drive</text>
+  <text x="85" y="211" fill="#cbd5e1" font-family="sans-serif" font-size="10">• 1M+ PDF manuals</text>
+
+  <path d="M 230 180 L 265 180" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Step B: Kafka Ingestion Queue -->
+  <rect x="265" y="130" width="170" height="100" rx="6" fill="url(#card-blue)" stroke="#0284c7" stroke-width="1"/>
+  <text x="280" y="155" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Apache Kafka Queue</text>
+  <text x="280" y="175" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Partitioned by doc_id</text>
+  <text x="280" y="193" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Absorbs burst uploads</text>
+  <text x="280" y="211" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Zero data drop</text>
+
+  <path d="M 435 180 L 470 180" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-b)"/>
+
+  <!-- Step C: Parser Workers -->
+  <rect x="470" y="130" width="220" height="100" rx="6" fill="url(#card-purple)" stroke="#9333ea" stroke-width="1"/>
+  <text x="485" y="155" fill="#c084fc" font-family="sans-serif" font-size="11" font-weight="700">Document Parsing Pods</text>
+  <text x="485" y="175" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Layout-aware PDF chunking</text>
+  <text x="485" y="193" fill="#cbd5e1" font-family="sans-serif" font-size="10">• ColPali vision embedding</text>
+  <text x="485" y="211" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Auto-scaled via KEDA</text>
+
+  <path d="M 690 180 L 730 180" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Step D: Primary Write Master -->
+  <rect x="730" y="130" width="200" height="100" rx="6" fill="url(#card-green)" stroke="#059669" stroke-width="1"/>
+  <text x="745" y="155" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">Qdrant Write Master</text>
+  <text x="745" y="175" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Primary index mutations</text>
+  <text x="745" y="193" fill="#cbd5e1" font-family="sans-serif" font-size="10">• HNSW graph construction</text>
+  <text x="745" y="211" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Zero user search impact</text>
+
+  <!-- Cross-Plane Replication Arrow -->
+  <path d="M 830 230 L 830 280" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#arr-a)"/>
+  <rect x="730" y="247" width="200" height="18" rx="3" fill="#181308"/>
+  <text x="830" y="260" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="9" font-weight="700">Async Storage Replication Sync</text>
+
+  <!-- Bottom Plane: High-Concurrency Query Serving Plane -->
+  <rect x="50" y="280" width="900" height="170" rx="10" fill="#091d1a" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="70" y="307" fill="#34d399" font-family="sans-serif" font-size="13" font-weight="700">2. High-Concurrency Query Serving Plane (Online / Low-Latency SLA &lt; 200ms)</text>
+
+  <!-- Step 1: 10,000+ Queries -->
+  <rect x="70" y="325" width="160" height="100" rx="6" fill="url(#card-green)" stroke="#059669" stroke-width="1"/>
+  <text x="85" y="350" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">10,000+ Users</text>
+  <text x="85" y="370" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Web &amp; mobile clients</text>
+  <text x="85" y="388" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Real-time search chat</text>
+  <text x="85" y="406" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Bounded p99 &lt; 200ms</text>
+
+  <path d="M 230 375 L 265 375" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Step 2: NLB -->
+  <rect x="265" y="325" width="170" height="100" rx="6" fill="url(#card-green)" stroke="#059669" stroke-width="1"/>
+  <text x="280" y="350" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">Network Load Balancer</text>
+  <text x="280" y="370" fill="#cbd5e1" font-family="sans-serif" font-size="10">• AWS NLB / Envoy proxy</text>
+  <text x="280" y="388" fill="#cbd5e1" font-family="sans-serif" font-size="10">• TLS termination</text>
+  <text x="280" y="406" fill="#cbd5e1" font-family="sans-serif" font-size="10">• TCP connection reuse</text>
+
+  <path d="M 435 375 L 470 375" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Step 3: Stateless FastAPI Pods -->
+  <rect x="470" y="325" width="220" height="100" rx="6" fill="url(#card-blue)" stroke="#0284c7" stroke-width="1"/>
+  <text x="485" y="350" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Stateless FastAPI Pods</text>
+  <text x="485" y="370" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Auto-scaled horizontally</text>
+  <text x="485" y="388" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Bi-encoder query embedding</text>
+  <text x="485" y="406" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Cohere Rerank v3 filter</text>
+
+  <path d="M 690 375 L 730 375" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-g)"/>
+
+  <!-- Step 4: Qdrant Read Replicas -->
+  <rect x="730" y="325" width="200" height="100" rx="6" fill="url(#card-green)" stroke="#059669" stroke-width="1"/>
+  <text x="745" y="350" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">Qdrant Read Replicas</text>
+  <text x="745" y="370" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Read-only memory mapped</text>
+  <text x="745" y="388" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Multi-region replica scale</text>
+  <text x="745" y="406" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Zero write lock contention</text>
+
+</svg>

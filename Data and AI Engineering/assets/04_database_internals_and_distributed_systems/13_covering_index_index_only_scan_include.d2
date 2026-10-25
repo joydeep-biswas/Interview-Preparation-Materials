@@ -1,0 +1,20 @@
+direction: right
+title: Covering Indexes & Index-Only Scans (The INCLUDE Clause)
+
+standard: Standard Index Scan (2-Hop I/O) {
+  i1: 1. Traverse Index B+ Tree for email = 'alice@corp.com'
+  h1: 2. Extract ctid = (Page 42, Slot 3)
+  t1: 3. Random I/O Read from Table Heap Disk to fetch user_id {
+    style.stroke: "#ef4444"
+  }
+  i1 -> h1 -> t1
+}
+
+include_scan: Index-Only Scan with INCLUDE (1-Hop I/O) {
+  i2: 1. Traverse Index on (email) INCLUDE (user_id)
+  extract: 2. Extract user_id directly from Index Leaf payload! {
+    details: "Zero Table Heap Reads Required! 100% Cache Friendly"
+    style.stroke: "#10b981"
+  }
+  i2 -> extract
+}
