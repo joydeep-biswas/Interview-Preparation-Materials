@@ -1,0 +1,44 @@
+# Data and AI Engineering: Interview FAQs & Question Bank
+
+A structured collection of production-grade interview solutions, failure post-mortems, and architectural triage scenarios across modern Data Engineering, AI Data Infrastructure, and Python Backend Services.
+
+---
+
+## Master Interview FAQ Index
+
+| Module # | FAQ Guide File | Domain Scope | Total Scenarios | Key Scenarios Covered |
+| :---: | :--- | :--- | :---: | :--- |
+| **01** | [`01_sql_and_advanced_querying_faq.md`](01_sql_and_advanced_querying_faq.md) | Relational & Analytical SQL | 77 | Query plan bottlenecks, distributed joins (BHJ, SMJ), skew salting, MERGE/UPSERT, recursive CTEs, DoorDash consecutive delivery streaks (Q75), multi-category cross-shopping diversity (Q76), and production revenue discrepancy triage (Q77). |
+| **02** | [`02_python_for_data_and_systems_faq.md`](02_python_for_data_and_systems_faq.md) | Python Systems & Memory | 42 | CPython memory manager, generator streaming for 10GB+ files, Pydantic validation, DuckDB OLAP, streaming dictionary aggregation without Pandas (Q40), peak active delivery tracking via Sweep-Line (Q41), and Roman numeral parsing (Q42). |
+| **03** | [`03_data_modeling_and_lakehouse_storage_faq.md`](03_data_modeling_and_lakehouse_storage_faq.md) | Storage & Dimensional Modeling | 34 | Kimball dimensional design, Fact/Dim taxonomies, SCD Types 0–6, Parquet/Avro internals, compaction, and DoorDash/Uber three-sided marketplace dimensional architecture with H3 spatial indexing (Q34). |
+| **04** | [`04_database_internals_and_distributed_systems_faq.md`](04_database_internals_and_distributed_systems_faq.md) | Database Internals & Distributed Systems | 20 | B+ Trees vs LSM Trees, WAL, Buffer Pool eviction, MVCC, CAP/PACELC, and consensus (Raft, 2PC). |
+| **05** | [`05_apache_spark_and_pyspark_faq.md`](05_apache_spark_and_pyspark_faq.md) | Apache Spark & PySpark | 69 | Spark Catalyst optimizer, Project Tungsten, join strategies, skew salting with virtual partitions & two-track broadcast (Q68), AQE, and Spark JVM memory spilling vs G1GC stop-the-world triage (Q69). |
+| **06** | [`06_databricks_and_delta_lake_faq.md`](06_databricks_and_delta_lake_faq.md) | Databricks & Delta Lake | 35 | Delta ACID log, OPTIMIZE with Z-ORDER, Liquid Clustering, manual Parquet file deletion recovery (Q32), Delta OCC file-level collisions vs Deletion Vectors (Q33), Time Travel vs VACUUM retention divergence (Q34), and production schema validation with type widening limits (Q35). |
+| **07** | [`07_streaming_kafka_and_event_driven_data_faq.md`](07_streaming_kafka_and_event_driven_data_faq.md) | Streaming, Kafka & Auto Loader | 26 | Kafka commit log, consumer groups, Auto Loader, 15-minute out-of-order stream handling with dynamic watermarks & RocksDB state store eviction (Q25), and real-time dynamic surge pricing engine with H3 spatial joins (Q26). |
+| **08** | [`08_etl_pipelines_orchestration_and_data_quality_faq.md`](08_etl_pipelines_orchestration_and_data_quality_faq.md) | Orchestration, ADF, dbt & Quality | 48 | Airflow dynamic task mapping, dbt incremental models, ADF latency jump triage (Q43), 12,000 ADLS subfolders Auto Loader ingestion (Q44), multi-trigger concurrency limits & blob leases (Q45), metadata-driven ADF framework for 500 tables (Q46), upstream Azure SQL outage circuit breakers (Q47), and zero-downtime blue/green view alias deployments (Q48). |
+| **09** | [`09_unity_catalog_and_data_governance_faq.md`](09_unity_catalog_and_data_governance_faq.md) | Governance & Zero-Trust | 10 | Unity Catalog 3-level namespace, RBAC vs ABAC, Row/Column security, data masking, and lineage. |
+| **10** | [`10_document_processing_and_data_preparation_for_ai_faq.md`](10_document_processing_and_data_preparation_for_ai_faq.md) | Document Parsing & AI Data Prep | 5 | PDF layout parsing, table preservation, chunk boundary fragmentation, and MinHash LSH deduplication. |
+| **11** | [`11_embeddings_vector_databases_and_rag_pipelines_faq.md`](11_embeddings_vector_databases_and_rag_pipelines_faq.md) | Vector DBs & RAG Pipelines | 11 | HNSW RAM sizing, IVF-PQ quantization, hybrid search with Reciprocal Rank Fusion, cross-encoders, and production RAG failure isolation (Context Recall vs Faithfulness, Scenario 11). |
+| **12** | [`12_ai_infrastructure_serving_and_llmops_faq.md`](12_ai_infrastructure_serving_and_llmops_faq.md) | AI Serving & LLMOps | 8 | GPU memory ergonomics, vLLM continuous batching, KV cache saturation, model gateway rate-limiting, and sizing vLLM continuous batching for compute prefill vs bandwidth decode (Scenario 8). |
+| **13** | [`13_python_backend_and_api_development_faq.md`](13_python_backend_and_api_development_faq.md) | Python Backend & APIs | 15 | FastAPI async event loop blocking, token streaming with SSE, WebSockets, and background tasks. |
+| **14** | [`14_persistence_caching_and_service_architecture_faq.md`](14_persistence_caching_and_service_architecture_faq.md) | Persistence, Caching & Integration | 12 | SQLAlchemy 2.0 AsyncSession, connection pool sizing, Redis distributed caching, Redlock distributed locking, Celery asynchronous background tasks, and database deadlock mitigation. |
+| **15** | [`15_cloud_infrastructure_containers_and_observability_faq.md`](15_cloud_infrastructure_containers_and_observability_faq.md) | Cloud Infrastructure & Observability | 12 | Multi-stage Docker builds, Kubernetes readiness/liveness/HPA, Spark-on-K8s / KubeRay, Terraform IaC state locking, OpenTelemetry distributed tracing, and Prometheus metrics. |
+| **16** | [`16_machine_learning_and_transformer_foundations_faq.md`](16_machine_learning_and_transformer_foundations_faq.md) | ML & Transformer Foundations | 26 | Loss surfaces, backpropagation computational graphs, numerical stability, AdamW weight decay, cost matrix calibration, multi-head attention, KV cache footprint, and MoE routing. |
+| **17** | [`17_autonomous_agents_and_model_adaptation_faq.md`](17_autonomous_agents_and_model_adaptation_faq.md) | Autonomous Agents & Adaptation | 12 | ReAct cognitive loops, LangGraph state machine harnesses, HITL approval gates, MCP tool idempotency keys, LoRA/QLoRA adaptation, and multi-agent meshes. |
+
+---
+
+## System Design & Situational Leadership Scenarios
+
+For architectural system design and leadership behavioral rounds, refer to the dedicated tracks:
+- [`system_design_and_situational/02_high_level_system_design.md`](../system_design_and_situational/02_high_level_system_design.md) — 14 distributed data & AI production architectures (Medallion Lakehouse, Trade Surveillance CEP, Real-time Payment Streaming, Enterprise RAG).
+- [`system_design_and_situational/03_low_level_system_design.md`](../system_design_and_situational/03_low_level_system_design.md) — 8 machine coding components (LMAX Ring Buffer, Sliding Window Deduplication, Custom Partitioner, Columnar Reader).
+- [`system_design_and_situational/04_situational_scenarios.md`](../system_design_and_situational/04_situational_scenarios.md) — 41 real-world production incident command and leadership scenarios:
+  - [Q1–Q5. Production Incident Response Under Pressure & Failure Prevention](../system_design_and_situational/04_situational_scenarios.md#q1q5-production-incident-response-under-pressure--failure-prevention)
+  - [Q6 & Q7. 11 PM Critical Data Quality Outage Before 9 AM Executive Report](../system_design_and_situational/04_situational_scenarios.md#q6--q7-11-pm-critical-data-quality-outage-before-9-am-executive-report)
+  - [Q10–Q12. Optimizing Slow-Running ETL & Spark Pipelines](../system_design_and_situational/04_situational_scenarios.md#q10q12-optimizing-slow-running-etl--spark-pipelines)
+  - [Q34. End-to-End Hybrid Architecture: Azure + Databricks + Airflow + Snowflake + Spark](../system_design_and_situational/04_situational_scenarios.md#q34-end-to-end-hybrid-architecture-azure--databricks--airflow--snowflake--spark)
+  - [Q38. Triaging Hallucinations Caused by Stale Retrieval Chunks](../system_design_and_situational/04_situational_scenarios.md#q38-triaging-hallucinations-caused-by-stale--misaligned-retrieval-chunks)
+  - [Q39. Managing Multi-Million Dollar GPU Cluster Costs vs Product Latency SLAs](../system_design_and_situational/04_situational_scenarios.md#q39-managing-multi-million-dollar-gpu-cluster-costs-vs-product-latency-slas)
+  - [Q40. Making High-Stakes Technical Decisions with Incomplete Information](../system_design_and_situational/04_situational_scenarios.md#q40-making-high-stakes-technical-decisions-with-incomplete-information)
+  - [Q41. Navigating Unclear or Rapidly Shifting Business Requirements in Enterprise Initiatives](../system_design_and_situational/04_situational_scenarios.md#q41-navigating-unclear-or-rapidly-shifting-business-requirements-in-enterprise-initiatives)
