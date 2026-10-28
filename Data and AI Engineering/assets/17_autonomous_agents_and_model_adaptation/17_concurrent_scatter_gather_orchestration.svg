@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,38 +43,38 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="40" y="175" width="180" height="90" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="40" y="175" width="180" height="90" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
 <text x="130" y="197" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Mission Ingress</text>
 <text x="52" y="217" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Code Refactoring Mission:</text>
 <text x="52" y="235" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Review Pull Request #142</text>
 <text x="52" y="253" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Dispatches audit checks</text>
 
-    <rect x="260" y="175" width="180" height="90" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5"/>
+    <rect x="260" y="175" width="180" height="114" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5" />
 <text x="350" y="197" fill="#fde68a" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Task Dispatcher</text>
 <text x="272" y="217" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Executes asyncio.gather()</text>
 <text x="272" y="235" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Concurrent Fan-Out</text>
 <text x="272" y="253" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Zero sequential latency</text>
 <text x="272" y="271" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Launches 3 specialists</text>
 
-    <rect x="480" y="95" width="230" height="75" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="480" y="95" width="230" height="75" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="595" y="117" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Worker 1: Security Agent</text>
 <text x="492" y="137" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Scans for SQL injection, XSS,</text>
 <text x="492" y="155" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">CVE package vulnerabilities</text>
 <text x="492" y="173" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Bandit / Semgrep analysis</text>
 
-    <rect x="480" y="180" width="230" height="75" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="480" y="180" width="230" height="75" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="595" y="202" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Worker 2: Profiler Agent</text>
 <text x="492" y="222" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Checks computational complexity</text>
 <text x="492" y="240" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Detects memory leak patterns</text>
 <text x="492" y="258" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Analyzes async loop bottlenecks</text>
 
-    <rect x="480" y="265" width="230" height="75" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="480" y="265" width="230" height="96" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="595" y="287" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Worker 3: Linter Agent</text>
 <text x="492" y="307" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Runs mypy strict type checker</text>
 <text x="492" y="325" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Validates PEP-8 formatting</text>
 <text x="492" y="343" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Enforces docstring contracts</text>
 
-    <rect x="750" y="165" width="190" height="110" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+    <rect x="750" y="165" width="190" height="132" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5" />
 <text x="845" y="187" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Consensus Aggregator</text>
 <text x="762" y="207" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Merges all 3 findings</text>
 <text x="762" y="225" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Resolves conflicts</text>
@@ -82,17 +82,17 @@
 <text x="762" y="261" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">review comment with fixes</text>
 <text x="762" y="279" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Mission Complete!</text>
 
-    <line x1="220" y1="220" x2="260" y2="220" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+    <line x1="220" y1="220" x2="260" y2="220" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
 
-    <path d="M 440.0 200.0 L 448.0 200.0 C 458.0 200.0, 458.0 132.0, 468.0 132.0 L 480.0 132.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 440.0 200.0 L 448.0 200.0 C 458.0 200.0, 458.0 132.0, 468.0 132.0 L 480.0 132.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
 <text x="460" y="156" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Fan-Out</text>
-    <line x1="440" y1="220" x2="480" y2="220" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
-    <path d="M 440.0 240.0 L 448.0 240.0 C 458.0 240.0, 458.0 302.0, 468.0 302.0 L 480.0 302.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <line x1="440" y1="220" x2="480" y2="220" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
+    <path d="M 440.0 240.0 L 448.0 240.0 C 458.0 240.0, 458.0 302.0, 468.0 302.0 L 480.0 302.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
 <text x="460" y="281" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Fan-Out</text>
 
-    <path d="M 710.0 132.0 L 718.0 132.0 C 728.0 132.0, 728.0 200.0, 738.0 200.0 L 750.0 200.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
-    <line x1="710" y1="220" x2="750" y2="220" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
-    <path d="M 710.0 302.0 L 718.0 302.0 C 728.0 302.0, 728.0 240.0, 738.0 240.0 L 750.0 240.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+    <path d="M 710.0 132.0 L 718.0 132.0 C 728.0 132.0, 728.0 200.0, 738.0 200.0 L 750.0 200.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)" />
+    <line x1="710" y1="220" x2="750" y2="220" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)" />
+    <path d="M 710.0 302.0 L 718.0 302.0 C 728.0 302.0, 728.0 240.0, 738.0 240.0 L 750.0 240.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)" />
 
   </g>
 </svg>

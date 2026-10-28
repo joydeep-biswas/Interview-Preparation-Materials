@@ -1,17 +1,30 @@
 direction: right
-title: Query Execution Engine Models: Volcano vs. Vectorized vs. JIT
+title: "Query Execution Engine Models: Volcano vs. Vectorized vs. JIT"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-volcano: 1. Volcano Model (Tuple-at-a-Time) {
+volcano: "1. Volcano Model (Tuple-at-a-Time)" {
+  class: container
   flow: "Aggregate.next() -> Filter.next() -> Scan.next()"
   drawback: "Virtual call overhead & CPU L1i cache misses"
 }
 
-vectorized: 2. Vectorized Model (SIMD Batches) {
+vectorized: "2. Vectorized Model (SIMD Batches)" {
+  class: container
   flow: "L1 Data Cache -> SIMD Registers (AVX-512) -> Output Buffer"
   feature: "Processes 1024-value columnar vectors per CPU cycle"
 }
 
-jit: 3. Whole-Stage JIT Compilation (HyPer / Spark) {
+jit: "3. Whole-Stage JIT Compilation (HyPer / Spark)" {
+  class: container
   flow: "Plan compiled directly into flattened native while() loop"
   feature: "Data stays in CPU hardware registers; zero call overhead"
 }

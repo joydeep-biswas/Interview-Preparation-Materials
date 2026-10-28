@@ -7,37 +7,35 @@
       .lbl { fill: #CBD5E1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
     </style>
     <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
   </defs>
 
-  <rect width="1020" height="400" fill="#0B0F19"/>
+  <rect width="1020" height="400" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Left: Alert -->
   <g transform="translate(30, 140)">
-    <rect width="210" height="110" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <rect width="210" height="110" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="2" />
     <text x="105" y="32" class="title" fill="#FECACA">Gold Missing 50k Records</text>
-    <line x1="15" y1="44" x2="195" y2="44" stroke="#991B1B" stroke-width="1"/>
+    <line x1="15" y1="44" x2="195" y2="44" stroke="#991B1B" stroke-width="1" />
     <text x="105" y="68" class="body-txt" text-anchor="middle">Expected: 1,000,000</text>
     <text x="105" y="88" class="body-txt" text-anchor="middle" fill="#FCA5A5">Found: 950,000 (-50,000)</text>
   </g>
 
-  <path fill="none" d="M 240 195 L 290 195" class="edge" stroke="#EF4444" marker-end="url(#arr-blue)"/>
-
   <!-- Step 1: Bronze Audit -->
   <g transform="translate(290, 140)">
-    <rect width="200" height="110" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="200" height="121" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="100" y="30" class="title" fill="#93C5FD">1. Audit Bronze Raw</text>
-    <line x1="15" y1="42" x2="185" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="42" x2="185" y2="42" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="65" class="body-txt">• Count(*) on bronze</text>
     <text x="15" y="85" class="body-txt">• Check _rescued_data</text>
     <text x="15" y="103" class="body-txt">Did Bronze get all 1M?</text>
@@ -45,36 +43,31 @@
 
   <!-- Root Cause 1: Source Ingestion Failure (Upwards) -->
   <g transform="translate(540, 25)">
-    <rect width="450" height="85" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="450" height="92" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="2" />
     <text x="225" y="26" class="title" fill="#FCA5A5">Root Cause: Source Ingestion Failure</text>
-    <line x1="15" y1="36" x2="435" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <line x1="15" y1="36" x2="435" y2="36" stroke="#1F2937" stroke-width="1" />
     <text x="20" y="56" class="body-txt">• Bronze received &lt; 1M records; source batch dropped files</text>
     <text x="20" y="74" class="body-txt" fill="#FCA5A5">Fix: Inspect Auto Loader file notification queue &amp; S3 prefix glob</text>
   </g>
-  <path fill="none" d="M 390 140 L 390 67 C 390 67, 450 67, 525 67 L 540 67" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
   <text x="415" y="55" class="lbl" fill="#FCA5A5">Bronze &lt; 1M</text>
 
   <!-- Step 1 to Step 2 -->
-  <path fill="none" d="M 490 195 L 540 195" class="edge" stroke="#3B82F6" marker-end="url(#arr-amber)"/>
-
   <!-- Step 2: Silver Quarantine -->
   <g transform="translate(540, 140)">
-    <rect width="210" height="110" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="210" height="121" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="105" y="30" class="title" fill="#FCD34D">2. Silver Quarantine</text>
-    <line x1="15" y1="42" x2="195" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="42" x2="195" y2="42" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="65" class="body-txt">• Inspect silver DLQ</text>
     <text x="15" y="85" class="body-txt">• silver.quarantine_orders</text>
     <text x="15" y="103" class="body-txt" fill="#FCD34D">Found 30k corrupt rows!</text>
   </g>
 
   <!-- Step 2 to Step 3 -->
-  <path fill="none" d="M 750 195 L 790 195" class="edge" stroke="#F59E0B" marker-end="url(#arr-purple)"/>
-
   <!-- Step 3: Inner Join Attrition -->
   <g transform="translate(790, 140)">
-    <rect width="200" height="110" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="200" height="121" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="2" />
     <text x="100" y="30" class="title" fill="#C4B5FD">3. Join Attrition</text>
-    <line x1="15" y1="42" x2="185" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="42" x2="185" y2="42" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="65" class="body-txt">• Anti-join Silver vs Dims</text>
     <text x="15" y="85" class="body-txt">• Missing dim_store key</text>
     <text x="15" y="103" class="body-txt" fill="#C4B5FD">Dropped 20k rows in JOIN</text>
@@ -82,10 +75,17 @@
 
   <!-- Summary Card (Downwards) -->
   <g transform="translate(290, 280)">
-    <rect width="700" height="95" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <rect width="700" height="95" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="1.5" />
     <text x="350" y="26" class="title" fill="#A7F3D0">Triage Summary: 50,000 Missing Rows Accounted For</text>
-    <line x1="20" y1="36" x2="680" y2="36" stroke="#047857" stroke-width="1"/>
+    <line x1="20" y1="36" x2="680" y2="36" stroke="#047857" stroke-width="1" />
     <text x="30" y="58" class="body-txt" fill="#A7F3D0">• 30,000 rows routed to Silver Quarantine due to null customer_id check constraints</text>
     <text x="30" y="78" class="body-txt" fill="#A7F3D0">• 20,000 rows dropped by INNER JOIN on late-arriving stores → Fix: LEFT JOIN + Unknown SK (-1)</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 240 195 L 290 195" class="edge" stroke="#EF4444" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 390 140 L 390 67 C 390 67, 450 67, 525 67 L 540 67" class="edge" stroke="#EF4444" marker-end="url(#arr-red)" />
+  <path fill="none" d="M 490 195 L 540 195" class="edge" stroke="#3B82F6" marker-end="url(#arr-amber)" />
+
+  <path fill="none" d="M 750 195 L 790 195" class="edge" stroke="#F59E0B" marker-end="url(#arr-purple)" />
+
+  </g></svg>

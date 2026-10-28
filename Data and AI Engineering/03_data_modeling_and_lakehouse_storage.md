@@ -8,54 +8,7 @@ A comprehensive, production-grade guide to enterprise data architecture (Kimball
 
 ![01 Enterprise Medallion Lakehouse Architecture](assets/03_data_modeling_and_lakehouse_storage/01_enterprise_medallion_lakehouse_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Enterprise Medallion Lakehouse Architecture (Bronze -> Silver -> Gold)
-
-bronze: Bronze Layer (Raw Ingestion) {
-  raw_events: Raw Event Streams {
-    shape: rectangle
-    type: "Kafka / CDC"
-    format: "Append-only JSON / Parquet"
-  }
-  cdc_data: Change Data Capture {
-    shape: rectangle
-    source: "Postgres / MySQL WAL"
-    drift: "Tolerant"
-  }
-}
-
-silver: Silver Layer (Cleansed & Enriched) {
-  cleansed: Cleansed & Deduplicated {
-    shape: rectangle
-    rules: "Schema enforced, dead-letter DLQ"
-  }
-  data_vault: Data Vault 2.0 Core {
-    shape: rectangle
-    structure: "Hubs, Links, Satellites"
-  }
-}
-
-gold: Gold Layer (Curated Serving) {
-  star_schema: Kimball Star Schema {
-    shape: rectangle
-    structure: "Facts & Dimensions"
-  }
-  semantic_layer: Enterprise Semantic Layer {
-    shape: rectangle
-    metrics: "Single source of truth"
-  }
-}
-
-bronze.raw_events -> silver.cleansed: "Schema Enforce"
-bronze.cdc_data -> silver.data_vault: "Audit Merge"
-silver.cleansed -> gold.star_schema: "Dimensionalize"
-silver.data_vault -> gold.semantic_layer: "Standardize KPIs"
-```
-</details>
+*D2 Source: [`01_enterprise_medallion_lakehouse_architecture.d2`](assets/03_data_modeling_and_lakehouse_storage/01_enterprise_medallion_lakehouse_architecture.d2)*
 
 ---
 
@@ -146,6 +99,7 @@ silver.data_vault -> gold.semantic_layer: "Standardize KPIs"
 > - [Q21. Enterprise Cloud Storage Cost Optimization in Data Lakes & Warehouses](frequently_asked_questions/03_data_modeling_and_lakehouse_storage_faq.md#q21-hard-enterprise-cloud-storage-cost-optimization-in-data-lakes--warehouses)
 > - [Q23. End-to-End Database Design: Movie Ticket Booking Platform](frequently_asked_questions/03_data_modeling_and_lakehouse_storage_faq.md#q23-medium-end-to-end-database-design-movie-ticket-booking-platform)
 > - [Q24. Schema Evolution & Safe Data Model Migration in Active Pipelines](frequently_asked_questions/03_data_modeling_and_lakehouse_storage_faq.md#q24-medium-schema-evolution--safe-data-model-migration-in-active-pipelines)
+> - [Q36. Micro-Partitions and Clustering Keys in Cloud Warehouses & Lakehouses: Query Acceleration vs Reclustering Cost Governance](frequently_asked_questions/03_data_modeling_and_lakehouse_storage_faq.md#q36-medium-micro-partitions-and-clustering-keys-in-cloud-warehouses--lakehouses-query-acceleration-vs-reclustering-cost-governance)
 ---
 
 # 1. Enterprise Data Architecture Patterns
@@ -163,43 +117,7 @@ In technical terms, a Data Lake decouples **storage** from **compute** and embra
 
 ![02 Data Lake Architecture Schema On Read](assets/03_data_modeling_and_lakehouse_storage/02_data_lake_architecture_schema_on_read.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Data Lake Architecture & Schema-on-Read Mechanics
-
-sources: Heterogeneous Sources {
-  db: PostgreSQL CDC
-  logs: Application Logs
-  media: Audio / PDF Media
-  iot: IoT MQTT Telemetry
-}
-
-storage: Cloud Object Storage (S3 / ADLS Gen2 / GCS) {
-  shape: cylinder
-  description: "Low-cost, infinite scale, schema-on-read storage substrate"
-}
-
-compute: Compute on Demand {
-  spark: Apache Spark / EMR
-  trino: Trino / Presto Distributed SQL
-  duckdb: DuckDB Embedded SQL
-  ml: PyTorch / TensorFlow AI Pipelines
-}
-
-sources.db -> storage: "HTTP PUT"
-sources.logs -> storage: "Log forwarder"
-sources.media -> storage: "Blob upload"
-sources.iot -> storage: "Stream landing"
-
-storage -> compute.spark: "Read Parquet"
-storage -> compute.trino: "Scan on query"
-storage -> compute.duckdb: "Direct read"
-storage -> compute.ml: "Load tensors"
-```
-</details>
+*D2 Source: [`02_data_lake_architecture_schema_on_read.d2`](assets/03_data_modeling_and_lakehouse_storage/02_data_lake_architecture_schema_on_read.d2)*
 
 #### 2. Deep Systems Internals & Trade-offs
 1. **Physical Storage:** Uses distributed cloud blob stores (Amazon S3, Azure Data Lake Storage Gen2, Google Cloud Storage) costing approximately \$0.02/GB/month. Objects are organized by hierarchical URI prefix keys: `s3://company-lake/raw/orders/year=2026/month=10/day=16/part-00000.parquet`.
@@ -218,48 +136,7 @@ In technical terms, an Enterprise Data Warehouse (EDW) uses **Schema-on-Write**:
 
 ![03 Traditional Data Warehouse Edw Etl Flow](assets/03_data_modeling_and_lakehouse_storage/03_traditional_data_warehouse_edw_etl_flow.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Traditional Data Warehouse (EDW) ETL Architecture
-
-sources: Operational Sources {
-  oltp: OLTP Databases (Oracle/Postgres)
-  crm: Salesforce CRM API
-  erp: SAP ERP Core
-}
-
-etl: Heavy Batch ETL Engine {
-  informatica: Informatica / DataStage / SSIS {
-    shape: rectangle
-    type: "Nightly batch transformations"
-    rules: "Rigid schema-on-write mapping"
-  }
-}
-
-edw: Enterprise Data Warehouse {
-  mpp: Snowflake / Teradata / Redshift {
-    shape: cylinder
-    storage: "Proprietary Columnar"
-    schema: "3NF & Kimball Star"
-  }
-}
-
-bi: BI Consumers {
-  pbi: Power BI Dashboards
-  tableau: Tableau Analytics
-}
-
-sources.oltp -> etl.informatica
-sources.crm -> etl.informatica
-sources.erp -> etl.informatica
-etl.informatica -> edw.mpp: "Strict Schema-on-Write"
-edw.mpp -> bi.pbi: "SQL Queries"
-edw.mpp -> bi.tableau: "SQL Queries"
-```
-</details>
+*D2 Source: [`03_traditional_data_warehouse_edw_etl_flow.d2`](assets/03_data_modeling_and_lakehouse_storage/03_traditional_data_warehouse_edw_etl_flow.d2)*
 
 #### 2. Deep Systems Internals & Trade-offs
 1. **MPP Architecture (Massively Parallel Processing):** EDWs divide relational data across multiple compute nodes. In a **Shared-Nothing** design (e.g., Teradata, early Redshift), each node owns its local disk and memory; data must be physically shuffled across network fabrics to perform joins. In a **Separation of Storage and Compute** design (Snowflake, BigQuery, Google Spanner), compute nodes are stateless micro-clusters pulling micro-partitions dynamically from a shared object tier.
@@ -277,42 +154,7 @@ Imagine a seaport cargo warehouse where every single shipping container is tagge
 
 ![04 Modern Lakehouse Open Table Formats](assets/03_data_modeling_and_lakehouse_storage/04_modern_lakehouse_open_table_formats.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: up
-title: Modern Data Lakehouse Architecture
-
-storage: Cloud Object Storage (Parquet Files) {
-  shape: cylinder
-  s3: "s3://company-lakehouse/*.parquet"
-}
-
-table_format: Open Table Formats (ACID & Metadata) {
-  delta: Delta Lake (_delta_log/*.json)
-  iceberg: Apache Iceberg (metadata.json)
-  hudi: Apache Hudi (.hoodie timeline)
-}
-
-compute: Decoupled Distributed Compute {
-  photon: Databricks Photon
-  spark: Apache Spark
-  trino: Trino Distributed SQL
-  snowflake: Snowflake Iceberg Engine
-}
-
-consumers: Unified Analytical & AI Consumption {
-  bi: BI & Dashboards (Power BI, Tableau)
-  ml: AI & ML (PyTorch, Feature Store)
-  adhoc: Interactive Ad-Hoc SQL
-}
-
-storage -> table_format: "Data files registered"
-table_format -> compute: "ACID metadata scan"
-compute -> consumers: "Unified Serving"
-```
-</details>
+*D2 Source: [`04_modern_lakehouse_open_table_formats.d2`](assets/03_data_modeling_and_lakehouse_storage/04_modern_lakehouse_open_table_formats.d2)*
 
 #### 2. Deep Systems Internals: Open Table Formats
 The core innovation enabling Lakehouses is the **Open Table Format** (Delta Lake, Apache Iceberg, Apache Hudi). These formats wrap raw Parquet files with an atomic metadata transaction log.
@@ -345,41 +187,7 @@ Think of a major news organization covering a live election night.
 
 ![05 Lambda Architecture Batch And Speed Layers](assets/03_data_modeling_and_lakehouse_storage/05_lambda_architecture_batch_and_speed_layers.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: Lambda Architecture: Batch and Speed Layers
-
-events: Incoming Streaming Events (Kafka / Kinesis) {
-  shape: queue
-}
-
-batch_layer: Batch Layer (Cold Path - Accurate & Latent) {
-  master_store: Master Immutable Data Lake Store
-  batch_compute: Spark Batch / dbt Recomputation
-  batch_views: Precomputed Batch Views (Lag: 1-24h)
-  master_store -> batch_compute -> batch_views
-}
-
-speed_layer: Speed Layer (Hot Path - Low Latency Delta) {
-  stream_compute: Flink / Spark Streaming Engine
-  realtime_views: Low-Latency Realtime Views (Redis/Cassandra)
-  stream_compute -> realtime_views
-}
-
-serving_layer: Serving Layer (Unified Query Merge) {
-  shape: rectangle
-  query: "SELECT * FROM batch_views UNION speed_views"
-}
-
-events -> batch_layer.master_store: "Append raw"
-events -> speed_layer.stream_compute: "Stream delta"
-batch_layer.batch_views -> serving_layer: "Accurate historical"
-speed_layer.realtime_views -> serving_layer: "Realtime delta"
-```
-</details>
+*D2 Source: [`05_lambda_architecture_batch_and_speed_layers.d2`](assets/03_data_modeling_and_lakehouse_storage/05_lambda_architecture_batch_and_speed_layers.d2)*
 
 #### 2. The Dual-Codebase Dilemma
 The Lambda Architecture solved early big data latency limits (pre-2015), but introduced severe production maintenance challenges:
@@ -398,44 +206,7 @@ In technical terms, the **Kappa Architecture** eliminates the batch layer entire
 
 ![06 Kappa Architecture Single Log Stream Processing](assets/03_data_modeling_and_lakehouse_storage/06_kappa_architecture_single_log_stream_processing.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Kappa Architecture: Single Append-Only Log Substrate
-
-log: Distributed Event Log Substrate (Kafka / Pulsar) {
-  shape: cylinder
-  retention: "Long-term / Infinite log retention"
-}
-
-compute: Single Stream Processing Framework (Apache Flink) {
-  v1: Live Pipeline v1 {
-    shape: rectangle
-    status: "Active live processing"
-  }
-  v2: Backfill Pipeline v2 {
-    shape: rectangle
-    status: "Replaying from offset 0"
-    style.stroke-dash: 4
-  }
-}
-
-serving: Serving Data Stores {
-  store_v1: Serving Store v1 (Live Traffic)
-  store_v2: Serving Store v2 (Rebuilt Backfill) {
-    style.stroke-dash: 4
-  }
-}
-
-log -> compute.v1: "Tail active offsets"
-compute.v1 -> serving.store_v1: "Live updates"
-
-log -> compute.v2: "Seek offset 0 & replay"
-compute.v2 -> serving.store_v2: "Rebuild store v2"
-```
-</details>
+*D2 Source: [`06_kappa_architecture_single_log_stream_processing.d2`](assets/03_data_modeling_and_lakehouse_storage/06_kappa_architecture_single_log_stream_processing.d2)*
 
 #### 2. How Historical Backfills Work in Kappa
 When business logic changes or a bug is discovered in Kappa:
@@ -453,38 +224,7 @@ The Medallion Architecture is the industry-standard logical design pattern for d
 
 ![07 Medallion Architecture Bronze Silver Gold Pillars](assets/03_data_modeling_and_lakehouse_storage/07_medallion_architecture_bronze_silver_gold_pillars.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Medallion Architecture Bronze, Silver, Gold Pillars
-
-bronze: 1. Bronze Layer (Raw) {
-  shape: cylinder
-  b1: Append-only raw ingestion
-  b2: Preserve exact source fidelity
-  b3: Lineage metadata (_ingested_at)
-}
-
-silver: 2. Silver Layer (Conformed) {
-  shape: cylinder
-  s1: Deduplication & Idempotent MERGE
-  s2: Schema enforcement & type casting
-  s3: Quarantine dead-letter invalid data
-}
-
-gold: 3. Gold Layer (Curated) {
-  shape: cylinder
-  g1: Kimball Star & Snowflake Schemas
-  g2: Aggregated KPI & Business Marts
-  g3: Sub-second high-speed BI & AI serving
-}
-
-bronze -> silver: "Cleanse, Deduplicate & Standardize"
-silver -> gold: "Aggregate, Join & Dimensionalize"
-```
-</details>
+*D2 Source: [`07_medallion_architecture_bronze_silver_gold_pillars.d2`](assets/03_data_modeling_and_lakehouse_storage/07_medallion_architecture_bronze_silver_gold_pillars.d2)*
 
 #### 1. The 3-Tier Refining Paradigm: Mechanics & Invariants
 The Medallion Architecture (popularized by Databricks and widely adopted across cloud data platforms) solves the dual challenge of preserving raw audit data while simultaneously delivering high-speed, cleansed analytics to business users. Rather than attempting a single, monolithic ETL hop that mixes ingestion and business logic, the Medallion framework progressively refines data across three distinct physical layers:
@@ -529,42 +269,7 @@ Traditional enterprise data architectures operate like a **monolithic Soviet-sty
 
 ![08 Data Mesh Decentralized Data Products](assets/03_data_modeling_and_lakehouse_storage/08_data_mesh_decentralized_data_products.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: Data Mesh: Decentralized Autonomous Data Products
-
-domains: Domain-Oriented Decentralized Teams {
-  d1: Domain: Checkout & Payments {
-    product1: "Data Product: Completed Transactions"
-    team1: "Cross-functional domain engineers & owner"
-  }
-  d2: Domain: Supply Chain Logistics {
-    product2: "Data Product: Fleet Telemetry"
-    team2: "Logistics data engineers"
-  }
-  d3: Domain: Customer Engagement {
-    product3: "Data Product: Churn Indicators"
-    team3: "ML & marketing data pod"
-  }
-}
-
-governance: Federated Computational Governance {
-  opa: Automated Policy Engine (Open Policy Agent)
-  contracts: Global Data Contracts & PII Tokenization
-}
-
-platform: Self-Serve Data Infrastructure Platform {
-  iac: 1-Click Compute & Storage Provisioning
-  catalog: Unified Data Catalog & Discovery Engine
-}
-
-governance -> domains: "Automated Policy Enforcement"
-platform -> domains: "Self-Serve Infrastructure"
-```
-</details>
+*D2 Source: [`08_data_mesh_decentralized_data_products.d2`](assets/03_data_modeling_and_lakehouse_storage/08_data_mesh_decentralized_data_products.d2)*
 
 #### 2. The Four Foundational Pillars of Data Mesh
 1. **Domain-Oriented Decentralized Data Ownership:** The people closest to the data (the software engineers building the operational service) own the analytical data model, documentation, and operational pipeline.
@@ -583,42 +288,7 @@ Think of a Data Fabric as an enterprise **smart navigation system (like Google M
 
 ![09 Data Fabric Active Metadata And Knowledge Graph](assets/03_data_modeling_and_lakehouse_storage/09_data_fabric_active_metadata_and_knowledge_graph.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Data Fabric Architecture & Active Metadata Engine
-
-sources: Distributed Hybrid Sources {
-  oracle: On-Premises Oracle DB
-  s3: AWS S3 Data Lake
-  bq: Google BigQuery
-  kafka: Kafka Event Bus
-}
-
-metadata_layer: Active Metadata & Knowledge Graph {
-  graph: Enterprise Knowledge Graph {
-    shape: rectangle
-    details: "Tracks cross-silo column lineage & access patterns"
-  }
-  ai_recommender: AI / ML Recommendation Engine {
-    shape: rectangle
-    details: "Predictive caching & automated pipeline synthesis"
-  }
-  graph <-> ai_recommender: "Continuous learning"
-}
-
-delivery: Automated Virtualization & Pipelines {
-  virtualization: Data Virtualization (Trino/Starburst)
-  auto_pipeline: Dynamic Automated Data Pipeline Generation
-}
-
-sources -> metadata_layer.graph: "Active metadata harvesting"
-metadata_layer.ai_recommender -> delivery.virtualization: "Optimized pushdown queries"
-metadata_layer.ai_recommender -> delivery.auto_pipeline: "Self-healing pipeline execution"
-```
-</details>
+*D2 Source: [`09_data_fabric_active_metadata_and_knowledge_graph.d2`](assets/03_data_modeling_and_lakehouse_storage/09_data_fabric_active_metadata_and_knowledge_graph.d2)*
 
 ---
 
@@ -644,38 +314,7 @@ Enterprise data modeling for analytics is dominated by three competing foundatio
 
 ![10 Architecture Showdown Inmon Vs Kimball Vs Datavault](assets/03_data_modeling_and_lakehouse_storage/10_architecture_showdown_inmon_vs_kimball_vs_datavault.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: Enterprise Architecture Showdown: Inmon vs. Kimball vs. Data Vault 2.0
-
-inmon: 1. Inmon (Corporate Information Factory) {
-  src: Operational Sources
-  edw: Enterprise Data Warehouse (Strict 3NF)
-  marts: Departmental Data Marts
-  src -> edw: "Heavy ETL"
-  edw -> marts: "Downstream extract"
-}
-
-kimball: 2. Kimball (Dimensional Lifecycle) {
-  src: Operational Sources
-  bus: Conformed Bus Matrix
-  stars: Enterprise Star Schemas
-  src -> bus: "Conformed Dimensions"
-  bus -> stars: "Atomic Fact Tables"
-}
-
-datavault: 3. Data Vault 2.0 (Agile Audit Core) {
-  src: Hash-Based Ingestion
-  raw_vault: Raw Data Vault (Hubs, Links, Satellites)
-  biz_vault: Business Vault & Information Marts
-  src -> raw_vault: "Insert-only load"
-  raw_vault -> biz_vault: "PIT & Bridge Views"
-}
-```
-</details>
+*D2 Source: [`10_architecture_showdown_inmon_vs_kimball_vs_datavault.d2`](assets/03_data_modeling_and_lakehouse_storage/10_architecture_showdown_inmon_vs_kimball_vs_datavault.d2)*
 
 #### 1. Foundational Philosophies: Inmon vs. Kimball vs. Data Vault 2.0
 Modern enterprise data warehouses are shaped by three seminal architectural philosophies, each answering a different organizational priority:
@@ -723,38 +362,7 @@ Data modeling progresses through three distinct levels of abstraction:
 
 ![11 Conceptual Logical Physical Models](assets/03_data_modeling_and_lakehouse_storage/11_conceptual_logical_physical_models.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Conceptual, Logical, and Physical Data Models
-
-conceptual: 1. Conceptual Data Model {
-  scope: "What the business cares about"
-  entities: "Customer, Order, Product"
-  relationships: "Strategic (1:N, M:N)"
-  target: "C-Suite & Business Stakeholders"
-}
-
-logical: 2. Logical Data Model {
-  scope: "Business rules & relationships"
-  keys: "Primary & Foreign keys defined"
-  normalization: "3NF applied, vendor agnostic"
-  target: "Data Architects & Lead Engineers"
-}
-
-physical: 3. Physical Data Model {
-  scope: "How data sits on hardware"
-  types: "Exact SQL DDL types, DECIMAL(18,2)"
-  storage: "Partitioning, Z-Order, Parquet"
-  target: "Database Engineers & Infrastructure"
-}
-
-conceptual -> logical: "Formalize Entities"
-logical -> physical: "Implement Storage & DDL"
-```
-</details>
+*D2 Source: [`11_conceptual_logical_physical_models.d2`](assets/03_data_modeling_and_lakehouse_storage/11_conceptual_logical_physical_models.d2)*
 
 ---
 
@@ -831,55 +439,7 @@ CREATE TABLE order_items (
 
 ![12 Oltp Relational Schema 3Nf Normalization](assets/03_data_modeling_and_lakehouse_storage/12_oltp_relational_schema_3nf_normalization.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: OLTP Relational Schema: 3NF & BCNF Normalization
-
-zip_codes: ZIP_CODES {
-  shape: sql_table
-  zip_code: varchar [pk]
-  city: varchar
-  state: varchar
-}
-
-customers: CUSTOMERS {
-  shape: sql_table
-  customer_id: varchar [pk]
-  customer_name: varchar
-  street_address: varchar
-  zip_code: varchar [fk]
-}
-
-orders: ORDERS {
-  shape: sql_table
-  order_id: bigint [pk]
-  customer_id: varchar [fk]
-  order_date: timestamp
-}
-
-order_items: ORDER_ITEMS {
-  shape: sql_table
-  order_id: bigint [pk, fk]
-  item_id: varchar [pk, fk]
-  quantity: int
-}
-
-items: ITEMS {
-  shape: sql_table
-  item_id: varchar [pk]
-  item_name: varchar
-  current_price: decimal
-}
-
-zip_codes -> customers: "locates (1:N)"
-customers -> orders: "places (1:N)"
-orders -> order_items: "contains (1:N)"
-items -> order_items: "included_in (1:N)"
-```
-</details>
+*D2 Source: [`12_oltp_relational_schema_3nf_normalization.d2`](assets/03_data_modeling_and_lakehouse_storage/12_oltp_relational_schema_3nf_normalization.d2)*
 
 ---
 
@@ -891,39 +451,7 @@ Ralph Kimball established the definitive **4-Step Dimensional Design Process**:
 
 ![13 Kimball Four Step Dimensional Design Process](assets/03_data_modeling_and_lakehouse_storage/13_kimball_four_step_dimensional_design_process.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Kimball 4-Step Dimensional Design Process
-
-s1: Step 1: Select Business Process {
-  activity: "Retail Sales, Claims Processing, ATM Withdrawals"
-  objective: "Target enterprise activity"
-}
-
-s2: Step 2: Declare the Grain {
-  rule: "Always model at lowest atomic grain possible"
-  example: "One individual line-item barcode scan"
-  style.stroke: "#ef4444"
-}
-
-s3: Step 3: Identify Dimensions {
-  context: "Who, What, Where, When, Why, How"
-  tables: "Date, Customer, Store, Promotion, Product"
-}
-
-s4: Step 4: Identify Numeric Facts {
-  metrics: "Quantity Sold, Extended Price, Discount, Tax"
-  types: "Additive, Semi-Additive, Non-Additive"
-}
-
-s1 -> s2: "Define activity"
-s2 -> s3: "Lock atomic grain"
-s3 -> s4: "Surround with facts"
-```
-</details>
+*D2 Source: [`13_kimball_four_step_dimensional_design_process.d2`](assets/03_data_modeling_and_lakehouse_storage/13_kimball_four_step_dimensional_design_process.d2)*
 
 ---
 
@@ -934,62 +462,7 @@ In a **Star Schema**, a centralized, numeric **Fact Table** sits in the center, 
 
 ![14 Star Schema Fact And Dimensions Architecture](assets/03_data_modeling_and_lakehouse_storage/14_star_schema_fact_and_dimensions_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Kimball Star Schema: Central Fact & Conformed Dimensions
-
-fact_sales: FACT_SALES {
-  shape: sql_table
-  sales_fact_id: bigint [pk]
-  date_sk: int [fk]
-  customer_sk: int [fk]
-  product_sk: int [fk]
-  store_sk: int [fk]
-  promo_sk: int [fk]
-  quantity_sold: int
-  net_amount: decimal
-}
-
-dim_customer: DIM_CUSTOMER {
-  shape: sql_table
-  customer_sk: int [pk]
-  customer_name: varchar
-}
-
-dim_date: DIM_DATE {
-  shape: sql_table
-  date_sk: int [pk]
-  full_date: date
-}
-
-dim_product: DIM_PRODUCT {
-  shape: sql_table
-  product_sk: int [pk]
-  product_name: varchar
-}
-
-dim_store: DIM_STORE {
-  shape: sql_table
-  store_sk: int [pk]
-  store_name: varchar
-}
-
-dim_promotion: DIM_PROMOTION {
-  shape: sql_table
-  promo_sk: int [pk]
-  promo_name: varchar
-}
-
-dim_customer -> fact_sales: "filters (customer_sk)"
-dim_date -> fact_sales: "filters (date_sk)"
-dim_product -> fact_sales: "filters (product_sk)"
-dim_store -> fact_sales: "filters (store_sk)"
-dim_promotion -> fact_sales: "filters (promo_sk)"
-```
-</details>
+*D2 Source: [`14_star_schema_fact_and_dimensions_architecture.d2`](assets/03_data_modeling_and_lakehouse_storage/14_star_schema_fact_and_dimensions_architecture.d2)*
 
 #### 2. Why Star Schemas Outperform 3NF in Distributed Analytical Engines
 1. **Predictable Query Execution Plans:** The database optimizer easily recognizes the star topology. It filters the dimensions first, pushes predicates down to storage, extracts the qualifying surrogate keys, and performs high-speed **Broadcast Hash Joins** against the fact table.
@@ -1005,65 +478,7 @@ A **Snowflake Schema** is a variation of the Star Schema where **dimension table
 
 ![15 Snowflake Schema Normalized Hierarchy](assets/03_data_modeling_and_lakehouse_storage/15_snowflake_schema_normalized_hierarchy.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Snowflake Schema: Normalized Dimension Hierarchies
-
-fact_sales: FACT_SALES {
-  shape: sql_table
-  sales_fact_id: bigint [pk]
-  product_sk: int [fk]
-  store_sk: int [fk]
-}
-
-dim_product: DIM_PRODUCT {
-  shape: sql_table
-  product_sk: int [pk]
-  subcategory_id: int [fk]
-}
-
-dim_subcategory: DIM_SUBCATEGORY {
-  shape: sql_table
-  subcategory_id: int [pk]
-  category_id: int [fk]
-}
-
-dim_category: DIM_CATEGORY {
-  shape: sql_table
-  category_id: int [pk]
-  category_name: varchar
-}
-
-dim_store: DIM_STORE {
-  shape: sql_table
-  store_sk: int [pk]
-  city_id: int [fk]
-}
-
-dim_city: DIM_CITY {
-  shape: sql_table
-  city_id: int [pk]
-  region_id: int [fk]
-}
-
-dim_region: DIM_REGION {
-  shape: sql_table
-  region_id: int [pk]
-  region_name: varchar
-}
-
-fact_sales -> dim_product: "FK: product_sk"
-dim_product -> dim_subcategory: "FK: subcategory_id"
-dim_subcategory -> dim_category: "FK: category_id"
-
-fact_sales -> dim_store: "FK: store_sk"
-dim_store -> dim_city: "FK: city_id"
-dim_city -> dim_region: "FK: region_id"
-```
-</details>
+*D2 Source: [`15_snowflake_schema_normalized_hierarchy.d2`](assets/03_data_modeling_and_lakehouse_storage/15_snowflake_schema_normalized_hierarchy.d2)*
 
 #### 2. Star vs. Snowflake: Architectural Mechanics & Modern Storage Dynamics
 
@@ -1174,44 +589,7 @@ GROUP BY product_sk, warehouse_sk;
 ##### Lifecycle State Machine & Concrete Pipeline Stages
 ![16 Accumulating Snapshot Fact Table Lifecycle](assets/03_data_modeling_and_lakehouse_storage/16_accumulating_snapshot_fact_table_lifecycle.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Accumulating Snapshot Fact Table: Order Milestone Pipeline
-
-m1: 1. ORDER_PLACED {
-  date: "order_date_sk: 20261025"
-  status: "PLACED"
-}
-
-m2: 2. ORDER_ALLOCATED {
-  date: "allocated_date_sk: 20261025"
-  status: "ALLOCATED"
-}
-
-m3: 3. WAREHOUSE_PICKED {
-  date: "picked_date_sk: 20261026"
-  status: "PICKED"
-}
-
-m4: 4. DISPATCHED {
-  date: "shipped_date_sk: 20261026"
-  status: "SHIPPED"
-}
-
-m5: 5. DELIVERED {
-  date: "delivery_date_sk: 20261028"
-  status: "DELIVERED"
-}
-
-m1 -> m2: "Allocation lag"
-m2 -> m3: "Picking lag"
-m3 -> m4: "Transit lag"
-m4 -> m5: "Final delivery lag"
-```
-</details>
+*D2 Source: [`16_accumulating_snapshot_fact_table_lifecycle.d2`](assets/03_data_modeling_and_lakehouse_storage/16_accumulating_snapshot_fact_table_lifecycle.d2)*
 
 ##### Concrete Schema & Incremental State Table
 ```sql
@@ -1465,61 +843,7 @@ It completely separates:
 
 ![17 Data Vault Hubs Links Satellites Architecture](assets/03_data_modeling_and_lakehouse_storage/17_data_vault_hubs_links_satellites_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Data Vault 2.0: Hubs, Links, and Satellites
-
-hubs: Core Hubs {
-  hub_customer: HUB_CUSTOMER {
-    shape: sql_table
-    customer_hk: char32 [pk]
-    customer_id: varchar [business key]
-  }
-  hub_order: HUB_ORDER {
-    shape: sql_table
-    order_hk: char32 [pk]
-    order_id: varchar [business key]
-  }
-}
-
-links: Unit of Work Links {
-  link_customer_order: LINK_CUSTOMER_ORDER {
-    shape: sql_table
-    link_hk: char32 [pk]
-    customer_hk: char32 [fk]
-    order_hk: char32 [fk]
-  }
-}
-
-sats: Context Satellites {
-  sat_customer: SAT_CUSTOMER {
-    shape: sql_table
-    customer_hk: char32 [pk, fk]
-    load_date: timestamp [pk]
-    name: varchar
-  }
-  sat_link: SAT_LINK_FULFILLMENT {
-    shape: sql_table
-    link_hk: char32 [pk, fk]
-    load_date: timestamp [pk]
-  }
-  sat_order: SAT_ORDER_DETAILS {
-    shape: sql_table
-    order_hk: char32 [pk, fk]
-    load_date: timestamp [pk]
-  }
-}
-
-hubs.hub_customer -> links.link_customer_order: "Participates"
-hubs.hub_order -> links.link_customer_order: "Associates"
-hubs.hub_customer -> sats.sat_customer: "Describes"
-links.link_customer_order -> sats.sat_link: "Tracks context"
-hubs.hub_order -> sats.sat_order: "Describes"
-```
-</details>
+*D2 Source: [`17_data_vault_hubs_links_satellites_architecture.d2`](assets/03_data_modeling_and_lakehouse_storage/17_data_vault_hubs_links_satellites_architecture.d2)*
 
 #### 2. The Three Structural Primitives
 1. **Hubs:** Store unique business keys. 
@@ -1548,33 +872,7 @@ $$\text{customer\_hash\_key} = \text{SHA256}(\text{UPPER}(\text{TRIM}(\text{cust
 
 ![18 Star Schema Vs One Big Table Obt](assets/03_data_modeling_and_lakehouse_storage/18_star_schema_vs_one_big_table_obt.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Star Schema vs. One Big Table (OBT) Architecture
-
-star_schema: Star Schema (Query-Time Joins) {
-  fact: fact_orders
-  dim_c: dim_customer
-  dim_p: dim_product
-  dim_s: dim_store
-  fact -> dim_c: "Join"
-  fact -> dim_p: "Join"
-  fact -> dim_s: "Join"
-}
-
-obt: One Big Table (Pre-Joined Wide Table) {
-  wide_table: analytics.obt_orders_denormalized {
-    shape: cylinder
-    details: "300+ columns, zero runtime joins, high columnar compression"
-  }
-}
-
-star_schema -> obt: "dbt / Spark Batch Join"
-```
-</details>
+*D2 Source: [`18_star_schema_vs_one_big_table_obt.d2`](assets/03_data_modeling_and_lakehouse_storage/18_star_schema_vs_one_big_table_obt.d2)*
 
 #### 2. Why OBT Dominates Cloud Warehouses (BigQuery, ClickHouse, Snowflake)
 1. **Elimination of Distributed Shuffle Joins:** Joining 1 billion fact rows with 50 million customer rows requires distributed engines to shuffle gigabytes of data across the network fabric. OBT eliminates all query-time joins: every row is self-contained.
@@ -1605,36 +903,7 @@ When board meetings take place, the CFO and VP of Sales present conflicting numb
 
 ![19 Centralized Semantic Layer Metric Standardization](assets/03_data_modeling_and_lakehouse_storage/19_centralized_semantic_layer_metric_standardization.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Centralized Semantic Layer & Metric Standardization
-
-storage: Curated Lakehouse Storage {
-  fact: gold.fact_orders
-  dim: gold.dim_customer
-}
-
-semantic_layer: Centralized Semantic Layer (dbt MetricFlow / Cube) {
-  model: Semantic Models & Canonical Joins
-  metrics: Standardized Metric Catalog (MRR, Churn, Margin)
-  model -> metrics
-}
-
-consumers: Unified Consumer Tier {
-  bi: BI Dashboards (Tableau, Power BI)
-  ds: Data Science Notebooks (Python)
-  reverse_etl: Operational Reverse ETL (Salesforce)
-}
-
-storage -> semantic_layer.model: "Curated Tables"
-semantic_layer.metrics -> consumers.bi: "Consistent KPI"
-semantic_layer.metrics -> consumers.ds: "Consistent Feature"
-semantic_layer.metrics -> consumers.reverse_etl: "Sync Action"
-```
-</details>
+*D2 Source: [`19_centralized_semantic_layer_metric_standardization.d2`](assets/03_data_modeling_and_lakehouse_storage/19_centralized_semantic_layer_metric_standardization.d2)*
 
 #### 2. Declarative Metric Definition (dbt Semantic Layer / MetricFlow Example)
 ```yaml
@@ -1683,34 +952,7 @@ In banking, insurance, and regulatory compliance (e.g., BCBS 239, Basel III, SOX
 
 ![20 Bitemporal Data Modeling Valid Vs Transaction Time](assets/03_data_modeling_and_lakehouse_storage/20_bitemporal_data_modeling_valid_vs_transaction_time.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Bitemporal Data Modeling: Valid Time vs. Transaction Time
-
-plane: Bitemporal Time Plane {
-  valid: Valid Time (Business occurrence: valid_from, valid_to)
-  system: Transaction Time (Database insert: system_from, system_to)
-}
-
-t1: T1: Real Event Occurs (Jan 10) {
-  note: "Policy signed for $100 in physical branch"
-}
-
-t2: T2: Late Ingestion (Jan 15) {
-  note: "Record inserted: valid=[Jan 10, Inf), system=[Jan 15, Inf)"
-}
-
-t3: T3: Retroactive Correction (Jan 20) {
-  note: "Amount was $120. Row 1 system_to closed at Jan 20. Row 2 inserted with system=[Jan 20, Inf)"
-}
-
-t1 -> t2: "Paperwork arrives"
-t2 -> t3: "Audit correction"
-```
-</details>
+*D2 Source: [`20_bitemporal_data_modeling_valid_vs_transaction_time.d2`](assets/03_data_modeling_and_lakehouse_storage/20_bitemporal_data_modeling_valid_vs_transaction_time.d2)*
 
 #### Production DDL Implementation
 ```sql
@@ -1772,42 +1014,7 @@ When upstream CDC connectors, asynchronous micro-services, or network pipelines 
 
 ![21 Referential Integrity Orphan Record Prevention](assets/03_data_modeling_and_lakehouse_storage/21_referential_integrity_orphan_record_prevention.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Referential Integrity & Orphan Record Prevention in Distributed Systems
-
-ingest: Incoming Transaction Batch {
-  raw_orders: Raw Orders Batch {
-    order_id: "994812"
-    customer_id: "CUST-8491"
-    amount: "$184.50"
-  }
-}
-
-validation: Referential Integrity Validation {
-  probe: Customer ID Exists in dim_customer? {
-    shape: diamond
-  }
-}
-
-sinks: Target Lakehouse Sinks {
-  valid: gold.fact_orders (Conformed Fact Table) {
-    status: "100% clean referential integrity"
-  }
-  quarantine: quarantine.orphan_orders (Dead-Letter Queue) {
-    status: "Held until parent customer record arrives"
-    style.stroke: "#ef4444"
-  }
-}
-
-ingest.raw_orders -> validation.probe: "Stream Ingest"
-validation.probe -> sinks.valid: "Valid FK Match"
-validation.probe -> sinks.quarantine: "Orphan Record (Missing FK)"
-```
-</details>
+*D2 Source: [`21_referential_integrity_orphan_record_prevention.d2`](assets/03_data_modeling_and_lakehouse_storage/21_referential_integrity_orphan_record_prevention.d2)*
 
 ##### Production Defensive Strategies:
 1. **The Sentinel / Unknown Key Fallback (`-1`):** In dimensional ETL, if a fact record arrives with an unmapped foreign key, replace the foreign key surrogate with `-1` (pointing to an explicit `dim_customer` row: `"Unknown / Not Yet Arrived"`) rather than `NULL`. This preserves relational inner joins and maintains complete monetary sum aggregates.
@@ -1824,36 +1031,7 @@ High-throughput telemetry (server metrics, clickstreams, sensor logs) generates 
 
 ![22 High Throughput Log Time Series Data Modeling](assets/03_data_modeling_and_lakehouse_storage/22_high_throughput_log_time_series_data_modeling.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: High-Throughput Log & Time-Series Data Modeling
-
-ingest: Raw Stream: 1M events/sec {
-  buffer: Kafka Commit Log
-}
-
-bronze: Delta Bronze: Append-Only Parquet {
-  partition: "date=2026-10-15/hour=14/"
-  throughput: "High write throughput, append-only"
-}
-
-compaction: Nightly OPTIMIZE + Liquid Clustering {
-  keys: "Clustered by tenant_id, event_type"
-  size: "Compacted to 1GB target file size"
-}
-
-serving: Analytical Queries {
-  speed: "Partition Pruning + Column Skipping (Sub-second)"
-}
-
-ingest.buffer -> bronze: "Append raw"
-bronze -> compaction: "Scheduled batch compaction"
-compaction -> serving: "Optimized read scans"
-```
-</details>
+*D2 Source: [`22_high_throughput_log_time_series_data_modeling.d2`](assets/03_data_modeling_and_lakehouse_storage/22_high_throughput_log_time_series_data_modeling.d2)*
 
 > [!TIP]
 > **Deep-Dive Interview Scenarios:**
@@ -1892,35 +1070,7 @@ In data platforms, lineage maps data flow from source operational databases thro
 
 ![23 Data Lineage Column Level Tracking Openlineage](assets/03_data_modeling_and_lakehouse_storage/23_data_lineage_column_level_tracking_openlineage.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Data Lineage: Column-Level Tracking & OpenLineage Standard
-
-stage1: Stage 1: Raw Ingestion & Bronze Storage {
-  pg: Operational PostgreSQL (Source)
-  s3: S3 Bronze Bucket (Raw Parquet)
-  pg -> s3: "Airbyte CDC Extract"
-}
-
-stage2: Stage 2: Cleansing & Silver Lakehouse {
-  silver: Delta Silver Table (Cleaned & Typed)
-}
-
-stage3: Stage 3: Gold Aggregation & Consumers {
-  gold: Snowflake Gold Mart (dbt Aggregated)
-  tableau: Executive KPI Dashboard (Tableau)
-  ml: Customer Churn Model (Feature Store)
-  gold -> tableau: "Direct SQL"
-  gold -> ml: "Feature Pipeline"
-}
-
-stage1.s3 -> stage2.silver: "Spark Distributed Cleanse"
-stage2.silver -> stage3.gold: "dbt Incremental Aggregate"
-```
-</details>
+*D2 Source: [`23_data_lineage_column_level_tracking_openlineage.d2`](assets/03_data_modeling_and_lakehouse_storage/23_data_lineage_column_level_tracking_openlineage.d2)*
 
 #### 2. Key Operational Capabilities:
 - **Root-Cause Analysis:** When the CEO's dashboard shows a 40% revenue drop at 8:00 AM, automated lineage traces the metric back to a failed dbt model run at 3:00 AM that missed an upstream CDC file.
@@ -1990,39 +1140,7 @@ Enterprises categorize data assets according to compliance risk (GDPR, CCPA, HIP
 #### 2. PII Obfuscation & Cryptographic Tokenization
 ![24 Data Classification Pii Protection Tokenization](assets/03_data_modeling_and_lakehouse_storage/24_data_classification_pii_protection_tokenization.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Data Classification, PII Protection & Tokenization
-
-raw: Raw Input {
-  ssn: "123-45-6789"
-  email: "alice@corp.com"
-  style.stroke: "#ef4444"
-}
-
-engine: Cryptographic Tokenization & Masking Engine {
-  hsm: Hardware Security Module (KMS Salt)
-}
-
-masked: Masked View (For Analysts) {
-  ssn: "***-**-6789"
-  email: "a****@corp.com"
-  style.stroke: "#10b981"
-}
-
-token: Tokenized Join Key (For ETL Joins) {
-  hash: "SHA256(email + secret_salt)"
-  style.stroke: "#8b5cf6"
-}
-
-raw -> engine: "Secure ingest"
-engine -> masked: "Dynamic Masking for Analysts"
-engine -> token: "Deterministic Salted Hash for Joins"
-```
-</details>
+*D2 Source: [`24_data_classification_pii_protection_tokenization.d2`](assets/03_data_modeling_and_lakehouse_storage/24_data_classification_pii_protection_tokenization.d2)*
 
 - **Salted Deterministic Tokenization:** To allow analytical engines to join datasets on customer email without exposing cleartext PII, compute:
   $$\text{token} = \text{HMAC\_SHA256}(\text{LOWER}(\text{email}), \text{enterprise\_secret\_key})$$
@@ -2044,42 +1162,7 @@ Master Data Management (MDM) automates the deduplication, entity resolution, and
 
 ![25 Master Data Management Mdm Golden Record Synthesis](assets/03_data_modeling_and_lakehouse_storage/25_master_data_management_mdm_golden_record_synthesis.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Master Data Management (MDM) & Golden Record Synthesis
-
-sources: Upstream Multi-System Records {
-  crm: CRM Record (Salesforce)
-  shopify: Shopify Record (E-Commerce)
-  zendesk: Zendesk Record (Support)
-  billing: Billing Record (Stripe)
-}
-
-mdm: MDM Resolution Pipeline {
-  matcher: 1. Matching Engine {
-    rules: "Exact email, Levenshtein address, E.164 phone"
-  }
-  survivorship: 2. Survivorship Rules {
-    rules: "Verified ID for name, latest shipping for address"
-  }
-  matcher -> survivorship
-}
-
-golden: Gold Layer Serving {
-  entity: 3. Golden Customer Entity {
-    id: "Master_ID: G-9021"
-    name: "Alice Marie Smith"
-    email: "alice@gmail.com"
-  }
-}
-
-sources -> mdm.matcher: "Feed source records"
-mdm.survivorship -> golden.entity: "Publish Golden Record"
-```
-</details>
+*D2 Source: [`25_master_data_management_mdm_golden_record_synthesis.d2`](assets/03_data_modeling_and_lakehouse_storage/25_master_data_management_mdm_golden_record_synthesis.d2)*
 
 ---
 
@@ -2089,35 +1172,7 @@ When hundreds of upstream microservices and downstream BI teams share an analyti
 
 ![26 Schema Evolution And Versioning Across Warehouses](assets/03_data_modeling_and_lakehouse_storage/26_schema_evolution_and_versioning_across_warehouses.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Schema Evolution & Versioning Across Multi-Team Warehouses
-
-producer: Producer Service (Team A)
-registry: 1. Central Schema Registry (Avro / Protobuf) {
-  rules: "Enforces Backward & Forward Compatibility"
-}
-
-ingest: 2. Ingestion Engine (Databricks Auto Loader) {
-  features: "Captures schema drift into _rescued_data"
-}
-
-views: 3. Warehouse Versioned Views Layer {
-  v1: v1_orders (Stable contract for legacy BI)
-  v2: v2_orders (Includes new columns & types)
-}
-
-consumers: Downstream Analytics Teams (Zero Downtime)
-
-producer -> registry: "Publish new schema"
-registry -> ingest: "Validated schema ID"
-ingest -> views: "Auto-evolve physical storage"
-views -> consumers: "Zero breaking changes"
-```
-</details>
+*D2 Source: [`26_schema_evolution_and_versioning_across_warehouses.d2`](assets/03_data_modeling_and_lakehouse_storage/26_schema_evolution_and_versioning_across_warehouses.d2)*
 
 #### Production Architectural Rules:
 1. **Never Make In-Place Destructive DDL Changes:** Never execute `ALTER TABLE ... DROP COLUMN` or narrow a data type (`BIGINT` to `INT`) on base tables.
@@ -2145,40 +1200,7 @@ Modern governance separates physical storage credentials from analytical user ac
 
 ![27 Lakehouse Security Fine Grained Access Rls Masking](assets/03_data_modeling_and_lakehouse_storage/27_lakehouse_security_fine_grained_access_rls_masking.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Lakehouse Security: Fine-Grained Access Control, RLS & Column Masking
-
-user: Client Execution Context {
-  role: "User Query / Role: EU_Marketing_Analyst"
-}
-
-engine: Governance & Policy Enforcement {
-  catalog: Central Governance Engine (Unity Catalog / Lake Formation)
-  rls: Row-Level Security (RLS) {
-    rule: "Applies Predicate: region = 'EMEA'"
-  }
-  cls: Column-Level Masking (CLS) {
-    rule: "Masks SSN: '***-**-' || RIGHT(ssn, 4)"
-  }
-  catalog -> rls
-  catalog -> cls
-}
-
-output: Sanitized Lakehouse Output {
-  result: Sanitized Output {
-    details: "EMEA rows only, SSN redacted, audit logged"
-  }
-}
-
-user -> engine.catalog: "Submit Query"
-engine.rls -> output.result: "Filter rows"
-engine.cls -> output.result: "Mask sensitive fields"
-```
-</details>
+*D2 Source: [`27_lakehouse_security_fine_grained_access_rls_masking.d2`](assets/03_data_modeling_and_lakehouse_storage/27_lakehouse_security_fine_grained_access_rls_masking.d2)*
 
 #### Production SQL Implementation: Dynamic Masking & Row Filters
 ```sql
@@ -2216,54 +1238,7 @@ A global consumer brand processes 50 million daily order lines across 1,000 stor
 
 ![28 Enterprise Sales Periodic Snapshot Mart](assets/03_data_modeling_and_lakehouse_storage/28_enterprise_sales_periodic_snapshot_mart.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Multi-Dimensional Enterprise Sales Periodic Snapshot Mart
-
-fact: FACT_MONTHLY_SALES_AGG {
-  shape: sql_table
-  month_key: int [pk]
-  product_sk: int [pk, fk]
-  vendor_sk: int [pk, fk]
-  location_sk: int [pk, fk]
-  total_units_sold: bigint
-  gross_sales_amount: decimal
-  net_margin_amount: decimal
-}
-
-dim_date: DIM_DATE {
-  shape: sql_table
-  month_key: int [pk]
-  fiscal_year: int
-}
-
-dim_product: DIM_PRODUCT {
-  shape: sql_table
-  product_sk: int [pk]
-  sku: varchar
-}
-
-dim_vendor: DIM_VENDOR {
-  shape: sql_table
-  vendor_sk: int [pk]
-  vendor_name: varchar
-}
-
-dim_location: DIM_LOCATION {
-  shape: sql_table
-  location_sk: int [pk]
-  region: varchar
-}
-
-dim_date -> fact: "aggregates over (month_key)"
-dim_product -> fact: "groups by (product_sk)"
-dim_vendor -> fact: "supplies (vendor_sk)"
-dim_location -> fact: "fulfilled in (location_sk)"
-```
-</details>
+*D2 Source: [`28_enterprise_sales_periodic_snapshot_mart.d2`](assets/03_data_modeling_and_lakehouse_storage/28_enterprise_sales_periodic_snapshot_mart.d2)*
 
 #### 3. Production DDL & Aggregation Pipeline
 ```sql
@@ -2310,101 +1285,12 @@ In high-demand ticketing platforms (e.g., BookMyShow, Fandango, Ticketmaster), w
 
 ![29 Movie Ticket Booking Seat Concurrency State Machine](assets/03_data_modeling_and_lakehouse_storage/29_movie_ticket_booking_seat_concurrency_state_machine.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Movie Ticket Booking Seat Concurrency State Machine
-
-available: AVAILABLE {
-  status: "Free seat visible on seating map"
-  style.stroke: "#10b981"
-}
-
-locked: LOCKED {
-  status: "Acquires 10-min Redis TTL + DB Row Lock"
-  style.stroke: "#f59e0b"
-}
-
-booked: BOOKED {
-  status: "Payment Confirmed (Atomic DB Commit)"
-  style.stroke: "#ef4444"
-}
-
-available -> locked: "1. User selects seat"
-locked -> booked: "2. Payment confirmed"
-locked -> available: "3. TTL expires or payment fails"
-```
-</details>
+*D2 Source: [`29_movie_ticket_booking_seat_concurrency_state_machine.d2`](assets/03_data_modeling_and_lakehouse_storage/29_movie_ticket_booking_seat_concurrency_state_machine.d2)*
 
 #### 2. Relational Schema Architecture
 ![30 Movie Ticket Booking Relational Schema](assets/03_data_modeling_and_lakehouse_storage/30_movie_ticket_booking_relational_schema.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Movie Ticket Booking Relational Schema
-
-theater: THEATER {
-  theater_id: bigint [pk]
-  name: varchar
-}
-
-auditorium: AUDITORIUM {
-  auditorium_id: bigint [pk]
-  theater_id: bigint [fk]
-}
-
-seat: SEAT {
-  seat_id: bigint [pk]
-  auditorium_id: bigint [fk]
-}
-
-movie: MOVIE {
-  movie_id: bigint [pk]
-  title: varchar
-}
-
-showtime: SHOWTIME {
-  showtime_id: bigint [pk]
-  movie_id: bigint [fk]
-  auditorium_id: bigint [fk]
-}
-
-show_seat: SHOW_SEAT {
-  shape: sql_table
-  show_seat_id: bigint [pk]
-  showtime_id: bigint [fk]
-  seat_id: bigint [fk]
-  seat_status: varchar
-  lock_expiration: timestamp
-  booking_id: bigint [fk]
-  version: int
-}
-
-booking: BOOKING {
-  booking_id: bigint [pk]
-  user_id: bigint [fk]
-}
-
-user: USER {
-  user_id: bigint [pk]
-  email: varchar
-}
-
-theater -> auditorium: "contains"
-auditorium -> seat: "has"
-movie -> showtime: "schedules"
-auditorium -> showtime: "hosts"
-showtime -> show_seat: "allocates"
-seat -> show_seat: "referenced"
-booking -> show_seat: "reserves"
-user -> booking: "places"
-```
-</details>
+*D2 Source: [`30_movie_ticket_booking_relational_schema.d2`](assets/03_data_modeling_and_lakehouse_storage/30_movie_ticket_booking_relational_schema.d2)*
 
 #### 3. Atomic Seat Reservation via Optimistic Concurrency Control
 ```sql
@@ -2449,40 +1335,7 @@ A hard drive, NVMe SSD, or cloud object store (Amazon S3, Azure ADLS Gen2) knows
 
 ![31 Memory To Disk Bridge Serialization](assets/03_data_modeling_and_lakehouse_storage/31_memory_to_disk_bridge_serialization.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: The Memory-to-Disk Bridge (Serialization & Persistence)
-
-ram: In-Memory Data Structures (RAM) {
-  obj: User Object (Heap) {
-    id: "101 (int64)"
-    name: "Pointer -> 0x7ffd9b8a (String)"
-    orders: "Pointer -> Array Heap"
-  }
-}
-
-engine: Serialization & Encoding Engine {
-  serializer: Serializer Pipeline {
-    step1: "Dereference pointers & strip memory headers"
-    step2: "Zig-zag variable int & dictionary encoding"
-    step3: "Compress byte stream via Snappy / ZSTD"
-  }
-}
-
-disk: Persistent Storage Block (Disk / Cloud) {
-  bytes: Contiguous Byte Stream {
-    stream: "01000101 01101110 01100111..."
-    portability: "Cross-platform contiguous storage"
-  }
-}
-
-ram.obj -> engine.serializer: "In-memory traversal"
-engine.serializer -> disk.bytes: "Flush to S3 / Disk"
-```
-</details>
+*D2 Source: [`31_memory_to_disk_bridge_serialization.d2`](assets/03_data_modeling_and_lakehouse_storage/31_memory_to_disk_bridge_serialization.d2)*
 
 - **Serialization (Writing):** The process of translating live in-memory objects and tables into a standardized stream of bytes that can be saved to disk or transmitted over a network.
 - **Deserialization (Reading):** The inverse process: reading bytes from disk, parsing headers, verifying types, and reconstructing in-memory data structures.
@@ -2576,47 +1429,7 @@ Apache Parquet is an open-source, binary, **column-oriented** storage format des
 
 ![32 Apache Parquet Physical File Anatomy](assets/03_data_modeling_and_lakehouse_storage/32_apache_parquet_physical_file_anatomy.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: Apache Parquet Physical File Anatomy
-
-header: File Header: Magic Bytes 'PAR1' (4 Bytes)
-
-rg1: Row Group 1 (128 MB - 512 MB) {
-  col_a: Column Chunk A (User_ID) {
-    p1: Page 1 (Data)
-    p2: Page 2 (Data)
-  }
-  col_b: Column Chunk B (Timestamp) {
-    p1: Page 1 (Data)
-    p2: Page 2 (Data)
-  }
-  col_c: Column Chunk C (Amount) {
-    p1: Page 1 (Dictionary)
-    p2: Page 2 (Data)
-  }
-}
-
-rg2: Row Group 2 (128 MB - 512 MB) {
-  col2_a: Column Chunk A
-  col2_b: Column Chunk B
-  col2_c: Column Chunk C
-}
-
-footer: File Metadata Footer (Read First) {
-  meta: Schema & Row Group Offsets
-  stats: Column Min/Max Stats (Data Skipping)
-  trailer: 4-Byte Footer Length + 'PAR1'
-}
-
-header -> rg1
-rg1 -> rg2
-rg2 -> footer
-```
-</details>
+*D2 Source: [`32_apache_parquet_physical_file_anatomy.d2`](assets/03_data_modeling_and_lakehouse_storage/32_apache_parquet_physical_file_anatomy.d2)*
 
 #### Why the Footer is at the End of the File
 Unlike traditional files that place metadata headers at the beginning, **Parquet puts its metadata footer at the very end of the file**:
@@ -2636,34 +1449,7 @@ How does Parquet store deeply nested polymorphic JSON arrays without flattening 
 
 ![33 Dremel Record Shredding Schema Tree Traversal](assets/03_data_modeling_and_lakehouse_storage/33_dremel_record_shredding_schema_tree_traversal.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Dremel Record Shredding: Schema Tree Traversal
-
-doc: Document Root (Level 0) {
-  def_level: "D: 0, R: 0"
-}
-
-owner: owner: Optional Struct (Level 1) {
-  def_level: "Max D: 1, R: 0"
-}
-
-phone: phone: Repeated Array (Level 2) {
-  def_level: "Max D: 2, Max R: 1"
-}
-
-number: number: String (Level 3 Leaf) {
-  value: "Stored leaf primitive"
-}
-
-doc -> owner: "Level 1"
-owner -> phone: "Level 2"
-phone -> number: "Level 3"
-```
-</details>
+*D2 Source: [`33_dremel_record_shredding_schema_tree_traversal.d2`](assets/03_data_modeling_and_lakehouse_storage/33_dremel_record_shredding_schema_tree_traversal.d2)*
 
 ##### Concrete Dremel Example Walkthrough:
 Consider two documents:
@@ -2691,31 +1477,7 @@ Apache ORC is a columnar binary format originally developed for the Apache Hive 
 
 ![34 Apache Orc Physical File Anatomy](assets/03_data_modeling_and_lakehouse_storage/34_apache_orc_physical_file_anatomy.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: Apache ORC Physical File Anatomy
-
-header: Header 'ORC' (3 Bytes)
-
-stripe1: Stripe 1 (~250 MB) {
-  index: Index Data (Min/Max & Bloom Filters per 10k rows)
-  row_data: Row Data (Data, Length, and Present Streams)
-  footer: Stripe Footer (Stream offsets & encodings)
-  index -> row_data -> footer
-}
-
-file_footer: File Metadata Footer & Postscript {
-  meta: File Footer (Table schema, Stripe statistics)
-  postscript: Postscript (Codec, Footer length)
-  meta -> postscript
-}
-
-header -> stripe1 -> file_footer
-```
-</details>
+*D2 Source: [`34_apache_orc_physical_file_anatomy.d2`](assets/03_data_modeling_and_lakehouse_storage/34_apache_orc_physical_file_anatomy.d2)*
 
 #### Key Distinctions between Parquet and ORC:
 1. **Lightweight Indexing by Default:** ORC embeds indexes for every **10,000 rows** inside each Stripe. This provides finer-grained data skipping than Parquet's default Row Group boundary.
@@ -2736,39 +1498,7 @@ While Parquet and ORC dominate analytical batch storage, **Apache Avro is the ki
 
 ![35 Apache Avro Confluent Schema Registry Wire Format](assets/03_data_modeling_and_lakehouse_storage/35_apache_avro_confluent_schema_registry_wire_format.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Apache Avro & Confluent Schema Registry Wire Format
-
-producer: 1. Microservice Producer {
-  event: "Kafka Producer: {id: 101, name: 'Alice', status: 'ACTIVE'}"
-}
-
-registry: 2. Central Schema Registry {
-  schema: "Confluent Schema Registry (Schema ID #42)"
-}
-
-wire: 3. Kafka Network Wire Payload {
-  magic: "Byte 0: Magic 0x00"
-  schema_id: "Bytes 1-4: Schema ID #42"
-  payload: "Bytes 5+: Raw Binary Values"
-}
-
-consumer: 4. Downstream Stream Consumer {
-  engine: "Spark Streaming / Flink (Reads ID #42, caches schema, deserializes)"
-}
-
-producer -> registry: "1. Register / Validate Schema"
-producer -> wire: "2. Publish Compact Binary"
-wire -> consumer: "3. Read Stream"
-registry -> consumer: "Cache Schema Locally" {
-  style.stroke-dash: 4
-}
-```
-</details>
+*D2 Source: [`35_apache_avro_confluent_schema_registry_wire_format.d2`](assets/03_data_modeling_and_lakehouse_storage/35_apache_avro_confluent_schema_registry_wire_format.d2)*
 
 #### 2. Schema Evolution Compatibility Modes
 
@@ -2784,37 +1514,7 @@ registry -> consumer: "Cache Schema Locally" {
 
 ![36 Storage Format Decision Matrix](assets/03_data_modeling_and_lakehouse_storage/36_storage_format_decision_matrix.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: Storage Format Decision Matrix: Row vs. Columnar vs. Text
-
-decision: What is your primary workload & access pattern? {
-  shape: diamond
-}
-
-avro: Row-Oriented Binary: Apache Avro {
-  use: "Row-by-row streaming, CDC, message bus, <1ms writes"
-  engines: "Kafka, Flink, Event Ingestion"
-}
-
-csv: Plain Text: CSV / JSON {
-  use: "Ad-hoc human inspection, small config exports"
-  engines: "File sharing, small utilities"
-}
-
-parquet: Columnar Binary: Apache Parquet / ORC {
-  use: "Large-scale OLAP, aggregations, data lake, BI dashboards"
-  engines: "Delta Lake, Iceberg, Snowflake, BigQuery"
-}
-
-decision -> avro: "Row-level stream"
-decision -> csv: "Ad-hoc human inspect"
-decision -> parquet: "Columnar OLAP query"
-```
-</details>
+*D2 Source: [`36_storage_format_decision_matrix.d2`](assets/03_data_modeling_and_lakehouse_storage/36_storage_format_decision_matrix.d2)*
 
 ---
 
@@ -2854,31 +1554,7 @@ In distributed computing (Spark, MapReduce, Trino), a cluster processes a 10 GB 
 
 ![37 File Splittability Compression Parallelism](assets/03_data_modeling_and_lakehouse_storage/37_file_splittability_compression_parallelism.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: File Splittability: Non-Splittable GZIP vs. Splittable Parquet
-
-non_splittable: Non-Splittable Nightmare: 10 GB orders.csv.gz (80 Cores) {
-  core1: "Core 1: Forced to process ALL 10 GB sequentially from Byte 0"
-  idle: "Cores 2 through 80 sit completely IDLE!"
-  result: "Total Processing Time: 2 Hours (Out of Memory Risk)"
-  core1 -> result
-}
-
-splittable: Splittable Processing: 10 GB Parquet File (80 Cores) {
-  c1: "Core 1: Reads Row Group 1 (0 - 128 MB)"
-  c2: "Core 2: Reads Row Group 2 (128 - 256 MB)"
-  c80: "Core 80: Reads Row Group 80 (9.87 - 10 GB)"
-  result: "Total Processing Time: 90 Seconds"
-  c1 -> result
-  c2 -> result
-  c80 -> result
-}
-```
-</details>
+*D2 Source: [`37_file_splittability_compression_parallelism.d2`](assets/03_data_modeling_and_lakehouse_storage/37_file_splittability_compression_parallelism.d2)*
 
 ---
 
@@ -2912,42 +1588,15 @@ Cloud providers offer automated storage tiering to balance access speed against 
 
 ![38 Cloud Storage Lifecycle Tiers](assets/03_data_modeling_and_lakehouse_storage/38_cloud_storage_lifecycle_tiers.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Cloud Storage Lifecycle Tiers & Data Archival Economics
-
-hot: 1. Hot Tier {
-  storage: "$0.020/GB/month, Free Retrieval"
-  use: "Active Lakehouse Data & Frequent BI Scans"
-}
-
-cool: 2. Cool Tier {
-  storage: "$0.010/GB/month, $0.01/GB Retrieval"
-  use: "Monthly Reports & Quarterly Audits"
-}
-
-cold: 3. Cold Tier {
-  storage: "$0.004/GB/month, $0.03/GB Retrieval"
-  use: "90-Day Disaster Recovery Backups"
-}
-
-archive: 4. Archive / Glacier {
-  storage: "$0.001/GB/month, 5-hour retrieval delay"
-  use: "7-Year Legal & Regulatory Compliance"
-}
-
-hot -> cool: "30 Days Inactive"
-cool -> cold: "90 Days Inactive"
-cold -> archive: "365 Days Inactive"
-```
-</details>
+*D2 Source: [`38_cloud_storage_lifecycle_tiers.d2`](assets/03_data_modeling_and_lakehouse_storage/38_cloud_storage_lifecycle_tiers.d2)*
 
 ---
 
 ### 7.3 Storage Lifecycle Management Policies & WORM Compliance
+
+> [!TIP]
+> **Deep-Dive Interview Scenarios & Production Runbooks:**
+> - [Q35. Multi-Year Transaction Data Retention, Cold Storage Tiering & Compliant Archival](frequently_asked_questions/03_data_modeling_and_lakehouse_storage_faq.md#q35-medium-multi-year-transaction-data-retention-cold-storage-tiering--compliant-archival)
 
 #### WORM (Write Once, Read Many) Compliance
 Regulations (SEC Rule 17a-4, FINRA, HIPAA) mandate that financial ledgers and medical audit trails must be **immutable**.
@@ -2962,36 +1611,7 @@ Partitioning organizes data on storage into hierarchical subdirectories based on
 
 ![39 Hive Style Partitioning Directory Layout](assets/03_data_modeling_and_lakehouse_storage/39_hive_style_partitioning_directory_layout.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Hive-Style Partitioning: Directory Layout & Pruning
-
-root: s3://company-lake/fact_orders/ {
-  y2026: year=2026/ {
-    m10: month=10/ {
-      day15: day=15/ (Scanned by Query) {
-        f1: part-0001.parquet
-        f2: part-0002.parquet
-      }
-      day16: day=16/ (Skipped / Pruned) {
-        f3: part-0001.parquet
-        f4: part-0002.parquet
-        style.stroke: "#ef4444"
-        style.stroke-dash: 4
-      }
-    }
-  }
-}
-
-root.y2026.m10 -> root.y2026.m10.day15: "Match WHERE day=15"
-root.y2026.m10 -> root.y2026.m10.day16: "Prune (Zero I/O)" {
-  style.stroke: "#ef4444"
-}
-```
-</details>
+*D2 Source: [`39_hive_style_partitioning_directory_layout.d2`](assets/03_data_modeling_and_lakehouse_storage/39_hive_style_partitioning_directory_layout.d2)*
 
 | Path Component | Hierarchy Role | Query Planner Behavior on `WHERE year=2026 AND month=10 AND day=16` |
 | :--- | :--- | :--- |
@@ -3033,6 +1653,16 @@ Maps multi-dimensional column spaces (e.g., `customer_id` and `event_time`) into
 
 #### 3. Databricks Liquid Clustering
 Modern replacement for both partitioning and Z-Ordering. It eliminates rigid Hive directory hierarchies, adjusting physical data clustering dynamically as query access patterns evolve without requiring table rewrites.
+
+#### 4. Micro-Partitions and Dynamic Clustering (Snowflake & Modern Lakehouses)
+In cloud data warehouses (Snowflake, BigQuery), tables are automatically structured into immutable, columnar **micro-partitions** (50–500 MB uncompressed, ~16 MB compressed chunks).
+- **Metadata-Driven Pruning:** The centralized cloud services metadata tier tracks min/max value ranges, NULL counts, and distinct value counts for every column across all micro-partitions. Point queries and range filters (`WHERE event_date >= '2026-10-01'`) eliminate 95%+ of physical files without reading file payloads from cloud object storage.
+- **Clustering Keys & Clustering Depth:** Explicit clustering keys (`CLUSTER BY (order_date, customer_id)`) align physical row distribution, minimizing partition overlap (low clustering depth).
+- **FinOps Economics:** Reclustering consumes background compute credits. In enterprise architecture, clustering is cost-effective only on multi-hundred-gigabyte/terabyte tables with high query frequencies filtering on the clustering keys; on small tables or high-churn streaming tables, background reclustering costs far exceed query scan savings.
+
+> [!TIP]
+> **Deep-Dive Interview Scenarios & Production Runbooks:**
+> - [Q36. Micro-Partitions and Clustering Keys in Cloud Warehouses & Lakehouses: Query Acceleration vs Reclustering Cost Governance](frequently_asked_questions/03_data_modeling_and_lakehouse_storage_faq.md#q36-medium-micro-partitions-and-clustering-keys-in-cloud-warehouses--lakehouses-query-acceleration-vs-reclustering-cost-governance)
 
 ---
 
@@ -3100,28 +1730,7 @@ The defining architectural feature of ADLS Gen2 is **Hierarchical Namespace (HNS
 
 ![40 Hierarchical Namespace Hns Vs Flat Blob Storage](assets/03_data_modeling_and_lakehouse_storage/40_hierarchical_namespace_hns_vs_flat_blob_storage.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Hierarchical Namespace (HNS) vs. Flat Blob Storage
-
-flat: Flat Blob Storage (No HNS) {
-  structure: "Directory is a virtual prefix: 'stage/orders/file1.parquet'"
-  rename: "Rename '/stage/' to '/prod/': COPY all 100,000 files, then DELETE 100,000 originals"
-  complexity: "O(N) Complexity: Takes 1 Hour!"
-  structure -> rename -> complexity
-}
-
-hns: ADLS Gen2 with Hierarchical Namespace (HNS) {
-  structure: "Directory is a real metadata inode object"
-  rename: "Rename '/stage/' to '/prod/': Atomic Metadata Pointer Update"
-  complexity: "O(1) Complexity: Takes 15 Milliseconds!"
-  structure -> rename -> complexity
-}
-```
-</details>
+*D2 Source: [`40_hierarchical_namespace_hns_vs_flat_blob_storage.d2`](assets/03_data_modeling_and_lakehouse_storage/40_hierarchical_namespace_hns_vs_flat_blob_storage.d2)*
 
 #### Why HNS is Mandatory for Big Data (Spark / Hadoop)
 When distributed Spark jobs complete, they write output to a temporary staging folder (`_temporary/`) and perform an atomic **directory rename** to commit the transaction.

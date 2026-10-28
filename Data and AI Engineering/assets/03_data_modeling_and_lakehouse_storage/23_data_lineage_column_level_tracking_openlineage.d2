@@ -1,20 +1,33 @@
 direction: right
-title: Data Lineage: Column-Level Tracking & OpenLineage Standard
+title: "Data Lineage: Column-Level Tracking & OpenLineage Standard"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-stage1: Stage 1: Raw Ingestion & Bronze Storage {
-  pg: Operational PostgreSQL (Source)
-  s3: S3 Bronze Bucket (Raw Parquet)
+stage1: "Stage 1: Raw Ingestion & Bronze Storage" {
+  class: container
+  pg: "Operational PostgreSQL (Source)"
+  s3: "S3 Bronze Bucket (Raw Parquet)"
   pg -> s3: "Airbyte CDC Extract"
 }
 
-stage2: Stage 2: Cleansing & Silver Lakehouse {
-  silver: Delta Silver Table (Cleaned & Typed)
+stage2: "Stage 2: Cleansing & Silver Lakehouse" {
+  class: container
+  silver: "Delta Silver Table (Cleaned & Typed)"
 }
 
-stage3: Stage 3: Gold Aggregation & Consumers {
-  gold: Snowflake Gold Mart (dbt Aggregated)
-  tableau: Executive KPI Dashboard (Tableau)
-  ml: Customer Churn Model (Feature Store)
+stage3: "Stage 3: Gold Aggregation & Consumers" {
+  class: container
+  gold: "Snowflake Gold Mart (dbt Aggregated)"
+  tableau: "Executive KPI Dashboard (Tableau)"
+  ml: "Customer Churn Model (Feature Store)"
   gold -> tableau: "Direct SQL"
   gold -> ml: "Feature Pipeline"
 }

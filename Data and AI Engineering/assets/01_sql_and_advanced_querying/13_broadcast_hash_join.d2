@@ -1,20 +1,30 @@
 # Broadcast Hash Join (BHJ) Architecture
 direction: down
+classes: {
+  driver_box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  worker_box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+}
 
-driver: "Spark Driver Node\n• Reads Small Dimension (< 10 MB)\n• Serializes & broadcasts to workers" {
+driver: "Spark Driver Node\n• Collects Small Dimension (< 10MB autoBroadcastJoinThreshold)\n• Serializes & broadcasts table to all workers via TorrentBroadcast" {
+  class: driver_box
   style.stroke: "#3B82F6"
 }
 
-w1: "Executor Worker 1\n• Local Dim Hash Table\n• Fact Partition 1\n• Zero network shuffle!" {
-  style.stroke: "#10B981"
-}
-w2: "Executor Worker 2\n• Local Dim Hash Table\n• Fact Partition 2\n• Zero network shuffle!" {
-  style.stroke: "#10B981"
-}
-w3: "Executor Worker 3\n• Local Dim Hash Table\n• Fact Partition 3\n• Zero network shuffle!" {
+w1: "Executor Worker 1\n• Local In-Memory Dim Hash Table\n• Streams Fact Partition 1\n• Zero network shuffle!" {
+  class: worker_box
   style.stroke: "#10B981"
 }
 
-driver -> w1: "Broadcast"
-driver -> w2: "Broadcast"
-driver -> w3: "Broadcast"
+w2: "Executor Worker 2\n• Local In-Memory Dim Hash Table\n• Streams Fact Partition 2\n• Zero network shuffle!" {
+  class: worker_box
+  style.stroke: "#10B981"
+}
+
+w3: "Executor Worker 3\n• Local In-Memory Dim Hash Table\n• Streams Fact Partition 3\n• Zero network shuffle!" {
+  class: worker_box
+  style.stroke: "#10B981"
+}
+
+driver -> w1: "Peer-to-Peer Broadcast"
+driver -> w2: "Peer-to-Peer Broadcast"
+driver -> w3: "Peer-to-Peer Broadcast"

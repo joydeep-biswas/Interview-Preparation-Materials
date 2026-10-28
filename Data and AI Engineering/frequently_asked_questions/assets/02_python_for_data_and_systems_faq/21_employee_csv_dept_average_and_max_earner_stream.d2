@@ -1,0 +1,29 @@
+# Employee CSV Streaming: Department Average & Top Earner Pipeline
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  node: { style: { fill: "#1E293B"; stroke-width: 1.5; border-radius: 8 } }
+}
+
+csv_pipeline: "Two-Pass Streaming CSV Architecture: O(D) Memory" {
+  class: box
+  style.stroke: "#3B82F6"
+
+  pass1: "Pass 1: Department Statistics\n• Stream CSV with DictReader\n• Accumulate: sum(sal), count(emp)\n• Compute: dept_avg = sum / count\n• Space: O(D) departments only" {
+    class: node
+    style.stroke: "#3B82F6"
+  }
+
+  pass2: "Pass 2: Threshold & Max Earner\n• Rewind CSV stream (file.seek(0))\n• Filter: sal > dept_avg[dept]\n• Track: max_earners[dept] = [emp]\n• Tie handling: list of qualifying earners" {
+    class: node
+    style.stroke: "#10B981"
+  }
+
+  output: "Final Qualifying Results\n• Per-Department Top Qualifying Earner(s)\n• Zero Pandas memory footprint (10GB+ CSV safe)\n• Time: O(N), Space: O(D)" {
+    class: node
+    style.stroke: "#8B5CF6"
+  }
+
+  pass1 -> pass2 -> output
+}
+

@@ -6,20 +6,9 @@ classes: {
   green: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
 }
 
-raw: "Raw Enterprise Data
-100,000 Unfiltered Logs
-(Messy, PII, Duplicates)" { class: red }
-f1: "1. Rule & PII Filtering
-• Presidio PII removal
-• Length 150-4000 chars
-(Remaining: ~25k)" { class: blue }
-f2: "2. Deduplication & Diversity
-• MinHash LSH (Jaccard > 0.85)
-• Embedding k-means clusters
-(Remaining: ~8k)" { class: purple }
-f3: "3. LLM-as-a-Judge
-• Quality & tone verification
-• Retain scores >= 4.5/5.0
-(Golden Set: 2,500)" { class: green }
+raw: "Raw Enterprise Data\n100,000 Unfiltered Logs\n(Messy, PII, Duplicates)" { class: red }
+f1: "1. Rule & PII Filtering\n• Presidio PII removal\n• Length 150-4000 chars\n(Remaining: ~25k)" { class: blue }
+f2: "2. Deduplication & Diversity\n• MinHash LSH (Jaccard > 0.85)\n• Embedding k-means clusters\n(Remaining: ~8k)" { class: purple }
+f3: "3. LLM-as-a-Judge\n• Quality & tone verification\n• Retain scores >= 4.5/5.0\n(Golden Set: 2,500)" { class: green }
 
 raw -> f1 -> f2 -> f3

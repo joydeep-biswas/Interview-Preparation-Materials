@@ -1,16 +1,16 @@
 direction: right
 classes: {
-  root: { fill: "#1e293b"; stroke: "#64748b"; color: "#94a3b8" }
-  shared: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  user: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  root: { style: { fill: "#1e293b"; stroke: "#64748b"; font-color: "#94a3b8" } }
+  shared: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
+  user: { style: { fill: "#1e293b"; stroke: "#38bdf8"; font-color: "#f8fafc" } }
 }
 
 root: "Radix Tree Root Node" { class: root }
 prefix: "System Prompt Prefix (Tok 0-512)\nBlocks: [P1, P2, P3]\nRef Count: 3" { class: shared }
 
 user_a: "User A: 'Analyze 10-K'\nAllocates Block [P4]" { class: user }
-user_b: "User B: 'Extract Table'\nAllocates Block [P5]" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-user_c: "User C: 'Translate'\nAllocates Block [P6]" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+user_b: "User B: 'Extract Table'\nAllocates Block [P5]" { style: { fill: "#581c87"; stroke: "#c084fc"; font-color: "#e9d5ff" } }
+user_c: "User C: 'Translate'\nAllocates Block [P6]" { style: { fill: "#451a03"; stroke: "#fbbf24"; font-color: "#fde68a" } }
 
 root -> prefix
 prefix -> user_a

@@ -1,26 +1,29 @@
 direction: right
 title: "Distributed Unique ID Generation: Twitter Snowflake Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-sign: "1 Bit
-Sign (0)" {
+sign: "1 Bit\nSign (0)" {
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 }
-time: "41 Bits
-Timestamp (ms)
-69.7 Years Lifespan" {
+time: "41 Bits\nTimestamp (ms)\n69.7 Years Lifespan" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }
-node: "10 Bits
-Worker Node ID
-1,024 Nodes" {
+node: "10 Bits\nWorker Node ID\n1,024 Nodes" {
   style.fill: "#111827"
   style.stroke: "#f59e0b"
 }
-seq: "12 Bits
-Sequence Number
-4,096 IDs / ms / node" {
+seq: "12 Bits\nSequence Number\n4,096 IDs / ms / node" {
   style.fill: "#1e1b4b"
   style.stroke: "#8b5cf6"
 }

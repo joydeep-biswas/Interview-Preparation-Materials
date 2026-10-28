@@ -1,28 +1,42 @@
 direction: right
-title: Delta Live Tables (DLT) Declarative Pipeline
+title: "Delta Live Tables (DLT) Declarative Pipeline"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-RawStream: 1. Raw Storage Stream {
+RawStream: "1. Raw Storage Stream" {
+  class: container
   style.stroke: "#38BDF8"
-  AutoLoader: Auto Loader (cloudFiles)
+  AutoLoader: "Auto Loader (cloudFiles)"
 }
 
-Bronze: 2. Bronze DLT Table {
+Bronze: "2. Bronze DLT Table" {
+  class: container
   style.stroke: "#FBBF24"
-  Table: orders_bronze (Raw Append-Only)
+  Table: "orders_bronze (Raw Append-Only)"
 }
 
-Silver: 3. Silver DLT Table {
+Silver: "3. Silver DLT Table" {
+  class: container
   style.stroke: "#34D399"
-  Expectations: DLT Expectations (warn, drop, fail)
-  CleanTable: orders_silver (Deduplicated & Validated)
+  Expectations: "DLT Expectations (warn, drop, fail)"
+  CleanTable: "orders_silver (Deduplicated & Validated)"
   Expectations -> CleanTable
 }
 
-Gold: 4. Gold Business Mart {
+Gold: "4. Gold Business Mart" {
+  class: container
   style.stroke: "#C084FC"
-  Mart: sales_summary_gold (Materialized KPI View)
+  Mart: "sales_summary_gold (Materialized KPI View)"
 }
 
-RawStream.AutoLoader -> Bronze.Table: @dlt.table readStream { style.stroke: "#FBBF24" }
-Bronze.Table -> Silver.Expectations: @dlt.read("orders_bronze") { style.stroke: "#34D399" }
-Silver.CleanTable -> Gold.Mart: @dlt.read("orders_silver") { style.stroke: "#C084FC" }
+RawStream.AutoLoader -> Bronze.Table: "@dlt.table readStream" { style.stroke: "#FBBF24" }
+Bronze.Table -> Silver.Expectations: "@dlt.read(\"orders_bronze\")" { style.stroke: "#34D399" }
+Silver.CleanTable -> Gold.Mart: "@dlt.read(\"orders_silver\")" { style.stroke: "#C084FC" }

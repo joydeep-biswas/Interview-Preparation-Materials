@@ -1,17 +1,29 @@
 direction: down
-title: Kafka Consumer Group Scalability & Idle Worker Trap
-
-Partitions: Topic: orders (4 Partitions) {
-  p0: Partition 0
-  p1: Partition 1
-  p2: Partition 2
-  p3: Partition 3
+title: "Kafka Consumer Group Scalability & Idle Worker Trap"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-Scenarios: Consumer Scaling Scenarios {
+Partitions: "Topic: orders (4 Partitions)" {
+  class: container
+  p0: "Partition 0"
+  p1: "Partition 1"
+  p2: "Partition 2"
+  p3: "Partition 3"
+}
+
+Scenarios: "Consumer Scaling Scenarios" {
+  class: container
   sA: "Scenario A: 2 Pods (Each reads 2 partitions)"
   sB: "Scenario B: 4 Pods (Optimal 1:1 mapping)"
   sC: "Scenario C: 8 Pods (4 active, 4 IDLE!)"
 }
 
-Partitions.p0 -> Scenarios.sB: 1:1 mapping { style.stroke: "#10B981" }
+Partitions.p0 -> Scenarios.sB: "1:1 mapping" { style.stroke: "#10B981" }

@@ -1,34 +1,38 @@
 direction: right
 title: "State Pattern: Finite State Machine & Validated State Transitions"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-pending: "1. PENDING_PAYMENT
-Awaiting payment" {
+pending: "1. PENDING_PAYMENT\nAwaiting payment" {
   style.fill: "#1e293b"
   style.stroke: "#3b82f6"
 }
-paid: "2. PAID
-Funds captured" {
+paid: "2. PAID\nFunds captured" {
   style.fill: "#1e293b"
   style.stroke: "#10b981"
 }
-shipped: "3. SHIPPED
-In transit with carrier" {
+shipped: "3. SHIPPED\nIn transit with carrier" {
   style.fill: "#1e293b"
   style.stroke: "#06b6d4"
 }
-delivered: "4. DELIVERED
-Customer received" {
+delivered: "4. DELIVERED\nCustomer received" {
   style.fill: "#1e293b"
   style.stroke: "#8b5cf6"
 }
 
-cancelled: "CANCELLED
-Releases stock" {
+cancelled: "CANCELLED\nReleases stock" {
   style.fill: "#450a0a"
   style.stroke: "#ef4444"
 }
-refunded: "REFUNDED
-Reverses payment" {
+refunded: "REFUNDED\nReverses payment" {
   style.fill: "#78350f"
   style.stroke: "#f59e0b"
 }

@@ -7,22 +7,11 @@ classes: {
   red: { style: { fill: "#3b181e"; stroke: "#ef4444"; stroke-width: 2; border-radius: 8 } }
 }
 
-ingress: "1. Ingress & Security
-Cloudflare WAF
-Presidio PII Vault
-Llama Guard 3" { class: blue }
-orchestrator: "2. Support Orchestrator
-FastAPI State Engine
-Vision Router" { class: purple }
-context: "3. Tools & Context
-Qdrant Vector DB
-Salesforce CRM API" { class: green }
-serving: "4. vLLM Serving (H100)
-LLaMA-3.1-70B FP8
-PagedAttention" { class: amber }
-escalation: "5. Human Escalation
-Zendesk Queue
-Frustration > 0.85" { class: red }
+ingress: "1. Ingress & Security\nCloudflare WAF\nPresidio PII Vault\nLlama Guard 3" { class: blue }
+orchestrator: "2. Support Orchestrator\nFastAPI State Engine\nVision Router" { class: purple }
+context: "3. Tools & Context\nQdrant Vector DB\nSalesforce CRM API" { class: green }
+serving: "4. vLLM Serving (H100)\nLLaMA-3.1-70B FP8\nPagedAttention" { class: amber }
+escalation: "5. Human Escalation\nZendesk Queue\nFrustration > 0.85" { class: red }
 
 ingress -> orchestrator
 orchestrator <-> context

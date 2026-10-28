@@ -11,6 +11,6 @@ payment_svc: "Payment Service (Consumer)" { class: consumer_box }
 
 client -> order_svc: "1. HTTP POST /orders\nHeader: traceparent (TraceID: 0xabc)"
 order_svc -> order_svc: "Ingest context\nSpan: CreateOrder (SpanID: 0x11)"
-order_svc -> kafka: "2. Produce Record\nHeader: traceparent (TraceID: 0xabc, ParentID: 0x11)"
+order_svc -> kafka: "2. Produce Record\nHeader: traceparent (TraceID: 0xabc; ParentID: 0x11)"
 kafka -> payment_svc: "3. Poll Record Batch\nExtract context from header"
-payment_svc -> payment_svc: "Span: ProcessPayment\nParentID: 0x11, TraceID: 0xabc"
+payment_svc -> payment_svc: "Span: ProcessPayment\nParentID: 0x11; TraceID: 0xabc"

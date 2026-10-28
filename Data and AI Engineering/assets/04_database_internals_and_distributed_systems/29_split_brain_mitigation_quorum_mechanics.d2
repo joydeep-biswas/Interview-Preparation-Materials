@@ -1,18 +1,31 @@
 direction: right
-title: Split-Brain Mitigation: Majority Quorum Mechanics
+title: "Split-Brain Mitigation: Majority Quorum Mechanics"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-partition: Network Partition Bisects 5-Node Cluster {
-  west: West Partition (2 Nodes) - MINORITY {
-    n1: Node 1 (Old Leader)
-    n2: Node 2 (Follower)
+partition: "Network Partition Bisects 5-Node Cluster" {
+  class: container
+  west: "West Partition (2 Nodes) - MINORITY" {
+    class: box
+    n1: "Node 1 (Old Leader)"
+    n2: "Node 2 (Follower)"
     rule: "Quorum Fails: 2 < 3. Node 1 MUST step down to follower!"
     style.stroke: "#ef4444"
   }
 
-  east: East Partition (3 Nodes) - MAJORITY QUORUM {
-    n3: Node 3 (Elected New Leader)
-    n4: Node 4 (Follower)
-    n5: Node 5 (Follower)
+  east: "East Partition (3 Nodes) - MAJORITY QUORUM" {
+    class: box
+    n3: "Node 3 (Elected New Leader)"
+    n4: "Node 4 (Follower)"
+    n5: "Node 5 (Follower)"
     rule: "Quorum Won: 3 >= 3. Node 3 operates as legitimate leader"
     style.stroke: "#10b981"
   }

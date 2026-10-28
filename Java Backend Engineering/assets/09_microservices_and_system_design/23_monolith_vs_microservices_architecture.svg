@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1100" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1100" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Monolithic vs Microservices Architecture Deep-Dive</text>
   <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Comparing Deployment Topology, Data Ownership, Scalability, and Distributed Failure Boundaries</text>
 <rect x="40" y="100" width="480" height="360" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1.5"/>
-<rect x="55" y="115" width="220" height="22" rx="11" fill="#7f1d1d"/><text x="165" y="129" fill="#FECACA" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">MONOLITHIC ARCHITECTURE</text>
+<rect x="55" y="115" width="220" height="22" rx="11" fill="#7f1d1d" stroke="#EF4444" stroke-width="1"/><text x="165" y="129" fill="#FECACA" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">MONOLITHIC ARCHITECTURE</text>
 <rect x="60" y="150" width="440" height="45" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
 <text x="280" y="176" fill="#93C5FD" font-size="10.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client Browser / Mobile App (HTTP)</text>
 <rect x="60" y="215" width="440" height="110" rx="6" fill="#1a1118" stroke="#ef4444" stroke-width="2"/>
@@ -55,7 +55,7 @@
 <text x="65" y="420" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Pros: ACID transactions, easy local debugging, zero network RPC latency.</text>
 <text x="65" y="440" fill="#F87171" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cons: Single point of failure, team deployment contention, rigid tech stack.</text>
 <rect x="560" y="100" width="500" height="360" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
-<rect x="575" y="115" width="240" height="22" rx="11" fill="#047857"/><text x="695" y="129" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">MICROSERVICES ARCHITECTURE</text>
+<rect x="575" y="115" width="240" height="22" rx="11" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="695" y="129" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">MICROSERVICES ARCHITECTURE</text>
 <rect x="580" y="150" width="460" height="45" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="1.5"/>
 <text x="810" y="176" fill="#22D3EE" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">API Gateway (L7 Routing, TLS, Auth, Rate Limiting)</text>
 <rect x="585" y="220" width="140" height="75" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>

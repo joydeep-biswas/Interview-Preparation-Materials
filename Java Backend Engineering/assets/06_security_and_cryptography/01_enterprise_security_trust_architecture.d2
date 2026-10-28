@@ -1,33 +1,47 @@
 direction: right
-title: Enterprise Security & Cryptographic Trust Architecture
-
-Edge: 1. Edge & Ingress Security Layer {
-  style.fill: "#0B132B"
-  style.stroke: "#0284C7"
-  client: Clients (Browser / Mobile / Partner)
-  waf: WAF & Cloudflare Ingress (TLS 1.3, DDoS, CORS)
-  rate: Distributed Rate Limiting (Redis)
-  client -> waf: TLS 1.3 Encrypted Tunnel
+title: "Enterprise Security & Cryptographic Trust Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-SecurityChain: 2. Spring Security 6 Filter Chain {
+Edge: "1. Edge & Ingress Security Layer" {
+  class: container
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  client: "Clients (Browser / Mobile / Partner)"
+  waf: "WAF & Cloudflare Ingress (TLS 1.3, DDoS, CORS)"
+  rate: "Distributed Rate Limiting (Redis)"
+  client -> waf: "TLS 1.3 Encrypted Tunnel"
+}
+
+SecurityChain: "2. Spring Security 6 Filter Chain" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
-  f1: SecurityContextHolderFilter
-  f2: CsrfFilter
-  f3: BearerTokenAuthenticationFilter
-  f4: ExceptionTranslationFilter
-  f5: AuthorizationFilter
+  f1: "SecurityContextHolderFilter"
+  f2: "CsrfFilter"
+  f3: "BearerTokenAuthenticationFilter"
+  f4: "ExceptionTranslationFilter"
+  f5: "AuthorizationFilter"
   f1 -> f2 -> f3 -> f4 -> f5
 }
 
-IdP: Identity Provider (Keycloak / EntraID) {
+IdP: "Identity Provider (Keycloak / EntraID)" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
   jwks: "JWKS Endpoint (Public Keys cached for offline verification)"
 }
 
-AppTier: 3. Cryptographic Core & Application {
+AppTier: "3. Cryptographic Core & Application" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
   keystore: "KeyStore (Private Key + Leaf Cert)"
@@ -36,6 +50,6 @@ AppTier: 3. Cryptographic Core & Application {
   service: "Domain Layer (AES-256-GCM envelope encryption)"
 }
 
-Edge.waf -> SecurityChain.f1: Filter dispatch { style.stroke: "#38BDF8" }
-SecurityChain.f3 -> IdP.jwks: Validates signature { style.stroke: "#C084FC" }
-SecurityChain.f5 -> AppTier.controller: Authorized request { style.stroke: "#10B981" }
+Edge.waf -> SecurityChain.f1: "Filter dispatch" { style.stroke: "#38BDF8" }
+SecurityChain.f3 -> IdP.jwks: "Validates signature" { style.stroke: "#C084FC" }
+SecurityChain.f5 -> AppTier.controller: "Authorized request" { style.stroke: "#10B981" }

@@ -1,27 +1,35 @@
 direction: right
 title: "Transactional Outbox Pattern: Debezium CDC Sequence"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 client: "Customer Client" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 }
 svc: "Order Service" {
+  class: container
   style.fill: "#083344"
   style.stroke: "#06b6d4"
 }
-db: "PostgreSQL Database
-ACID Boundary
-orders + outbox" {
+db: "PostgreSQL Database\nACID Boundary\norders + outbox" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }
-deb: "Debezium CDC
-Reads pg_wal log" {
+deb: "Debezium CDC\nReads pg_wal log" {
   style.fill: "#111827"
   style.stroke: "#f59e0b"
 }
-kfk: "Kafka Cluster
-'orders.events'" {
+kfk: "Kafka Cluster\n'orders.events'" {
   style.fill: "#1e1b4b"
   style.stroke: "#8b5cf6"
 }

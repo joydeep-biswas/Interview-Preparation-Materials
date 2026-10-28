@@ -38,7 +38,7 @@
 
   <!-- Top: Main RAM Container -->
   <rect x="360" y="95" width="500" height="90" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="360" y="95" width="500" height="28" rx="8" fill="#0C4A6E"/>
+  <rect x="360" y="95" width="500" height="28" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="610" y="115" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Main System Memory (RAM) - Physical DDR</text>
   <rect x="380" y="132" width="460" height="42" rx="4" fill="#0F172A" stroke="#0284C7" stroke-width="1"/>
   <text x="610" y="152" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Shared Heap Variable: boolean flag = false;</text>
@@ -46,7 +46,7 @@
 
   <!-- Core 1: Writer Thread -->
   <rect x="50" y="220" width="530" height="235" rx="8" fill="#1C1917" stroke="#8B5CF6" stroke-width="1.5"/>
-  <rect x="50" y="220" width="530" height="30" rx="8" fill="#4C1D95"/>
+  <rect x="50" y="220" width="530" height="30" rx="8" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
   <text x="315" y="240" font-size="12" font-weight="700" fill="#C4B5FD" text-anchor="middle">CPU Core 1 (Thread 1: Writer)</text>
 
   <rect x="70" y="265" width="490" height="75" rx="4" fill="#0F172A" stroke="#8B5CF6" stroke-width="1"/>
@@ -61,7 +61,7 @@
 
   <!-- Core 2: Reader Thread -->
   <rect x="640" y="220" width="530" height="235" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
-  <rect x="640" y="220" width="530" height="30" rx="8" fill="#7F1D1D"/>
+  <rect x="640" y="220" width="530" height="30" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
   <text x="905" y="240" font-size="12" font-weight="700" fill="#FCA5A5" text-anchor="middle">CPU Core 2 (Thread 2: Reader)</text>
 
   <rect x="660" y="265" width="490" height="75" rx="4" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>

@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Transactional Outbox Pattern: Architectural Component Layout</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Decoupling Domain Mutation from Message Publishing via PostgreSQL WAL Mining and Debezium</text>
 <rect x="40" y="110" width="240" height="320" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
-<rect x="55" y="125" width="180" height="20" rx="10" fill="#1e3a8a"/><text x="145" y="138" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ORDER SERVICE</text>
+<rect x="55" y="125" width="180" height="20" rx="10" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="145" y="138" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ORDER SERVICE</text>
 <text x="160" y="165" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderApplicationService</text>
 <text x="55" y="195" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Validates order parameters</text>
 <text x="55" y="215" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. Starts DB Transaction</text>
@@ -40,7 +40,7 @@
 <text x="55" y="305" fill="#A7F3D0" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero Kafka client code!</text>
 <text x="55" y="325" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">App never talks to broker</text>
 <rect x="320" y="110" width="380" height="320" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
-<rect x="335" y="125" width="240" height="20" rx="10" fill="#047857"/><text x="455" y="138" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POSTGRESQL (ACID Boundary)</text>
+<rect x="335" y="125" width="240" height="20" rx="10" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="455" y="138" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POSTGRESQL (ACID Boundary)</text>
 <text x="510" y="165" fill="#34D399" font-size="11" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Single Local Transaction Atomicity</text>
 <rect x="340" y="190" width="340" height="75" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
 <text x="355" y="210" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Table: orders</text>
@@ -52,7 +52,7 @@
 <text x="355" y="339" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">type: 'OrderCreated' | payload: '{...}' (JSONB) | created_at</text>
 <text x="355" y="355" fill="#FDE68A" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Flushed to Write-Ahead Log (WAL) simultaneously!</text>
 <rect x="740" y="110" width="300" height="320" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
-<rect x="755" y="125" width="240" height="20" rx="10" fill="#78350f"/><text x="875" y="138" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CDC &amp; MESSAGING PIPELINE</text>
+<rect x="755" y="125" width="240" height="20" rx="10" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="875" y="138" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CDC &amp; MESSAGING PIPELINE</text>
 <text x="890" y="165" fill="#FBBF24" font-size="11" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Zero-Overhead Log Mining</text>
 <rect x="755" y="190" width="270" height="95" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
 <text x="890" y="212" fill="#FDE68A" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Debezium Engine</text>

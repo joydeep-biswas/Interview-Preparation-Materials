@@ -1,10 +1,46 @@
 # Windowing Paradigm vs Standard GROUP BY
 direction: right
-
-groupby: "Standard GROUP BY\n• Many-to-One collapse\n• Destroys row identity\n• Emits 1 row per key" {
-  style.stroke: "#F59E0B"
+classes: {
+  paradigm: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  row_card: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 6 } }
 }
 
-window: "Window Functions OVER()\n• Many-to-Many preservation\n• Retains every row identity\n• Appends analytic metric column" {
+groupby: "Standard GROUP BY (Row Collapse)" {
+  class: paradigm
+  style.stroke: "#F59E0B"
+  desc: "Many-to-One: Collapses Rows into Summary Buckets\n• Destroys individual row identity\n• Ungrouped columns cannot be projected without aggregate" {
+    class: row_card
+    style.stroke: "#F59E0B"
+  }
+  input: "Input Rows (3 tuples):\n• Alice | Dept: Sales | \$100k\n• Bob   | Dept: Sales | \$120k\n• Carol | Dept: Eng   | \$150k" {
+    class: row_card
+    style.stroke: "#3B82F6"
+  }
+  output: "Collapsed Output (2 buckets):\n• Sales: Total = \$220k (2 rows folded)\n• Eng:   Total = \$150k (1 row folded)" {
+    class: row_card
+    style.stroke: "#F59E0B"
+  }
+  input -> output: "Collapses"
+}
+
+window: "Window Functions OVER() (Identity Preserved)" {
+  class: paradigm
+  style.stroke: "#10B981"
+  desc: "Many-to-Many: Identity-Preserving Analytical Computations\n• Preserves 100% of individual input rows\n• Appends analytical metric column alongside base data" {
+    class: row_card
+    style.stroke: "#10B981"
+  }
+  input: "Input Rows (3 tuples):\n• Alice | Dept: Sales | \$100k\n• Bob   | Dept: Sales | \$120k\n• Carol | Dept: Eng   | \$150k" {
+    class: row_card
+    style.stroke: "#3B82F6"
+  }
+  output: "Preserved Output (3 tuples with metric):\n• Alice | Sales | \$100k | Rank: 2; DeptTotal: \$220k\n• Bob   | Sales | \$120k | Rank: 1; DeptTotal: \$220k\n• Carol | Eng   | \$150k | Rank: 1; DeptTotal: \$150k" {
+    class: row_card
+    style.stroke: "#10B981"
+  }
+  input -> output: "Appends Metric"
+}
+
+groupby -> window: "VS" {
   style.stroke: "#10B981"
 }

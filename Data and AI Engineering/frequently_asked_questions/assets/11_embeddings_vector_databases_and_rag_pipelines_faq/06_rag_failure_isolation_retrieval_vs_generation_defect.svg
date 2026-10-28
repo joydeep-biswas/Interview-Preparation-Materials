@@ -24,7 +24,7 @@
     .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
     .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
   </style>
-  <rect width="100%" height="100%" fill="#0B0F19"/>
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- User Alert -->
   <rect x="25" y="30" width="220" height="60" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
@@ -47,7 +47,7 @@
 
   <!-- Branch NO: Retrieval Defect -->
   <path d="M 665 95 L 665 125 Q 665 135 650 135 L 260 135 Q 245 135 245 150 L 245 180" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
-  <rect x="370" y="123" width="130" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <rect x="370" y="123" width="130" height="18" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   <text x="435" y="136" class="edge-txt" text-anchor="middle" fill="#EF4444">NO: Fact Missing</text>
 
   <rect x="40" y="180" width="410" height="150" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
@@ -59,7 +59,7 @@
 
   <!-- Branch YES: Generation Defect -->
   <path d="M 765 60 L 815 60 Q 830 60 830 75 L 830 180" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
-  <rect x="780" y="48" width="100" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <rect x="780" y="48" width="100" height="18" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   <text x="830" y="61" class="edge-txt" text-anchor="middle" fill="#8B5CF6">YES: Fact Present</text>
 
   <rect x="510" y="180" width="410" height="150" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>

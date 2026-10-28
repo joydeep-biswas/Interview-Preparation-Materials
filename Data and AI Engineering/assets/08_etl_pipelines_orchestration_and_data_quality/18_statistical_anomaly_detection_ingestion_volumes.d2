@@ -1,17 +1,30 @@
 direction: right
-title: Statistical Anomaly Detection in Ingestion Volumes
+title: "Statistical Anomaly Detection in Ingestion Volumes"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-baseline: 1. Metric Extraction & Baseline Stats {
+baseline: "1. Metric Extraction & Baseline Stats" {
+  class: container
   history: "Historical 30-Day Rolling Ingestion Counts"
   stats: "Mean (μ): 1,000,000 | StdDev (σ): 50,000"
 }
 
-zscore: 2. Z-Score Anomaly Evaluation {
+zscore: "2. Z-Score Anomaly Evaluation" {
+  class: container
   formula: "Z = |X - μ| / σ"
   probe: "Today: X = 400,000 -> Z = 12.0! (Exceeds 3.0 Threshold)"
 }
 
-action: 3. Automated Circuit Breaker Gate {
+action: "3. Automated Circuit Breaker Gate" {
+  class: container
   halt: "Halts downstream dbt jobs; prevents corrupt data polluting Gold"
   alert: "Triggers PagerDuty anomaly alert"
   style.stroke: "#ef4444"

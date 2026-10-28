@@ -1,6 +1,6 @@
 direction: right
 classes: {
-  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
 }
 
 orders: "Raw Orders\norder_id, cust_id, date" { class: box; style.stroke: "#3B82F6" }
@@ -11,6 +11,8 @@ diff: "Month Delta Gate\nDiff == 1 month?" { class: box; style.stroke: "#F59E0B"
 streak: "Consecutive Month Buyer\nRetained in cohort" { class: box; style.stroke: "#10B981" }
 broken: "Streak Broken\nChurned or lapsed customer" { class: box; style.stroke: "#EF4444" }
 
-orders -> trunc -> lag_step -> diff
-diff -> streak: "Yes (Delta = 1)"
-diff -> broken: "No (Delta &gt; 1)"
+orders -> trunc: { style.stroke: "#F59E0B" }
+trunc -> lag_step: { style.stroke: "#8B5CF6" }
+lag_step -> diff: { style.stroke: "#F59E0B" }
+diff -> streak: "Yes (Delta = 1)" { style.stroke: "#10B981" }
+diff -> broken: "No (Delta > 1)" { style.stroke: "#EF4444" }

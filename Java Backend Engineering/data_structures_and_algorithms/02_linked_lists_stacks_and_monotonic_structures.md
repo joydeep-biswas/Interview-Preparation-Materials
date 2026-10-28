@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to Singly and Doubly Linked Lists, Stack
 
 ![Doubly-Linked List Sentinel Mechanics & Monotonic Stack Invariants](assets/02_linked_lists_stacks_and_monotonic_structures/01_dll_sentinels_and_monotonic_stacks.svg)
 
-*D2 Source:* [assets/02_linked_lists_stacks_and_monotonic_structures/01_dll_sentinels_and_monotonic_stacks.d2](assets/02_linked_lists_stacks_and_monotonic_structures/01_dll_sentinels_and_monotonic_stacks.d2)
+*D2 Source: [`01_dll_sentinels_and_monotonic_stacks.d2`](assets/02_linked_lists_stacks_and_monotonic_structures/01_dll_sentinels_and_monotonic_stacks.d2)*
 
 ---
 

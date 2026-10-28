@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Automated Testing Pyramid: Speed, Cost, and Fidelity Trade-Offs</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Balancing Unit Tests (60-70%), Integration Tests (20-30%), and End-to-End Tests (5-10%)</text>
 <rect x="290" y="100" width="500" height="85" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>

@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Left: Client -->
+  <g transform="translate(25, 140)">
+    <rect width="160" height="115" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="80" y="24" class="title" fill="#93C5FD">User / Frontend</text>
+    <text x="12" y="48" class="body-txt">• Submits prompt</text>
+    <text x="12" y="68" class="body-txt">• Receives stream</text>
+    <text x="12" y="88" class="body-txt">• Agnostic of models</text>
+  </g>
+
+  <!-- Connect Client to Gateway -->
+  <path d="M 185 195 L 225 195" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <rect x="188" y="180" width="32" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="204" y="192" class="edge-label" fill="#93C5FD">Req</text>
+
+  <!-- Center: Router Gateway -->
+  <g transform="translate(225, 130)">
+    <rect width="210" height="135" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="105" y="24" class="title" fill="#FDE68A">Multi-Model Router</text>
+    <text x="14" y="48" class="body-txt">• Fast complexity scoring</text>
+    <text x="14" y="68" class="body-txt">• Dispatches to SLM</text>
+    <text x="14" y="88" class="body-txt">• Evaluates logprob confidence</text>
+    <text x="14" y="108" class="body-txt">• Threshold: C &gt;= 0.85</text>
+  </g>
+
+  <!-- Gateway to SLM (Top Right) -->
+  <path d="M 435 160 L 465 160 Q 480 160 480 80 L 495 80 L 510 80" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+
+  <!-- Top Right: SLM -->
+  <g transform="translate(510, 25)">
+    <rect width="240" height="110" rx="8" fill="#0C4A6E" stroke="#06B6D4" stroke-width="2"/>
+    <text x="120" y="24" class="title" fill="#67E8F9">Small Model (Llama-3-8B)</text>
+    <text x="14" y="48" class="body-txt">• Sub-200ms generation</text>
+    <text x="14" y="68" class="body-txt">• Cost: $0.15 / M tokens</text>
+    <text x="14" y="88" class="body-txt">• Returns: Tokens + Mean Logprob</text>
+  </g>
+
+  <!-- SLM returns to Gateway for evaluation -->
+  <path d="M 510 105 L 475 105 Q 460 105 460 180 L 445 180 L 435 180" fill="none" stroke="#06B6D4" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arr-cyan)"/>
+
+  <!-- Gateway to Frontier (Bottom Right) -->
+  <path d="M 435 230 L 465 230 Q 480 230 480 305 L 495 305 L 510 305" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <rect x="445" y="315" width="55" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="472" y="327" class="edge-label" fill="#8B5CF6">C &lt; 0.85</text>
+
+  <!-- Bottom Right: Frontier Model -->
+  <g transform="translate(510, 250)">
+    <rect width="240" height="110" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="120" y="24" class="title" fill="#C4B5FD">Frontier LLM (GPT-4o)</text>
+    <text x="14" y="48" class="body-txt">• Fallback escalation trigger</text>
+    <text x="14" y="68" class="body-txt">• High precision reasoning</text>
+    <text x="14" y="88" class="body-txt">• High reliability completion</text>
+  </g>
+
+  <!-- Deliveries to Terminal -->
+  <path d="M 750 80 L 780 80 Q 795 80 795 170 L 805 170 L 815 170" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <rect x="760" y="55" width="60" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="790" y="67" class="edge-label" fill="#10B981">C &gt;= 0.85</text>
+
+  <path d="M 750 305 L 780 305 Q 795 305 795 220 L 805 220 L 815 220" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+  <!-- Far Right: Verified Output -->
+  <g transform="translate(815, 140)">
+    <rect width="180" height="115" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="90" y="24" class="title" fill="#A7F3D0">Delivered Output</text>
+    <text x="12" y="48" class="body-txt">• 80% answered by SLM</text>
+    <text x="12" y="68" class="body-txt">• 20% escalated to Frontier</text>
+    <text x="12" y="88" class="body-txt">• High speed + high accuracy</text>
+  </g>
+</svg>

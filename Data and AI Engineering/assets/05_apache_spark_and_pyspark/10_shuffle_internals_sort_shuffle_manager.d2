@@ -1,25 +1,38 @@
 direction: right
-title: Spark SortShuffleManager Internals
+title: "Spark SortShuffleManager Internals"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Mapper: 1. Mapper Buffer & Spill {
+Mapper: "1. Mapper Buffer & Spill" {
+  class: container
   style.stroke: "#38BDF8"
-  RAM: PartitionedAppendOnlyMap (In-Memory Buffer)
-  Spill: In-Memory Sort & Disk Spill (temp files)
-  RAM -> Spill: Memory Threshold Exceeded
+  RAM: "PartitionedAppendOnlyMap (In-Memory Buffer)"
+  Spill: "In-Memory Sort & Disk Spill (temp files)"
+  RAM -> Spill: "Memory Threshold Exceeded"
 }
 
-ConsolidatedFiles: 2. Consolidated Files {
+ConsolidatedFiles: "2. Consolidated Files" {
+  class: container
   style.stroke: "#34D399"
-  DataFile: shuffle_0_0_0.data (Contiguous Partition Blocks)
-  IndexFile: shuffle_0_0_0.index (Partition Byte Offsets)
+  DataFile: "shuffle_0_0_0.data (Contiguous Partition Blocks)"
+  IndexFile: "shuffle_0_0_0.index (Partition Byte Offsets)"
 }
 
-ReducerFetch: 3. Reducer Fetch {
+ReducerFetch: "3. Reducer Fetch" {
+  class: container
   style.stroke: "#C084FC"
-  Netty: External Shuffle Service (sendfile Zero-Copy)
-  Reducer: Reducer Execution Memory Buffer
-  Netty -> Reducer: Block Transfer RPC
+  Netty: "External Shuffle Service (sendfile Zero-Copy)"
+  Reducer: "Reducer Execution Memory Buffer"
+  Netty -> Reducer: "Block Transfer RPC"
 }
 
-Mapper.Spill -> ConsolidatedFiles.DataFile: External Merge Sort { style.stroke: "#34D399" }
-ConsolidatedFiles.IndexFile -> ReducerFetch.Netty: Reads partition offsets { style.stroke: "#C084FC" }
+Mapper.Spill -> ConsolidatedFiles.DataFile: "External Merge Sort" { style.stroke: "#34D399" }
+ConsolidatedFiles.IndexFile -> ReducerFetch.Netty: "Reads partition offsets" { style.stroke: "#C084FC" }

@@ -55,6 +55,15 @@ A comprehensive, production-grade guide answering Databricks and Delta Lake inte
     - [Q33. Delta Lake Concurrent Write Conflicts & Safe Optimistic Retry Protocols](#q33-medium-delta-lake-concurrent-write-conflicts--safe-optimistic-retry-protocols)
     - [Q34. Time Travel Recovery vs VACUUM Retention Divergence (Metadata vs Physical Retention)](#q34-easy-time-travel-recovery-vs-vacuum-retention-divergence-metadata-vs-physical-retention)
     - [Q35. Production Schema Validation & Type Widening Recovery (Integer to String & Quarantine)](#q35-medium-production-schema-validation--type-widening-recovery-integer-to-string)
+    - [Q36. Delta Lake MERGE Schema Evolution: autoMerge vs mergeSchema Trap](#q36-medium-delta-lake-merge-schema-evolution-automerge-vs-mergeschema-trap)
+    - [Q37. Databricks Disk Cache (Delta Cache) vs Spark Memory CACHE & PERSIST](#q37-medium-databricks-disk-cache-delta-cache-vs-spark-memory-cache--persist)
+15. **Databricks Photon Acceleration, Cluster Sizing & Enterprise Production Operations**
+    - [Q38. Databricks Photon Acceleration: Workload Qualification & Execution Mechanics](#q38-medium-databricks-photon-acceleration-workload-qualification--execution-mechanics)
+    - [Q39. Sizing Databricks Clusters & Autoscaling Bounds for Highly Variable Workloads](#q39-medium-sizing-databricks-clusters--autoscaling-bounds-for-highly-variable-workloads)
+    - [Q40. Interactive Notebook Succeeds but Scheduled Job Fails: Root Cause Investigation](#q40-medium-interactive-notebook-succeeds-but-scheduled-job-fails-root-cause-investigation)
+    - [Q41. Packaging & Versioning PySpark Transformations into Reusable Enterprise Libraries](#q41-medium-packaging--versioning-pyspark-transformations-into-reusable-enterprise-libraries)
+    - [Q42. Detecting & Diagnosing Performance Regressions After Databricks Runtime (DBR) Upgrades](#q42-hard-detecting--diagnosing-performance-regressions-after-databricks-runtime-dbr-upgrades)
+    - [Q43. Resolving Databricks Git Merge Conflicts & Enterprise Promotion Pipeline (Dev → UAT → Production)](#q43-medium-resolving-databricks-git-merge-conflicts--enterprise-promotion-pipeline-dev--uat--production)
 ---
 
 # 1. Delta Lake Architecture & ACID Transaction Internals
@@ -75,7 +84,7 @@ A comprehensive, production-grade guide answering Databricks and Delta Lake inte
 
 ![Delta Lake Storage Architecture Commit Log](assets/06_databricks_and_delta_lake_faq/01_delta_lake_storage_architecture_commit_log.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/01_delta_lake_storage_architecture_commit_log.d2](assets/06_databricks_and_delta_lake_faq/01_delta_lake_storage_architecture_commit_log.d2)
+*D2 Source: [`01_delta_lake_storage_architecture_commit_log.d2`](assets/06_databricks_and_delta_lake_faq/01_delta_lake_storage_architecture_commit_log.d2)*
 
 #### Vanilla Parquet Limitations vs. Delta Lake ACID Solutions
 
@@ -119,7 +128,7 @@ Delta Lake stores raw data as standard compressed Apache Parquet files, but wrap
 #### Incremental Load Design Architecture (Q1, Q2)
 ![Incremental CDC Watermark Merge Pipeline](assets/06_databricks_and_delta_lake_faq/02_incremental_cdc_watermark_merge_pipeline.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/02_incremental_cdc_watermark_merge_pipeline.d2](assets/06_databricks_and_delta_lake_faq/02_incremental_cdc_watermark_merge_pipeline.d2)
+*D2 Source: [`02_incremental_cdc_watermark_merge_pipeline.d2`](assets/06_databricks_and_delta_lake_faq/02_incremental_cdc_watermark_merge_pipeline.d2)*
 
 ---
 
@@ -222,7 +231,7 @@ In Delta Lake, SCD Type 2 is implemented via a **two-pass merge**:
 
 ![Delta Table Optimize ZOrder Vacuum Lifecycle](assets/06_databricks_and_delta_lake_faq/03_delta_table_optimize_zorder_vacuum_lifecycle.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/03_delta_table_optimize_zorder_vacuum_lifecycle.d2](assets/06_databricks_and_delta_lake_faq/03_delta_table_optimize_zorder_vacuum_lifecycle.d2)
+*D2 Source: [`03_delta_table_optimize_zorder_vacuum_lifecycle.d2`](assets/06_databricks_and_delta_lake_faq/03_delta_table_optimize_zorder_vacuum_lifecycle.d2)*
 
 ---
 
@@ -265,7 +274,7 @@ When an ADLS Gen2 folder accumulates millions of small files (e.g. <10 MB from I
 #### Visual Flow
 ![ADLS Small File Bottleneck Auto Loader Remediation](assets/06_databricks_and_delta_lake_faq/04_adls_small_file_bottleneck_auto_loader_remediation.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/04_adls_small_file_bottleneck_auto_loader_remediation.d2](assets/06_databricks_and_delta_lake_faq/04_adls_small_file_bottleneck_auto_loader_remediation.d2)
+*D2 Source: [`04_adls_small_file_bottleneck_auto_loader_remediation.d2`](assets/06_databricks_and_delta_lake_faq/04_adls_small_file_bottleneck_auto_loader_remediation.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -341,7 +350,7 @@ Partitioning physically separates a table's data into separate directories based
 #### Visual Flow
 ![Delta Table Partitioning vs Liquid Clustering Decision Tree](assets/06_databricks_and_delta_lake_faq/05_delta_table_partitioning_vs_liquid_clustering_decision_tree.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/05_delta_table_partitioning_vs_liquid_clustering_decision_tree.d2](assets/06_databricks_and_delta_lake_faq/05_delta_table_partitioning_vs_liquid_clustering_decision_tree.d2)
+*D2 Source: [`05_delta_table_partitioning_vs_liquid_clustering_decision_tree.d2`](assets/06_databricks_and_delta_lake_faq/05_delta_table_partitioning_vs_liquid_clustering_decision_tree.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -467,7 +476,7 @@ RESTORE TABLE silver.customers TO TIMESTAMP AS OF '2024-10-02 12:00:00';
 #### Systematic Root-Cause Analysis: 3x Slowdown in Production (Q8, Q9)
 ![Databricks Production Slowdown Root Causes](assets/06_databricks_and_delta_lake_faq/06_databricks_production_slowdown_root_causes.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/06_databricks_production_slowdown_root_causes.d2](assets/06_databricks_and_delta_lake_faq/06_databricks_production_slowdown_root_causes.d2)
+*D2 Source: [`06_databricks_production_slowdown_root_causes.d2`](assets/06_databricks_and_delta_lake_faq/06_databricks_production_slowdown_root_causes.d2)*
 
 ---
 
@@ -495,7 +504,7 @@ RESTORE TABLE silver.customers TO TIMESTAMP AS OF '2024-10-02 12:00:00';
 #### Designing for Billions of Records (Q11)
 ![Auto Loader Liquid Clustering Photon Architecture](assets/06_databricks_and_delta_lake_faq/07_auto_loader_liquid_clustering_photon_architecture.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/07_auto_loader_liquid_clustering_photon_architecture.d2](assets/06_databricks_and_delta_lake_faq/07_auto_loader_liquid_clustering_photon_architecture.d2)
+*D2 Source: [`07_auto_loader_liquid_clustering_photon_architecture.d2`](assets/06_databricks_and_delta_lake_faq/07_auto_loader_liquid_clustering_photon_architecture.d2)*
 
 ---
 
@@ -603,7 +612,7 @@ Delta Lake uses **Optimistic Concurrency Control (OCC)**:
 #### The 4-Pillar Multi-Tenant Lakehouse Architecture
 ![Enterprise Multi Tenant Databricks Lakehouse](assets/06_databricks_and_delta_lake_faq/08_enterprise_multi_tenant_databricks_lakehouse.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/08_enterprise_multi_tenant_databricks_lakehouse.d2](assets/06_databricks_and_delta_lake_faq/08_enterprise_multi_tenant_databricks_lakehouse.d2)
+*D2 Source: [`08_enterprise_multi_tenant_databricks_lakehouse.d2`](assets/06_databricks_and_delta_lake_faq/08_enterprise_multi_tenant_databricks_lakehouse.d2)*
 
 #### Layer Breakdown:
 1. **Catalog Isolation:** Each tenant is provisioned with their own Unity Catalog (`catalog_tenant_a`), mapped to a dedicated cloud storage container with tenant-isolated IAM credentials. Tenant A cannot see or query Tenant B's catalog.
@@ -629,7 +638,7 @@ Legacy approaches relied on fragile REST API scripts or UI syncs. The modern pro
 #### Production CI/CD Lifecycle Blueprint
 ![Databricks Asset Bundles CICD Deployment Sequence](assets/06_databricks_and_delta_lake_faq/09_databricks_asset_bundles_cicd_deployment_sequence.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/09_databricks_asset_bundles_cicd_deployment_sequence.d2](assets/06_databricks_and_delta_lake_faq/09_databricks_asset_bundles_cicd_deployment_sequence.d2)
+*D2 Source: [`09_databricks_asset_bundles_cicd_deployment_sequence.d2`](assets/06_databricks_and_delta_lake_faq/09_databricks_asset_bundles_cicd_deployment_sequence.d2)*
 
 #### Production `databricks.yml` Bundle Specification
 ```yaml
@@ -756,7 +765,7 @@ print(db_password) # Prints: [REDACTED]
 
 ![Databricks DABs Lakeflow Unity Catalog Pipeline](assets/06_databricks_and_delta_lake_faq/10_databricks_dabs_lakeflow_unity_catalog_pipeline.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/10_databricks_dabs_lakeflow_unity_catalog_pipeline.d2](assets/06_databricks_and_delta_lake_faq/10_databricks_dabs_lakeflow_unity_catalog_pipeline.d2)
+*D2 Source: [`10_databricks_dabs_lakeflow_unity_catalog_pipeline.d2`](assets/06_databricks_and_delta_lake_faq/10_databricks_dabs_lakeflow_unity_catalog_pipeline.d2)*
 
 #### Production Implementation (`databricks.yml`)
 ```yaml
@@ -821,7 +830,7 @@ governed_df = spark.read.table("prod_catalog.finance.orders")
 #### Comprehensive 4-Pillar Validation Framework
 ![Legacy Database to Delta Lake Reconciliation Framework](assets/06_databricks_and_delta_lake_faq/11_legacy_database_to_delta_lake_reconciliation_framework.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/11_legacy_database_to_delta_lake_reconciliation_framework.d2](assets/06_databricks_and_delta_lake_faq/11_legacy_database_to_delta_lake_reconciliation_framework.d2)
+*D2 Source: [`11_legacy_database_to_delta_lake_reconciliation_framework.d2`](assets/06_databricks_and_delta_lake_faq/11_legacy_database_to_delta_lake_reconciliation_framework.d2)*
 
 #### Production PySpark Checksum Validation
 ```python
@@ -930,7 +939,7 @@ Delta Lake provides native audit primitives to trace this pipeline deterministic
 #### Visual Flow
 ![Data Loss Triage Bronze Quarantine Join Attrition](assets/06_databricks_and_delta_lake_faq/12_data_loss_triage_bronze_quarantine_join_attrition.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/12_data_loss_triage_bronze_quarantine_join_attrition.d2](assets/06_databricks_and_delta_lake_faq/12_data_loss_triage_bronze_quarantine_join_attrition.d2)
+*D2 Source: [`12_data_loss_triage_bronze_quarantine_join_attrition.d2`](assets/06_databricks_and_delta_lake_faq/12_data_loss_triage_bronze_quarantine_join_attrition.d2)*
 
 #### Production Implementation / Diagnostic Playbook
 ```sql
@@ -992,7 +1001,7 @@ In Databricks, orchestrating modular processing steps across notebooks is achiev
 #### Visual Flow
 ![DBUtils Notebook Run vs Databricks Workflows DAG](assets/06_databricks_and_delta_lake_faq/13_dbutils_notebook_run_vs_databricks_workflows_dag.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/13_dbutils_notebook_run_vs_databricks_workflows_dag.d2](assets/06_databricks_and_delta_lake_faq/13_dbutils_notebook_run_vs_databricks_workflows_dag.d2)
+*D2 Source: [`13_dbutils_notebook_run_vs_databricks_workflows_dag.d2`](assets/06_databricks_and_delta_lake_faq/13_dbutils_notebook_run_vs_databricks_workflows_dag.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1054,7 +1063,7 @@ In contrast, **Delta Lake never lists physical storage directories during query 
 #### Visual Flow: The Storage-Log Divergence Pathology
 ![Delta Lake Manual Parquet Deletion FileNotFound Failure](assets/06_databricks_and_delta_lake_faq/14_delta_lake_manual_parquet_deletion_filenotfound_failure.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/14_delta_lake_manual_parquet_deletion_filenotfound_failure.d2](assets/06_databricks_and_delta_lake_faq/14_delta_lake_manual_parquet_deletion_filenotfound_failure.d2)
+*D2 Source: [`14_delta_lake_manual_parquet_deletion_filenotfound_failure.d2`](assets/06_databricks_and_delta_lake_faq/14_delta_lake_manual_parquet_deletion_filenotfound_failure.d2)*
 
 #### Production Diagnostic & Remediation Runbook
 
@@ -1118,7 +1127,7 @@ However, OCC in Delta Lake operates at **Parquet file granularity**, not individ
 #### Visual Flow: The Shared Parquet File Concurrency Collision
 ![Delta Lake Concurrent Update OCC Conflict Exception](assets/06_databricks_and_delta_lake_faq/15_delta_lake_concurrent_update_occ_conflict_exception.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/15_delta_lake_concurrent_update_occ_conflict_exception.d2](assets/06_databricks_and_delta_lake_faq/15_delta_lake_concurrent_update_occ_conflict_exception.d2)
+*D2 Source: [`15_delta_lake_concurrent_update_occ_conflict_exception.d2`](assets/06_databricks_and_delta_lake_faq/15_delta_lake_concurrent_update_occ_conflict_exception.d2)*
 
 #### Production Resolution Strategy: 3 Architectural Defenses
 
@@ -1193,7 +1202,7 @@ Disaster recovery in Delta Lake relies on the interaction between two independen
 #### Visual Flow: Metadata vs. Physical Storage Retention Mismatch
 ![Delta Log Retention vs VACUUM Retention Mismatch](assets/06_databricks_and_delta_lake_faq/16_delta_log_retention_vs_vacuum_retention_mismatch.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/16_delta_log_retention_vs_vacuum_retention_mismatch.d2](assets/06_databricks_and_delta_lake_faq/16_delta_log_retention_vs_vacuum_retention_mismatch.d2)
+*D2 Source: [`16_delta_log_retention_vs_vacuum_retention_mismatch.d2`](assets/06_databricks_and_delta_lake_faq/16_delta_log_retention_vs_vacuum_retention_mismatch.d2)*
 
 #### Production Table Configuration for Enterprise Disaster Recovery
 To guarantee point-in-time recovery for regulatory compliance (e.g. 90-day restatements in financial institutions):
@@ -1235,7 +1244,7 @@ By default, Delta Lake enforces strict **Schema Validation (Schema on Write)**:
 #### Visual Flow: Automated Schema Evolution & Quarantine Architecture
 ![Schema Evolution Type Conflict Quarantine Runbook](assets/06_databricks_and_delta_lake_faq/17_schema_evolution_type_conflict_quarantine_runbook.svg)
 
-*D2 Source:* [assets/06_databricks_and_delta_lake_faq/17_schema_evolution_type_conflict_quarantine_runbook.d2](assets/06_databricks_and_delta_lake_faq/17_schema_evolution_type_conflict_quarantine_runbook.d2)
+*D2 Source: [`17_schema_evolution_type_conflict_quarantine_runbook.d2`](assets/06_databricks_and_delta_lake_faq/17_schema_evolution_type_conflict_quarantine_runbook.d2)*
 
 #### Production Python Implementation: Schema Validation & Migration Runbook
 ```python
@@ -1301,6 +1310,581 @@ WHERE customer_zip IS NOT NULL;
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [06. Databricks & Delta Lake: Schema Evolution & Enforcement Mechanics](../06_databricks_and_delta_lake.md#85-schema-enforcement)*
+---
+
+### Q36. [Medium] Delta Lake MERGE Schema Evolution: autoMerge vs mergeSchema Trap
+**Difficulty:** [Medium]  
+**Topic Covered:** Delta Lake MERGE Operations, `spark.databricks.delta.schema.autoMerge.enabled`, Schema Evolution during Upserts  
+**Question:** *How does schema evolution work during Delta Lake MERGE (UPSERT) operations, and why does `.option("mergeSchema", "true")` fail to evolve the schema on MERGE statements?*
+
+#### Definition & Core Concepts
+A common production trap occurs when data engineers attempt to apply `.option("mergeSchema", "true")` to a Delta Lake `MERGE` operation. 
+1. **The Write vs. Merge Dichotomy:** `.option("mergeSchema", "true")` is an option scoped exclusively to DataFrame append/overwrite writes (`DataFrameWriter.save()`). In contrast, `MERGE INTO` is a declarative SQL/DeltaTable API statement governed by session-level transaction log protocols. Passing `.option("mergeSchema", "true")` before `.merge()` is silently ignored or throws an `AnalysisException: Cannot resolve column in target table`.
+2. **Session-Level AutoMerge Protocol:** To allow Delta Lake `MERGE` operations to dynamically add columns present in the source dataset but absent in the target table, you must enable the Spark session configuration:
+   ```python
+   spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", "true")
+   ```
+3. **Evolution Invariants during MERGE:**
+   - Any column present in `source` but not in `target` is appended to the target Delta schema as a nullable column.
+   - For `WHEN MATCHED THEN UPDATE SET *`, new source columns update target attributes.
+   - For `WHEN NOT MATCHED THEN INSERT *`, new source columns are inserted with their source values. Historical non-matching rows in the target table receive `NULL` for the new column.
+   - Incompatible type changes (e.g. `STRING` to `INT`) are strictly rejected even with `autoMerge` enabled to prevent silent data corruption.
+
+#### Visual Architectural Flow
+![Delta Merge Schema AutoMerge Evolution Flow](assets/06_databricks_and_delta_lake_faq/18_delta_merge_automerge_evolution_flow.svg)
+
+*D2 Source: [`18_delta_merge_automerge_evolution_flow.d2`](assets/06_databricks_and_delta_lake_faq/18_delta_merge_automerge_evolution_flow.d2)*
+
+#### Production Implementation / Code Solution
+```python
+from delta.tables import DeltaTable
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import current_timestamp
+
+spark = SparkSession.builder.getOrCreate()
+
+def execute_resilient_delta_merge(target_table_name: str, updates_df):
+    """
+    Executes a production Delta Lake MERGE with dynamic schema evolution safeguards.
+    """
+    # 1. Enable autoMerge at the Spark session level
+    spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", "true")
+    
+    target_delta = DeltaTable.forName(spark, target_table_name)
+    
+    # 2. Add system audit timestamp to incoming updates
+    staged_updates = updates_df.withColumn("ingestion_timestamp", current_timestamp())
+    
+    # 3. Execute MERGE operation with automatic column addition
+    (
+        target_delta.alias("target")
+        .merge(
+            source=staged_updates.alias("source"),
+            condition="target.customer_id = source.customer_id"
+        )
+        .whenMatchedUpdateAll()
+        .whenNotMatchedInsertAll()
+        .execute()
+    )
+    
+    # 4. Reset configuration to avoid unintentional global schema bleeding
+    spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", "false")
+```
+
+#### Complexity Analysis
+- **Time Complexity:** $O(M + N)$ where $N$ is the target partition file size and $M$ is the incoming batch size. The schema diff calculation takes $O(C)$ driver time ($C < 100$ columns) which is $< 10\text{ms}$.
+- **Space Complexity:** $O(1)$ auxiliary storage. Delta adds a new metadata action in the JSON commit without rewriting historical Parquet data files.
+
+#### Engineering Implications & Production Pitfalls
+- **Accidental Schema Explosion:** If upstream developers send typos (e.g., `cust_email` instead of `customer_email`), `autoMerge` will permanently add the typo column to the Delta table. In gold-layer marts, always disable `autoMerge` and enforce strict schema contracts.
+- **Nested Struct Evolution Limitations:** Pre-Delta 2.2 versions cannot automatically evolve deeply nested struct fields within arrays during a MERGE; top-level column evolution is standard.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [06. Databricks & Delta Lake: Schema Evolution (`mergeSchema` & `autoMerge`)](../06_databricks_and_delta_lake.md#86-schema-evolution-mergeschema--automerge)*
+
+---
+
+### Q37. [Medium] Databricks Disk Cache (Delta Cache) vs Spark Memory CACHE & PERSIST
+**Difficulty:** [Medium]  
+**Topic Covered:** Databricks Disk Cache (Delta Cache), Spark `cache()`, `persist()` StorageLevels, NVMe SSD Architecture  
+**Question:** *What is the difference between CACHE, PERSIST, and DELTA CACHE (Databricks Disk Cache) in Databricks, and when should you use each?*
+
+#### Definition & Core Concepts
+Modern Databricks execution distinguishes between standard Apache Spark in-memory caching and native Databricks local hardware caching:
+1. **Spark `cache()`:** A shortcut for `persist(StorageLevel.MEMORY_AND_DISK)`. It stores deserialized Java objects in the Spark JVM executor heap. If memory saturates, blocks spill to local disk in a serialized format.
+2. **Spark `persist(level)`:** Allows configurable storage levels (`MEMORY_ONLY`, `MEMORY_ONLY_SER`, `MEMORY_AND_DISK`, `OFF_HEAP`). JVM heap caching incurs severe Java Garbage Collection (GC) pressure when caching billions of rows.
+3. **Databricks Disk Cache (formerly Delta Cache):** Completely bypasses the JVM heap. It caches remote Parquet/Delta data blocks directly onto high-speed local NVMe SSDs in an uncompressed, decoded CPU-friendly format.
+   - Fully automatic and transparent: Queries hitting the same Delta files automatically read from local NVMe drives.
+   - Zero JVM GC overhead: Does not compete with Spark execution memory for joins and aggregations.
+   - Eviction: Managed by local LRU (Least Recently Used) cache algorithms.
+
+#### Visual Architectural Flow
+![Databricks Disk Cache vs Spark JVM Heap](assets/06_databricks_and_delta_lake_faq/19_databricks_disk_cache_vs_spark_jvm_heap.svg)
+
+*D2 Source: [`19_databricks_disk_cache_vs_spark_jvm_heap.d2`](assets/06_databricks_and_delta_lake_faq/19_databricks_disk_cache_vs_spark_jvm_heap.d2)*
+
+#### Production Implementation / Code Solution
+```python
+# 1. Checking and configuring Databricks Disk Cache
+# Disk cache is enabled by default on cache-accelerated worker types (e.g. Standard_L8s_v3 on Azure)
+spark.conf.set("spark.databricks.io.cache.enabled", "true")
+spark.conf.set("spark.databricks.io.cache.maxDiskUsage", "50g")
+
+# 2. Forcing Databricks Disk Cache Pre-warming for interactive BI/Dashboards
+# Bypasses JVM, pulls remote files to local NVMe SSD:
+spark.sql("CACHE SELECT * FROM gold.fact_financial_transactions WHERE transaction_date >= '2026-01-01'")
+
+# 3. Standard Spark DataFrame Cache (Use sparingly for iterative ML or complex computed DataFrames)
+df_transformed = spark.table("silver.events").filter("event_type = 'CHECKOUT'").groupBy("user_id").count()
+df_transformed.cache()  # Resides in JVM heap/storage
+df_transformed.count()  # Materialize cache
+
+# Always release JVM cache when finished!
+df_transformed.unpersist()
+```
+
+#### Complexity Analysis & Comparison Matrix
+| Dimension | Spark `cache()` | Spark `persist(SER)` | Databricks Disk Cache (Delta Cache) |
+| :--- | :--- | :--- | :--- |
+| **Location** | JVM Heap / Spill to Disk | JVM Heap (Serialized) | Local Worker NVMe SSDs |
+| **Garbage Collection** | Severe impact on GC pauses | Moderate GC impact | **Zero GC impact** |
+| **Data Scope** | In-memory computed DataFrames | In-memory computed DataFrames | Underlying Parquet/Delta table files |
+| **Performance Gain** | Instant for intermediate DAG nodes | High for small DAG stages | 3–10x faster scan & filter operations |
+| **Eviction** | LRU within JVM memory pool | LRU within JVM memory pool | Automatic LRU on local NVMe disk |
+
+#### Engineering Implications & Production Pitfalls
+- **The "Over-Caching" Anti-Pattern:** Developers calling `.cache()` on raw Delta tables waste valuable JVM heap memory needed for shuffle joins, triggering `OutOfMemoryError: Java heap space`. For Delta tables, **never call `.cache()`**; let the Databricks Disk Cache handle physical scans automatically.
+- **Node Eviction in Autoscaling Clusters:** When a worker is scaled down by autoscaling, its local NVMe Disk Cache is dropped. Place heavy analytical queries on fixed worker pools or ensure queries tolerate cache misses.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [06. Databricks & Delta Lake: Databricks Compute Architecture](../06_databricks_and_delta_lake.md#2-databricks-compute-architecture)*
+
+---
+
+### Q38. [Medium] Databricks Photon Acceleration: Workload Qualification & Execution Mechanics
+**Difficulty:** [Medium]  
+**Topic Covered:** Databricks Photon Native Vectorized C++ Engine vs Classic DBR JVM Execution  
+**Question:** *How do you determine whether a production workload will benefit from Photon acceleration, and what workloads see zero or negative gain?*
+
+#### Definition & Core Concepts
+**Photon** is Databricks' high-performance vectorized query engine written from the ground up in native C++ to execute Spark SQL queries directly on modern hardware architectures:
+1. **Vectorized Instruction Execution:** Processes data in batches of 1024 columnar tuples using SIMD (Single Instruction, Multiple Data) CPU registers rather than the classic JVM row-by-row Volcano iterator model.
+2. **Elimination of JVM Bottlenecks:** Bypasses Java bytecode compilation, JVM object boxing/unboxing overhead, and garbage collection stalls.
+3. **Photon Qualification Criteria (High Benefit):**
+   - Workloads dominated by **aggregations (`groupBy`), hash joins, filtering, and sorting** on large Delta/Parquet tables.
+   - High-throughput SQL queries in Databricks SQL Warehouses.
+   - Low data shuffle queries where CPU instruction cycles (not network I/O) are the bottleneck.
+4. **Zero or Negative Gain Workloads (Do Not Enable Photon):**
+   - **Python UDFs and Pandas UDFs:** Photon cannot vectorize custom Python code; execution falls back to JVM-to-Python IPC, incurring overhead.
+   - **RDD APIs:** Photon only operates on Spark SQL DataFrames and Datasets.
+   - **Network/I/O Bound Workloads:** Slower cloud object storage reads or single-threaded JDBC reads gain zero benefit from faster CPU vectorization.
+   - **Small Datasets (< 10 GB):** The startup overhead of Photon C++ runtime and higher DBU cost multiplier outweigh sub-second gains.
+
+#### Visual Architectural Flow
+![Photon SIMD Vectorized Engine Routing](assets/06_databricks_and_delta_lake_faq/20_photon_simd_vectorized_engine_routing.svg)
+
+*D2 Source: [`20_photon_simd_vectorized_engine_routing.d2`](assets/06_databricks_and_delta_lake_faq/20_photon_simd_vectorized_engine_routing.d2)*
+
+#### Production Implementation / Diagnostic Check
+```python
+# Checking if Photon is active in a SparkSession
+is_photon_enabled = spark.conf.get("spark.databricks.clusterUsageTags.sparkVersion", "").find("photon") != -1
+print(f"Photon Runtime Active: {is_photon_enabled}")
+
+# Inspecting Spark Explain Plan for Photon Operators:
+# In the explain output, Photon operators are prefixed with 'Photon':
+# e.g., PhotonScan, PhotonGroupingAgg, PhotonHashJoin
+df = spark.table("gold.fact_sales").groupBy("region").sum("revenue")
+df.explain()
+
+# If the physical plan shows:
+# PhotonGroupingAgg(keys=[region#10], functions=[sum(revenue#12)])
+# -> Workload is 100% running in hardware-vectorized C++
+```
+
+#### Complexity & FinOps Analysis
+- **Execution Speedup:** 2x to 5x faster CPU execution for supported SQL operations.
+- **Cost Trade-off:** Photon clusters consume a higher Databricks Unit (DBU) rate (typically $pprox 1.5	ext{x}$ to $2	ext{x}$ DBU multiplier). If a job runs $3	ext{x}$ faster with a $1.8	ext{x}$ DBU rate, the net cloud and Databricks spend decreases by $40\%$.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [06. Databricks & Delta Lake: Photon Vectorized Execution Engine](../06_databricks_and_delta_lake.md#210-photon-vectorized-execution-engine)*
+
+---
+
+### Q39. [Medium] Sizing Databricks Clusters & Autoscaling Bounds for Highly Variable Workloads
+**Difficulty:** [Medium]  
+**Topic Covered:** Cluster Sizing Heuristics, Executor Memory & Core Boundaries, Spot vs On-Demand Pools  
+**Question:** *How do you calculate optimal cluster sizing, driver/executor specs, and autoscaling boundaries for unpredictable, spiky data volumes?*
+
+#### Definition & Core Concepts
+Under-provisioned clusters fail with OOM errors; over-provisioned clusters waste millions in compute spend. Production cluster sizing follows strict mathematical boundaries:
+1. **The Core Allocation Rule:** Allocate **4 to 5 cores per executor JVM**. Fewer than 4 cores reduces multi-threading parallelism; more than 5 cores triggers severe JVM Garbage Collection pauses.
+2. **Executor RAM Rule:** Size executor memory between **28 GB and 32 GB**. Exceeding 32 GB requires JVM Compressed Ordinary Object Pointers (`CompressedOops`) to disable, increasing memory footprint by 20–30%.
+3. **Driver Sizing:** For standard pipelines, driver RAM should match single executor RAM. If performing heavy broadcast joins (`autoBroadcastJoinThreshold > 100MB`) or driver aggregations, scale the driver to $2	ext{x}$ to $4	ext{x}$ the worker size.
+4. **Optimized Autoscaling Bounds:**
+   - Set Minimum Workers based on baseline SLA requirements (e.g. 2 nodes).
+   - Set Maximum Workers based on maximum peak burst capacity (e.g. 16 nodes).
+   - Autoscaling decisions in Databricks evaluate Spark stage task queue depth every 30–60 seconds.
+
+#### Visual Architectural Sizing Matrix
+![Databricks Cluster Sizing Executor Allocation](assets/06_databricks_and_delta_lake_faq/21_databricks_cluster_sizing_executor_allocation.svg)
+
+*D2 Source: [`21_databricks_cluster_sizing_executor_allocation.d2`](assets/06_databricks_and_delta_lake_faq/21_databricks_cluster_sizing_executor_allocation.d2)*
+
+#### Production Cluster Configuration Recipe (JSON)
+```json
+{
+  "cluster_name": "prod-etl-autoscale-pool",
+  "spark_version": "14.3.x-scala2.12",
+  "node_type_id": "Standard_E16ds_v5",
+  "driver_node_type_id": "Standard_E16ds_v5",
+  "autoscale": {
+    "min_workers": 2,
+    "max_workers": 16
+  },
+  "azure_attributes": {
+    "first_on_demand": 1,
+    "availability": "SPOT_WITH_FALLBACK_AZURE",
+    "spot_bid_max_price": -1
+  },
+  "spark_conf": {
+    "spark.speculation": "true",
+    "spark.sql.adaptive.enabled": "true",
+    "spark.sql.adaptive.coalescePartitions.enabled": "true",
+    "spark.databricks.cluster.profile": "serverless"
+  },
+  "autotermination_minutes": 20
+}
+```
+
+#### Engineering Implications & Production Pitfalls
+- **Spot Instance Eviction Storms:** Never run drivers on spot instances. In production, driver loss aborts the entire job. Use `first_on_demand: 1` so the driver is guaranteed stable compute.
+- **Autoscaling Lag on Short Batches:** Autoscaling takes 2–4 minutes to spin up cloud VMs. If a batch job completes in 5 minutes, autoscaling adds zero performance value because workers arrive after the shuffle completes. Use Single-Node or fixed-size pools for micro-batch ETL.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [06. Databricks & Delta Lake: Driver and Worker Node Sizing](../06_databricks_and_delta_lake.md#27-driver-and-worker-node-sizing)*
+
+---
+
+### Q40. [Medium] Interactive Notebook Succeeds but Scheduled Job Fails: Root Cause Investigation
+**Difficulty:** [Medium]  
+**Topic Covered:** Interactive vs Job Compute, Service Principal IAM, Ephemeral Cluster Libraries & Scopes  
+**Question:** *A Databricks notebook runs flawlessly when tested interactively by an engineer, but immediately fails when triggered as a scheduled Databricks Workflow job. How do you triage dependencies, identity, and environment configurations?*
+
+#### Definition & Core Concepts
+This ubiquitous failure stems from runtime environment isolation between **Interactive All-Purpose Clusters** and **Ephemeral Job Clusters**:
+1. **Identity & Security Principal Divergence:**
+   - Interactive execution runs under the developer's personal user identity (`user@company.com`) leveraging their personal OAuth token and Unity Catalog workspace permissions.
+   - Scheduled Databricks Workflow jobs run under a **Service Principal (SPN)** or system automation identity. If the Service Principal lacks `USAGE` or `SELECT` on the catalog/schema, or lacks cloud storage `Storage Blob Data Contributor` IAM roles, the job fails immediately with `AccessDeniedException` or `TABLE_OR_VIEW_NOT_FOUND`.
+2. **Library & Dependency Scoping:**
+   - In interactive notebooks, developers frequently run `%pip install` in a transient cell, or rely on libraries pre-installed on the shared all-purpose cluster.
+   - An ephemeral job cluster launches with a vanilla Databricks Runtime image. If dependencies are not formally registered in the job task spec, the job fails with `ModuleNotFoundError`.
+3. **Environment Variable & Secret Scope Isolation:**
+   - Secrets mapped to personal tokens or local notebook widgets (`dbutils.widgets.get()`) fail if default parameter values are omitted in the job task parameters.
+
+#### Visual Troubleshooting Runbook
+![Scheduled Job SPN Isolation Triage](assets/06_databricks_and_delta_lake_faq/22_scheduled_job_spn_isolation_triage.svg)
+
+*D2 Source: [`22_scheduled_job_spn_isolation_triage.d2`](assets/06_databricks_and_delta_lake_faq/22_scheduled_job_spn_isolation_triage.d2)*
+
+#### Production Resolution Runbook
+```bash
+# Step 1: Verify and assign permissions to the Service Principal in Unity Catalog
+databricks grants update catalog gold_catalog   --json '{"changes": [{"principal": "spn-data-engineering-prod", "add": ["USE_CATALOG", "USE_SCHEMA", "SELECT"]}]}'
+
+# Step 2: Ensure task defines explicit library dependencies in workflow yaml:
+# (Databricks Asset Bundle task snippet)
+new_cluster:
+  spark_version: "14.3.x-scala2.12"
+  node_type_id: "Standard_D8s_v5"
+libraries:
+  - pypi:
+      package: "pydantic>=2.0.0"
+  - whl: "/Volumes/dev_catalog/staging_volume/libraries/corp_transforms-1.2.0-py3-none-any.whl"
+```
+
+#### Engineering Implications & Production Pitfalls
+- **Hardcoded Personal User Folders:** Interactive developers often reference code or configurations stored in `/Workspace/Users/developer@company.com/`. When run as an SPN, that workspace folder is inaccessible. Always store production artifacts in `/Workspace/Shared/` or root Git Repos.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [06. Databricks & Delta Lake: Databricks Workflows & Multi-Task Jobs](../06_databricks_and_delta_lake.md#31-databricks-workflows--multi-task-jobs)*
+
+---
+
+### Q41. [Medium] Packaging & Versioning PySpark Transformations into Reusable Enterprise Libraries
+**Difficulty:** [Medium]  
+**Topic Covered:** Python Wheels (`.whl`), Databricks Asset Bundles (DABs), CI/CD Artifact Management, Cluster Libraries  
+**Question:** *How do you package shared enterprise PySpark transformations into a versioned, testable library and distribute it across production clusters and workflows?*
+
+#### Definition & Core Concepts
+Copy-pasting functions across Databricks notebooks creates technical debt, breaking changes, and untracked logic drift. Enterprise data engineering structures common transformations as standard Python packages:
+1. **Packaging Standard:** Package transformations as a standard **Python Wheel (`.whl`)** with typed interfaces, unit tests using `chispa` or `pytest-spark`, and semantic versioning (`MAJOR.MINOR.PATCH`).
+2. **Storage in Unity Catalog Volumes:** Upload versioned wheel files to an immutable, governed Unity Catalog Volume (e.g. `/Volumes/prod_catalog/shared_tools/wheels/`).
+3. **Distribution via Databricks Asset Bundles (DABs):** Pin the exact library version in the task specification of Databricks Workflows, guaranteeing idempotent reproduction across dev, staging, and production environments.
+
+#### Visual CI/CD Release Flow
+![PySpark Wheel Packaging CI CD Deployment](assets/06_databricks_and_delta_lake_faq/23_pyspark_wheel_packaging_ci_cd_deployment.svg)
+
+*D2 Source: [`23_pyspark_wheel_packaging_ci_cd_deployment.d2`](assets/06_databricks_and_delta_lake_faq/23_pyspark_wheel_packaging_ci_cd_deployment.d2)*
+
+#### Production Implementation / Package Structure
+```python
+# Directory layout:
+# corp_transforms/
+# ├── pyproject.toml
+# ├── src/
+# │   └── corp_transforms/
+# │       ├── __init__.py
+# │       └── cleansing.py
+# └── tests/
+#     └── test_cleansing.py
+
+# src/corp_transforms/cleansing.py
+from pyspark.sql import DataFrame
+from pyspark.sql.functions import col, trim, lower, regexp_replace
+
+def sanitize_customer_identifiers(df: DataFrame, email_col: str, phone_col: str) -> DataFrame:
+    """Standardizes email and phone format across enterprise datasets."""
+    return df.withColumn(
+        email_col, lower(trim(col(email_col)))
+    ).withColumn(
+        phone_col, regexp_replace(col(phone_col), r"[^0-9]", "")
+    )
+```
+
+```yaml
+# databricks.yml (Databricks Asset Bundle Configuration)
+bundle:
+  name: corporate_pipeline_bundle
+
+targets:
+  prod:
+    workspace:
+      host: https://adb-123456789.azuredatabricks.net
+    resources:
+      jobs:
+        customer_ingest_job:
+          name: "[PROD] Customer Ingestion Pipeline"
+          tasks:
+            - task_key: clean_and_load
+              spark_python_task:
+                python_file: "src/entrypoint.py"
+              libraries:
+                - whl: "/Volumes/corp_catalog/tools/wheels/corp_transforms-1.4.2-py3-none-any.whl"
+```
+
+#### Complexity Analysis
+- **Installation Overhead:** $< 2	ext{ seconds}$ per executor at cluster launch via pip cache.
+- **Dependency Drift:** Pinning wheels eliminates non-deterministic library resolution failures (`pip resolution-impossible`).
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [06. Databricks & Delta Lake: Databricks Asset Bundles (DABs)](../06_databricks_and_delta_lake.md#43-databricks-asset-bundles-dabs)*
+
+---
+
+### Q42. [Hard] Detecting & Diagnosing Performance Regressions After Databricks Runtime (DBR) Upgrades
+**Difficulty:** [Hard]  
+**Topic Covered:** DBR Version Upgrades, Catalyst Plan Regressions, Canary Validation & Spark Metric Diffs  
+**Question:** *How do you systematically detect and diagnose subtle performance or cost regressions after upgrading a production Databricks cluster to a newer Databricks Runtime (DBR) version?*
+
+#### Definition & Core Concepts
+Upgrading major Databricks Runtime versions (e.g. DBR 13.3 LTS to DBR 14.3 LTS / Spark 3.4 to 3.5) delivers security patches and optimizations, but can occasionally trigger performance regressions due to:
+1. **Catalyst Rule Changes:** Adaptive Query Execution (AQE) heuristics or cost-based optimizer estimates may flip a join from Broadcast Hash Join back to Sort-Merge Join.
+2. **Shuffle Partition Auto-Coalescing Drift:** Target shuffle partition size heuristics (`spark.sql.adaptive.advisoryPartitionSizeInBytes`) may calculate suboptimal partition numbers for skewed keys.
+3. **Photon Operator Fallbacks:** New Spark SQL expressions or modified null-handling logic may temporarily fall back from native Photon C++ to classic JVM execution.
+4. **Cloud Object Store Protocol Changes:** Changes in Azure Blob File System (ABFS) driver or AWS S3 SDK drivers can impact parallel directory listing latency.
+
+#### Visual Canary Regression Testing Architecture
+![DBR Upgrade Canary Regression Testing](assets/06_databricks_and_delta_lake_faq/24_dbr_upgrade_canary_regression_testing.svg)
+
+*D2 Source: [`24_dbr_upgrade_canary_regression_testing.d2`](assets/06_databricks_and_delta_lake_faq/24_dbr_upgrade_canary_regression_testing.d2)*
+
+#### Production Diagnostic Runbook
+```python
+def extract_spark_run_metrics(spark_session, run_id: str) -> dict:
+    """
+    Extracts system-level diagnostic metrics from the Databricks System Tables
+    (system.lakeflow.jobs or system.compute.clusters) to isolate regressions.
+    """
+    metrics_query = f"""
+    SELECT 
+        job_id,
+        run_id,
+        spark_version,
+        execution_duration_seconds,
+        read_bytes,
+        written_bytes,
+        spilled_bytes,
+        total_dbus_consumed
+    FROM system.lakeflow.job_run_timeline
+    WHERE run_id = '{run_id}'
+    """
+    return spark_session.sql(metrics_query).toPandas().to_dict(orient="records")[0]
+
+def compare_canary_runs(baseline_metrics: dict, canary_metrics: dict):
+    duration_delta = (canary_metrics['execution_duration_seconds'] - baseline_metrics['execution_duration_seconds']) / baseline_metrics['execution_duration_seconds']
+    spill_delta = canary_metrics['spilled_bytes'] - baseline_metrics['spilled_bytes']
+    
+    print(f"--- DBR Upgrade Triage Report ---")
+    print(f"Runtime Delta: {duration_delta * 100:.2f}%")
+    print(f"Disk Spill Delta: {spill_delta / (1024**3):.2f} GB")
+    
+    if duration_delta > 0.15 or spill_delta > 0:
+        raise ValueError("CRITICAL REGRESSION: Canary failed performance SLA threshold! Halt DBR promotion.")
+```
+
+#### Engineering Implications & Production Pitfalls
+- **System Table Observability:** Never rely on manual clock watching. Leverage Databricks `system.lakeflow` and `system.billing` tables to capture automated p95 execution time trends before upgrading production cluster policies.
+- **Canary Partition Isolation:** Always run DBR canaries against time-travel snapshots (`VERSION AS OF`) of historical datasets to ensure identical input row cardinality and eliminate data volume skew as a confounding variable.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [06. Databricks & Delta Lake: Databricks Compute Architecture](../06_databricks_and_delta_lake.md#2-databricks-compute-architecture)*
+
+---
+
+### Q43. [Medium] Resolving Databricks Git Merge Conflicts & Enterprise Promotion Pipeline (Dev → UAT → Production)
+**Difficulty:** [Medium]  
+**Topic Covered:** Git Folders (Repos), Merge Conflict Resolution, Databricks Asset Bundles (DABs), Multi-Environment CI/CD & Service Principals  
+**Question:** *Two developers modify the same Databricks notebook or deployment configuration simultaneously. How do you resolve the Git merge conflict, prevent notebook JSON corruption, and safely promote the validated changes through Dev → UAT → Production environments?*
+
+#### Definition & Core Concepts
+Collaborative development in Databricks presents unique version control challenges because interactive notebooks historically stored cell outputs and execution metadata in complex JSON structures:
+1. **The Notebook Merge Conflict Dilemma:**
+   - Standard Jupyter notebooks (`.ipynb`) store execution counts, timestamps, and rich MIME outputs alongside source code. When two developers edit an `.ipynb`, Git flags hundreds of non-code JSON conflicts that cannot be cleanly resolved via standard 3-way merge tools.
+   - **Modern Resolution:** Store notebooks as **Python source files (`.py`)** with `# COMMAND ----------` cell delimiters (Databricks native format). This transforms notebook files into standard text source files, enabling clean, line-by-line Git diffing and standard conflict resolution.
+2. **Conflict Resolution Runbook:**
+   - When a conflict occurs in Databricks Git Folders (Repos), pull changes using Git CLI rebase (`git pull --rebase origin main`), resolve code conflicts in an external IDE (VS Code) or the Databricks Git UI conflict editor, run unit tests locally, and push the cleanly rebased feature branch.
+3. **Multi-Environment Promotion (Dev $\to$ UAT $\to$ Production):**
+   - **Infrastructure as Code (IaC):** Workflows, Delta Live Tables (DLT) pipelines, clusters, and schemas are defined declaratively in `databricks.yml` via **Databricks Asset Bundles (DABs)**.
+   - **Environment Isolation:** Dev, UAT, and Production reside in isolated cloud workspaces or isolated Unity Catalog catalogs (`dev_*`, `uat_*`, `prod_*`).
+   - **Service Principal Identity:** Production deployments are strictly executed by an automated CI/CD pipeline authenticated via an **Azure Service Principal / AWS IAM Role**, eliminating developer personal access tokens (PATs).
+
+#### Visual Architectural Flow
+![Databricks Git Merge Conflict Resolution & Dev $\to$ UAT $\to$ Prod Promotion](assets/06_databricks_and_delta_lake_faq/25_databricks_git_merge_conflict_promotion_pipeline.svg)
+
+*D2 Source: [`25_databricks_git_merge_conflict_promotion_pipeline.d2`](assets/06_databricks_and_delta_lake_faq/25_databricks_git_merge_conflict_promotion_pipeline.d2)*
+
+#### Production Configuration: Multi-Target `databricks.yml` (DABs)
+
+```yaml
+bundle:
+  name: revenue_analytics_platform
+
+targets:
+  dev:
+    default: true
+    workspace:
+      host: https://adb-dev.azuredatabricks.net
+    mode: development
+
+  uat:
+    workspace:
+      host: https://adb-uat.azuredatabricks.net
+    mode: staging
+    variables:
+      catalog_name: uat_catalog
+      cluster_node_type: Standard_D4ds_v5
+      min_workers: 1
+      max_workers: 4
+
+  prod:
+    workspace:
+      host: https://adb-prod.azuredatabricks.net
+    mode: production
+    run_as:
+      service_principal_name: 00000000-0000-0000-0000-000000000000
+    variables:
+      catalog_name: prod_catalog
+      cluster_node_type: Standard_D8ds_v5
+      min_workers: 2
+      max_workers: 16
+
+resources:
+  jobs:
+    daily_revenue_aggregation:
+      name: "[${bundle.target}] Daily Revenue ETL"
+      tasks:
+        - task_key: run_etl_pipeline
+          notebook_task:
+            notebook_path: ../src/notebooks/daily_revenue_etl.py
+            base_parameters:
+              catalog: ${var.catalog_name}
+```
+
+#### Production GitHub Actions Promotion Workflow (`.github/workflows/deploy.yml`)
+
+```yaml
+name: Databricks CI/CD Promotion Pipeline
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Step 1: CI Linting, Testing & DAB Validation (Runs on every PR)
+  # ---------------------------------------------------------------------------
+  validate-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies
+        run: |
+          pip install ruff pytest databricks-cli
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Lint Source Code & Validate Unit Tests
+        run: |
+          ruff check src/
+          pytest tests/unit/
+
+      - name: Validate Databricks Asset Bundle Syntax
+        env:
+          DATABRICKS_HOST: ${{ secrets.DEV_DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DEV_DATABRICKS_TOKEN }}
+        run: |
+          databricks bundle validate -t dev
+
+  # ---------------------------------------------------------------------------
+  # Step 2: Automated Deployment to UAT (Triggers on Merge to Main)
+  # ---------------------------------------------------------------------------
+  deploy-uat:
+    needs: validate-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Databricks CLI
+        run: curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Deploy to UAT Workspace
+        env:
+          DATABRICKS_HOST: ${{ secrets.UAT_DATABRICKS_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ secrets.UAT_SPN_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.UAT_SPN_CLIENT_SECRET }}
+        run: |
+          databricks bundle deploy -t uat
+          # Execute automated smoke test suite on UAT environment
+          databricks bundle run -t uat daily_revenue_aggregation
+
+  # ---------------------------------------------------------------------------
+  # Step 3: Production Release (Triggered on Published Release with Approval Gate)
+  # ---------------------------------------------------------------------------
+  deploy-prod:
+    needs: validate-and-test
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    environment: production  # Requires manual reviewer approval in GitHub Settings
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Databricks CLI
+        run: curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Deploy to Production Workspace via Enterprise Service Principal
+        env:
+          DATABRICKS_HOST: ${{ secrets.PROD_DATABRICKS_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ secrets.PROD_SPN_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.PROD_SPN_CLIENT_SECRET }}
+        run: |
+          databricks bundle deploy -t prod
+```
+
+#### Engineering Implications & Production Pitfalls
+- **The Personal Access Token (PAT) Security Risk:** Never use individual engineer PATs in CI/CD pipelines. When an employee departs, their PAT is revoked, instantly crippling production scheduled workflows. Modern enterprise Databricks requires OAuth M2M (Machine-to-Machine) authentication backed by an enterprise Service Principal (`run_as.service_principal_name`).
+- **Cluster Sizing Divergence Across Environments:** Avoid running development jobs on multi-node multi-GPU production clusters. Databricks Asset Bundles support variable interpolation (`${var.cluster_node_type}`), allowing single-node small VMs for `dev` and autoscaling multi-worker clusters for `prod`.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [06. Databricks & Delta Lake: Databricks Asset Bundles & CI/CD](../06_databricks_and_delta_lake.md#43-databricks-asset-bundles-dabs)*
+
 
 ---
 

@@ -26,14 +26,14 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="380" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="380" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Distributed Consistency Spectrum Hierarchy</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">From Real-Time Global Linearizability to High-Availability Eventual Convergence</text>
   
   
     <rect x="30" y="110" width="175" height="210" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
-    <text x="117.5" y="136" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. Strict Linearizability</text>
-    <text x="117.5" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Global Real-Time Order</text>
+    <text x="42" y="133" fill="#fca5a5" font-size="10.5" font-family="system-ui, sans-serif" font-weight="bold">1. Linearizability</text>
+    <text x="42" y="149" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Real-Time Order</text>
     <rect x="126" y="120" width="73" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
     <text x="162.5" y="132" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">STRONGEST</text>
     <circle cx="46" cy="165" r="2" fill="#ef4444"/>
@@ -84,8 +84,8 @@
 
   
     <rect x="785" y="110" width="165" height="210" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="867.5" y="136" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">5. Eventual Consistency</text>
-    <text x="867.5" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">High-Availability Converge</text>
+    <text x="797" y="133" fill="#6ee7b7" font-size="10.5" font-family="system-ui, sans-serif" font-weight="bold">5. Eventual</text>
+    <text x="797" y="149" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Convergent Sync</text>
     <rect x="885" y="120" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="914.5" y="132" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">FASTEST</text>
     <circle cx="801" cy="165" r="2" fill="#10b981"/>

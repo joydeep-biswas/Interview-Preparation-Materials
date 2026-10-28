@@ -1,13 +1,25 @@
 direction: down
-title: Java Polymorphism: Compile-Time vs Runtime Dynamic Binding
+title: "Java Polymorphism: Compile-Time vs Runtime Dynamic Binding"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Root: Polymorphism in Java {
+Root: "Polymorphism in Java" {
+  class: container
   style.fill: "#1E293B"
   style.stroke: "#3B82F6"
   desc: "Uniform call abstraction masking distinct implementations"
 }
 
-StaticP: Compile-Time / Static Polymorphism (Overloading) {
+StaticP: "Compile-Time / Static Polymorphism (Overloading)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   resolution: "Evaluated at compile-time by javac"
@@ -15,7 +27,8 @@ StaticP: Compile-Time / Static Polymorphism (Overloading) {
   example: "calc.add(int, int) vs calc.add(double, double)"
 }
 
-DynamicP: Runtime / Dynamic Polymorphism (Overriding) {
+DynamicP: "Runtime / Dynamic Polymorphism (Overriding)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   resolution: "Evaluated at runtime by JVM via vtable"
@@ -23,10 +36,10 @@ DynamicP: Runtime / Dynamic Polymorphism (Overriding) {
   example: "Payment p = new CryptoPayment(); p.process()"
 }
 
-Root -> StaticP: Compiler Static Resolution {
+Root -> StaticP: "Compiler Static Resolution" {
   style.stroke: "#0284C7"
 }
 
-Root -> DynamicP: JVM Dynamic Dispatch {
+Root -> DynamicP: "JVM Dynamic Dispatch" {
   style.stroke: "#10B981"
 }

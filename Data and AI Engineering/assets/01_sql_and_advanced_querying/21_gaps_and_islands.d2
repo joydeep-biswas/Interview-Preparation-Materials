@@ -1,20 +1,30 @@
-# The Gaps & Islands Problem: Difference-of-Ranks
+# The Gaps & Islands Problem: Difference-of-Ranks Method
 direction: down
+classes: {
+  concept_box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  island_box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+}
 
-concept: "Mathematical Difference-of-Ranks\n• date_val increments by 1\n• row_number() increments by 1\n• (date_val - rn) remains CONSTANT across streak!" {
+concept: "Mathematical Foundation: Difference-of-Ranks\n• date_val increments monotonically by +1 day\n• ROW_NUMBER() increments monotonically by +1\n• (date_val - ROW_NUMBER()) remains CONSTANT across an unbroken streak!" {
+  class: concept_box
   style.stroke: "#3B82F6"
 }
 
-islandA: "Island A (Contiguous)\n• 2026-03-01 - 1 = 2026-02-28\n• 2026-03-02 - 2 = 2026-02-28\n• 2026-03-03 - 3 = 2026-02-28" {
+islandA: "Island A (Contiguous Streak)\n• 2026-03-01 - rn(1) = 2026-02-28 (Group Key)\n• 2026-03-02 - rn(2) = 2026-02-28 (Group Key)\n• 2026-03-03 - rn(3) = 2026-02-28 (Group Key)" {
+  class: island_box
   style.stroke: "#10B981"
 }
 
-gap: "--- 2-Day Gap Occurs ---" {
+gap: "⛔ 2-Day Activity Gap Occurs (Streak Broken)" {
+  class: island_box
   style.stroke: "#EF4444"
 }
 
-islandB: "Island B (New Streak)\n• 2026-03-06 - 4 = 2026-03-02 (Difference changes!)" {
+islandB: "Island B (New Contiguous Streak)\n• 2026-03-06 - rn(4) = 2026-03-02 (NEW Group Key!)\n• 2026-03-07 - rn(5) = 2026-03-02 (NEW Group Key!)" {
+  class: island_box
   style.stroke: "#F59E0B"
 }
 
-concept -> islandA -> gap -> islandB
+concept -> islandA: "Evaluates Streak 1"
+islandA -> gap: "Inactivity boundary"
+gap -> islandB: "Evaluates Streak 2"

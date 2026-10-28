@@ -1,0 +1,17 @@
+direction: right
+classes: {
+  storage: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  nvme: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  jvm: { style: { fill: "#1F2937"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  engine: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+CloudStorage: "Remote Object Storage (ADLS Gen2 / S3)\nParquet columnar files\nRemote latency: 15–50ms" { class: storage }
+DiskCache: "Databricks Disk Cache (NVMe SSD)\nDecoded CPU-friendly binary format\nZero JVM GC competition\nAutomatic LRU eviction" { class: nvme }
+SparkHeap: "Spark Executor JVM Heap\nDeserialized Java Objects\nCompetes with shuffle/join memory\nGC pause hazard on large datasets" { class: jvm }
+ExecutionEngine: "CPU / Photon Query Engine\nSub-millisecond local reads\n3x–10x scan acceleration" { class: engine }
+
+CloudStorage -> DiskCache: "First Read: Caches to Local SSD"
+CloudStorage -> SparkHeap: "df.cache() / persist()"
+DiskCache -> ExecutionEngine: "Subsequent Scans (Zero GC)"
+SparkHeap -> ExecutionEngine: "Subsequent DAG Actions"

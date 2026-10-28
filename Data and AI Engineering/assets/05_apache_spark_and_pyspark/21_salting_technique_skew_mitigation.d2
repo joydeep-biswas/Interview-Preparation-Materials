@@ -1,25 +1,38 @@
 direction: right
-title: Key Salting Technique for Skew Mitigation
+title: "Key Salting Technique for Skew Mitigation"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-FactSide: Skewed Fact Table (Random Salting K=4) {
+FactSide: "Skewed Fact Table (Random Salting K=4)" {
+  class: container
   style.stroke: "#EF4444"
-  SkewRow: Skewed Row: Key = 'NULL' (50M rows)
-  SaltGen: concat(key, '_', floor(rand() * 4))
-  Buckets: Produces 4 Even Buckets ('NULL_0' .. 'NULL_3')
+  SkewRow: "Skewed Row: Key = 'NULL' (50M rows)"
+  SaltGen: "concat(key, '_', floor(rand() * 4))"
+  Buckets: "Produces 4 Even Buckets ('NULL_0' .. 'NULL_3')"
   SkewRow -> SaltGen -> Buckets
 }
 
-DimSide: Small Dimension Table (Explode K=4) {
+DimSide: "Small Dimension Table (Explode K=4)" {
+  class: container
   style.stroke: "#34D399"
-  DimRow: Dimension Row: Key = 'NULL'
-  Explode: explode(array(0, 1, 2, 3))
-  RepRows: 4 Replicated Rows ('NULL_0' .. 'NULL_3')
+  DimRow: "Dimension Row: Key = 'NULL'"
+  Explode: "explode(array(0, 1, 2, 3))"
+  RepRows: "4 Replicated Rows ('NULL_0' .. 'NULL_3')"
   DimRow -> Explode -> RepRows
 }
 
-BalancedJoin: Balanced Join Across 4 Workers {
+BalancedJoin: "Balanced Join Across 4 Workers" {
+  class: container
   style.stroke: "#34D399"
 }
 
-FactSide.Buckets -> BalancedJoin: Even 12.5M partitions { style.stroke: "#34D399" }
-DimSide.RepRows -> BalancedJoin: Matched replicated keys { style.stroke: "#34D399" }
+FactSide.Buckets -> BalancedJoin: "Even 12.5M partitions" { style.stroke: "#34D399" }
+DimSide.RepRows -> BalancedJoin: "Matched replicated keys" { style.stroke: "#34D399" }

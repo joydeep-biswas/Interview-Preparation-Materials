@@ -19,7 +19,7 @@
     </marker>
   </defs>
 
-  <rect width="960" height="420" fill="#0B0F19"/>
+  <rect width="960" height="420" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Lifeline Columns -->
   <!-- 1. Upstream ETL -->
@@ -66,7 +66,7 @@
   <text x="645" y="223" class="seq-msg">3. Expose 'v2_orders' view mapping to v2 column</text>
 
   <path fill="none" d="M 855 250 C 900 250, 900 275, 858 275" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
-  <text x="730" y="295" class="seq-msg">4. Dashboards migrate from v1 to v2 (60-day grace period)</text>
+  <text x="850" y="295" class="seq-msg" text-anchor="end">4. Dashboards migrate to v2 (60-day grace period)</text>
 
   <!-- Phase 3: Contract Phase -->
   <rect x="250" y="315" width="650" height="26" rx="5" ry="5" fill="#1E293B" stroke="#10B981" stroke-width="1"/>

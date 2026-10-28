@@ -1,22 +1,36 @@
 direction: down
-title: Forensic EXPLAIN & EXPLAIN ANALYZE Execution Plan Tree
+title: "Forensic EXPLAIN & EXPLAIN ANALYZE Execution Plan Tree"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-hj: Hash Join {
+hj: "Hash Join" {
+  class: container
   cost: "Cost: 1250.00..54200.00 | Actual Time: 185.32 ms"
   condition: "f.customer_id = c.customer_id"
 }
 
-seq_scan: Seq Scan on fact_orders (f) {
+seq_scan: "Seq Scan on fact_orders (f)" {
+  class: container
   cost: "Cost: 0.00..48500.00 | 500,000 rows"
   filter: "order_date >= '2026-01-01' (Bottleneck: missing index)"
   style.stroke: "#ef4444"
 }
 
-hash_op: Hash Operator {
+hash_op: "Hash Operator" {
+  class: container
   memory: "Batches: 1 | Memory: 720 kB"
 }
 
-idx_scan: Index Scan on dim_customer (c) {
+idx_scan: "Index Scan on dim_customer (c)" {
+  class: container
   cost: "Using: idx_customer_tier | 8,000 rows"
   filter: "tier = 'PLATINUM'"
   style.stroke: "#10b981"

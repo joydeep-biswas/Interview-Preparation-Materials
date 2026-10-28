@@ -1,30 +1,43 @@
 direction: right
-title: Sort-Merge Join (SMJ) Architecture
+title: "Sort-Merge Join (SMJ) Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Shuffle: 1. Hash Shuffle Phase {
+Shuffle: "1. Hash Shuffle Phase" {
+  class: container
   style.stroke: "#FBBF24"
-  T1: Table 1 (Orders - 2TB)
-  T2: Table 2 (Customers - 500GB)
-  Net: Cluster Network Hash Shuffle
+  T1: "Table 1 (Orders - 2TB)"
+  T2: "Table 2 (Customers - 500GB)"
+  Net: "Cluster Network Hash Shuffle"
 
-  T1 -> Net: Hash(key) % 200
-  T2 -> Net: Hash(key) % 200
+  T1 -> Net: "Hash(key) % 200"
+  T2 -> Net: "Hash(key) % 200"
 }
 
-Sort: 2. Local Sort Phase {
+Sort: "2. Local Sort Phase" {
+  class: container
   style.stroke: "#38BDF8"
-  Sort1: Sort Table 1 Keys on Worker
-  Sort2: Sort Table 2 Keys on Worker
+  Sort1: "Sort Table 1 Keys on Worker"
+  Sort2: "Sort Table 2 Keys on Worker"
 }
 
-Merge: 3. Sequential Merge Phase {
+Merge: "3. Sequential Merge Phase" {
+  class: container
   style.stroke: "#34D399"
-  TwoPointer: Linear Pointer Merge: O(N + M)
-  Out: Joined Stream Output
+  TwoPointer: "Linear Pointer Merge: O(N + M)"
+  Out: "Joined Stream Output"
   TwoPointer -> Out
 }
 
-Shuffle.Net -> Sort.Sort1: Delivers key partitions { style.stroke: "#38BDF8" }
-Shuffle.Net -> Sort.Sort2: Delivers key partitions { style.stroke: "#38BDF8" }
-Sort.Sort1 -> Merge.TwoPointer: Sorted stream 1 { style.stroke: "#34D399" }
-Sort.Sort2 -> Merge.TwoPointer: Sorted stream 2 { style.stroke: "#34D399" }
+Shuffle.Net -> Sort.Sort1: "Delivers key partitions" { style.stroke: "#38BDF8" }
+Shuffle.Net -> Sort.Sort2: "Delivers key partitions" { style.stroke: "#38BDF8" }
+Sort.Sort1 -> Merge.TwoPointer: "Sorted stream 1" { style.stroke: "#34D399" }
+Sort.Sort2 -> Merge.TwoPointer: "Sorted stream 2" { style.stroke: "#34D399" }

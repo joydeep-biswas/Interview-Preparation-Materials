@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to Apache Spark distributed computing ar
 
 ![Spark Distributed Cluster Architecture](assets/05_apache_spark_and_pyspark/01_spark_cluster_architecture_driver_executors.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/01_spark_cluster_architecture_driver_executors.d2](assets/05_apache_spark_and_pyspark/01_spark_cluster_architecture_driver_executors.d2)
+*D2 Source: [`01_spark_cluster_architecture_driver_executors.d2`](assets/05_apache_spark_and_pyspark/01_spark_cluster_architecture_driver_executors.d2)*
 
 ---
 
@@ -52,7 +52,7 @@ A comprehensive, production-grade guide to Apache Spark distributed computing ar
 5. [Spark Performance Optimization](#5-spark-performance-optimization)
    - [5.1 Key Salting for Extreme Data Skew](#51-key-salting-for-extreme-data-skew)
    - [5.2 Broadcast Threshold Tuning](#52-broadcast-threshold-tuning)
-   - [5.3 Caching & Persistence Strategies](#53-caching--persistence-strategies)
+   - [5.3 Caching, Persistence & Checkpointing Strategies](#53-caching-persistence--checkpointing-strategies)
    - [5.4 Spark Storage Levels](#54-spark-storage-levels)
    - [5.5 Memory Architecture & Spill to Disk](#55-memory-architecture--spill-to-disk)
    - [5.6 Java Garbage Collection (G1GC) Tuning](#56-java-garbage-collection-g1gc-tuning)
@@ -100,7 +100,7 @@ Apache Spark operates on a **Master-Worker architecture** coordinated by a centr
 
 ![Driver to Executor Task Scheduling Flow](assets/05_apache_spark_and_pyspark/02_driver_to_executor_task_scheduling_flow.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/02_driver_to_executor_task_scheduling_flow.d2](assets/05_apache_spark_and_pyspark/02_driver_to_executor_task_scheduling_flow.d2)
+*D2 Source: [`02_driver_to_executor_task_scheduling_flow.d2`](assets/05_apache_spark_and_pyspark/02_driver_to_executor_task_scheduling_flow.d2)*
 
 #### Key Architectural Components
 1. **Driver Program:** The process running the `main()` method of the application. It creates the `SparkSession`, translates code into a DAG, splits stages, and assigns tasks to executor worker slots.
@@ -125,7 +125,7 @@ Spark provides three core data abstractions:
 
 ![Spark Data Abstractions Evolution](assets/05_apache_spark_and_pyspark/03_rdd_dataframe_dataset_evolution.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/03_rdd_dataframe_dataset_evolution.d2](assets/05_apache_spark_and_pyspark/03_rdd_dataframe_dataset_evolution.d2)
+*D2 Source: [`03_rdd_dataframe_dataset_evolution.d2`](assets/05_apache_spark_and_pyspark/03_rdd_dataframe_dataset_evolution.d2)*
 
 #### Detailed Mechanical Breakdown
 1. **Resilient Distributed Datasets (RDDs):**
@@ -164,7 +164,7 @@ Spark operations are strictly divided into **Transformations** and **Actions**. 
 
 ![Spark Lazy Evaluation Pipeline](assets/05_apache_spark_and_pyspark/04_lazy_evaluation_transformation_vs_action.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/04_lazy_evaluation_transformation_vs_action.d2](assets/05_apache_spark_and_pyspark/04_lazy_evaluation_transformation_vs_action.d2)
+*D2 Source: [`04_lazy_evaluation_transformation_vs_action.d2`](assets/05_apache_spark_and_pyspark/04_lazy_evaluation_transformation_vs_action.d2)*
 
 #### Why Lazy Evaluation Matters
 - Enables **Whole-Stage Optimization**: Spark views the entire pipeline before executing, allowing Catalyst to push filters directly into storage readers and combine multiple map operations into a single CPU loop.
@@ -185,7 +185,7 @@ A Directed Acyclic Graph (DAG) is the internal mathematical representation of a 
 
 ![Spark DAG Stage Boundary and Shuffle Exchange](assets/05_apache_spark_and_pyspark/05_dag_stage_boundary_shuffle_split.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/05_dag_stage_boundary_shuffle_split.d2](assets/05_apache_spark_and_pyspark/05_dag_stage_boundary_shuffle_split.d2)
+*D2 Source: [`05_dag_stage_boundary_shuffle_split.d2`](assets/05_apache_spark_and_pyspark/05_dag_stage_boundary_shuffle_split.d2)*
 
 #### Fault Tolerance via Lineage
 If an executor crashes and loses a data partition mid-job, Spark does not restart the entire job. It consults the DAG lineage graph to recompute **only the missing partition** from the original source files.
@@ -194,7 +194,7 @@ If an executor crashes and loses a data partition mid-job, Spark does not restar
 
 ![PySpark Runtime Architecture and Py4J Interop](assets/05_apache_spark_and_pyspark/06_pyspark_py4j_driver_worker_interop.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/06_pyspark_py4j_driver_worker_interop.d2](assets/05_apache_spark_and_pyspark/06_pyspark_py4j_driver_worker_interop.d2)
+*D2 Source: [`06_pyspark_py4j_driver_worker_interop.d2`](assets/05_apache_spark_and_pyspark/06_pyspark_py4j_driver_worker_interop.d2)*
 
 #### References
 - [GeeksforGeeks: DAG in Apache Spark](https://www.geeksforgeeks.org/directed-acyclic-graphdag-in-apache-spark/)
@@ -209,7 +209,7 @@ The Catalyst Optimizer is the core optimization engine powering Spark SQL, DataF
 
 ![Catalyst Optimizer 4 Query Compilation Phases](assets/05_apache_spark_and_pyspark/07_catalyst_optimizer_four_phases.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/07_catalyst_optimizer_four_phases.d2](assets/05_apache_spark_and_pyspark/07_catalyst_optimizer_four_phases.d2)
+*D2 Source: [`07_catalyst_optimizer_four_phases.d2`](assets/05_apache_spark_and_pyspark/07_catalyst_optimizer_four_phases.d2)*
 
 #### Key Optimization Techniques
 1. **Predicate Pushdown:** Moves `.filter()` directly into storage readers (Parquet footer min/max).
@@ -230,7 +230,7 @@ Project Tungsten is the underlying CPU and memory performance engine of Apache S
 
 ![Project Tungsten Execution Engine Architecture](assets/05_apache_spark_and_pyspark/08_tungsten_offheap_cache_conscious_engine.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/08_tungsten_offheap_cache_conscious_engine.d2](assets/05_apache_spark_and_pyspark/08_tungsten_offheap_cache_conscious_engine.d2)
+*D2 Source: [`08_tungsten_offheap_cache_conscious_engine.d2`](assets/05_apache_spark_and_pyspark/08_tungsten_offheap_cache_conscious_engine.d2)*
 
 #### Architectural Impact
 - **Off-Heap Memory:** Stores tabular rows as compact binary bytes outside the JVM garbage collector heap. A 10GB dataset consumes 10GB of RAM (unlike standard JVM objects which balloon to 40GB with object headers).
@@ -250,7 +250,7 @@ Project Tungsten is the underlying CPU and memory performance engine of Apache S
 
 ![Narrow vs Wide Dependencies Mechanics](assets/05_apache_spark_and_pyspark/09_narrow_vs_wide_dependencies.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/09_narrow_vs_wide_dependencies.d2](assets/05_apache_spark_and_pyspark/09_narrow_vs_wide_dependencies.d2)
+*D2 Source: [`09_narrow_vs_wide_dependencies.d2`](assets/05_apache_spark_and_pyspark/09_narrow_vs_wide_dependencies.d2)*
 
 #### Operations Classification
 - **Narrow Operations:** `select()`, `filter()`, `map()`, `union()`, `coalesce()`
@@ -303,7 +303,7 @@ Shuffling is the physical process of redistributing data across cluster worker n
 
 ![Spark SortShuffleManager Internals](assets/05_apache_spark_and_pyspark/10_shuffle_internals_sort_shuffle_manager.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/10_shuffle_internals_sort_shuffle_manager.d2](assets/05_apache_spark_and_pyspark/10_shuffle_internals_sort_shuffle_manager.d2)
+*D2 Source: [`10_shuffle_internals_sort_shuffle_manager.d2`](assets/05_apache_spark_and_pyspark/10_shuffle_internals_sort_shuffle_manager.d2)*
 
 #### Why Shuffling is the #1 Performance Bottleneck
 1. **Disk I/O:** Every shuffle writes temporary map files to local worker disks.
@@ -325,6 +325,7 @@ Shuffling is the physical process of redistributing data across cluster worker n
 > - [Q18. Identifying & Reducing Excessive Shuffling](frequently_asked_questions/05_apache_spark_and_pyspark_faq.md#q18-medium-identifying--reducing-excessive-shuffling)
 > - [Q20. Optimizing Large Intermediate DataFrames & Multiple groupBy Operations](frequently_asked_questions/05_apache_spark_and_pyspark_faq.md#q20-medium-optimizing-large-intermediate-dataframes--multiple-groupby-operations)
 > - [Q50. Spark Lazy Evaluation: Lineage Graph Construction, Pipelining & Fault Recovery](frequently_asked_questions/05_apache_spark_and_pyspark_faq.md#q50-medium-spark-lazy-evaluation-lineage-graph-construction-pipelining--fault-recovery)
+> - [Q71. Calculating Spark Jobs, Stages, Tasks, and Partitions from Code (DAG Stage Boundaries & Shuffle Breakdown)](frequently_asked_questions/05_apache_spark_and_pyspark_faq.md#q71-medium-calculating-spark-jobs-stages-tasks-and-partitions-from-code-dag-stage-boundaries--shuffle-breakdown)
 
 ---
 
@@ -343,7 +344,7 @@ Spark executes applications through a strict three-level hierarchical breakdown:
 
 ![Spark Execution Hierarchy: App to Task](assets/05_apache_spark_and_pyspark/11_spark_application_job_stage_task_hierarchy.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/11_spark_application_job_stage_task_hierarchy.d2](assets/05_apache_spark_and_pyspark/11_spark_application_job_stage_task_hierarchy.d2)
+*D2 Source: [`11_spark_application_job_stage_task_hierarchy.d2`](assets/05_apache_spark_and_pyspark/11_spark_application_job_stage_task_hierarchy.d2)*
 
 #### References
 - [GeeksforGeeks: Jobs, Stages, and Tasks in Spark](https://www.geeksforgeeks.org/apache-spark-jobs-stages-tasks/)
@@ -358,7 +359,7 @@ Introduced in Spark 3.0, Adaptive Query Execution (AQE) is an optimization frame
 
 ![Adaptive Query Execution (AQE) Dynamic Re-Optimization](assets/05_apache_spark_and_pyspark/12_adaptive_query_execution_runtime_reoptimization.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/12_adaptive_query_execution_runtime_reoptimization.d2](assets/05_apache_spark_and_pyspark/12_adaptive_query_execution_runtime_reoptimization.d2)
+*D2 Source: [`12_adaptive_query_execution_runtime_reoptimization.d2`](assets/05_apache_spark_and_pyspark/12_adaptive_query_execution_runtime_reoptimization.d2)*
 
 #### The Three Core Features of AQE
 1. **Dynamically Coalescing Shuffle Partitions:** If shuffle partitions are tiny (e.g. 200 partitions of 1MB each), AQE merges them into a smaller number of balanced partitions (e.g., 5 partitions of 40MB).
@@ -387,7 +388,7 @@ Unlike static pruning, where the filter is a literal (`WHERE date = '2024-10-01'
 
 ![Dynamic Partition Pruning (DPP) in Star Joins](assets/05_apache_spark_and_pyspark/13_dynamic_partition_pruning_star_join.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/13_dynamic_partition_pruning_star_join.d2](assets/05_apache_spark_and_pyspark/13_dynamic_partition_pruning_star_join.d2)
+*D2 Source: [`13_dynamic_partition_pruning_star_join.d2`](assets/05_apache_spark_and_pyspark/13_dynamic_partition_pruning_star_join.d2)*
 
 #### References
 - [Databricks: Dynamic Partition Pruning](https://www.databricks.com/blog/2020/05/29/dynamic-partition-pruning-in-apache-spark.html)
@@ -409,7 +410,7 @@ Both functions change the number of partitions in a DataFrame, but they use comp
 
 ![Spark Partitioning: Repartition vs Coalesce](assets/05_apache_spark_and_pyspark/14_repartition_vs_coalesce_mechanics.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/14_repartition_vs_coalesce_mechanics.d2](assets/05_apache_spark_and_pyspark/14_repartition_vs_coalesce_mechanics.d2)
+*D2 Source: [`14_repartition_vs_coalesce_mechanics.d2`](assets/05_apache_spark_and_pyspark/14_repartition_vs_coalesce_mechanics.d2)*
 
 #### Code Example
 ```python
@@ -434,7 +435,7 @@ df_skewed = df_raw.repartition(200, "customer_id")
 #### Tuning Guidelines
 - **Small Datasets (< 1GB):** 200 is way too high! Creates 200 tiny tasks with massive scheduling overhead. Set to `spark.sql.shuffle.partitions = 8` or `16`.
 - **Large Datasets (> 1TB):** 200 is too low! Each task must process 5GB of data, leading to memory spills and executor OOMs. Target **100MB to 200MB per shuffle partition**:
-$$	ext{Partitions} = \frac{	ext{Total Shuffle Volume (e.g. 500GB)}}{150	ext{MB}} \approx 3,300$$
+$$\text{Partitions} = \frac{\text{Total Shuffle Volume (e.g. 500GB)}}{150\text{MB}} \approx 3,300$$
 
 #### References
 - [Apache Spark Tuning Guide](https://spark.apache.org/docs/latest/tuning.html)
@@ -449,7 +450,7 @@ The Spark UI is a web dashboard (running by default on port `4040` on the Driver
 
 ![Spark UI Performance Diagnostics Architecture](assets/05_apache_spark_and_pyspark/15_spark_ui_debugging_stages_storage_executors.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/15_spark_ui_debugging_stages_storage_executors.d2](assets/05_apache_spark_and_pyspark/15_spark_ui_debugging_stages_storage_executors.d2)
+*D2 Source: [`15_spark_ui_debugging_stages_storage_executors.d2`](assets/05_apache_spark_and_pyspark/15_spark_ui_debugging_stages_storage_executors.d2)*
 
 #### Key Diagnostic Checkpoints in Spark UI
 1. **SQL Tab:** Inspect the physical plan to verify if broadcast joins and predicate pushdowns were triggered.
@@ -648,7 +649,7 @@ df_pivoted = df_sales.groupBy("product_id") \
 
 ![Python UDF vs Vectorized Pandas UDF via Apache Arrow](assets/05_apache_spark_and_pyspark/16_python_udf_vs_vectorized_pandas_udf_arrow.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/16_python_udf_vs_vectorized_pandas_udf_arrow.d2](assets/05_apache_spark_and_pyspark/16_python_udf_vs_vectorized_pandas_udf_arrow.d2)
+*D2 Source: [`16_python_udf_vs_vectorized_pandas_udf_arrow.d2`](assets/05_apache_spark_and_pyspark/16_python_udf_vs_vectorized_pandas_udf_arrow.d2)*
 
 #### Code Example
 ```python
@@ -879,7 +880,7 @@ A Broadcast Hash Join copies the smaller table across the network to all executo
 
 ![Broadcast Hash Join (BHJ) Architecture](assets/05_apache_spark_and_pyspark/17_broadcast_hash_join_bhj_distribution.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/17_broadcast_hash_join_bhj_distribution.d2](assets/05_apache_spark_and_pyspark/17_broadcast_hash_join_bhj_distribution.d2)
+*D2 Source: [`17_broadcast_hash_join_bhj_distribution.d2`](assets/05_apache_spark_and_pyspark/17_broadcast_hash_join_bhj_distribution.d2)*
 
 #### Code Example
 ```python
@@ -927,7 +928,7 @@ Sort-Merge Join is the default physical join strategy in Spark for joining two l
 
 ![Sort-Merge Join (SMJ) Architecture](assets/05_apache_spark_and_pyspark/18_shuffle_hash_join_vs_sort_merge_join.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/18_shuffle_hash_join_vs_sort_merge_join.d2](assets/05_apache_spark_and_pyspark/18_shuffle_hash_join_vs_sort_merge_join.d2)
+*D2 Source: [`18_shuffle_hash_join_vs_sort_merge_join.d2`](assets/05_apache_spark_and_pyspark/18_shuffle_hash_join_vs_sort_merge_join.d2)*
 
 #### Advantages
 Extremely robust and scalable. Can handle terabyte-scale datasets because it streams through sorted data without needing to hold entire tables in memory.
@@ -961,7 +962,7 @@ Adaptive Query Execution automatically detects skewed partitions (partitions exc
 
 ![AQE Skew Join Dynamic Splitting](assets/05_apache_spark_and_pyspark/19_aqe_skew_join_optimization_splitting.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/19_aqe_skew_join_optimization_splitting.d2](assets/05_apache_spark_and_pyspark/19_aqe_skew_join_optimization_splitting.d2)
+*D2 Source: [`19_aqe_skew_join_optimization_splitting.d2`](assets/05_apache_spark_and_pyspark/19_aqe_skew_join_optimization_splitting.d2)*
 
 #### References
 - [Databricks Documentation: Optimize Skew Joins](https://docs.databricks.com/en/optimizations/skew-join.html)
@@ -979,7 +980,7 @@ When joining two large tables (e.g., 500 GB Fact joined with 300 GB Dimension) w
 
 ![Bucket Join Optimization: Zero Shuffle](assets/05_apache_spark_and_pyspark/20_bucket_join_optimization_zero_shuffle.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/20_bucket_join_optimization_zero_shuffle.d2](assets/05_apache_spark_and_pyspark/20_bucket_join_optimization_zero_shuffle.d2)
+*D2 Source: [`20_bucket_join_optimization_zero_shuffle.d2`](assets/05_apache_spark_and_pyspark/20_bucket_join_optimization_zero_shuffle.d2)*
 
 > [!TIP]
 > **Deep-Dive Interview Scenarios:**
@@ -1034,7 +1035,7 @@ Key Salting is a manual optimization pattern used to resolve extreme data skew w
 
 ![Key Salting Technique for Skew Mitigation](assets/05_apache_spark_and_pyspark/21_salting_technique_skew_mitigation.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/21_salting_technique_skew_mitigation.d2](assets/05_apache_spark_and_pyspark/21_salting_technique_skew_mitigation.d2)
+*D2 Source: [`21_salting_technique_skew_mitigation.d2`](assets/05_apache_spark_and_pyspark/21_salting_technique_skew_mitigation.d2)*
 
 #### Code Example (PySpark Key Salting Implementation)
 ```python
@@ -1090,12 +1091,21 @@ spark.conf.set("spark.sql.autoBroadcastJoinThreshold", -1)
 
 ---
 
-### 5.3 Caching & Persistence Strategies
+### 5.3 Caching, Persistence & Checkpointing Strategies
 
-#### Definition
-Caching stores the evaluated contents of a DataFrame in cluster memory so that subsequent downstream actions can reuse it without recomputing the entire DAG from scratch.
-- `df.cache()`: Shorthand for persisting data at the default storage level (`MEMORY_AND_DISK` in Spark 3+).
-- `df.persist(StorageLevel)`: Explicitly defines the storage tier and serialization mode.
+#### Definition & Core Concepts
+1. **Caching (`cache()`) & Persistence (`persist()`):**
+   - Stores computed partitions in memory or local disk for fast reuse across multiple actions.
+   - **Lineage Graph Preserved:** If memory is evicted under LRU pressure or an executor dies, Spark recomputes the partition using its complete historical lineage.
+2. **Reliable Checkpointing (`checkpoint()`):**
+   - Writes the DataFrame to reliable distributed storage (ADLS Gen2 / S3 / HDFS).
+   - **Lineage Graph Truncated:** Completely severs the Catalyst execution plan, replacing the DAG root with a clean `LogicalRDD`. Strictly required in recursive graph iterations to prevent driver `StackOverflowError`.
+3. **Local Checkpointing (`localCheckpoint()`):** Truncates lineage but writes partitions to local executor storage for low-latency non-fault-tolerant workflows.
+
+> [!TIP]
+> **Deep-Dive Interview Scenarios & Production Runbooks:**
+> - [Q22. cache() vs persist() Storage Levels](frequently_asked_questions/05_apache_spark_and_pyspark_faq.md#q22-easy-cache-vs-persist-storage-levels)
+> - [Q70. Spark cache() vs persist() vs checkpoint(): Lineage Truncation & StackOverflow Prevention](frequently_asked_questions/05_apache_spark_and_pyspark_faq.md#q70-medium-spark-cache-vs-persist-vs-checkpoint-lineage-truncation--stackoverflow-prevention)
 
 #### Code Example
 ```python
@@ -1156,7 +1166,7 @@ Each Spark executor JVM allocates its available memory (`spark.executor.memory`)
 
 ![Spark Executor Memory Breakdown](assets/05_apache_spark_and_pyspark/22_spark_executor_memory_breakdown.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/22_spark_executor_memory_breakdown.d2](assets/05_apache_spark_and_pyspark/22_spark_executor_memory_breakdown.d2)
+*D2 Source: [`22_spark_executor_memory_breakdown.d2`](assets/05_apache_spark_and_pyspark/22_spark_executor_memory_breakdown.d2)*
 
 #### Spill to Disk Explained
 When Execution Memory is full and a task requires more memory to complete a sort or hash aggregate, it attempts to borrow memory from Storage. If no storage memory is available, the engine **spills temporary shuffle pages to local executor NVMe disk**.
@@ -1207,7 +1217,7 @@ Modern Spark deployments standardize on the **Garbage-First Garbage Collector (G
 
 ![Spark UI Performance Diagnostics Decision Tree](assets/05_apache_spark_and_pyspark/23_spark_ui_troubleshooting_decision_tree.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark/23_spark_ui_troubleshooting_decision_tree.d2](assets/05_apache_spark_and_pyspark/23_spark_ui_troubleshooting_decision_tree.d2)
+*D2 Source: [`23_spark_ui_troubleshooting_decision_tree.d2`](assets/05_apache_spark_and_pyspark/23_spark_ui_troubleshooting_decision_tree.d2)*
 
 ---
 

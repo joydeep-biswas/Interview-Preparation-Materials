@@ -1,7 +1,18 @@
 direction: right
-title: Strictly Pass-by-Value Memory Mechanics in Java
+title: "Strictly Pass-by-Value Memory Mechanics in Java"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Caller: Caller Stack Frame (main) {
+Caller: "Caller Stack Frame (main)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#1D4ED8"
   customerRef: "customerRef = 0x9a4f"
@@ -9,7 +20,8 @@ Caller: Caller Stack Frame (main) {
   call: "modify(customerRef, primitiveVal)"
 }
 
-Callee: Callee Stack Frame (modify) {
+Callee: "Callee Stack Frame (modify)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   copiedRef: "c = 0x9a4f (Copied reference)"
@@ -18,25 +30,28 @@ Callee: Callee Stack Frame (modify) {
   step2: "c = new Customer('Charlie') -> rebinds local c to 0xbb12"
 }
 
-Heap: JVM Heap Space {
+Heap: "JVM Heap Space" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
-  Obj1: Customer at 0x9a4f {
+  Obj1: "Customer at 0x9a4f" {
+    class: box
     name: "name: 'Bob' (mutated in place)"
   }
-  Obj2: Customer at 0xbb12 {
+  Obj2: "Customer at 0xbb12" {
+    class: box
     name: "name: 'Charlie' (orphaned when callee pops)"
   }
 }
 
-Caller -> Callee: Passes copies of values (pass-by-value) {
+Caller -> Callee: "Passes copies of values (pass-by-value)" {
   style.stroke: "#06B6D4"
 }
 
-Callee.step1 -> Heap.Obj1: Mutates heap state via copied pointer {
+Callee.step1 -> Heap.Obj1: "Mutates heap state via copied pointer" {
   style.stroke: "#10B981"
 }
 
-Callee.step2 -> Heap.Obj2: Allocates new object (local pointer only) {
+Callee.step2 -> Heap.Obj2: "Allocates new object (local pointer only)" {
   style.stroke: "#F59E0B"
 }

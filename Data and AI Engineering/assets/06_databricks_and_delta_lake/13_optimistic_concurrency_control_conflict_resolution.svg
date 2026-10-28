@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1040" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Lake Optimistic Concurrency Control (OCC) &amp; Conflict Resolution</text>
   <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Protocol mechanics: Snapshot isolation, atomic put-if-absent, and automatic rebase on disjoint partitions</text>
 <rect x="30" y="85" width="300" height="465" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
@@ -34,7 +34,7 @@
 <rect x="100" y="122" width="160" height="18" rx="9" fill="#1d4ed8"/><text x="180" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Appends / Updates Part A</text>
 <rect x="370" y="85" width="300" height="465" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
 <text x="520" y="112" fill="#34D399" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Delta Log Engine (_delta_log/)</text>
-<rect x="430" y="122" width="180" height="18" rx="9" fill="#047857"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Atomic CAS / Put-If-Absent</text>
+<rect x="430" y="122" width="180" height="18" rx="9" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Atomic CAS / Put-If-Absent</text>
 <rect x="710" y="85" width="300" height="465" rx="8" fill="#111827" stroke="#8b5cf6" stroke-width="1.5"/>
 <text x="860" y="112" fill="#C084FC" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Transaction 2 (Streaming App)</text>
 <rect x="780" y="122" width="160" height="18" rx="9" fill="#6d28d9"/><text x="860" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Fast Micro-batch Appends</text>

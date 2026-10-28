@@ -10,7 +10,7 @@ All questions have been systematically grouped by conceptual similarity, mapped 
 
 ![Java FAQ Curriculum Roadmap & Tier Progression](assets/00_java_faq_study_guide_and_index/01_java_faq_curriculum_roadmap.svg)
 
-*D2 Source:* [assets/00_java_faq_study_guide_and_index/01_java_faq_curriculum_roadmap.d2](assets/00_java_faq_study_guide_and_index/01_java_faq_curriculum_roadmap.d2)
+*D2 Source: [`01_java_faq_curriculum_roadmap.d2`](assets/00_java_faq_study_guide_and_index/01_java_faq_curriculum_roadmap.d2)*
 
 ---
 

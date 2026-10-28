@@ -7,15 +7,10 @@ classes: {
 }
 
 git: "Repository Source Code (Git)" { class: repo }
-ts: "Tree-Sitter AST Parser
-Extracts signatures, classes, imports" { class: parser }
+ts: "Tree-Sitter AST Parser\nExtracts signatures, classes, imports" { class: parser }
 
-kg: "Knowledge Graph (Neo4j)
-OrderService CONTAINS processPayment
-processPayment IMPLEMENTS PaymentGateway" { class: graph }
-dual: "Dual Indexing
-Dense BGE-Code Vectors
-BM25 Exact Symbol Index" { class: search }
+kg: "Knowledge Graph (Neo4j)\nOrderService CONTAINS processPayment\nprocessPayment IMPLEMENTS PaymentGateway" { class: graph }
+dual: "Dual Indexing\nDense BGE-Code Vectors\nBM25 Exact Symbol Index" { class: search }
 
 git -> ts
 ts -> kg: "Relational Structure"

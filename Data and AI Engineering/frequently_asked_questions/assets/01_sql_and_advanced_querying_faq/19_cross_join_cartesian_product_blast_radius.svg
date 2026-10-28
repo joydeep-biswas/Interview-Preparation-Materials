@@ -14,11 +14,11 @@
       .edge-green { stroke: #10B981; }
       .edge-red { stroke: #EF4444; }
     </style>
-    <marker id="arr-g19" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    <marker id="arr-g19" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
     </marker>
-    <marker id="arr-r19" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    <marker id="arr-r19" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
     </marker>
   </defs>
 
@@ -28,45 +28,45 @@
   <rect x="25" y="25" width="440" height="325" class="group-box" stroke="#10B981"/>
   <text x="245" y="55" class="title-text" fill="#6EE7B7">Case 1: Standard Cartesian (A x B)</text>
 
-  <rect x="45" y="80" width="180" height="90" class="card card-blue"/>
-  <text x="135" y="105" class="card-title" fill="#93C5FD">Table A (10 Rows)</text>
+  <rect x="45" y="80" width="165" height="90" class="card card-blue"/>
+  <text x="127.5" y="105" class="card-title" fill="#93C5FD">Table A (10 Rows)</text>
   <text x="55" y="130" class="card-body">• 10 distinct entities</text>
   <text x="55" y="148" class="card-body">• e.g., Regions</text>
 
-  <rect x="45" y="195" width="180" height="90" class="card card-blue"/>
-  <text x="135" y="220" class="card-title" fill="#93C5FD">Table B (20 Rows)</text>
+  <rect x="45" y="195" width="165" height="90" class="card card-blue"/>
+  <text x="127.5" y="220" class="card-title" fill="#93C5FD">Table B (20 Rows)</text>
   <text x="55" y="245" class="card-body">• 20 distinct entities</text>
   <text x="55" y="263" class="card-body">• e.g., Products</text>
 
-  <rect x="255" y="135" width="190" height="100" class="card card-green"/>
-  <text x="350" y="162" class="card-title" fill="#6EE7B7">200 Rows Emitted</text>
-  <text x="265" y="187" class="card-body" fill="#34D399">• 10 x 20 = 200 rows</text>
-  <text x="265" y="207" class="card-body">• Multiplicative explosion</text>
+  <rect x="275" y="135" width="170" height="100" class="card card-green"/>
+  <text x="360" y="162" class="card-title" fill="#6EE7B7">200 Rows Emitted</text>
+  <text x="285" y="187" class="card-body" fill="#34D399">• 10 x 20 = 200 rows</text>
+  <text x="285" y="207" class="card-body">• Multiplicative explosion</text>
 
-  <!-- Connectors Case 1 -->
-  <path fill="none" d="M 225 125 C 240 125, 245 165, 246 165 L 255 165" class="edge edge-green" marker-end="url(#arr-g19)"/>
-  <path fill="none" d="M 225 240 C 240 240, 245 200, 246 200 L 255 200" class="edge edge-green" marker-end="url(#arr-g19)"/>
+  <!-- Connectors Case 1: 65px spacious conduit with 16px straight arrival runways -->
+  <path fill="none" d="M 210 125 L 222 125 C 240 125, 245 165, 259 165 L 275 165" class="edge edge-green" marker-end="url(#arr-g19)"/>
+  <path fill="none" d="M 210 240 L 222 240 C 240 240, 245 200, 259 200 L 275 200" class="edge edge-green" marker-end="url(#arr-g19)"/>
 
   <!-- Case 2 Container -->
   <rect x="495" y="25" width="440" height="325" class="group-box" stroke="#EF4444"/>
   <text x="715" y="55" class="title-text" fill="#FCA5A5">Case 2: Empty Set Annihilation (0 x B)</text>
 
-  <rect x="515" y="80" width="180" height="90" class="card card-red"/>
-  <text x="605" y="105" class="card-title" fill="#FCA5A5">Table A (0 Rows)</text>
+  <rect x="515" y="80" width="165" height="90" class="card card-red"/>
+  <text x="597.5" y="105" class="card-title" fill="#FCA5A5">Table A (0 Rows)</text>
   <text x="525" y="130" class="card-body" fill="#EF4444">• Empty result set (0)</text>
   <text x="525" y="148" class="card-body">• Filter pruned all rows</text>
 
-  <rect x="515" y="195" width="180" height="90" class="card card-blue"/>
-  <text x="605" y="220" class="card-title" fill="#93C5FD">Table B (20 Rows)</text>
+  <rect x="515" y="195" width="165" height="90" class="card card-blue"/>
+  <text x="597.5" y="220" class="card-title" fill="#93C5FD">Table B (20 Rows)</text>
   <text x="525" y="245" class="card-body">• 20 distinct entities</text>
   <text x="525" y="263" class="card-body">• Populated dimension</text>
 
-  <rect x="725" y="135" width="190" height="100" class="card card-red"/>
-  <text x="820" y="162" class="card-title" fill="#FCA5A5">0 Rows Emitted</text>
-  <text x="735" y="187" class="card-body" fill="#EF4444">• 0 x 20 = 0 rows</text>
-  <text x="735" y="207" class="card-body">• Result completely wiped</text>
+  <rect x="745" y="135" width="170" height="100" class="card card-red"/>
+  <text x="830" y="162" class="card-title" fill="#FCA5A5">0 Rows Emitted</text>
+  <text x="755" y="187" class="card-body" fill="#EF4444">• 0 x 20 = 0 rows</text>
+  <text x="755" y="207" class="card-body">• Result completely wiped</text>
 
-  <!-- Connectors Case 2 -->
-  <path fill="none" d="M 695 125 C 710 125, 715 165, 716 165 L 725 165" class="edge edge-red" marker-end="url(#arr-r19)"/>
-  <path fill="none" d="M 695 240 C 710 240, 715 200, 716 200 L 725 200" class="edge edge-red" marker-end="url(#arr-r19)"/>
+  <!-- Connectors Case 2: 65px spacious conduit with 16px straight arrival runways -->
+  <path fill="none" d="M 680 125 L 692 125 C 710 125, 715 165, 729 165 L 745 165" class="edge edge-red" marker-end="url(#arr-r19)"/>
+  <path fill="none" d="M 680 240 L 692 240 C 710 240, 715 200, 729 200 L 745 200" class="edge edge-red" marker-end="url(#arr-r19)"/>
 </svg>

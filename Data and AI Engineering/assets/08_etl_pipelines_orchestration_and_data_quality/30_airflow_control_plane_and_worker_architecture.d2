@@ -1,26 +1,26 @@
 direction: right
 classes: {
-  control: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  worker: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  control: { style: { fill: "#1e293b"; stroke: "#38bdf8"; font-color: "#f8fafc" } }
+  worker: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
 }
 
 control_plane: "Airflow Control Plane" {
-  db: "PostgreSQL / MySQL\nMetadata Database" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+  db: "PostgreSQL / MySQL\nMetadata Database" { style: { fill: "#581c87"; stroke: "#c084fc"; font-color: "#e9d5ff" } }
   scheduler: "Airflow Scheduler\n(State Evaluator)" { class: control }
-  triggerer: "Airflow Triggerer\n(Async Event Loop)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  webserver: "Airflow Webserver\n(Gunicorn UI)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  triggerer: "Airflow Triggerer\n(Async Event Loop)" { style: { fill: "#155e75"; stroke: "#22d3ee"; font-color: "#67e8f9" } }
+  webserver: "Airflow Webserver\n(Gunicorn UI)" { style: { fill: "#451a03"; stroke: "#fbbf24"; font-color: "#fde68a" } }
 
   scheduler -> db: "Read/Write State"
   triggerer -> db: "Poll Deferrals"
   webserver -> db: "User Action Audit"
 }
 
-broker: "Message Broker\n(Redis / RabbitMQ)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+broker: "Message Broker\n(Redis / RabbitMQ)" { style: { fill: "#451a03"; stroke: "#fbbf24"; font-color: "#fde68a" } }
 
 execution_plane: "Execution Plane" {
   w1: "Worker Node 1\n(Celery Slots)" { class: worker }
   w2: "Worker Node 2\n(Celery Slots)" { class: worker }
-  k8s: "KubernetesPodOperator\n(Isolated Pods)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  k8s: "KubernetesPodOperator\n(Isolated Pods)" { style: { fill: "#155e75"; stroke: "#22d3ee"; font-color: "#67e8f9" } }
 }
 
 control_plane.scheduler -> broker: "Enqueue Task Instances"

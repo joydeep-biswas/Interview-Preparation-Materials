@@ -1,86 +1,87 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 460" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 500" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="460" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="500" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5" />
 
   <!-- Diagram Header -->
   <g id="header">
-    <text x="490" y="36" fill="#f8fafc" font-size="18" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Expand / Contract (Parallel Run) Zero-Downtime Schema Evolution</text>
-    <text x="490" y="58" fill="#94a3b8" font-size="12" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Step-by-Step Transition from Legacy Column to New Column Without Application Downtime</text>
+    <text x="490" y="32" fill="#f8fafc" font-size="18" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Expand / Contract (Parallel Run) Zero-Downtime Schema Evolution</text>
+    <text x="490" y="52" fill="#94a3b8" font-size="12" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Step-by-Step Transition from Legacy Column to New Column Without Application Downtime</text>
   </g>
 
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <!-- Columns for 3 Actors -->
-    <line x1="160" y1="95" x2="160" y2="430" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
-    <line x1="490" y1="95" x2="490" y2="430" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
-    <line x1="820" y1="95" x2="820" y2="430" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <!-- Lifelines for 3 Actors -->
+    <line x1="160" y1="125" x2="160" y2="480" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4" />
+    <line x1="490" y1="125" x2="490" y2="480" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4" />
+    <line x1="820" y1="125" x2="820" y2="480" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4" />
 
     <!-- Actor Headers -->
-    <rect x="60" y="95" width="200" height="45" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
-<text x="160" y="117" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Old App Pods (v1.0)</text>
-<text x="72" y="137" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Reads/Writes: full_name</text>
-    <rect x="390" y="95" width="200" height="45" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5"/>
-<text x="490" y="117" fill="#fbbf24" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">PostgreSQL Database</text>
-<text x="402" y="137" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">users table schema storage</text>
-    <rect x="720" y="95" width="200" height="45" rx="6" fill="#1e293b" stroke="#4ade80" stroke-width="1.5"/>
-<text x="820" y="117" fill="#4ade80" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">New App Pods (v2.0)</text>
-<text x="732" y="137" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Dual-writes; reads display_name</text>
+    <rect x="60" y="75" width="200" height="50" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="160" y="95" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Old App Pods (v1.0)</text>
+    <text x="160" y="112" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Reads/Writes: full_name</text>
+
+    <rect x="390" y="75" width="200" height="50" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5" />
+    <text x="490" y="95" fill="#fbbf24" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">PostgreSQL Database</text>
+    <text x="490" y="112" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">users table schema storage</text>
+
+    <rect x="720" y="75" width="200" height="50" rx="6" fill="#1e293b" stroke="#4ade80" stroke-width="1.5" />
+    <text x="820" y="95" fill="#4ade80" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">New App Pods (v2.0)</text>
+    <text x="820" y="112" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Dual-writes; reads display_name</text>
 
     <!-- Phase 1: Expand -->
-    <rect x="20" y="160" width="940" height="85" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,4"/>
-<text x="490" y="180" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">PHASE 1: EXPAND</text>
-<text x="490" y="196" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Non-breaking additive schema expansion</text>
-    <text x="490" y="200" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">Step 1: DDL Migration: ALTER TABLE users ADD COLUMN display_name VARCHAR(255) NULL;</text>
-    <text x="490" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">Step 2: Deploy v2.0 App Pods: Dual-Write to BOTH full_name AND display_name</text>
-    <text x="490" y="234" fill="#94a3b8" font-size="10" text-anchor="middle">(v1.0 continues reading and writing full_name without errors)</text>
+    <rect x="20" y="140" width="940" height="98" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,4" />
+    <text x="490" y="160" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">PHASE 1: EXPAND</text>
+    <text x="490" y="176" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Non-breaking additive schema expansion</text>
+    <text x="490" y="196" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">Step 1: DDL Migration: ALTER TABLE users ADD COLUMN display_name VARCHAR(255) NULL;</text>
+    <text x="490" y="214" fill="#cbd5e1" font-size="11" text-anchor="middle">Step 2: Deploy v2.0 App Pods: Dual-Write to BOTH full_name AND display_name (v1.0 continues safely)</text>
 
     <!-- Phase 2: Backfill -->
-    <rect x="20" y="260" width="940" height="75" rx="8" fill="#0f172a" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4,4"/>
-<text x="490" y="280" fill="#c084fc" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">PHASE 2: BACKFILL</text>
-<text x="490" y="296" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Asynchronous historical data propagation</text>
-    <text x="490" y="295" fill="#c084fc" font-size="11" font-weight="700" text-anchor="middle">Step 3: Background Worker in Batches:</text>
-    <text x="490" y="315" fill="#cbd5e1" font-size="11" font-family="Courier, monospace" text-anchor="middle">UPDATE users SET display_name = full_name WHERE display_name IS NULL LIMIT 1000;</text>
+    <rect x="20" y="250" width="940" height="95" rx="8" fill="#0f172a" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4,4" />
+    <text x="490" y="270" fill="#c084fc" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">PHASE 2: BACKFILL</text>
+    <text x="490" y="286" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Asynchronous historical data propagation in throttled batches</text>
+    <text x="490" y="306" fill="#c084fc" font-size="11" font-weight="700" text-anchor="middle">Step 3: Background Worker in Batches:</text>
+    <text x="490" y="324" fill="#cbd5e1" font-size="11" font-family="Courier, monospace" text-anchor="middle">UPDATE users SET display_name = full_name WHERE display_name IS NULL LIMIT 1000;</text>
 
     <!-- Phase 3: Contract -->
-    <rect x="20" y="350" width="940" height="85" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4"/>
-<text x="490" y="370" fill="#f87171" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">PHASE 3: CONTRACT</text>
-<text x="490" y="386" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Decommission legacy dependencies and drop obsolete columns</text>
-    <text x="490" y="385" fill="#4ade80" font-size="11" font-weight="700" text-anchor="middle">Step 4: Deploy v2.1 App Pods: Switch reads entirely to display_name; drop v1.0 pods</text>
-    <text x="490" y="405" fill="#f87171" font-size="11" font-weight="700" text-anchor="middle">Step 5: DDL Migration: ALTER TABLE users DROP COLUMN full_name;</text>
-    <text x="490" y="423" fill="#86efac" font-size="10" text-anchor="middle">Final State: Migration complete with 0% downtime and 0 failed transactions</text>
+    <rect x="20" y="360" width="940" height="115" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4" />
+    <text x="490" y="380" fill="#f87171" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">PHASE 3: CONTRACT</text>
+    <text x="490" y="396" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Decommission legacy dependencies and drop obsolete columns</text>
+    <text x="490" y="416" fill="#4ade80" font-size="11" font-weight="700" text-anchor="middle">Step 4: Deploy v2.1 App Pods: Switch reads entirely to display_name; drop v1.0 pods</text>
+    <text x="490" y="434" fill="#f87171" font-size="11" font-weight="700" text-anchor="middle">Step 5: DDL Migration: ALTER TABLE users DROP COLUMN full_name;</text>
+    <text x="490" y="454" fill="#86efac" font-size="10.5" text-anchor="middle">Final State: Migration complete with 0% downtime and 0 failed transactions</text>
 
   </g>
 </svg>

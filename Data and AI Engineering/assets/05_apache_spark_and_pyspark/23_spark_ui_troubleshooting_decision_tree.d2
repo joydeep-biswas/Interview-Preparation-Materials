@@ -1,50 +1,67 @@
 direction: right
-title: Spark UI Troubleshooting Decision Tree
+title: "Spark UI Troubleshooting Decision Tree"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-ScanUI: Spark UI Stages Tab (Event Timeline)
+ScanUI: "Spark UI Stages Tab (Event Timeline)"
 
-SkewCheck: Are all task bars equal? {
+SkewCheck: "Are all task bars equal?" {
+  class: container
   shape: diamond
   style.stroke: "#FBBF24"
 }
 
-FixSkew: Root Cause: Data Skew {
+FixSkew: "Root Cause: Data Skew" {
+  class: container
   style.stroke: "#EF4444"
-  Sol1: Enable AQE Skew Join
-  Sol2: Salt Hot Keys (rand() * K)
+  Sol1: "Enable AQE Skew Join"
+  Sol2: "Salt Hot Keys (rand() * K)"
 }
 
-GCCheck: GC Time > 10% of Task Time? {
+GCCheck: "GC Time > 10% of Task Time?" {
+  class: container
   shape: diamond
   style.stroke: "#FBBF24"
 }
 
-FixGC: Root Cause: GC Thrashing {
+FixGC: "Root Cause: GC Thrashing" {
+  class: container
   style.stroke: "#EF4444"
-  Sol1: Replace UDF with @pandas_udf
-  Sol2: Switch to Generational ZGC
+  Sol1: "Replace UDF with @pandas_udf"
+  Sol2: "Switch to Generational ZGC"
 }
 
-SpillCheck: Shuffle Disk Spill > 0? {
+SpillCheck: "Shuffle Disk Spill > 0?" {
+  class: container
   shape: diamond
   style.stroke: "#FBBF24"
 }
 
-FixSpill: Root Cause: Memory Starvation {
+FixSpill: "Root Cause: Memory Starvation" {
+  class: container
   style.stroke: "#EF4444"
-  Sol1: Increase spark.sql.shuffle.partitions
-  Sol2: Increase spark.executor.memory
+  Sol1: "Increase spark.sql.shuffle.partitions"
+  Sol2: "Increase spark.executor.memory"
 }
 
-FixOOM: Exit Code 137 (OOMKilled)? {
+FixOOM: "Exit Code 137 (OOMKilled)?" {
+  class: container
   style.stroke: "#C084FC"
-  Sol: Increase spark.executor.memoryOverhead to 25%
+  Sol: "Increase spark.executor.memoryOverhead to 25%"
 }
 
 ScanUI -> SkewCheck
-SkewCheck -> FixSkew: No (One long task) { style.stroke: "#EF4444" }
-SkewCheck -> GCCheck: Yes { style.stroke: "#34D399" }
-GCCheck -> FixGC: Yes (High GC) { style.stroke: "#EF4444" }
-GCCheck -> SpillCheck: No { style.stroke: "#34D399" }
-SpillCheck -> FixSpill: Yes (Spill > 0) { style.stroke: "#EF4444" }
-SpillCheck -> FixOOM: No { style.stroke: "#34D399" }
+SkewCheck -> FixSkew: "No (One long task)" { style.stroke: "#EF4444" }
+SkewCheck -> GCCheck: "Yes" { style.stroke: "#34D399" }
+GCCheck -> FixGC: "Yes (High GC)" { style.stroke: "#EF4444" }
+GCCheck -> SpillCheck: "No" { style.stroke: "#34D399" }
+SpillCheck -> FixSpill: "Yes (Spill > 0)" { style.stroke: "#EF4444" }
+SpillCheck -> FixOOM: "No" { style.stroke: "#34D399" }

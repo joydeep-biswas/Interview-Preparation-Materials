@@ -6,54 +6,52 @@
       .edge { stroke-width: 1.5; fill: none; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
   </defs>
 
-  <rect width="1020" height="340" fill="#0B0F19"/>
+  <rect width="1020" height="340" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Col 1: OPTIMIZE (Blue) -->
   <g transform="translate(30, 30)">
-    <rect width="300" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="300" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="150" y="30" class="title" fill="#93C5FD">1. Compaction (OPTIMIZE)</text>
-    <line x1="20" y1="42" x2="280" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="20" y1="42" x2="280" y2="42" stroke="#1F2937" stroke-width="1.5" />
 
-    <rect x="20" y="60" width="260" height="75" rx="8" ry="8" fill="#1F2937" stroke="#EF4444" stroke-width="1.5"/>
+    <rect x="20" y="60" width="260" height="75" rx="8" ry="8" fill="#1F2937" stroke="#EF4444" stroke-width="1.5" />
     <text x="150" y="85" class="title" font-size="11" fill="#FCA5A5">Fragmented Small Files</text>
     <text x="150" y="105" class="body-txt" text-anchor="middle">Thousands of 1MB-5MB files</text>
     <text x="150" y="122" class="body-txt" text-anchor="middle">Causes HTTP 429 throttling</text>
 
-    <path fill="none" d="M 150 135 L 150 170" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
+    <path fill="none" d="M 150 135 L 150 170" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
 
-    <rect x="20" y="170" width="260" height="75" rx="8" ry="8" fill="#1E293B" stroke="#3B82F6" stroke-width="2"/>
+    <rect x="20" y="170" width="260" height="75" rx="8" ry="8" fill="#1E293B" stroke="#3B82F6" stroke-width="2" />
     <text x="150" y="195" class="title" font-size="11" fill="#93C5FD">Uniform 1 GB Parquet</text>
     <text x="150" y="215" class="body-txt" text-anchor="middle">Bin-packed into optimal slices</text>
     <text x="150" y="232" class="body-txt" text-anchor="middle">Eliminates listing overhead</text>
   </g>
 
   <!-- Connector Col 1 to Col 2 -->
-  <path fill="none" d="M 330 207 L 365 207" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-
   <!-- Col 2: Z-ORDER (Green) -->
   <g transform="translate(365, 30)">
-    <rect width="300" height="280" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="300" height="280" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="150" y="30" class="title" fill="#6EE7B7">2. Clustering (Z-ORDER BY)</text>
-    <line x1="20" y1="42" x2="280" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="20" y1="42" x2="280" y2="42" stroke="#1F2937" stroke-width="1.5" />
 
-    <rect x="20" y="60" width="260" height="75" rx="8" ry="8" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="20" y="60" width="260" height="75" rx="8" ry="8" fill="#1E293B" stroke="#10B981" stroke-width="1.5" />
     <text x="150" y="85" class="title" font-size="11" fill="#6EE7B7">Compacted Parquet</text>
     <text x="150" y="105" class="body-txt" text-anchor="middle">Linear row ordering</text>
     <text x="150" y="122" class="body-txt" text-anchor="middle">No column zone maps</text>
 
-    <path fill="none" d="M 150 135 L 150 170" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+    <path fill="none" d="M 150 135 L 150 170" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
 
-    <rect x="20" y="170" width="260" height="75" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <rect x="20" y="170" width="260" height="75" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2" />
     <text x="150" y="195" class="title" font-size="11" fill="#A7F3D0">Multidimensional Z-Order</text>
     <text x="150" y="215" class="body-txt" text-anchor="middle" fill="#A7F3D0">Z-ORDER BY (customer_id, date)</text>
     <text x="150" y="232" class="body-txt" text-anchor="middle" fill="#A7F3D0">90%+ File Pruning Skipping</text>
@@ -61,20 +59,22 @@
 
   <!-- Col 3: VACUUM (Amber) -->
   <g transform="translate(700, 30)">
-    <rect width="290" height="280" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="290" height="280" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="145" y="30" class="title" fill="#FCD34D">3. Cleanup (VACUUM)</text>
-    <line x1="20" y1="42" x2="270" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="20" y1="42" x2="270" y2="42" stroke="#1F2937" stroke-width="1.5" />
 
-    <rect x="20" y="60" width="250" height="75" rx="8" ry="8" fill="#1F2937" stroke="#F59E0B" stroke-width="1.5"/>
+    <rect x="20" y="60" width="250" height="75" rx="8" ry="8" fill="#1F2937" stroke="#F59E0B" stroke-width="1.5" />
     <text x="145" y="85" class="title" font-size="11" fill="#FCD34D">Tombstoned Parquet Files</text>
     <text x="145" y="105" class="body-txt" text-anchor="middle">Historical files preserved</text>
     <text x="145" y="122" class="body-txt" text-anchor="middle">in _delta_log for Time Travel</text>
 
-    <path fill="none" d="M 145 135 L 145 170" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+    <path fill="none" d="M 145 135 L 145 170" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)" />
 
-    <rect x="20" y="170" width="250" height="75" rx="8" ry="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <rect x="20" y="170" width="250" height="75" rx="8" ry="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2" />
     <text x="145" y="195" class="title" font-size="11" fill="#FCD34D">Purged Storage</text>
     <text x="145" y="215" class="body-txt" text-anchor="middle">VACUUM table RETAIN 168 HOURS</text>
     <text x="145" y="232" class="body-txt" text-anchor="middle">Reclaims cloud storage costs</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 330 207 L 365 207" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+
+  </g></svg>

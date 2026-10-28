@@ -8,7 +8,7 @@ A comprehensive, production-grade guide covering Spring Security 6 internal filt
 
 ![Enterprise Security & Cryptographic Trust Architecture](assets/06_security_and_cryptography/01_enterprise_security_trust_architecture.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/01_enterprise_security_trust_architecture.d2](assets/06_security_and_cryptography/01_enterprise_security_trust_architecture.d2)
+*D2 Source: [`01_enterprise_security_trust_architecture.d2`](assets/06_security_and_cryptography/01_enterprise_security_trust_architecture.d2)*
 
 ---
 
@@ -67,7 +67,7 @@ To build secure software, engineers must never conflate authentication with auth
 
 ![Authentication vs Authorization: The Airport Terminal Security Model](assets/06_security_and_cryptography/02_authentication_vs_authorization_airport_model.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/02_authentication_vs_authorization_airport_model.d2](assets/06_security_and_cryptography/02_authentication_vs_authorization_airport_model.d2)
+*D2 Source: [`02_authentication_vs_authorization_airport_model.d2`](assets/06_security_and_cryptography/02_authentication_vs_authorization_airport_model.d2)*
 
 * **Authentication (AuthN)**: Validating the claimed identity of a user or system (e.g., matching username/password, verifying an X.509 certificate, or validating an asymmetric RSA signature on a JWT token).
 * **Authorization (AuthZ)**: Evaluating whether an authenticated principal holds the necessary privileges, roles, or attributes to execute an action on a target resource (e.g., verifying whether John Doe can delete order #402).
@@ -80,7 +80,7 @@ Backend engineers must distinguish the four core cryptographic primitives:
 
 ![The Four Core Cryptographic Primitives](assets/06_security_and_cryptography/03_cryptographic_primitives_matrix.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/03_cryptographic_primitives_matrix.d2](assets/06_security_and_cryptography/03_cryptographic_primitives_matrix.d2)
+*D2 Source: [`03_cryptographic_primitives_matrix.d2`](assets/06_security_and_cryptography/03_cryptographic_primitives_matrix.d2)*
 
 | Primitive | Key Requirements | Reversible? | Primary Enterprise Use Case |
 | :--- | :--- | :---: | :--- |
@@ -230,7 +230,7 @@ Spring Security does not intercept requests at the Spring MVC controller level; 
 
 ![Spring Security 6 Servlet Filter Pipeline Architecture](assets/06_security_and_cryptography/04_spring_security_filter_chain_architecture.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/04_spring_security_filter_chain_architecture.d2](assets/06_security_and_cryptography/04_spring_security_filter_chain_architecture.d2)
+*D2 Source: [`04_spring_security_filter_chain_architecture.d2`](assets/06_security_and_cryptography/04_spring_security_filter_chain_architecture.d2)*
 
 * **`DelegatingFilterProxy`**: A standard J2EE servlet filter configured in Tomcat that acts as a bridge, delegating all incoming HTTP filtering calls to a Spring-managed bean named `springSecurityFilterChain`.
 * **`FilterChainProxy`**: The master Spring bean that inspects the request URI and routes it to the matching `SecurityFilterChain`.
@@ -528,7 +528,7 @@ public class MultiTenantSecurityConfiguration {
 
 ![Spring Security Authentication Flow: Manager & Provider Architecture](assets/06_security_and_cryptography/05_authentication_manager_provider_flow.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/05_authentication_manager_provider_flow.d2](assets/06_security_and_cryptography/05_authentication_manager_provider_flow.d2)
+*D2 Source: [`05_authentication_manager_provider_flow.d2`](assets/06_security_and_cryptography/05_authentication_manager_provider_flow.d2)*
 
 ---
 
@@ -610,7 +610,7 @@ public PasswordEncoder passwordEncoder() {
 
 ![Stateful Session vs. Stateless JWT Token Architecture](assets/06_security_and_cryptography/06_stateful_session_vs_stateless_jwt.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/06_stateful_session_vs_stateless_jwt.d2](assets/06_security_and_cryptography/06_stateful_session_vs_stateless_jwt.d2)
+*D2 Source: [`06_stateful_session_vs_stateless_jwt.d2`](assets/06_security_and_cryptography/06_stateful_session_vs_stateless_jwt.d2)*
 
 ---
 
@@ -651,7 +651,7 @@ A JSON Web Token (JWT) is composed of three Base64URL-encoded strings separated 
 
 ![OAuth 2.0 Access vs Refresh Token Lifecycle & Silent Token Rotation](assets/06_security_and_cryptography/07_oauth2_jwt_access_refresh_token_lifecycle.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/07_oauth2_jwt_access_refresh_token_lifecycle.d2](assets/06_security_and_cryptography/07_oauth2_jwt_access_refresh_token_lifecycle.d2)
+*D2 Source: [`07_oauth2_jwt_access_refresh_token_lifecycle.d2`](assets/06_security_and_cryptography/07_oauth2_jwt_access_refresh_token_lifecycle.d2)*
 
 ---
 
@@ -671,7 +671,7 @@ The **Authorization Code Flow with PKCE (RFC 7636)** is the global industry stan
 
 ![OAuth 2.0 PKCE (Proof Key for Code Exchange) Flow](assets/06_security_and_cryptography/08_oauth2_pkce_authorization_code_flow.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/08_oauth2_pkce_authorization_code_flow.d2](assets/06_security_and_cryptography/08_oauth2_pkce_authorization_code_flow.d2)
+*D2 Source: [`08_oauth2_pkce_authorization_code_flow.d2`](assets/06_security_and_cryptography/08_oauth2_pkce_authorization_code_flow.d2)*
 
 #### Production Java PKCE Generator Implementation
 
@@ -901,7 +901,7 @@ In a **CSRF** attack, a malicious website tricks a user's browser into executing
 
 ![Cross-Site Request Forgery (CSRF) Attack Mechanics vs Defense](assets/06_security_and_cryptography/09_csrf_attack_and_double_submit_defense.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/09_csrf_attack_and_double_submit_defense.d2](assets/06_security_and_cryptography/09_csrf_attack_and_double_submit_defense.d2)
+*D2 Source: [`09_csrf_attack_and_double_submit_defense.d2`](assets/06_security_and_cryptography/09_csrf_attack_and_double_submit_defense.d2)*
 
 #### The Defense: Synchronizer Token Pattern
 Spring Security injects a unique, cryptographically random CSRF token into each session. Mutating requests (`POST`, `PUT`, `DELETE`) must supply this token in a header (`X-XSRF-TOKEN`), which third-party sites cannot read due to the **Same-Origin Policy (SOP)**:
@@ -973,7 +973,7 @@ Authentication endpoints (e.g. `/api/v1/auth/login`, `/oauth/token`) are primary
 
 ![Distributed Token Bucket Rate Limiting Architecture via Redis](assets/06_security_and_cryptography/10_redis_token_bucket_rate_limiting.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/10_redis_token_bucket_rate_limiting.d2](assets/06_security_and_cryptography/10_redis_token_bucket_rate_limiting.d2)
+*D2 Source: [`10_redis_token_bucket_rate_limiting.d2`](assets/06_security_and_cryptography/10_redis_token_bucket_rate_limiting.d2)*
 
 #### Production Rate Limiting Filter Implementation
 
@@ -1079,7 +1079,7 @@ Public Key Infrastructure binds cryptographic public keys to verified identities
 
 ![Public Key Infrastructure (PKI) Certificate Chain & TrustStore Architecture](assets/06_security_and_cryptography/11_pki_certificate_chain_truststore.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/11_pki_certificate_chain_truststore.d2](assets/06_security_and_cryptography/11_pki_certificate_chain_truststore.d2)
+*D2 Source: [`11_pki_certificate_chain_truststore.d2`](assets/06_security_and_cryptography/11_pki_certificate_chain_truststore.d2)*
 
 * When a client connects to a server, the server delivers its **Leaf Certificate** and the **Intermediate Certificate**.
 * The client verifies that the Intermediate Certificate was signed by a trusted **Root CA** already present in its local truststore. If any link in the chain is broken or expired, verification fails!
@@ -1092,7 +1092,7 @@ TLS 1.3 optimizes the connection handshake from 2 round-trips (TLS 1.2) down to 
 
 ![TLS 1.3 Handshake: Single Round-Trip Time (1-RTT) Timeline](assets/06_security_and_cryptography/12_tls13_handshake_1rtt_timeline.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/12_tls13_handshake_1rtt_timeline.d2](assets/06_security_and_cryptography/12_tls13_handshake_1rtt_timeline.d2)
+*D2 Source: [`12_tls13_handshake_1rtt_timeline.d2`](assets/06_security_and_cryptography/12_tls13_handshake_1rtt_timeline.d2)*
 
 * **Perfect Forward Secrecy (PFS)**: TLS 1.3 mandates ephemeral Diffie-Hellman key exchanges (`ECDHE`). Even if an attacker records encrypted network traffic today and steals the server's private key 5 years from now, they **cannot decrypt past recorded sessions**!
 
@@ -1128,7 +1128,7 @@ In standard TLS (one-way), only the client authenticates the server. In **Mutual
 
 ![Mutual TLS (mTLS) Zero-Trust Handshake Architecture](assets/06_security_and_cryptography/13_mtls_mutual_authentication_handshake.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography/13_mtls_mutual_authentication_handshake.d2](assets/06_security_and_cryptography/13_mtls_mutual_authentication_handshake.d2)
+*D2 Source: [`13_mtls_mutual_authentication_handshake.d2`](assets/06_security_and_cryptography/13_mtls_mutual_authentication_handshake.d2)*
 
 #### Production Spring Boot 3 `RestClient` mTLS Client Configuration
 

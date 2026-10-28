@@ -10,46 +10,7 @@ Data platforms do not operate in a vacuum. A platform that processes petabytes o
 
 ![Enterprise Governance And Lakehouse Architecture](assets/09_unity_catalog_and_data_governance/01_enterprise_governance_and_lakehouse_architecture.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  gov: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  lake: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  obs: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-gov_plane: "1. Enterprise Governance & Zero-Trust Control Plane" {
-  catalog: "Enterprise Data Catalog\n(Unity Catalog / Purview)" { class: gov }
-  access: "Access Control Engine\n(RBAC / ABAC Context)" { class: gov }
-  crypto: "Cryptographic Security\n(Envelope KMS & DDM)" { class: gov }
-
-  catalog -> access -> crypto
-}
-
-lake_plane: "2. Lakehouse Storage Layer" {
-  bronze: "Bronze Layer\n(Raw Ingestion)" { class: lake }
-  silver: "Silver Layer\n(Cleaned & Masked)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  gold: "Gold Layer\n(Aggregated Marts)" { class: obs }
-
-  bronze -> silver -> gold
-}
-
-obs_plane: "3. Data Reliability & Observability" {
-  pillars: "5 Pillars of Observability\n(Freshness, Volume, Quality, Schema, Lineage)" { class: obs }
-  anomaly: "Statistical Anomaly Engine\n(Rolling Z-Scores)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  breaker: "Pipeline Circuit Breaker\n(Closed / Tripped / Open)" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-
-  pillars -> anomaly -> breaker
-}
-
-gov_plane.access -> lake_plane.silver: "Enforce RLS / CLS"
-lake_plane.silver -> obs_plane.pillars: "Audit metrics"
-lake_plane.gold -> obs_plane.pillars: "Audit metrics"
-```
-</details>
+*D2 Source: [`01_enterprise_governance_and_lakehouse_architecture.d2`](assets/09_unity_catalog_and_data_governance/01_enterprise_governance_and_lakehouse_architecture.d2)*
 
 ---
 
@@ -119,40 +80,7 @@ Access control paradigms define *how* authorization rules are established, maint
 
 ![Rbac Vs Abac Security Models](assets/09_unity_catalog_and_data_governance/02_rbac_vs_abac_security_models.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  rbac: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  abac: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  policy: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-}
-
-rbac_box: "1. RBAC: Role-Based Access Control (Static)" {
-  user_a: "User: Alice" { class: rbac }
-  role_a: "Role: Finance_Analyst" { class: rbac }
-  perm1: "SELECT ON marts.fct_revenue" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  perm2: "SELECT ON marts.dim_gl_codes" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-
-  user_a -> role_a: "Assigned"
-  role_a -> perm1
-  role_a -> perm2
-}
-
-abac_box: "2. ABAC: Attribute-Based Access Control (Dynamic)" {
-  user_b: "User: Bob (Dept=Mktg, L2)" { class: abac }
-  env: "Context (VPN, 14:30 EST)" { class: abac }
-  res: "Resource (customers.pii_ssn)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  engine: "Policy Engine Decision" { class: policy }
-
-  user_b -> engine
-  env -> engine
-  res -> engine
-}
-```
-</details>
+*D2 Source: [`02_rbac_vs_abac_security_models.d2`](assets/09_unity_catalog_and_data_governance/02_rbac_vs_abac_security_models.d2)*
 
 #### 1. RBAC (Role-Based Access Control)
 - **Mechanism:** Permissions are attached to static **Roles** (e.g., `DATA_SCIENTIST`, `BI_ANALYST`, `FINANCE_AUDITOR`). Users are assigned membership to one or more roles.
@@ -220,29 +148,7 @@ Data masking replaces sensitive information (Social Security Numbers, credit car
 
 ![Dynamic Data Masking Runtime Projection](assets/09_unity_catalog_and_data_governance/03_dynamic_data_masking_runtime_projection.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  store: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  engine: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  auth: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  mask: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-}
-
-lake: "Lakehouse Storage\n(Real SSN stored encrypted on disk)" { class: store }
-engine: "Query Engine Gatekeeper\n(Evaluates Caller Role & Token)" { class: engine }
-
-auth_caller: "Authorized: Compliance / HR\n(Full Plaintext: '123-45-6789')" { class: auth }
-unauth_caller: "Unauthorized: Analytics\n(Masked: '***-**-6789')" { class: mask }
-
-lake -> engine: "Reads Parquet"
-engine -> auth_caller: "Authorized Role"
-engine -> unauth_caller: "Standard Role (Masked)"
-```
-</details>
+*D2 Source: [`03_dynamic_data_masking_runtime_projection.d2`](assets/09_unity_catalog_and_data_governance/03_dynamic_data_masking_runtime_projection.d2)*
 
 #### Comparison Matrix
 | Feature | Static Data Masking (SDM) | Dynamic Data Masking (DDM) |
@@ -351,41 +257,7 @@ Because transferring gigabytes of raw data over the network to KMS for encryptio
 
 ![Envelope Encryption Kms Data Keys](assets/09_unity_catalog_and_data_governance/04_envelope_encryption_kms_data_keys.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  kms: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  ram: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  store: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-kms_hsm: "Cloud KMS (Hardware HSM)" {
-  kek: "Master Key (KEK)\n(Never leaves HSM)" { class: kms }
-  gen_api: "kms.generate_data_key()" { class: kms }
-
-  kek -> gen_api
-}
-
-compute: "Compute Memory (Spark Node)" {
-  dek_plain: "Plaintext DEK (RAM only)" { class: ram }
-  crypto_engine: "AES-GCM Local Streaming" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-
-  dek_plain -> crypto_engine
-}
-
-storage: "Lakehouse Storage (Disk)" {
-  cipher: "Encrypted Data Files (Ciphertext)" { class: store }
-  dek_enc: "Encrypted DEK Header" { class: store }
-}
-
-kms_hsm.gen_api -> compute.dek_plain: "Plain DEK"
-kms_hsm.gen_api -> storage.dek_enc: "Encrypted DEK"
-compute.crypto_engine -> storage.cipher: "Writes Ciphertext"
-```
-</details>
+*D2 Source: [`04_envelope_encryption_kms_data_keys.d2`](assets/09_unity_catalog_and_data_governance/04_envelope_encryption_kms_data_keys.d2)*
 
 1. The data platform calls KMS: *"Generate a Data Encryption Key (DEK)."*
 2. KMS returns **two items**:
@@ -420,9 +292,9 @@ Data engineers must navigate stringent international legal frameworks:
 | Regulation | Jurisdiction | Core Technical Mandate for Data Engineers | Financial Penalties |
 | :--- | :--- | :--- | :--- |
 | **GDPR** | European Union | **Article 17:** Right to be Forgotten (hard deletion).<br/>**Article 25:** Privacy by Design (default masking).<br/>Data sovereignty (EU data cannot leave EU regions without safeguards). | Up to €20M or 4% of global annual turnover. |
-| **CCPA / CPRA** | California, USA | Consumer right to opt-out of data sale/sharing.<br/>Right to delete personal information.<br/>Audit trails on data distribution. | Up to $7,500 per intentional violation. |
-| **HIPAA** | USA (Healthcare) | Strict encryption standards for Protected Health Information (PHI).<br/>Immutable audit logs recording every single query accessing medical records. | Up to $1.5M/year per violation tier. |
-| **PCI-DSS** | Global (Credit Cards) | Primary Account Numbers (PAN) must be encrypted or tokenized.<br/>CVV codes can **never be stored on disk** under any circumstances. | Fines of $5,000–$100,000/month; loss of card processing rights. |
+| **CCPA / CPRA** | California, USA | Consumer right to opt-out of data sale/sharing.<br/>Right to delete personal information.<br/>Audit trails on data distribution. | Up to \$7,500 per intentional violation. |
+| **HIPAA** | USA (Healthcare) | Strict encryption standards for Protected Health Information (PHI).<br/>Immutable audit logs recording every single query accessing medical records. | Up to \$1.5M/year per violation tier. |
+| **PCI-DSS** | Global (Credit Cards) | Primary Account Numbers (PAN) must be encrypted or tokenized.<br/>CVV codes can **never be stored on disk** under any circumstances. | Fines of \$5,000–\$100,000/month; loss of card processing rights. |
 
 ---
 
@@ -444,31 +316,7 @@ Modern table formats (Delta Lake, Apache Iceberg) solve the GDPR deletion crisis
 
 ![Gdpr Rtbf Crypto Shredding Vs Physical Vacuum](assets/09_unity_catalog_and_data_governance/05_gdpr_rtbf_crypto_shredding_vs_physical_vacuum.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  slow: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  fast: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-vacuum_approach: "Approach A: Physical VACUUM Rewrite" {
-  scan: "1. Locate User in 500k Files" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  rewrite: "2. Spark MERGE Rewrite + Vacuum\n(Rewrites 14k files, $10,000s compute\nWaits 30-day tombstone)" { class: slow }
-
-  scan -> rewrite: "Triggers Heavy Job"
-}
-
-crypto_approach: "Approach B: Crypto-Shredding (Zero Rewrite)" {
-  key_store: "1. Dedicated Per-User AES-256 Key" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  shred: "2. RTBF Deletion: Destroy Key Entry\n(Takes &lt;5ms! Zero Parquet files modified\nCryptographically shredded)" { class: fast }
-
-  key_store -> shred: "Drop Key Record"
-}
-```
-</details>
+*D2 Source: [`05_gdpr_rtbf_crypto_shredding_vs_physical_vacuum.d2`](assets/09_unity_catalog_and_data_governance/05_gdpr_rtbf_crypto_shredding_vs_physical_vacuum.d2)*
 
 #### Production GDPR Deletion Lifecycle
 1. **Soft Delete via Deletion Vectors:**
@@ -568,40 +416,7 @@ A **Data Clean Room** allows multiple distinct enterprises (e.g., Disney and Tar
 
 ![Cloud Data Clean Room Architecture](assets/09_unity_catalog_and_data_governance/06_cloud_data_clean_room_architecture.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  disney: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  target: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  clean: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  block: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-}
-
-disney: "Disney+ (Subscriber Data)" { class: disney }
-target: "Target (Retail Purchase Data)" { class: target }
-
-clean_room: "Cloud Data Clean Room" {
-  join: "1. Cryptographic Hash Match" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  gate: "2. Query Template Gatekeeper" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  dp: "3. Differential Privacy Engine" { class: target }
-  threshold: "4. Threshold Check (>=100 Users)" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-
-  join -> gate -> dp -> threshold
-}
-
-disney -> clean_room.join
-target -> clean_room.join
-
-output: "Aggregated Insight (Zero PII)" { class: clean }
-blocked: "Blocked! (&lt;100 Rows)" { class: block }
-
-clean_room.threshold -> output: "Passed (>=100)"
-clean_room.threshold -> blocked: "Failed (&lt;100)"
-```
-</details>
+*D2 Source: [`06_cloud_data_clean_room_architecture.d2`](assets/09_unity_catalog_and_data_governance/06_cloud_data_clean_room_architecture.d2)*
 
 #### The Three Core Technical Pillars of Clean Rooms
 1. **No Data Movement / Zero Copy:** Raw records never leave the owner's cloud storage account. Queries execute across virtual shared shares.
@@ -711,25 +526,7 @@ Modern data platforms establish formal reliability agreements with their interna
 
 ![Sli Slo Sla Relationship Pyramid](assets/09_unity_catalog_and_data_governance/07_sli_slo_sla_relationship_pyramid.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  sli: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  slo: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  sla: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-}
-
-sli: "1. SLI (Service Level Indicator)\nActual Measurement\ne.g. 99.2% loaded &lt;15m" { class: sli }
-slo: "2. SLO (Service Level Objective)\nInternal Engineering Target\ne.g. 99.5% compliance" { class: slo }
-sla: "3. SLA (Service Level Agreement)\nContractual Commitment\ne.g. Penalty if &lt;98.0%" { class: sla }
-
-sli -> slo: "Measured against"
-slo -> sla: "Safety margin buffer"
-```
-</details>
+*D2 Source: [`07_sli_slo_sla_relationship_pyramid.d2`](assets/09_unity_catalog_and_data_governance/07_sli_slo_sla_relationship_pyramid.d2)*
 
 1. **SLI (Service Level Indicator):** A quantifiable, real-time metric of data pipeline performance.
    - *Example:* *"% of daily batch orders materialized in `fct_sales` before 06:00 AM UTC."*
@@ -877,30 +674,7 @@ In data engineering, if raw or staging data contains critical corruptions (e.g.,
 
 ![Pipeline Circuit Breaker State Machine](assets/09_unity_catalog_and_data_governance/08_pipeline_circuit_breaker_state_machine.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  closed: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  tripped: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  open: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  half: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-closed: "CLOSED (Normal Operations)\nData flows clean -> Gold" { class: closed }
-tripped: "TRIPPED (Anomaly Detected)\nAssertion fails or Z-score > 3" { class: tripped }
-open: "OPEN (Quarantine & Safe Halt)\nDownstream blocked; DLQ divert" { class: open }
-half_open: "HALF-OPEN (Trial Run)\nSingle partition test validation" { class: half }
-
-closed -> tripped: "Quality assertion fails"
-tripped -> open: "Automated DAG halt"
-open -> half_open: "Engineer deploys fix"
-half_open -> closed: "Trial batch passes"
-half_open -> open: "Trial batch fails"
-```
-</details>
+*D2 Source: [`08_pipeline_circuit_breaker_state_machine.d2`](assets/09_unity_catalog_and_data_governance/08_pipeline_circuit_breaker_state_machine.d2)*
 
 #### Production SQL Implementation: Quarantine Diversion Pattern
 Rather than letting a batch job simply crash, a resilient pipeline diverts bad records into a `quarantine` table while promoting clean records:
@@ -1028,26 +802,7 @@ When a P1 data incident strikes, follow this 4-step triage sequence:
 
 ![Data Pipeline Incident Response Lifecycle](assets/09_unity_catalog_and_data_governance/09_data_pipeline_incident_response_lifecycle.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  triage: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  lineage: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  rca: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  post: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-s1: "1. Triage & Containment\n(Trip breaker, halt corrupt DAG)" { class: triage }
-s2: "2. Lineage Inspection\n(Trace Gold -> Silver -> Bronze)" { class: lineage }
-s3: "3. Root Cause Analysis\n(OOM vs Schema Drift vs Auth)" { class: rca }
-s4: "4. Backfill & Post-Mortem\n(Idempotent fix & 5-Whys report)" { class: post }
-
-s1 -> s2 -> s3 -> s4
-```
-</details>
+*D2 Source: [`09_data_pipeline_incident_response_lifecycle.d2`](assets/09_unity_catalog_and_data_governance/09_data_pipeline_incident_response_lifecycle.d2)*
 
 1. **Containment:** Trip the circuit breaker to prevent bad records from propagating further. Post a message to `#data-status` informing stakeholders that the dashboard is currently paused for maintenance.
 2. **Lineage Tracing:** Use the lineage graph to determine the earliest upstream point of failure. If `fct_revenue` is wrong, check `stg_payments`. If `stg_payments` is fine, the bug is inside your transformation SQL logic.

@@ -1,23 +1,35 @@
 direction: right
-title: Python UDF vs Vectorized Pandas UDF
-
-StandardUDF: Standard Python UDF (@udf) {
-  style.stroke: "#EF4444"
-  JVM1: JVM Worker (Holds Rows)
-  IPC: Row-by-Row Pickle IPC Pipe
-  Python1: Python Worker Subprocess (Runs row loop)
-
-  JVM1 -> IPC: Pickle row serialization { style.stroke: "#EF4444" }
-  IPC -> Python1: Deserializes row { style.stroke: "#EF4444" }
-  Python1 -> JVM1: Re-serializes return value { style.stroke: "#EF4444" }
+title: "Python UDF vs Vectorized Pandas UDF"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-VectorizedArrow: Vectorized Pandas UDF (@pandas_udf) {
-  style.stroke: "#34D399"
-  JVM2: JVM Worker (Arrow Batch Generator)
-  ArrowPipe: Apache Arrow Shared Columnar Memory
-  PandasVector: Python Pandas / NumPy (C-Speed Vectorized SIMD)
+StandardUDF: "Standard Python UDF (@udf)" {
+  class: container
+  style.stroke: "#EF4444"
+  JVM1: "JVM Worker (Holds Rows)"
+  IPC: "Row-by-Row Pickle IPC Pipe"
+  Python1: "Python Worker Subprocess (Runs row loop)"
 
-  JVM2 -> ArrowPipe: Arrow RecordBatch (10k rows) { style.stroke: "#34D399" }
-  ArrowPipe -> PandasVector: Zero-Copy Pointer Pass { style.stroke: "#34D399" }
+  JVM1 -> IPC: "Pickle row serialization" { style.stroke: "#EF4444" }
+  IPC -> Python1: "Deserializes row" { style.stroke: "#EF4444" }
+  Python1 -> JVM1: "Re-serializes return value" { style.stroke: "#EF4444" }
+}
+
+VectorizedArrow: "Vectorized Pandas UDF (@pandas_udf)" {
+  class: container
+  style.stroke: "#34D399"
+  JVM2: "JVM Worker (Arrow Batch Generator)"
+  ArrowPipe: "Apache Arrow Shared Columnar Memory"
+  PandasVector: "Python Pandas / NumPy (C-Speed Vectorized SIMD)"
+
+  JVM2 -> ArrowPipe: "Arrow RecordBatch (10k rows)" { style.stroke: "#34D399" }
+  ArrowPipe -> PandasVector: "Zero-Copy Pointer Pass" { style.stroke: "#34D399" }
 }

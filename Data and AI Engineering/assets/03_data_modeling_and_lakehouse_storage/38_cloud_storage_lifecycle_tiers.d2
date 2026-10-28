@@ -1,23 +1,37 @@
 direction: right
-title: Cloud Storage Lifecycle Tiers & Data Archival Economics
+title: "Cloud Storage Lifecycle Tiers & Data Archival Economics"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-hot: 1. Hot Tier {
-  storage: "$0.020/GB/month, Free Retrieval"
+hot: "1. Hot Tier" {
+  class: container
+  storage: "\$0.020/GB/month, Free Retrieval"
   use: "Active Lakehouse Data & Frequent BI Scans"
 }
 
-cool: 2. Cool Tier {
-  storage: "$0.010/GB/month, $0.01/GB Retrieval"
+cool: "2. Cool Tier" {
+  class: container
+  storage: "\$0.010/GB/month, \$0.01/GB Retrieval"
   use: "Monthly Reports & Quarterly Audits"
 }
 
-cold: 3. Cold Tier {
-  storage: "$0.004/GB/month, $0.03/GB Retrieval"
+cold: "3. Cold Tier" {
+  class: container
+  storage: "\$0.004/GB/month, \$0.03/GB Retrieval"
   use: "90-Day Disaster Recovery Backups"
 }
 
-archive: 4. Archive / Glacier {
-  storage: "$0.001/GB/month, 5-hour retrieval delay"
+archive: "4. Archive / Glacier" {
+  class: container
+  storage: "\$0.001/GB/month, 5-hour retrieval delay"
   use: "7-Year Legal & Regulatory Compliance"
 }
 

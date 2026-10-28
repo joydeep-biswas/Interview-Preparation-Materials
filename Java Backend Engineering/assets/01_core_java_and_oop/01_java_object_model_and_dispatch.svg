@@ -38,7 +38,7 @@
 
   <!-- Column 1: Thread Stack -->
   <rect x="40" y="95" width="250" height="390" rx="8" fill="#0B132B" stroke="#1E3A8A" stroke-width="1.5"/>
-  <rect x="40" y="95" width="250" height="35" rx="8" fill="#172554"/>
+  <rect x="40" y="95" width="250" height="35" rx="8" fill="#172554" stroke="#3B82F6" stroke-width="1"/>
   <text x="165" y="118" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Thread Stack (Stack Frame)</text>
   
   <!-- Stack Ref Variable -->
@@ -58,7 +58,7 @@
 
   <!-- Column 2: JVM Heap Space -->
   <rect x="360" y="95" width="410" height="390" rx="8" fill="#0B132B" stroke="#0369A1" stroke-width="1.5"/>
-  <rect x="360" y="95" width="410" height="35" rx="8" fill="#0C4A6E"/>
+  <rect x="360" y="95" width="410" height="35" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="565" y="118" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">JVM Heap Space (Object Instance at 0x7fa81000)</text>
 
   <!-- Object Header Group -->
@@ -89,7 +89,7 @@
 
   <!-- Column 3: Metaspace -->
   <rect x="850" y="95" width="310" height="390" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
-  <rect x="850" y="95" width="310" height="35" rx="8" fill="#064E3B"/>
+  <rect x="850" y="95" width="310" height="35" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="1005" y="118" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Metaspace (Native C++ Heap)</text>
 
   <!-- InstanceKlass Struct -->

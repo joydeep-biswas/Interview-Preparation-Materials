@@ -1,7 +1,18 @@
 direction: down
-title: CPU Cache Line Locality & Pointer Traversal Topologies
+title: "CPU Cache Line Locality & Pointer Traversal Topologies"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-MemoryLayout: 1. CPU Cache Line Memory Locality {
+MemoryLayout: "1. CPU Cache Line Memory Locality" {
+  class: container
   A0: "Array[0] (0x00)"
   A1: "Array[1] (0x08)"
   A2: "Array[2] (0x10)"
@@ -13,10 +24,11 @@ MemoryLayout: 1. CPU Cache Line Memory Locality {
   A0 -> A1 -> A2 -> A3 -> A4 -> A5 -> A6 -> A7
 }
 
-PointerPatterns: 2. Canonical Pointer Scanning Topologies {
-  Convergent: Two Pointers Convergent Scan (L -> <- R)
-  Cycle: Fast & Slow Floyd Tortoise & Hare (1x vs 2x)
-  SlidingWindow: Dynamic Sliding Window (Expand / Contract)
+PointerPatterns: "2. Canonical Pointer Scanning Topologies" {
+  class: container
+  Convergent: "Two Pointers Convergent Scan (L -> <- R)"
+  Cycle: "Fast & Slow Floyd Tortoise & Hare (1x vs 2x)"
+  SlidingWindow: "Dynamic Sliding Window (Expand / Contract)"
 }
 
-MemoryLayout -> PointerPatterns: Spatial Locality enables O(1) auxiliary scans
+MemoryLayout -> PointerPatterns: "Spatial Locality enables O(1) auxiliary scans"

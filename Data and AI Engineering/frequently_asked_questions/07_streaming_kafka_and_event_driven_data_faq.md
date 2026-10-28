@@ -118,7 +118,7 @@ query = (
 
 ![Auto Loader Directory Listing vs File Notification Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/01_auto_loader_directory_listing_vs_file_notification.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/01_auto_loader_directory_listing_vs_file_notification.d2](assets/07_streaming_kafka_and_event_driven_data_faq/01_auto_loader_directory_listing_vs_file_notification.d2)
+*D2 Source: [`01_auto_loader_directory_listing_vs_file_notification.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/01_auto_loader_directory_listing_vs_file_notification.d2)*
 
 #### Auto Loader Discovery Mode Comparison Matrix
 
@@ -168,7 +168,7 @@ stream_df = (
 Inside the `checkpointLocation`, Structured Streaming maintains three critical directories:
 ![Structured Streaming Checkpoint Directory Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/02_structured_streaming_checkpoint_directory_architecture.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/02_structured_streaming_checkpoint_directory_architecture.d2](assets/07_streaming_kafka_and_event_driven_data_faq/02_structured_streaming_checkpoint_directory_architecture.d2)
+*D2 Source: [`02_structured_streaming_checkpoint_directory_architecture.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/02_structured_streaming_checkpoint_directory_architecture.d2)*
 
 ---
 
@@ -182,7 +182,7 @@ Inside the `checkpointLocation`, Structured Streaming maintains three critical d
 #### What Happens Upon Stream Failure? (Q2, Q11)
 ![Streaming Fault-Tolerance Checkpoint Recovery Flow](assets/07_streaming_kafka_and_event_driven_data_faq/03_streaming_fault_tolerance_checkpoint_recovery_flow.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/03_streaming_fault_tolerance_checkpoint_recovery_flow.d2](assets/07_streaming_kafka_and_event_driven_data_faq/03_streaming_fault_tolerance_checkpoint_recovery_flow.d2)
+*D2 Source: [`03_streaming_fault_tolerance_checkpoint_recovery_flow.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/03_streaming_fault_tolerance_checkpoint_recovery_flow.d2)*
 
 #### Achieving End-to-End Exactly-Once Processing
 Replaying a micro-batch after failure guarantees **At-Least-Once** ingestion. To achieve **End-to-End Exactly-Once**:
@@ -314,7 +314,7 @@ If **Input Rate > Processed Rate** continuously, the stream is accumulating an u
 #### Diagnostic & Troubleshooting Steps (Q8, Q9)
 ![Streaming Backlog Diagnostic and Remediation Flow](assets/07_streaming_kafka_and_event_driven_data_faq/04_streaming_backlog_diagnostic_remediation_flow.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/04_streaming_backlog_diagnostic_remediation_flow.d2](assets/07_streaming_kafka_and_event_driven_data_faq/04_streaming_backlog_diagnostic_remediation_flow.d2)
+*D2 Source: [`04_streaming_backlog_diagnostic_remediation_flow.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/04_streaming_backlog_diagnostic_remediation_flow.d2)*
 
 ---
 
@@ -339,7 +339,7 @@ If **Input Rate > Processed Rate** continuously, the stream is accumulating an u
 A **Watermark** is a dynamic threshold ($T_{\text{watermark}} = \max(\text{event\_time}) - \text{delay}$) that defines how long Spark waits for late-arriving data before finalizing an analytical window:
 ![Event-Time Watermarking and State Eviction Semantics](assets/07_streaming_kafka_and_event_driven_data_faq/05_event_time_watermarking_state_eviction_semantics.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/05_event_time_watermarking_state_eviction_semantics.d2](assets/07_streaming_kafka_and_event_driven_data_faq/05_event_time_watermarking_state_eviction_semantics.d2)
+*D2 Source: [`05_event_time_watermarking_state_eviction_semantics.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/05_event_time_watermarking_state_eviction_semantics.d2)*
 
 ```python
 from pyspark.sql import functions as F
@@ -373,7 +373,7 @@ A single corrupt record (e.g., malformed binary payload, invalid date string) th
 #### Non-Blocking Quarantine Architecture
 ![Streaming Poison Pill Quarantine and DLQ Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/06_streaming_poison_pill_quarantine_architecture.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/06_streaming_poison_pill_quarantine_architecture.d2](assets/07_streaming_kafka_and_event_driven_data_faq/06_streaming_poison_pill_quarantine_architecture.d2)
+*D2 Source: [`06_streaming_poison_pill_quarantine_architecture.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/06_streaming_poison_pill_quarantine_architecture.d2)*
 
 ```python
 from pyspark.sql import functions as F
@@ -416,7 +416,7 @@ streaming_df.writeStream.foreachBatch(split_and_quarantine).start()
 #### The Latency-Throughput Spectrum
 ![Batch vs Micro-Batch vs Continuous Processing Spectrum](assets/07_streaming_kafka_and_event_driven_data_faq/07_batch_microbatch_continuous_processing_spectrum.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/07_batch_microbatch_continuous_processing_spectrum.d2](assets/07_streaming_kafka_and_event_driven_data_faq/07_batch_microbatch_continuous_processing_spectrum.d2)
+*D2 Source: [`07_batch_microbatch_continuous_processing_spectrum.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/07_batch_microbatch_continuous_processing_spectrum.d2)*
 
 #### Detailed Architectural Comparison Matrix
 | Architectural Dimension | Micro-Batch Processing (Default Engine) | Continuous Processing (`Trigger.Continuous("1 millisecond")`) |
@@ -448,7 +448,7 @@ $$\text{Max Active Consumers per Topic} \le \text{Number of Partitions}$$
 
 ![Kafka Consumer Group Partition Rebalancing Mechanics](assets/07_streaming_kafka_and_event_driven_data_faq/08_kafka_consumer_group_partition_rebalancing.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/08_kafka_consumer_group_partition_rebalancing.d2](assets/07_streaming_kafka_and_event_driven_data_faq/08_kafka_consumer_group_partition_rebalancing.d2)
+*D2 Source: [`08_kafka_consumer_group_partition_rebalancing.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/08_kafka_consumer_group_partition_rebalancing.d2)*
 
 #### Production Implications & Recommended Action:
 1. **Idle Standbys:** The 3 idle consumers act purely as hot standbys. If any of the active 12 consumers crash, the Group Coordinator immediately triggers a rebalance and reallocates the orphaned partition to one of the 3 standby consumers without spinning up new pods.
@@ -510,7 +510,7 @@ If you deduplicate unbounded streaming records naively (`dropDuplicates(["restau
 #### The Production Solution: Watermarked Deduplication + In-Batch Rank
 ![Multi-Tier Streaming Deduplication Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/09_multi_tier_streaming_deduplication_pipeline.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/09_multi_tier_streaming_deduplication_pipeline.d2](assets/07_streaming_kafka_and_event_driven_data_faq/09_multi_tier_streaming_deduplication_pipeline.d2)
+*D2 Source: [`09_multi_tier_streaming_deduplication_pipeline.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/09_multi_tier_streaming_deduplication_pipeline.d2)*
 
 #### Production Implementation in PySpark
 ```python
@@ -641,7 +641,7 @@ If `batchDuration` (e.g. 45s) > `triggerInterval` (e.g. 10s), latency compounds 
 #### The 3 Architectural Prerequisites for End-to-End Exactly-Once:
 ![End-to-End Exactly-Once Streaming Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/10_end_to_end_exactly_once_streaming_architecture.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/10_end_to_end_exactly_once_streaming_architecture.d2](assets/07_streaming_kafka_and_event_driven_data_faq/10_end_to_end_exactly_once_streaming_architecture.d2)
+*D2 Source: [`10_end_to_end_exactly_once_streaming_architecture.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/10_end_to_end_exactly_once_streaming_architecture.d2)*
 
 1. **Replayable Source:** Kafka retains messages with fixed offsets for $N$ days. If a node fails, Spark can re-read the exact byte offsets.
 2. **Deterministic Processing Engine:** Spark records the exact start and end Kafka offsets in its persistent checkpoint directory before processing.
@@ -676,7 +676,7 @@ If `batchDuration` (e.g. 45s) > `triggerInterval` (e.g. 10s), latency compounds 
 #### The 5-Layer Resilience Architecture
 ![Auto Loader Event Grid Idempotent Delta Merge Pipeline](assets/07_streaming_kafka_and_event_driven_data_faq/11_autoloader_eventgrid_idempotent_delta_merge_pipeline.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/11_autoloader_eventgrid_idempotent_delta_merge_pipeline.d2](assets/07_streaming_kafka_and_event_driven_data_faq/11_autoloader_eventgrid_idempotent_delta_merge_pipeline.d2)
+*D2 Source: [`11_autoloader_eventgrid_idempotent_delta_merge_pipeline.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/11_autoloader_eventgrid_idempotent_delta_merge_pipeline.d2)*
 
 #### Production PySpark Implementation
 ```python
@@ -880,7 +880,7 @@ If a streaming pipeline groups data by event time without safeguards:
 #### Visual Flow: Dynamic Watermarking & State Store Eviction
 ![Watermark Window Eviction and DLQ Quarantine Flow](assets/07_streaming_kafka_and_event_driven_data_faq/12_watermark_window_eviction_dlq_quarantine_flow.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/12_watermark_window_eviction_dlq_quarantine_flow.d2](assets/07_streaming_kafka_and_event_driven_data_faq/12_watermark_window_eviction_dlq_quarantine_flow.d2)
+*D2 Source: [`12_watermark_window_eviction_dlq_quarantine_flow.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/12_watermark_window_eviction_dlq_quarantine_flow.d2)*
 
 #### Production PySpark Structured Streaming Implementation
 ```python
@@ -970,7 +970,7 @@ Dynamic surge pricing balances real-time marketplace demand and driver supply:
 #### Visual Flow: Real-Time Dynamic Surge Pipeline Topology
 ![Real-Time Surge Pricing Sliding Window Architecture](assets/07_streaming_kafka_and_event_driven_data_faq/13_real_time_surge_pricing_sliding_window_architecture.svg)
 
-*D2 Source:* [assets/07_streaming_kafka_and_event_driven_data_faq/13_real_time_surge_pricing_sliding_window_architecture.d2](assets/07_streaming_kafka_and_event_driven_data_faq/13_real_time_surge_pricing_sliding_window_architecture.d2)
+*D2 Source: [`13_real_time_surge_pricing_sliding_window_architecture.d2`](assets/07_streaming_kafka_and_event_driven_data_faq/13_real_time_surge_pricing_sliding_window_architecture.d2)*
 
 #### Production PySpark Implementation: Surge Aggregation Engine
 ```python

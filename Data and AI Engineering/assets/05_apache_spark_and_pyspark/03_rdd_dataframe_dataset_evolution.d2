@@ -1,29 +1,42 @@
 direction: right
-title: Spark Data Abstractions Evolution
+title: "Spark Data Abstractions Evolution"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-RDD: RDD (Low-Level JVM Objects) {
+RDD: "RDD (Low-Level JVM Objects)" {
+  class: container
   style.stroke: "#64748B"
-  R_type: Opaque JVM objects (RDD[T])
-  R_opt: No Catalyst optimization
-  R_gc: High GC overhead & memory churn
-  R_py: Very slow in PySpark (Pickle serialization)
+  R_type: "Opaque JVM objects (RDD[T])"
+  R_opt: "No Catalyst optimization"
+  R_gc: "High GC overhead & memory churn"
+  R_py: "Very slow in PySpark (Pickle serialization)"
 }
 
-DataFrame: DataFrame (Relational Table Schema) {
+DataFrame: "DataFrame (Relational Table Schema)" {
+  class: container
   style.stroke: "#34D399"
-  D_type: Untyped Relational Rows (Dataset[Row])
-  D_opt: Full Catalyst Optimizer & CBO
-  D_gc: Tungsten off-heap memory (Zero GC overhead)
-  D_py: Native speed in PySpark (Identical to Scala)
+  D_type: "Untyped Relational Rows (Dataset[Row])"
+  D_opt: "Full Catalyst Optimizer & CBO"
+  D_gc: "Tungsten off-heap memory (Zero GC overhead)"
+  D_py: "Native speed in PySpark (Identical to Scala)"
 }
 
-Dataset: Dataset (Strongly Typed JVM Objects) {
+Dataset: "Dataset (Strongly Typed JVM Objects)" {
+  class: container
   style.stroke: "#C084FC"
-  S_type: Strongly typed JVM case classes (Dataset[T])
-  S_opt: Catalyst optimization + compile-time type safety
-  S_gc: Efficient Encoders to Tungsten format
-  S_py: Scala / Java only (Not in Python)
+  S_type: "Strongly typed JVM case classes (Dataset[T])"
+  S_opt: "Catalyst optimization + compile-time type safety"
+  S_gc: "Efficient Encoders to Tungsten format"
+  S_py: "Scala / Java only (Not in Python)"
 }
 
-RDD -> DataFrame: Schema Enforced & Tungsten Memory { style.stroke: "#34D399" }
-DataFrame -> Dataset: Compile-Time Type Safety (Scala) { style.stroke: "#C084FC" }
+RDD -> DataFrame: "Schema Enforced & Tungsten Memory" { style.stroke: "#34D399" }
+DataFrame -> Dataset: "Compile-Time Type Safety (Scala)" { style.stroke: "#C084FC" }

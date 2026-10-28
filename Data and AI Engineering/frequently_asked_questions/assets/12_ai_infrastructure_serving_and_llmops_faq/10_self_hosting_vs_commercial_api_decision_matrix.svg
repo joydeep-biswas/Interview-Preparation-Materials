@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Step 1: Project Start -->
+  <g transform="translate(25, 140)">
+    <rect width="165" height="110" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="82" y="24" class="title" fill="#93C5FD">Project Initiation</text>
+    <text x="12" y="48" class="body-txt">• Model architecture choice</text>
+    <text x="12" y="68" class="body-txt">• Cost vs compliance audit</text>
+    <text x="12" y="88" class="body-txt">• SLA &amp; privacy requirements</text>
+  </g>
+
+  <!-- Connect Start to Zero-Egress Check -->
+  <path d="M 190 195 L 225 195" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- Step 2: Zero Egress Check -->
+  <g transform="translate(225, 135)">
+    <rect width="190" height="120" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="95" y="24" class="title" fill="#FDE68A">Zero-Egress Mandate?</text>
+    <text x="12" y="48" class="body-txt">• HIPAA / Defense / Bank</text>
+    <text x="12" y="68" class="body-txt">• Data cannot leave VPC</text>
+    <text x="12" y="88" class="body-txt">• Sovereign boundary rule</text>
+  </g>
+
+  <!-- Branch YES to Self Host (Top) -->
+  <path d="M 415 160 L 440 160 Q 455 160 455 80 L 735 80 L 745 80" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <rect x="430" y="55" width="40" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="450" y="67" class="edge-label" fill="#10B981">YES</text>
+
+  <!-- Branch NO to Volume Check (Right) -->
+  <path d="M 415 210 L 475 210" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+  <rect x="430" y="195" width="30" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="445" y="207" class="edge-label" fill="#FDE68A">NO</text>
+
+  <!-- Step 3: Volume Check -->
+  <g transform="translate(475, 145)">
+    <rect width="180" height="110" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="90" y="24" class="title" fill="#FDE68A">Volume &gt; 50M Tokens?</text>
+    <text x="12" y="48" class="body-txt">• Daily token throughput</text>
+    <text x="12" y="68" class="body-txt">• Hardware breakeven scale</text>
+    <text x="12" y="88" class="body-txt">• Sustained GPU utilization</text>
+  </g>
+
+  <!-- Branch High Volume to MLOps Team Check -->
+  <path d="M 565 145 L 565 110 Q 565 100 585 100 L 735 100 L 745 100" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <rect x="580" y="85" width="75" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="617" y="97" class="edge-label" fill="#10B981">YES + MLOps</text>
+
+  <!-- Branch Low Volume to Commercial API (Bottom) -->
+  <path d="M 655 210 L 700 210 Q 715 210 715 295 L 735 295 L 745 295" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <rect x="670" y="275" width="35" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="687" y="287" class="edge-label" fill="#8B5CF6">NO</text>
+
+  <!-- Terminal Top: Self Host -->
+  <g transform="translate(745, 30)">
+    <rect width="250" height="120" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="125" y="24" class="title" fill="#A7F3D0">Self-Host Open-Weight Models</text>
+    <text x="14" y="48" class="body-txt">• vLLM / Triton on Private AKS/EKS</text>
+    <text x="14" y="68" class="body-txt">• Zero data egress risk</text>
+    <text x="14" y="88" class="body-txt">• Lower marginal cost at high volume</text>
+  </g>
+
+  <!-- Terminal Bottom: Commercial API -->
+  <g transform="translate(745, 235)">
+    <rect width="250" height="120" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="125" y="24" class="title" fill="#C4B5FD">Commercial Frontier API</text>
+    <text x="14" y="48" class="body-txt">• Azure OpenAI / Anthropic / Vertex</text>
+    <text x="14" y="68" class="body-txt">• Zero infrastructure maintenance</text>
+    <text x="14" y="88" class="body-txt">• Lowest TCO for low-to-medium scale</text>
+  </g>
+</svg>

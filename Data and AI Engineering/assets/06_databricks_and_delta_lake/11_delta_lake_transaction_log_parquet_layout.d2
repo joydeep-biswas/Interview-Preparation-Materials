@@ -1,27 +1,40 @@
 direction: right
-title: Delta Lake Storage Architecture
+title: "Delta Lake Storage Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-TableDir: Delta Table Directory (/lakehouse/orders/) {
+TableDir: "Delta Table Directory (/lakehouse/orders/)" {
+  class: container
   style.stroke: "#38BDF8"
 
-  DeltaLog: _delta_log/ Transaction Log {
+  DeltaLog: "_delta_log/ Transaction Log" {
+    class: box
     style.stroke: "#FBBF24"
-    C0: 000000.json (Add part-0001)
-    C1: 000001.json (Add part-0002, part-0003)
-    C2: 000002.json (Remove part-0003, Add part-0004)
-    Check10: 000010.checkpoint.parquet (Consolidated State)
+    C0: "000000.json (Add part-0001)"
+    C1: "000001.json (Add part-0002, part-0003)"
+    C2: "000002.json (Remove part-0003, Add part-0004)"
+    Check10: "000010.checkpoint.parquet (Consolidated State)"
 
     C0 -> C1 -> C2 -> Check10
   }
 
-  StorageFiles: Physical Parquet Data Files {
+  StorageFiles: "Physical Parquet Data Files" {
+    class: box
     style.stroke: "#34D399"
-    F1: part-0001.parquet (ACTIVE)
-    F2: part-0002.parquet (ACTIVE)
-    F3: part-0003.parquet (TOMBSTONED in C2)
-    F4: part-0004.parquet (ACTIVE)
+    F1: "part-0001.parquet (ACTIVE)"
+    F2: "part-0002.parquet (ACTIVE)"
+    F3: "part-0003.parquet (TOMBSTONED in C2)"
+    F4: "part-0004.parquet (ACTIVE)"
   }
 }
 
-TableDir.DeltaLog.C2 -> TableDir.StorageFiles.F3: Tombstones file { style.stroke: "#EF4444" }
-TableDir.DeltaLog.C2 -> TableDir.StorageFiles.F4: Adds new file { style.stroke: "#34D399" }
+TableDir.DeltaLog.C2 -> TableDir.StorageFiles.F3: "Tombstones file" { style.stroke: "#EF4444" }
+TableDir.DeltaLog.C2 -> TableDir.StorageFiles.F4: "Adds new file" { style.stroke: "#34D399" }

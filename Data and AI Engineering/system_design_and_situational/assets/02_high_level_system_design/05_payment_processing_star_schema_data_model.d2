@@ -1,6 +1,17 @@
 direction: right
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-DIM_CUSTOMER: {
+DIM_CUSTOMER: "" {
+  class: container
   style.fill: "#111827"
   style.stroke: "#3B82F6"
   style.stroke-width: 2
@@ -10,7 +21,8 @@ DIM_CUSTOMER: {
   country_code: "varchar(2)"
 }
 
-DIM_MERCHANT: {
+DIM_MERCHANT: "" {
+  class: container
   style.fill: "#111827"
   style.stroke: "#10B981"
   style.stroke-width: 2
@@ -20,7 +32,8 @@ DIM_MERCHANT: {
   risk_tier: "varchar(8)"
 }
 
-FACT_PAYMENT_TRANSACTION: {
+FACT_PAYMENT_TRANSACTION: "" {
+  class: container
   style.fill: "#111827"
   style.stroke: "#F59E0B"
   style.stroke-width: 2
@@ -33,7 +46,8 @@ FACT_PAYMENT_TRANSACTION: {
   fraud_risk_score: "decimal(5,2)"
 }
 
-FACT_REFUND: {
+FACT_REFUND: "" {
+  class: container
   style.fill: "#111827"
   style.stroke: "#8B5CF6"
   style.stroke-width: 2
@@ -43,7 +57,8 @@ FACT_REFUND: {
   reason_code: "varchar(32)"
 }
 
-FACT_CHARGEBACK: {
+FACT_CHARGEBACK: "" {
+  class: container
   style.fill: "#111827"
   style.stroke: "#EF4444"
   style.stroke-width: 2

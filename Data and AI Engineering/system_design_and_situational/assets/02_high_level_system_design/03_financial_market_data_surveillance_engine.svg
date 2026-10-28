@@ -32,14 +32,14 @@
     .badge { font-weight: 600; font-size: 11px; }
     .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
   </style>
-  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <rect width="100%" height="100%" fill="url(#bg-grad)"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="32" class="title" font-size="19" text-anchor="middle">Financial Market Data Surveillance &amp; Real-Time CEP Engine</text>
   <text x="550" y="52" class="subtitle" text-anchor="middle">Sub-millisecond ITCH/FIX ingestion, PTP hardware time normalization, Flink CEP sliding windows, and compliance alerting</text>
 
   <!-- Venue Ingress -->
   <g transform="translate(30, 75)">
     <rect width="230" height="290" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="115" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">1. Heterogeneous Venues</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#60A5FA">• Exchange Protocols:</text>
     <text x="24" y="78" class="card-body">  - LSE (FIX 4.4 Protocol, UTC)</text>
@@ -50,14 +50,14 @@
     <text x="24" y="186" class="card-body">  - PTP IEEE 1588 nanosecond</text>
     <text x="24" y="206" class="card-body">    hardware timestamp tagging</text>
     <text x="24" y="226" class="card-body">  - Zero GC Off-Heap ring buffer</text>
-    <rect x="16" y="254" width="198" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="198" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="115" y="269" class="badge" fill="#93C5FD" text-anchor="middle">High-Frequency Tick Feeds</text>
   </g>
 
   <!-- Normalization & Kafka -->
   <g transform="translate(290, 75)">
     <rect width="230" height="290" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="230" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
     <text x="115" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Normalization &amp; Spine</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• Normalization Engine:</text>
     <text x="24" y="78" class="card-body">  - Unified Canonical Tick DTO</text>
@@ -67,14 +67,14 @@
     <text x="24" y="166" class="card-body">  - Partitioned by Symbol (e.g. AAPL)</text>
     <text x="24" y="186" class="card-body">  - Guarantees order per ticker</text>
     <text x="24" y="206" class="card-body">  - Low latency zero-copy produce</text>
-    <rect x="16" y="254" width="198" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="198" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="115" y="269" class="badge" fill="#A7F3D0" text-anchor="middle">Low-Latency Event Spine</text>
   </g>
 
   <!-- Flink CEP Engine -->
   <g transform="translate(550, 75)">
     <rect width="245" height="290" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="245" height="34" rx="10" ry="10" fill="#78350F"/>
+    <rect width="245" height="34" rx="10" ry="10" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
     <text x="122" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">3. Apache Flink CEP Engine</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#FBBF24">• Sliding Window Detectors:</text>
     <text x="24" y="78" class="card-body">  - 500ms sliding windows</text>
@@ -85,14 +85,14 @@
     <text x="24" y="186" class="card-body">  - Momentum Ignition alerts</text>
     <text x="16" y="214" class="card-body" font-weight="600" fill="#FBBF24">• RocksDB State Storage:</text>
     <text x="24" y="234" class="card-body">  - Watermark-aligned out-of-order</text>
-    <rect x="16" y="254" width="213" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="213" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="122" y="269" class="badge" fill="#FDE68A" text-anchor="middle">Stateful Stream Processing</text>
   </g>
 
   <!-- Output: Alerts & ClickHouse -->
   <g transform="translate(825, 75)">
     <rect width="245" height="290" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="245" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <rect width="245" height="34" rx="10" ry="10" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
     <text x="122" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Compliance &amp; Tick Store</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• Immediate Compliance Desk:</text>
     <text x="24" y="78" class="card-body">  - Sub-millisecond alert dispatch</text>
@@ -103,7 +103,7 @@
     <text x="24" y="186" class="card-body">  - SEC / FINRA forensic audit replay</text>
     <text x="16" y="214" class="card-body" font-weight="600" fill="#A78BFA">• Real-Time Heatmaps:</text>
     <text x="24" y="234" class="card-body">  - WebSocket dashboard stream</text>
-    <rect x="16" y="254" width="213" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="213" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="122" y="269" class="badge" fill="#DDD6FE" text-anchor="middle">Surveillance &amp; Forensics</text>
   </g>
 

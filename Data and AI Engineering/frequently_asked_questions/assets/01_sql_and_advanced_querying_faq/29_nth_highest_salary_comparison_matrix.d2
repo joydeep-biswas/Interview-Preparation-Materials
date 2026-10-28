@@ -1,0 +1,32 @@
+# Nth Highest Salary: Architectural Strategy Comparison Matrix
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  node: { style: { fill: "#1E293B"; stroke-width: 1.5; border-radius: 8 } }
+}
+
+approaches: "Nth Highest Salary Architectural Comparison" {
+  class: box
+  style.stroke: "#3B82F6"
+
+  dense_rank: "1. DENSE_RANK() Window\n• Handles ties cleanly (assigns same rank to equals)\n• Preserves rank sequence (no skipped ranks)\n• Requires sorting window frame" {
+    class: node
+    style.stroke: "#10B981"
+  }
+
+  limit_offset: "2. ORDER BY ... LIMIT 1 OFFSET (N-1)\n• Requires DISTINCT to avoid tie duplicates\n• High performance with B-tree index\n• Dialect-dependent (MySQL/PG LIMIT vs T-SQL OFFSET)" {
+    class: node
+    style.stroke: "#3B82F6"
+  }
+
+  correlated_subquery: "3. Correlated Subquery COUNT(DISTINCT)\n• WHERE (N-1) = (SELECT COUNT(DISTINCT...))\n• 100% ANSI-compliant, runs on any SQL engine\n• O(N²) worst-case execution plan without indexes" {
+    class: node
+    style.stroke: "#F59E0B"
+  }
+
+  nth_value: "4. NTH_VALUE() Window\n• Window frame navigation\n• Extracts Nth value across partition\n• Needs IGNORE NULLS flag depending on engine" {
+    class: node
+    style.stroke: "#8B5CF6"
+  }
+}
+

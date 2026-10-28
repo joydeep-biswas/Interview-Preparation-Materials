@@ -112,37 +112,7 @@ At its mathematical core, a **model** is a parameterized mathematical function $
 
 ![Programming Paradigm Shift: Classical Software vs. Machine Learning](assets/16_machine_learning_and_transformer_foundations/01_classical_software_vs_machine_learning.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  classical_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  ml_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  opt_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-}
-
-classical: "Classical Software Engineering" {
-  data: "Input Data (X)" { class: classical_box }
-  code: "Handcrafted Code\nif/else algorithms" { class: classical_box }
-  out: "Output Predictions (Y)" { class: classical_box }
-
-  data -> code -> out
-}
-
-ml: "Machine Learning Paradigm" {
-  data_x: "Input Data (X)" { class: ml_box }
-  data_y: "Target Labels (Y)" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  opt: "Optimization Algorithm\nAdjusts parameters theta" { class: opt_box }
-  model: "Learned Model f_theta(X)\nWeight matrices & biases" { class: ml_box }
-
-  data_x -> opt
-  data_y -> opt
-  opt -> model: "Synthesizes rules"
-}
-
-```
-</details>
+*D2 Source: [`01_classical_software_vs_machine_learning.d2`](assets/16_machine_learning_and_transformer_foundations/01_classical_software_vs_machine_learning.d2)*
 
 #### The Forward Pass and The Feedback Loop
 Learning proceeds in an iterative closed loop:
@@ -159,24 +129,7 @@ Understanding the learning paradigm governs dataset curation, compute budgeting,
 
 ![Core Machine Learning Paradigms: Supervised vs. Unsupervised vs. SSL](assets/16_machine_learning_and_transformer_foundations/02_core_machine_learning_paradigms.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  sl_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  ul_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  ssl_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-}
-
-paradigms: "Core Machine Learning Paradigms" {
-  sl: "1. Supervised Learning\nPairs: (Features X, Labels Y)\nGoal: Minimize empirical risk L(f(x), y)\nExamples: Fraud scoring, sentiment, NER" { class: sl_box }
-  ul: "2. Unsupervised Learning\nData: Features X only (No labels)\nGoal: Uncover geometric manifolds & clusters\nExamples: K-Means, PCA, HDBSCAN" { class: ul_box }
-  ssl: "3. Self-Supervised Learning (SSL)\nData: Raw web corpus X\nGoal: Predict pseudo-labels from data itself\nExamples: Next-token prediction (GPT), BERT" { class: ssl_box }
-}
-
-```
-</details>
+*D2 Source: [`02_core_machine_learning_paradigms.d2`](assets/16_machine_learning_and_transformer_foundations/02_core_machine_learning_paradigms.d2)*
 
 #### 1. Supervised Learning
 The model is supplied with labeled pairs $\mathcal{D} = \{(x_i, y_i)\}_{i=1}^N$. The objective is to learn a mapping $f_\theta: \mathcal{X} \to \mathcal{Y}$ that generalizes accurately to unseen inputs.
@@ -230,25 +183,7 @@ $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
 ![Mathematical Activation: Sigmoid Non-Linear Probability Mapping](assets/16_machine_learning_and_transformer_foundations/03_sigmoid_non_linear_mapping_dynamics.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  logit_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  sigmoid_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  prob_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-logit: "Raw Logit z\nz = w^T * x + b\nDomain: (-inf, +inf)" { class: logit_box }
-sigmoid: "Sigmoid Non-Linearity\nsigma(z) = 1 / (1 + e^-z)\nS-curve continuous mapping" { class: sigmoid_box }
-prob: "Output Probability p\np in (0.0, 1.0)\nCalibrated confidence score" { class: prob_box }
-
-logit -> sigmoid: "Squeeze logit"
-sigmoid -> prob: "Bounded probability"
-
-```
-</details>
+*D2 Source: [`03_sigmoid_non_linear_mapping_dynamics.d2`](assets/16_machine_learning_and_transformer_foundations/03_sigmoid_non_linear_mapping_dynamics.d2)*
 
 **Step-by-Step Mathematical Behavior:**
 * If $z = 0$: $\sigma(0) = \frac{1}{1 + e^0} = \frac{1}{1 + 1} = 0.5$ (Complete uncertainty / coin flip).
@@ -316,25 +251,7 @@ $$\mathbb{E}[(y - \hat{f}(x))^2] = \underbrace{\text{Bias}[\hat{f}(x)]^2}_{\text
 
 ![Generalization Dynamics: The Bias-Variance Tradeoff Spectrum](assets/16_machine_learning_and_transformer_foundations/04_bias_variance_tradeoff_spectrum.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  underfit_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  opt_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  overfit_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-}
-
-underfit: "Underfitting (High Bias)\nModel too simple; fails to learn data\nHigh train & validation error\nFix: Add capacity, layers, features" { class: underfit_box }
-optimal: "Optimal Generalization\nBalanced capacity; minimum test error\nDiscovers genuine underlying laws" { class: opt_box }
-overfit: "Overfitting (High Variance)\nMemorizes training noise & flukes\nZero train error, exploding val error\nFix: Dropout, L2 decay, more data" { class: overfit_box }
-
-underfit -> optimal: "Scale Model Capacity"
-optimal -> overfit: "Excessive Unregularized Capacity"
-
-```
-</details>
+*D2 Source: [`04_bias_variance_tradeoff_spectrum.d2`](assets/16_machine_learning_and_transformer_foundations/04_bias_variance_tradeoff_spectrum.d2)*
 
 1. **Bias (Underfitting):** Error introduced by overly simplistic assumptions in the model. If you try to fit a straight line ($y = mx + b$) to complex seasonal customer churn data, the model simply lacks the expressive capacity to capture the underlying curves.
 2. **Variance (Overfitting):** Error introduced by extreme sensitivity to small fluctuations in the training set. An over-parameterized model with no regularization will memorize every noisy data point, creating wild oscillations between data points.
@@ -358,27 +275,7 @@ $$z = \sum_{j=1}^D w_j x_j + b = \mathbf{w}^T \mathbf{x} + b, \quad a = \sigma(z
 
 ![Computational Anatomy of an Artificial Perceptron Neuron](assets/16_machine_learning_and_transformer_foundations/05_artificial_neuron_computational_anatomy.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  input_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  sum_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  act_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  out_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-inputs: "Inputs: x_1, x_2, ..., x_D" { class: input_box }
-weights: "Multiply by Weights: w_i * x_i" { class: input_box }
-sum: "Linear Summation & Bias:\nz = sum(w_i * x_i) + b" { class: sum_box }
-activation: "Non-Linear Activation:\na = sigma(z)" { class: act_box }
-output: "Neuron Output: a" { class: out_box }
-
-inputs -> weights -> sum -> activation -> output
-
-```
-</details>
+*D2 Source: [`05_artificial_neuron_computational_anatomy.d2`](assets/16_machine_learning_and_transformer_foundations/05_artificial_neuron_computational_anatomy.d2)*
 
 #### Why Can't We Just Stack Linear Layers? (The Non-Linearity Proof)
 A common question asked by junior engineers is: *"If matrix multiplication is so fast on GPUs, why can't we just stack 50 linear matrix layers $W_1, W_2, \dots, W_{50}$ without activation functions?"*
@@ -403,30 +300,7 @@ Modern deep learning architectures depend heavily on the mathematical properties
 
 ![Activation Function Architecture: Evolutionary Progression](assets/16_machine_learning_and_transformer_foundations/06_activation_functions_architectural_evolution.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  sigmoid_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
-  relu_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  gelu_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  swiglu_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-evolution: "Activation Function Architectural Evolution" {
-  sigmoid: "1. Sigmoid / Tanh\n1 / (1 + e^-z)\nSevere Vanishing Gradients when |z| > 3" { class: sigmoid_box }
-  relu: "2. ReLU (Rectified Linear Unit)\nmax(0, z)\nConstant derivative (=1) for z > 0\nFlaw: Dying ReLU if z < 0 permanently" { class: relu_box }
-  gelu: "3. GELU (Gaussian Error Linear Unit)\nz * Phi(z)\nSmooth probabilistic gating\nStandard in BERT & GPT-2" { class: gelu_box }
-  swiglu: "4. SwiGLU (Swish-Gated Linear Unit)\nSwish(xW_gate) * (xW_up)\nBilinear multiplicative gating\nSOTA in LLaMA-3 & Mistral" { class: swiglu_box }
-
-  sigmoid -> relu: "Enables deep training"
-  relu -> gelu: "Smooth non-monotonic curvature"
-  gelu -> swiglu: "Multiplicative feature gating"
-}
-
-```
-</details>
+*D2 Source: [`06_activation_functions_architectural_evolution.d2`](assets/16_machine_learning_and_transformer_foundations/06_activation_functions_architectural_evolution.d2)*
 
 #### 1. Rectified Linear Unit (ReLU)
 Introduced as the breakthrough that unlocked deep convolutional networks and early transformers:
@@ -464,35 +338,7 @@ $$\text{SwiGLU}(x) = \left( \text{Swish}(x W_{\text{gate}}) \odot (x W_{\text{up
 
 ![SwiGLU Gated Multiplicative Feed-Forward Network Block](assets/16_machine_learning_and_transformer_foundations/07_swiglu_gated_multiplicative_block.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  input_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  gate_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  up_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  hadamard_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  down_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-}
-
-x: "Input Hidden States x\n[Batch, SeqLen, HiddenDim]" { class: input_box }
-
-w_gate: "Linear Projection: W_gate\n[HiddenDim -> IntermediateDim]" { class: gate_box }
-w_up: "Linear Projection: W_up\n[HiddenDim -> IntermediateDim]" { class: up_box }
-
-silu: "Swish / SiLU Activation\nSiLU(z) = z * sigma(z)"
-hadamard: "Hadamard Product (odot)\nSiLU(xW_gate) odot (xW_up)" { class: hadamard_box }
-w_down: "Down Projection: W_down\n[IntermediateDim -> HiddenDim]" { class: down_box }
-
-x -> w_gate
-x -> w_up
-w_gate -> silu -> hadamard
-w_up -> hadamard
-hadamard -> w_down
-
-```
-</details>
+*D2 Source: [`07_swiglu_gated_multiplicative_block.d2`](assets/16_machine_learning_and_transformer_foundations/07_swiglu_gated_multiplicative_block.d2)*
 
 **Why Gating Outperforms Static Activations:**
 In standard activations, whether a feature passes through is determined purely by its sign. In SwiGLU, the gate matrix learns to dynamically scale or suppress individual feature dimensions based on the contextual meaning of the input token.
@@ -538,35 +384,7 @@ print(f"Forward pass output: y={y.item()}, loss={loss.item()}")
 
 ![Automatic Differentiation: PyTorch Autograd Computational DAG](assets/16_machine_learning_and_transformer_foundations/08_pytorch_autograd_computational_dag.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  forward_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  node_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  backward_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-forward: "Phase 1: Forward Evaluation Graph" {
-  inputs: "Inputs: x=4, w=2, b=3" { class: forward_box }
-  mul: "MulBackward: z = w * x = 8.0" { class: node_box }
-  add: "AddBackward: y = z + b = 11.0" { class: node_box }
-  loss: "PowBackward: Loss = (y - 15)^2 = 16.0" { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2 } }
-
-  inputs -> mul -> add -> loss
-}
-
-backward: "Phase 2: Reverse-Mode Backprop (VJP)" {
-  seed: "Seed: dL/dLoss = 1.0" { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  grad_y: "dL/dy = 2 * (11 - 15) = -8.0" { class: backward_box }
-  grad_w: "Accumulate w.grad = -8 * 4 = -32.0\nAccumulate b.grad = -8 * 1 = -8.0" { class: backward_box }
-
-  seed -> grad_y -> grad_w: "Chain rule backpropagation"
-}
-
-```
-</details>
+*D2 Source: [`08_pytorch_autograd_computational_dag.d2`](assets/16_machine_learning_and_transformer_foundations/08_pytorch_autograd_computational_dag.d2)*
 
 #### The Backward Pass (Vector-Jacobian Products)
 When `loss.backward()` is invoked:
@@ -599,24 +417,7 @@ Regression objectives quantify the distance between continuous predictions $\hat
 
 ![Loss Function Architecture: Regression Penalty Profiles](assets/16_machine_learning_and_transformer_foundations/09_regression_loss_functions_comparison.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  mse_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  mae_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  huber_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-losses: "Regression Loss Penalty Profiles" {
-  mse: "MSE (L2 Loss)\nL = (y - y_hat)^2\nQuadratic penalty severely punishes outliers\nSmooth everywhere, easy gradient descent" { class: mse_box }
-  mae: "MAE (L1 Loss)\nL = |y - y_hat|\nLinear penalty; robust to extreme outliers\nDiscontinuous derivative at 0 (oscillates)" { class: mae_box }
-  huber: "Huber Loss (Smooth L1)\nQuadratic for small errors, linear for outliers\nBest of both worlds: smooth + robust" { class: huber_box }
-}
-
-```
-</details>
+*D2 Source: [`09_regression_loss_functions_comparison.d2`](assets/16_machine_learning_and_transformer_foundations/09_regression_loss_functions_comparison.d2)*
 
 #### 1. Mean Squared Error (MSE / $L_2$ Loss)
 $$\mathcal{L}_{\text{MSE}} = \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2$$
@@ -689,22 +490,7 @@ Where:
 
 ![Imbalanced Classification: Focal Loss Modulating Factor Dynamics](assets/16_machine_learning_and_transformer_foundations/10_focal_loss_dynamic_modulation.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  easy_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  hard_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-focal: "Focal Loss Dynamics (gamma = 2.0)" {
-  easy: "Easy Sample (p_t = 0.99)\nFactor: (1 - 0.99)^2 = 0.0001\nLoss attenuated by 10,000x!\nZero gradient waste on background" { class: easy_box }
-  hard: "Hard Sample (p_t = 0.10)\nFactor: (1 - 0.10)^2 = 0.8100\nLoss preserved at 81% strength!\nForces network to learn rare minority class" { class: hard_box }
-}
-
-```
-</details>
+*D2 Source: [`10_focal_loss_dynamic_modulation.d2`](assets/16_machine_learning_and_transformer_foundations/10_focal_loss_dynamic_modulation.d2)*
 
 When an example is easy ($p_t \to 1$), the factor $(1 - p_t)^\gamma \to 0$, suppressing its gradient. Training focuses almost entirely on rare, ambiguous, or misclassified samples.
 
@@ -751,24 +537,7 @@ $$\theta_{t+1} = \theta_t - \eta \cdot \nabla_\theta \mathcal{L}(\theta_t)$$
 
 ![Optimization Dynamics: Learning Rate Step Size Hazards](assets/16_machine_learning_and_transformer_foundations/11_learning_rate_step_size_dynamics.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  small_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
-  optimal_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  large_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-dynamics: "Learning Rate Step Size Dynamics" {
-  too_small: "Learning Rate Too Small (eta = 1e-6)\nCrawls at glacial pace; trapped in local minima\nWastes massive GPU compute" { class: small_box }
-  optimal: "Optimal Learning Rate (eta = 3e-4)\nSmooth descent along loss contour\nFast convergence toward global minimum" { class: optimal_box }
-  too_large: "Learning Rate Too Large (eta = 0.5)\nOvershoots valley floor; bounces across ravines\nLoss explodes to NaN / +inf" { class: large_box }
-}
-
-```
-</details>
+*D2 Source: [`11_learning_rate_step_size_dynamics.d2`](assets/16_machine_learning_and_transformer_foundations/11_learning_rate_step_size_dynamics.d2)*
 
 #### Batch vs. Stochastic vs. Mini-Batch Gradient Descent
 1. **Full Batch Gradient Descent:** Computes loss over all $N$ samples in the dataset before performing a single parameter update.
@@ -837,29 +606,7 @@ Using a single constant learning rate throughout an entire training run leads to
 
 ![Learning Rate Schedule: Linear Warmup + Cosine Annealing](assets/16_machine_learning_and_transformer_foundations/12_linear_warmup_cosine_annealing_schedule.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  warmup_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  cosine_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-warmup: "1. Linear Warmup (0 -> T_warmup)\nScales lr linearly from 0 to eta_max\nStabilizes random initial weight distributions" {
-  class: warmup_box
-}
-
-cosine: "2. Cosine Annealing (T_warmup -> T_max)\nSmooth cosine decay from eta_max to eta_min\nSettles weights into flat, optimal minima" {
-  class: cosine_box
-}
-
-warmup -> cosine: "Peak LR reached (T_warmup)" {
-  style: { stroke: "#fbbf24"; stroke-width: 2 }
-}
-
-```
-</details>
+*D2 Source: [`12_linear_warmup_cosine_annealing_schedule.d2`](assets/16_machine_learning_and_transformer_foundations/12_linear_warmup_cosine_annealing_schedule.d2)*
 
 $$\eta_t = \begin{cases} \eta_{\max} \cdot \frac{t}{T_{\text{warmup}}} & \text{if } t \le T_{\text{warmup}} \\ \eta_{\min} + \frac{1}{2}(\eta_{\max} - \eta_{\min})\left(1 + \cos\left(\frac{t - T_{\text{warmup}}}{T_{\max} - T_{\text{warmup}}} \pi\right)\right) & \text{if } t > T_{\text{warmup}} \end{cases}$$
 
@@ -895,25 +642,7 @@ Deep networks suffer from internal covariate shift—the distribution of each la
 
 ![Evolution of Neural Normalization: BatchNorm to LayerNorm to RMSNorm](assets/16_machine_learning_and_transformer_foundations/13_batchnorm_vs_layernorm_vs_rmsnorm.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  bn_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
-  ln_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  rms_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-bn: "1. Batch Normalization (BN)\nNormalizes across BATCH (B)\nBreaks on dynamic NLP lengths & small batch sizes" { class: bn_box }
-ln: "2. Layer Normalization (LN)\nNormalizes across FEATURES (D) per token\nIndependent of batch size (BERT, GPT-2)" { class: ln_box }
-rmsnorm: "3. RMSNorm (Root Mean Square)\nSkips mean calculation entirely: y = x / RMS(x)\nSaves 7-10% GPU memory bandwidth (LLaMA-3)" { class: rms_box }
-
-bn -> ln: "Solve dynamic length issue"
-ln -> rmsnorm: "Eliminate mean calculation overhead"
-
-```
-</details>
+*D2 Source: [`13_batchnorm_vs_layernorm_vs_rmsnorm.d2`](assets/16_machine_learning_and_transformer_foundations/13_batchnorm_vs_layernorm_vs_rmsnorm.d2)*
 
 #### Layer Normalization (LayerNorm)
 Normalizes across the hidden feature dimension $D$ for each token independently:
@@ -1020,31 +749,7 @@ Adopted by all premier modern foundation models (LLaMA-3, Mistral, Qwen, DeepSee
 
 ![Rotary Position Embedding (RoPE) Geometric Mechanics](assets/16_machine_learning_and_transformer_foundations/14_rotary_position_embedding_rope_mechanics.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  vec_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  rot_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  dot_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-}
-
-rope: "Rotary Position Embedding (RoPE) Mechanics" {
-  q_vec: "Query Vector q at Position m\n[q0, q1, q2, q3, ...]" { class: vec_box }
-  k_vec: "Key Vector k at Position n\n[k0, k1, k2, k3, ...]" { class: vec_box }
-
-  q_rot: "Rotate 2D pairs by angle m * theta\nq_m = R_m * q" { class: rot_box }
-  k_rot: "Rotate 2D pairs by angle n * theta\nk_n = R_n * k" { class: rot_box }
-
-  dot: "Dot Product: <q_m, k_n> = q^T * R_(n - m) * k\nScore depends strictly on RELATIVE distance (n - m)!" { class: dot_box }
-
-  q_vec -> q_rot -> dot
-  k_vec -> k_rot -> dot
-}
-
-```
-</details>
+*D2 Source: [`14_rotary_position_embedding_rope_mechanics.d2`](assets/16_machine_learning_and_transformer_foundations/14_rotary_position_embedding_rope_mechanics.d2)*
 
 For every 2D chunk of a head vector $[x_1, x_2]$, RoPE applies a 2D rotation matrix:
 
@@ -1070,38 +775,7 @@ $$\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Softmax}\left(\fr
 
 ![Core Transformer Component: Scaled Dot-Product Attention](assets/16_machine_learning_and_transformer_foundations/15_scaled_dot_product_attention_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  tensor_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  op_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  scale_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  mask_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  act_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-q: "Query Tensor Q\n[B, Heads, S, d_k]" { class: tensor_box }
-k: "Key Tensor K\n[B, Heads, S, d_k]" { class: tensor_box }
-v: "Value Tensor V\n[B, Heads, S, d_v]" { class: tensor_box }
-
-matmul1: "MatMul: Q * K^T\nRaw Affinities [S, S]" { class: op_box }
-scale: "Scale by 1/sqrt(d_k)\nPrevents variance explosion" { class: scale_box }
-mask: "Causal Mask (Optional)\nUpper triangle = -inf" { class: mask_box }
-softmax: "Softmax\nProbability matrix A" { class: act_box }
-matmul2: "MatMul: A * V\nWeighted sum of Values" { class: op_box }
-out: "Context Output Tensor\n[B, Heads, S, d_v]" { class: act_box }
-
-q -> matmul1
-k -> matmul1
-matmul1 -> scale -> mask -> softmax
-softmax -> matmul2
-v -> matmul2
-matmul2 -> out
-
-```
-</details>
+*D2 Source: [`15_scaled_dot_product_attention_architecture.d2`](assets/16_machine_learning_and_transformer_foundations/15_scaled_dot_product_attention_architecture.d2)*
 
 #### Why Must We Scale by $\sqrt{d_k}$? (The Mathematical Variance Proof)
 Assume the elements of $q$ and $k$ are independent random variables with mean $0$ and variance $1$:
@@ -1134,25 +808,7 @@ During autoregressive inference, generating tokens one-by-one is severely memory
 
 ![Attention Architecture Evolution: MHA vs. GQA vs. MQA](assets/16_machine_learning_and_transformer_foundations/16_attention_variants_mha_gqa_mqa_kv_cache.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  mha_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  gqa_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  mqa_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-}
-
-mha: "1. Multi-Head Attention (MHA)\n32 Q Heads, 32 K Heads, 32 V Heads\nKV Cache: 100% Full Footprint\nHigh VRAM consumption" { class: mha_box }
-gqa: "2. Grouped-Query Attention (GQA)\n32 Q Heads, 8 K Heads, 8 V Heads (1:4 ratio)\nKV Cache: 25% (4x Reduction!)\nGold standard in LLaMA-3" { class: gqa_box }
-mqa: "3. Multi-Query Attention (MQA)\n32 Q Heads, 1 K Head, 1 V Head\nKV Cache: 3% (32x Reduction!)\nHigh speed, slight reasoning degradation" { class: mqa_box }
-
-mha -> gqa: "Group K/V heads (4x VRAM saving)"
-gqa -> mqa: "Single K/V head (32x VRAM saving)"
-
-```
-</details>
+*D2 Source: [`16_attention_variants_mha_gqa_mqa_kv_cache.d2`](assets/16_machine_learning_and_transformer_foundations/16_attention_variants_mha_gqa_mqa_kv_cache.d2)*
 
 * **Multi-Head Attention (MHA):** Every Query head has a dedicated Key and Value head ($H_Q = H_{KV}$). Maximum expressive power, but massive KV cache memory overhead during high-concurrency serving.
 * **Multi-Query Attention (MQA):** All Query heads share a single Key head and a single Value head ($H_{KV} = 1$). Cuts KV cache memory by up to $95\%$, but can cause reasoning quality drops.
@@ -1422,24 +1078,7 @@ When scaling neural training on modern GPU clusters (such as NVIDIA H100/A100), 
 
 ![High-Performance Deep Learning: The Three GPU Hardware Bottlenecks](assets/16_machine_learning_and_transformer_foundations/17_gpu_hardware_bottlenecks_compute_memory_pcie.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  compute_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  mem_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  pcie_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-gpu: "The Three Primary GPU Hardware Bottlenecks" {
-  compute: "1. Compute-Bound (GEMM)\nDense Matrix Multiplications (W * x)\nSaturated by Tensor Cores\nFix: Align dimensions to multiples of 16/32" { class: compute_box }
-  mem: "2. Memory-Bandwidth Bound\nSoftmax, RMSNorm, Activations\nStarved waiting for HBM memory bus\nFix: Kernel Fusion (FlashAttention, Triton)" { class: mem_box }
-  pcie: "3. Host-to-Device (PCIe) Bound\nSlow CPU RAM -> GPU VRAM transfers\nGPU sits idle waiting for batches\nFix: pin_memory=True & prefetching" { class: pcie_box }
-}
-
-```
-</details>
+*D2 Source: [`17_gpu_hardware_bottlenecks_compute_memory_pcie.d2`](assets/16_machine_learning_and_transformer_foundations/17_gpu_hardware_bottlenecks_compute_memory_pcie.d2)*
 
 1. **Compute-Bound Operations (GEMM - General Matrix Multiply):** FFN projections and Attention projections ($Q, K, V$). Tensor Cores reach peak teraFLOPS when tensor dimensions are aligned to multiples of 8, 16, or 32 bytes.
 2. **Memory-Bandwidth-Bound Operations (Element-Wise Operations):** Softmax, RMSNorm, and residual additions. These operations perform very few floating-point calculations per byte fetched from High Bandwidth Memory (HBM). Modern systems use **Kernel Fusion** (e.g., FlashAttention, Triton) to keep tensors in fast on-chip SRAM cache instead of repeatedly round-tripping to HBM.
@@ -1487,31 +1126,7 @@ $$P(w_1, w_2, \dots, w_T) = \prod_{t=1}^T P(w_t \mid w_1, w_2, \dots, w_{t-1})$$
 
 ![LLM Inference: Autoregressive Next-Token Generation Loop](assets/16_machine_learning_and_transformer_foundations/18_autoregressive_next_token_generation_loop.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  ctx_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  llm_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  logit_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  sample_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-loop: "Autoregressive Generation Loop" {
-  prompt: "1. Context Tokens\n['The', ' cat', ' sat', ' on']" { class: ctx_box }
-  llm: "2. LLM Forward Pass\nTransformer Layers (Attention + FFN)" { class: llm_box }
-  logits: "3. Vocabulary Logits (128k dims)\n' the': 14.2, ' a': 11.8" { class: logit_box }
-  sample: "4. Sampling (Temperature / Top-p)\nSelected Token: ' the'" { class: sample_box }
-
-  prompt -> llm -> logits -> sample
-  sample -> prompt: "Append token & repeat for next position" {
-    style: { stroke: "#4ade80"; stroke-width: 2 }
-  }
-}
-
-```
-</details>
+*D2 Source: [`18_autoregressive_next_token_generation_loop.d2`](assets/16_machine_learning_and_transformer_foundations/18_autoregressive_next_token_generation_loop.d2)*
 
 #### The Pretraining Objective: Cross-Entropy Loss
 During pretraining across trillions of internet tokens (Common Crawl, GitHub, Wikipedia, books, scientific papers), the network parameters $\theta$ are updated to minimize the negative log-likelihood of observing the actual next token:
@@ -1528,27 +1143,7 @@ A frequent point of confusion for beginners is the difference between a **Base M
 
 ![The Three Stages of Modern LLM Construction](assets/16_machine_learning_and_transformer_foundations/19_llm_construction_stages_pretraining_sft_rlhf.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  base_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
-  sft_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  align_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-stages: "The Three Stages of Model Construction" {
-  base: "1. Pretraining (Base Model)\n15T+ tokens next-token prediction\nRaw text completion engine" { class: base_box }
-  sft: "2. Supervised Fine-Tuning (Instruct)\n100k+ conversational Q&A pairs\nLearns to follow instructions" { class: sft_box }
-  align: "3. Preference Alignment (RLHF / DPO)\n(Prompt, Chosen, Rejected) pairs\nSafe, honest, helpful assistant" { class: align_box }
-
-  base -> sft: "Instruct tuning"
-  sft -> align: "Preference optimization"
-}
-
-```
-</details>
+*D2 Source: [`19_llm_construction_stages_pretraining_sft_rlhf.d2`](assets/16_machine_learning_and_transformer_foundations/19_llm_construction_stages_pretraining_sft_rlhf.d2)*
 
 * **Base Model (e.g., LLaMA-3-8B-Base):** Has read the internet and acquired vast world knowledge, syntax, and coding semantics. However, it only knows how to *continue text*. If you prompt it with a question, it might output another question or complete the text as a forum thread.
 * **Supervised Fine-Tuning (SFT):** The model is trained on curated demonstrations where humans formatted inputs as `User: <question>` and `Assistant: <helpful answer>`. The model learns the conversational "turn-taking" protocol.
@@ -1605,24 +1200,7 @@ Computers cannot process strings directly; they require numbers. But how should 
 
 ![Natural Language Tokenization: Why Subwords Won the Industry](assets/16_machine_learning_and_transformer_foundations/20_subword_tokenization_character_word_bpe.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  char_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  word_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  subword_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-tokenization: "Why Subword Tokenization Won" {
-  char: "1. Character-Level ('c', 'a', 't')\nTiny 256 vocab\nFlaw: 6x longer sequence length (36x attention compute)" { class: char_box }
-  word: "2. Word-Level ('cat', 'sat')\nShort sequence length\nFlaw: Vocabulary explosion (millions) & OOV on typos" { class: word_box }
-  subword: "3. Subword Tokenization (BPE / SentencePiece)\nSweet spot: 32k-128k vocabulary\nFrequent words 1 token, rare words split into stems" { class: subword_box }
-}
-
-```
-</details>
+*D2 Source: [`20_subword_tokenization_character_word_bpe.d2`](assets/16_machine_learning_and_transformer_foundations/20_subword_tokenization_character_word_bpe.d2)*
 
 1. **Character-Level:** A 1,000-word essay requires ~5,000 character tokens. Because transformer self-attention scales quadratically ($\mathcal{O}(N^2)$), 5,000 character tokens consume $16\times$ more compute and memory than 1,200 subword tokens!
 2. **Word-Level:** Natural languages have millions of distinct word variations. Storing an embedding matrix for 2 million words requires gigabytes of VRAM just for the lookup table, and any misspelled word (e.g., `kubernetes` vs `kubernets`) triggers an `[UNK]` (Unknown Token) error.
@@ -1650,28 +1228,7 @@ Suppose our training corpus contains the following word frequencies:
 
 ![Byte Pair Encoding (BPE) Iterative Vocabulary Construction](assets/16_machine_learning_and_transformer_foundations/21_byte_pair_encoding_bpe_training_walkthrough.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  init_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
-  merge_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  final_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-bpe: "BPE Vocabulary Construction Walkthrough" {
-  base: "Initial State: Single character vocab\n[l, o, w, e, r, n, s, t, i, d, </w>]" { class: init_box }
-  m1: "Iteration 1: Merge ('e', 's') -> 'es' (Frequency = 9)" { class: merge_box }
-  m2: "Iteration 2: Merge ('es', 't') -> 'est' (Frequency = 9)" { class: merge_box }
-  m3: "Iteration 3: Merge ('est', '</w>') -> 'est</w>' (Frequency = 9)" { class: final_box }
-  m4: "Iteration 4: Merge ('l', 'o') -> 'lo' (Frequency = 7)" { class: merge_box }
-
-  base -> m1 -> m2 -> m3 -> m4: "Iterative greedy frequency merges"
-}
-
-```
-</details>
+*D2 Source: [`21_byte_pair_encoding_bpe_training_walkthrough.d2`](assets/16_machine_learning_and_transformer_foundations/21_byte_pair_encoding_bpe_training_walkthrough.d2)*
 
 When this model later encounters a brand-new unseen word like `"lowest"`, it splits it into known vocabulary tokens: `['low', 'est</w>']`. It never produces an Out-Of-Vocabulary error!
 
@@ -1691,24 +1248,7 @@ A critical production reality that directly affects latency, GPU memory, and API
 
 ![The Tokenization Tax: Cross-Lingual Token Density Disparity](assets/16_machine_learning_and_transformer_foundations/22_token_density_disparity_cross_lingual_cost.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  eng_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  span_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  hindi_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-tax: "Tokenization Density Disparity Across Languages" {
-  eng: "English: 'Good morning'\nTokens: 2\nBytes/Token: ~4.5\nBase Cost: 1.0x" { class: eng_box }
-  span: "Spanish: 'Buenos dias'\nTokens: 3\nBytes/Token: ~3.3\nBase Cost: 1.5x" { class: span_box }
-  hindi: "Hindi: 'Shubh Prabhat'\nTokens: 7 (3.5x more tokens!)\nBytes/Token: ~1.2\nBase Cost: 3.5x (High latency tax!)" { class: hindi_box }
-}
-
-```
-</details>
+*D2 Source: [`22_token_density_disparity_cross_lingual_cost.d2`](assets/16_machine_learning_and_transformer_foundations/22_token_density_disparity_cross_lingual_cost.d2)*
 
 #### Why Does This Happen?
 Modern LLM vocabularies are heavily biased toward English text (which constitutes 80%+ of internet training sets). Common English words are allocated single token IDs. Non-Latin scripts (Devanagari, Arabic, Cyrillic, Chinese) frequently require 2 to 4 tokens per individual word because they are fragmented into UTF-8 byte sequences!
@@ -1736,35 +1276,7 @@ Today, the entire generative AI industry (GPT-4, Claude, LLaMA-3, Mistral, DeepS
 
 ![Standard Modern Decoder-Only Transformer Block (LLaMA-3 Style)](assets/16_machine_learning_and_transformer_foundations/23_standard_decoder_only_block_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  norm_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  attn_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  ffn_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  add_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-}
-
-input: "Input Token Hidden States x_t"
-norm1: "RMSNorm (Pre-Normalization)" { class: norm_box }
-attn: "Grouped-Query Attention (GQA)\nCausal Mask & RoPE" { class: attn_box }
-add1: "Residual Add: x = x + Attn(x)" { class: add_box }
-
-norm2: "RMSNorm (Pre-Normalization)" { class: norm_box }
-ffn: "SwiGLU Feed-Forward Network\nBilinear Gating" { class: ffn_box }
-add2: "Residual Add: x = x + FFN(x)" { class: add_box }
-output: "Output Hidden States x_{t+1}"
-
-input -> norm1 -> attn -> add1
-input -> add1: "Residual Skip"
-add1 -> norm2 -> ffn -> add2
-add1 -> add2: "Residual Skip"
-add2 -> output
-
-```
-</details>
+*D2 Source: [`23_standard_decoder_only_block_architecture.d2`](assets/16_machine_learning_and_transformer_foundations/23_standard_decoder_only_block_architecture.d2)*
 
 #### Why Decoder-Only Won:
 1. **Autoregressive Simplicity:** Pretraining objective and inference execution are identical—next-token prediction.
@@ -1781,38 +1293,7 @@ In a **Mixture-of-Experts (MoE)** architecture, the dense Feed-Forward Network (
 
 ![Mixture-of-Experts (MoE) Sparse Architecture: Top-2 Gating Mechanics](assets/16_machine_learning_and_transformer_foundations/24_top_2_mixture_of_experts_routing_mechanics.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  router_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  select_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  active_expert: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  idle_expert: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 1 } }
-  sum_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-token: "Incoming Token Vector x_t"
-router: "Router Gating Network\nW_gate * x_t -> Softmax" { class: router_box }
-top2: "Top-2 Selector\nRoutes to Expert 2 (0.62) & Expert 1 (0.38)" { class: select_box }
-
-pool: "Expert Pool (8 Parallel FFNs)" {
-  e1: "Expert 1 (Math/Logic) [Active]" { class: active_expert }
-  e2: "Expert 2 (Code/Syntax) [Active]" { class: active_expert }
-  e3_8: "Experts 3 to 8 [Inactive]" { class: idle_expert }
-}
-
-sum: "Weighted Sum: y = 0.62*E2(x) + 0.38*E1(x)" { class: sum_box }
-
-token -> router -> top2
-top2 -> pool.e1: "Route token"
-top2 -> pool.e2: "Route token"
-pool.e1 -> sum
-pool.e2 -> sum
-
-```
-</details>
+*D2 Source: [`24_top_2_mixture_of_experts_routing_mechanics.d2`](assets/16_machine_learning_and_transformer_foundations/24_top_2_mixture_of_experts_routing_mechanics.d2)*
 
 #### Mathematical Formulation:
 Given input token $x$:
@@ -1876,29 +1357,7 @@ Understanding the two distinct execution regimes of an LLM request is the most f
 
 ![Dual-Phase LLM Serving Lifecycle: Prefill vs. Decode](assets/16_machine_learning_and_transformer_foundations/25_llm_request_lifecycle_prefill_vs_decode.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  prefill_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  decode_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-prefill: "Phase 1: Prefill (Context Prompt Processing)\nCompute-Bound: 2,048 tokens parallel GEMM\nSaturates Tensor Cores; emits first token (TTFT)" {
-  class: prefill_box
-}
-
-decode: "Phase 2: Decode (Sequential Token Generation)\nMemory-Bandwidth Bound: 1 token at a time\nStreams tokens (+30ms ITL) until [EOS]" {
-  class: decode_box
-}
-
-prefill -> decode: "First token emitted\nSwitches from Compute to Memory bound" {
-  style: { stroke: "#fbbf24"; stroke-width: 2 }
-}
-
-```
-</details>
+*D2 Source: [`25_llm_request_lifecycle_prefill_vs_decode.d2`](assets/16_machine_learning_and_transformer_foundations/25_llm_request_lifecycle_prefill_vs_decode.d2)*
 
 ---
 
@@ -1908,29 +1367,7 @@ Enterprise user experience is governed by two completely separate latency metric
 
 ![LLM Inference Request Latency Timeline: TTFT vs. ITL](assets/16_machine_learning_and_transformer_foundations/26_llm_inference_latency_timeline_ttft_itl.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  event_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  ttft_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  itl_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  eos_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-timeline: "Timeline of an LLM Inference Request" {
-  dispatch: "T=0: Request Dispatched\nEnter gateway queue" { class: event_box }
-  prefill: "T=150ms: Prefill Phase Starts\nParallel prompt processing" { class: event_box }
-  ttft: "T=450ms: Time To First Token (TTFT)\nFirst token emitted & spinner vanishes" { class: ttft_box }
-  stream: "Inter-Token Latency (ITL: +30ms/token)\nTokens 2..N streamed to client" { class: itl_box }
-  eos: "T=880ms: Request Complete\n[EOS] token emitted; Total = TTFT + N*ITL" { class: eos_box }
-
-  dispatch -> prefill -> ttft -> stream -> eos
-}
-
-```
-</details>
+*D2 Source: [`26_llm_inference_latency_timeline_ttft_itl.d2`](assets/16_machine_learning_and_transformer_foundations/26_llm_inference_latency_timeline_ttft_itl.d2)*
 
 1. **Time to First Token (TTFT):** The duration from when the user hits "Send" until the first generated character streams to the screen. TTFT is dominated by the **Prefill Phase**. If the prompt is 50,000 tokens long, TTFT will be high (e.g., 2–5 seconds).
 2. **Inter-Token Latency (ITL) / Time Per Output Token (TPOT):** The time between consecutive streaming tokens during the **Decode Phase** (typically 20ms to 40ms per token, equating to 25–50 tokens/sec).
@@ -1974,29 +1411,7 @@ We compute the Key and Value vectors for past tokens **once**, and save them in 
 
 ![KV Cache Update Mechanism: Incremental Decoding](assets/16_machine_learning_and_transformer_foundations/27_kv_cache_attention_update_mechanism.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  token_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  cache_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  engine_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  out_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-}
-
-token: "New Token at Step t\nComputes single Q_t, K_t, V_t" { class: token_box }
-cache: "Persistent GPU VRAM KV Cache\nPast Keys: [K_1..K_{t-1}]\nPast Values: [V_1..V_{t-1}]" { class: cache_box }
-engine: "Attention Engine\nEvaluates Q_t against K_{1..t}\nContext = A_t * V_{1..t}" { class: engine_box }
-out: "Next Token Logit\nEmits Token t+1" { class: out_box }
-
-token -> engine: "Q_t"
-token -> cache: "Append K_t, V_t"
-cache -> engine: "Past K, V"
-engine -> out
-
-```
-</details>
+*D2 Source: [`27_kv_cache_attention_update_mechanism.d2`](assets/16_machine_learning_and_transformer_foundations/27_kv_cache_attention_update_mechanism.d2)*
 
 By caching past states, per-token generation complexity drops from quadratic $\mathcal{O}(N^2)$ to linear $\mathcal{O}(N)$ compute!
 
@@ -2054,26 +1469,7 @@ Notice how KV cache scales with sequence length:
 
 ![Serving Scalability: VRAM Exhaustion at 128k Long-Context](assets/16_machine_learning_and_transformer_foundations/28_vram_exhaustion_long_context_serving.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  short_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  med_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  long_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-vram: "VRAM Scaling at 128k Long-Context Serving" {
-  short: "8k Context Length\nKV Cache: 1.0 GB / user\nSingle 80GB GPU Capacity: ~64 Concurrent Users" { class: short_box }
-  med: "32k Context Length\nKV Cache: 4.0 GB / user\nSingle 80GB GPU Capacity: ~16 Concurrent Users" { class: med_box }
-  long: "128k Context Length\nKV Cache: 16.0 GB / user!\nSingle 80GB GPU Capacity: STRICTLY 2-4 USERS!" { class: long_box }
-
-  short -> med -> long: "Linear memory growth crushes concurrency"
-}
-
-```
-</details>
+*D2 Source: [`28_vram_exhaustion_long_context_serving.d2`](assets/16_machine_learning_and_transformer_foundations/28_vram_exhaustion_long_context_serving.d2)*
 
 When an enterprise expands context from 8k to 128k tokens, the memory per user jumps by **$16\times$**. On the same GPU hardware, concurrency collapses from 64 simultaneous users down to just 4 users. Solving this memory crisis requires **Grouped-Query Attention (GQA)**, **PagedAttention (vLLM)**, and **FP8/INT4 KV Cache Quantization**.
 
@@ -2108,27 +1504,7 @@ Dynamically sizes the candidate pool based on cumulative probability mass $p \in
 
 ![Decoding Strategies: Top-p (Nucleus = 0.90) Sampling Algorithm](assets/16_machine_learning_and_transformer_foundations/29_top_p_nucleus_sampling_walkthrough.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  step_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  keep_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  norm_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-}
-
-topp: "Top-p (Nucleus = 0.90) Sampling Walkthrough" {
-  s1: "1. Sort Tokens by Prob\nParis: 0.50, London: 0.25\nRome: 0.12, Berlin: 0.08" { class: step_box }
-  s2: "2. Cumulative Sum\nParis (0.50) -> London (0.75)\nRome (0.87) -> Berlin (0.95: Exceeded!)" { class: step_box }
-  s3: "3. Truncate Tail\nKeep Paris, London, Rome, Berlin\nDiscard Madrid (logit = -inf)" { class: keep_box }
-  s4: "4. Renormalize & Sample\nSum = 0.95; scale to 1.0" { class: norm_box }
-
-  s1 -> s2 -> s3 -> s4
-}
-
-```
-</details>
+*D2 Source: [`29_top_p_nucleus_sampling_walkthrough.d2`](assets/16_machine_learning_and_transformer_foundations/29_top_p_nucleus_sampling_walkthrough.d2)*
 
 ---
 
@@ -2170,32 +1546,7 @@ Traditional foundation models generate responses immediately upon reading the pr
 
 ![Reasoning Models: Test-Time Scratchpad Architecture](assets/16_machine_learning_and_transformer_foundations/30_reasoning_models_test_time_scratchpad.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  think_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  out_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-user: "User Query\n'Prove sqrt(2) is irrational'"
-
-thinking: "Hidden Test-Time Compute (<think>...<think>)" {
-  t1: "1. Assume sqrt(2) is rational: a/b (gcd=1)" { class: think_box }
-  t2: "2. a^2 = 2b^2 -> a is even" { class: think_box }
-  t3: "3. 4k^2 = 2b^2 -> b is even" { class: think_box }
-  t4: "4. Contradiction: gcd(a,b) != 1" { class: think_box }
-
-  t1 -> t2 -> t3 -> t4
-}
-
-response: "Emitted User Response\n'Here is the verified proof...'" { class: out_box }
-
-user -> thinking -> response: "</think> trigger"
-
-```
-</details>
+*D2 Source: [`30_reasoning_models_test_time_scratchpad.d2`](assets/16_machine_learning_and_transformer_foundations/30_reasoning_models_test_time_scratchpad.d2)*
 
 The model generates an internal Chain-of-Thought (CoT) inside an encapsulated `<think>` scratchpad. It evaluates alternative hypotheses, detects logical flaws in its own reasoning, backtracks, and corrects errors *before emitting the first visible user-facing token*.
 
@@ -2209,22 +1560,7 @@ However, pretraining scaling is encountering physical ceilings (power grid limit
 
 ![The Frontier of AI Scaling: Train-Time vs. Test-Time Compute](assets/16_machine_learning_and_transformer_foundations/31_ai_scaling_paradigms_train_vs_test_time.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  train_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  test_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-paradigms: "Two Axes of Scaling AI Intelligence" {
-  train: "1. Train-Time Compute Scaling\nScale parameters N & pretraining tokens D\nPaid ONCE by vendor ($100M+); fixed latency" { class: train_box }
-  test: "2. Test-Time Compute Scaling\nScale thinking tokens at inference time\nPaid PER-QUERY ($0.05/call); dynamic latency" { class: test_box }
-}
-
-```
-</details>
+*D2 Source: [`31_ai_scaling_paradigms_train_vs_test_time.d2`](assets/16_machine_learning_and_transformer_foundations/31_ai_scaling_paradigms_train_vs_test_time.d2)*
 
 * Spending **1,000 reasoning tokens** at inference time allows an open-weights 7B/14B model (like DeepSeek-R1-Distill) to outperform a non-thinking 70B dense model on competitive programming (Codeforces) and olympiad mathematics (AIME).
 * Compute is expended dynamically based on problem difficulty: a simple question uses 0 thinking tokens; an intricate distributed database design question spends 8,000 thinking tokens exploring trade-offs.
@@ -2439,30 +1775,7 @@ When selecting a foundation model for enterprise production, evaluate options sy
 
 ![The 8-Dimension Enterprise Foundation Model Selection Matrix](assets/16_machine_learning_and_transformer_foundations/32_enterprise_model_selection_8_dimension_matrix.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  blue_dim: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  green_dim: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  amber_dim: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  purple_dim: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-}
-
-matrix: "The 8-Dimension Model Selection Matrix" {
-  d1: "1. Reasoning Quality (MMLU, HumanEval)" { class: blue_dim }
-  d2: "2. Latency & Throughput (TTFT <= 500ms)" { class: blue_dim }
-  d3: "3. Cost Envelope ($/1M tokens)" { class: green_dim }
-  d4: "4. Context Window & Retrieval Needle" { class: green_dim }
-  d5: "5. Licensing & Privacy (Open vs Closed)" { class: amber_dim }
-  d6: "6. Structured Outputs & Tool Calling" { class: amber_dim }
-  d7: "7. Hardware Sizing & Self-Hosting" { class: purple_dim }
-  d8: "8. Multimodal (Vision & Audio)" { class: purple_dim }
-}
-
-```
-</details>
+*D2 Source: [`32_enterprise_model_selection_8_dimension_matrix.d2`](assets/16_machine_learning_and_transformer_foundations/32_enterprise_model_selection_8_dimension_matrix.d2)*
 
 > [!TIP]
 > **Deep-Dive Interview Scenario:**

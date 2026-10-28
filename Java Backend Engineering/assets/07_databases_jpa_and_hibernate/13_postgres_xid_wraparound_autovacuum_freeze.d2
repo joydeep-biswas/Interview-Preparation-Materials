@@ -1,27 +1,32 @@
 direction: right
 title: "PostgreSQL Transaction ID (XID) Wraparound & VACUUM FREEZE"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 horizon: "Circular 32-Bit Transaction Space (4.29B XIDs)" {
+  class: container
   style.fill: "#0b101d"
   style.stroke: "#3b82f6"
 
-  past: "Past Horizon
-2.14 Billion XIDs
-Visible to Snapshots" {
+  past: "Past Horizon\n2.14 Billion XIDs\nVisible to Snapshots" {
     style.fill: "#064e3b"
     style.stroke: "#10b981"
   }
 
-  current: "Current XID
-Active Epoch
-Advances with writes" {
+  current: "Current XID\nActive Epoch\nAdvances with writes" {
     style.fill: "#7f1d1d"
     style.stroke: "#ef4444"
   }
 
-  future: "Future Horizon
-2.14 Billion XIDs
-Invisible to Snapshots" {
+  future: "Future Horizon\n2.14 Billion XIDs\nInvisible to Snapshots" {
     style.fill: "#1e293b"
     style.stroke: "#64748b"
   }
@@ -30,9 +35,7 @@ Invisible to Snapshots" {
   current -> future
 }
 
-freeze: "VACUUM FREEZE
-Converts xmin -> FrozenXID (2)
-Eternally visible in all pasts!" {
+freeze: "VACUUM FREEZE\nConverts xmin -> FrozenXID (2)\nEternally visible in all pasts!" {
   style.fill: "#78350f"
   style.stroke: "#f59e0b"
 }

@@ -1,16 +1,23 @@
 # Shuffle Sort-Merge Join (SMJ) Execution Timeline
 direction: right
+classes: {
+  stage_card: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+}
 
-stage1: "Stage 1: Network Shuffle\n• Hash(Key) % P\n• All-to-All network exchange\n• Co-locates matching keys" {
+stage1: "Stage 1: Network Shuffle\n• Hash(JoinKey) % NumPartitions\n• All-to-all cluster network exchange\n• Co-locates matching join keys onto same worker" {
+  class: stage_card
   style.stroke: "#3B82F6"
 }
 
-stage2: "Stage 2: Parallel Local Sort\n• Sorts partitions by key\n• External merge sort O(N log N)" {
+stage2: "Stage 2: Parallel Local Sort\n• Sorts partitions by join key in memory\n• External spill-to-disk merge sort O(N log N) if required\n• Emits strictly ordered tuple streams" {
+  class: stage_card
   style.stroke: "#F59E0B"
 }
 
-stage3: "Stage 3: Linear Merge\n• Two-pointer streaming cursor\n• Single linear pass O(N+M)\n• Zero RAM spill risk" {
+stage3: "Stage 3: Linear Merge Scan\n• Two-pointer streaming cursor across inputs\n• Single linear pass O(N + M)\n• Zero RAM spill risk; handles massive petabyte tables" {
+  class: stage_card
   style.stroke: "#10B981"
 }
 
-stage1 -> stage2 -> stage3
+stage1 -> stage2: "Partitioned Streams"
+stage2 -> stage3: "Pre-Sorted Streams"

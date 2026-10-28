@@ -8,7 +8,7 @@ A comprehensive guide to real-world interview scenarios and production failure p
 
 ![Multi-Modal Document Ingestion & Chunking Pipeline](assets/10_document_processing_and_data_preparation_for_ai_faq/01_multimodal_document_ingestion_chunking_pipeline.svg)
 
-*D2 Source:* [assets/10_document_processing_and_data_preparation_for_ai_faq/01_multimodal_document_ingestion_chunking_pipeline.d2](assets/10_document_processing_and_data_preparation_for_ai_faq/01_multimodal_document_ingestion_chunking_pipeline.d2)
+*D2 Source: [`01_multimodal_document_ingestion_chunking_pipeline.d2`](assets/10_document_processing_and_data_preparation_for_ai_faq/01_multimodal_document_ingestion_chunking_pipeline.d2)*
 
 ---
 
@@ -58,7 +58,7 @@ A comprehensive guide to real-world interview scenarios and production failure p
 
 ![5 Core Document Chunking Paradigms](assets/10_document_processing_and_data_preparation_for_ai_faq/02_five_core_chunking_paradigms.svg)
 
-*D2 Source:* [assets/10_document_processing_and_data_preparation_for_ai_faq/02_five_core_chunking_paradigms.d2](assets/10_document_processing_and_data_preparation_for_ai_faq/02_five_core_chunking_paradigms.d2)
+*D2 Source: [`02_five_core_chunking_paradigms.d2`](assets/10_document_processing_and_data_preparation_for_ai_faq/02_five_core_chunking_paradigms.d2)*
 
 1. **Fixed-Size Token Chunking:**
    - **How it Works:** Slices raw token streams into arbitrary blocks (e.g., 512 tokens with 50-token overlap).
@@ -98,7 +98,7 @@ A comprehensive guide to real-world interview scenarios and production failure p
 
 ![Dual-Stream Decomposition vs Vision-Native Document RAG](assets/10_document_processing_and_data_preparation_for_ai_faq/03_dual_stream_decomposition_vs_vision_native_colpali.svg)
 
-*D2 Source:* [assets/10_document_processing_and_data_preparation_for_ai_faq/03_dual_stream_decomposition_vs_vision_native_colpali.d2](assets/10_document_processing_and_data_preparation_for_ai_faq/03_dual_stream_decomposition_vs_vision_native_colpali.d2)
+*D2 Source: [`03_dual_stream_decomposition_vs_vision_native_colpali.d2`](assets/10_document_processing_and_data_preparation_for_ai_faq/03_dual_stream_decomposition_vs_vision_native_colpali.d2)*
 
 #### Approach 1: Dual-Stream Decomposition & VLM Figure Captioning (Production Workhorse)
 1. **Layout Decomposition:** Pass each PDF page through a layout model (e.g. `unstructured` or `MinerU`). Detect bounding boxes categorized as `text`, `table`, or `figure`.

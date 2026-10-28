@@ -38,7 +38,7 @@
 
   <!-- Left: Input Intervals -->
   <rect x="50" y="95" width="340" height="420" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="95" width="340" height="32" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="95" width="340" height="32" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="220" y="117" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Input: Intervals Sorted by Start Time</text>
 
   <rect x="70" y="145" width="300" height="70" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="1.5"/>
@@ -64,7 +64,7 @@
 
   <!-- Center: Min-Heap State Progression -->
   <rect x="420" y="95" width="410" height="420" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
-  <rect x="420" y="95" width="410" height="32" rx="8" fill="#064E3B"/>
+  <rect x="420" y="95" width="410" height="32" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="625" y="117" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Min-Heap: PriorityQueue&lt;Integer&gt; (Tracks End Times)</text>
 
   <!-- Heap State 1 -->
@@ -93,7 +93,7 @@
 
   <!-- Right: Min-Heap Array Backing -->
   <rect x="850" y="95" width="300" height="420" rx="8" fill="#0B132B" stroke="#1D4ED8" stroke-width="1.5"/>
-  <rect x="850" y="95" width="300" height="32" rx="8" fill="#1E3A8A"/>
+  <rect x="850" y="95" width="300" height="32" rx="8" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
   <text x="1000" y="117" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">PriorityQueue Array Backing</text>
 
   <rect x="865" y="145" width="270" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>

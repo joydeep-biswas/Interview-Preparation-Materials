@@ -1,26 +1,42 @@
 direction: right
-title: Kappa Architecture: Single Append-Only Log Substrate
+title: "Kappa Architecture: Single Append-Only Log Substrate"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-log: Distributed Event Log Substrate (Kafka / Pulsar) {
+log: "Distributed Event Log Substrate (Kafka / Pulsar)" {
+  class: container
   shape: cylinder
   retention: "Long-term / Infinite log retention"
 }
 
-compute: Single Stream Processing Framework (Apache Flink) {
-  v1: Live Pipeline v1 {
+compute: "Single Stream Processing Framework (Apache Flink)" {
+  class: container
+  v1: "Live Pipeline v1" {
+    class: box
     shape: rectangle
     status: "Active live processing"
   }
-  v2: Backfill Pipeline v2 {
+  v2: "Backfill Pipeline v2" {
+    class: box
     shape: rectangle
     status: "Replaying from offset 0"
     style.stroke-dash: 4
   }
 }
 
-serving: Serving Data Stores {
-  store_v1: Serving Store v1 (Live Traffic)
-  store_v2: Serving Store v2 (Rebuilt Backfill) {
+serving: "Serving Data Stores" {
+  class: container
+  store_v1: "Serving Store v1 (Live Traffic)"
+  store_v2: "Serving Store v2 (Rebuilt Backfill)" {
+    class: box
     style.stroke-dash: 4
   }
 }

@@ -1,26 +1,42 @@
 direction: right
-title: Log-Structured Merge-Tree (LSM-Tree) Architecture
+title: "Log-Structured Merge-Tree (LSM-Tree) Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-memory: In-Memory Tier {
-  client: Client PUT(k, v)
-  wal: 1. Append to WAL (Disk) {
+memory: "In-Memory Tier" {
+  class: container
+  client: "Client PUT(k, v)"
+  wal: "1. Append to WAL (Disk)" {
+    class: box
     style.stroke: "#ef4444"
   }
-  memtable: 2. Insert into MemTable (Concurrent SkipList in RAM) {
+  memtable: "2. Insert into MemTable (Concurrent SkipList in RAM)" {
+    class: box
     style.stroke: "#06b6d4"
   }
   client -> wal: "Durability fsync"
   client -> memtable: "O(log N) insert"
 }
 
-disk: Flush & Compaction Engine {
-  l0: Level 0 SSTables (Disk) {
+disk: "Flush & Compaction Engine" {
+  class: container
+  l0: "Level 0 SSTables (Disk)" {
+    class: box
     keys: "Keys overlap across files [1-100] [50-150]"
   }
-  l1: Level 1 SSTables (Disk) {
+  l1: "Level 1 SSTables (Disk)" {
+    class: box
     keys: "Non-overlapping key ranges [1-50] [51-100] [101-150]"
   }
-  l2: Level 2 SSTables (Disk - 10x Capacity)
+  l2: "Level 2 SSTables (Disk - 10x Capacity)"
   l0 -> l1: "Compaction Merge"
   l1 -> l2: "Cascading Compaction"
 }

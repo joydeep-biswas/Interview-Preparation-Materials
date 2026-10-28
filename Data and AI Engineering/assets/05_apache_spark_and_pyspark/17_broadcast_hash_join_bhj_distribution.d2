@@ -1,32 +1,45 @@
 direction: right
-title: Broadcast Hash Join (BHJ) Architecture
+title: "Broadcast Hash Join (BHJ) Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Driver: Driver Layer {
+Driver: "Driver Layer" {
+  class: container
   style.stroke: "#38BDF8"
-  SmallDim: Small Dim Table (15MB)
-  DriverNode: Driver Master (Collects & Hashes)
-  Torrent: TorrentBroadcast P2P Distributor
+  SmallDim: "Small Dim Table (15MB)"
+  DriverNode: "Driver Master (Collects & Hashes)"
+  Torrent: "TorrentBroadcast P2P Distributor"
 
   SmallDim -> DriverNode -> Torrent
 }
 
-Worker1: Worker Node 1 {
+Worker1: "Worker Node 1" {
+  class: container
   style.stroke: "#34D399"
-  HashRAM1: Broadcast Hash Table (In-Memory RAM)
-  FactPart1: Fact Partition 1 (500GB Scan)
-  Join1: Local Join Complete (Zero Shuffle)
+  HashRAM1: "Broadcast Hash Table (In-Memory RAM)"
+  FactPart1: "Fact Partition 1 (500GB Scan)"
+  Join1: "Local Join Complete (Zero Shuffle)"
 
   HashRAM1 -> FactPart1 -> Join1
 }
 
-Worker2: Worker Node 2 {
+Worker2: "Worker Node 2" {
+  class: container
   style.stroke: "#34D399"
-  HashRAM2: Broadcast Hash Table (In-Memory RAM)
-  FactPart2: Fact Partition 2 (500GB Scan)
-  Join2: Local Join Complete (Zero Shuffle)
+  HashRAM2: "Broadcast Hash Table (In-Memory RAM)"
+  FactPart2: "Fact Partition 2 (500GB Scan)"
+  Join2: "Local Join Complete (Zero Shuffle)"
 
   HashRAM2 -> FactPart2 -> Join2
 }
 
-Driver.Torrent -> Worker1.HashRAM1: 15MB P2P Broadcast { style.stroke: "#FBBF24" }
-Driver.Torrent -> Worker2.HashRAM2: 15MB P2P Broadcast { style.stroke: "#FBBF24" }
+Driver.Torrent -> Worker1.HashRAM1: "15MB P2P Broadcast" { style.stroke: "#FBBF24" }
+Driver.Torrent -> Worker2.HashRAM2: "15MB P2P Broadcast" { style.stroke: "#FBBF24" }

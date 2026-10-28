@@ -1,46 +1,49 @@
 direction: down
 title: "The Three Pillars of Production Observability & Diagnostics"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 pillars: "The Three Pillars of Observability" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 
-  logs: "Structured Logs & MDC
-Logback / OpenSearch / Loki
-Contextual debugging" {
+  logs: "Structured Logs & MDC\nLogback / OpenSearch / Loki\nContextual debugging" {
     style.fill: "#083344"
     style.stroke: "#06b6d4"
   }
-  metrics: "Golden Signals Metrics
-Micrometer / Prometheus / Grafana
-Alerting & detection" {
+  metrics: "Golden Signals Metrics\nMicrometer / Prometheus / Grafana\nAlerting & detection" {
     style.fill: "#064e3b"
     style.stroke: "#10b981"
   }
-  traces: "Distributed Tracing
-OpenTelemetry / Jaeger
-Latency bottleneck isolation" {
+  traces: "Distributed Tracing\nOpenTelemetry / Jaeger\nLatency bottleneck isolation" {
     style.fill: "#1e1b4b"
     style.stroke: "#8b5cf6"
   }
 }
 
 diagnostics: "Production Diagnostic Engines" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#10b981"
 
-  profiler: "async-profiler
-Non-safepoint CPU & Alloc Flamegraphs" {
+  profiler: "async-profiler\nNon-safepoint CPU & Alloc Flamegraphs" {
     style.fill: "#1e293b"
     style.stroke: "#f59e0b"
   }
-  jcmd: "jcmd & jstack
-Thread Dumps & Class Histograms" {
+  jcmd: "jcmd & jstack\nThread Dumps & Class Histograms" {
     style.fill: "#1e293b"
     style.stroke: "#3b82f6"
   }
-  mat: "Eclipse MAT / JMC
-Heap Dump Leak Suspects Triage" {
+  mat: "Eclipse MAT / JMC\nHeap Dump Leak Suspects Triage" {
     style.fill: "#1e293b"
     style.stroke: "#10b981"
   }

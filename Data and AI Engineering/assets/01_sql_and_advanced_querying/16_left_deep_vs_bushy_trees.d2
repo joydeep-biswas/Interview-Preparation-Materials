@@ -1,12 +1,19 @@
-# Left-Deep vs Bushy Trees
+# Join Order Trees: Left-Deep vs Bushy Trees
 direction: right
-
-left: "Left-Deep Tree (Sequential)" {
-  style.stroke: "#3B82F6"
-  desc: "Right child always base table\n• 1 active hash table in RAM\n• Pipelined; OLTP standard"
+classes: {
+  tree_box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
 }
 
-bushy: "Bushy Tree (Parallel Subtrees)" {
+"left": "Left-Deep Tree (Sequential Pipelining)\n• Right child is always a base table\n• Only 1 active hash table maintained in RAM\n• Volcano iterator pipelining; minimal memory footprint\n• Standard search space for OLTP / classic CBOs" {
+  class: tree_box
+  style.stroke: "#3B82F6"
+}
+
+bushy: "Bushy Tree (Parallel Subtree Execution)\n• Arbitrary join compositions: (A ⋈ B) ⋈ (C ⋈ D)\n• Subtrees evaluated simultaneously across nodes\n• Drastically shorter critical path latency\n• Higher memory usage; larger search space (O(N!))" {
+  class: tree_box
   style.stroke: "#8B5CF6"
-  desc: "(A ⋈ B) ⋈ (C ⋈ D)\n• Parallel multi-core execution\n• Faster latency; higher RAM usage"
+}
+
+"left" -> bushy: "VS" {
+  style.stroke: "#8B5CF6"
 }

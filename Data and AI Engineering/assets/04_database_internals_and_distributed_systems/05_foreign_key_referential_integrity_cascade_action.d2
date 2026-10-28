@@ -1,26 +1,41 @@
 direction: right
-title: Foreign Keys & Referential Integrity: ON DELETE CASCADE
+title: "Foreign Keys & Referential Integrity: ON DELETE CASCADE"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-parent: Parent: crm.accounts {
+parent: "Parent: crm.accounts" {
+  class: container
   account_id: "501 [PK]"
   company: "Acme Corp"
 }
 
-child1: Child 1: crm.contacts {
+child1: "Child 1: crm.contacts" {
+  class: container
   contact_id: "1 [PK]"
   account_id: "501 [FK]"
 }
 
-child2: Child 2: crm.contacts {
+child2: "Child 2: crm.contacts" {
+  class: container
   contact_id: "2 [PK]"
   account_id: "501 [FK]"
 }
 
-delete_op: DELETE FROM crm.accounts WHERE account_id = 501 {
+delete_op: "DELETE FROM crm.accounts WHERE account_id = 501" {
+  class: container
   style.stroke: "#ef4444"
 }
 
-cascade_action: ON DELETE CASCADE {
+cascade_action: "ON DELETE CASCADE" {
+  class: container
   action: "Deletes Child 1 & Child 2 Automatically"
   style.stroke: "#ef4444"
 }

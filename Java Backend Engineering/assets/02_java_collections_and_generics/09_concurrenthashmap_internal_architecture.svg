@@ -43,7 +43,7 @@
 
   <!-- Column 1: Bucket 0 (Lock-Free CAS) -->
   <rect x="50" y="180" width="265" height="300" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
-  <rect x="50" y="180" width="265" height="30" rx="8" fill="#064E3B"/>
+  <rect x="50" y="180" width="265" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="182" y="200" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">Bucket 0: Empty Slot (Lock-Free)</text>
 
   <rect x="65" y="225" width="235" height="70" rx="4" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
@@ -61,7 +61,7 @@
 
   <!-- Column 2: Bucket 1 (Collision Head Lock) -->
   <rect x="335" y="180" width="265" height="300" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
-  <rect x="335" y="180" width="265" height="30" rx="8" fill="#78350F"/>
+  <rect x="335" y="180" width="265" height="30" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
   <text x="467" y="200" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">Bucket 1: Collision Bin Lock</text>
 
   <rect x="350" y="225" width="235" height="70" rx="4" fill="#0F172A" stroke="#F59E0B" stroke-width="1.5"/>
@@ -79,7 +79,7 @@
 
   <!-- Column 3: Bucket 2 (TreeBin Root) -->
   <rect x="620" y="180" width="265" height="300" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
-  <rect x="620" y="180" width="265" height="30" rx="8" fill="#4C1D95"/>
+  <rect x="620" y="180" width="265" height="30" rx="8" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
   <text x="752" y="200" font-size="11" font-weight="700" fill="#C4B5FD" text-anchor="middle">Bucket 2: TreeBin (Red-Black)</text>
 
   <rect x="635" y="225" width="235" height="70" rx="4" fill="#0F172A" stroke="#8B5CF6" stroke-width="1.5"/>
@@ -97,7 +97,7 @@
 
   <!-- Column 4: Bucket 3 (ForwardingNode) -->
   <rect x="905" y="180" width="265" height="300" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="905" y="180" width="265" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="905" y="180" width="265" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="1037" y="200" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">Bucket 3: Resizing (MOVED)</text>
 
   <rect x="920" y="225" width="235" height="70" rx="4" fill="#0F172A" stroke="#0284C7" stroke-width="1.5"/>

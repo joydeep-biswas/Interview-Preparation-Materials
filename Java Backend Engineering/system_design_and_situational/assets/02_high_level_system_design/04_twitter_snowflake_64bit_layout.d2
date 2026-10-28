@@ -1,12 +1,24 @@
 direction: right
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 sign: "1 Bit: Sign (0)" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#64748b"
   style.stroke-width: 2
 }
 
 timestamp: "41 Bits: Timestamp (ms epoch)" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#3b82f6"
   style.stroke-width: 2
@@ -14,6 +26,7 @@ timestamp: "41 Bits: Timestamp (ms epoch)" {
 }
 
 datacenter: "5 Bits: Datacenter ID" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#10b981"
   style.stroke-width: 2
@@ -21,6 +34,7 @@ datacenter: "5 Bits: Datacenter ID" {
 }
 
 worker: "5 Bits: Worker ID" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#f59e0b"
   style.stroke-width: 2
@@ -28,6 +42,7 @@ worker: "5 Bits: Worker ID" {
 }
 
 sequence: "12 Bits: Sequence Number" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#8b5cf6"
   style.stroke-width: 2

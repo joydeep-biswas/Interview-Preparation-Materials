@@ -26,14 +26,14 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Unified Pipeline Observability Triad: Metrics, Logs &amp; Traces</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Correlating Quantitative Telemetry with Structured Events and Distributed Spans</text>
   
   
     <rect x="350" y="95" width="280" height="50" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="490.0" y="121" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Pipeline Ingestion Execution</text>
-    <text x="490.0" y="137" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Active Task Context</text>
+    <text x="364" y="118" fill="#fde68a" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Pipeline Execution</text>
+    <text x="364" y="134" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">Active Task Context</text>
     <rect x="551" y="105" width="73" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
     <text x="587.5" y="117" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">EXECUTION</text>
     <circle cx="366" cy="150" r="2" fill="#f59e0b"/>
@@ -44,8 +44,8 @@
     <text x="46" y="197" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">1. Metrics (Prometheus / StatsD)</text>
   
     <rect x="45" y="215" width="260" height="160" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="175.0" y="241" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Aggregatable Numerical Gauges</text>
-    <text x="175.0" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Quantitative Telemetry</text>
+    <text x="59" y="238" fill="#93c5fd" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Numerical Gauges</text>
+    <text x="59" y="254" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">Quantitative Telemetry</text>
     <rect x="240" y="225" width="59" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
     <text x="269.5" y="237" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">METRICS</text>
     <circle cx="61" cy="270" r="2" fill="#3b82f6"/>
@@ -86,8 +86,8 @@
     <text x="676" y="197" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">3. Traces (OpenTelemetry)</text>
   
     <rect x="675" y="215" width="260" height="160" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="805.0" y="241" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">End-to-End Request Lifecycles</text>
-    <text x="805.0" y="257" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Distributed Spans (Jaeger / Tempo)</text>
+    <text x="689" y="238" fill="#c084fc" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Request Lifecycles</text>
+    <text x="689" y="254" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">Distributed Spans</text>
     <rect x="877" y="225" width="52" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
     <text x="903.0" y="237" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">TRACES</text>
     <circle cx="691" cy="270" r="2" fill="#8b5cf6"/>

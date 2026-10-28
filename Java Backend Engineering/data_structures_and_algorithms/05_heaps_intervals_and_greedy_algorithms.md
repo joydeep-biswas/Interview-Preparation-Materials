@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to Binary Heaps, Priority Queues, Two He
 
 ![Two-Heaps Median Architecture & Interval Sweep-Line Mechanics](assets/05_heaps_intervals_and_greedy_algorithms/01_two_heaps_and_interval_sweep_line.svg)
 
-*D2 Source:* [assets/05_heaps_intervals_and_greedy_algorithms/01_two_heaps_and_interval_sweep_line.d2](assets/05_heaps_intervals_and_greedy_algorithms/01_two_heaps_and_interval_sweep_line.d2)
+*D2 Source: [`01_two_heaps_and_interval_sweep_line.d2`](assets/05_heaps_intervals_and_greedy_algorithms/01_two_heaps_and_interval_sweep_line.d2)*
 
 ---
 

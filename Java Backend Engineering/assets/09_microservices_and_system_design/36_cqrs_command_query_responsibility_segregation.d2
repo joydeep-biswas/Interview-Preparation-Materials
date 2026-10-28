@@ -1,28 +1,33 @@
 direction: right
 title: "CQRS Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 client: "Client App" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 }
 
-cmd: "Command Side (Writes)
-OrderCommandService
-PostgreSQL 3NF Tables" {
+cmd: "Command Side (Writes)\nOrderCommandService\nPostgreSQL 3NF Tables" {
   style.fill: "#0b1329"
   style.stroke: "#3b82f6"
 }
 
-sync: "Sync Projection
-Kafka Stream / Debezium
-Denormalizes into JSON" {
+sync: "Sync Projection\nKafka Stream / Debezium\nDenormalizes into JSON" {
   style.fill: "#111827"
   style.stroke: "#f59e0b"
 }
 
-query: "Query Side (Reads)
-OrderQueryService
-Elasticsearch Flat Views" {
+query: "Query Side (Reads)\nOrderQueryService\nElasticsearch Flat Views" {
   style.fill: "#062e24"
   style.stroke: "#10b981"
 }

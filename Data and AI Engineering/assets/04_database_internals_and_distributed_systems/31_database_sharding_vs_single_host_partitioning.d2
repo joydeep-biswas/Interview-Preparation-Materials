@@ -1,20 +1,32 @@
 direction: right
-title: Database Sharding vs. Single-Host Partitioning Topologies
+title: "Database Sharding vs. Single-Host Partitioning Topologies"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-single_host: Single-Host Partitioning (PostgreSQL) {
-  parent: Parent Table: fact_orders (Single Instance)
-  f1: orders_2026_q1.dat
-  f2: orders_2026_q2.dat
+single_host: "Single-Host Partitioning (PostgreSQL)" {
+  class: container
+  parent: "Parent Table: fact_orders (Single Instance)"
+  f1: "orders_2026_q1.dat"
+  f2: "orders_2026_q2.dat"
   parent -> f1
   parent -> f2
   note: "All partitions share single host CPU, RAM, and disk bus"
 }
 
-sharded: Distributed Sharding (Multiple Network Hosts) {
-  router: Query Shard Router
-  db1: Shard 1 (Server 1 - IP: 10.0.1.10)
-  db2: Shard 2 (Server 2 - IP: 10.0.1.11)
-  db3: Shard 3 (Server 3 - IP: 10.0.1.12)
+sharded: "Distributed Sharding (Multiple Network Hosts)" {
+  class: container
+  router: "Query Shard Router"
+  db1: "Shard 1 (Server 1 - IP: 10.0.1.10)"
+  db2: "Shard 2 (Server 2 - IP: 10.0.1.11)"
+  db3: "Shard 3 (Server 3 - IP: 10.0.1.12)"
   router -> db1: "hash in [0, 33]"
   router -> db2: "hash in [34, 66]"
   router -> db3: "hash in [67, 100]"

@@ -8,7 +8,7 @@ A comprehensive, production-grade guide covering enterprise distributed caching 
 
 ![Enterprise Caching, Messaging & Event Mesh Architecture](assets/08_caching_redis_and_kafka/01_caching_messaging_mesh_architecture.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/01_caching_messaging_mesh_architecture.d2](assets/08_caching_redis_and_kafka/01_caching_messaging_mesh_architecture.d2)
+*D2 Source: [`01_caching_messaging_mesh_architecture.d2`](assets/08_caching_redis_and_kafka/01_caching_messaging_mesh_architecture.d2)*
 
 ---
 
@@ -90,7 +90,7 @@ Software performance is fundamentally bound by the physical latency of computer 
 
 ![Local In-Memory Cache (Caffeine) vs. Distributed Cache (Redis)](assets/08_caching_redis_and_kafka/02_local_vs_distributed_cache.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/02_local_vs_distributed_cache.d2](assets/08_caching_redis_and_kafka/02_local_vs_distributed_cache.d2)
+*D2 Source: [`02_local_vs_distributed_cache.d2`](assets/08_caching_redis_and_kafka/02_local_vs_distributed_cache.d2)*
 
 * **Local Cache (Caffeine)**: Stored directly in JVM heap RAM. Ideal for static, immutable reference data (e.g., country codes, tax rates) that rarely change.
 * **Distributed Cache (Redis)**: Hosted as a separate stateful cluster. Ideal for session state, high-velocity transactional domain entities, distributed rate limiters, and distributed locks.
@@ -103,7 +103,7 @@ In ultra-high-throughput systems, combining L1 (local JVM Caffeine cache) with L
 
 ![Two-Tier L1/L2 Caching Pipeline Architecture](assets/08_caching_redis_and_kafka/03_two_tier_l1_l2_caching_hierarchy.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/03_two_tier_l1_l2_caching_hierarchy.d2](assets/08_caching_redis_and_kafka/03_two_tier_l1_l2_caching_hierarchy.d2)
+*D2 Source: [`03_two_tier_l1_l2_caching_hierarchy.d2`](assets/08_caching_redis_and_kafka/03_two_tier_l1_l2_caching_hierarchy.d2)*
 
 #### The L1 Invalidation Problem:
 When Pod A mutates a database entity, it updates Redis (L2). However, Pod B, Pod C, and Pod D still have the stale version in their local JVM heap (L1).
@@ -273,7 +273,7 @@ public class TwoTierCache extends AbstractValueAdaptingCache {
 
 ![Four Enterprise Caching Patterns](assets/08_caching_redis_and_kafka/04_enterprise_caching_patterns.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/04_enterprise_caching_patterns.d2](assets/08_caching_redis_and_kafka/04_enterprise_caching_patterns.d2)
+*D2 Source: [`04_enterprise_caching_patterns.d2`](assets/08_caching_redis_and_kafka/04_enterprise_caching_patterns.d2)*
 
 1. **Cache-Aside (Lazy Loading - Most Common)**:
    * The application code is responsible for checking the cache first.
@@ -308,7 +308,7 @@ When cache RAM is exhausted, an eviction policy decides which keys must be disca
 
 ![Production Caching Hazards & Hardened Defenses](assets/08_caching_redis_and_kafka/05_cache_hazards_and_defenses.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/05_cache_hazards_and_defenses.d2](assets/08_caching_redis_and_kafka/05_cache_hazards_and_defenses.d2)
+*D2 Source: [`05_cache_hazards_and_defenses.d2`](assets/08_caching_redis_and_kafka/05_cache_hazards_and_defenses.d2)*
 
 #### Hazard 1: Cache Penetration & Defense with Redisson Bloom Filter
 When an attacker requests random IDs that do not exist in the database (e.g. `/api/v1/users/-9999999`), every request misses the cache and directly pounds the relational database.
@@ -482,7 +482,7 @@ Although primarily an in-memory store, Redis provides two distinct durability op
 
 ![Redis High-Availability Topologies: Sentinel vs. Clustered Sharding](assets/08_caching_redis_and_kafka/06_redis_ha_topologies.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/06_redis_ha_topologies.d2](assets/08_caching_redis_and_kafka/06_redis_ha_topologies.d2)
+*D2 Source: [`06_redis_ha_topologies.d2`](assets/08_caching_redis_and_kafka/06_redis_ha_topologies.d2)*
 
 * **Redis Sentinel**: Provides high availability without data sharding. 3 or more Sentinel nodes monitor the Master via heartbeats. If the Master goes down, Sentinels reach a quorum and elect a Replica to become the new Master automatically.
 * **Redis Cluster**: Provides **horizontal data partitioning across nodes**:
@@ -885,7 +885,7 @@ redis-cli monitor
 
 ![Point-to-Point Task Queues vs. Publish-Subscribe Topics](assets/08_caching_redis_and_kafka/07_point_to_point_vs_pubsub.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/07_point_to_point_vs_pubsub.d2](assets/08_caching_redis_and_kafka/07_point_to_point_vs_pubsub.d2)
+*D2 Source: [`07_point_to_point_vs_pubsub.d2`](assets/08_caching_redis_and_kafka/07_point_to_point_vs_pubsub.d2)*
 
 ---
 
@@ -926,7 +926,7 @@ A **Poison Message** is a malformed message (e.g. corrupt JSON, invalid schema) 
 
 ![The Idempotent Consumer Pattern: Distributed Deduplication Architecture](assets/08_caching_redis_and_kafka/08_idempotent_consumer_dedup_store.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/08_idempotent_consumer_dedup_store.d2](assets/08_caching_redis_and_kafka/08_idempotent_consumer_dedup_store.d2)
+*D2 Source: [`08_idempotent_consumer_dedup_store.d2`](assets/08_caching_redis_and_kafka/08_idempotent_consumer_dedup_store.d2)*
 
 ---
 
@@ -940,7 +940,7 @@ In RabbitMQ, producers **never publish directly to a queue**. Instead, messages 
 
 ![RabbitMQ AMQP Architecture: Exchanges, Topic Bindings & Queues](assets/08_caching_redis_and_kafka/09_rabbitmq_exchange_bindings_queues.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/09_rabbitmq_exchange_bindings_queues.d2](assets/08_caching_redis_and_kafka/09_rabbitmq_exchange_bindings_queues.d2)
+*D2 Source: [`09_rabbitmq_exchange_bindings_queues.d2`](assets/08_caching_redis_and_kafka/09_rabbitmq_exchange_bindings_queues.d2)*
 
 ---
 
@@ -968,7 +968,7 @@ If a consumer pod takes 200 milliseconds to process a database-heavy task, and 5
 #### The Engineering Solution: Channel `basicQos(prefetchCount)`:
 ![RabbitMQ Flow Control: Consumer basicQos (Prefetch) Backpressure](assets/08_caching_redis_and_kafka/10_rabbitmq_backpressure_prefetch_qos.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/10_rabbitmq_backpressure_prefetch_qos.d2](assets/08_caching_redis_and_kafka/10_rabbitmq_backpressure_prefetch_qos.d2)
+*D2 Source: [`10_rabbitmq_backpressure_prefetch_qos.d2`](assets/08_caching_redis_and_kafka/10_rabbitmq_backpressure_prefetch_qos.d2)*
 
 #### Sizing Rule of Thumb for `prefetchCount`:
 $$\text{Optimal Prefetch} = \frac{\text{Round-Trip Network Latency (RTT)} + \text{Processing Time}}{\text{Processing Time}}$$
@@ -1189,7 +1189,7 @@ Traditional message brokers (RabbitMQ, ActiveMQ) maintain complex internal index
 
 ![Apache Kafka KRaft Architecture: Controller Quorum & Partition Layout](assets/08_caching_redis_and_kafka/11_kafka_cluster_kraft_architecture.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/11_kafka_cluster_kraft_architecture.d2](assets/08_caching_redis_and_kafka/11_kafka_cluster_kraft_architecture.d2)
+*D2 Source: [`11_kafka_cluster_kraft_architecture.d2`](assets/08_caching_redis_and_kafka/11_kafka_cluster_kraft_architecture.d2)*
 
 * **Partitions**: A Topic is divided into multiple physical Partitions distributed across brokers. **Partitioning is the fundamental unit of parallelism and horizontal scale in Kafka**.
 * **KRaft (Kafka Raft)**: Modern Kafka replaces Apache ZooKeeper with an integrated Raft consensus metadata quorum running directly inside Kafka brokers, supporting millions of partitions per cluster with sub-second metadata failovers.
@@ -1200,7 +1200,7 @@ Traditional message brokers (RabbitMQ, ActiveMQ) maintain complex internal index
 
 ![Kafka Producer Internals: Ingestion, Batching & Network Transmission](assets/08_caching_redis_and_kafka/12_kafka_producer_internals_batching.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/12_kafka_producer_internals_batching.d2](assets/08_caching_redis_and_kafka/12_kafka_producer_internals_batching.d2)
+*D2 Source: [`12_kafka_producer_internals_batching.d2`](assets/08_caching_redis_and_kafka/12_kafka_producer_internals_batching.d2)*
 
 #### Producer Acknowledgement Settings (`acks`) & Tuning Parameters:
 * **`acks=0`**: Producer fires and forgets; does not wait for any broker acknowledgement. Maximum throughput; high risk of message loss.
@@ -1284,7 +1284,7 @@ public class EnterpriseKafkaProducerConfig {
 
 ![Kafka Consumer Group Scalability: Partition Allocation & Idle Worker Trap](assets/08_caching_redis_and_kafka/13_kafka_consumer_group_rebalance.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/13_kafka_consumer_group_rebalance.d2](assets/08_caching_redis_and_kafka/13_kafka_consumer_group_rebalance.d2)
+*D2 Source: [`13_kafka_consumer_group_rebalance.d2`](assets/08_caching_redis_and_kafka/13_kafka_consumer_group_rebalance.d2)*
 
 #### Eager Rebalance vs Cooperative Sticky Rebalance:
 * **Eager Rebalance (`RangeAssignor`, `RoundRobinAssignor`)**:
@@ -1355,7 +1355,7 @@ Kafka provides native end-to-end Exactly-Once Semantics (EOS) for **read-process
 
 ![Kafka Exactly-Once Semantics (EOS): Transactional Stream Processing](assets/08_caching_redis_and_kafka/14_kafka_exactly_once_transactional_stream.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka/14_kafka_exactly_once_transactional_stream.d2](assets/08_caching_redis_and_kafka/14_kafka_exactly_once_transactional_stream.d2)
+*D2 Source: [`14_kafka_exactly_once_transactional_stream.d2`](assets/08_caching_redis_and_kafka/14_kafka_exactly_once_transactional_stream.d2)*
 
 #### Production Transactional Producer & Consumer Implementation:
 ```java

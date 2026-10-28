@@ -1,18 +1,18 @@
 direction: right
 classes: {
-  leak: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  guard: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  leak: { style: { fill: "#7f1d1d"; stroke: "#f87171"; font-color: "#fecaca" } }
+  guard: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
 }
 
 naive_leak: "Naive SSE Stream (Financial Leak)" {
   tab_close: "1. User Closes Browser Tab\nSocket drops at token 10" { class: leak }
-  void_gen: "2. Server Generates 4000 Tokens into Void!\n(Wastes $0.08 & burns GPU slots)" { class: leak }
+  void_gen: "2. Server Generates 4000 Tokens into Void!\n(Wastes \$0.08 & burns GPU slots)" { class: leak }
 
   tab_close -> void_gen
 }
 
 prod_guard: "Disconnect Guard (Production)" {
-  check: "1. await request.is_disconnected()" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  check: "1. await request.is_disconnected()" { style: { fill: "#155e75"; stroke: "#22d3ee"; font-color: "#67e8f9" } }
   cancel: "2. Cancel Async Generator & Halt GPU\n(Saves cloud cost in &lt;10ms!)" { class: guard }
 
   check -> cancel

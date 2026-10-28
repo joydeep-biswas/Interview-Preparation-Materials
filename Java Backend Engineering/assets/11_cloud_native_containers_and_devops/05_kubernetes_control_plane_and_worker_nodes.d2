@@ -1,39 +1,52 @@
 direction: right
-title: Kubernetes Control Plane & Worker Node Subsystems
+title: "Kubernetes Control Plane & Worker Node Subsystems"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-ControlPlane: Control Plane (Master) {
+ControlPlane: "Control Plane (Master)" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
-  api: kube-apiserver
-  etcd: etcd v3 (Raft)
-  sched: kube-scheduler
-  ctrl: kube-controller-manager
+  api: "kube-apiserver"
+  etcd: "etcd v3 (Raft)"
+  sched: "kube-scheduler"
+  ctrl: "kube-controller-manager"
   api <-> etcd
   sched -> api
   ctrl -> api
 }
 
-Worker1: Worker Node 1 {
+Worker1: "Worker Node 1" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
-  kubelet1: kubelet
-  proxy1: kube-proxy
+  kubelet1: "kubelet"
+  proxy1: "kube-proxy"
   pod1: "Pod: order-service-1"
   pod2: "Pod: auth-service-1"
   kubelet1 -> pod1
   kubelet1 -> pod2
 }
 
-Worker2: Worker Node 2 {
+Worker2: "Worker Node 2" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
-  kubelet2: kubelet
-  proxy2: kube-proxy
+  kubelet2: "kubelet"
+  proxy2: "kube-proxy"
   pod3: "Pod: order-service-2"
   pod4: "Pod: payment-service-1"
   kubelet2 -> pod3
   kubelet2 -> pod4
 }
 
-ControlPlane.api -> Worker1.kubelet1: Drives pod lifecycle { style.stroke: "#8B5CF6" }
-ControlPlane.api -> Worker2.kubelet2: Drives pod lifecycle { style.stroke: "#8B5CF6" }
+ControlPlane.api -> Worker1.kubelet1: "Drives pod lifecycle" { style.stroke: "#8B5CF6" }
+ControlPlane.api -> Worker2.kubelet2: "Drives pod lifecycle" { style.stroke: "#8B5CF6" }

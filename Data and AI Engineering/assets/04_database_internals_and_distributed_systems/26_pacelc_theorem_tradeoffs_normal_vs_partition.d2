@@ -1,24 +1,41 @@
 direction: down
-title: PACELC Theorem: Trade-Offs in Normal vs. Partition Operations
+title: "PACELC Theorem: Trade-Offs in Normal vs. Partition Operations"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-state: Is Cluster Currently Partitioned? {
+state: "Is Cluster Currently Partitioned?" {
+  class: container
   shape: diamond
 }
 
-partition_mode: Partition Mode (P): Network Split {
-  pa: PA: High Availability (Cassandra, DynamoDB) {
+partition_mode: "Partition Mode (P): Network Split" {
+  class: container
+  pa: "PA: High Availability (Cassandra, DynamoDB)" {
+    class: box
     behavior: "Accepts writes, returns stale reads"
   }
-  pc: PC: Strong Consistency (Spanner, CockroachDB) {
+  pc: "PC: Strong Consistency (Spanner, CockroachDB)" {
+    class: box
     behavior: "Rejects writes, preserves correctness"
   }
 }
 
-normal_mode: Normal Operation (E): Latency vs Consistency {
-  el: EL: Low Latency (Cassandra ONE, DynamoDB Eventual) {
+normal_mode: "Normal Operation (E): Latency vs Consistency" {
+  class: container
+  el: "EL: Low Latency (Cassandra ONE, DynamoDB Eventual)" {
+    class: box
     behavior: "Sub-2ms local replica read; skips quorum"
   }
-  ec: EC: Strong Consistency (Spanner TrueTime, Postgres Sync) {
+  ec: "EC: Strong Consistency (Spanner TrueTime, Postgres Sync)" {
+    class: box
     behavior: "Synchronous multi-replica commit (30ms+)"
   }
 }

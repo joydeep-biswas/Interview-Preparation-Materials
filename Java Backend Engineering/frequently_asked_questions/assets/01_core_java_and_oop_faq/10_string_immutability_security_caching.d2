@@ -1,6 +1,17 @@
 direction: right
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 security: "1. Security & Classloading" {
+  class: container
   style.fill: "#111827"
   style.stroke: "#3B82F6"
   style.stroke-width: 2
@@ -8,6 +19,7 @@ security: "1. Security & Classloading" {
 }
 
 thread_safety: "2. Thread Safety" {
+  class: container
   style.fill: "#111827"
   style.stroke: "#10B981"
   style.stroke-width: 2
@@ -15,6 +27,7 @@ thread_safety: "2. Thread Safety" {
 }
 
 hash_caching: "3. HashCode Caching" {
+  class: container
   style.fill: "#111827"
   style.stroke: "#F59E0B"
   style.stroke-width: 2
@@ -22,6 +35,7 @@ hash_caching: "3. HashCode Caching" {
 }
 
 pool: "4. String Pool Sharing" {
+  class: container
   style.fill: "#111827"
   style.stroke: "#8B5CF6"
   style.stroke-width: 2

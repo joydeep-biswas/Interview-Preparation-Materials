@@ -1,31 +1,35 @@
 direction: right
 title: "The Object-Relational Impedance Mismatch in Enterprise Systems"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 java: "Java OOP Domain Model" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
-  obj: "User Object
-UUID id
-Address address (Value Object)
-List<Order> orders
-SavingsAccount (Polymorphism)"
+  obj: "User Object\nUUID id\nAddress address (Value Object)\nList<Order> orders\nSavingsAccount (Polymorphism)"
 }
 
 orm: "JPA / Hibernate ORM Bridge" {
+  class: container
   style.fill: "#111827"
   style.stroke: "#f59e0b"
-  map: "@Embeddable Address
-@Inheritance SINGLE_TABLE
-@OneToMany(mappedBy)
-L1 Identity Map & Dirty Checking"
+  map: "@Embeddable Address\n@Inheritance SINGLE_TABLE\n@OneToMany(mappedBy)\nL1 Identity Map & Dirty Checking"
 }
 
 sql: "Relational Database (SQL)" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#10b981"
-  tables: "users (id, name, street, city)
-accounts (id, dtype, interest_rate, user_id FK)
-orders (id, user_id FK, total)"
+  tables: "users (id, name, street, city)\naccounts (id, dtype, interest_rate, user_id FK)\norders (id, user_id FK, total)"
 }
 
 java <-> orm: "Translates object graph"

@@ -8,7 +8,7 @@ A comprehensive, production-grade guide covering universal distributed systems f
 
 ![Distributed Data & AI Platform Core Blueprint](assets/01_system_design_foundations/01_distributed_data_ai_platform_core_blueprint.svg)
 
-*D2 Source:* [assets/01_system_design_foundations/01_distributed_data_ai_platform_core_blueprint.d2](assets/01_system_design_foundations/01_distributed_data_ai_platform_core_blueprint.d2)
+*D2 Source: [`01_distributed_data_ai_platform_core_blueprint.d2`](assets/01_system_design_foundations/01_distributed_data_ai_platform_core_blueprint.d2)*
 
 ---
 
@@ -41,7 +41,7 @@ Analytical workloads rarely scan all columns in a wide table; they scan a few co
 
 ![Apache Parquet Columnar Storage Format & Binary Layout](assets/01_system_design_foundations/02_parquet_columnar_storage_format.svg)
 
-*D2 Source:* [assets/01_system_design_foundations/02_parquet_columnar_storage_format.d2](assets/01_system_design_foundations/02_parquet_columnar_storage_format.d2)
+*D2 Source: [`02_parquet_columnar_storage_format.d2`](assets/01_system_design_foundations/02_parquet_columnar_storage_format.d2)*
 
 1. **Physical Layout:**
    - **Row Group:** Horizontal partitioning of data containing e.g. 1,000,000 rows.
@@ -74,7 +74,7 @@ Distributed engines like Apache Spark break SQL queries into a directed acyclic 
 
 ![Distributed Query Planning: Sort Shuffle Mechanics & Disk Spills](assets/01_system_design_foundations/03_distributed_query_planning_shuffle_mechanics.svg)
 
-*D2 Source:* [assets/01_system_design_foundations/03_distributed_query_planning_shuffle_mechanics.d2](assets/01_system_design_foundations/03_distributed_query_planning_shuffle_mechanics.d2)
+*D2 Source: [`03_distributed_query_planning_shuffle_mechanics.d2`](assets/01_system_design_foundations/03_distributed_query_planning_shuffle_mechanics.d2)*
 
 1. **Shuffle Cost Breakdown:**
    - Serialization to bytes $\to$ write to disk on mapper $\to$ network transfer over rack $\to$ deserialization on reducer $\to$ sort/merge in reducer RAM.

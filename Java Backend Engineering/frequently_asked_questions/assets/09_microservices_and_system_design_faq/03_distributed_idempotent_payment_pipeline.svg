@@ -27,7 +27,7 @@
     .badge { font-weight: 600; font-size: 11px; }
   </style>
 
-  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12" stroke="#1F2937" stroke-width="1.5"/>
 
   <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Distributed Idempotent Payment Processing Pipeline</text>
   <text x="530" y="52" class="subtitle" text-anchor="middle">Multi-layered idempotency defense across Redis locks, 3rd party acquirers, and DB transactional outbox</text>
@@ -35,10 +35,10 @@
   <!-- Step 1: Idempotency Key Ingress -->
   <g transform="translate(40, 75)">
     <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="110" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">1. Request Ingress</text>
 
-    <rect x="15" y="45" width="190" height="70" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="190" height="70" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="95" y="66" class="badge" fill="#93C5FD" text-anchor="middle">Client Payment POST</text>
     <text x="15" y="86" class="card-body" font-size="11">Idempotency-Key: UUIDv4</text>
     <text x="15" y="102" class="card-body" font-size="11">amount: $1,250.00</text>
@@ -50,7 +50,7 @@
     <text x="15" y="200" class="card-body">• Re-used on network retry</text>
     <text x="15" y="218" class="badge" fill="#34D399">• Guarantees intent identity</text>
 
-    <rect x="15" y="250" width="190" height="85" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="250" width="190" height="85" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="95" y="272" class="badge" fill="#93C5FD" text-anchor="middle">Gateway Verification</text>
     <text x="15" y="292" class="card-body" font-size="11">Rejects missing header</text>
     <text x="15" y="308" class="card-body" font-size="11">before touching backend</text>
@@ -59,10 +59,10 @@
   <!-- Step 2: Distributed Lock & Result Cache -->
   <g transform="translate(290, 75)">
     <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="230" height="30" rx="10" ry="10" fill="#92400E"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#92400E" stroke="#F59E0B" stroke-width="1"/>
     <text x="115" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">2. Redis Guard Layer</text>
 
-    <rect x="15" y="45" width="200" height="85" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="200" height="85" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="100" y="66" class="badge" fill="#FDE68A" text-anchor="middle">1. Cached Result Lookup</text>
     <text x="15" y="88" class="card-body" font-family="monospace">GET idem:{uuid}</text>
     <text x="15" y="106" class="card-body">If found -&gt; Return 200 OK</text>
@@ -74,7 +74,7 @@
     <text x="15" y="200" class="card-body" font-family="monospace">    PX 15000</text>
     <text x="15" y="218" class="card-body" font-size="11" fill="#FDE68A">Blocks parallel duplicate taps</text>
 
-    <rect x="15" y="245" width="200" height="90" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="245" width="200" height="90" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="100" y="268" class="badge" fill="#FCD34D" text-anchor="middle">TTL Expiration</text>
     <text x="15" y="290" class="card-body" font-size="11">Prevents deadlocks if</text>
     <text x="15" y="306" class="card-body" font-size="11">server dies mid-flight</text>
@@ -83,10 +83,10 @@
   <!-- Step 3: Payment Gateway & DB -->
   <g transform="translate(545, 75)">
     <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="230" height="30" rx="10" ry="10" fill="#065F46"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#065F46" stroke="#10B981" stroke-width="1"/>
     <text x="115" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">3. Acquirer &amp; DB</text>
 
-    <rect x="15" y="45" width="200" height="85" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="200" height="85" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="100" y="66" class="badge" fill="#A7F3D0" text-anchor="middle">Stripe / Adyen Acquirer</text>
     <text x="15" y="88" class="card-body">• Forwards Idempotency-Key</text>
     <text x="15" y="104" class="card-body">• Acquirer deduplicates</text>
@@ -99,7 +99,7 @@
     <text x="15" y="216" class="card-body" font-size="11" fill="#D1FAE5">• Outbox table inserted</text>
     <text x="15" y="230" class="badge" fill="#6EE7B7">Atomic local commit</text>
 
-    <rect x="15" y="245" width="200" height="90" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="245" width="200" height="90" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="100" y="268" class="badge" fill="#A7F3D0" text-anchor="middle">Hard Safety Net</text>
     <text x="15" y="290" class="card-body" font-size="11">DB unique constraint prevents</text>
     <text x="15" y="306" class="card-body" font-size="11">any twin row creation</text>
@@ -108,11 +108,11 @@
   <!-- Step 4: Cache Update & Outbox Publish -->
   <g transform="translate(800, 75)">
     <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="220" height="30" rx="10" ry="10" fill="#5B21B6"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#5B21B6" stroke="#8B5CF6" stroke-width="1"/>
     <text x="110" y="20" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Cache &amp; Events</text>
 
     <g transform="translate(15, 45)">
-      <rect x="0" y="0" width="190" height="85" rx="6" ry="6" fill="#1E293B"/>
+      <rect x="0" y="0" width="190" height="85" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
       <text x="15" y="20" class="badge" fill="#DDD6FE">Save Result in Redis</text>
       <text x="15" y="40" class="card-body" font-family="monospace">SETEX idem:{uuid}</text>
       <text x="15" y="56" class="card-body" font-family="monospace">86400 (24h) {response}</text>
@@ -126,7 +126,7 @@
       <text x="15" y="183" class="badge" fill="#34D399">Downstream notified</text>
     </g>
 
-    <rect x="15" y="250" width="190" height="85" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="250" width="190" height="85" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="95" y="272" class="badge" fill="#DDD6FE" text-anchor="middle">HTTP 201 Created</text>
     <text x="15" y="292" class="card-body" font-size="11">Returns receipt to client.</text>
     <text x="15" y="308" class="card-body" font-size="11">Subsequent duplicate clicks</text>

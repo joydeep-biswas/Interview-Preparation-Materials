@@ -1,27 +1,41 @@
 direction: right
-title: MapReduce Paradigm: Distributed Storage & Compute
-
-raw: Raw Input Dataset (100 GB HDFS) {
-  s1: Input Split 0 (64MB)
-  s2: Input Split 1 (64MB)
-  s3: Input Split 2 (64MB)
+title: "MapReduce Paradigm: Distributed Storage & Compute"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-map_phase: 1. Map & Combiner Phase {
-  m1: Mapper 0 + Combiner 0
-  m2: Mapper 1 + Combiner 1
-  m3: Mapper 2 + Combiner 2
+raw: "Raw Input Dataset (100 GB HDFS)" {
+  class: container
+  s1: "Input Split 0 (64MB)"
+  s2: "Input Split 1 (64MB)"
+  s3: "Input Split 2 (64MB)"
 }
 
-shuffle: 2. Shuffle & Sort Phase {
-  part: HashPartitioner: hash(key) % numReducers
-  sort: Network Shuffle & Merge Sort
+map_phase: "1. Map & Combiner Phase" {
+  class: container
+  m1: "Mapper 0 + Combiner 0"
+  m2: "Mapper 1 + Combiner 1"
+  m3: "Mapper 2 + Combiner 2"
+}
+
+shuffle: "2. Shuffle & Sort Phase" {
+  class: container
+  part: "HashPartitioner: hash(key) % numReducers"
+  sort: "Network Shuffle & Merge Sort"
   part -> sort
 }
 
-reduce_phase: 3. Reduce Phase (Final Aggregation) {
-  r1: Reducer 0 ('apple' -> 48)
-  r2: Reducer 1 ('banana' -> 12)
+reduce_phase: "3. Reduce Phase (Final Aggregation)" {
+  class: container
+  r1: "Reducer 0 ('apple' -> 48)"
+  r2: "Reducer 1 ('banana' -> 12)"
 }
 
 raw -> map_phase: "Data Locality Read"

@@ -1,0 +1,30 @@
+# Self-Join Hierarchy: Finding Employee's Manager's Manager
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  node: { style: { fill: "#1E293B"; stroke-width: 1.5; border-radius: 8 } }
+}
+
+hierarchy: "Two-Hop Self-Join Organizational Flow" {
+  class: box
+  style.stroke: "#3B82F6"
+
+  emp: "Employee (e)\n• emp_id: 101\n• emp_name: 'Alice'\n• mgr_id: 102" {
+    class: node
+    style.stroke: "#3B82F6"
+  }
+
+  mgr: "Direct Manager (m)\n• emp_id: 102\n• emp_name: 'Bob'\n• mgr_id: 103" {
+    class: node
+    style.stroke: "#F59E0B"
+  }
+
+  mgr_mgr: "Manager's Manager (mm)\n• emp_id: 103\n• emp_name: 'Carol'\n• mgr_id: NULL (CEO)" {
+    class: node
+    style.stroke: "#10B981"
+  }
+
+  emp -> mgr: "LEFT JOIN ON e.mgr_id = m.emp_id"
+  mgr -> mgr_mgr: "LEFT JOIN ON m.mgr_id = mm.emp_id"
+}
+

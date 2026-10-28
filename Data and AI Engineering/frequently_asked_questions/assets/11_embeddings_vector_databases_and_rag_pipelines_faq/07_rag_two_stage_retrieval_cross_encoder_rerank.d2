@@ -1,0 +1,19 @@
+direction: right
+classes: {
+  query_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  stage1_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  stage2_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  prune_node: { style: { fill: "#0C4A6E"; stroke: "#06B6D4"; stroke-width: 2; border-radius: 8 } }
+  llm_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+UserQuery: "User Legal Inquiry\nPenalty for early termination?\nDomain specific query" { class: query_node }
+Stage1BiEncoder: "Stage 1: Bi-Encoder Recall\nVector Search (Milvus / Pinecone)\nTop-50 Chunks in ~25ms\nTarget answer buried at #12" { class: stage1_node }
+Stage2CrossEncoder: "Stage 2: Cross-Encoder Reranker\nbge-reranker-large / Cohere\nFull Cross-Attention scoring\nPushes target Chunk #12 to Rank #1" { class: stage2_node }
+ContextCompressor: "Stage 3: Sentence Pruner\nStrips boilerplate legal prose\nRetains 2–3 essential sentences" { class: prune_node }
+LLMPrompt: "Concentrated LLM Prompt\nZero distraction tokens\n100% Grounded generation" { class: llm_node }
+
+UserQuery -> Stage1BiEncoder: "Embedding Vector Search"
+Stage1BiEncoder -> Stage2CrossEncoder: "Top-50 Candidate Chunks"
+Stage2CrossEncoder -> ContextCompressor: "Top-3 Re-ranked Chunks"
+ContextCompressor -> LLMPrompt: "Minimal Grounded Context"

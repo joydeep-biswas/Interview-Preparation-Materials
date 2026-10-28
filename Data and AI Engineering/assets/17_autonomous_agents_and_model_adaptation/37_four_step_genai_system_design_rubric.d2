@@ -6,17 +6,9 @@ classes: {
   s4: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
 }
 
-step1: "Step 1: Scope & Sizing
-Functional/Non-Functional SLAs
-Token budgets & security perimeters" { class: s1 }
-step2: "Step 2: Component Topology
-Ingress, caching, dynamic routing
-Decoupled serving vs ingestion" { class: s2 }
-step3: "Step 3: Subsystem Mechanics
-Hybrid RAG, Pregel state graphs
-Context compaction & sandboxes" { class: s3 }
-step4: "Step 4: Operational Resilience
-GPU capacity, circuit breakers
-Tracing & incident runbooks" { class: s4 }
+step1: "Step 1: Scope & Sizing\nFunctional/Non-Functional SLAs\nToken budgets & security perimeters" { class: s1 }
+step2: "Step 2: Component Topology\nIngress, caching, dynamic routing\nDecoupled serving vs ingestion" { class: s2 }
+step3: "Step 3: Subsystem Mechanics\nHybrid RAG, Pregel state graphs\nContext compaction & sandboxes" { class: s3 }
+step4: "Step 4: Operational Resilience\nGPU capacity, circuit breakers\nTracing & incident runbooks" { class: s4 }
 
 step1 -> step2 -> step3 -> step4

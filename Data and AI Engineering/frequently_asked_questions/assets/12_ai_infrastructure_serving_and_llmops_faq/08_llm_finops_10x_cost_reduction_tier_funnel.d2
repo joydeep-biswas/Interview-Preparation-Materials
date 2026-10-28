@@ -1,0 +1,29 @@
+direction: right
+classes: {
+  query_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  cache_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+  prune_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  router_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  slm_node: { style: { fill: "#0C4A6E"; stroke: "#06B6D4"; stroke-width: 2; border-radius: 8 } }
+  frontier_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  batch_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+}
+
+UserQuery: "Incoming User Query\nEnterprise prompt traffic" { class: query_node }
+SemanticCache: "Semantic Cache (Redis)\nCosine similarity >= 0.96" { class: router_node }
+InstantHit: "Instant Cache Response\n25% of queries\nCost: $0.00 | Latency: 12ms" { class: cache_node }
+
+TokenPruner: "Prompt Pruner (LLMLingua)\nStrips redundant tokens\nCuts prompt size 50%" { class: prune_node }
+ModelRouter: "Heuristic Model Router\nEvaluates reasoning complexity" { class: router_node }
+
+SLM: "High-Throughput SLM (8B)\n70% of non-cached volume\nCost: $0.15 / M tokens" { class: slm_node }
+Frontier: "Frontier Model (GPT-4o)\n30% complex volume\nCost: $5.00 / M tokens" { class: frontier_node }
+BatchAPI: "Batch API Offload\nAsynchronous batch jobs\nFlat 50% discount" { class: batch_node }
+
+UserQuery -> SemanticCache: "Check Embedding"
+SemanticCache -> InstantHit: "Cache Hit (25%)"
+SemanticCache -> TokenPruner: "Cache Miss (75%)"
+TokenPruner -> ModelRouter: "Pruned Context"
+ModelRouter -> SLM: "Standard Intent (70%)"
+ModelRouter -> Frontier: "Complex Intent (30%)"
+ModelRouter -> BatchAPI: "Offline Tasks"

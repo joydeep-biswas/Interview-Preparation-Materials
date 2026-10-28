@@ -26,25 +26,25 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Template Method Pattern: Invariant Workflow Skeleton with Concrete Hooks</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Defining the Standard Step Sequence in an Abstract Base Class while Subclasses Implement Step Details</text>
 <rect x="140" y="95" width="800" height="150" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
-<rect x="155" y="107" width="300" height="20" rx="10" fill="#1e3a8a"/><text x="305" y="120" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ABSTRACT TEMPLATE BASE CLASS</text>
+<rect x="155" y="107" width="300" height="20" rx="10" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="305" y="120" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ABSTRACT TEMPLATE BASE CLASS</text>
 <text x="540" y="140" fill="#60A5FA" font-size="13" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">public abstract class DataIngestionPipeline</text>
 <rect x="160" y="160" width="760" height="70" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
 <text x="175" y="180" fill="#FBBF24" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">public final void process(Path file) { // FINAL prevents step tampering!</text>
 <text x="185" y="198" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">RawData raw = readData(file); -&gt; validate(raw); -&gt; TransformedData data = transform(raw);</text>
 <text x="185" y="215" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">saveToDatabase(data); -&gt; if (postHookEnabled()) onCompleteNotification(); }</text>
 <rect x="50" y="280" width="470" height="140" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="1.5"/>
-<rect x="65" y="292" width="220" height="20" rx="10" fill="#78350f"/><text x="175" y="305" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SUBCLASS 1: CSV Pipeline</text>
+<rect x="65" y="292" width="220" height="20" rx="10" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="175" y="305" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SUBCLASS 1: CSV Pipeline</text>
 <text x="285" y="325" fill="#FBBF24" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CsvDataIngestionPipeline</text>
 <text x="70" y="350" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• readData(file): Uses Apache Commons CSV parser</text>
 <text x="70" y="368" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• validate(raw): Checks column count &amp; delimiter</text>
 <text x="70" y="386" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• transform(raw): Maps CSV row arrays to Java POJOs</text>
 <text x="70" y="404" fill="#94A3B8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• postHookEnabled(): returns false (no alert)</text>
 <rect x="560" y="280" width="470" height="140" rx="8" fill="#062e24" stroke="#10b981" stroke-width="1.5"/>
-<rect x="575" y="292" width="220" height="20" rx="10" fill="#047857"/><text x="685" y="305" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SUBCLASS 2: JSON Pipeline</text>
+<rect x="575" y="292" width="220" height="20" rx="10" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="685" y="305" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">SUBCLASS 2: JSON Pipeline</text>
 <text x="795" y="325" fill="#34D399" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">JsonDataIngestionPipeline</text>
 <text x="580" y="350" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• readData(file): Uses Jackson Streaming parser</text>
 <text x="580" y="368" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• validate(raw): Validates against JSON Schema draft-07</text>

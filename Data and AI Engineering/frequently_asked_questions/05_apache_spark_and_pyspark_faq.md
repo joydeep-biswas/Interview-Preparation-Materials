@@ -93,6 +93,8 @@ A comprehensive, production-grade guide answering Apache Spark and PySpark archi
     - [Q67. Manual Versioning on Parquet and Delta Files in PySpark](#q67-medium-manual-versioning-on-parquet-and-delta-files-in-pyspark)
     - [Q68. Skew Salting & Isolated Broadcast for High-Volume Surge Keys (Friday Night Surge)](#q68-hard-skew-salting--isolated-broadcast-for-high-volume-surge-keys-friday-night-surge)
     - [Q69. Spark JVM Memory Spilling vs Garbage Collection & Full GC Triage (Kryo & Memory Overhead)](#q69-hard-spark-jvm-memory-spilling-vs-garbage-collection--full-gc-triage-kryo--memory-overhead)
+    - [Q70. Spark cache() vs persist() vs checkpoint(): Lineage Truncation & StackOverflow Prevention](#q70-medium-spark-cache-vs-persist-vs-checkpoint-lineage-truncation--stackoverflow-prevention)
+    - [Q71. Calculating Spark Jobs, Stages, Tasks, and Partitions from Code (DAG Stage Boundaries & Shuffle Breakdown)](#q71-medium-calculating-spark-jobs-stages-tasks-and-partitions-from-code-dag-stage-boundaries--shuffle-breakdown)
 ---
 
 # 1. Spark Engine Architecture & Execution Lifecycle
@@ -107,7 +109,7 @@ A comprehensive, production-grade guide answering Apache Spark and PySpark archi
 #### Spark Physical Cluster Architecture (Q30)
 ![Spark Cluster Architecture Driver Executors](assets/05_apache_spark_and_pyspark_faq/01_spark_cluster_architecture_driver_executors.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/01_spark_cluster_architecture_driver_executors.d2](assets/05_apache_spark_and_pyspark_faq/01_spark_cluster_architecture_driver_executors.d2)
+*D2 Source: [`01_spark_cluster_architecture_driver_executors.d2`](assets/05_apache_spark_and_pyspark_faq/01_spark_cluster_architecture_driver_executors.d2)*
 
 ---
 
@@ -169,7 +171,7 @@ An **RDD (Resilient Distributed Dataset)** is an immutable, distributed collecti
 
 ![groupByKey vs reduceByKey Network Shuffle](assets/05_apache_spark_and_pyspark_faq/02_groupbykey_vs_reducebykey_network_shuffle.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/02_groupbykey_vs_reducebykey_network_shuffle.d2](assets/05_apache_spark_and_pyspark_faq/02_groupbykey_vs_reducebykey_network_shuffle.d2)
+*D2 Source: [`02_groupbykey_vs_reducebykey_network_shuffle.d2`](assets/05_apache_spark_and_pyspark_faq/02_groupbykey_vs_reducebykey_network_shuffle.d2)*
 
 ---
 
@@ -327,7 +329,7 @@ When 199 tasks finish in 10 seconds but Task 200 runs for 45 minutes or 2 hours:
 **Salting** breaks down a hot skewed key into $K$ uniform sub-keys by appending a random integer.
 ![Hot Key Data Skew Salting Repartition](assets/05_apache_spark_and_pyspark_faq/03_hot_key_data_skew_salting_repartition.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/03_hot_key_data_skew_salting_repartition.d2](assets/05_apache_spark_and_pyspark_faq/03_hot_key_data_skew_salting_repartition.d2)
+*D2 Source: [`03_hot_key_data_skew_salting_repartition.d2`](assets/05_apache_spark_and_pyspark_faq/03_hot_key_data_skew_salting_repartition.d2)*
 
 ```python
 from pyspark.sql import functions as F
@@ -385,7 +387,7 @@ When AQE detects a partition larger than the threshold, it automatically splits 
 
 ![Repartition vs Coalesce Mechanics](assets/05_apache_spark_and_pyspark_faq/04_repartition_vs_coalesce_mechanics.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/04_repartition_vs_coalesce_mechanics.d2](assets/05_apache_spark_and_pyspark_faq/04_repartition_vs_coalesce_mechanics.d2)
+*D2 Source: [`04_repartition_vs_coalesce_mechanics.d2`](assets/05_apache_spark_and_pyspark_faq/04_repartition_vs_coalesce_mechanics.d2)*
 
 ---
 
@@ -465,7 +467,7 @@ $$\text{Ideal Partitions} = \frac{\text{Total Uncompressed Dataset Size}}{128\te
 AQE re-optimizes execution plans at runtime based on actual stage runtime statistics:
 ![Adaptive Query Execution AQE Dynamic Reoptimization](assets/05_apache_spark_and_pyspark_faq/05_adaptive_query_execution_aqe_dynamic_reoptimization.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/05_adaptive_query_execution_aqe_dynamic_reoptimization.d2](assets/05_apache_spark_and_pyspark_faq/05_adaptive_query_execution_aqe_dynamic_reoptimization.d2)
+*D2 Source: [`05_adaptive_query_execution_aqe_dynamic_reoptimization.d2`](assets/05_apache_spark_and_pyspark_faq/05_adaptive_query_execution_aqe_dynamic_reoptimization.d2)*
 
 ---
 
@@ -496,7 +498,7 @@ When an intermediate DataFrame becomes massive and degrades downstream stages:
 Inside each Executor JVM container (e.g., 32 GB RAM):
 ![Spark Executor Memory Pool Architecture](assets/05_apache_spark_and_pyspark_faq/06_spark_executor_memory_pool_architecture.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/06_spark_executor_memory_pool_architecture.d2](assets/05_apache_spark_and_pyspark_faq/06_spark_executor_memory_pool_architecture.d2)
+*D2 Source: [`06_spark_executor_memory_pool_architecture.d2`](assets/05_apache_spark_and_pyspark_faq/06_spark_executor_memory_pool_architecture.d2)*
 
 | Memory Region | Allocation / Configuration Flag | Operational Purpose & Eviction Behavior |
 | :--- | :--- | :--- |
@@ -534,7 +536,7 @@ Inside each Executor JVM container (e.g., 32 GB RAM):
 #### OutOfMemoryError (OOM) Diagnostic Playbook (Q17)
 ![Spark OOM Root Cause Decision Tree](assets/05_apache_spark_and_pyspark_faq/07_spark_oom_root_cause_decision_tree.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/07_spark_oom_root_cause_decision_tree.d2](assets/05_apache_spark_and_pyspark_faq/07_spark_oom_root_cause_decision_tree.d2)
+*D2 Source: [`07_spark_oom_root_cause_decision_tree.d2`](assets/05_apache_spark_and_pyspark_faq/07_spark_oom_root_cause_decision_tree.d2)*
 
 ---
 
@@ -801,7 +803,7 @@ When 1 partition out of 200 holds 40% of the data in a 1 TB dataset:
 #### Visualizing the Stage Execution Timeline
 ![Spark Stage Execution Skew Straggler Timeline](assets/05_apache_spark_and_pyspark_faq/08_spark_stage_execution_skew_straggler_timeline.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/08_spark_stage_execution_skew_straggler_timeline.d2](assets/05_apache_spark_and_pyspark_faq/08_spark_stage_execution_skew_straggler_timeline.d2)
+*D2 Source: [`08_spark_stage_execution_skew_straggler_timeline.d2`](assets/05_apache_spark_and_pyspark_faq/08_spark_stage_execution_skew_straggler_timeline.d2)*
 
 #### Remediation Playbook
 1. **Enable Spark 3.x Adaptive Query Execution (AQE):**
@@ -859,7 +861,7 @@ Spark launches **only 1 single task on 1 single executor core**! All other 99 ex
 #### The 4-Step Systematic Diagnostic Checklist
 ![Spark JDBC Extraction Triage Flow](assets/05_apache_spark_and_pyspark_faq/09_spark_jdbc_extraction_triage_flow.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/09_spark_jdbc_extraction_triage_flow.d2](assets/05_apache_spark_and_pyspark_faq/09_spark_jdbc_extraction_triage_flow.d2)
+*D2 Source: [`09_spark_jdbc_extraction_triage_flow.d2`](assets/05_apache_spark_and_pyspark_faq/09_spark_jdbc_extraction_triage_flow.d2)*
 
 #### Production-Tuned Distributed JDBC Read
 ```python
@@ -931,7 +933,7 @@ df = (
 
 ![DataFrame Catalyst vs RDD Py4J Execution](assets/05_apache_spark_and_pyspark_faq/10_dataframe_catalyst_vs_rdd_py4j_execution.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/10_dataframe_catalyst_vs_rdd_py4j_execution.d2](assets/05_apache_spark_and_pyspark_faq/10_dataframe_catalyst_vs_rdd_py4j_execution.d2)
+*D2 Source: [`10_dataframe_catalyst_vs_rdd_py4j_execution.d2`](assets/05_apache_spark_and_pyspark_faq/10_dataframe_catalyst_vs_rdd_py4j_execution.d2)*
 
 ---
 
@@ -1108,7 +1110,7 @@ In technical whiteboard and screen-share interviews without IDE autocompletion o
 #### Visual Flow
 ![PySpark Clean Code Architecture Stages](assets/05_apache_spark_and_pyspark_faq/11_pyspark_clean_code_architecture_stages.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/11_pyspark_clean_code_architecture_stages.d2](assets/05_apache_spark_and_pyspark_faq/11_pyspark_clean_code_architecture_stages.d2)
+*D2 Source: [`11_pyspark_clean_code_architecture_stages.d2`](assets/05_apache_spark_and_pyspark_faq/11_pyspark_clean_code_architecture_stages.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1165,7 +1167,7 @@ By default, Spark’s `spark.sql.autoBroadcastJoinThreshold` is **10 MB**.
 #### Visual Flow
 ![Broadcast Hash Join vs Sort Merge Join](assets/05_apache_spark_and_pyspark_faq/12_broadcast_hash_join_vs_sort_merge_join.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/12_broadcast_hash_join_vs_sort_merge_join.d2](assets/05_apache_spark_and_pyspark_faq/12_broadcast_hash_join_vs_sort_merge_join.d2)
+*D2 Source: [`12_broadcast_hash_join_vs_sort_merge_join.d2`](assets/05_apache_spark_and_pyspark_faq/12_broadcast_hash_join_vs_sort_merge_join.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1201,7 +1203,7 @@ joined_df = fact_2tb_df.join(
 #### Systematic 4-Stage Diagnostic Framework
 ![Spark UI Memory and Spill Diagnostic Triage](assets/05_apache_spark_and_pyspark_faq/13_spark_ui_memory_and_spill_diagnostic_triage.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/13_spark_ui_memory_and_spill_diagnostic_triage.d2](assets/05_apache_spark_and_pyspark_faq/13_spark_ui_memory_and_spill_diagnostic_triage.d2)
+*D2 Source: [`13_spark_ui_memory_and_spill_diagnostic_triage.d2`](assets/05_apache_spark_and_pyspark_faq/13_spark_ui_memory_and_spill_diagnostic_triage.d2)*
 
 #### Production Diagnostic Checklist:
 1. **GC Time Ratio:** If $(\text{GC Time} / \text{Task Time}) > 15\%$, worker threads are starving. Allocate larger heap space or reduce cores per executor from 8 to 4–5 to reduce concurrent thread pressure on the JVM garbage collector.
@@ -1226,7 +1228,7 @@ In Apache Spark, window functions (`over(Window.partitionBy(...).orderBy(...))`)
 
 ![Window Function PartitionBy Anti Pattern](assets/05_apache_spark_and_pyspark_faq/14_window_function_partitionby_anti_pattern.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/14_window_function_partitionby_anti_pattern.d2](assets/05_apache_spark_and_pyspark_faq/14_window_function_partitionby_anti_pattern.d2)
+*D2 Source: [`14_window_function_partitionby_anti_pattern.d2`](assets/05_apache_spark_and_pyspark_faq/14_window_function_partitionby_anti_pattern.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1273,7 +1275,7 @@ In Apache Spark, transformations (`map`, `filter`, `join`, `groupBy`) are **lazy
 
 ![Spark Delta Lake Parquet Architecture](assets/05_apache_spark_and_pyspark_faq/15_spark_delta_lake_parquet_architecture.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/15_spark_delta_lake_parquet_architecture.d2](assets/05_apache_spark_and_pyspark_faq/15_spark_delta_lake_parquet_architecture.d2)
+*D2 Source: [`15_spark_delta_lake_parquet_architecture.d2`](assets/05_apache_spark_and_pyspark_faq/15_spark_delta_lake_parquet_architecture.d2)*
 
 | Component | Layer / Classification | Primary Role & Responsibility |
 | :--- | :--- | :--- |
@@ -1388,7 +1390,7 @@ When the broadcast table is too large:
 #### Visual Flow
 ![Broadcast Hash Join Execution Pipeline](assets/05_apache_spark_and_pyspark_faq/16_broadcast_hash_join_execution_pipeline.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/16_broadcast_hash_join_execution_pipeline.d2](assets/05_apache_spark_and_pyspark_faq/16_broadcast_hash_join_execution_pipeline.d2)
+*D2 Source: [`16_broadcast_hash_join_execution_pipeline.d2`](assets/05_apache_spark_and_pyspark_faq/16_broadcast_hash_join_execution_pipeline.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1426,7 +1428,7 @@ joined_df.write.format("delta").mode("append").saveAsTable("sales_enriched")
 - **Space Complexity:** $O(M)$ memory on the driver and every single executor, where $M$ is the size of the broadcast dimension.
 
 #### Engineering Implications & Production Pitfalls
-1. **Uncompressed In-Memory Expansion:** A Parquet dimension table that takes 30MB on cloud storage expands to $150	ext{MB}	ext{--}300	ext{MB}$ once deserialized as Java objects in executor memory. Calculating safety based on disk file size rather than memory footprint is the #1 cause of unexpected broadcast OOM crashes.
+1. **Uncompressed In-Memory Expansion:** A Parquet dimension table that takes 30MB on cloud storage expands to $150\text{MB}\text{--}300\text{MB}$ once deserialized as Java objects in executor memory. Calculating safety based on disk file size rather than memory footprint is the #1 cause of unexpected broadcast OOM crashes.
 2. **Multi-Core Amplification:** An executor configured with `spark.executor.cores = 5` runs 5 tasks concurrently. If each task performs a join with a 200MB broadcast table, all 5 tasks share the cached broadcast reference, but intermediate hash probe states can thrash executor memory.
 
 #### Core Curriculum Cross-Reference
@@ -1453,7 +1455,7 @@ In distributed systems, distributed locks (via Redis Redlock, ZooKeeper, or Dyna
 #### Visual Flow
 ![Distributed Lock Lease Fencing Token Sequence](assets/05_apache_spark_and_pyspark_faq/17_distributed_lock_lease_fencing_token_sequence.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/17_distributed_lock_lease_fencing_token_sequence.d2](assets/05_apache_spark_and_pyspark_faq/17_distributed_lock_lease_fencing_token_sequence.d2)
+*D2 Source: [`17_distributed_lock_lease_fencing_token_sequence.d2`](assets/05_apache_spark_and_pyspark_faq/17_distributed_lock_lease_fencing_token_sequence.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1500,9 +1502,9 @@ class FencedStorageWriter:
 
 #### Definition & Core Concepts
 When running Spark on Kubernetes, Linux enforces container memory limits via **Control Groups (cgroups)**:
-$$	ext{Total Container Memory} = 	ext{JVM Heap} + 	ext{Off-Heap Execution} + 	ext{JVM Overhead (Metaspace, Threads)} + 	ext{OS Page Cache / Native}$$
+$$\text{Total Container Memory} = \text{JVM Heap} + \text{Off-Heap Execution} + \text{JVM Overhead (Metaspace, Threads)} + \text{OS Page Cache / Native}$$
 In Spark configuration:
-$$	ext{Container Limit} = 	ext{spark.executor.memory} + 	ext{spark.executor.memoryOverhead}$$
+$$\text{Container Limit} = \text{spark.executor.memory} + \text{spark.executor.memoryOverhead}$$
 If the total physical memory consumed by all processes in the container exceeds the cgroup quota, the Linux kernel **OOM Killer** immediately terminates the pod (`Exit Code 137 / OOMKilled`), regardless of JVM heap health.
 The memory is consumed in 4 off-heap locations:
 1. **PySpark Python Worker Daemons:** Python code (UDFs, Pandas, NumPy) runs in separate OS child processes (`python3`) outside the JVM heap. If a Pandas UDF processes a 2GB Arrow batch, memory is consumed in native C-memory!
@@ -1513,7 +1515,7 @@ The memory is consumed in 4 off-heap locations:
 #### Visual Flow
 ![Kubernetes Executor Pod Cgroup OOM Killer](assets/05_apache_spark_and_pyspark_faq/18_kubernetes_executor_pod_cgroup_oom_killer.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/18_kubernetes_executor_pod_cgroup_oom_killer.d2](assets/05_apache_spark_and_pyspark_faq/18_kubernetes_executor_pod_cgroup_oom_killer.d2)
+*D2 Source: [`18_kubernetes_executor_pod_cgroup_oom_killer.d2`](assets/05_apache_spark_and_pyspark_faq/18_kubernetes_executor_pod_cgroup_oom_killer.d2)*
 
 #### Production Implementation / Tuning Playbook
 ```bash
@@ -1557,7 +1559,7 @@ Controlling the physical distribution of data across partitions dictates network
 #### Visual Flow
 ![Repartition vs Coalesce Network Locality Flow](assets/05_apache_spark_and_pyspark_faq/19_repartition_vs_coalesce_network_locality_flow.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/19_repartition_vs_coalesce_network_locality_flow.d2](assets/05_apache_spark_and_pyspark_faq/19_repartition_vs_coalesce_network_locality_flow.d2)
+*D2 Source: [`19_repartition_vs_coalesce_network_locality_flow.d2`](assets/05_apache_spark_and_pyspark_faq/19_repartition_vs_coalesce_network_locality_flow.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1614,7 +1616,7 @@ When conflicting records share the same `customer_id` or unified `tax_identifier
 #### Visual Flow
 ![Multi Source Entity Resolution Window Ranking](assets/05_apache_spark_and_pyspark_faq/20_multi_source_entity_resolution_window_ranking.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/20_multi_source_entity_resolution_window_ranking.d2](assets/05_apache_spark_and_pyspark_faq/20_multi_source_entity_resolution_window_ranking.d2)
+*D2 Source: [`20_multi_source_entity_resolution_window_ranking.d2`](assets/05_apache_spark_and_pyspark_faq/20_multi_source_entity_resolution_window_ranking.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1683,7 +1685,7 @@ Finding top $N$ items per partition requires a multi-stage distributed execution
 #### Visual Flow
 ![Regional Sales Top K Window Ranking Pipeline](assets/05_apache_spark_and_pyspark_faq/21_regional_sales_top_k_window_ranking_pipeline.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/21_regional_sales_top_k_window_ranking_pipeline.d2](assets/05_apache_spark_and_pyspark_faq/21_regional_sales_top_k_window_ranking_pipeline.d2)
+*D2 Source: [`21_regional_sales_top_k_window_ranking_pipeline.d2`](assets/05_apache_spark_and_pyspark_faq/21_regional_sales_top_k_window_ranking_pipeline.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -2081,7 +2083,7 @@ Rather than exploding the entire dimension table, filter the dataset into two di
 #### Visual Flow: Standard Hash vs. Salting Mechanics
 ![Data Skew Salting Executor Load Balancing](assets/05_apache_spark_and_pyspark_faq/22_data_skew_salting_executor_load_balancing.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/22_data_skew_salting_executor_load_balancing.d2](assets/05_apache_spark_and_pyspark_faq/22_data_skew_salting_executor_load_balancing.d2)
+*D2 Source: [`22_data_skew_salting_executor_load_balancing.d2`](assets/05_apache_spark_and_pyspark_faq/22_data_skew_salting_executor_load_balancing.d2)*
 
 #### Production PySpark Implementation
 ```python
@@ -2170,7 +2172,7 @@ Engineers often conflate **Spilling** and **Garbage Collection (GC)** because bo
 #### Visual Flow: Spark Executor Memory Layout
 ![Spark Container Unified Memory Breakdown](assets/05_apache_spark_and_pyspark_faq/23_spark_container_unified_memory_breakdown.svg)
 
-*D2 Source:* [assets/05_apache_spark_and_pyspark_faq/23_spark_container_unified_memory_breakdown.d2](assets/05_apache_spark_and_pyspark_faq/23_spark_container_unified_memory_breakdown.d2)
+*D2 Source: [`23_spark_container_unified_memory_breakdown.d2`](assets/05_apache_spark_and_pyspark_faq/23_spark_container_unified_memory_breakdown.d2)*
 
 #### Diagnostic & Triage Playbook
 
@@ -2204,6 +2206,161 @@ Engineers often conflate **Spilling** and **Garbage Collection (GC)** because bo
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [05. Apache Spark & PySpark: Memory Architecture & Tungsten Off-Heap Engine](../05_apache_spark_and_pyspark.md#55-memory-architecture--spill-to-disk)*
+---
+
+### Q70. [Medium] Spark cache() vs persist() vs checkpoint(): Lineage Truncation & StackOverflow Prevention
+**Difficulty:** [Medium]  
+**Topic Covered:** Spark `cache()`, `persist()`, `checkpoint()`, Catalyst DAG Lineage Graph Truncation, Reliable vs Local Checkpointing  
+**Question:** *What is the architectural and operational difference between caching, persisting, and checkpointing a Spark DataFrame, and when is checkpointing strictly required over caching?*
+
+#### Definition & Core Concepts
+While `cache()` and `persist()` preserve intermediate computations, only `checkpoint()` physically cuts the Spark logical and physical execution plan:
+1. **`cache()` & `persist(StorageLevel)`:**
+   - Both evaluate and store computed partitions in JVM heap, off-heap, or local worker disk.
+   - **Crucial Invariant: Lineage Graph is PRESERVED.** If a cached executor crashes or memory is evicted under LRU pressure, Spark traverses the entire upstream lineage graph from scratch to recompute the lost partition.
+2. **`checkpoint()` (Reliable Checkpointing):**
+   - Saves the DataFrame to a persistent, distributed reliable file system (HDFS, ADLS Gen2, or S3).
+   - **Crucial Invariant: Lineage Graph is TRUNCATED (Cut).** Spark removes the entire Catalyst upstream execution DAG. The new DataFrame starts with a clean `LogicalRDD` root node pointing to the checkpoint directory on storage.
+3. **When is Checkpointing Strictly Required?**
+   - **Iterative & Recursive Algorithms:** In iterative machine learning (e.g., ALS, GraphX, Connected Components) or recursive graph traversals, each iteration appends dozens of operators to the Catalyst logical plan. Without checkpointing, the lineage grows to thousands of stages, triggering `java.lang.StackOverflowError` in the driver during Catalyst query optimization.
+   - **Long-Running Streaming State:** Structured Streaming uses checkpointing to store state and offsets for exact recovery after driver crashes.
+4. **`localCheckpoint()`:** Truncates lineage but writes partitions to local executor storage instead of remote cloud storage. Blazing fast, but non-fault-tolerant if an executor node terminates.
+
+#### Visual Architectural Comparison
+![Spark Cache Persist vs Checkpoint Lineage Truncation](assets/05_apache_spark_and_pyspark_faq/24_spark_cache_persist_checkpoint_lineage_truncation.svg)
+
+*D2 Source: [`24_spark_cache_persist_checkpoint_lineage_truncation.d2`](assets/05_apache_spark_and_pyspark_faq/24_spark_cache_persist_checkpoint_lineage_truncation.d2)*
+
+#### Production Implementation / Code Solution
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.getOrCreate()
+
+# 1. Initialize checkpoint directory on reliable distributed storage
+spark.sparkContext.setCheckpointDir("abfss://checkpoints@datalake.dfs.core.windows.net/spark_dag_checkpoints/")
+
+# 2. Iterative Graph / Lineage Truncation Pattern
+df = spark.table("bronze.raw_transactions")
+
+for iteration in range(1, 50):
+    # Successive complex joins and aggregations lengthen the Catalyst DAG
+    df = df.join(spark.table("silver.rules"), "rule_id").groupBy("user_id").count()
+    
+    # Every 10 iterations, truncate lineage to prevent StackOverflowError
+    if iteration % 10 == 0:
+        # Materialize to cloud storage and cut Catalyst DAG
+        df = df.checkpoint(eager=True)
+        print(f"Iteration {iteration}: Lineage successfully truncated via checkpoint.")
+
+# 3. localCheckpoint for high-speed non-iterative lineage severance
+# E.g. breaking heavy lineage without remote object store latency:
+df_fast = df.filter("count > 5").localCheckpoint(eager=True)
+```
+
+#### Architectural Comparison Matrix
+| Dimension | `cache()` | `persist(StorageLevel)` | `checkpoint()` |
+| :--- | :--- | :--- | :--- |
+| **Storage Destination** | JVM Heap / Disk | Configurable (MEM, DISK, OFF_HEAP) | Reliable Distributed Storage (S3/ADLS) |
+| **Lineage Impact** | **Preserved in full** | **Preserved in full** | **Completely truncated (Severed)** |
+| **Fault Tolerance** | Recomputes lost partitions via lineage | Recomputes lost partitions via lineage | Reads from persistent checkpoint files |
+| **Eager Execution** | Lazy (evaluates on first action) | Lazy (evaluates on first action) | **Eager by default** (materializes immediately) |
+| **Driver Stack Protection**| ❌ No (Driver can still StackOverflow) | ❌ No | **✅ Yes (Fixes Driver StackOverflow)** |
+
+#### Engineering Implications & Production Pitfalls
+- **Eager Materialization Latency:** Unlike `cache()`, which is lazy, calling `df.checkpoint(eager=True)` immediately schedules an internal Spark action that writes the entire DataFrame across the network to cloud storage. Never call `checkpoint()` on every step of a loop; balance checkpoint frequency (every 5–10 iterations).
+- **Orphaned Checkpoint Files:** Spark does not automatically delete checkpoint directories upon job completion. Configure cloud bucket lifecycle rules (e.g., delete files older than 3 days in `/checkpoints/`) or implement an application cleanup hook.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [05. Apache Spark & PySpark: Caching, Persistence & Checkpointing Strategies](../05_apache_spark_and_pyspark.md#53-caching-persistence--checkpointing-strategies)*
+
+---
+
+### Q71. [Medium] Calculating Spark Jobs, Stages, Tasks, and Partitions from Code (DAG Stage Boundaries & Shuffle Breakdown)
+**Difficulty:** [Medium]  
+**Topic Covered:** Spark Execution Flow, DAG Scheduling, Stage Boundaries, Wide vs. Narrow Dependencies & Task Sizing  
+**Question:** *Given a PySpark program using `repartition()`, `filter()`, `groupBy()`, and `write()`, how do you determine the exact number of Jobs, Stages, Tasks, and Partitions created? Walk through a concrete code example.*
+
+#### Definition & Core Concepts
+Calculating execution units from user code requires understanding the hierarchical Spark runtime model ($Application \to Job \to Stage \to Task$):
+1. **Jobs:** A Job is instantiated **only when an Action is evaluated** (`count()`, `collect()`, `write()`, `saveAsTable()`). Transformations (`filter()`, `repartition()`, `groupBy()`) are evaluated lazily and create zero jobs until an action triggers execution.
+2. **Stages:** The **DAGScheduler** divides a Job into distinct Stages at **Wide Dependency (Shuffle)** boundaries:
+   - **Narrow Transformations (`filter()`, `map()`, `withColumn()`):** Evaluated entirely in-memory within the same stage (pipelining / Tungsten whole-stage code generation). No shuffle occurs.
+   - **Wide Transformations (`repartition()`, `groupBy()`, `join()`, `distinct()`):** Require data to be partitioned and exchanged across the network via shuffle files. Every wide transformation introduces a new stage boundary.
+3. **Tasks:** A Stage is composed of a `TaskSet`. The number of Tasks in a Stage **strictly equals the number of partitions** present in the DataFrame at that point in execution.
+4. **Partitions:** Dictated by the input data blocks (HDFS / Cloud Storage splits), explicit repartitioning calls, or the shuffle partition parameter (`spark.sql.shuffle.partitions`, default: 200).
+
+#### Visual Flow
+![Determining Jobs, Stages, Tasks & Partitions: DAG Breakdown](assets/05_apache_spark_and_pyspark_faq/25_spark_code_to_jobs_stages_tasks_breakdown.svg)
+
+*D2 Source: [`25_spark_code_to_jobs_stages_tasks_breakdown.d2`](assets/05_apache_spark_and_pyspark_faq/25_spark_code_to_jobs_stages_tasks_breakdown.d2)*
+
+#### Concrete Code Walkthrough & Execution Breakdown
+
+Consider the following standard PySpark pipeline:
+
+```python
+# Assume input.csv is composed of 4 raw input splits (4 partitions)
+df1 = spark.read.csv("input.csv", header=True)       # Lineage: 4 partitions
+df2 = df1.repartition(10)                           # Wide shuffle exchange
+df3 = df2.filter("status = 'ACTIVE'")               # Narrow filter (pipelined)
+df4 = df3.groupBy("category").count()               # Wide shuffle exchange + aggregation
+df4.write.parquet("output_path/")                   # Action (Triggers 1 Job)
+```
+
+#### Detailed Mathematical Breakdown
+
+| Execution Component | Count | Architectural Justification |
+| :--- | :--- | :--- |
+| **Total Jobs** | **1 Job** | Only one Action (`write.parquet()`) is invoked. (If `inferSchema=True` were used on CSV read, it would spawn an additional initial scan Job). |
+| **Total Stages** | **3 Stages** | Stage boundaries are introduced at the two wide shuffle operations (`repartition(10)` and `groupBy("category")`). |
+| **Stage 0 Tasks** | **4 Tasks** | Reads `input.csv` (4 initial partitions) and writes shuffle map outputs for the upcoming repartition. |
+| **Stage 1 Tasks** | **10 Tasks** | Reads 10 shuffle partitions from `repartition(10)`. Pipelines the narrow `filter()` in memory, and performs map-side partial aggregation for `groupBy()`. Writes shuffle map outputs. |
+| **Stage 2 Tasks** | **200 Tasks** | Reduces the grouped records across `spark.sql.shuffle.partitions` (default 200). Computes final counts and evaluates the `write.parquet()` action. |
+| **Total Tasks** | **214 Tasks** | Sum of tasks across all stages: $4 + 10 + 200 = 214\text{ Tasks}$. |
+| **Output Files** | **200 Files** | Each task in Stage 2 writes 1 Parquet file (unless AQE dynamic coalescing is enabled). |
+
+#### Production Implementation & Programmatic Inspection Script
+
+```python
+from pyspark.sql import SparkSession
+
+spark = (
+    SparkSession.builder
+    .appName("DAGExecutionInspection")
+    .config("spark.sql.shuffle.partitions", "200")
+    # Enable Adaptive Query Execution (AQE) to observe runtime coalescing
+    .config("spark.sql.adaptive.enabled", "true")
+    .getOrCreate()
+)
+
+# 1. Create a DataFrame with exactly 4 partitions
+data = [(f"user_{i}", "ACTIVE" if i % 2 == 0 else "INACTIVE", f"cat_{i % 5}") for i in range(100000)]
+rdd = spark.sparkContext.parallelize(data, numSlices=4)
+df1 = rdd.toDF(["user_id", "status", "category"])
+
+# 2. Transformations
+df2 = df1.repartition(10)                           # Stage Boundary 1
+df3 = df2.filter("status = 'ACTIVE'")               # Pipelined in Stage 1
+df4 = df3.groupBy("category").count()               # Stage Boundary 2
+
+# 3. Inspect the Logical & Physical Catalyst Plan before execution
+print("=== Catalyst Physical Execution Plan ===")
+df4.explain(mode="formatted")
+
+# 4. Action triggers physical DAG execution
+df4.write.mode("overwrite").parquet("/tmp/spark_dag_output/")
+
+print(f"Completed execution. Final partition count: {df4.rdd.getNumPartitions()}")
+```
+
+#### Engineering Implications & Production Pitfalls
+- **The Small File Trap of Default Shuffle Partitions (200):** If processing only 50 MB of data, Stage 2 will still spawn 200 tasks and generate 200 microscopic $250\text{ KB}$ files in cloud storage. Always enable **Adaptive Query Execution (AQE)** (`spark.sql.adaptive.coalescePartitions.enabled=true`), which dynamically collapses the 200 partitions into 1–2 consolidated files based on target post-shuffle partition size (`spark.sql.adaptive.advisoryPartitionSizeInBytes = 64MB`).
+- **`coalesce()` vs. `repartition()` Stage Impact:** If `repartition(10)` were replaced with `coalesce(2)`, no wide shuffle would occur. Instead, Spark would collapse the 4 initial partitions down to 2 locally within the same stage, avoiding network shuffle latency entirely.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [05. Apache Spark & PySpark: Jobs, Stages, and Tasks Hierarchy](../05_apache_spark_and_pyspark.md#21-jobs-stages-and-tasks-hierarchy)*
+
 
 ---
 

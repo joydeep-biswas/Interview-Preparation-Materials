@@ -250,7 +250,7 @@ When `SpringApplication.run(Application.class, args)` executes:
 
 ![Spring Boot Application Bootstrap & Startup Lifecycle](assets/05_spring_boot_and_rest_apis_faq/01_spring_boot_application_bootstrap_lifecycle.svg)
 
-*D2 Source:* [assets/05_spring_boot_and_rest_apis_faq/01_spring_boot_application_bootstrap_lifecycle.d2](assets/05_spring_boot_and_rest_apis_faq/01_spring_boot_application_bootstrap_lifecycle.d2)
+*D2 Source: [`01_spring_boot_application_bootstrap_lifecycle.d2`](assets/05_spring_boot_and_rest_apis_faq/01_spring_boot_application_bootstrap_lifecycle.d2)*
 
 ---
 
@@ -350,7 +350,7 @@ DTOs decouple public API contracts from internal database entity schemas, preven
 
 ![Spring MVC DispatcherServlet Request Lifecycle](assets/05_spring_boot_and_rest_apis_faq/02_spring_mvc_dispatcherservlet_request_lifecycle.svg)
 
-*D2 Source:* [assets/05_spring_boot_and_rest_apis_faq/02_spring_mvc_dispatcherservlet_request_lifecycle.d2](assets/05_spring_boot_and_rest_apis_faq/02_spring_mvc_dispatcherservlet_request_lifecycle.d2)
+*D2 Source: [`02_spring_mvc_dispatcherservlet_request_lifecycle.d2`](assets/05_spring_boot_and_rest_apis_faq/02_spring_mvc_dispatcherservlet_request_lifecycle.d2)*
 
 ---
 
@@ -544,7 +544,7 @@ From the client's perspective, case 1 and case 2 look identical: a `SocketTimeou
 #### Visual Flow
 ![Idempotent API Design & Distributed Locking Architecture](assets/05_spring_boot_and_rest_apis_faq/03_idempotent_api_design_distributed_locking.svg)
 
-*D2 Source:* [assets/05_spring_boot_and_rest_apis_faq/03_idempotent_api_design_distributed_locking.d2](assets/05_spring_boot_and_rest_apis_faq/03_idempotent_api_design_distributed_locking.d2)
+*D2 Source: [`03_idempotent_api_design_distributed_locking.d2`](assets/05_spring_boot_and_rest_apis_faq/03_idempotent_api_design_distributed_locking.d2)*
 
 #### Production Implementation / Code Solution
 ```java
@@ -650,7 +650,7 @@ public class IdempotencyFilter extends OncePerRequestFilter {
 
 ![Resilience4j Circuit Breaker Finite State Machine](assets/05_spring_boot_and_rest_apis_faq/04_resilience4j_circuit_breaker_state_machine.svg)
 
-*D2 Source:* [assets/05_spring_boot_and_rest_apis_faq/04_resilience4j_circuit_breaker_state_machine.d2](assets/05_spring_boot_and_rest_apis_faq/04_resilience4j_circuit_breaker_state_machine.d2)
+*D2 Source: [`04_resilience4j_circuit_breaker_state_machine.d2`](assets/05_spring_boot_and_rest_apis_faq/04_resilience4j_circuit_breaker_state_machine.d2)*
 
 The 5-Step Diagnostic Triage Runbook:
 1. **Thread Dump Inspection (`jcmd <pid> Thread.print`):**
@@ -734,7 +734,7 @@ public class HttpClientConfiguration {
 
 ![Spring Bean Lifecycle Phase Transitions](assets/05_spring_boot_and_rest_apis_faq/05_spring_bean_lifecycle_phase_transitions.svg)
 
-*D2 Source:* [assets/05_spring_boot_and_rest_apis_faq/05_spring_bean_lifecycle_phase_transitions.d2](assets/05_spring_boot_and_rest_apis_faq/05_spring_bean_lifecycle_phase_transitions.d2)
+*D2 Source: [`05_spring_bean_lifecycle_phase_transitions.d2`](assets/05_spring_boot_and_rest_apis_faq/05_spring_bean_lifecycle_phase_transitions.d2)*
 
 Deciding Primary vs. Secondary:
 1. **`@Primary` Designation:** Exactly one `DataSource`, `EntityManagerFactory`, and `TransactionManager` must be annotated with `@Primary`. This is used by default Spring Boot starters (e.g., Spring Security, Spring Batch, Actuator health checks).

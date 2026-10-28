@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="380" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="380" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,7 +43,7 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="40" y="120" width="200" height="160" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="40" y="120" width="200" height="168" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
 <text x="140" y="142" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">1. Sort Descending</text>
 <text x="52" y="162" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Sort vocabulary tokens</text>
 <text x="52" y="180" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">by probability descending:</text>
@@ -53,7 +53,7 @@
 <text x="52" y="252" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">' Berlin': 0.08</text>
 <text x="52" y="270" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">' Madrid': 0.05</text>
 
-    <rect x="270" y="120" width="220" height="160" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="270" y="120" width="220" height="168" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
 <text x="380" y="142" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">2. Cumulative Sum</text>
 <text x="282" y="162" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Compute running cumulative sum:</text>
 <text x="282" y="180" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">' Paris': 0.50</text>
@@ -63,7 +63,7 @@
 <text x="282" y="252" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">--&gt; Threshold 0.90 Exceeded!</text>
 <text x="282" y="270" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">' Madrid': 0.95 + 0.05 = 1.00</text>
 
-    <rect x="520" y="120" width="210" height="160" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="520" y="120" width="210" height="168" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="625" y="142" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">3. Truncate Tail</text>
 <text x="532" y="162" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Keep tokens up to cutoff:</text>
 <text x="532" y="180" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">RETAIN:</text>
@@ -73,7 +73,7 @@
 <text x="532" y="252" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">[' Madrid'] (logit = -inf)</text>
 <text x="532" y="270" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Eliminates nonsensical tokens</text>
 
-    <rect x="760" y="120" width="180" height="160" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+    <rect x="760" y="120" width="180" height="160" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5" />
 <text x="850" y="142" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">4. Renormalize</text>
 <text x="772" y="162" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Renormalize surviving</text>
 <text x="772" y="180" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">probabilities to sum to 1.0:</text>
@@ -82,9 +82,9 @@
 <text x="772" y="234" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">' London': 0.25/0.95 = 26.3%</text>
 <text x="772" y="252" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Sample from clean pool!</text>
 
-    <line x1="240" y1="200" x2="270" y2="200" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
-    <line x1="490" y1="200" x2="520" y2="200" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
-    <line x1="730" y1="200" x2="760" y2="200" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+    <line x1="240" y1="200" x2="270" y2="200" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
+    <line x1="490" y1="200" x2="520" y2="200" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
+    <line x1="730" y1="200" x2="760" y2="200" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)" />
 
   </g>
 </svg>

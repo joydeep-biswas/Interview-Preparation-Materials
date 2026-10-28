@@ -38,7 +38,7 @@
 
   <!-- Client Ingress -->
   <rect x="40" y="105" width="220" height="150" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="40" y="105" width="220" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="40" y="105" width="220" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="150" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Client Request</text>
   <text x="55" y="155" font-size="9" font-weight="700" fill="#E2E8F0">HTTP Ingress:</text>
   <text x="55" y="175" font-size="9" font-family="'JetBrains Mono', monospace" fill="#38BDF8">POST /api/v1/auth/login</text>
@@ -47,7 +47,7 @@
 
   <!-- Rate Limiting Filter -->
   <rect x="300" y="105" width="260" height="150" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
-  <rect x="300" y="105" width="260" height="30" rx="8" fill="#064E3B"/>
+  <rect x="300" y="105" width="260" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="430" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. RateLimitingFilter</text>
   <text x="315" y="155" font-size="9" font-weight="700" fill="#E2E8F0">OncePerRequestFilter:</text>
   <text x="315" y="175" font-size="9" fill="#CBD5E1">&#x2022; Extracts client IP / API key</text>
@@ -59,7 +59,7 @@
 
   <!-- Redis Cluster Store -->
   <rect x="600" y="105" width="280" height="150" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
-  <rect x="600" y="105" width="280" height="30" rx="8" fill="#4C1D95"/>
+  <rect x="600" y="105" width="280" height="30" rx="8" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
   <text x="740" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">3. Redis Cluster / Redisson</text>
   <text x="615" y="155" font-size="9" font-weight="700" fill="#C084FC">Atomic Token Bucket Lua Script:</text>
   <text x="615" y="175" font-size="9" fill="#CBD5E1">&#x2022; Capacity: 5 tokens (Burst limit)</text>
@@ -79,7 +79,7 @@
 
   <!-- Outcome 1: Allow (YES) -->
   <rect x="680" y="295" width="480" height="135" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
-  <rect x="680" y="295" width="480" height="26" rx="6" fill="#064E3B"/>
+  <rect x="680" y="295" width="480" height="26" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="920" y="313" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">&#x2714; YES: Consume 1 Token &amp; Forward Request</text>
   
   <text x="700" y="340" font-size="9" fill="#CBD5E1">&#x2022; Passes through to <tspan font-family="'JetBrains Mono', monospace" fill="#34D399">AuthenticationFilter</tspan> &#x2192; <tspan font-family="'JetBrains Mono', monospace" fill="#34D399">DispatcherServlet</tspan></text>
@@ -90,7 +90,7 @@
 
   <!-- Outcome 2: Deny (NO) -->
   <rect x="40" y="295" width="560" height="135" rx="6" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
-  <rect x="40" y="295" width="560" height="26" rx="6" fill="#7F1D1D"/>
+  <rect x="40" y="295" width="560" height="26" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
   <text x="320" y="313" font-size="11" font-weight="700" fill="#FCA5A5" text-anchor="middle">&#x2718; NO: Bucket Exhausted &#x2192; Short-Circuit 429</text>
 
   <text x="60" y="340" font-size="9" fill="#CBD5E1">&#x2022; Short-circuits immediately; request NEVER touches database or CPU-heavy BCrypt!</text>

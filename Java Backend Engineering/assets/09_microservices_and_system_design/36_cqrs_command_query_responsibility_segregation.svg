@@ -26,14 +26,14 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CQRS (Command Query Responsibility Segregation) Architecture</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Decoupling Write-Optimized Normalized Relational Databases from Read-Optimized Search Views</text>
 <rect x="390" y="95" width="300" height="60" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
 <text x="540" y="119" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client (Web / Mobile SPA)</text>
 <text x="540" y="139" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POST /orders (Mutations) | GET /orders (Queries)</text>
 <rect x="50" y="195" width="300" height="220" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="2"/>
-<rect x="65" y="210" width="200" height="20" rx="10" fill="#1e3a8a"/><text x="165" y="223" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">COMMAND SIDE (Writes)</text>
+<rect x="65" y="210" width="200" height="20" rx="10" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="165" y="223" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">COMMAND SIDE (Writes)</text>
 <text x="200" y="250" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Order Command Service</text>
 <text x="70" y="275" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Validates rich domain invariants</text>
 <text x="70" y="293" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Executes unit-of-work state changes</text>
@@ -42,14 +42,14 @@
 <text x="200" y="355" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3NF Normalized Relational Tables</text>
 <text x="200" y="370" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Optimized for ACID write throughput</text>
 <rect x="390" y="220" width="300" height="170" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="1.5"/>
-<rect x="405" y="235" width="220" height="20" rx="10" fill="#78350f"/><text x="515" y="248" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ASYNCHRONOUS PROJECTION</text>
+<rect x="405" y="235" width="220" height="20" rx="10" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="515" y="248" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ASYNCHRONOUS PROJECTION</text>
 <text x="540" y="275" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Kafka Stream / CDC Worker</text>
 <text x="410" y="300" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Captures OrderUpdatedEvent</text>
 <text x="410" y="318" fill="#FDE68A" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Denormalizes customer + order + item</text>
 <text x="410" y="336" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Hydrates read-optimized JSON documents</text>
 <text x="410" y="360" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Eventual Consistency: ~50-200ms lag</text>
 <rect x="730" y="195" width="300" height="220" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
-<rect x="745" y="210" width="180" height="20" rx="10" fill="#047857"/><text x="835" y="223" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">QUERY SIDE (Reads)</text>
+<rect x="745" y="210" width="180" height="20" rx="10" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="835" y="223" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">QUERY SIDE (Reads)</text>
 <text x="880" y="250" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Order Query Service</text>
 <text x="750" y="275" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Zero JOINs required at runtime!</text>
 <text x="750" y="293" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Serves high-QPS paginated searches</text>

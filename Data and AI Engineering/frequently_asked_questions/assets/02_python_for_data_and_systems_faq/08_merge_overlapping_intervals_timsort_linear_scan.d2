@@ -1,13 +1,12 @@
 direction: right
 classes: {
-  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
 }
 
 raw: "1. Raw Unsorted Intervals\n[1, 3], [8, 10], [2, 6], [15, 18]" { class: box; style.stroke: "#64748B" }
 sorted_ints: "2. Timsort by Start Key O(N log N)\n[1, 3], [2, 6], [8, 10], [15, 18]" { class: box; style.stroke: "#3B82F6" }
 
 merge_step: "3. Linear Scan & Merge\nCompare [1, 3] & [2, 6]: 2 &lt;= 3 -> Merge [1, 6]\nCompare [1, 6] & [8, 10]: 8 &gt; 6 -> Disjoint -> Emit [1, 6]" {
-  class: box
   style.stroke: "#F59E0B"
 }
 

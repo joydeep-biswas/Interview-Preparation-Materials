@@ -1,7 +1,18 @@
 direction: right
-title: Zero-Copy Network I/O: Traditional Read/Write vs. OS sendfile()
+title: "Zero-Copy Network I/O: Traditional Read/Write vs. OS sendfile()"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 trad: "1. Traditional Read/Write (4 Switches / 4 Copies)" {
+  class: container
   style.fill: "#1a1116"
   style.stroke: "#ef4444"
 
@@ -18,6 +29,7 @@ trad: "1. Traditional Read/Write (4 Switches / 4 Copies)" {
 }
 
 zero: "2. Kafka Zero-Copy via sendfile() (2 Switches / 0 CPU Copies)" {
+  class: container
   style.fill: "#0c1d1a"
   style.stroke: "#10b981"
 

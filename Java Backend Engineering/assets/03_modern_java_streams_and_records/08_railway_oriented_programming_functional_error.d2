@@ -1,7 +1,18 @@
 direction: right
-title: Functional Error Handling & Railway-Oriented Programming (ROP)
+title: "Functional Error Handling & Railway-Oriented Programming (ROP)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-SuccessTrack: Success Track (Result.success) {
+SuccessTrack: "Success Track (Result.success)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   cmd: "Input OrderCommand"
@@ -12,7 +23,8 @@ SuccessTrack: Success Track (Result.success) {
   cmd -> v -> p -> k -> resp
 }
 
-FailureTrack: Failure Track (Result.failure) {
+FailureTrack: "Failure Track (Result.failure)" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#EF4444"
   err1: "Validation Error (400)"
@@ -22,5 +34,5 @@ FailureTrack: Failure Track (Result.failure) {
   err2 -> egress
 }
 
-SuccessTrack.v -> FailureTrack.err1: Switch on error { style.stroke: "#EF4444" }
-SuccessTrack.p -> FailureTrack.err2: Switch on error { style.stroke: "#EF4444" }
+SuccessTrack.v -> FailureTrack.err1: "Switch on error" { style.stroke: "#EF4444" }
+SuccessTrack.p -> FailureTrack.err2: "Switch on error" { style.stroke: "#EF4444" }

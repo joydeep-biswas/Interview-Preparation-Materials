@@ -1,24 +1,40 @@
 direction: right
-title: Lakehouse Security: Fine-Grained Access Control, RLS & Column Masking
+title: "Lakehouse Security: Fine-Grained Access Control, RLS & Column Masking"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-user: Client Execution Context {
+user: "Client Execution Context" {
+  class: container
   role: "User Query / Role: EU_Marketing_Analyst"
 }
 
-engine: Governance & Policy Enforcement {
-  catalog: Central Governance Engine (Unity Catalog / Lake Formation)
-  rls: Row-Level Security (RLS) {
+engine: "Governance & Policy Enforcement" {
+  class: container
+  catalog: "Central Governance Engine (Unity Catalog / Lake Formation)"
+  rls: "Row-Level Security (RLS)" {
+    class: box
     rule: "Applies Predicate: region = 'EMEA'"
   }
-  cls: Column-Level Masking (CLS) {
+  cls: "Column-Level Masking (CLS)" {
+    class: box
     rule: "Masks SSN: '***-**-' || RIGHT(ssn, 4)"
   }
   catalog -> rls
   catalog -> cls
 }
 
-output: Sanitized Lakehouse Output {
-  result: Sanitized Output {
+output: "Sanitized Lakehouse Output" {
+  class: container
+  result: "Sanitized Output" {
+    class: box
     details: "EMEA rows only, SSN redacted, audit logged"
   }
 }

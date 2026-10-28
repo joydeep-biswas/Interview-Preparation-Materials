@@ -1,39 +1,54 @@
 direction: right
-title: Multi-Dimensional Enterprise Sales Periodic Snapshot Mart
-
-fact: FACT_MONTHLY_SALES_AGG {
-  shape: sql_table
-  month_key: int [pk]
-  product_sk: int [pk, fk]
-  vendor_sk: int [pk, fk]
-  location_sk: int [pk, fk]
-  total_units_sold: bigint
-  gross_sales_amount: decimal
-  net_margin_amount: decimal
+title: "Multi-Dimensional Enterprise Sales Periodic Snapshot Mart"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-dim_date: DIM_DATE {
+fact: "FACT_MONTHLY_SALES_AGG" {
+  class: table_box
   shape: sql_table
-  month_key: int [pk]
-  fiscal_year: int
+  month_key: "int [pk]"
+  product_sk: "int [pk, fk]"
+  vendor_sk: "int [pk, fk]"
+  location_sk: "int [pk, fk]"
+  total_units_sold: "bigint"
+  gross_sales_amount: "decimal"
+  net_margin_amount: "decimal"
 }
 
-dim_product: DIM_PRODUCT {
+dim_date: "DIM_DATE" {
+  class: table_box
   shape: sql_table
-  product_sk: int [pk]
-  sku: varchar
+  month_key: "int [pk]"
+  fiscal_year: "int"
 }
 
-dim_vendor: DIM_VENDOR {
+dim_product: "DIM_PRODUCT" {
+  class: table_box
   shape: sql_table
-  vendor_sk: int [pk]
-  vendor_name: varchar
+  product_sk: "int [pk]"
+  sku: "varchar"
 }
 
-dim_location: DIM_LOCATION {
+dim_vendor: "DIM_VENDOR" {
+  class: table_box
   shape: sql_table
-  location_sk: int [pk]
-  region: varchar
+  vendor_sk: "int [pk]"
+  vendor_name: "varchar"
+}
+
+dim_location: "DIM_LOCATION" {
+  class: table_box
+  shape: sql_table
+  location_sk: "int [pk]"
+  region: "varchar"
 }
 
 dim_date -> fact: "aggregates over (month_key)"

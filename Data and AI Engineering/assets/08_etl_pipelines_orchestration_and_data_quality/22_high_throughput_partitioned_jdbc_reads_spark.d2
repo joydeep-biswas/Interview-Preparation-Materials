@@ -1,18 +1,31 @@
 direction: right
-title: High-Throughput Partitioned JDBC Reads in PySpark
+title: "High-Throughput Partitioned JDBC Reads in PySpark"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-driver: Spark Driver {
+driver: "Spark Driver" {
+  class: container
   calc: "Calculates 4 Non-Overlapping ID Ranges"
 }
 
-tasks: Spark Executor Tasks {
+tasks: "Spark Executor Tasks" {
+  class: container
   t1: "Task 1: WHERE id >= 1 AND id < 250,000"
   t2: "Task 2: WHERE id >= 250,000 AND id < 500,000"
   t3: "Task 3: WHERE id >= 500,000 AND id < 750,000"
   t4: "Task 4: WHERE id >= 750,000 AND id <= 1,000,000"
 }
 
-db: PostgreSQL Database {
+db: "PostgreSQL Database" {
+  class: container
   sockets: "4 Concurrent JDBC Sockets"
 }
 

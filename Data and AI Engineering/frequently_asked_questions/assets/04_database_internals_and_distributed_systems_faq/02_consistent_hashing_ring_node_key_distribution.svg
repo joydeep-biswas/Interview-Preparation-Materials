@@ -8,7 +8,7 @@
     </style>
   </defs>
 
-  <rect width="960" height="440" fill="#0B0F19"/>
+  <rect width="960" height="440" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Left: 360 Ring Graphic (Center at 260, 220, R=140) -->
   <g transform="translate(40, 20)">

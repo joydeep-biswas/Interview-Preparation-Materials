@@ -103,35 +103,7 @@ When deploying large language models, enterprise infrastructure architects face 
 
 ![Ai Workload Serving Architecture Decision Tree](assets/12_ai_infrastructure_serving_and_llmops/01_ai_workload_serving_architecture_decision_tree.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  work: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  gate: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  serv: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  gpu: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  dist: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-start: "New AI Workload Deployment" { class: work }
-traffic: "Traffic Volatility & Scale?" { class: gate }
-
-serverless: "Managed Serverless Endpoint\n(SageMaker Serverless / Vertex AI)" { class: serv }
-
-size: "Model Parameter Size?" { class: gate }
-single_gpu: "Single GPU Instance (vLLM / TGI)\n(Models <= 14B)" { class: gpu }
-multi_gpu: "Multi-GPU Distributed Cluster\n(TP + PP, Models >= 70B)" { class: dist }
-
-start -> traffic
-traffic -> serverless: "Intermittent / Spiky"
-traffic -> size: "Predictable / High Throughput"
-size -> single_gpu: "Fits on 1 GPU"
-size -> multi_gpu: "Exceeds 1 GPU"
-```
-</details>
+*D2 Source: [`01_ai_workload_serving_architecture_decision_tree.d2`](assets/12_ai_infrastructure_serving_and_llmops/01_ai_workload_serving_architecture_decision_tree.d2)*
 
 | Hosting Model | Primary Infrastructure | Pricing Mechanism | SLA & Concurrency | Engineering Burden |
 | :--- | :--- | :--- | :--- | :--- |
@@ -147,22 +119,7 @@ The "Big Three" hyperscalers provide managed AI platforms designed to isolate en
 
 ![Hyperscaler Ai Cloud Ecosystem Comparison](assets/12_ai_infrastructure_serving_and_llmops/02_hyperscaler_ai_cloud_ecosystem_comparison.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  aws: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  gcp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  azure: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-aws_box: "AWS Bedrock\n• Claude 3.5 Sonnet, LLaMA 3.1\n• Guardrails for Bedrock\n• OpenSearch Knowledge Bases" { class: aws }
-gcp_box: "GCP Vertex AI\n• Gemini 1.5 Pro / Flash (2M ctx)\n• Vertex AI Search & Conversation\n• BigQuery Vector Search" { class: gcp }
-azure_box: "Azure AI Foundry\n• GPT-4o, o1, Whisper\n• Azure AI Content Safety\n• Provisioned Throughput (PTUs)" { class: azure }
-```
-</details>
+*D2 Source: [`02_hyperscaler_ai_cloud_ecosystem_comparison.d2`](assets/12_ai_infrastructure_serving_and_llmops/02_hyperscaler_ai_cloud_ecosystem_comparison.d2)*
 
 #### Core Enterprise Invariants
 1. **Zero Data Retention for Training:** Commercial agreements with all three hyperscalers legally guarantee that customer prompt tokens and completion responses are **never logged, retained, or utilized** for training base foundation models.
@@ -177,40 +134,7 @@ In high-compliance financial and healthcare environments, network packets contai
 
 ![Zero Trust Private Ai Inference Vpc](assets/12_ai_infrastructure_serving_and_llmops/03_zero_trust_private_ai_inference_vpc.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  vpc: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  endpoint: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  cloud: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  kms: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-corp_vpc: "Customer Private VPC (10.0.0.0/16)" {
-  app: "Application Pod (Private Subnet)" { class: vpc }
-  eni: "PrivateLink VPC Endpoint (ENI: 10.0.4.15)" { class: endpoint }
-
-  app -> eni: "Internal TLS 1.3"
-}
-
-bedrock_plane: "AWS Managed Bedrock Model Plane" {
-  nlb: "Network Load Balancer" { class: cloud }
-  workers: "Bedrock Model Workers (H100)" { class: cloud }
-
-  nlb -> workers
-}
-
-vault: "Security Vault" {
-  cmek: "Customer-Managed Key (CMEK HSM)" { class: kms }
-}
-
-corp_vpc.eni -> bedrock_plane.nlb: "Hyperplane Fiber Bus"
-vault.cmek -> bedrock_plane.workers: "Encrypt in Flight & Rest"
-```
-</details>
+*D2 Source: [`03_zero_trust_private_ai_inference_vpc.d2`](assets/12_ai_infrastructure_serving_and_llmops/03_zero_trust_private_ai_inference_vpc.d2)*
 
 #### 1. AWS PrivateLink / Azure Private Endpoints
 - A virtual Elastic Network Interface (ENI) with a private IP address (`10.0.4.15`) is injected into the customer's private subnet.
@@ -254,28 +178,7 @@ Modern LLM serving performance is governed by the underlying silicon architectur
 
 ![Nvidia Gpu Silicon Architecture Evolution](assets/12_ai_infrastructure_serving_and_llmops/04_nvidia_gpu_silicon_architecture_evolution.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  v100: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  a100: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  h100: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  b200: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  rubin: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-v: "Volta V100 (2017)\n125 TFLOPs FP16\n32GB HBM2 (900 GB/s)" { class: v100 }
-a: "Ampere A100 (2020)\n312 TFLOPs BF16\n80GB HBM2e (2.0 TB/s)" { class: a100 }
-h: "Hopper H100 (2022)\n989 TFLOPs FP8\n80GB HBM3 (3.35 TB/s)" { class: h100 }
-b: "Blackwell B200 (2024)\n4,500 TFLOPs FP4\n192GB HBM3e (8.0 TB/s)" { class: b200 }
-r: "Rubin (2026)\nHBM4 Memory\nNVLink 6 (3.6 TB/s)" { class: rubin }
-
-v -> a -> h -> b -> r
-```
-</details>
+*D2 Source: [`04_nvidia_gpu_silicon_architecture_evolution.d2`](assets/12_ai_infrastructure_serving_and_llmops/04_nvidia_gpu_silicon_architecture_evolution.d2)*
 
 ---
 
@@ -287,33 +190,7 @@ $$\text{Arithmetic Intensity} = \frac{\text{Floating Point Operations (FLOPs)}}{
 
 ![Roofline Model Compute Vs Memory Bound Regimes](assets/12_ai_infrastructure_serving_and_llmops/05_roofline_model_compute_vs_memory_bound_regimes.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  mem: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  comp: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-memory_bound: "Memory-Bound Regime (LLM Decode Generation)" {
-  intensity_low: "Low Arithmetic Intensity: 0.5 - 2 FLOPs/Byte\n(Must stream 140GB weights to emit 1 token!)" { class: mem }
-  opt_decode: "Bottleneck: HBM3 Memory Bandwidth\nFix: Quantization & Continuous Batching" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-
-  intensity_low -> opt_decode
-}
-
-compute_bound: "Compute-Bound Regime (LLM Prompt Prefill)" {
-  intensity_high: "High Arithmetic Intensity: 150 - 500+ FLOPs/Byte\n(Dense parallel GEMM matrix multiply)" { class: comp }
-  opt_prefill: "Bottleneck: Tensor Core FLOPs (989 TFLOPs)\nFix: Chunked Prefill & FlashAttention-3" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-
-  intensity_high -> opt_prefill
-}
-
-memory_bound -> compute_bound: "Transition at Ridge Point (~150 FLOPs/B)"
-```
-</details>
+*D2 Source: [`05_roofline_model_compute_vs_memory_bound_regimes.d2`](assets/12_ai_infrastructure_serving_and_llmops/05_roofline_model_compute_vs_memory_bound_regimes.d2)*
 
 1. **The Prefill Phase is Compute-Bound (High Arithmetic Intensity):**
    When the user submits a 2,000-token prompt, the model processes all 2,000 tokens concurrently in a single massive matrix multiplication ($\text{GEMM}$: General Matrix Multiply). The weights are loaded into GPU registers once, and thousands of dot products are computed across the tokens. The arithmetic intensity is high ($\approx 150\text{ FLOPs/Byte}$), fully saturating the H100 Tensor Cores ($989\text{ TFLOPs}$ FP8).
@@ -334,28 +211,7 @@ At every single Transformer layer, the GPUs must exchange intermediate activatio
 
 ![Gpu Interconnect Bandwidth Hierarchy](assets/12_ai_infrastructure_serving_and_llmops/06_gpu_interconnect_bandwidth_hierarchy.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  slow: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  fast: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  ultra: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  net: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-pcie: "PCIe Gen 5 x16\n128 GB/s\n(Severe All-Reduce Bottleneck)" { class: slow }
-nv4: "NVLink 4 (H100)\n900 GB/s\n(7x PCIe speed, 8 GPUs)" { class: fast }
-nv5: "NVLink 5 (B200)\n1,800 GB/s\n(14x PCIe speed, 72 GPUs)" { class: ultra }
-ib: "InfiniBand NDR\n400 Gbps (100 GB/s)\n(Inter-Node Cluster RDMA)" { class: net }
-
-pcie -> nv4: "7x Faster"
-nv4 -> nv5: "2x Faster"
-nv4 -> ib: "Inter-Node Link"
-```
-</details>
+*D2 Source: [`06_gpu_interconnect_bandwidth_hierarchy.d2`](assets/12_ai_infrastructure_serving_and_llmops/06_gpu_interconnect_bandwidth_hierarchy.d2)*
 
 > [!CAUTION]
 > **Never Run Tensor Parallelism over PCIe or Standard Ethernet:**
@@ -410,29 +266,7 @@ Before 2023, serving large language models using standard PyTorch (e.g., Hugging
 
 ![Contiguous Kv Cache Fragmentation Waste](assets/12_ai_infrastructure_serving_and_llmops/07_contiguous_kv_cache_fragmentation_waste.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  used: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  waste: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-}
-
-alloc: "Static Request Allocation\n(Pre-allocates 4096 tokens)" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-
-vram_box: "GPU VRAM Buffer (4096 tokens)" {
-  used_tokens: "Used: 42 Tokens (1%)\nActual generated KV cache" { class: used }
-  internal_waste: "Internal Fragmentation (75%)\n4054 tokens locked & unused!" { class: waste }
-  external_waste: "External Fragmentation (24%)\nNon-contiguous memory holes causing OOM" { class: waste }
-
-  used_tokens -> internal_waste -> external_waste
-}
-
-alloc -> vram_box.used_tokens
-```
-</details>
+*D2 Source: [`07_contiguous_kv_cache_fragmentation_waste.d2`](assets/12_ai_infrastructure_serving_and_llmops/07_contiguous_kv_cache_fragmentation_waste.d2)*
 
 1. **Internal Fragmentation:** Memory reserved for the hypothetical future growth of a sequence that is never actually utilized because the model emits an early `<|endoftext|>` token.
 2. **External Fragmentation:** Unusable gaps of free VRAM scattered between existing contiguous allocations. Even if 12GB of VRAM was physically free, a new request could not boot if that 12GB was split into small non-contiguous chunks.
@@ -445,44 +279,7 @@ Inspired by classic operating system virtual memory paging (OS page tables trans
 
 ![Vllm Paged Attention Virtual Memory Paging](assets/12_ai_infrastructure_serving_and_llmops/08_vllm_paged_attention_virtual_memory_paging.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  log: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  table: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  phys: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-logical: "Logical Sequence View (Request A)" {
-  l0: "Logical Block 0 (Tokens 0-15)" { class: log }
-  l1: "Logical Block 1 (Tokens 16-31)" { class: log }
-  l2: "Logical Block 2 (Tokens 32-41)" { class: log }
-}
-
-block_table: "Page Table / Block Table" {
-  bt0: "Entry 0 -> P7" { class: table }
-  bt1: "Entry 1 -> P2" { class: table }
-  bt2: "Entry 2 -> P11" { class: table }
-}
-
-physical: "Physical GPU VRAM (Scattered Pages)" {
-  p2: "Physical Block P2" { class: phys }
-  p7: "Physical Block P7" { class: phys }
-  p11: "Physical Block P11" { class: phys }
-}
-
-logical.l0 -> block_table.bt0
-logical.l1 -> block_table.bt1
-logical.l2 -> block_table.bt2
-
-block_table.bt0 -> physical.p7
-block_table.bt1 -> physical.p2
-block_table.bt2 -> physical.p11
-```
-</details>
+*D2 Source: [`08_vllm_paged_attention_virtual_memory_paging.d2`](assets/12_ai_infrastructure_serving_and_llmops/08_vllm_paged_attention_virtual_memory_paging.d2)*
 
 #### Operational Advantages of PagedAttention
 - **Near-Zero Waste (<4%):** Memory is allocated dynamically one block (16 tokens) at a time. The only waste occurs in the final unfulfilled slots of the active terminal block.
@@ -493,36 +290,22 @@ block_table.bt2 -> physical.p11
 
 ### 3.3 Radix Tree Prefix Caching Mechanics
 
+> [!TIP]
+> **Deep-Dive Interview Scenarios & Production Runbooks:**
+> - [Scenario 9: Production LLM Latency Reduction: 5 Levers, Slashes & Architectural Cost Trade-Offs](frequently_asked_questions/12_ai_infrastructure_serving_and_llmops_faq.md#scenario-9-hard-production-llm-latency-reduction-5-levers-slashes--architectural-cost-trade-offs)
+> - [Scenario 10: KV Caching & Prefix Caching Mechanics: Memory Footprint & TTFT Acceleration](frequently_asked_questions/12_ai_infrastructure_serving_and_llmops_faq.md#scenario-10-medium-kv-caching--prefix-caching-mechanics-memory-footprint--ttft-acceleration)
+> - [Scenario 11: LLM FinOps: Achieving a 10x Cost Reduction While Maintaining Model Quality Floor](frequently_asked_questions/12_ai_infrastructure_serving_and_llmops_faq.md#scenario-11-hard-llm-finops-achieving-a-10x-cost-reduction-while-maintaining-model-quality-floor)
+> - [Scenario 12: Multi-Model Routing & Quality-Preserving Fallback Cascades](frequently_asked_questions/12_ai_infrastructure_serving_and_llmops_faq.md#scenario-12-medium-multi-model-routing--quality-preserving-fallback-cascades)
+> - [Scenario 13: Self-Hosting Open-Weight Models vs Commercial API Providers: Enterprise TCO & Architecture Matrix](frequently_asked_questions/12_ai_infrastructure_serving_and_llmops_faq.md#scenario-13-medium-self-hosting-open-weight-models-vs-commercial-api-providers-enterprise-tco--architecture-matrix)
+> - [Scenario 14: Zero-Egress PII Protection Architectures for Enterprise LLM Ingestion](frequently_asked_questions/12_ai_infrastructure_serving_and_llmops_faq.md#scenario-14-hard-zero-egress-pii-protection-architectures-for-enterprise-llm-ingestion)
+
 In enterprise applications, hundreds of different user requests share identical system instructions, few-shot examples, or document context (e.g., in enterprise RAG or multi-tenant agents).
 
 Modern serving engines (vLLM and SGLang) implement **Automatic Prefix Caching (APC)** using a **Radix Tree** data structure:
 
 ![Radix Tree Prefix Caching And Deduplication](assets/12_ai_infrastructure_serving_and_llmops/09_radix_tree_prefix_caching_and_deduplication.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  root: { fill: "#1e293b"; stroke: "#64748b"; color: "#94a3b8" }
-  shared: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  user: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-}
-
-root: "Radix Tree Root Node" { class: root }
-prefix: "System Prompt Prefix (Tok 0-512)\nBlocks: [P1, P2, P3]\nRef Count: 3" { class: shared }
-
-user_a: "User A: 'Analyze 10-K'\nAllocates Block [P4]" { class: user }
-user_b: "User B: 'Extract Table'\nAllocates Block [P5]" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-user_c: "User C: 'Translate'\nAllocates Block [P6]" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-
-root -> prefix
-prefix -> user_a
-prefix -> user_b
-prefix -> user_c
-```
-</details>
+*D2 Source: [`09_radix_tree_prefix_caching_and_deduplication.d2`](assets/12_ai_infrastructure_serving_and_llmops/09_radix_tree_prefix_caching_and_deduplication.d2)*
 
 When User B arrives with the identical system prompt prefix, the engine traverses the Radix Tree, recognizes the exact token sequence match, and **reuses the already computed KV blocks in GPU VRAM**. The prefill computation is completely skipped:
 - Prefill Latency drops from $1,200\text{ms} \to 12\text{ms}$.
@@ -541,27 +324,7 @@ In autoregressive generation, static batching creates severe inefficiencies:
 
 ![Static Batching Head Of Line Blocking Disaster](assets/12_ai_infrastructure_serving_and_llmops/10_static_batching_head_of_line_blocking_disaster.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: down
-classes: {
-  req: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  slow: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-}
-
-batch: "Static Request Batch (Padded Tensor)" {
-  r1: "Req 1: 'What is 2+2?' (5 tokens)\n[Blocked 14.9s by padding]" { class: req }
-  r2: "Req 2: 'Write novel' (500 tokens)\n[Takes 15.0 seconds]" { class: slow }
-  r3: "Req 3: 'Hello' (2 tokens)\n[Blocked 14.95s by padding]" { class: req }
-}
-
-disaster: "Head-of-Line Blocking:\nRequests 1 & 3 finished in 0.1s but cannot return until Req 2 completes!" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-
-batch -> disaster
-```
-</details>
+*D2 Source: [`10_static_batching_head_of_line_blocking_disaster.d2`](assets/12_ai_infrastructure_serving_and_llmops/10_static_batching_head_of_line_blocking_disaster.d2)*
 
 ---
 
@@ -571,35 +334,7 @@ First introduced by **Orca** (Yu et al., OSDI 2022) and popularized by vLLM and 
 
 ![Continuous Iteration Level Batching Engine](assets/12_ai_infrastructure_serving_and_llmops/11_continuous_iteration_level_batching_engine.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: down
-classes: {
-  done: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  run: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  inject: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-iter1: "Iteration 1: Active Execution Batch [A, B, C]" {
-  a: "Req A: Generates &lt;|endoftext|&gt;\n(Completed immediately!)" { class: done }
-  b: "Req B: Generates token 42" { class: run }
-  c: "Req C: Generates token 18" { class: run }
-}
-
-action: "Evict Req A -> Inject Req D into vacant slot!" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-
-iter2: "Iteration 2: Active Execution Batch [D, B, C]" {
-  d: "Req D: Injected & starts Token 1!" { class: inject }
-  b2: "Req B: Generates token 43" { class: run }
-  c2: "Req C: Generates token 19" { class: run }
-}
-
-iter1.a -> action: "Finished"
-action -> iter2.d: "Inject slot"
-```
-</details>
+*D2 Source: [`11_continuous_iteration_level_batching_engine.d2`](assets/12_ai_infrastructure_serving_and_llmops/11_continuous_iteration_level_batching_engine.d2)*
 
 - When a request finishes generating, its slot is freed immediately, and its final response is returned to the user without waiting for other requests.
 - Newly arrived requests are dynamically injected into the active batch on the very next decoding step.
@@ -617,32 +352,7 @@ If an engine schedules a massive 16,000-token prefill into an active continuous 
 
 ![Chunked Prefill Execution Pipeline](assets/12_ai_infrastructure_serving_and_llmops/12_chunked_prefill_execution_pipeline.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  inp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  slice: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  step: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-prompt: "Long User Prompt\n(4,000 tokens)" { class: inp }
-split: "Split into 4x 1,000-Token Chunks" { class: slice }
-
-pipeline: "Chunked Execution Pipeline" {
-  s1: "Iter N: Chunk 1 + Decode 32 streams" { class: step }
-  s2: "Iter N+1: Chunk 2 + Decode 32 streams" { class: step }
-  s3: "Iter N+2: Chunk 3 + Decode 32 streams" { class: step }
-  s4: "Iter N+3: Chunk 4 + Decode 32 streams" { class: step }
-
-  s1 -> s2 -> s3 -> s4
-}
-
-prompt -> split -> pipeline.s1
-```
-</details>
+*D2 Source: [`12_chunked_prefill_execution_pipeline.d2`](assets/12_ai_infrastructure_serving_and_llmops/12_chunked_prefill_execution_pipeline.d2)*
 
 Under **Chunked Prefill**, large prompts are sliced into fixed token chunks (e.g., 512 or 1,024 tokens). The engine interleaves one prefill chunk alongside the ongoing decode tokens in each iteration. High GPU compute utilization is maintained while keeping Inter-Token Latency ($ITL$) strictly under interactive human perception thresholds ($<60\text{ms}$).
 
@@ -656,25 +366,7 @@ As established in Section 2.2, decoding is memory-bandwidth bound. Running an 80
 
 ![Speculative Decoding Verification Sequence](assets/12_ai_infrastructure_serving_and_llmops/13_speculative_decoding_verification_sequence.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  draft: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  target: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  out: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-draft_m: "1. Draft Model (1B)\nGenerates K=4 speculative tokens\n['The', ' capital', ' of', ' France']" { class: draft }
-target_m: "2. Target Model (70B)\nSingle parallel forward pass\nAccepts 3 tokens, replaces 4th!" { class: target }
-stream: "3. Output Stream\nEmits 4 tokens in time of 1!\n(2.5x - 3.2x speedup)" { class: out }
-
-draft_m -> target_m: "Validate K tokens"
-target_m -> stream: "Accept/Reject sample"
-```
-</details>
+*D2 Source: [`13_speculative_decoding_verification_sequence.d2`](assets/12_ai_infrastructure_serving_and_llmops/13_speculative_decoding_verification_sequence.d2)*
 
 #### Acceptance Criteria Mathematics
 The draft token $x$ is accepted with probability:
@@ -701,44 +393,7 @@ A Transformer Multi-Head Attention block consists of two primary matrix multipli
 
 ![Megatron Lm Tensor Parallelism Gemm](assets/12_ai_infrastructure_serving_and_llmops/14_megatron_lm_tensor_parallelism_gemm.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  col: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  row: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  sync: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-column_parallel: "1. Column-Parallel Projection" {
-  x: "Input Activation X" { class: col }
-  w1_1: "Shard W1 (GPU 0)" { class: col }
-  w1_2: "Shard W2 (GPU 1)" { class: col }
-
-  x -> w1_1
-  x -> w1_2
-}
-
-row_parallel: "2. Row-Parallel Projection" {
-  w2_1: "Shard W2_A (GPU 0)" { class: row }
-  w2_2: "Shard W2_B (GPU 1)" { class: row }
-}
-
-all_reduce: "3. NCCL All-Reduce" {
-  op: "All-Reduce Sum: Z = Z1 + Z2" { class: sync }
-  out: "Identical Output Z on both GPUs" { class: row }
-
-  op -> out
-}
-
-column_parallel.w1_1 -> row_parallel.w2_1
-column_parallel.w1_2 -> row_parallel.w2_2
-row_parallel.w2_1 -> all_reduce.op
-row_parallel.w2_2 -> all_reduce.op
-```
-</details>
+*D2 Source: [`14_megatron_lm_tensor_parallelism_gemm.d2`](assets/12_ai_infrastructure_serving_and_llmops/14_megatron_lm_tensor_parallelism_gemm.d2)*
 
 By pairing a Column-Parallel layer with a Row-Parallel layer, the system requires **only a single All-Reduce operation** at the end of the Attention block and a second All-Reduce at the end of the MLP block. Communication is minimized to exactly $2 \times \text{All-Reduce}$ operations per Transformer layer.
 
@@ -750,26 +405,7 @@ When models exceed the capacity of a single 8-GPU node (e.g., LLaMA-3.1-405B req
 
 ![Pipeline Parallelism 1f1b Schedule](assets/12_ai_infrastructure_serving_and_llmops/15_pipeline_parallelism_1f1b_schedule.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: down
-classes: {
-  s1: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  s2: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  s3: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  s4: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-g0: "GPU 0 (Stage 1): [F1..F4 Warmup] -> [B1 F5 B2 F6 Steady] -> [Cooldown]" { class: s1 }
-g1: "GPU 1 (Stage 2): [Bubble] -> [F1..F3 Warmup] -> [1F1B Steady] -> [Cooldown]" { class: s2 }
-g2: "GPU 2 (Stage 3): [Bubble] -> [F1..F2 Warmup] -> [1F1B Steady] -> [Cooldown]" { class: s3 }
-g3: "GPU 3 (Stage 4): [Bubble] -> [F1 B1 F2 B2 F3 B3 F4 B4 F5 B5...]" { class: s4 }
-
-g0 -> g1 -> g2 -> g3: "Forward Activation Passes"
-```
-</details>
+*D2 Source: [`15_pipeline_parallelism_1f1b_schedule.d2`](assets/12_ai_infrastructure_serving_and_llmops/15_pipeline_parallelism_1f1b_schedule.d2)*
 
 #### The Pipeline Bubble Problem
 Because Node 1 must wait for Node 0 to process its layers before receiving activations, downstream nodes remain completely idle during initial steps. This idle GPU time is the **Pipeline Bubble Fraction**:
@@ -830,22 +466,7 @@ NVIDIA Hopper (H100) and Blackwell (B200) architectures introduced native hardwa
 
 ![Nvidia Hopper Native Fp8 Formats](assets/12_ai_infrastructure_serving_and_llmops/16_nvidia_hopper_native_fp8_formats.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  e4: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  e5: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-e4m3: "FP8 E4M3\n1 Sign | 4 Exponent | 3 Mantissa\nRange: [-448, 448]\n(Forward GEMM & Weights)" { class: e4 }
-e5m2: "FP8 E5M2\n1 Sign | 5 Exponent | 2 Mantissa\nRange: [-57344, 57344]\n(Gradients & Softmax)" { class: e5 }
-
-e4m3 -> e5m2: "Transformer Engine Hybrid Switching"
-```
-</details>
+*D2 Source: [`16_nvidia_hopper_native_fp8_formats.d2`](assets/12_ai_infrastructure_serving_and_llmops/16_nvidia_hopper_native_fp8_formats.d2)*
 
 On NVIDIA H100 GPUs, **FP8 Tensor Cores yield $2\times$ the raw compute throughput ($989\text{ TFLOPs}$)** compared to FP16 ($494\text{ TFLOPs}$), while cutting static model weight VRAM strictly in half with virtually zero degradation in MMLU benchmark accuracy.
 
@@ -857,22 +478,7 @@ When quantizing down to 4 bits (INT4), naive round-to-nearest methods severely d
 
 ![4bit Quantization Algorithms Awq Gptq Bitsandbytes](assets/12_ai_infrastructure_serving_and_llmops/17_4bit_quantization_algorithms_awq_gptq_bitsandbytes.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  awq: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  gptq: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  nf4: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-awq_box: "AWQ (Activation-aware)\nProtects top 1% salient weights\nBest for: vLLM production serving" { class: awq }
-gptq_box: "GPTQ (Hessian Optimal)\nCompensates quantization error via Hessian\nBest for: Static weights" { class: gptq }
-nf4_box: "bitsandbytes NF4\nInformation-optimal NormalFloat\nBest for: QLoRA Fine-Tuning" { class: nf4 }
-```
-</details>
+*D2 Source: [`17_4bit_quantization_algorithms_awq_gptq_bitsandbytes.d2`](assets/12_ai_infrastructure_serving_and_llmops/17_4bit_quantization_algorithms_awq_gptq_bitsandbytes.d2)*
 
 - **Weight-Only Quantization (W4A16 / W8A16):** Only the static model weights are stored in INT4/INT8. During inference, weights are dynamically dequantized back to FP16 inside GPU registers before the dot product. This eliminates memory bandwidth bottlenecks during decoding while using standard FP16 Tensor Cores.
 - **Weight-and-Activation Quantization (W8A8 / FP8):** Both weights and intermediate activations are quantized. Matrix multiplication is executed natively in 8-bit arithmetic on FP8 Tensor Cores, accelerating both the compute-bound prefill phase and memory-bound decode phase.
@@ -997,25 +603,7 @@ For smaller models (e.g., 7B parameters, embedding models, or rerankers), dedica
 
 ![H100 Multi Instance Gpu Mig Partitioning](assets/12_ai_infrastructure_serving_and_llmops/18_h100_multi_instance_gpu_mig_partitioning.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  big: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  med: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  small: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-h100: "Single H100 80GB Physical Silicon" {
-  inst1: "Instance 1: 4g.40gb\n(56 SMs, 40GB HBM3)\nLLM Serving (8B)" { class: big }
-  inst2: "Instance 2: 2g.20gb\n(28 SMs, 20GB HBM3)\nCross-Encoder Re-Rank" { class: med }
-  inst3: "Instance 3: 1g.10gb\n(14 SMs, 10GB HBM3)\nDense Embeddings" { class: small }
-  inst4: "Instance 4: 1g.10gb\n(14 SMs, 10GB HBM3)\nVision / OCR" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-}
-```
-</details>
+*D2 Source: [`18_h100_multi_instance_gpu_mig_partitioning.d2`](assets/12_ai_infrastructure_serving_and_llmops/18_h100_multi_instance_gpu_mig_partitioning.d2)*
 
 - **MIG (Multi-Instance GPU):** Physically partitions the GPU silicon into up to 7 independent hardware slices. Each instance possesses dedicated memory controllers, crossbar paths, and SM compute cores. If one container triggers a CUDA kernel panic, other MIG slices continue running unaffected.
 - **Time-Slicing (vGPU):** Interleaves workloads across the entire GPU temporally. Offers zero memory isolation; if one container runs out of memory, it triggers an OOM crash across all shared tenants.
@@ -1348,33 +936,7 @@ In contrast, **Large Language Model Operations (LLMOps)** addresses the operatio
 
 ![Traditional Mlops Vs Modern Llmops](assets/12_ai_infrastructure_serving_and_llmops/19_traditional_mlops_vs_modern_llmops.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  trad: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  llm: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-traditional: "Traditional MLOps (Model-Centric)" {
-  feat: "1. Feature Store (Feast)" { class: trad }
-  train: "2. Full Model Retraining" { class: trad }
-  export: "3. Export Weights (.onnx)" { class: trad }
-
-  feat -> train -> export
-}
-
-modern: "Modern LLMOps (Context-Centric)" {
-  base: "1. Foundation Model (Frozen Weights)" { class: llm }
-  ctx: "2. Context Engineering & RAG" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  gateway: "3. AI Gateway & Distributed Tracing" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-
-  base -> ctx -> gateway
-}
-```
-</details>
+*D2 Source: [`19_traditional_mlops_vs_modern_llmops.d2`](assets/12_ai_infrastructure_serving_and_llmops/19_traditional_mlops_vs_modern_llmops.d2)*
 
 | Operational Dimension | Traditional MLOps | Modern LLMOps |
 | :--- | :--- | :--- |
@@ -1421,28 +983,7 @@ Even when setting `temperature = 0.0` (greedy decoding), achieving true bitwise 
 
 ![Sources Of Nondeterminism Temperature Zero](assets/12_ai_infrastructure_serving_and_llmops/20_sources_of_nondeterminism_temperature_zero.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  fp: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  batch: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  moe: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-c1: "1. Floating-Point Non-Associativity\n(A+B)+C != A+(B+C)\nAtomic warp sum order varies" { class: fp }
-c2: "2. Continuous Batching Dynamic Tiling\nKernel reduction trees change per tick" { class: batch }
-c3: "3. MoE Token Dropping\nExpert buffer overflow alters output" { class: moe }
-
-jitter: "Logit Jitter (+-1e-6) -> Flips Argmax Decision Boundaries!" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-
-c1 -> jitter
-c2 -> jitter
-c3 -> jitter
-```
-</details>
+*D2 Source: [`20_sources_of_nondeterminism_temperature_zero.d2`](assets/12_ai_infrastructure_serving_and_llmops/20_sources_of_nondeterminism_temperature_zero.d2)*
 
 1. **Floating-Point Non-Associativity in Parallel Matrix Multiplication:**
    On NVIDIA GPUs, CUDA cores perform parallel reductions across thousands of threads. In floating-point arithmetic (FP16 or BF16), addition is non-associative: $(a + b) + c \neq a + (b + c)$. Because GPU thread scheduling depends on memory latency and warp execution timing, the accumulation order of dot products varies between calls. While the numerical difference is microscopic ($\pm 10^{-6}$), if two tokens have nearly identical top logits, this microscopic jitter flips the `argmax`, cascading into an entirely different downstream generation.
@@ -1496,35 +1037,7 @@ Commercial model providers frequently update their models. A common trap is poin
 
 ![The Rolling Alias Trap Model Versioning](assets/12_ai_infrastructure_serving_and_llmops/21_the_rolling_alias_trap_model_versioning.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  danger: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  safe: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-trap: "The Rolling Alias Trap" {
-  alias: "Floating Alias: 'gpt-4o'\n(Silently switched by vendor!)" { class: danger }
-  snap_may: "May 2024: Passed evals" { class: safe }
-  snap_aug: "Aug 2024: System prompt changed" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  outage: "Production Outage!\nJSON schema validation fails" { class: danger }
-
-  alias -> snap_may
-  alias -> snap_aug
-  snap_aug -> outage
-}
-
-best_practice: "Best Practice: Immutable Pinning" {
-  pinned: "Pinned Tag: 'gpt-4o-2024-08-06'\n(100% frozen behavior)" { class: safe }
-  eval: "Run CI/CD benchmark before upgrade" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-
-  pinned -> eval
-}
-```
-</details>
+*D2 Source: [`21_the_rolling_alias_trap_model_versioning.d2`](assets/12_ai_infrastructure_serving_and_llmops/21_the_rolling_alias_trap_model_versioning.d2)*
 
 #### Production Pinning Rules
 1. **Always Pin Immutable Dated Snapshots:** In production configs, use `gpt-4o-2024-08-06` or `claude-3-5-sonnet-20241022`.
@@ -1539,34 +1052,7 @@ A **Prompt Registry** serves the same role for generative AI that an artifact re
 
 ![Prompt Engineering Lifecycle State Machine](assets/12_ai_infrastructure_serving_and_llmops/22_prompt_engineering_lifecycle_state_machine.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  draft: { fill: "#1e293b"; stroke: "#64748b"; color: "#94a3b8" }
-  stag: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  canary: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  prod: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  roll: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-}
-
-draft: "Draft (Author in IDE)" { class: draft }
-staging: "Staging (Run Offline Evals)" { class: stag }
-canary: "Canary (10% Traffic)" { class: canary }
-production: "Production (100% Traffic)" { class: prod }
-rollback: "Rollback (Instant Revert)" { class: roll }
-archived: "Archived (Cold Storage)" { class: draft }
-
-draft -> staging: "Register snapshot"
-staging -> canary: "Gate passed (>=0.92)"
-canary -> production: "Metrics stable"
-canary -> rollback: "Regression detected"
-rollback -> staging: "Fix prompt"
-production -> archived: "Superseded"
-```
-</details>
+*D2 Source: [`22_prompt_engineering_lifecycle_state_machine.d2`](assets/12_ai_infrastructure_serving_and_llmops/22_prompt_engineering_lifecycle_state_machine.d2)*
 
 #### Schema for Versioned Prompt Artifacts
 A production prompt artifact encapsulates the Jinja2 template, target model constraints, JSON response schemas, and variable typings:
@@ -1636,47 +1122,7 @@ An **Enterprise AI Gateway** (such as LiteLLM Proxy, Portkey, Kong AI Gateway, o
 
 ![Enterprise Ai Gateway Reverse Proxy Architecture](assets/12_ai_infrastructure_serving_and_llmops/23_enterprise_ai_gateway_reverse_proxy_architecture.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  client: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  gate: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  prov: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-clients: "Client Microservices" {
-  chat: "Chat Web App" { class: client }
-  worker: "Background Worker" { class: client }
-  agents: "Agent Swarm" { class: client }
-}
-
-gateway: "Enterprise AI Gateway" {
-  auth: "1. Virtual Keys & Quotas" { class: gate }
-  rate: "2. Redis Token Bucket (RPM/TPM)" { class: gate }
-  cache: "3. Semantic Cache (&lt;20ms)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  router: "4. Intelligent Fallback Router" { class: prov }
-  cost: "5. Real-Time Cost Metering" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-
-  auth -> rate -> cache -> router -> cost
-}
-
-providers: "Upstream Model Providers" {
-  openai: "OpenAI API (Primary: gpt-4o)" { class: prov }
-  anthropic: "Anthropic (Fallback 1)" { class: prov }
-  azure: "Azure OpenAI (Fallback 2)" { class: prov }
-  vllm: "Self-Hosted vLLM (Fallback 3)" { class: gate }
-}
-
-clients.chat -> gateway.auth: "REST API"
-gateway.router -> providers.openai: "Primary"
-gateway.router -> providers.anthropic: "Fallback 1"
-gateway.router -> providers.azure: "Fallback 2"
-gateway.router -> providers.vllm: "Fallback 3"
-```
-</details>
+*D2 Source: [`23_enterprise_ai_gateway_reverse_proxy_architecture.d2`](assets/12_ai_infrastructure_serving_and_llmops/23_enterprise_ai_gateway_reverse_proxy_architecture.d2)*
 
 The gateway exposes a single **OpenAI-compatible unified endpoint** (`/v1/chat/completions`). Downstream microservices write code targeting this standard interface, while the gateway handles tenant authorization, token rate limiting, multi-cloud fallback routing, and financial tracking transparently.
 
@@ -1694,27 +1140,7 @@ Sending repeated failing requests to a provider undergoing an outage exacerbates
 
 ![Circuit Breaker Resilience State Machine](assets/12_ai_infrastructure_serving_and_llmops/24_circuit_breaker_resilience_state_machine.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  closed: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  open: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  half: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-closed: "CLOSED (Normal Operations)\n100% traffic to primary provider" { class: closed }
-open: "OPEN (Tripped / Blocked)\nError rate > 50%; failover active" { class: open }
-half_open: "HALF-OPEN (Trial Probing)\nSends 5 canary probe requests" { class: half }
-
-closed -> open: "Error rate > 50%"
-open -> half_open: "30s Cooldown expires"
-half_open -> closed: "5 Probes succeed"
-half_open -> open: "Any probe fails"
-```
-</details>
+*D2 Source: [`24_circuit_breaker_resilience_state_machine.d2`](assets/12_ai_infrastructure_serving_and_llmops/24_circuit_breaker_resilience_state_machine.d2)*
 
 - **Closed State:** All traffic routes normally.
 - **Open State:** Requests fail fast or divert immediately to the fallback provider without contacting the unhealthy primary provider.
@@ -1736,34 +1162,7 @@ A traditional cache registers a miss on Query B. A **Semantic Cache** maps user 
 
 ![Semantic Caching And Intent Routing Pipeline](assets/12_ai_infrastructure_serving_and_llmops/25_semantic_caching_and_intent_routing_pipeline.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  cache: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  router: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  slm: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  frontier: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-user_q: "User Query Ingress" { class: q }
-cache_check: "Semantic Vector Cache\nCosine Sim > 0.95?" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-cache_hit: "Return Cached Response\n(&lt;20ms latency, $0.00 cost)" { class: cache }
-
-classifier: "Fast Router Model (DeBERTa)" { class: router }
-slm: "Small Model: LLaMA-3-8B ($0.05/M)\n(Routine FAQ / Summaries)" { class: slm }
-frontier: "Frontier Model: Claude 3.5 ($3/M)\n(Complex Reasoning & Code)" { class: frontier }
-
-user_q -> cache_check
-cache_check -> cache_hit: "Sim > 0.95"
-cache_check -> classifier: "Miss"
-classifier -> slm: "Routine"
-classifier -> frontier: "Complex"
-```
-</details>
+*D2 Source: [`25_semantic_caching_and_intent_routing_pipeline.d2`](assets/12_ai_infrastructure_serving_and_llmops/25_semantic_caching_and_intent_routing_pipeline.d2)*
 
 #### Determining the Semantic Threshold ($\tau$)
 The cosine similarity threshold $\tau \in [0, 1]$ dictates the precision-recall trade-off of the cache:
@@ -1789,28 +1188,7 @@ Both users consume identical RPM, but the second user consumes $2,000\times$ mor
 
 ![Two Dimensional Distributed Token Bucket](assets/12_ai_infrastructure_serving_and_llmops/26_two_dimensional_distributed_token_bucket.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  inp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  rpm: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  tpm: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  gate: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-req: "Incoming API Call\n(Tenant ABC, 1500 tokens)" { class: inp }
-rpm_b: "1. RPM Bucket\nCapacity: 100 req\nRefill: 100 req/min" { class: rpm }
-tpm_b: "2. TPM Bucket\nCapacity: 200k tokens\nRefill: 200k tok/min" { class: tpm }
-decision: "Decision Gate\nBoth Pass -> 200 OK\nAny Empty -> 429 Limit" { class: gate }
-
-req -> rpm_b: "Acquire 1 req"
-rpm_b -> tpm_b: "Acquire 1500 tokens"
-tpm_b -> decision: "Atomic Result"
-```
-</details>
+*D2 Source: [`26_two_dimensional_distributed_token_bucket.d2`](assets/12_ai_infrastructure_serving_and_llmops/26_two_dimensional_distributed_token_bucket.d2)*
 
 #### Production Distributed Rate Limiting via Redis Lua Script
 Because token validation and deduction must occur atomically across distributed gateway instances without race conditions, the check-and-decrement logic is implemented as a single atomic Redis Lua script:
@@ -1863,37 +1241,7 @@ An **Evaluation Release Gate** integrates model evaluation directly into the Git
 
 ![Promptfoo Ci Eval Pipeline Pull Request](assets/12_ai_infrastructure_serving_and_llmops/27_promptfoo_ci_eval_pipeline_pull_request.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  pr: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  eval: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  pass: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-}
-
-pr_trigger: "Pull Request Trigger\n(Modifies prompt or RAG)" { class: pr }
-
-eval_zone: "CI Evaluation Pipeline" {
-  c1: "1. Strict JSON Schema Validation" { class: eval }
-  c2: "2. Semantic Similarity >= 0.85" { class: eval }
-  c3: "3. NLI Faithfulness >= 0.90" { class: eval }
-  c4: "4. PII & Jailbreak Redaction Guard" { class: pass }
-
-  c1 -> c2 -> c3 -> c4
-}
-
-pr_approve: "Merge Approved!\n(All tests pass)" { class: pass }
-pr_block: "PR Blocked!\n(Regression caught)" { class: fail }
-
-pr_trigger -> eval_zone.c1
-eval_zone.c4 -> pr_approve: "100% Pass"
-eval_zone.c4 -> pr_block: "Assertion Fail"
-```
-</details>
+*D2 Source: [`27_promptfoo_ci_eval_pipeline_pull_request.d2`](assets/12_ai_infrastructure_serving_and_llmops/27_promptfoo_ci_eval_pipeline_pull_request.d2)*
 
 ---
 
@@ -1990,32 +1338,7 @@ Large language models generate tokens sequentially. Because a single completion 
 
 ![Synchronous Starvation Vs Async Streaming](assets/12_ai_infrastructure_serving_and_llmops/28_synchronous_starvation_vs_async_streaming.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  sync: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  async: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-sync_wsgi: "Synchronous WSGI (Flask / Gunicorn)" {
-  t1: "Thread 1 (Locked 12s waiting for LLM)" { class: sync }
-  t10: "Thread 10 (All worker slots locked!)" { class: sync }
-  crash: "Incoming Req 11: 504 Gateway Timeout!" { class: sync }
-
-  t1 -> t10 -> crash
-}
-
-async_fastapi: "AsyncIO Event Loop (FastAPI / Uvicorn)" {
-  loop: "Single Event Loop Thread\n(Yields on await token chunk)" { class: async }
-  sse: "Server-Sent Events (SSE)\n(10,000 active streams per pod)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-
-  loop -> sse
-}
-```
-</details>
+*D2 Source: [`28_synchronous_starvation_vs_async_streaming.d2`](assets/12_ai_infrastructure_serving_and_llmops/28_synchronous_starvation_vs_async_streaming.d2)*
 
 By leveraging **FastAPI** on an ASGI server (**Uvicorn**), every streaming connection yields execution back to the `asyncio` event loop while awaiting the next network packet from the upstream model provider. A single container with 2 CPU cores can comfortably maintain thousands of concurrent open streaming connections.
 
@@ -2056,31 +1379,7 @@ One of the most dangerous and commonly overlooked production hazards in AI engin
 
 ![Fastapi Sse Disconnect Cancellation Sequence](assets/12_ai_infrastructure_serving_and_llmops/29_fastapi_sse_disconnect_cancellation_sequence.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  leak: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  guard: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-naive_leak: "Naive SSE Stream (Financial Leak)" {
-  tab_close: "1. User Closes Browser Tab\nSocket drops at token 10" { class: leak }
-  void_gen: "2. Server Generates 4000 Tokens into Void!\n(Wastes $0.08 & burns GPU slots)" { class: leak }
-
-  tab_close -> void_gen
-}
-
-prod_guard: "Disconnect Guard (Production)" {
-  check: "1. await request.is_disconnected()" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  cancel: "2. Cancel Async Generator & Halt GPU\n(Saves cloud cost in &lt;10ms!)" { class: guard }
-
-  check -> cancel
-}
-```
-</details>
+*D2 Source: [`29_fastapi_sse_disconnect_cancellation_sequence.d2`](assets/12_ai_infrastructure_serving_and_llmops/29_fastapi_sse_disconnect_cancellation_sequence.d2)*
 
 When a user closes their browser tab or navigates away mid-generation, standard async generator loops in Python do not automatically abort. The server continues requesting tokens from OpenAI until completion, wasting substantial compute and financial budget. Production streaming endpoints must explicitly poll `request.is_disconnected()` and break the generation loop immediately.
 
@@ -2144,24 +1443,7 @@ Monitoring traditional microservices relies on the standard **Four Golden Signal
 
 ![Three Pillars Of Production Llm Telemetry](assets/12_ai_infrastructure_serving_and_llmops/30_three_pillars_of_production_llm_telemetry.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  p1: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  p2: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  p3: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-pillar1: "1. Operational Systems Metrics\n• TTFT, ITL, TPS\n• Error Rates (429/503)\n• GPU Tensor Core Util" { class: p1 }
-pillar2: "2. Distributed Trace Trees\n• OpenTelemetry Spans\n• RAG -> LLM propagation\n• Prompt Version Tags" { class: p2 }
-pillar3: "3. Continuous Quality & Cost\n• Dollar Cost per Tenant\n• Faithfulness Evals\n• User Feedback Signals" { class: p3 }
-
-pillar1 -> pillar2 -> pillar3
-```
-</details>
+*D2 Source: [`30_three_pillars_of_production_llm_telemetry.d2`](assets/12_ai_infrastructure_serving_and_llmops/30_three_pillars_of_production_llm_telemetry.d2)*
 
 ---
 
@@ -2171,30 +1453,7 @@ In complex multi-step AI systems (such as RAG pipelines or multi-agent workflows
 
 ![Distributed Llm Trace Span Breakdown](assets/12_ai_infrastructure_serving_and_llmops/31_distributed_llm_trace_span_breakdown.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: down
-classes: {
-  root: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  rag: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  llm: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-trace: "OpenTelemetry Distributed Trace (2,450ms total)" {
-  root_span: "FastAPI Ingress (0 - 2450ms)" { class: root }
-  rate_check: "Redis Rate Limit (2 - 18ms)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  embed: "Embedding Gen (20 - 180ms)" { class: rag }
-  search: "Hybrid Search (185 - 340ms)" { class: rag }
-  rerank: "Cross-Encoder (345 - 520ms)" { class: rag }
-  ttft: "TTFT Wait (550 - 980ms)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  stream: "Token Generation (980 - 2420ms)" { class: llm }
-
-  root_span -> rate_check -> embed -> search -> rerank -> ttft -> stream
-}
-```
-</details>
+*D2 Source: [`31_distributed_llm_trace_span_breakdown.d2`](assets/12_ai_infrastructure_serving_and_llmops/31_distributed_llm_trace_span_breakdown.d2)*
 
 #### Essential Semantic Span Attributes
 Every span executing an LLM interaction must record standard OpenInference attributes:
@@ -2232,45 +1491,7 @@ The **Continuous Quality Flywheel** samples a percentage of live production traf
 
 ![Online Telemetry Sampling And Dataset Hardening](assets/12_ai_infrastructure_serving_and_llmops/32_online_telemetry_sampling_and_dataset_hardening.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  live: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  eval: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  golden: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-ingress: "1. Ingress & Telemetry Sampling" {
-  live_req: "Live Traffic (100%)" { class: live }
-  fast_path: "98% User Path (Direct stream)" { class: golden }
-  async_sample: "2% Async Queue (Kafka/SQS)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-
-  live_req -> fast_path: "98%"
-  live_req -> async_sample: "2%"
-}
-
-eval_tier: "2. Offline LLM-as-a-Judge" {
-  judge: "LLM-as-a-Judge Worker" { class: eval }
-  score: "Score Faithfulness & Context" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-
-  judge -> score
-}
-
-hardening: "3. Continuous Dataset Hardening" {
-  lake: "Failure Lake (Quarantine & Redact PII)" { class: fail }
-  golden_ds: "Golden Regression Dataset\n(Prevents future model regression!)" { class: golden }
-
-  lake -> golden_ds
-}
-
-ingress.async_sample -> eval_tier.judge
-eval_tier.score -> hardening.lake: "Score &lt; 0.85 (Failure)"
-```
-</details>
+*D2 Source: [`32_online_telemetry_sampling_and_dataset_hardening.d2`](assets/12_ai_infrastructure_serving_and_llmops/32_online_telemetry_sampling_and_dataset_hardening.d2)*
 
 1. **Automated LLM-as-a-Judge:** The worker evaluates the trace for faithfulness and answer relevance.
 2. **User Signal Correlation:** Correlates the score with explicit user signals (thumbs down, copy-to-clipboard, immediate regeneration requests).

@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Enterprise Test Automation &amp; Continuous Quality Gates Architecture</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Testing Pyramid Composition, Testcontainers Infrastructure, and CI/CD Quality Verification</text>
 <rect x="40" y="100" width="480" height="350" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
-<rect x="55" y="115" width="240" height="22" rx="11" fill="#1e3a8a"/><text x="175" y="129" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Enterprise Testing Pyramid</text>
+<rect x="55" y="115" width="240" height="22" rx="11" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="175" y="129" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Enterprise Testing Pyramid</text>
 <rect x="120" y="150" width="320" height="65" rx="6" fill="#78350f" stroke="#f59e0b" stroke-width="1.5"/>
 <text x="280" y="172" fill="#FDE68A" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">End-to-End &amp; Contract Tests (5-10%)</text>
 <text x="280" y="190" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tools: Pact, RestAssured, Playwright</text>
@@ -45,7 +45,7 @@
 <text x="280" y="380" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Scope: Domain entities, state machines, business calculation algorithms</text>
 <text x="280" y="396" fill="#6EE7B7" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Execution: Milliseconds per test in JVM RAM with zero network I/O!</text>
 <rect x="560" y="100" width="480" height="350" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
-<rect x="575" y="115" width="260" height="22" rx="11" fill="#047857"/><text x="705" y="129" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. CI Pipeline Quality Gates</text>
+<rect x="575" y="115" width="260" height="22" rx="11" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="705" y="129" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. CI Pipeline Quality Gates</text>
 <rect x="585" y="150" width="430" height="56" rx="6" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5"/>
 <text x="800" y="172" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Git Push / PR Creation</text>
 <text x="800" y="190" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Triggers GitHub Actions / GitLab CI runner</text>

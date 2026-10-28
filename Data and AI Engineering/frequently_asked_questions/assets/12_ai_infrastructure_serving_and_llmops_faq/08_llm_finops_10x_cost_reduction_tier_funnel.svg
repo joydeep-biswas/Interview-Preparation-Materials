@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Left: Query Ingestion -->
+  <g transform="translate(25, 140)">
+    <rect width="170" height="110" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="85" y="24" class="title" fill="#93C5FD">User Query Stream</text>
+    <text x="12" y="48" class="body-txt">• Enterprise app prompts</text>
+    <text x="12" y="68" class="body-txt">• Millions of daily tokens</text>
+    <text x="12" y="88" class="body-txt">• High recurring patterns</text>
+  </g>
+
+  <!-- Connect to Semantic Cache -->
+  <path d="M 195 195 L 225 195" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- Semantic Cache Gate -->
+  <g transform="translate(225, 140)">
+    <rect width="180" height="110" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="90" y="24" class="title" fill="#FDE68A">Semantic Cache Gate</text>
+    <text x="12" y="48" class="body-txt">• Redis Vector Similarity</text>
+    <text x="12" y="68" class="body-txt">• Cosine Sim &gt;= 0.96</text>
+    <text x="12" y="88" class="body-txt">• 25% Total Hit Ratio</text>
+  </g>
+
+  <!-- Branch Hit (Top) -->
+  <path d="M 405 170 L 435 170 Q 450 170 450 75 L 460 75 L 470 75" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <rect x="420" y="55" width="45" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="442" y="67" class="edge-label" fill="#10B981">Hit 25%</text>
+
+  <!-- Top: Instant Cache Hit Node -->
+  <g transform="translate(470, 20)">
+    <rect width="250" height="105" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="125" y="24" class="title" fill="#A7F3D0">Instant Semantic Cache Hit</text>
+    <text x="14" y="48" class="body-txt">• Cost: $0.00 / M tokens</text>
+    <text x="14" y="68" class="body-txt">• Latency: 12ms instantaneous response</text>
+    <text x="14" y="88" class="body-txt">• Bypasses entire LLM compute stack</text>
+  </g>
+
+  <!-- Branch Miss (Bottom) -->
+  <path d="M 405 220 L 435 220 Q 450 220 450 260 L 460 260 L 470 260" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <rect x="415" y="270" width="50" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="440" y="282" class="edge-label" fill="#8B5CF6">Miss 75%</text>
+
+  <!-- Center Bottom: Token Pruner -->
+  <g transform="translate(470, 205)">
+    <rect width="250" height="110" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="125" y="24" class="title" fill="#C4B5FD">Prompt Pruning (LLMLingua)</text>
+    <text x="14" y="48" class="body-txt">• Budget-constrained token pruning</text>
+    <text x="14" y="68" class="body-txt">• Compresses prompt context by 50%</text>
+    <text x="14" y="88" class="body-txt">• Retains critical semantic entities</text>
+  </g>
+
+  <!-- Connect Pruner to Model Tiers -->
+  <path d="M 720 240 L 745 240 Q 755 240 755 185 L 765 185 L 775 185" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+  <path d="M 720 280 L 745 280 Q 755 280 755 315 L 765 315 L 775 315" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+
+  <!-- Tier 1: SLM -->
+  <g transform="translate(775, 140)">
+    <rect width="220" height="95" rx="8" fill="#0C4A6E" stroke="#06B6D4" stroke-width="1.5"/>
+    <text x="110" y="24" class="title" fill="#67E8F9">SLM Tier (Llama-3-8B)</text>
+    <text x="12" y="48" class="body-txt">• 70% of prompt volume</text>
+    <text x="12" y="68" class="body-txt">• Cost: $0.15 / M tokens (97% savings)</text>
+  </g>
+
+  <!-- Tier 2: Frontier -->
+  <g transform="translate(775, 270)">
+    <rect width="220" height="95" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="110" y="24" class="title" fill="#FDE68A">Frontier Tier (GPT-4o)</text>
+    <text x="12" y="48" class="body-txt">• 30% complex reasoning</text>
+    <text x="12" y="68" class="body-txt">• Cost: $5.00 / M tokens (Blended: $0.35)</text>
+  </g>
+</svg>

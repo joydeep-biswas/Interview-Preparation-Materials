@@ -97,12 +97,12 @@
 
   <!-- Message 1: Customer -> Copilot -->
   <path d="M 140 155 L 380 155" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
-  <rect x="150" y="137" width="220" height="18" rx="3" fill="#0f172a"/>
+  <rect x="150" y="137" width="220" height="18" rx="3" fill="#0f172a" stroke="#334155" stroke-width="1"/>
   <text x="260" y="150" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="10">1. "Third time wrong item! Want my money now!"</text>
 
   <!-- Message 2: Copilot -> Sentiment Tracker -->
   <path d="M 380 185 L 620 185" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
-  <rect x="390" y="167" width="220" height="18" rx="3" fill="#0f172a"/>
+  <rect x="390" y="167" width="220" height="18" rx="3" fill="#0f172a" stroke="#334155" stroke-width="1"/>
   <text x="500" y="180" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="10">2. Evaluate sentiment &amp; refund threshold</text>
 
   <!-- Self evaluation call on Tracker -->

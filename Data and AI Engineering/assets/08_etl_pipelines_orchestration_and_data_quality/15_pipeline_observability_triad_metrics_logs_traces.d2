@@ -1,20 +1,35 @@
 direction: down
-title: Unified Pipeline Observability Triad: Metrics, Logs & Traces
+title: "Unified Pipeline Observability Triad: Metrics, Logs & Traces"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-exec: Pipeline Ingestion Execution {
+exec: "Pipeline Ingestion Execution" {
+  class: container
   run: "Run ID: run_98124 | Task: stage_orders"
 }
 
-triad: Unified Pipeline Observability Triad {
-  metrics: 1. Metrics (Prometheus / StatsD) {
+triad: "Unified Pipeline Observability Triad" {
+  class: container
+  metrics: "1. Metrics (Prometheus / StatsD)" {
+    class: box
     data: "Aggregatable numbers: rows_ingested, duration_sec, lag"
     style.stroke: "#3b82f6"
   }
-  logs: 2. Logs (Structured JSON) {
+  logs: "2. Logs (Structured JSON)" {
+    class: box
     data: "Contextual event breadcrumbs: run_id, partition, error traces"
     style.stroke: "#10b981"
   }
-  traces: 3. Traces (OpenTelemetry) {
+  traces: "3. Traces (OpenTelemetry)" {
+    class: box
     data: "End-to-end distributed lifecycle spans: API -> Kafka -> Spark -> S3"
     style.stroke: "#8b5cf6"
   }

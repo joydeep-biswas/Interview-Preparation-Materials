@@ -38,7 +38,7 @@
 
   <!-- Section 1: Containerization -->
   <rect x="40" y="100" width="340" height="380" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="40" y="100" width="340" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="40" y="100" width="340" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="210" y="120" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Containerization &amp; Layering</text>
 
   <rect x="60" y="145" width="300" height="80" rx="6" fill="#1E293B" stroke="#38BDF8"/>
@@ -65,7 +65,7 @@
 
   <!-- Section 2: GitOps &amp; Delivery -->
   <rect x="420" y="100" width="340" height="380" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
-  <rect x="420" y="100" width="340" height="30" rx="8" fill="#064E3B"/>
+  <rect x="420" y="100" width="340" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="590" y="120" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. CI/CD &amp; GitOps Automation</text>
 
   <rect x="440" y="145" width="300" height="80" rx="6" fill="#1E293B" stroke="#10B981"/>
@@ -95,7 +95,7 @@
 
   <!-- Section 3: Kubernetes Orchestration -->
   <rect x="800" y="100" width="360" height="380" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
-  <rect x="800" y="100" width="360" height="30" rx="8" fill="#4C1D95"/>
+  <rect x="800" y="100" width="360" height="30" rx="8" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
   <text x="980" y="120" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">3. Kubernetes Production Orchestration</text>
 
   <rect x="820" y="145" width="320" height="85" rx="6" fill="#0F172A" stroke="#8B5CF6"/>

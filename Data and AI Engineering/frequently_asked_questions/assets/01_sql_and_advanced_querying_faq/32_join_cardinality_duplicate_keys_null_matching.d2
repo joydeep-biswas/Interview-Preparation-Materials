@@ -1,0 +1,30 @@
+# Join Row Count Cardinality Puzzle: Duplicate Keys & NULL Semantics
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  node: { style: { fill: "#1E293B"; stroke-width: 1.5; border-radius: 8 } }
+}
+
+join_puzzle: "Join Cardinality Evaluation on Duplicate Keys & NULLs" {
+  class: box
+  style.stroke: "#3B82F6"
+
+  table_a: "Table A (6 rows)\n• 1 (x3 occurrences)\n• 2 (x2 occurrences)\n• NULL (x1 occurrence)" {
+    class: node
+    style.stroke: "#3B82F6"
+  }
+
+  table_b: "Table B (4 rows)\n• 1 (x2 occurrences)\n• 2 (x1 occurrence)\n• NULL (x1 occurrence)" {
+    class: node
+    style.stroke: "#F59E0B"
+  }
+
+  cardinality: "Evaluated Output Cardinality\n• key=1: 3 * 2 = 6 rows\n• key=2: 2 * 1 = 2 rows\n• key=NULL: 0 rows (NULL != NULL in SQL)\n• INNER JOIN: 6 + 2 = 8 rows\n• LEFT JOIN: 8 + 1 (A.NULL) = 9 rows\n• RIGHT JOIN: 8 + 1 (B.NULL) = 9 rows\n• FULL OUTER: 8 + 1 + 1 = 10 rows" {
+    class: node
+    style.stroke: "#10B981"
+  }
+
+  table_a -> cardinality: "Join Evaluation (A.id = B.id)"
+  table_b -> cardinality
+}
+

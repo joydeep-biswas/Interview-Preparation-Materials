@@ -5,18 +5,9 @@ classes: {
   cost: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
 }
 
-q: "Quality & Reasoning
-Frontier 405B Models
-Multi-Agent Debate
-Deep Chain-of-Thought" { class: quality }
-l: "Latency & Speed
-Sub-500ms TTFT
-Speculative Decoding
-Aggressive Caches" { class: latency }
-c: "Cost & Efficiency
-Self-Hosted vLLM FP8
-8B Distilled SLMs
-Context Compaction" { class: cost }
+q: "Quality & Reasoning\nFrontier 405B Models\nMulti-Agent Debate\nDeep Chain-of-Thought" { class: quality }
+l: "Latency & Speed\nSub-500ms TTFT\nSpeculative Decoding\nAggressive Caches" { class: latency }
+c: "Cost & Efficiency\nSelf-Hosted vLLM FP8\n8B Distilled SLMs\nContext Compaction" { class: cost }
 
 q <-> l: "Reasoning Depth vs TTFT"
 q <-> c: "Frontier APIs (50x cost)"

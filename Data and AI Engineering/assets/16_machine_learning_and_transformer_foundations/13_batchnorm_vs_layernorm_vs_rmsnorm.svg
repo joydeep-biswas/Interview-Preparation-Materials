@@ -32,7 +32,7 @@
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">

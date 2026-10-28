@@ -43,7 +43,7 @@
 
   <!-- Left Column: Compile-Time Polymorphism -->
   <rect x="50" y="200" width="510" height="270" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="200" width="510" height="35" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="200" width="510" height="35" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="305" y="223" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Compile-Time / Static Polymorphism (Method Overloading)</text>
 
   <rect x="70" y="250" width="470" height="135" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
@@ -59,7 +59,7 @@
 
   <!-- Right Column: Runtime Polymorphism -->
   <rect x="620" y="200" width="510" height="270" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
-  <rect x="620" y="200" width="510" height="35" rx="8" fill="#064E3B"/>
+  <rect x="620" y="200" width="510" height="35" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="875" y="223" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Runtime / Dynamic Polymorphism (Method Overriding)</text>
 
   <rect x="640" y="250" width="470" height="135" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>

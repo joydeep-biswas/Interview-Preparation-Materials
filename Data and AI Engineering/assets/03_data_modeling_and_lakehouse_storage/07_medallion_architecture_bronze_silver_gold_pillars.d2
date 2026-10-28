@@ -1,25 +1,38 @@
 direction: right
-title: Medallion Architecture Bronze, Silver, Gold Pillars
-
-bronze: 1. Bronze Layer (Raw) {
-  shape: cylinder
-  b1: Append-only raw ingestion
-  b2: Preserve exact source fidelity
-  b3: Lineage metadata (_ingested_at)
+title: "Medallion Architecture Bronze, Silver, Gold Pillars"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-silver: 2. Silver Layer (Conformed) {
+bronze: "1. Bronze Layer (Raw)" {
+  class: container
   shape: cylinder
-  s1: Deduplication & Idempotent MERGE
-  s2: Schema enforcement & type casting
-  s3: Quarantine dead-letter invalid data
+  b1: "Append-only raw ingestion"
+  b2: "Preserve exact source fidelity"
+  b3: "Lineage metadata (_ingested_at)"
 }
 
-gold: 3. Gold Layer (Curated) {
+silver: "2. Silver Layer (Conformed)" {
+  class: container
   shape: cylinder
-  g1: Kimball Star & Snowflake Schemas
-  g2: Aggregated KPI & Business Marts
-  g3: Sub-second high-speed BI & AI serving
+  s1: "Deduplication & Idempotent MERGE"
+  s2: "Schema enforcement & type casting"
+  s3: "Quarantine dead-letter invalid data"
+}
+
+gold: "3. Gold Layer (Curated)" {
+  class: container
+  shape: cylinder
+  g1: "Kimball Star & Snowflake Schemas"
+  g2: "Aggregated KPI & Business Marts"
+  g3: "Sub-second high-speed BI & AI serving"
 }
 
 bronze -> silver: "Cleanse, Deduplicate & Standardize"

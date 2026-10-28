@@ -1,21 +1,35 @@
 direction: right
-title: Apache Avro & Confluent Schema Registry Wire Format
-
-producer: 1. Microservice Producer {
-  event: "Kafka Producer: {id: 101, name: 'Alice', status: 'ACTIVE'}"
+title: "Apache Avro & Confluent Schema Registry Wire Format"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-registry: 2. Central Schema Registry {
+producer: "1. Microservice Producer" {
+  class: container
+  event: "Kafka Producer: {id: 101; name: 'Alice'; status: 'ACTIVE'}" { class: box }
+}
+
+registry: "2. Central Schema Registry" {
+  class: container
   schema: "Confluent Schema Registry (Schema ID #42)"
 }
 
-wire: 3. Kafka Network Wire Payload {
+wire: "3. Kafka Network Wire Payload" {
+  class: container
   magic: "Byte 0: Magic 0x00"
   schema_id: "Bytes 1-4: Schema ID #42"
   payload: "Bytes 5+: Raw Binary Values"
 }
 
-consumer: 4. Downstream Stream Consumer {
+consumer: "4. Downstream Stream Consumer" {
+  class: container
   engine: "Spark Streaming / Flink (Reads ID #42, caches schema, deserializes)"
 }
 

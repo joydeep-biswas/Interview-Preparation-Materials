@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  ingest_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  hot_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  cool_node: { style: { fill: "#0C4A6E"; stroke: "#06B6D4"; stroke-width: 2; border-radius: 8 } }
+  archive_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+}
+
+BatchIngest: "Daily Ingestion Batches\nTransactions from POS & Online\nAppend to Lakehouse" { class: ingest_node }
+HotTier: "Hot Tier (ADLS Hot / S3 Standard)\nRetention: 0 – 24 Months\nZ-Ordered & Liquid Clustered\nSub-second BI & Financial Queries" { class: hot_node }
+CoolTier: "Cool / Infrequent Access Tier\nRetention: 24 – 36 Months\n50% Storage Cost Reduction\nImmediate query read capability" { class: cool_node }
+ArchiveTier: "Archive / Glacier Deep Archive\nRetention: 36 – 120 Months (10 Years)\n90% Storage Cost Reduction\n5-12 Hour Rehydration for Audits" { class: archive_node }
+
+BatchIngest -> HotTier: "Daily Append"
+HotTier -> CoolTier: "Lifecycle Policy: Age > 24m"
+CoolTier -> ArchiveTier: "Lifecycle Policy: Age > 36m"

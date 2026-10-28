@@ -1,13 +1,23 @@
 direction: down
-title: Mutual TLS (mTLS) Zero-Trust Handshake Architecture
+title: "Mutual TLS (mTLS) Zero-Trust Handshake Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Client: API Partner / Service Mesh Pod
-Server: Enterprise Banking Gateway
+Client: "API Partner / Service Mesh Pod"
+Server: "Enterprise Banking Gateway"
 
-Client -> Server: 1. ClientHello { style.stroke: "#38BDF8" }
-Server -> Client: 2. Server Certificate + CertificateRequest { style.stroke: "#34D399" }
-Client -> Client: 3. Validates Server Cert against TrustStore
-Client -> Server: 4. Client Certificate + CertificateVerify { style.stroke: "#C084FC" }
-Server -> Server: 5. Validates Client Cert against TrustStore
-Client -> Server: 6. Mutual Trust Established: Encrypted Wire Transfer { style.stroke: "#10B981" }
-Server -> Client: 7. 200 OK Response { style.stroke: "#10B981" }
+Client -> Server: "1. ClientHello" { style.stroke: "#38BDF8" }
+Server -> Client: "2. Server Certificate + CertificateRequest" { style.stroke: "#34D399" }
+Client -> Client: "3. Validates Server Cert against TrustStore"
+Client -> Server: "4. Client Certificate + CertificateVerify" { style.stroke: "#C084FC" }
+Server -> Server: "5. Validates Client Cert against TrustStore"
+Client -> Server: "6. Mutual Trust Established: Encrypted Wire Transfer" { style.stroke: "#10B981" }
+Server -> Client: "7. 200 OK Response" { style.stroke: "#10B981" }

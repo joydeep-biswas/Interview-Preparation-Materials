@@ -1,26 +1,43 @@
 # The Intuitive Mental Model: Declarative Client to Imperative Storage
 direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  card: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+}
 
 client: "1. Client (The Patron)" {
+  class: pillar
   style.stroke: "#3B82F6"
-  desc: "Declarative Request (WHAT)
-• Specifies desired result
-• Sends query string"
+  desc: "Declarative Request (WHAT)\n• Specifies desired result set\n• Sends SQL query text string\n• Agnostic to physical execution" {
+    class: card
+    style.stroke: "#3B82F6"
+  }
 }
 
 optimizer: "2. Optimizer (Master Chef)" {
+  class: pillar
   style.stroke: "#F59E0B"
-  desc: "Plan Compilation (HOW)
-• Evaluates catalog stats
-• Generates physical execution plan"
+  desc: "Plan Compilation (HOW)\n• Evaluates catalog stats & histograms\n• Cost-Based Optimizer (CBO)\n• Generates physical execution plan" {
+    class: card
+    style.stroke: "#F59E0B"
+  }
 }
 
-engine: "3. Storage & Engine (Kitchen)" {
+engine: "3. Storage & Engine (The Kitchen)" {
+  class: pillar
   style.stroke: "#10B981"
-  desc: "Physical Execution (WORK)
-• Buffer pool I/O & memory hashes
-• Streams result packets"
+  desc: "Physical Execution (WORK)\n• Buffer pool page lookups & disk I/O\n• In-memory hash builds & scans\n• Streams result packets to client" {
+    class: card
+    style.stroke: "#10B981"
+  }
 }
 
-client -> optimizer: "SQL Query"
-optimizer -> engine: "Physical Plan"
+client.desc -> optimizer.desc: "1. SQL Query" {
+  style.stroke: "#F59E0B"
+}
+optimizer.desc -> engine.desc: "2. Physical Plan" {
+  style.stroke: "#10B981"
+}
+engine.desc -> client.desc: "3. Result Tuple Stream" {
+  style.stroke: "#3B82F6"
+}

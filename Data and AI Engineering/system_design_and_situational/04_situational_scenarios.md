@@ -8,7 +8,7 @@ A comprehensive, production-grade guide answering real-world situational enginee
 
 ![Enterprise Incident Management & Engineering Governance Lifecycle](assets/04_situational_scenarios/01_enterprise_incident_and_governance_framework.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/01_enterprise_incident_and_governance_framework.d2](assets/04_situational_scenarios/01_enterprise_incident_and_governance_framework.d2)
+*D2 Source: [`01_enterprise_incident_and_governance_framework.d2`](assets/04_situational_scenarios/01_enterprise_incident_and_governance_framework.d2)*
 
 ---
 
@@ -77,7 +77,7 @@ The structured response framework follows four stages:
 
 ![Sev-1 Incident Mitigation & Idempotent Backfill Lifecycle](assets/04_situational_scenarios/02_sev1_incident_mitigation_and_backfill_lifecycle.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/02_sev1_incident_mitigation_and_backfill_lifecycle.d2](assets/04_situational_scenarios/02_sev1_incident_mitigation_and_backfill_lifecycle.d2)
+*D2 Source: [`02_sev1_incident_mitigation_and_backfill_lifecycle.d2`](assets/04_situational_scenarios/02_sev1_incident_mitigation_and_backfill_lifecycle.d2)*
 
 #### Production STAR Implementation
 - **Situation:** During Black Friday peak volume, a core real-time aggregation pipeline processing 25,000 transactions/second began failing with cascading executor `OutOfMemoryError` (OOM) and executor heartbeats timing out in Apache Spark on Kubernetes. Downstream order-fulfillment dashboards fell behind by 90 minutes.
@@ -203,7 +203,7 @@ The **Triad Protocol for Critical Pre-Dawn Incidents**:
 #### Diagnostic Decision Tree
 ![Pipeline Failure Diagnostic Decision Tree](assets/04_situational_scenarios/03_pipeline_failure_diagnostic_decision_tree.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/03_pipeline_failure_diagnostic_decision_tree.d2](assets/04_situational_scenarios/03_pipeline_failure_diagnostic_decision_tree.d2)
+*D2 Source: [`03_pipeline_failure_diagnostic_decision_tree.d2`](assets/04_situational_scenarios/03_pipeline_failure_diagnostic_decision_tree.d2)*
 
 1. **Step 1: Check Task Distribution:** If 199 tasks finish in 20 seconds and 1 task runs for 45 minutes, it is a **data-level skew issue**, not an infrastructure failure.
 2. **Step 2: Check Exit Codes:** Exit code 137 indicates OS `SIGKILL` (infrastructure/memory limits), whereas Java `NumberFormatException` or Python `KeyError` indicates upstream data contract violations.
@@ -351,7 +351,7 @@ Decoupled real-time operational fraud screening (sub-50ms using Redis HyperLogLo
 
 ![Azure Modern Data Platform: End-to-End Enterprise Reference Architecture](assets/04_situational_scenarios/04_azure_enterprise_modern_data_platform.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/04_azure_enterprise_modern_data_platform.d2](assets/04_situational_scenarios/04_azure_enterprise_modern_data_platform.d2)
+*D2 Source: [`04_azure_enterprise_modern_data_platform.d2`](assets/04_situational_scenarios/04_azure_enterprise_modern_data_platform.d2)*
 
 #### Production Walkthrough
 1. **Azure Ingestion:** ADF handles scheduled file pickups from on-prem SFTP/SAP and triggers Azure Event Hubs/Kafka connectors, landing raw payloads into Azure Data Lake Storage Gen2 (Bronze layer).
@@ -388,7 +388,7 @@ Decoupled real-time operational fraud screening (sub-50ms using Redis HyperLogLo
 #### CI/CD Pipeline Lifecycle
 ![Data Platform CI/CD: Automated Quality Gates & Safe Deployment](assets/04_situational_scenarios/05_cicd_automated_quality_gates_lifecycle.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/05_cicd_automated_quality_gates_lifecycle.d2](assets/04_situational_scenarios/05_cicd_automated_quality_gates_lifecycle.d2)
+*D2 Source: [`05_cicd_automated_quality_gates_lifecycle.d2`](assets/04_situational_scenarios/05_cicd_automated_quality_gates_lifecycle.d2)*
 
 1. **For Apache Spark / PySpark Code:**
    - **Local Unit Testing:** Test transformation functions locally with `pytest` using mocked, small in-memory DataFrames without spinning up cloud clusters.
@@ -437,7 +437,7 @@ Decoupled real-time operational fraud screening (sub-50ms using Redis HyperLogLo
 ---
 
 ### Q39. Managing Multi-Million Dollar GPU Cluster Costs vs Product Latency SLAs
-**Situation**: The company launched an internal GenAI document intelligence service powered by open-source 70B models deployed across 16 NVIDIA A100 GPU nodes on AWS. Monthly cloud spending breached budget by 180% ($85,000/month above budget), prompting the CFO to issue an immediate ultimatum to reduce costs or shut down the initiative.
+**Situation**: The company launched an internal GenAI document intelligence service powered by open-source 70B models deployed across 16 NVIDIA A100 GPU nodes on AWS. Monthly cloud spending breached budget by 180% (\$85,000/month above budget), prompting the CFO to issue an immediate ultimatum to reduce costs or shut down the initiative.
 
 **Task**: Slash GPU infrastructure costs by at least 50% while preserving sub-2-second response latency SLAs for executive users.
 
@@ -473,7 +473,7 @@ In distributed data systems, waiting for 100% information before deciding guaran
 
 ![Architectural Framework: Two-Way Doors & Empirical Risk Containment](assets/04_situational_scenarios/06_twoway_doors_empirical_risk_containment.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/06_twoway_doors_empirical_risk_containment.d2](assets/04_situational_scenarios/06_twoway_doors_empirical_risk_containment.d2)
+*D2 Source: [`06_twoway_doors_empirical_risk_containment.d2`](assets/04_situational_scenarios/06_twoway_doors_empirical_risk_containment.d2)*
 
 #### Production STAR Scenario
 
@@ -512,7 +512,7 @@ In high-growth enterprises, business strategy evolves faster than data pipeline 
 
 ![Decoupled Data Contracts & Semantic Metric Virtualization](assets/04_situational_scenarios/07_decoupled_data_contracts_metric_virtualization.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/07_decoupled_data_contracts_metric_virtualization.d2](assets/04_situational_scenarios/07_decoupled_data_contracts_metric_virtualization.d2)
+*D2 Source: [`07_decoupled_data_contracts_metric_virtualization.d2`](assets/04_situational_scenarios/07_decoupled_data_contracts_metric_virtualization.d2)*
 
 #### Production STAR Scenario
 

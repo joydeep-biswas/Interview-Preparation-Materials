@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 360" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #94A3B8; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr-b20" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g20" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <rect x="25" y="25" width="1010" height="310" class="pillar-box" stroke="#3B82F6"/>
+  <text x="530" y="55" class="title-text" fill="#60A5FA">Streaming Case-Insensitive Vowel Frequency Pipeline</text>
+
+  <!-- Stage 1 -->
+  <rect x="50" y="85" width="200" height="220" class="card" stroke="#3B82F6"/>
+  <text x="150" y="115" class="card-title" fill="#93C5FD">1. Raw Input</text>
+  <text x="65" y="145" class="card-body" fill="#F8FAFC">"Data Engineering"</text>
+  <text x="65" y="175" class="card-body">• 16 characters</text>
+  <text x="65" y="195" class="card-body">• Mixed case ('D', 'E')</text>
+  <text x="65" y="215" class="card-body">• Includes whitespace</text>
+  <text x="65" y="255" class="card-body" fill="#94A3B8">Stream Input: O(N)</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 250 195 L 290 195" class="edge" stroke="#3B82F6" marker-end="url(#arr-b20)"/>
+
+  <!-- Stage 2 -->
+  <rect x="300" y="85" width="220" height="220" class="card" stroke="#F59E0B"/>
+  <text x="410" y="115" class="card-title" fill="#FCD34D">2. Filter &amp; Normalize</text>
+  <text x="315" y="145" class="card-body" fill="#F8FAFC">char.lower()</text>
+  <text x="315" y="175" class="card-body">• Set membership check:</text>
+  <text x="315" y="195" class="card-body" fill="#FCD34D">  c in {'a','e','i','o','u'}</text>
+  <text x="315" y="225" class="card-body">• Generator expression</text>
+  <text x="315" y="255" class="card-body" fill="#94A3B8">O(1) Set Lookup</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 520 195 L 560 195" class="edge" stroke="#F59E0B" marker-end="url(#arr-b20)"/>
+
+  <!-- Stage 3 -->
+  <rect x="570" y="85" width="220" height="220" class="card" stroke="#10B981"/>
+  <text x="680" y="115" class="card-title" fill="#34D399">3. Frequency Counter</text>
+  <text x="585" y="145" class="card-body" fill="#F8FAFC">Counter / Dict Map</text>
+  <text x="585" y="175" class="card-body">• Single-pass hash table</text>
+  <text x="585" y="195" class="card-body">• counts[c] = counts[c] + 1</text>
+  <text x="585" y="225" class="card-body">• Fixed alphabet size (5)</text>
+  <text x="585" y="255" class="card-body" fill="#10B981">O(1) Auxiliary Space</text>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 790 195 L 830 195" class="edge" stroke="#10B981" marker-end="url(#arr-g20)"/>
+
+  <!-- Stage 4 -->
+  <rect x="840" y="85" width="180" height="220" class="card" stroke="#8B5CF6"/>
+  <text x="930" y="115" class="card-title" fill="#C084FC">4. Output</text>
+  <text x="855" y="150" class="card-body" fill="#34D399 font-weight:700">a = 2</text>
+  <text x="855" y="180" class="card-body" fill="#34D399 font-weight:700">e = 3</text>
+  <text x="855" y="210" class="card-body" fill="#34D399 font-weight:700">i = 2</text>
+  <text x="855" y="255" class="card-body" fill="#C084FC">Expected Match!</text>
+</svg>
+

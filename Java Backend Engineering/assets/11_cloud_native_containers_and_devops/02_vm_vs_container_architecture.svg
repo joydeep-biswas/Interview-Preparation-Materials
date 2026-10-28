@@ -38,15 +38,15 @@
 
   <!-- Left: Virtual Machines -->
   <rect x="50" y="105" width="480" height="340" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="105" width="480" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="105" width="480" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="290" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">Virtual Machines (Hardware Virtualization)</text>
 
   <!-- App Stack VM 1 &amp; 2 -->
   <rect x="75" y="150" width="200" height="150" rx="6" fill="#1E293B" stroke="#38BDF8"/>
   <text x="175" y="172" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">Guest VM 1 (Order Svc)</text>
-  <rect x="85" y="185" width="180" height="25" rx="3" fill="#0F172A"/>
+  <rect x="85" y="185" width="180" height="25" rx="3" fill="#0F172A" stroke="#334155" stroke-width="1"/>
   <text x="175" y="201" font-size="8" fill="#CBD5E1" text-anchor="middle">Spring Boot App 1</text>
-  <rect x="85" y="215" width="180" height="25" rx="3" fill="#0F172A"/>
+  <rect x="85" y="215" width="180" height="25" rx="3" fill="#0F172A" stroke="#334155" stroke-width="1"/>
   <text x="175" y="231" font-size="8" fill="#CBD5E1" text-anchor="middle">System Libs &amp; JRE</text>
   <rect x="85" y="245" width="180" height="40" rx="3" fill="#1C1917" stroke="#EF4444"/>
   <text x="175" y="262" font-size="8" font-weight="700" fill="#F87171" text-anchor="middle">Guest OS Kernel (Ubuntu)</text>
@@ -54,9 +54,9 @@
 
   <rect x="305" y="150" width="200" height="150" rx="6" fill="#1E293B" stroke="#38BDF8"/>
   <text x="405" y="172" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle">Guest VM 2 (Payment Svc)</text>
-  <rect x="315" y="185" width="180" height="25" rx="3" fill="#0F172A"/>
+  <rect x="315" y="185" width="180" height="25" rx="3" fill="#0F172A" stroke="#334155" stroke-width="1"/>
   <text x="405" y="201" font-size="8" fill="#CBD5E1" text-anchor="middle">Spring Boot App 2</text>
-  <rect x="315" y="215" width="180" height="25" rx="3" fill="#0F172A"/>
+  <rect x="315" y="215" width="180" height="25" rx="3" fill="#0F172A" stroke="#334155" stroke-width="1"/>
   <text x="405" y="231" font-size="8" fill="#CBD5E1" text-anchor="middle">System Libs &amp; JRE</text>
   <rect x="315" y="245" width="180" height="40" rx="3" fill="#1C1917" stroke="#EF4444"/>
   <text x="405" y="262" font-size="8" font-weight="700" fill="#F87171" text-anchor="middle">Guest OS Kernel (Ubuntu)</text>
@@ -73,24 +73,24 @@
 
   <!-- Right: Containers -->
   <rect x="610" y="105" width="480" height="340" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
-  <rect x="610" y="105" width="480" height="30" rx="8" fill="#064E3B"/>
+  <rect x="610" y="105" width="480" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="850" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">Containers (OS-Level Virtualization)</text>
 
   <!-- Container 1 &amp; 2 -->
   <rect x="635" y="150" width="200" height="150" rx="6" fill="#1E293B" stroke="#10B981"/>
   <text x="735" y="172" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Container 1 (Order Svc)</text>
-  <rect x="645" y="185" width="180" height="30" rx="3" fill="#0F172A"/>
+  <rect x="645" y="185" width="180" height="30" rx="3" fill="#0F172A" stroke="#334155" stroke-width="1"/>
   <text x="735" y="204" font-size="8" fill="#CBD5E1" text-anchor="middle">Spring Boot App 1</text>
-  <rect x="645" y="225" width="180" height="30" rx="3" fill="#0F172A"/>
+  <rect x="645" y="225" width="180" height="30" rx="3" fill="#0F172A" stroke="#334155" stroke-width="1"/>
   <text x="735" y="244" font-size="8" fill="#CBD5E1" text-anchor="middle">Minified JRE (100 MB)</text>
   <rect x="645" y="265" width="180" height="25" rx="3" fill="#06201B" stroke="#10B981"/>
   <text x="735" y="281" font-size="7" font-weight="700" fill="#34D399" text-anchor="middle">Distroless RootFS (20 MB)</text>
 
   <rect x="865" y="150" width="200" height="150" rx="6" fill="#1E293B" stroke="#10B981"/>
   <text x="965" y="172" font-size="10" font-weight="700" fill="#34D399" text-anchor="middle">Container 2 (Payment Svc)</text>
-  <rect x="875" y="185" width="180" height="30" rx="3" fill="#0F172A"/>
+  <rect x="875" y="185" width="180" height="30" rx="3" fill="#0F172A" stroke="#334155" stroke-width="1"/>
   <text x="965" y="204" font-size="8" fill="#CBD5E1" text-anchor="middle">Spring Boot App 2</text>
-  <rect x="875" y="225" width="180" height="30" rx="3" fill="#0F172A"/>
+  <rect x="875" y="225" width="180" height="30" rx="3" fill="#0F172A" stroke="#334155" stroke-width="1"/>
   <text x="965" y="244" font-size="8" fill="#CBD5E1" text-anchor="middle">Minified JRE (100 MB)</text>
   <rect x="875" y="265" width="180" height="25" rx="3" fill="#06201B" stroke="#10B981"/>
   <text x="965" y="281" font-size="7" font-weight="700" fill="#34D399" text-anchor="middle">Distroless RootFS (20 MB)</text>

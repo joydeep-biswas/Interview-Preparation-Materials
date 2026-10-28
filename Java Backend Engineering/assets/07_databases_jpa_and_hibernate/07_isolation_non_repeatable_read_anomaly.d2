@@ -1,7 +1,18 @@
 direction: right
 title: "Isolation Anomaly: Non-Repeatable Read (Fuzzy Read)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 session1: "Session 1 (Tx 101: Read Committed)" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#3b82f6"
   q1: "1. BEGIN & SELECT balance"
@@ -9,19 +20,21 @@ session1: "Session 1 (Tx 101: Read Committed)" {
 }
 
 db: "PostgreSQL Database Engine" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#10b981"
-  snap1: "Snapshot 1 -> returns $100.00"
-  commit: "Tx 102 committed: balance=$150.00"
-  snap2: "Snapshot 2 -> returns $150.00 (Fuzzy Read Anomaly!)"
+  snap1: "Snapshot 1 -> returns \$100.00"
+  commit: "Tx 102 committed: balance=\$150.00"
+  snap2: "Snapshot 2 -> returns \$150.00 (Fuzzy Read Anomaly!)"
 }
 
 session2: "Session 2 (Tx 102)" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#f59e0b"
   upd: "2. UPDATE balance=150 & COMMIT"
 }
 
-session1.q1 -> db.snap1: "Read $100.00"
-session2.upd -> db.commit: "Commit $150.00"
-session1.q2 -> db.snap2: "Read $150.00 (Value mutated mid-transaction!)"
+session1.q1 -> db.snap1: "Read \$100.00"
+session2.upd -> db.commit: "Commit \$150.00"
+session1.q2 -> db.snap2: "Read \$150.00 (Value mutated mid-transaction!)"

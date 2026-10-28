@@ -1,14 +1,25 @@
 direction: right
-title: The Query Execution Pipeline (Parser to Executor)
-
-sql: Declarative SQL Query String
-parser: 1. Lexer & Parser (Generates AST)
-rewriter: 2. Query Rewriter (View expansion & constant folding)
-cbo: 3. Cost-Based Optimizer (CBO Search Engine) {
-  search: Join Permutations & Index Selection
-  cost: Cost Formula = Disk I/O + CPU Instructions
+title: "The Query Execution Pipeline (Parser to Executor)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
-executor: 4. Physical Execution Engine (Tuple Processing)
+
+sql: "Declarative SQL Query String"
+parser: "1. Lexer & Parser (Generates AST)"
+rewriter: "2. Query Rewriter (View expansion & constant folding)"
+cbo: "3. Cost-Based Optimizer (CBO Search Engine)" {
+  class: container
+  search: "Join Permutations & Index Selection"
+  cost: "Cost Formula = Disk I/O + CPU Instructions"
+}
+executor: "4. Physical Execution Engine (Tuple Processing)"
 
 sql -> parser: "Raw SQL"
 parser -> rewriter: "Validated AST"

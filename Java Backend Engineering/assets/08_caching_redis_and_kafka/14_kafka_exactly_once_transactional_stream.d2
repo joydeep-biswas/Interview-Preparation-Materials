@@ -1,15 +1,25 @@
 direction: down
-title: Kafka Exactly-Once Semantics (EOS) Stream Processing
+title: "Kafka Exactly-Once Semantics (EOS) Stream Processing"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-InTopic: Input Topic (OrderRequests)
-Worker: Transactional Worker
-TxCoord: Kafka Transaction Coordinator
-OutTopic: Output Topic (OrderProcessed)
+InTopic: "Input Topic (OrderRequests)"
+Worker: "Transactional Worker"
+TxCoord: "Kafka Transaction Coordinator"
+OutTopic: "Output Topic (OrderProcessed)"
 
-Worker -> TxCoord: 1. Begin Transaction { style.stroke: "#C084FC" }
-Worker -> InTopic: 2. Consume record (Offset 100) { style.stroke: "#38BDF8" }
-Worker -> OutTopic: 3. Produce processed event { style.stroke: "#F59E0B" }
-Worker -> TxCoord: 4. sendOffsetsToTx(Offset 100) { style.stroke: "#C084FC" }
-Worker -> TxCoord: 5. commitTransaction() { style.stroke: "#10B981" }
-TxCoord -> OutTopic: 6. Write COMMIT marker { style.stroke: "#10B981" }
-TxCoord -> InTopic: 7. Commit offset marker { style.stroke: "#10B981" }
+Worker -> TxCoord: "1. Begin Transaction" { style.stroke: "#C084FC" }
+Worker -> InTopic: "2. Consume record (Offset 100)" { style.stroke: "#38BDF8" }
+Worker -> OutTopic: "3. Produce processed event" { style.stroke: "#F59E0B" }
+Worker -> TxCoord: "4. sendOffsetsToTx(Offset 100)" { style.stroke: "#C084FC" }
+Worker -> TxCoord: "5. commitTransaction()" { style.stroke: "#10B981" }
+TxCoord -> OutTopic: "6. Write COMMIT marker" { style.stroke: "#10B981" }
+TxCoord -> InTopic: "7. Commit offset marker" { style.stroke: "#10B981" }

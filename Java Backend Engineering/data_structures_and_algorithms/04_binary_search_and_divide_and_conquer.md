@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to Binary Search, Boundary Searches, Sea
 
 ![Monotonic Search Space & Master Theorem Recurrence Trees](assets/04_binary_search_and_divide_and_conquer/01_monotonic_search_and_divide_conquer.svg)
 
-*D2 Source:* [assets/04_binary_search_and_divide_and_conquer/01_monotonic_search_and_divide_conquer.d2](assets/04_binary_search_and_divide_and_conquer/01_monotonic_search_and_divide_conquer.d2)
+*D2 Source: [`01_monotonic_search_and_divide_conquer.d2`](assets/04_binary_search_and_divide_and_conquer/01_monotonic_search_and_divide_conquer.d2)*
 
 ---
 

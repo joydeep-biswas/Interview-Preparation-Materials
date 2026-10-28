@@ -1,35 +1,49 @@
 direction: right
-title: Catalyst Optimizer Four Execution Phases
+title: "Catalyst Optimizer Four Execution Phases"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-P1: 1. Analysis & Catalog {
+P1: "1. Analysis & Catalog" {
+  class: container
   style.stroke: "#38BDF8"
-  Unresolved: Unresolved Logical Plan (AST)
-  Catalog: Catalog / Metastore Schema Resolution
-  Resolved: Resolved Logical Plan
+  Unresolved: "Unresolved Logical Plan (AST)"
+  Catalog: "Catalog / Metastore Schema Resolution"
+  Resolved: "Resolved Logical Plan"
   Unresolved -> Catalog -> Resolved
 }
 
-P2: 2. Logical Optimization {
+P2: "2. Logical Optimization" {
+  class: container
   style.stroke: "#FBBF24"
-  Rules: Rule Engine (Pushdown, Pruning, Folding)
-  OptLogical: Optimized Logical Plan
+  Rules: "Rule Engine (Pushdown, Pruning, Folding)"
+  OptLogical: "Optimized Logical Plan"
   Rules -> OptLogical
 }
 
-P3: 3. Physical Planning & CBO {
+P3: "3. Physical Planning & CBO" {
+  class: container
   style.stroke: "#C084FC"
-  CBO: Cost-Based Optimizer (Table Stats & Join Strategy)
-  PhysPlan: Selected Physical SparkPlan
+  CBO: "Cost-Based Optimizer (Table Stats & Join Strategy)"
+  PhysPlan: "Selected Physical SparkPlan"
   CBO -> PhysPlan
 }
 
-P4: 4. Whole-Stage CodeGen {
+P4: "4. Whole-Stage CodeGen" {
+  class: container
   style.stroke: "#34D399"
-  Janino: Janino Compiler (Single Flattened Java Loop)
-  Exec: Tungsten Worker Execution
+  Janino: "Janino Compiler (Single Flattened Java Loop)"
+  Exec: "Tungsten Worker Execution"
   Janino -> Exec
 }
 
-P1.Resolved -> P2.Rules: AST Type-Checked { style.stroke: "#34D399" }
-P2.OptLogical -> P3.CBO: Relational Plan { style.stroke: "#34D399" }
-P3.PhysPlan -> P4.Janino: Physical Plan { style.stroke: "#34D399" }
+P1.Resolved -> P2.Rules: "AST Type-Checked" { style.stroke: "#34D399" }
+P2.OptLogical -> P3.CBO: "Relational Plan" { style.stroke: "#34D399" }
+P3.PhysPlan -> P4.Janino: "Physical Plan" { style.stroke: "#34D399" }

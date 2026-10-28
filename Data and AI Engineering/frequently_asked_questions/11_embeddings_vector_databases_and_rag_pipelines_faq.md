@@ -16,6 +16,8 @@ A comprehensive guide to real-world interview scenarios covering vector index de
 - [Scenario 9: Document-Level Access Control (ACLs) & Enterprise Multi-Tenant Security](#scenario-9-medium-document-level-access-control-acls--enterprise-multi-tenant-security)
 - [Scenario 10: Production RAG Evaluation Framework: Metrics, Benchmarking & Continuous Observability](#scenario-10-hard-production-rag-evaluation-framework-metrics-benchmarking--continuous-observability)
 - [Scenario 11: Production RAG Failure Isolation, FastAPI Streaming & Scale Architecture](#scenario-11-hard-production-rag-failure-isolation-fastapi-streaming--scale-architecture)
+- [Scenario 12: RAG Candidate Recovery: Reranking & Context Compression for Deep Rank Targets](#scenario-12-hard-rag-candidate-recovery-reranking--context-compression-for-deep-rank-targets)
+- [Scenario 13: Why LLMs Hallucinate & Three Production Mitigation Techniques with Cost Trade-Offs](#scenario-13-medium-why-llms-hallucinate--three-production-mitigation-techniques-with-cost-trade-offs)
 
 ---
 
@@ -140,7 +142,7 @@ RAG shifts the LLM's primary responsibility from being a **knowledge repository*
 
 ![Complete RAG Request Lifecycle Sequence Architecture](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/01_rag_complete_request_lifecycle_sequence.svg)
 
-*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/01_rag_complete_request_lifecycle_sequence.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/01_rag_complete_request_lifecycle_sequence.d2)
+*D2 Source: [`01_rag_complete_request_lifecycle_sequence.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/01_rag_complete_request_lifecycle_sequence.d2)*
 
 #### Step-by-Step Architectural Layer Breakdown
 1. **API Gateway & Ingress Defense:**
@@ -189,7 +191,7 @@ Standard naive RAG (fixed 500-token chunks + pure vector similarity) frequently 
 
 ![Production RAG Optimization: HyDE, Hybrid Search, RRF & Parent Context](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/02_production_rag_optimization_strategies_pipeline.svg)
 
-*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/02_production_rag_optimization_strategies_pipeline.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/02_production_rag_optimization_strategies_pipeline.d2)
+*D2 Source: [`02_production_rag_optimization_strategies_pipeline.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/02_production_rag_optimization_strategies_pipeline.d2)*
 
 1. **Hybrid Retrieval (Dense + Sparse with RRF):**
    - Pair dense vector embeddings with an inverted BM25 index. Dense retrieval captures high-level semantics, while BM25 guarantees precision on error codes (`HTTP-504`), product names, and alphanumeric IDs.
@@ -219,7 +221,7 @@ Standard naive RAG (fixed 500-token chunks + pure vector similarity) frequently 
 
 ![RAG vs Supervised Fine-Tuning (SFT) vs Hybrid Architecture Selection](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/03_rag_vs_sft_vs_hybrid_decision_matrix.svg)
 
-*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/03_rag_vs_sft_vs_hybrid_decision_matrix.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/03_rag_vs_sft_vs_hybrid_decision_matrix.d2)
+*D2 Source: [`03_rag_vs_sft_vs_hybrid_decision_matrix.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/03_rag_vs_sft_vs_hybrid_decision_matrix.d2)*
 
 | Evaluation Criteria | Retrieval-Augmented Generation (RAG) | Supervised Fine-Tuning (SFT / LoRA) | Hybrid Approach (Fine-Tuned + RAG) |
 | :--- | :--- | :--- | :--- |
@@ -259,7 +261,7 @@ In secure enterprise RAG architectures, **never perform post-retrieval filtering
 
 ![Dynamic ACL Resolution & Vector Database Pre-Filtering Architecture](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/04_dynamic_acl_resolution_and_vector_prefiltering.svg)
 
-*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/04_dynamic_acl_resolution_and_vector_prefiltering.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/04_dynamic_acl_resolution_and_vector_prefiltering.d2)
+*D2 Source: [`04_dynamic_acl_resolution_and_vector_prefiltering.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/04_dynamic_acl_resolution_and_vector_prefiltering.d2)*
 
 #### Production Implementation Blueprint
 1. **Document Ingestion Metadata Tagging:**
@@ -309,7 +311,7 @@ Production evaluation splits the system into two independent evaluation stages: 
 
 ![RAG Component-Wise Evaluation: Retrieval vs Generation Metrics](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/05_rag_evaluation_componentwise_precision_recall_faithfulness.svg)
 
-*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/05_rag_evaluation_componentwise_precision_recall_faithfulness.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/05_rag_evaluation_componentwise_precision_recall_faithfulness.d2)
+*D2 Source: [`05_rag_evaluation_componentwise_precision_recall_faithfulness.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/05_rag_evaluation_componentwise_precision_recall_faithfulness.d2)*
 
 #### Core Metric Framework: The RAG Triad (Ragas / TruLens)
 
@@ -354,7 +356,7 @@ When a RAG system returns an incorrect answer, engineers must never tweak prompt
 
 ![RAG Failure Isolation: Retrieval Defect vs Generation Defect Diagnostic Tree](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/06_rag_failure_isolation_retrieval_vs_generation_defect.svg)
 
-*D2 Source:* [assets/11_embeddings_vector_databases_and_rag_pipelines_faq/06_rag_failure_isolation_retrieval_vs_generation_defect.d2](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/06_rag_failure_isolation_retrieval_vs_generation_defect.d2)
+*D2 Source: [`06_rag_failure_isolation_retrieval_vs_generation_defect.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/06_rag_failure_isolation_retrieval_vs_generation_defect.d2)*
 
 - **If Retrieval Failure:** Do NOT modify the LLM prompt. Optimize the retrieval pipeline: switch from dense-only to **Hybrid Search (Dense + BM25 via RRF)**, expand $K$ from 5 to 50 with Cross-Encoder reranking, and implement **Parent-Child Chunking**.
 - **If Generation Failure:** Do NOT modify embeddings or vector indexes. Refactor the LLM context: inject citations (`[Chunk 1]`), position the most relevant chunk at the very beginning or end of context (counteracting the *Lost in the Middle* phenomenon), and instruct: *"If the provided context does not explicitly state the answer, state 'Insufficient information' rather than guessing."*
@@ -442,3 +444,106 @@ async def call_llm_stream(q: str, c: list):
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [11. Embeddings, Vector Databases & Advanced RAG Knowledge Systems: Production RAG Architectures](../11_embeddings_vector_databases_and_rag_pipelines.md#9-the-rag-paradigm--first-principles)*
+
+
+
+### Scenario 12: [Hard] RAG Candidate Recovery: Reranking & Context Compression for Deep Rank Targets
+**Difficulty:** [Hard]  
+**Topic Covered:** Two-Stage Retrieval, Cross-Encoder Reranking, Lost in the Middle, Contextual Compression  
+**Question:** *In a production RAG application, top-5 vector retrieval misses the target document which is sitting at rank #12. Increasing top-K to 20 causes context window overflow and severe LLM hallucination ("lost in the middle"). How do you ensure the correct chunk reaches the LLM without overwhelming the prompt context?*
+
+#### Definition & Core Concepts
+Dense embedding retrieval evaluates query-document pairs independently via bi-encoders (computing dot-product or cosine similarity on isolated vector embeddings). Because bi-encoders ignore fine-grained token-level cross-attention, relevant documents with nuanced lexical formulations often end up at rank 10–25:
+1. **The Context Window Dilemma & "Lost in the Middle":**
+   - Naively feeding top-20 chunks into an LLM context creates prompt bloat, increases time-to-first-token (TTFT), and triggers attention dilution where LLMs ignore key facts located in the middle of long contexts.
+2. **Two-Stage Retrieval (Bi-Encoder + Cross-Encoder Reranker):**
+   - **Stage 1 (High Recall):** Fetch an over-sampled candidate pool of $K=30$ to $K=50$ chunks using fast approximate nearest neighbors (HNSW).
+   - **Stage 2 (High Precision):** Pass `(query, chunk_text)` pairs through a **Cross-Encoder Reranker** (e.g. `bge-reranker-large` or `cohere-rerank-v3`). Cross-encoders perform joint full-attention between query tokens and document tokens, reordering the pool to push chunk #12 into the top-3.
+3. **Contextual Compression / Sentence Extractor:**
+   - Run extractive compression (e.g. LLMLingua or sentence-level semantic scoring) on the reranked top-3 chunks, removing irrelevant fluff and forwarding only the exact 2–3 sentences containing the answer to the prompt.
+
+#### Visual Architectural Flow
+![RAG Two Stage Retrieval Cross Encoder Rerank](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/07_rag_two_stage_retrieval_cross_encoder_rerank.svg)
+
+*D2 Source: [`07_rag_two_stage_retrieval_cross_encoder_rerank.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/07_rag_two_stage_retrieval_cross_encoder_rerank.d2)*
+
+#### Production Implementation / Python Solution
+```python
+from typing import List, Dict
+import torch
+from sentence_transformers import CrossEncoder
+
+class TwoStageRAGPipeline:
+    def __init__(self, vector_index, reranker_model: str = "BAAI/bge-reranker-large"):
+        self.vector_index = vector_index
+        # CrossEncoder calculates joint token attention
+        self.reranker = CrossEncoder(reranker_model, max_length=512)
+
+    def retrieve_and_rerank(self, query: str, top_k_retrieve: int = 40, top_n_rerank: int = 3) -> List[Dict]:
+        """
+        Retrieves top_k_retrieve chunks via Bi-Encoder, reranks them with Cross-Encoder,
+        and returns the top_n_rerank most relevant chunks.
+        """
+        # Step 1: High-recall stage (Bi-encoder vector search)
+        candidates = self.vector_index.search(query, top_k=top_k_retrieve)
+        
+        if not candidates:
+            return []
+
+        # Step 2: Prepare pairs for Cross-Encoder scoring
+        sentence_pairs = [[query, doc["text"]] for doc in candidates]
+        
+        # Step 3: Compute cross-encoder relevance scores
+        scores = self.reranker.predict(sentence_pairs)
+        
+        # Step 4: Attach scores and sort
+        for idx, doc in enumerate(candidates):
+            doc["rerank_score"] = float(scores[idx])
+            
+        reranked_docs = sorted(candidates, key=lambda x: x["rerank_score"], reverse=True)
+        
+        # Return only the top-N highest quality passages
+        return reranked_docs[:top_n_rerank]
+```
+
+#### Complexity Analysis
+- **Stage 1 (Bi-Encoder):** $O(M \cdot D)$ where $M$ is graph search nodes and $D$ is vector dimensions (sub-25ms with HNSW).
+- **Stage 2 (Cross-Encoder):** $O(K \cdot L^2)$ where $K$ is candidates ($K=40$) and $L$ is sequence length ($L \approx 512$). Running cross-attention on 40 pairs on a GPU takes $25	ext{–}40\text{ms}$, adding negligible latency while boosting top-3 recall from $68\%$ to $> 94\%$.
+
+#### Engineering Implications & Production Pitfalls
+- **Reranker Latency Overhead on CPU:** Running cross-encoders on CPU can take $> 500\text{ms}$. If GPUs are unavailable, deploy a distilled, quantized reranker (`bge-reranker-base` INT8 / ONNX Runtime) to hold p95 latency under $60\text{ms}$.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [11. Embeddings, Vector Databases & Advanced RAG Knowledge Systems: Production RAG Architectures](../11_embeddings_vector_databases_and_rag_pipelines.md#9-the-rag-paradigm--first-principles)*
+
+---
+
+### Scenario 13: [Medium] Why LLMs Hallucinate & Three Production Mitigation Techniques with Cost Trade-Offs
+**Difficulty:** [Medium]  
+**Topic Covered:** Hallucination Mechanics, Grounded Attribution, Constrained Grammar Decoding, Critic Eval Loops  
+**Question:** *Why do large language models hallucinate factual assertions, and what are three production-proven techniques to reduce hallucinations, including their engineering, latency, and financial costs?*
+
+#### Definition & Core Concepts
+LLMs do not retrieve facts from a database; they are **statistical next-token predictors** optimizing $P(w_t \mid w_1, \dots, w_{t-1})$. Hallucinations occur because:
+1. **Parametric Compression & Training Cutoffs:** Knowledge is compressed into non-interpretable weight matrices $\mathbf{W}$. The model prioritizes linguistic coherence and semantic plausibility over factual truth.
+2. **Attention Dilution & Sycophancy:** In complex prompts, attention weights diffuse across low-salience tokens, leading the model to fabricate plausible-sounding dates, numbers, and references.
+3. **Three Production Mitigation Techniques:**
+   - **Technique 1: Grounded RAG with Sentence-Level Citations:** Force the model to generate bracketed citations linking every claim to exact context chunk IDs. Responses without citations trigger an automated retry.
+   - **Technique 2: Grammar-Constrained Decoding (Outlines / JSON Schema):** Mask logits at token-generation time using a finite-state machine (FSM). Guarantees the output strictly matches a predefined JSON schema or regex without invalid enum values.
+   - **Technique 3: Dual-Pass Critic / Verification Loop (Self-Reflexion):** A second, smaller model inspects the generated answer against the source context to verify factual entailment (NLI classification).
+
+#### Visual Architectural Comparison
+![LLM Hallucination Mitigation Three Pillars](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/08_llm_hallucination_mitigation_three_pillars.svg)
+
+*D2 Source: [`08_llm_hallucination_mitigation_three_pillars.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines_faq/08_llm_hallucination_mitigation_three_pillars.d2)*
+
+#### Production Verification Matrix & Trade-Offs
+| Technique | Hallucination Reduction | Latency Overhead | Financial Token Cost | Engineering Complexity |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. Grounded RAG + Citations** | High ($pprox 75\%$ reduction) | $+50	ext{ms}$ (prompt length) | Moderate ($+20\%$ input tokens) | Low (System prompt tuning & regex) |
+| **2. Grammar-Constrained Decoding** | Very High for structured outputs ($100\%$) | **Zero or negative** (prunes search space) | Zero extra tokens | Moderate (requires local vLLM / Outlines engine) |
+| **3. Dual-Pass NLI Critic** | Extreme ($> 90\%$ reduction) | High ($+300	ext{ms}$ to $1	ext{s}$) | High ($+100\%$ extra inference cost) | High (Requires asynchronous evaluation graph) |
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [11. Embeddings, Vector Databases & Advanced RAG Knowledge Systems: Production RAG Architectures](../11_embeddings_vector_databases_and_rag_pipelines.md#9-the-rag-paradigm--first-principles)*
+

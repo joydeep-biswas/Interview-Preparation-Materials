@@ -56,6 +56,9 @@ A comprehensive, production-grade guide answering dimensional modeling, data war
     - [Q32. Incremental Restatement of Historical Aggregates under Late-Arriving & Corrected Ledger Records](#q32-medium-incremental-restatement-of-historical-aggregates-under-late-arriving--corrected-ledger-records)
     - [Q33. Designing Gold-Layer Tables for Governed Self-Service BI Without Duplicate Business Logic](#q33-medium-designing-gold-layer-tables-for-governed-self-service-bi-without-duplicate-business-logic)
     - [Q34. Food Delivery & Ride-Sharing Dimensional Architecture (Dynamic Fees, Settlements & Status Timestamps)](#q34-medium-food-delivery--ride-sharing-dimensional-architecture-dynamic-fees-settlements--status-timestamps)
+16. **Enterprise Data Retention & Cloud Object Storage Lifecycle Management**
+    - [Q35. Multi-Year Transaction Data Retention, Cold Storage Tiering & Compliant Archival](#q35-medium-multi-year-transaction-data-retention-cold-storage-tiering--compliant-archival)
+    - [Q36. Micro-Partitions and Clustering Keys in Cloud Warehouses & Lakehouses: Query Acceleration vs Reclustering Cost Governance](#q36-medium-micro-partitions-and-clustering-keys-in-cloud-warehouses--lakehouses-query-acceleration-vs-reclustering-cost-governance)
 ---
 
 # 1. OLTP vs OLAP Architecture & Normalization vs Denormalization
@@ -111,7 +114,7 @@ In relational theory, 3NF ensures no data redundancy by splitting entities into 
 #### Architectural Evolution & Comparison
 ![Cloud Storage Metadata ACID Lakehouse Architecture](assets/03_data_modeling_and_lakehouse_storage_faq/01_cloud_storage_metadata_acid_lakehouse_architecture.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/01_cloud_storage_metadata_acid_lakehouse_architecture.d2](assets/03_data_modeling_and_lakehouse_storage_faq/01_cloud_storage_metadata_acid_lakehouse_architecture.d2)
+*D2 Source: [`01_cloud_storage_metadata_acid_lakehouse_architecture.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/01_cloud_storage_metadata_acid_lakehouse_architecture.d2)*
 
 #### Decision Matrix: When to Use Which
 | Scenario / Requirement | Data Lake | Data Warehouse | Data Lakehouse |
@@ -148,7 +151,7 @@ The Medallion Architecture is a data design pattern that logically organizes dat
 #### Visual Flow
 ![Medallion Architecture Bronze Silver Gold](assets/03_data_modeling_and_lakehouse_storage_faq/02_medallion_architecture_bronze_silver_gold.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/02_medallion_architecture_bronze_silver_gold.d2](assets/03_data_modeling_and_lakehouse_storage_faq/02_medallion_architecture_bronze_silver_gold.d2)
+*D2 Source: [`02_medallion_architecture_bronze_silver_gold.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/02_medallion_architecture_bronze_silver_gold.d2)*
 
 #### Production PySpark Delta Implementation
 ```python
@@ -215,7 +218,7 @@ gold_daily_kpi.write.format("delta").mode("overwrite").saveAsTable("gold.daily_s
 #### Star Schema vs Snowflake Schema Comparison
 ![Star Schema vs Snowflake Schema Normalization](assets/03_data_modeling_and_lakehouse_storage_faq/03_star_schema_vs_snowflake_schema_normalization.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/03_star_schema_vs_snowflake_schema_normalization.d2](assets/03_data_modeling_and_lakehouse_storage_faq/03_star_schema_vs_snowflake_schema_normalization.d2)
+*D2 Source: [`03_star_schema_vs_snowflake_schema_normalization.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/03_star_schema_vs_snowflake_schema_normalization.d2)*
 
 | Dimension | Star Schema | Snowflake Schema |
 | :--- | :--- | :--- |
@@ -336,7 +339,7 @@ In big data distributed storage (Hive, Spark, Presto/Trino, Databricks), physica
 #### Visual Architecture
 ![Partitioning and Bucketing Physical Storage Layout](assets/03_data_modeling_and_lakehouse_storage_faq/04_partitioning_and_bucketing_physical_storage_layout.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/04_partitioning_and_bucketing_physical_storage_layout.d2](assets/03_data_modeling_and_lakehouse_storage_faq/04_partitioning_and_bucketing_physical_storage_layout.d2)
+*D2 Source: [`04_partitioning_and_bucketing_physical_storage_layout.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/04_partitioning_and_bucketing_physical_storage_layout.d2)*
 
 #### Production PySpark Implementation: Co-located Bucket Joins
 ```python
@@ -398,7 +401,7 @@ In enterprise ERPs (SAP, NetSuite), the Procure-to-Pay lifecycle involves distin
 #### Relational Architecture Diagram
 ![Conformed Dimensions Dual Fact Architecture](assets/03_data_modeling_and_lakehouse_storage_faq/05_conformed_dimensions_dual_fact_architecture.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/05_conformed_dimensions_dual_fact_architecture.d2](assets/03_data_modeling_and_lakehouse_storage_faq/05_conformed_dimensions_dual_fact_architecture.d2)
+*D2 Source: [`05_conformed_dimensions_dual_fact_architecture.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/05_conformed_dimensions_dual_fact_architecture.d2)*
 
 ---
 
@@ -575,7 +578,7 @@ If the fact load enforces strict foreign key constraints or relies on inner join
 #### Production Solution: Inferred Member Pattern
 ![Inferred Dimension Member Resolution Pipeline](assets/03_data_modeling_and_lakehouse_storage_faq/06_inferred_dimension_member_resolution_pipeline.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/06_inferred_dimension_member_resolution_pipeline.d2](assets/03_data_modeling_and_lakehouse_storage_faq/06_inferred_dimension_member_resolution_pipeline.d2)
+*D2 Source: [`06_inferred_dimension_member_resolution_pipeline.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/06_inferred_dimension_member_resolution_pipeline.d2)*
 
 #### SQL Implementation
 ```sql
@@ -686,7 +689,7 @@ Global video streaming platforms (e.g. Netflix, YouTube) serve 100M+ concurrent 
 #### Visual Flow
 ![OTT Media Streaming Dimensional ER Model](assets/03_data_modeling_and_lakehouse_storage_faq/07_ott_media_streaming_dimensional_er_model.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/07_ott_media_streaming_dimensional_er_model.d2](assets/03_data_modeling_and_lakehouse_storage_faq/07_ott_media_streaming_dimensional_er_model.d2)
+*D2 Source: [`07_ott_media_streaming_dimensional_er_model.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/07_ott_media_streaming_dimensional_er_model.d2)*
 
 #### Production DDL Implementation
 ```sql
@@ -728,7 +731,7 @@ Logging architectures (security audits, clickstreams, distributed traces) ingest
 #### Visual Flow
 ![High Throughput Log Append Compaction Pipeline](assets/03_data_modeling_and_lakehouse_storage_faq/08_high_throughput_log_append_compaction_pipeline.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/08_high_throughput_log_append_compaction_pipeline.d2](assets/03_data_modeling_and_lakehouse_storage_faq/08_high_throughput_log_append_compaction_pipeline.d2)
+*D2 Source: [`08_high_throughput_log_append_compaction_pipeline.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/08_high_throughput_log_append_compaction_pipeline.d2)*
 
 #### Production DDL Implementation
 ```sql
@@ -777,7 +780,7 @@ To guarantee zero-downtime evolution:
 #### Visual Flow
 ![Schema Evolution Dual Version Lakehouse Pattern](assets/03_data_modeling_and_lakehouse_storage_faq/09_schema_evolution_dual_version_lakehouse_pattern.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/09_schema_evolution_dual_version_lakehouse_pattern.d2](assets/03_data_modeling_and_lakehouse_storage_faq/09_schema_evolution_dual_version_lakehouse_pattern.d2)
+*D2 Source: [`09_schema_evolution_dual_version_lakehouse_pattern.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/09_schema_evolution_dual_version_lakehouse_pattern.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -839,7 +842,7 @@ Enterprise data governance requires verifiable auditability and data consistency
 #### Visual Flow
 ![OLTP CDC Debezium to Lakehouse Audit Lineage](assets/03_data_modeling_and_lakehouse_storage_faq/10_oltp_cdc_debezium_to_lakehouse_audit_lineage.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/10_oltp_cdc_debezium_to_lakehouse_audit_lineage.d2](assets/03_data_modeling_and_lakehouse_storage_faq/10_oltp_cdc_debezium_to_lakehouse_audit_lineage.d2)
+*D2 Source: [`10_oltp_cdc_debezium_to_lakehouse_audit_lineage.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/10_oltp_cdc_debezium_to_lakehouse_audit_lineage.d2)*
 
 #### Production Implementation: Automated Audit & Lineage Tracking Table
 ```sql
@@ -898,7 +901,7 @@ Modern enterprise data lakehouses store petabytes of sensitive customer records 
 #### Visual Flow
 ![Unity Catalog Row Level Security Column Masking](assets/03_data_modeling_and_lakehouse_storage_faq/11_unity_catalog_row_level_security_column_masking.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/11_unity_catalog_row_level_security_column_masking.d2](assets/03_data_modeling_and_lakehouse_storage_faq/11_unity_catalog_row_level_security_column_masking.d2)
+*D2 Source: [`11_unity_catalog_row_level_security_column_masking.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/11_unity_catalog_row_level_security_column_masking.d2)*
 
 #### Production Implementation: Unity Catalog Dynamic Masking & Row-Filter SQL
 ```sql
@@ -960,7 +963,7 @@ High-volume retail requires balancing fine-grained transactional analysis with f
 #### Visual Flow
 ![Retail Analytics Star Schema ER Model](assets/03_data_modeling_and_lakehouse_storage_faq/12_retail_analytics_star_schema_er_model.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/12_retail_analytics_star_schema_er_model.d2](assets/03_data_modeling_and_lakehouse_storage_faq/12_retail_analytics_star_schema_er_model.d2)
+*D2 Source: [`12_retail_analytics_star_schema_er_model.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/12_retail_analytics_star_schema_er_model.d2)*
 
 #### Production DDL & Query Implementation
 ```sql
@@ -1009,7 +1012,7 @@ Managing a 1-billion-row dataset requires defense-in-depth across storage layout
 
 ![Large Scale Analytical Table Query Optimization](assets/03_data_modeling_and_lakehouse_storage_faq/13_large_scale_analytical_table_query_optimization.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/13_large_scale_analytical_table_query_optimization.d2](assets/03_data_modeling_and_lakehouse_storage_faq/13_large_scale_analytical_table_query_optimization.d2)
+*D2 Source: [`13_large_scale_analytical_table_query_optimization.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/13_large_scale_analytical_table_query_optimization.d2)*
 
 #### Production Action Checklist
 1. **Partition Pruning:** Enforce coarse partition boundaries (e.g., `date(event_timestamp)`). A billion rows across 3 years is $\sim 1\text{M}$ rows/day—ideal for partition pruning.
@@ -1075,7 +1078,7 @@ Managing a 1-billion-row dataset requires defense-in-depth across storage layout
 
 ![Movie Ticket Booking System ER Model](assets/03_data_modeling_and_lakehouse_storage_faq/14_movie_ticket_booking_system_er_model.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/14_movie_ticket_booking_system_er_model.d2](assets/03_data_modeling_and_lakehouse_storage_faq/14_movie_ticket_booking_system_er_model.d2)
+*D2 Source: [`14_movie_ticket_booking_system_er_model.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/14_movie_ticket_booking_system_er_model.d2)*
 
 #### Preventing Double-Booking via Optimistic Locking
 ```sql
@@ -1107,7 +1110,7 @@ Never apply in-place destructive DDL (`ALTER TABLE ... DROP COLUMN` or changing 
 
 ![Blue Green Lakehouse Table Zero Downtime Swap](assets/03_data_modeling_and_lakehouse_storage_faq/15_blue_green_lakehouse_table_zero_downtime_swap.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/15_blue_green_lakehouse_table_zero_downtime_swap.d2](assets/03_data_modeling_and_lakehouse_storage_faq/15_blue_green_lakehouse_table_zero_downtime_swap.d2)
+*D2 Source: [`15_blue_green_lakehouse_table_zero_downtime_swap.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/15_blue_green_lakehouse_table_zero_downtime_swap.d2)*
 
 #### Production Playbook Rules
 1. **Additive-Only Changes:** Add new columns as optional/nullable. Let upstream pipelines populate new fields while legacy columns remain functional.
@@ -1142,7 +1145,7 @@ Cloud data warehouses manage table durability, session binding, and disaster rec
 #### Visual Flow
 ![Snowflake Table Types Permanent Transient Temporary](assets/03_data_modeling_and_lakehouse_storage_faq/16_snowflake_table_types_permanent_transient_temporary.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/16_snowflake_table_types_permanent_transient_temporary.d2](assets/03_data_modeling_and_lakehouse_storage_faq/16_snowflake_table_types_permanent_transient_temporary.d2)
+*D2 Source: [`16_snowflake_table_types_permanent_transient_temporary.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/16_snowflake_table_types_permanent_transient_temporary.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -1199,12 +1202,12 @@ Modeling card-present (Point of Sale / POS) payments requires zero loss toleranc
 1. **Authorization vs. Capture:** In swipe transactions, an **Authorization** places an immediate hold on the customer's credit limit; **Capture/Settlement** clears the funds days later. These are distinct state changes and must not overwrite historical states.
 2. **Idempotency Keys:** Network retries from POS terminals must never double-charge. A unique, client-generated `idempotency_key` guarantees that repeated requests return the original authorization response without creating a duplicate debit.
 3. **Double-Entry Bookkeeping:** Money cannot be created or destroyed. Every transaction must consist of balanced debits and credits across financial accounts:
-   $$\sum 	ext{Debits} = \sum 	ext{Credits}$$
+   $$\sum \text{Debits} = \sum \text{Credits}$$
 
 #### Visual Flow
 ![Double Entry Ledger Payment Idempotency Flow](assets/03_data_modeling_and_lakehouse_storage_faq/17_double_entry_ledger_payment_idempotency_flow.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/17_double_entry_ledger_payment_idempotency_flow.d2](assets/03_data_modeling_and_lakehouse_storage_faq/17_double_entry_ledger_payment_idempotency_flow.d2)
+*D2 Source: [`17_double_entry_ledger_payment_idempotency_flow.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/17_double_entry_ledger_payment_idempotency_flow.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -1269,7 +1272,7 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 - **Time Complexity:** $O(1)$ indexed lookup on `idempotency_key` via B-Tree index; $O(1)$ transaction commit across normalized tables.
-- **Space Complexity:** $O(T)$ where $T$ is the number of financial transactions (roughly $1	ext{ KB}$ per transaction across audit tables).
+- **Space Complexity:** $O(T)$ where $T$ is the number of financial transactions (roughly $1\text{ KB}$ per transaction across audit tables).
 
 #### Engineering Implications & Production Pitfalls
 1. **PCI-DSS Compliance Invariant:** Never store raw Primary Account Numbers (PAN), CVVs, or unencrypted magnetic stripe track data in relational tables. Store only PCI-tokenized references (`card_token`) provided by the certified payment HSM/vault.
@@ -1295,7 +1298,7 @@ To achieve Third Normal Form (3NF) without data redundancy:
 #### Visual Flow
 ![University Course Registration ER Model](assets/03_data_modeling_and_lakehouse_storage_faq/18_university_course_registration_er_model.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/18_university_course_registration_er_model.d2](assets/03_data_modeling_and_lakehouse_storage_faq/18_university_course_registration_er_model.d2)
+*D2 Source: [`18_university_course_registration_er_model.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/18_university_course_registration_er_model.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -1385,7 +1388,7 @@ CREATE TABLE enrollments (
 **Question:** Design an optimal schema to store high-velocity event logs (such as clicks, swipes, and impressions) for a web platform generating 50,000 events per second.
 
 #### Definition & Core Concepts
-High-velocity web traffic ($50,000	ext{ events/sec} pprox 4.32	ext{ billion events/day}$) breaks standard row-oriented relational databases (e.g. Postgres) due to WAL saturation, page lock contention, and index maintenance overhead.
+High-velocity web traffic ($50,000\text{ events/sec} \approx 4.32\text{ billion events/day}$) breaks standard row-oriented relational databases (e.g. Postgres) due to WAL saturation, page lock contention, and index maintenance overhead.
 The optimal architectural design employs:
 1. **Append-Only Columnar Storage:** Use Parquet / Delta Lake / ClickHouse / Snowflake rather than row tables.
 2. **Coarse-Grained Temporal Partitioning:** Partition by `event_date` (`year/month/day`) to ensure each partition folder contains hundreds of megabytes (avoiding the small file problem).
@@ -1395,7 +1398,7 @@ The optimal architectural design employs:
 #### Visual Flow
 ![High Throughput Event Stream Columnar Storage](assets/03_data_modeling_and_lakehouse_storage_faq/19_high_throughput_event_stream_columnar_storage.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/19_high_throughput_event_stream_columnar_storage.d2](assets/03_data_modeling_and_lakehouse_storage_faq/19_high_throughput_event_stream_columnar_storage.d2)
+*D2 Source: [`19_high_throughput_event_stream_columnar_storage.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/19_high_throughput_event_stream_columnar_storage.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -1434,7 +1437,7 @@ WHERE event_date = CURRENT_DATE()
 GROUP BY event_name, device_os;
 ```
 - **Time Complexity:** Ingestion runs at $O(1)$ append; analytical queries achieve $O(\log F)$ partition and metadata pruning where $F$ is file count.
-- **Space Complexity:** Columnar Snappy/ZSTD compression reduces raw JSON footprint by $80\%	ext{--}90\%$ ($50	ext{k events/sec}$ compresses from $4.3	ext{ TB/day}$ to $pprox 500	ext{ GB/day}$).
+- **Space Complexity:** Columnar Snappy/ZSTD compression reduces raw JSON footprint by $80\%\text{--}90\%$ ($50\text{k events/sec}$ compresses from $4.3\text{ TB/day}$ to $\approx 500\text{ GB/day}$).
 
 #### Engineering Implications & Production Pitfalls
 1. **The Over-Partitioning Disaster:** Never partition by `event_timestamp` down to the hour or minute (e.g. `/year/month/day/hour/minute`). This generates millions of tiny 5KB files, overwhelming the cloud storage object catalog and killing Spark driver memory. Partition by `event_date` only, and cluster by user/session.
@@ -1464,7 +1467,7 @@ Data reconciliation discrepancies between source OLTP databases and target OLAP 
 #### Visual Flow
 ![Data Warehouse Metric Discrepancy Triage Flow](assets/03_data_modeling_and_lakehouse_storage_faq/20_data_warehouse_metric_discrepancy_triage_flow.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/20_data_warehouse_metric_discrepancy_triage_flow.d2](assets/03_data_modeling_and_lakehouse_storage_faq/20_data_warehouse_metric_discrepancy_triage_flow.d2)
+*D2 Source: [`20_data_warehouse_metric_discrepancy_triage_flow.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/20_data_warehouse_metric_discrepancy_triage_flow.d2)*
 
 #### Production Implementation / Diagnostic Playbook
 ```sql
@@ -1539,7 +1542,7 @@ In Ralph Kimball's dimensional modeling methodology, **Step 2** (immediately fol
 
 ![Atomic Transaction Grain vs Aggregation Rollups](assets/03_data_modeling_and_lakehouse_storage_faq/21_atomic_transaction_grain_vs_aggregation_rollups.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/21_atomic_transaction_grain_vs_aggregation_rollups.d2](assets/03_data_modeling_and_lakehouse_storage_faq/21_atomic_transaction_grain_vs_aggregation_rollups.d2)
+*D2 Source: [`21_atomic_transaction_grain_vs_aggregation_rollups.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/21_atomic_transaction_grain_vs_aggregation_rollups.d2)*
 
 #### The Lethal Multi-Grain Join Trap (Metric Duplication Hazard)
 A catastrophic data engineering antipattern is joining facts of different grains in a single query:
@@ -1630,7 +1633,7 @@ Instead, production lakehouses employ **Partition-Scoped Change Capture & Target
 
 ![Late Arriving Data Monthly Recomputation Merge](assets/03_data_modeling_and_lakehouse_storage_faq/22_late_arriving_data_monthly_recomputation_merge.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/22_late_arriving_data_monthly_recomputation_merge.d2](assets/03_data_modeling_and_lakehouse_storage_faq/22_late_arriving_data_monthly_recomputation_merge.d2)
+*D2 Source: [`22_late_arriving_data_monthly_recomputation_merge.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/22_late_arriving_data_monthly_recomputation_merge.d2)*
 
 #### Production Delta Lake Implementation
 ```sql
@@ -1683,7 +1686,7 @@ In poorly governed organizations, Finance, Marketing, and Operations each write 
 #### The 3-Tier Gold Architecture
 ![Governed Gold Layer Semantic Metric Fabric](assets/03_data_modeling_and_lakehouse_storage_faq/23_governed_gold_layer_semantic_metric_fabric.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/23_governed_gold_layer_semantic_metric_fabric.d2](assets/03_data_modeling_and_lakehouse_storage_faq/23_governed_gold_layer_semantic_metric_fabric.d2)
+*D2 Source: [`23_governed_gold_layer_semantic_metric_fabric.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/23_governed_gold_layer_semantic_metric_fabric.d2)*
 
 #### Production Engineering Rules for Gold-Layer Self-Service:
 1. **Conformed Dimensions as the Canonical Backbone:**
@@ -1717,7 +1720,7 @@ To support both with optimal performance, we deploy a **Hybrid Fact Architecture
 #### Visual Flow: Dimensional Topology (Entity-Relationship Diagram)
 ![Food Delivery Platform Multi Fact ER Model](assets/03_data_modeling_and_lakehouse_storage_faq/24_food_delivery_platform_multi_fact_er_model.svg)
 
-*D2 Source:* [assets/03_data_modeling_and_lakehouse_storage_faq/24_food_delivery_platform_multi_fact_er_model.d2](assets/03_data_modeling_and_lakehouse_storage_faq/24_food_delivery_platform_multi_fact_er_model.d2)
+*D2 Source: [`24_food_delivery_platform_multi_fact_er_model.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/24_food_delivery_platform_multi_fact_er_model.d2)*
 
 #### Production DDL & Delta Lake / Snowflake Table Definitions
 ```sql
@@ -1830,6 +1833,183 @@ ORDER BY order_date_key DESC, order_hour DESC, total_surge_revenue DESC;
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [03. Data Modeling & Lakehouse Storage: Kimball Dimensional Modeling](../03_data_modeling_and_lakehouse_storage.md#23-olap-dimensional-modeling-fundamentals-kimball-4-step-process)*
+---
+
+### Q35. [Medium] Multi-Year Transaction Data Retention, Cold Storage Tiering & Compliant Archival
+**Difficulty:** [Medium]  
+**Topic Covered:** Data Retention Policies, Cloud Object Lifecycle Management (Hot/Cool/Archive), Partition Deletion  
+**Question:** *How do you architect data retention and archival policies for multi-year financial transaction tables to maintain blazing query performance on active data while complying with multi-year statutory retention at minimal storage cost?*
+
+#### Definition & Core Concepts
+Financial institutions face a dual requirement: active operational dashboards require $<2\text{s}$ query response times on the most recent 12 to 24 months of data, while banking regulators (e.g. SEC, FINRA, GDPR, RBI) mandate 7 to 10 years of statutory data retention:
+1. **Tiered Lakehouse Partitioning:**
+   - Partition core transaction tables by `year` and `month` (e.g., `/transactions/year=2026/month=10/`).
+   - Maintain the active 24-month working set in high-performance **Hot Tier** object storage (ADLS Gen2 Hot / S3 Standard) with Delta Lake Liquid Clustering or Z-Ordering on `(account_id, transaction_timestamp)`.
+2. **Automated Lifecycle Storage Tiering:**
+   - Configure Cloud Object Storage Lifecycle Management Rules:
+     - After **24 months (730 days)**: Transition older partition blobs to **Cool / Infrequent Access (IA)** tier (50% storage cost reduction).
+     - After **36 months (1095 days)**: Transition historical partition files to **Archive / Glacier Flexible Deep Archive** tier (90% cost reduction).
+3. **Table Partition Decoupling & Virtual Views:**
+   - To prevent queries without date filters from incurring severe archive rehydration penalties ($> 12\text{ hours}$ thaw delay and high retrieval fees), decouple active data from archive storage.
+   - Maintain `gold.fact_transactions_active` pointing strictly to the 24-month Hot storage.
+   - Maintain `archive.fact_transactions_historical` pointing to cold storage tiers, accessible only via audited compliance extract pipelines.
+
+#### Visual Architectural Lifecycle Flow
+![Multi Year Transaction Storage Lifecycle Tiering](assets/03_data_modeling_and_lakehouse_storage_faq/25_multi_year_transaction_storage_lifecycle_tiering.svg)
+
+*D2 Source: [`25_multi_year_transaction_storage_lifecycle_tiering.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/25_multi_year_transaction_storage_lifecycle_tiering.d2)*
+
+#### Production Implementation / Azure Blob Lifecycle Policy (JSON)
+```json
+{
+  "rules": [
+    {
+      "enabled": true,
+      "name": "financial-data-retention-tiering",
+      "type": "Lifecycle",
+      "definition": {
+        "filters": {
+          "blobTypes": ["blockBlob"],
+          "prefixMatch": ["lakehouse/gold/fact_transactions/"]
+        },
+        "actions": {
+          "baseBlob": {
+            "tierToCool": { "daysAfterModificationGreaterThan": 730 },
+            "tierToArchive": { "daysAfterModificationGreaterThan": 1095 },
+            "delete": { "daysAfterModificationGreaterThan": 3650 }
+          }
+        }
+      }
+    }
+  ]
+}
+```
+
+```python
+# Automated Partition Purge / Export Runbook in Databricks
+def archive_and_purge_expired_partitions(spark, retention_cutoff_date: str):
+    """
+    Exports expired partitions to regulatory compliance archive before dropping from the active Delta table.
+    """
+    cutoff_year, cutoff_month = retention_cutoff_date.split("-")[:2]
+    
+    # 1. Export partition to cold regulatory storage bucket
+    (
+        spark.table("gold.fact_transactions")
+        .filter(f"year < '{cutoff_year}'")
+        .write
+        .mode("append")
+        .parquet(f"abfss://regulatory-archive@coldstorage.dfs.core.windows.net/transactions_archive/")
+    )
+    
+    # 2. Drop expired partition from active Delta table metadata
+    spark.sql(f"DELETE FROM gold.fact_transactions WHERE year < '{cutoff_year}'")
+    
+    # 3. Clean physical files via VACUUM after retention period expires
+    spark.sql("VACUUM gold.fact_transactions RETAIN 168 HOURS")
+    print(f"Purged and archived active partitions older than {cutoff_year}")
+```
+
+#### Complexity & FinOps Impact
+- **FinOps Reduction:** Storing $500\text{ TB}$ of historical transaction data in AWS S3 Standard costs $\approx \$11{,}500/\text{month}$. Transitioning historical partitions older than 3 years to Glacier Deep Archive shrinks storage spend to $\approx \$500/\text{month}$ (a $95.6\%$ ongoing cost reduction).
+- **Query Performance:** Reducing the active table size from 10 years to 2 years shrinks the metadata file list and file skipping footprint by $80\%$, keeping BI dashboard partition pruning sub-second.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [03. Data Modeling & Lakehouse Storage: Storage Lifecycle Management](../03_data_modeling_and_lakehouse_storage.md#73-storage-lifecycle-management-policies--worm-compliance)*
+
+---
+
+### Q36. [Medium] Micro-Partitions and Clustering Keys in Cloud Warehouses & Lakehouses: Query Acceleration vs Reclustering Cost Governance
+**Difficulty:** [Medium]  
+**Topic Covered:** Micro-Partitioning, Clustering Keys, Metadata Pruning, Clustering Depth & FinOps Cost Governance  
+**Question:** *How do micro-partitions and clustering keys improve query performance in modern cloud data warehouses and lakehouses (such as Snowflake and Databricks Liquid Clustering)? How does the engine prune data, and when is clustering worth the ongoing background compute cost?*
+
+#### Definition & Core Concepts
+Modern cloud data warehouses (Snowflake, BigQuery) and transactional lakehouses (Databricks with Liquid Clustering) replace rigid Hive-style folder partitioning (`/year=2026/month=10/`) with **Micro-Partitions & Dynamic Clustering**:
+1. **Micro-Partition Anatomy:**
+   - Physical contiguous columnar blocks containing between $50\text{ MB}$ and $500\text{ MB}$ of uncompressed data (typically compressed down to $16\text{ MB}$).
+   - **Immutable:** Once written to cloud object storage (S3, ADLS, GCS), micro-partitions are never modified in-place; mutations generate new micro-partitions via copy-on-write or merge-on-read.
+   - **Central Metadata Header:** The engine's cloud services tier automatically extracts and indexes summary statistics for every column within each micro-partition: minimum value, maximum value, null count, and distinct value count.
+2. **Metadata-Driven Query Pruning:**
+   - When a query contains a predicate like `WHERE order_date >= '2026-10-01' AND tenant_id = 'T100'`, the query coordinator evaluates the predicate against the micro-partition min/max metadata **without opening or scanning the physical storage files**.
+   - If a micro-partition's range for `order_date` is `['2026-09-01', '2026-09-30']`, the file is pruned immediately, reducing scanned bytes by $95\%\text{--}99\%$.
+3. **Clustering Keys & Clustering Depth:**
+   - A **Clustering Key** is a designated set of columns (e.g., `(event_date, customer_id)`) used to physically co-locate related records into the same micro-partitions.
+   - **Clustering Depth:** Measures the average overlap among micro-partitions for the clustering key. A low clustering depth ($1\text{--}2$) indicates that micro-partitions have disjoint ranges, yielding maximum query pruning. A high clustering depth ($>20$) indicates heavily overlapping ranges, requiring the engine to scan many partitions for a single point query.
+
+#### Visual Architectural Flow
+![Micro-Partitions, Clustering Keys & Reclustering Cost Economics](assets/03_data_modeling_and_lakehouse_storage_faq/26_micro_partitions_clustering_keys_pruning_economics.svg)
+
+*D2 Source: [`26_micro_partitions_clustering_keys_pruning_economics.d2`](assets/03_data_modeling_and_lakehouse_storage_faq/26_micro_partitions_clustering_keys_pruning_economics.d2)*
+
+#### Production DDL & Diagnostic Inspection Queries
+
+```sql
+-- ============================================================================
+-- Snowflake DDL: Defining an Explicit Multi-Column Clustering Key
+-- ============================================================================
+CREATE OR REPLACE TABLE gold.fact_orders (
+    order_id        STRING,
+    customer_id     STRING,
+    order_date      DATE,
+    store_id        INT,
+    total_amount    DECIMAL(18, 2),
+    created_at      TIMESTAMP_NTZ
+)
+-- Order by date first (coarse filter), then customer_id (fine filter)
+CLUSTER BY (order_date, customer_id);
+
+-- ============================================================================
+-- Snowflake Diagnostic: Inspecting Clustering Health & Depth Overlap
+-- ============================================================================
+SELECT SYSTEM$CLUSTERING_INFORMATION('gold.fact_orders', '(order_date, customer_id)');
+
+-- Output JSON:
+-- {
+--   "cluster_by_keys" : "LINEAR(order_date, customer_id)",
+--   "total_partition_count" : 12450,
+--   "total_constant_partition_count" : 11800,  -- Partitions with zero overlap (Optimal)
+--   "average_overlaps" : 1.12,                  -- Excellent (< 2.0 indicates pristine health)
+--   "average_depth" : 1.45,
+--   "partition_depth_histogram" : { "0001" : 11800, "0002" : 650 }
+-- }
+
+-- ============================================================================
+-- Databricks Delta Lake DDL: Liquid Clustering (Alternative to Z-ORDER)
+-- ============================================================================
+CREATE OR REPLACE TABLE gold.fact_clickstream (
+    event_id    STRING,
+    user_id     STRING,
+    event_date  DATE,
+    platform    STRING
+)
+USING DELTA
+CLUSTER BY (event_date, user_id);
+
+-- Trigger incremental background clustering optimization
+OPTIMIZE gold.fact_clickstream;
+```
+
+#### FinOps & Economics: When is Clustering Worth the Cost?
+
+Automatic reclustering operates as a background cloud service that continuously consumes compute credits (dollars) to sort and rewrite fragmented micro-partitions.
+
+```
+Break-Even Rule:
+Monthly Cloud Compute Savings (Pruned Scans) > Monthly Background Reclustering Credit Cost
+```
+
+| Operational Scenario | Reclustering Evaluation | Architectural Recommendation |
+| :--- | :--- | :--- |
+| **Multi-Terabyte Fact Tables ($> 500\text{ GB}$ to Petabytes)** | **High ROI (Worth the Cost)** | Daily analytical queries and BI dashboards filter by date and tenant. Pruning $95\%$ of partitions saves tens of thousands in warehouse compute. |
+| **High Query Frequency ($> 1{,}000\text{ queries/day}$)** | **High ROI (Worth the Cost)** | Query latency drops from 45 seconds to 800 milliseconds. The cumulative scan compute savings far exceed background maintenance. |
+| **High DML Churn / Frequent Micro-Batch Streaming** | **Negative ROI (AVOID Explicit Clustering)** | Ingesting streaming records every minute forces the automatic reclustering engine to constantly rewrite files, burning thousands of credits in runaway maintenance. |
+| **Small Tables ($< 100\text{ GB}$)** | **Waste of Money** | Full table scans on modern MPP engines take only a few seconds. The cost to maintain clustering keys exceeds any latency gains. |
+| **High-Cardinality Unique Keys (`UUID`, `timestamp_ms`)** | **Architectural Anti-Pattern** | Causes every record to map to a distinct range. Clustering depth remains high and reclustering is computationally impossible to converge. |
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [03. Data Modeling & Lakehouse Storage: Storage Optimization & Liquid Clustering](../03_data_modeling_and_lakehouse_storage.md#76-bucketing-vs-z-ordering-vs-liquid-clustering)*
+
 
 ---
 

@@ -43,7 +43,7 @@ $$\text{catalog} \boldsymbol{.} \text{schema} \boldsymbol{.} \text{table\_or\_vi
 
 ![Databricks Account Metastore & 3-Level Namespace](assets/09_unity_catalog_and_data_governance_faq/01_unity_catalog_three_level_namespace_hierarchy.svg)
 
-*D2 Source:* [assets/09_unity_catalog_and_data_governance_faq/01_unity_catalog_three_level_namespace_hierarchy.d2](assets/09_unity_catalog_and_data_governance_faq/01_unity_catalog_three_level_namespace_hierarchy.d2)
+*D2 Source: [`01_unity_catalog_three_level_namespace_hierarchy.d2`](assets/09_unity_catalog_and_data_governance_faq/01_unity_catalog_three_level_namespace_hierarchy.d2)*
 
 #### Multi-Environment Governance Design (Q8, Q13)
 To ensure isolation and security across Development, Testing, and Production:
@@ -85,7 +85,7 @@ In Unity Catalog, privileges are inherited hierarchically. To query a table `pro
 
 ![Unity Catalog Privilege Inheritance & Prerequisite USE Chain](assets/09_unity_catalog_and_data_governance_faq/02_privilege_inheritance_prerequisite_use_chain.svg)
 
-*D2 Source:* [assets/09_unity_catalog_and_data_governance_faq/02_privilege_inheritance_prerequisite_use_chain.d2](assets/09_unity_catalog_and_data_governance_faq/02_privilege_inheritance_prerequisite_use_chain.d2)
+*D2 Source: [`02_privilege_inheritance_prerequisite_use_chain.d2`](assets/09_unity_catalog_and_data_governance_faq/02_privilege_inheritance_prerequisite_use_chain.d2)*
 
 ---
 
@@ -172,7 +172,7 @@ SET ROW FILTER region_filter_fn ON (customer_region);
 #### The 4-Step Diagnostic Protocol for Permission Denials
 ![Unity Catalog Permission Denial 4-Step Diagnostic Protocol](assets/09_unity_catalog_and_data_governance_faq/03_permission_denial_four_step_diagnostic_protocol.svg)
 
-*D2 Source:* [assets/09_unity_catalog_and_data_governance_faq/03_permission_denial_four_step_diagnostic_protocol.d2](assets/09_unity_catalog_and_data_governance_faq/03_permission_denial_four_step_diagnostic_protocol.d2)
+*D2 Source: [`03_permission_denial_four_step_diagnostic_protocol.d2`](assets/09_unity_catalog_and_data_governance_faq/03_permission_denial_four_step_diagnostic_protocol.d2)*
 
 #### Diagnostic Commands
 ```sql
@@ -245,7 +245,7 @@ spark.conf.set("fs.azure.account.key.datalake.dfs.core.windows.net", "secret_key
 #### Modern Unity Catalog Cloud Storage Integration Architecture
 ![Cloud Storage Access Integration via Storage Credentials](assets/09_unity_catalog_and_data_governance_faq/04_storage_credential_external_location_architecture.svg)
 
-*D2 Source:* [assets/09_unity_catalog_and_data_governance_faq/04_storage_credential_external_location_architecture.d2](assets/09_unity_catalog_and_data_governance_faq/04_storage_credential_external_location_architecture.d2)
+*D2 Source: [`04_storage_credential_external_location_architecture.d2`](assets/09_unity_catalog_and_data_governance_faq/04_storage_credential_external_location_architecture.d2)*
 
 #### Configuration Steps
 ```sql
@@ -279,7 +279,7 @@ GRANT READ FILES, WRITE FILES ON EXTERNAL LOCATION adls_gold_container TO `sp_pr
 
 ![Unity Catalog Dynamic Governance Engine & Access Matrix](assets/09_unity_catalog_and_data_governance_faq/05_dynamic_row_filtering_column_masking_matrix.svg)
 
-*D2 Source:* [assets/09_unity_catalog_and_data_governance_faq/05_dynamic_row_filtering_column_masking_matrix.d2](assets/09_unity_catalog_and_data_governance_faq/05_dynamic_row_filtering_column_masking_matrix.d2)
+*D2 Source: [`05_dynamic_row_filtering_column_masking_matrix.d2`](assets/09_unity_catalog_and_data_governance_faq/05_dynamic_row_filtering_column_masking_matrix.d2)*
 
 #### Production DDL & Policy Implementation
 ```sql

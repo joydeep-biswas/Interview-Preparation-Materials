@@ -1,14 +1,24 @@
 direction: down
-title: RabbitMQ Flow Control: basicQos Backpressure
+title: "RabbitMQ Flow Control: basicQos Backpressure"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Broker: RabbitMQ Broker
-Worker: Worker Pod (basicQos = 2)
+Broker: "RabbitMQ Broker"
+Worker: "Worker Pod (basicQos = 2)"
 
-Worker -> Worker: Configures basicQos(2)
-Broker -> Worker: 1. Push Message 1 (Unacked: 1) { style.stroke: "#F59E0B" }
-Broker -> Worker: 2. Push Message 2 (Unacked: 2 - Limit reached) { style.stroke: "#F59E0B" }
-Broker -> Broker: Pauses pushing messages
-Worker -> Worker: Finishes Msg 1
-Worker -> Broker: 3. basicAck(tag=1) { style.stroke: "#34D399" }
-Broker -> Broker: Unacked drops to 1
-Broker -> Worker: 4. Push Message 3 (Unacked: 2) { style.stroke: "#F59E0B" }
+Worker -> Worker: "Configures basicQos(2)"
+Broker -> Worker: "1. Push Message 1 (Unacked: 1)" { style.stroke: "#F59E0B" }
+Broker -> Worker: "2. Push Message 2 (Unacked: 2 - Limit reached)" { style.stroke: "#F59E0B" }
+Broker -> Broker: "Pauses pushing messages"
+Worker -> Worker: "Finishes Msg 1"
+Worker -> Broker: "3. basicAck(tag=1)" { style.stroke: "#34D399" }
+Broker -> Broker: "Unacked drops to 1"
+Broker -> Worker: "4. Push Message 3 (Unacked: 2)" { style.stroke: "#F59E0B" }

@@ -38,7 +38,7 @@
 
   <!-- Stage 1: GC Root ThreadPool Queue -->
   <rect x="50" y="95" width="310" height="280" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
-  <rect x="50" y="95" width="310" height="35" rx="8" fill="#7F1D1D"/>
+  <rect x="50" y="95" width="310" height="35" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
   <text x="205" y="118" font-size="12" font-weight="700" fill="#FCA5A5" text-anchor="middle">GC Root: Long-Lived ThreadPool Queue</text>
 
   <rect x="70" y="145" width="270" height="85" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
@@ -54,7 +54,7 @@
 
   <!-- Stage 2: Anonymous Inner Class -->
   <rect x="420" y="95" width="340" height="280" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
-  <rect x="420" y="95" width="340" height="35" rx="8" fill="#4C1D95"/>
+  <rect x="420" y="95" width="340" height="35" rx="8" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
   <text x="590" y="118" font-size="12" font-weight="700" fill="#C4B5FD" text-anchor="middle">Anonymous Runnable Instance (Heap)</text>
 
   <rect x="440" y="145" width="300" height="90" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
@@ -71,7 +71,7 @@
 
   <!-- Stage 3: Heavy Enclosing Service -->
   <rect x="820" y="95" width="310" height="280" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
-  <rect x="820" y="95" width="310" height="35" rx="8" fill="#7F1D1D"/>
+  <rect x="820" y="95" width="310" height="35" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
   <text x="975" y="118" font-size="12" font-weight="700" fill="#FCA5A5" text-anchor="middle">HeavyProcessingService (LEAK VICTIM)</text>
 
   <rect x="840" y="145" width="270" height="110" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1.5"/>

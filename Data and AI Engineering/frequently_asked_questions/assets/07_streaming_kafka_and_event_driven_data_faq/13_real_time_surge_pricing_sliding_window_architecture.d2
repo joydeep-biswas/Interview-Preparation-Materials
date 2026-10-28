@@ -1,6 +1,6 @@
 direction: right
 classes: {
-  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
 }
 
 streams: "Live Event Ingress" {
@@ -22,7 +22,7 @@ spark: "Spark Structured Streaming (30s Window)" {
 serving: "Fast Serving Tier (< 2ms)" {
   class: box
   style.stroke: "#8B5CF6"
-  redis: "Redis Distributed Cluster\nsurge:{h3_hex_id} -> {multiplier: 1.8, ttl: 45s}"
+  redis: "Redis Distributed Cluster\nsurge:{h3_hex_id} -> {multiplier: 1.8; ttl: 45s}"
   app: "Consumer App & Pricing Gateway"
   redis -> app
 }

@@ -1,0 +1,30 @@
+direction: right
+classes: {
+  req_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  router_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  slm_node: { style: { fill: "#0C4A6E"; stroke: "#06B6D4"; stroke-width: 2; border-radius: 8 } }
+  cluster_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  perf_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+UserReq: "Incoming User Request\nInteractive web / API client" { class: req_node }
+Router: "Complexity Router\nLightweight classifier" { class: router_node }
+
+SLM: "Specialized 8B SLM\nSub-200ms latency\n0.1x Serving cost" { class: slm_node }
+
+Cluster: "vLLM Production Serving Cluster" {
+  style: { fill: "#0D1526"; stroke: "#8B5CF6"; stroke-width: 1.5; border-radius: 8 }
+  L1: "1. Prefix Caching (Bypasses prompt prefill)" { class: cluster_node }
+  L2: "2. FP8 Quantization (Cuts KV bus pressure 50%)" { class: cluster_node }
+  L3: "3. Speculative Decoding (Draft 8B + 70B Verifier)" { class: cluster_node }
+  L4: "4. Disaggregated Prefill & Decode" { class: cluster_node }
+  L5: "5. PagedAttention Continuous Batching" { class: cluster_node }
+}
+
+Output: "Ultra-Low Latency Delivery\nTTFT < 50ms | > 80 tok/s\nOptimal user experience" { class: perf_node }
+
+UserReq -> Router: "Inference Call"
+Router -> SLM: "Simple Task"
+Router -> Cluster.L1: "Complex Reasoning"
+SLM -> Output: "Instant Stream"
+Cluster.L5 -> Output: "Accelerated Stream"

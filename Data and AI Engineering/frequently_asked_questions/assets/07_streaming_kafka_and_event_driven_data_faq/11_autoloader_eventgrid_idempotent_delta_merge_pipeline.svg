@@ -6,81 +6,81 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
   </defs>
 
-  <rect width="1020" height="220" fill="#0B0F19"/>
+  <rect width="1020" height="220" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Step 1 -->
   <g transform="translate(20, 40)">
-    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#06B6D4" stroke-width="2"/>
+    <rect width="180" height="148" rx="10" ry="10" fill="#111827" stroke="#06B6D4" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#67E8F9">1. Auto Loader</text>
-    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• ADLS Gen2 Storage</text>
     <text x="18" y="90" class="body-txt">• Event Grid notification</text>
     <text x="18" y="110" class="body-txt">• SQS / Storage Queue</text>
     <text x="18" y="130" class="body-txt">• Zero file listing</text>
   </g>
 
-  <path fill="none" d="M 200 110 L 230 110" class="edge" stroke="#06B6D4" marker-end="url(#arr-amber)"/>
-
   <!-- Step 2 -->
   <g transform="translate(230, 40)">
-    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="180" height="148" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#FCD34D">2. Schema Rescue</text>
-    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• _rescued_data</text>
     <text x="18" y="90" class="body-txt">• Captures malformed</text>
     <text x="18" y="110" class="body-txt">• Zero data loss</text>
     <text x="18" y="130" class="body-txt">• Auto schema evolve</text>
   </g>
 
-  <path fill="none" d="M 410 110 L 440 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-blue)"/>
-
   <!-- Step 3 -->
   <g transform="translate(440, 40)">
-    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="180" height="148" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#93C5FD">3. Streaming Core</text>
-    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• Micro-batch execution</text>
     <text x="18" y="90" class="body-txt">• maxFiles: 50,000</text>
     <text x="18" y="110" class="body-txt">• Parallel partition</text>
     <text x="18" y="130" class="body-txt">• RocksDB state</text>
   </g>
 
-  <path fill="none" d="M 620 110 L 650 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-green)"/>
-
   <!-- Step 4 -->
   <g transform="translate(650, 40)">
-    <rect width="180" height="140" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <rect width="180" height="148" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#A7F3D0">4. Delta MERGE</text>
-    <line x1="15" y1="44" x2="165" y2="44" stroke="#047857" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#047857" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt" fill="#A7F3D0">• foreachBatch sink</text>
     <text x="18" y="90" class="body-txt" fill="#A7F3D0">• Deduplicate on PK</text>
     <text x="18" y="110" class="body-txt" fill="#A7F3D0">• Upsert into Silver</text>
     <text x="18" y="130" class="body-txt" fill="#A7F3D0">• ACID commit</text>
   </g>
 
-  <path fill="none" d="M 830 110 L 860 110" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-
   <!-- Step 5 -->
   <g transform="translate(860, 40)">
-    <rect width="140" height="140" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="140" height="148" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2" />
     <text x="70" y="32" class="title" fill="#C4B5FD">5. Checkpoint</text>
-    <line x1="15" y1="44" x2="125" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="125" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="70" class="body-txt">• WAL state</text>
     <text x="15" y="90" class="body-txt">• Offset commits</text>
     <text x="15" y="110" class="body-txt">• Exact recovery</text>
     <text x="15" y="130" class="body-txt">• Cloud durable</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 200 110 L 230 110" class="edge" stroke="#06B6D4" marker-end="url(#arr-amber)" />
+
+  <path fill="none" d="M 410 110 L 440 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 620 110 L 650 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-green)" />
+
+  <path fill="none" d="M 830 110 L 860 110" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+
+  </g></svg>

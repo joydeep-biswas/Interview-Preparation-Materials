@@ -1,28 +1,42 @@
 direction: down
-title: ConcurrentLinkedQueue Lock-Free CAS Enqueue Algorithm
+title: "ConcurrentLinkedQueue Lock-Free CAS Enqueue Algorithm"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-State: Queue Structure {
+State: "Queue Structure" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   head: "head -> Sentinel Node (0x1000)"
-  n1: "Node 1 (0x2000, item: 'A')"
-  tail: "tail -> Node 2 (0x3000, item: 'B', next: null)"
-  newNode: "New Node (0x4000, item: 'C', next: null)"
+  n1: "Node 1 (0x2000; item: 'A')"
+  tail: "tail -> Node 2 (0x3000; item: 'B'; next: null)"
+  newNode: "New Node (0x4000; item: 'C'; next: null)"
 }
 
-Step1: 1. Read Tail & Verify next == null {
+Step1: "1. Read Tail & Verify next == null" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   desc: "Read t = tail. If t.next != null, tail is lagging; help advance it."
 }
 
-Step2: 2. CAS Link: t.casNext(null, newNode) {
+Step2: "2. CAS Link: t.casNext(null, newNode)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   desc: "Atomic CAS links newNode into queue. If fails, retry loop."
 }
 
-Step3: 3. CAS Advance Tail: casTail(t, newNode) {
+Step3: "3. CAS Advance Tail: casTail(t, newNode)" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
   desc: "Advance tail pointer to newNode. Benign failure tolerant."

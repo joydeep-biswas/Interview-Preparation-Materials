@@ -13,7 +13,7 @@
     </marker>
   </defs>
 
-  <rect width="1000" height="340" fill="#0B0F19"/>
+  <rect width="1000" height="340" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Top: repartition -->
   <g transform="translate(30, 25)">

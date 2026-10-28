@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 360" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Left: Failure Trigger -->
+  <g transform="translate(30, 110)">
+    <rect width="240" height="135" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <text x="120" y="28" class="title" fill="#FECACA">Scheduled Job Crash</text>
+    <line x1="15" y1="38" x2="225" y2="38" stroke="#991B1B" stroke-width="1"/>
+    <text x="20" y="60" class="body-txt" fill="#FCA5A5">• Runs 100% fine interactively</text>
+    <text x="20" y="80" class="body-txt" fill="#FCA5A5">• Fails on Databricks Workflow</text>
+    <text x="20" y="100" class="body-txt" fill="#FCA5A5">• Ephemeral job cluster launch</text>
+    <text x="20" y="120" class="body-txt" fill="#FCA5A5">• Root cause: Environment drift</text>
+  </g>
+
+  <!-- Connect Left to Center -->
+  <path d="M 270 175 L 340 175" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+
+  <!-- Center: Triage Engine -->
+  <g transform="translate(340, 100)">
+    <rect width="250" height="155" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="125" y="28" class="title" fill="#FDE68A">Diagnostic Triage Matrix</text>
+    <line x1="15" y1="38" x2="235" y2="38" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="60" class="body-txt">• Inspect driver stderr log</text>
+    <text x="20" y="82" class="body-txt">• 1. Identity / SPN permissions</text>
+    <text x="20" y="104" class="body-txt">• 2. Cluster library dependencies</text>
+    <text x="20" y="126" class="body-txt">• 3. Secret scope access</text>
+    <text x="20" y="145" class="body-txt">• 4. Widget parameter bindings</text>
+  </g>
+
+  <!-- Route 1: Top (IAM) -->
+  <path d="M 590 135 L 630 135 Q 645 135 645 80 L 645 60 Q 645 50 660 50 L 680 50" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <!-- Route 2: Middle (Libraries) -->
+  <path d="M 590 175 L 680 175" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <!-- Route 3: Bottom (Widgets/Secrets) -->
+  <path d="M 590 215 L 630 215 Q 645 215 645 270 L 645 295 Q 645 305 660 305 L 680 305" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+  <!-- Right 1: IAM -->
+  <g transform="translate(680, 20)">
+    <rect width="310" height="75" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="155" y="24" class="title" fill="#A7F3D0">Fix 1: Service Principal (SPN) IAM</text>
+    <text x="15" y="46" class="body-txt" fill="#A7F3D0">• Grant USE_CATALOG &amp; SELECT on Unity Catalog</text>
+    <text x="15" y="64" class="body-txt" fill="#A7F3D0">• Assign Azure Storage Blob Data Contributor to SPN</text>
+  </g>
+
+  <!-- Right 2: Libraries -->
+  <g transform="translate(680, 135)">
+    <rect width="310" height="85" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="155" y="24" class="title" fill="#A7F3D0">Fix 2: Declare Formal Task Libraries</text>
+    <text x="15" y="46" class="body-txt" fill="#A7F3D0">• Stop relying on notebook '%pip install'</text>
+    <text x="15" y="64" class="body-txt" fill="#A7F3D0">• Attach wheel from /Volumes/... in Workflow YAML</text>
+  </g>
+
+  <!-- Right 3: Widgets & Parameters -->
+  <g transform="translate(680, 260)">
+    <rect width="310" height="80" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="155" y="24" class="title" fill="#A7F3D0">Fix 3: Bind Explicit Task Parameters</text>
+    <text x="15" y="46" class="body-txt" fill="#A7F3D0">• Pass default dictionary values in Job Task config</text>
+    <text x="15" y="64" class="body-txt" fill="#A7F3D0">• Grant SPN read on databricks secret scopes</text>
+  </g>
+</svg>

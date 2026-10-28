@@ -1,14 +1,23 @@
-# Python Concurrency Selection Matrix
-direction: right
+# Python Concurrency Selection Architecture Matrix
+direction: down
+classes: {
+  model_card: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+}
 
-mp: "1. Multiprocessing (CPU-Bound)\n• ProcessPoolExecutor\n• Spawns separate OS processes\n• Bypasses GIL completely\n• High RAM; IPC pickle overhead" {
+mp: "1. Multiprocessing (ProcessPoolExecutor)\n• Target Workload: CPU-Bound (ML training, image parsing, heavy crypto)\n• Architecture: Independent OS processes with private memory & private GIL\n• Advantages: Bypasses GIL completely; utilizes 100% of all CPU cores\n• Trade-offs: High memory footprint; IPC pickle serialization overhead" {
+  class: model_card
   style.stroke: "#10B981"
 }
 
-tp: "2. Multithreading (I/O-Bound)\n• ThreadPoolExecutor\n• Preemptive OS threads\n• GIL released during blocking I/O\n• Shared memory; race condition risk" {
+tp: "2. Multithreading (ThreadPoolExecutor)\n• Target Workload: I/O-Bound with blocking libraries (JDBC, legacy C extensions)\n• Architecture: Preemptive OS threads managed by kernel scheduler\n• Advantages: Shared memory address space; low context-switch overhead\n• Trade-offs: GIL released only during syscalls; race condition risk (requires locks)" {
+  class: model_card
   style.stroke: "#F59E0B"
 }
 
-asyncio: "3. Asyncio (High Network I/O)\n• async / await Event Loop\n• Single-threaded non-blocking cooperative\n• 50k+ sockets in low RAM\n• Blocking call halts entire loop" {
+asyncio: "3. Asynchronous I/O (asyncio Event Loop)\n• Target Workload: Extreme Network Concurrency (REST APIs, WebSockets, scrapers)\n• Architecture: Single-threaded cooperative multitasking via event loop\n• Advantages: Handles 50,000+ open sockets in < 100MB RAM; zero OS thread churn\n• Trade-offs: Single blocking call halts entire event loop; requires async ecosystem" {
+  class: model_card
   style.stroke: "#8B5CF6"
 }
+
+mp -> tp: "Decision Pivot: CPU vs I/O Bound"
+tp -> asyncio: "Decision Pivot: Low vs High Socket Cardinality"

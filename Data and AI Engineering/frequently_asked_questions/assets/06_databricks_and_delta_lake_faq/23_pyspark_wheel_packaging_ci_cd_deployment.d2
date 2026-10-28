@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  git_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  ci_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  vol_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  dab_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+GitRepo: "Git Repository\nShared PySpark transformations\nType hints, Chispa unit tests" { class: git_node }
+CICD: "CI/CD Pipeline (GitHub / Azure DevOps)\nRuns unit tests\nBuilds Python wheel: .whl" { class: ci_node }
+UCVolume: "Unity Catalog Volume\n/Volumes/corp/tools/wheels/\nImmutable semantic versioning" { class: vol_node }
+DABWorkflow: "Databricks Asset Bundle (DAB)\nPins exact wheel version\nDeploys to ephemeral job clusters" { class: dab_node }
+
+GitRepo -> CICD: "git push / PR merge"
+CICD -> UCVolume: "Publish wheel artifact"
+UCVolume -> DABWorkflow: "Import versioned wheel"

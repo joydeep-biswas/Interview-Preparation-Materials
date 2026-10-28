@@ -18,14 +18,17 @@
       .edge-green { stroke: #10B981; }
       .edge-red { stroke: #EF4444; }
     </style>
-    <marker id="arr-b6" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    <marker id="arr-b6" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
     </marker>
-    <marker id="arr-g6" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    <marker id="arr-s6" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
     </marker>
-    <marker id="arr-r6" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    <marker id="arr-g6" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-r6" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
     </marker>
   </defs>
 
@@ -71,19 +74,19 @@
   <text x="725" y="320" class="card-body">• Both keys non-null -> Fails predicate</text>
   <text x="725" y="340" class="card-body">• Pruned from final result</text>
 
-  <!-- Connectors with straight runways -->
+  <!-- Connectors with straight runways & matching color markers -->
   <!-- Left top to Gate: exit 315,122 -> curve -> enter 390,180 with runway dx>=14 -->
-  <path fill="none" d="M 315 122 C 345 122, 360 180, 376 180 L 390 180" class="edge edge-blue" marker-end="url(#arr-b6)"/>
+  <path fill="none" d="M 315 122 L 329 122 C 349 122, 356 180, 374 180 L 390 180" class="edge edge-blue" marker-end="url(#arr-b6)"/>
 
-  <!-- Left center to Gate: exit 315,222 -> horizontal straight to 390,222 -->
-  <path fill="none" d="M 315 222 L 390 222" class="edge edge-gray" marker-end="url(#arr-b6)"/>
+  <!-- Left center to Gate: exit 315,222 -> horizontal straight to 390,222 with matching gray marker arr-s6 -->
+  <path fill="none" d="M 315 222 L 390 222" class="edge edge-gray" marker-end="url(#arr-s6)"/>
 
   <!-- Left bottom to Gate: exit 315,322 -> curve -> enter 390,250 with runway dx>=14 -->
-  <path fill="none" d="M 315 322 C 345 322, 360 250, 376 250 L 390 250" class="edge edge-blue" marker-end="url(#arr-b6)"/>
+  <path fill="none" d="M 315 322 L 329 322 C 349 322, 356 250, 374 250 L 390 250" class="edge edge-blue" marker-end="url(#arr-b6)"/>
 
   <!-- Gate to Emitted Diff: exit 650,180 -> curve -> enter 710,130 with runway dx>=14 -->
-  <path fill="none" d="M 650 180 C 675 180, 685 130, 696 130 L 710 130" class="edge edge-green" marker-end="url(#arr-g6)"/>
+  <path fill="none" d="M 650 180 L 664 180 C 679 180, 686 130, 696 130 L 710 130" class="edge edge-green" marker-end="url(#arr-g6)"/>
 
   <!-- Gate to Discard Sink: exit 650,240 -> curve -> enter 710,305 with runway dx>=14 -->
-  <path fill="none" d="M 650 240 C 675 240, 685 305, 696 305 L 710 305" class="edge edge-red" marker-end="url(#arr-r6)"/>
+  <path fill="none" d="M 650 240 L 664 240 C 679 240, 686 305, 696 305 L 710 305" class="edge edge-red" marker-end="url(#arr-r6)"/>
 </svg>

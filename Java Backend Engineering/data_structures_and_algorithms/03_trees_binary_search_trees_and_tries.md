@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to Binary Trees, Binary Search Trees (BS
 
 ![BST Invariants, Rotations, and Trie Architecture](assets/03_trees_binary_search_trees_and_tries/01_bst_invariants_and_trie_architecture.svg)
 
-*D2 Source:* [assets/03_trees_binary_search_trees_and_tries/01_bst_invariants_and_trie_architecture.d2](assets/03_trees_binary_search_trees_and_tries/01_bst_invariants_and_trie_architecture.d2)
+*D2 Source: [`01_bst_invariants_and_trie_architecture.d2`](assets/03_trees_binary_search_trees_and_tries/01_bst_invariants_and_trie_architecture.d2)*
 
 ---
 

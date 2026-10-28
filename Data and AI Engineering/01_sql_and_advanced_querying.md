@@ -230,17 +230,17 @@ Each row is tested against `status = 'COMPLETED'`.
 ##### Step 3: `GROUP BY department`
 The surviving 5 rows are partitioned into hash buckets keyed by `department`:
 - **Bucket "Electronics":**
-  - Row 101 ($400.00)
-  - Row 103 ($800.00)
-  - Row 106 ($1500.00)
+  - Row 101 (\$400.00)
+  - Row 103 (\$800.00)
+  - Row 106 (\$1500.00)
 - **Bucket "Home":**
-  - Row 102 ($50.00)
-  - Row 105 ($120.00)
+  - Row 102 (\$50.00)
+  - Row 105 (\$120.00)
 
 ##### Step 4: `HAVING SUM(amount) > 200.00`
 Aggregate metrics are computed per bucket:
-- **Electronics:** $\text{SUM} = 400 + 800 + 1500 = \$2700.00$. Condition ($2700 > 200$) is **TRUE**. Retained.
-- **Home:** $\text{SUM} = 50 + 120 = \$170.00$. Condition ($170 > 200$) is **FALSE**. Discarded!
+- **Electronics:** $\text{SUM} = 400 + 800 + 1500 = 2700.00$. Condition ($2700 > 200$) is **TRUE**. Retained.
+- **Home:** $\text{SUM} = 50 + 120 = 170.00$. Condition ($170 > 200$) is **FALSE**. Discarded!
 
 ##### Step 5: `SELECT department, COUNT(...), SUM(...), ROUND(AVG(...))`
 The engine computes final projections for the surviving bucket(s):
@@ -2509,6 +2509,12 @@ In the ANSI SQL logical query processing model, window functions execute at **St
 ---
 
 ### 13.2 Window Framing Deep-Dive: `ROWS` vs. `RANGE` vs. `GROUPS`
+
+> [!TIP]
+> **Deep-Dive Interview Scenarios & Production Runbooks:**
+> - [Q78. Month-over-Month Customer Spending Growth > 50% with Zero-Division Protection](frequently_asked_questions/01_sql_and_advanced_querying_faq.md#q78-medium-month-over-month-customer-spending-growth--50-with-zero-division-protection)
+> - [Q79. Rolling 24-Hour Account Transaction Velocity & Threshold Violation Detection](frequently_asked_questions/01_sql_and_advanced_querying_faq.md#q79-medium-rolling-24-hour-account-transaction-velocity--threshold-violation-detection)
+> - [Q80. Customer Daily Average Transaction Amount Across Active Days](frequently_asked_questions/01_sql_and_advanced_querying_faq.md#q80-easy-customer-daily-average-transaction-amount-across-active-days)
 
 The frame clause specifies the sliding window of rows evaluated relative to the current row:
 

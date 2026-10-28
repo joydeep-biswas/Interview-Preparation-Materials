@@ -1,26 +1,39 @@
 direction: right
-title: Operating System Process vs. Thread Memory Model
+title: "Operating System Process vs. Thread Memory Model"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-OSProcess: OS Process (Dedicated Address Space) {
+OSProcess: "OS Process (Dedicated Address Space)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#1D4ED8"
   isolation: "Hardware MMU isolation; private virtual address space"
   ipc: "IPC required: Sockets, pipes, shared memory (serialization overhead)"
 }
 
-ThreadModel: Intra-Process Thread Model {
+ThreadModel: "Intra-Process Thread Model" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   
-  Heap: Shared Process Heap & Metaspace {
+  Heap: "Shared Process Heap & Metaspace" {
+    class: box
     desc: "Shared directly by all threads; zero serialization"
   }
   
-  T1: Thread 1 (Private Stack & PC)
-  T2: Thread 2 (Private Stack & PC)
+  T1: "Thread 1 (Private Stack & PC)"
+  T2: "Thread 2 (Private Stack & PC)"
   
-  T1 -> Heap: Direct pointer access
-  T2 -> Heap: Concurrent memory contention
+  T1 -> Heap: "Direct pointer access"
+  T2 -> Heap: "Concurrent memory contention"
 }
 
-OSProcess -> ThreadModel: Process contains one or more threads
+OSProcess -> ThreadModel: "Process contains one or more threads"

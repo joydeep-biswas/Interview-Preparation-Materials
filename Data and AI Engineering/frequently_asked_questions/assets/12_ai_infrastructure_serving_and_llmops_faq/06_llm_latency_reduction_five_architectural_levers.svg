@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 420" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+      .container-title { fill: #CBD5E1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 700; text-anchor: start; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Left: User Request -->
+  <g transform="translate(25, 145)">
+    <rect width="170" height="110" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="85" y="24" class="title" fill="#93C5FD">User Request</text>
+    <text x="12" y="48" class="body-txt">• Interactive API call</text>
+    <text x="12" y="68" class="body-txt">• Strict SLA (&lt; 200ms)</text>
+    <text x="12" y="88" class="body-txt">• Token stream consumer</text>
+  </g>
+
+  <!-- Connect Request to Router -->
+  <path d="M 195 200 L 225 200" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- Router -->
+  <g transform="translate(225, 145)">
+    <rect width="175" height="110" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="87" y="24" class="title" fill="#FDE68A">Complexity Router</text>
+    <text x="12" y="48" class="body-txt">• Heuristic scoring</text>
+    <text x="12" y="68" class="body-txt">• Token length check</text>
+    <text x="12" y="88" class="body-txt">• Intent classification</text>
+  </g>
+
+  <!-- Connect Router to SLM (Top) -->
+  <path d="M 400 175 L 425 175 Q 440 175 440 85 L 450 85 L 460 85" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+  <rect x="415" y="65" width="40" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="435" y="77" class="edge-label" fill="#06B6D4">Simple</text>
+
+  <!-- Connect Router to Optimization Cluster (Bottom) -->
+  <path d="M 400 225 L 425 225 Q 440 225 440 260 L 450 260 L 460 260" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <rect x="410" y="270" width="45" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="432" y="282" class="edge-label" fill="#8B5CF6">Complex</text>
+
+  <!-- Top Route: Specialized SLM -->
+  <g transform="translate(460, 30)">
+    <rect width="330" height="95" rx="8" fill="#0C4A6E" stroke="#06B6D4" stroke-width="2"/>
+    <text x="165" y="24" class="title" fill="#67E8F9">Specialized SLM (Llama-3-8B)</text>
+    <text x="14" y="48" class="body-txt">• Latency: &lt; 180ms TTFT | 0.1x Cost</text>
+    <text x="14" y="68" class="body-txt">• Handles 70% of routine extraction &amp; classification</text>
+  </g>
+
+  <!-- Bottom Container: 5 Serving Acceleration Levers -->
+  <g transform="translate(460, 145)">
+    <rect width="330" height="250" rx="8" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="15" y="22" class="container-title" fill="#C4B5FD">vLLM Inference Acceleration Levers</text>
+
+    <g transform="translate(15, 35)">
+      <rect width="300" height="35" rx="4" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1"/>
+      <text x="10" y="22" class="body-txt" fill="#E2E8F0"><tspan font-weight="700">1. Prefix Caching:</tspan> Bypasses system prompt prefill</text>
+    </g>
+    <g transform="translate(15, 75)">
+      <rect width="300" height="35" rx="4" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1"/>
+      <text x="10" y="22" class="body-txt" fill="#E2E8F0"><tspan font-weight="700">2. FP8 Quantization:</tspan> Cuts KV cache VRAM by 50%</text>
+    </g>
+    <g transform="translate(15, 115)">
+      <rect width="300" height="35" rx="4" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1"/>
+      <text x="10" y="22" class="body-txt" fill="#E2E8F0"><tspan font-weight="700">3. Speculative Decoding:</tspan> 8B draft + 70B verifier</text>
+    </g>
+    <g transform="translate(15, 155)">
+      <rect width="300" height="35" rx="4" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1"/>
+      <text x="10" y="22" class="body-txt" fill="#E2E8F0"><tspan font-weight="700">4. Disaggregated Prefill:</tspan> Separates compute/memory</text>
+    </g>
+    <g transform="translate(15, 195)">
+      <rect width="300" height="35" rx="4" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1"/>
+      <text x="10" y="22" class="body-txt" fill="#E2E8F0"><tspan font-weight="700">5. Continuous Batching:</tspan> PagedAttention zero voids</text>
+    </g>
+  </g>
+
+  <!-- Connect SLM & Engine to Terminal Output -->
+  <path d="M 790 77 L 820 77 Q 835 77 835 180 L 845 180 L 855 180" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+  <path d="M 790 270 L 820 270 Q 835 270 835 220 L 845 220 L 855 220" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Far Right Terminal: Output -->
+  <g transform="translate(855, 145)">
+    <rect width="140" height="110" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="70" y="24" class="title" fill="#A7F3D0">High-Throughput</text>
+    <text x="10" y="48" class="body-txt">• TTFT &lt; 50ms</text>
+    <text x="10" y="68" class="body-txt">• &gt; 80 tok/s decode</text>
+    <text x="10" y="88" class="body-txt">• 5x User capacity</text>
+  </g>
+</svg>

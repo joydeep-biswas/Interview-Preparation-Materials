@@ -32,14 +32,14 @@
     .badge { font-weight: 600; font-size: 11px; }
     .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
   </style>
-  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <rect width="100%" height="100%" fill="url(#bg-grad)"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="32" class="title" font-size="19" text-anchor="middle">Object-Oriented Concurrency &amp; Java Memory Model Internals</text>
   <text x="550" y="52" class="subtitle" text-anchor="middle">Thread interaction, ReentrantLock &amp; CAS primitives, cache-padded ring buffers, and work-stealing execution</text>
 
   <!-- Client Layer -->
   <g transform="translate(30, 75)">
     <rect width="230" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="115" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">1. Worker Ingress</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#60A5FA">• Concurrent Worker Threads:</text>
     <text x="24" y="78" class="card-body">  - Publishers, Readers, Schedulers</text>
@@ -48,14 +48,14 @@
     <text x="24" y="146" class="card-body">  - Happens-before guarantees</text>
     <text x="24" y="166" class="card-body">  - volatile read/write fences</text>
     <text x="24" y="186" class="card-body">  - CPU cache coherency (MESI)</text>
-    <rect x="16" y="244" width="198" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="244" width="198" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="115" y="259" class="badge" fill="#93C5FD" text-anchor="middle">Thread Scheduling</text>
   </g>
 
   <!-- Synchronization Tier -->
   <g transform="translate(290, 75)">
     <rect width="245" height="280" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="245" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <rect width="245" height="34" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
     <text x="122" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Synchronization Tier</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• Locks &amp; Conditions:</text>
     <text x="24" y="78" class="card-body">  - ReentrantLock &amp; ReadWriteLock</text>
@@ -65,14 +65,14 @@
     <text x="24" y="166" class="card-body">  - AtomicInteger, AtomicReference</text>
     <text x="24" y="186" class="card-body">  - VarHandle atomic intrinsics</text>
     <text x="24" y="206" class="card-body">  - StampedLock optimistic reads</text>
-    <rect x="16" y="244" width="213" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="244" width="213" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="122" y="259" class="badge" fill="#A7F3D0" text-anchor="middle">CAS &amp; Mutual Exclusion</text>
   </g>
 
   <!-- Data Structures Tier -->
   <g transform="translate(565, 75)">
     <rect width="240" height="280" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="240" height="34" rx="10" ry="10" fill="#78350F"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
     <text x="120" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">3. Memory Structures</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#FBBF24">• LMAX Disruptor Ring:</text>
     <text x="24" y="78" class="card-body">  - Circular array with CAS barrier</text>
@@ -82,14 +82,14 @@
     <text x="24" y="166" class="card-body">  - CopyOnWriteArrayList (Safe reads)</text>
     <text x="16" y="194" class="card-body" font-weight="600" fill="#FBBF24">• Zero GC Buffers:</text>
     <text x="24" y="214" class="card-body">  - DirectByteBuffers (Off-heap)</text>
-    <rect x="16" y="244" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="244" width="208" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="120" y="259" class="badge" fill="#FDE68A" text-anchor="middle">High-Throughput Storage</text>
   </g>
 
   <!-- Thread Pools & Execution -->
   <g transform="translate(835, 75)">
     <rect width="235" height="280" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="235" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <rect width="235" height="34" rx="10" ry="10" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
     <text x="117" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Thread Pools &amp; Stealing</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• Custom ThreadPoolExecutor:</text>
     <text x="24" y="78" class="card-body">  - Core vs Max pool configuration</text>
@@ -99,7 +99,7 @@
     <text x="24" y="166" class="card-body">  - Deque per worker thread</text>
     <text x="24" y="186" class="card-body">  - Idle workers steal from tails</text>
     <text x="16" y="214" class="card-body" font-weight="600" fill="#A78BFA">• Java 21 Virtual Threads</text>
-    <rect x="16" y="244" width="203" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="244" width="203" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="117" y="259" class="badge" fill="#DDD6FE" text-anchor="middle">Work-Stealing Architecture</text>
   </g>
 

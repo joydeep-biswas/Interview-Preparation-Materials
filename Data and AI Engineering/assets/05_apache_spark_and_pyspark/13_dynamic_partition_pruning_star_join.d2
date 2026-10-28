@@ -1,23 +1,36 @@
 direction: right
-title: Dynamic Partition Pruning (DPP) in Star Joins
+title: "Dynamic Partition Pruning (DPP) in Star Joins"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Dim: Dimension Filtering {
+Dim: "Dimension Filtering" {
+  class: container
   style.stroke: "#38BDF8"
-  Scan: Scan dim_store (store_region = 'EMEA')
-  Keys: Calculate Matching Store Keys: [10, 25, 42, 88]
+  Scan: "Scan dim_store (store_region = 'EMEA')"
+  Keys: "Calculate Matching Store Keys: [10, 25, 42, 88]"
   Scan -> Keys
 }
 
-Bridge: Dynamic Broadcast Filter {
+Bridge: "Dynamic Broadcast Filter" {
+  class: container
   style.stroke: "#FBBF24"
-  Subquery: Broadcast Subquery (Bloom Filter)
+  Subquery: "Broadcast Subquery (Bloom Filter)"
 }
 
-Fact: Fact Table Scan (100TB) {
+Fact: "Fact Table Scan (100TB)" {
+  class: container
   style.stroke: "#34D399"
-  Kept: Kept Partitions (store_id in 10, 25, 42, 88)
-  Pruned: Pruned Partitions (96% skipped on S3/ADLS/GCS)
+  Kept: "Kept Partitions (store_id in 10, 25, 42, 88)"
+  Pruned: "Pruned Partitions (96% skipped on S3/ADLS/GCS)"
 }
 
-Dim.Keys -> Bridge.Subquery: Broadcasts matching keys { style.stroke: "#FBBF24" }
-Bridge.Subquery -> Fact.Kept: Prunes storage folders { style.stroke: "#34D399" }
+Dim.Keys -> Bridge.Subquery: "Broadcasts matching keys" { style.stroke: "#FBBF24" }
+Bridge.Subquery -> Fact.Kept: "Prunes storage folders" { style.stroke: "#34D399" }

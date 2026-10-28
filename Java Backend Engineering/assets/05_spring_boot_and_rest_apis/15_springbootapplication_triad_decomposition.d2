@@ -1,25 +1,39 @@
 direction: down
-title: Deconstructing @SpringBootApplication: The Meta-Annotation Triad
+title: "Deconstructing @SpringBootApplication: The Meta-Annotation Triad"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 root: "@SpringBootApplication (Bootstrap Master Switch)" {
+  class: container
   style.fill: "#064e3b"
   style.stroke: "#10b981"
   description: "Meta-annotation placed on Application.java main class"
 }
 
 p1: "1. @SpringBootConfiguration" {
+  class: container
   style.fill: "#0b1329"
   style.stroke: "#3b82f6"
   description: "Specialized @Configuration; primary Java config provider"
 }
 
 p2: "2. @EnableAutoConfiguration" {
+  class: container
   style.fill: "#1a1c12"
   style.stroke: "#f59e0b"
   description: "Activates AutoConfigurationImportSelector & @Conditional pipeline"
 }
 
 p3: "3. @ComponentScan" {
+  class: container
   style.fill: "#16122b"
   style.stroke: "#8b5cf6"
   description: "Scans base package & sub-packages for @Component stereotype beans"

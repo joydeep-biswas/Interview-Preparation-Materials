@@ -6,33 +6,33 @@
       .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
     </style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B0F19"/>
-      <stop offset="100%" stop-color="#111827"/>
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
     </linearGradient>
     <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981" />
     </marker>
     <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
     <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
     <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4" />
     </marker>
     <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B" />
     </marker>
   </defs>
   <!-- Canvas Background -->
-  <rect width="1140" height="440" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <rect width="1140" height="440" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5" />
   <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Python Concurrency Selection Matrix: Architecture, GIL &amp; Memory</text>
   <text x="35" y="54" font-size="11" fill="#94A3B8">Definitive engineering decision guide: Multiprocessing vs. Multithreading vs. Asyncio based on task bottlenecks</text>
 
@@ -40,10 +40,10 @@
 
   <!-- Paradigm 1: Multiprocessing (x=35, y=95) -->
   <g transform="translate(35, 95)">
-    <rect width="350" height="315" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <rect width="350" height="315" rx="8" fill="#062828" stroke="#10B981" stroke-width="2" />
     <text x="175" y="26" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">1. Multiprocessing (CPU-Bound)</text>
 
-    <rect x="15" y="42" width="320" height="75" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+    <rect x="15" y="42" width="320" height="118" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2" />
     <text x="175" y="64" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">ProcessPoolExecutor</text>
     <text x="25" y="84" font-size="10" fill="#A7F3D0" text-anchor="start">• Task Type: Heavy CPU &amp; Bytecode Math</text>
     <text x="25" y="100" font-size="10" fill="#A7F3D0" text-anchor="start">• Examples: JSON parsing, crypto, ML inference</text>
@@ -53,7 +53,7 @@
     <text x="20" y="178" font-size="10" fill="#6EE7B7" font-weight="700" text-anchor="start">✓ 100% BYPASSES THE GIL (Separate GIL per process)</text>
     <text x="20" y="196" font-size="10" fill="#A7F3D0" text-anchor="start">• Scales linearly across all CPU hardware cores</text>
 
-    <rect x="15" y="215" width="320" height="75" rx="4" fill="#0F172A" stroke="#10B981"/>
+    <rect x="15" y="215" width="320" height="75" rx="4" fill="#0F172A" stroke="#10B981" />
     <text x="25" y="235" font-size="10" font-weight="700" fill="#FCA5A5" text-anchor="start">⚠️ Trade-offs &amp; Constraints:</text>
     <text x="25" y="252" font-size="10" fill="#94A3B8" text-anchor="start">• High Memory: Duplicates Python runtime per core</text>
     <text x="25" y="268" font-size="10" fill="#94A3B8" text-anchor="start">• IPC Overhead: Pickle serialization over pipes/queues</text>
@@ -61,10 +61,10 @@
 
   <!-- Paradigm 2: Multithreading (x=405, y=95) -->
   <g transform="translate(405, 95)">
-    <rect width="350" height="315" rx="8" fill="#2E1C05" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="350" height="315" rx="8" fill="#2E1C05" stroke="#F59E0B" stroke-width="2" />
     <text x="175" y="26" font-size="13" font-weight="700" fill="#FDE68A" text-anchor="middle">2. Multithreading (I/O-Bound)</text>
 
-    <rect x="15" y="42" width="320" height="75" rx="6" fill="#451A03" stroke="#F59E0B" stroke-width="1.2"/>
+    <rect x="15" y="42" width="320" height="118" rx="6" fill="#451A03" stroke="#F59E0B" stroke-width="1.2" />
     <text x="175" y="64" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">ThreadPoolExecutor</text>
     <text x="25" y="84" font-size="10" fill="#FDE68A" text-anchor="start">• Task Type: Blocking OS &amp; C-Extension I/O</text>
     <text x="25" y="100" font-size="10" fill="#FDE68A" text-anchor="start">• Examples: Disk file writes, SQL db queries, NumPy</text>
@@ -74,7 +74,7 @@
     <text x="20" y="178" font-size="10" fill="#FDE68A" text-anchor="start">• Shared memory space: Zero IPC pickle cost</text>
     <text x="20" y="196" font-size="10" fill="#6EE7B7" font-weight="700" text-anchor="start">✓ GIL released during blocking OS syscalls</text>
 
-    <rect x="15" y="215" width="320" height="75" rx="4" fill="#0F172A" stroke="#F59E0B"/>
+    <rect x="15" y="215" width="320" height="75" rx="4" fill="#0F172A" stroke="#F59E0B" />
     <text x="25" y="235" font-size="10" font-weight="700" fill="#FCA5A5" text-anchor="start">⚠️ Trade-offs &amp; Constraints:</text>
     <text x="25" y="252" font-size="10" fill="#FDE68A" text-anchor="start">• Subject to race conditions (Requires Locks/RLocks)</text>
     <text x="25" y="268" font-size="10" fill="#FDE68A" text-anchor="start">• Maximum ~500 threads before OS stack bloat</text>
@@ -82,10 +82,10 @@
 
   <!-- Paradigm 3: Asyncio (x=775, y=95) -->
   <g transform="translate(775, 95)">
-    <rect width="350" height="315" rx="8" fill="#1A102F" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="350" height="315" rx="8" fill="#1A102F" stroke="#8B5CF6" stroke-width="2" />
     <text x="175" y="26" font-size="13" font-weight="700" fill="#DDD6FE" text-anchor="middle">3. Asyncio (High-Concurrency Network)</text>
 
-    <rect x="15" y="42" width="320" height="75" rx="6" fill="#2E1065" stroke="#8B5CF6" stroke-width="1.2"/>
+    <rect x="15" y="42" width="320" height="118" rx="6" fill="#2E1065" stroke="#8B5CF6" stroke-width="1.2" />
     <text x="175" y="64" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">async / await Event Loop</text>
     <text x="25" y="84" font-size="10" fill="#DDD6FE" text-anchor="start">• Task Type: Massive Concurrent Network I/O</text>
     <text x="25" y="100" font-size="10" fill="#DDD6FE" text-anchor="start">• Examples: FastAPI ASGI, scraping 5k APIs, WS</text>
@@ -95,7 +95,7 @@
     <text x="20" y="178" font-size="10" fill="#DDD6FE" text-anchor="start">• Zero OS thread context-switch overhead</text>
     <text x="20" y="196" font-size="10" fill="#6EE7B7" font-weight="700" text-anchor="start">✓ 50,000+ concurrent connections in ~100MB RAM</text>
 
-    <rect x="15" y="215" width="320" height="75" rx="4" fill="#0F172A" stroke="#8B5CF6"/>
+    <rect x="15" y="215" width="320" height="75" rx="4" fill="#0F172A" stroke="#8B5CF6" />
     <text x="25" y="235" font-size="10" font-weight="700" fill="#FCA5A5" text-anchor="start">⚠️ Trade-offs &amp; Constraints:</text>
     <text x="25" y="252" font-size="10" fill="#DDD6FE" text-anchor="start">• Any synchronous blocking call freezes ENTIRE loop!</text>
     <text x="25" y="268" font-size="10" fill="#DDD6FE" text-anchor="start">• Requires async-native libraries (httpx, asyncpg)</text>

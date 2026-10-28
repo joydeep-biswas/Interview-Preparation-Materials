@@ -35,7 +35,7 @@
     <text x="46" y="117" fill="#fca5a5" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Non-Splittable Nightmare: 10 GB orders.csv.gz (80 Cores)</text>
   
     <rect x="45" y="140" width="400" height="110" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
-    <text x="245.0" y="166" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Core 1: Single-Threaded Sequential Scan</text>
+    <text x="60" y="166" fill="#fca5a5" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Single-Threaded Sequential Scan</text>
     <text x="245.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">GZIP Compression Stream Bottleneck</text>
     <rect x="359" y="150" width="80" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
     <text x="399.0" y="162" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">BOTTLENECK</text>

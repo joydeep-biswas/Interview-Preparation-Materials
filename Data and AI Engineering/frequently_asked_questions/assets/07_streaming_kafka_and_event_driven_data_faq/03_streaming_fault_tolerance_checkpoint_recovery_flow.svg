@@ -23,7 +23,7 @@
     </marker>
   </defs>
 
-  <rect width="1020" height="320" fill="#0B0F19"/>
+  <rect width="1020" height="320" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Step 1: Crash -->
   <g transform="translate(30, 105)">

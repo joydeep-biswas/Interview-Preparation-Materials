@@ -8,44 +8,7 @@ A comprehensive, production-grade guide to database storage engines (B+ Trees, L
 
 ![01 Database Engine And Memory Hierarchy Architecture](assets/04_database_internals_and_distributed_systems/01_database_engine_and_memory_hierarchy_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Database Storage Engine & Memory Hierarchy Architecture
-
-client: 1. Client & Parser Tier {
-  sql: SQL Client Query Execution
-  parser: Parser & AST Analyzer
-  sql -> parser: "SQL String"
-}
-
-optimizer: 2. Query Optimizer Tier {
-  rewriter: Query Rewriter (Predicate Pushdown)
-  cbo: Cost-Based Optimizer (CBO)
-  executor: Execution Engine (Volcano / SIMD)
-  rewriter -> cbo -> executor
-}
-
-buffer_pool: 3. In-Memory Buffer Pool {
-  bpm: Buffer Pool Manager (8KB Pages, Clock Sweep)
-  wal_buffer: WAL Ring Buffer (LSN Tracking)
-  lock_mgr: Lock & Latch Manager (2PL Concurrency)
-}
-
-disk: 4. Disk Storage Subsystem {
-  heap: Table Heap Files (Slotted Pages)
-  wal: WAL Redo Logs (Append-Only fsync)
-  indexes: Secondary Indexes (B+ Tree)
-}
-
-client.parser -> optimizer.rewriter: "AST"
-optimizer.executor -> buffer_pool.bpm: "Request Page"
-buffer_pool.bpm -> disk.heap: "Checkpointer Flush"
-buffer_pool.wal_buffer -> disk.wal: "Synchronous fsync"
-```
-</details>
+*D2 Source: [`01_database_engine_and_memory_hierarchy_architecture.d2`](assets/04_database_internals_and_distributed_systems/01_database_engine_and_memory_hierarchy_architecture.d2)*
 
 ---
 
@@ -167,32 +130,7 @@ How data is serialized onto non-volatile storage blocks dictates query efficienc
 #### 2. Hardware Cache & Memory Bus Impact
 ![02 Row Vs Column Storage Io Mechanics](assets/04_database_internals_and_distributed_systems/02_row_vs_column_storage_io_mechanics.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Row-Oriented vs. Column-Oriented Storage Mechanics
-
-target_query: "Target Query: SELECT AVG(dwell_time) FROM page_views WHERE date = '2026-10-01'"
-
-row_store: Row Store (OLTP) - High I/O Overhead {
-  p1: "Page 1: [ID, IP, User, Date, DwellTime, Country, Session, Device...]"
-  p2: "Page 2: [ID, IP, User, Date, DwellTime, Country, Session, Device...]"
-  result: "Must scan 100% of bytes off disk -> Severe I/O Bottleneck"
-  p1 -> result
-  p2 -> result
-}
-
-col_store: Column Store (OLAP) - Columnar Pruning {
-  c_date: "Column File 'date' (Min/Max Header Stats -> File Pruning)"
-  c_dwell: "Column File 'dwell_time' (Dense Contiguous Float Array)"
-  result: "Scans ONLY 2 target columns -> 90%+ I/O Reduction & High Compression"
-  c_date -> result
-  c_dwell -> result
-}
-```
-</details>
+*D2 Source: [`02_row_vs_column_storage_io_mechanics.d2`](assets/04_database_internals_and_distributed_systems/02_row_vs_column_storage_io_mechanics.d2)*
 
 ---
 
@@ -202,43 +140,7 @@ NoSQL systems prioritize horizontal scalability, schema flexibility, and partiti
 
 ![03 Nosql Database Taxonomy And Use Cases](assets/04_database_internals_and_distributed_systems/03_nosql_database_taxonomy_and_use_cases.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: NoSQL Database Taxonomy & Architectural Paradigms
-
-nosql: NoSQL Taxonomy {
-  shape: rectangle
-}
-
-kv: Key-Value Store {
-  examples: "Redis, AWS DynamoDB"
-  use: "Caches, Sessions, Rate Limiters"
-}
-
-doc: Document Store {
-  examples: "MongoDB, Couchbase"
-  use: "JSON Catalogs, Content Management"
-}
-
-col: Wide-Column Store {
-  examples: "Apache Cassandra, ScyllaDB, Bigtable"
-  use: "IoT Telemetry, High-Throughput Time-Series"
-}
-
-graph: Graph Database {
-  examples: "Neo4j, Amazon Neptune"
-  use: "Fraud Rings, Knowledge Graphs, Social Graphs"
-}
-
-nosql -> kv
-nosql -> doc
-nosql -> col
-nosql -> graph
-```
-</details>
+*D2 Source: [`03_nosql_database_taxonomy_and_use_cases.d2`](assets/04_database_internals_and_distributed_systems/03_nosql_database_taxonomy_and_use_cases.d2)*
 
 #### Comparison Matrix: Relational vs. NoSQL
 
@@ -258,47 +160,7 @@ Normalization systematically removes redundancy and eliminates insertion, update
 
 ![04 Relational Normalization Bcnf Schema](assets/04_database_internals_and_distributed_systems/04_relational_normalization_bcnf_schema.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Relational Schema Normalization: 3NF & BCNF Architecture
-
-customer: CUSTOMER {
-  shape: sql_table
-  customer_id: bigint [pk]
-  name: varchar
-  email: varchar
-}
-
-order: ORDER {
-  shape: sql_table
-  order_id: bigint [pk]
-  customer_id: bigint [fk]
-  order_date: timestamp
-}
-
-order_item: ORDER_ITEM {
-  shape: sql_table
-  order_id: bigint [pk, fk]
-  item_id: bigint [pk, fk]
-  quantity: int
-  unit_price: numeric
-}
-
-item: ITEM {
-  shape: sql_table
-  item_id: bigint [pk]
-  item_name: varchar
-  current_price: numeric
-}
-
-customer -> order: "places (1:N)"
-order -> order_item: "contains (1:N)"
-item -> order_item: "referenced_in (1:N)"
-```
-</details>
+*D2 Source: [`04_relational_normalization_bcnf_schema.d2`](assets/04_database_internals_and_distributed_systems/04_relational_normalization_bcnf_schema.d2)*
 
 #### Normalization Hierarchy & Mathematical Rules:
 1. **First Normal Form (1NF):**
@@ -361,44 +223,7 @@ Foreign keys establish parent-child relationships and enforce referential integr
 
 ![05 Foreign Key Referential Integrity Cascade Action](assets/04_database_internals_and_distributed_systems/05_foreign_key_referential_integrity_cascade_action.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Foreign Keys & Referential Integrity: ON DELETE CASCADE
-
-parent: Parent: crm.accounts {
-  account_id: "501 [PK]"
-  company: "Acme Corp"
-}
-
-child1: Child 1: crm.contacts {
-  contact_id: "1 [PK]"
-  account_id: "501 [FK]"
-}
-
-child2: Child 2: crm.contacts {
-  contact_id: "2 [PK]"
-  account_id: "501 [FK]"
-}
-
-delete_op: DELETE FROM crm.accounts WHERE account_id = 501 {
-  style.stroke: "#ef4444"
-}
-
-cascade_action: ON DELETE CASCADE {
-  action: "Deletes Child 1 & Child 2 Automatically"
-  style.stroke: "#ef4444"
-}
-
-parent -> child1: "Referenced by FK"
-parent -> child2: "Referenced by FK"
-delete_op -> cascade_action: "Triggers cascade"
-cascade_action -> child1: "Drops"
-cascade_action -> child2: "Drops"
-```
-</details>
+*D2 Source: [`05_foreign_key_referential_integrity_cascade_action.d2`](assets/04_database_internals_and_distributed_systems/05_foreign_key_referential_integrity_cascade_action.d2)*
 
 #### Production DDL with Cascade Policies:
 ```sql
@@ -451,38 +276,7 @@ Because tuples vary in length, engines implement the **Slotted Page Architecture
 
 ![06 Slotted Page Physical Layout 8Kb](assets/04_database_internals_and_distributed_systems/06_slotted_page_physical_layout_8kb.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: 8 KB Slotted Page Physical Storage Architecture
-
-page: 8 KB Slotted Page Layout {
-  header: Page Header (24 Bytes) {
-    lsn: "pd_lsn: WAL Log Sequence Number"
-    pointers: "pd_lower (start free), pd_upper (end free)"
-  }
-  slots: Line Pointers / Slot Array {
-    direction: "Grows FORWARD from byte 24 ->"
-    slot1: "Slot 1: Offset 8096, Length 96B"
-    slot2: "Slot 2: Offset 7980, Length 116B"
-  }
-  free_space: Free Space Hole {
-    status: "Allocatable unfragmented bytes"
-    style.stroke-dash: 4
-  }
-  tuples: Heap Tuples / Records {
-    direction: "Grows BACKWARD from byte 8191 <-"
-    t1: "Tuple 1 (Byte 8096..8191)"
-    t2: "Tuple 2 (Byte 7980..8095)"
-  }
-  header -> slots: "Grows forward"
-  slots -> free_space
-  free_space -> tuples: "Grows backward"
-}
-```
-</details>
+*D2 Source: [`06_slotted_page_physical_layout_8kb.d2`](assets/04_database_internals_and_distributed_systems/06_slotted_page_physical_layout_8kb.d2)*
 
 #### Why the Slotted Page Design is Brilliant:
 1. **Stable Physical Row Identifier (Tuple ID / ItemPointer):** A row's physical address is designated as a `(PageNumber, SlotNumber)` pair (e.g., in PostgreSQL, `ctid = (42, 3)`).
@@ -536,75 +330,17 @@ Optimizing any two parameters inevitably compromises the third. B+ Trees priorit
 
 ![07 Lsm Tree Architecture Memtable Sstable Compaction](assets/04_database_internals_and_distributed_systems/07_lsm_tree_architecture_memtable_sstable_compaction.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Log-Structured Merge-Tree (LSM-Tree) Architecture
-
-memory: In-Memory Tier {
-  client: Client PUT(k, v)
-  wal: 1. Append to WAL (Disk) {
-    style.stroke: "#ef4444"
-  }
-  memtable: 2. Insert into MemTable (Concurrent SkipList in RAM) {
-    style.stroke: "#06b6d4"
-  }
-  client -> wal: "Durability fsync"
-  client -> memtable: "O(log N) insert"
-}
-
-disk: Flush & Compaction Engine {
-  l0: Level 0 SSTables (Disk) {
-    keys: "Keys overlap across files [1-100] [50-150]"
-  }
-  l1: Level 1 SSTables (Disk) {
-    keys: "Non-overlapping key ranges [1-50] [51-100] [101-150]"
-  }
-  l2: Level 2 SSTables (Disk - 10x Capacity)
-  l0 -> l1: "Compaction Merge"
-  l1 -> l2: "Cascading Compaction"
-}
-
-memory.memtable -> disk.l0: "When MemTable reaches 64MB"
-```
-</details>
+*D2 Source: [`07_lsm_tree_architecture_memtable_sstable_compaction.d2`](assets/04_database_internals_and_distributed_systems/07_lsm_tree_architecture_memtable_sstable_compaction.d2)*
 
 #### 2. Compaction Strategies: Size-Tiered vs. Leveled Compaction
 
 ![08 Compaction Strategies Size Tiered Vs Leveled](assets/04_database_internals_and_distributed_systems/08_compaction_strategies_size_tiered_vs_leveled.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Compaction Strategies: Size-Tiered vs. Leveled
-
-stcs: Size-Tiered Compaction Strategy (STCS - Cassandra Default) {
-  files: "Accumulate 4 SSTables of Similar Size (100MB each)"
-  merge: "Sequential Read & Merge Sort"
-  output: "New Tier SSTable (400MB)"
-  tradeoff: "High write throughput, high space amplification (50% headroom needed)"
-  files -> merge -> output -> tradeoff
-}
-
-lcs: Leveled Compaction Strategy (LCS - RocksDB Default) {
-  l0: "Level 0 (MemTable Flush): Overlapping Keys"
-  l1: "Level 1 (Target: 10MB): [A-G] | [H-N] | [O-Z] (Non-Overlapping)"
-  l2: "Level 2 (Target: 100MB): 10x Capacity, Non-Overlapping"
-  tradeoff: "Predictable reads (1 SSTable/level), low space overhead (<10%)"
-  l0 -> l1: "Merge"
-  l1 -> l2: "Cascading Merge"
-  l2 -> tradeoff
-}
-```
-</details>
+*D2 Source: [`08_compaction_strategies_size_tiered_vs_leveled.d2`](assets/04_database_internals_and_distributed_systems/08_compaction_strategies_size_tiered_vs_leveled.d2)*
 
 | Evaluation Dimension | Size-Tiered Compaction (STCS) | Leveled Compaction (LCS) |
 | :--- | :--- | :--- |
-| **Write Amplification** | **Low to Moderate ($O(\log N)$):** SSTables are only merged when $N$ similarly sized files accumulate. | **High ($O(10 	imes 	ext{Levels})$):** Moving a file from $L_i$ to $L_{i+1}$ requires re-reading and rewriting up to 10 overlapping files. |
+| **Write Amplification** | **Low to Moderate ($O(\log N)$):** SSTables are only merged when $N$ similarly sized files accumulate. | **High ($O(10 \times \text{Levels})$):** Moving a file from $L_i$ to $L_{i+1}$ requires re-reading and rewriting up to 10 overlapping files. |
 | **Space Amplification** | **High ($100\%$ overhead):** In the worst case, compacting the largest tier requires $50\%$ free disk headroom to create the merged SSTable before deleting old ones. | **Low ($10\% - 15\%$ overhead):** Only compacts one small file at a time; disk utilization stays close to $90\%$. |
 | **Read Amplification (P99 Latency)** | **Variable / High:** A single point read may need to check multiple SSTables across every tier (mitigated by Bloom filters). | **Low & Predictable:** At most **one** SSTable per level needs to be read because key ranges within $L_1, L_2...$ never overlap. |
 | **Optimal Production Workload** | Heavy write-dominated workloads (time-series metrics, append-only sensor logs, bulk ingest). | Read-heavy or mixed workloads requiring tight SLAs on point lookups (OLTP, user profiles, key-value caches). |
@@ -617,26 +353,7 @@ Database engines never read or write directly to disk files during query executi
 
 ![09 Buffer Pool Page Lookup And Clock Sweep Eviction](assets/04_database_internals_and_distributed_systems/09_buffer_pool_page_lookup_and_clock_sweep_eviction.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Buffer Pool Management & Page Eviction Algorithms
-
-query: Query Engine Requests Page #4096
-hash_table: Page Hash Table (Maps PageID -> FrameID in RAM)
-frames: Buffer Pool Frames in RAM (Array of 8KB Page Buffers)
-evictor: Clock Sweep / LRU Eviction Engine
-disk: Disk Subsystem (NVMe SSD)
-
-query -> hash_table: "Look up PageID"
-hash_table -> frames: "Cache Hit: Read Frame in RAM"
-hash_table -> evictor: "Cache Miss: Select victim frame"
-evictor -> frames: "Evict unpinned frame"
-disk -> frames: "Load Page #4096 into victim frame"
-```
-</details>
+*D2 Source: [`09_buffer_pool_page_lookup_and_clock_sweep_eviction.d2`](assets/04_database_internals_and_distributed_systems/09_buffer_pool_page_lookup_and_clock_sweep_eviction.d2)*
 
 #### Eviction Algorithms: LRU vs. Clock Sweep (Second Chance) vs. LRU-K
 - **Pure LRU Flaw (Sequential Scan Flooding):** If an analyst runs `SELECT * FROM massive_table`, a pure LRU (Least Recently Used) cache will evict the entire working set of active OLTP indexes and hot rows, replacing them with pages that will only ever be read once.
@@ -661,71 +378,14 @@ Databases operate under the **Steal/No-Force Policy**:
 
 ![10 Wal Redo Log Sequence Durability](assets/04_database_internals_and_distributed_systems/10_wal_redo_log_sequence_durability.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Write-Ahead Logging (WAL) & ACID Durability Sequence
-
-client: Client Application
-bp: Buffer Pool (RAM) {
-  dirty: "Page modified in RAM (PageLSN = 5024)"
-}
-wal_buf: WAL Ring Buffer (RAM) {
-  record: "Redo record appended with LSN 5024"
-}
-wal_disk: WAL Disk Files (NVMe) {
-  durable: "Synchronous fsync() guarantees durability"
-}
-table_disk: Data Files (Table Heap Disk)
-
-client -> bp: "1. UPDATE accounts SET balance = balance - 100"
-bp -> wal_buf: "2. Write Redo Record (LSN: 5024)"
-client -> bp: "3. COMMIT Transaction"
-bp -> wal_buf: "Flush WAL Buffer"
-wal_buf -> wal_disk: "4. fsync() to Disk"
-wal_disk -> client: "5. COMMIT Acknowledged (Durability Guaranteed)"
-bp -> table_disk: "Async Lazy Checkpointer Flush" {
-  style.stroke-dash: 4
-}
-```
-</details>
+*D2 Source: [`10_wal_redo_log_sequence_durability.d2`](assets/04_database_internals_and_distributed_systems/10_wal_redo_log_sequence_durability.d2)*
 
 #### 2. The ARIES Recovery Algorithm
 When a server crashes (power failure, kernel panic), the data files on disk contain an inconsistent mix of uncommitted stolen pages and missing unforced updates. Upon reboot, the database executes the **ARIES (Algorithms for Recovery and Isolation Exploiting Semantics)** protocol:
 
 ![11 Aries Crash Recovery Protocol Phases](assets/04_database_internals_and_distributed_systems/11_aries_crash_recovery_protocol_phases.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: The Three Phases of ARIES Crash Recovery
-
-p1: Phase 1: Analysis {
-  action: "Scan WAL forward from latest checkpoint"
-  reconstruct: "Reconstruct Dirty Page Table (DPT) & Transaction Table"
-  identify: "Identify all active 'loser' transactions"
-}
-
-p2: Phase 2: Redo ('Repeat History') {
-  action: "Scan forward from smallest RecLSN in DPT"
-  replay: "Replay all changes (committed & uncommitted)"
-  state: "Restores exact millisecond state of crash"
-}
-
-p3: Phase 3: Undo {
-  action: "Scan WAL backward from end of log"
-  rollback: "Roll back changes made by loser transactions"
-  clrs: "Write Compensation Log Records (CLRs) for idempotency"
-}
-
-p1 -> p2: "State reconstructed"
-p2 -> p3: "History repeated"
-```
-</details>
+*D2 Source: [`11_aries_crash_recovery_protocol_phases.d2`](assets/04_database_internals_and_distributed_systems/11_aries_crash_recovery_protocol_phases.d2)*
 
 > [!TIP]
 > **Deep-Dive Interview Scenarios:**
@@ -749,50 +409,7 @@ Without an index, the database engine must execute a **Full Table Scan (Sequenti
 
 ![12 Bplus Tree Physical Index Topology](assets/04_database_internals_and_distributed_systems/12_bplus_tree_physical_index_topology.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: B+ Tree 3-Level Physical Index Topology
-
-root: Root Page (Level 2) {
-  keys: "[100 | 200]"
-}
-
-branches: Intermediate Branch Pages (Level 1) {
-  b1: Branch Page A [30 | 70]
-  b2: Branch Page B [130 | 170]
-  b3: Branch Page C [230 | 270]
-}
-
-leaves: Doubly-Linked Leaf Pages (Level 0) {
-  l1: Leaf 1 [10..29]
-  l2: Leaf 2 [30..69]
-  l3: Leaf 3 [70..99]
-  l4: Leaf 4 [100..129]
-  l5: Leaf 5 [130..169]
-  l6: Leaf 6 [170..199]
-
-  l1 <-> l2: "Double link"
-  l2 <-> l3
-  l3 <-> l4
-  l4 <-> l5
-  l5 <-> l6
-}
-
-root -> branches.b1
-root -> branches.b2
-root -> branches.b3
-
-branches.b1 -> leaves.l1
-branches.b1 -> leaves.l2
-branches.b1 -> leaves.l3
-branches.b2 -> leaves.l4
-branches.b2 -> leaves.l5
-branches.b2 -> leaves.l6
-```
-</details>
+*D2 Source: [`12_bplus_tree_physical_index_topology.d2`](assets/04_database_internals_and_distributed_systems/12_bplus_tree_physical_index_topology.d2)*
 
 ---
 
@@ -883,32 +500,7 @@ When an index satisfies a query entirely on its own without requiring a secondar
 
 ![13 Covering Index Index Only Scan Include](assets/04_database_internals_and_distributed_systems/13_covering_index_index_only_scan_include.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Covering Indexes & Index-Only Scans (The INCLUDE Clause)
-
-standard: Standard Index Scan (2-Hop I/O) {
-  i1: 1. Traverse Index B+ Tree for email = 'alice@corp.com'
-  h1: 2. Extract ctid = (Page 42, Slot 3)
-  t1: 3. Random I/O Read from Table Heap Disk to fetch user_id {
-    style.stroke: "#ef4444"
-  }
-  i1 -> h1 -> t1
-}
-
-include_scan: Index-Only Scan with INCLUDE (1-Hop I/O) {
-  i2: 1. Traverse Index on (email) INCLUDE (user_id)
-  extract: 2. Extract user_id directly from Index Leaf payload! {
-    details: "Zero Table Heap Reads Required! 100% Cache Friendly"
-    style.stroke: "#10b981"
-  }
-  i2 -> extract
-}
-```
-</details>
+*D2 Source: [`13_covering_index_index_only_scan_include.d2`](assets/04_database_internals_and_distributed_systems/13_covering_index_index_only_scan_include.d2)*
 
 ```sql
 -- Covering index using the INCLUDE clause
@@ -928,32 +520,7 @@ WHERE email = 'alice@example.com';
 
 ![14 Clustered Index Vs Heap Organized Tables](assets/04_database_internals_and_distributed_systems/14_clustered_index_vs_heap_organized_tables.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Clustered Indexes vs. Heap-Organized Tables
-
-clustered: 1. Clustered Table / Index-Organized (MySQL InnoDB) {
-  pk_tree: Primary Key B+ Tree {
-    leaf: "Leaf pages contain the actual table row data!"
-  }
-  sec_tree: Secondary Index {
-    leaf: "Stores Primary Key value (forces double lookup)"
-  }
-  sec_tree -> pk_tree: "Double B-Tree Traversal"
-}
-
-heap: 2. Heap-Organized Table (PostgreSQL / Oracle) {
-  heap_files: "Heap Data Files: Rows placed unordered in slotted pages"
-  pk_index: "PK B+ Tree: Leaf points to (Block, Slot) ctid"
-  sec_index: "Secondary B+ Tree: Leaf points directly to (Block, Slot) ctid"
-  pk_index -> heap_files: "Direct read"
-  sec_index -> heap_files: "Direct read"
-}
-```
-</details>
+*D2 Source: [`14_clustered_index_vs_heap_organized_tables.d2`](assets/04_database_internals_and_distributed_systems/14_clustered_index_vs_heap_organized_tables.d2)*
 
 ---
 
@@ -1008,28 +575,7 @@ The Query Optimizer translates declarative SQL into an optimal physical pipeline
 
 ![15 Query Execution Pipeline Cbo Optimizer](assets/04_database_internals_and_distributed_systems/15_query_execution_pipeline_cbo_optimizer.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: The Query Execution Pipeline (Parser to Executor)
-
-sql: Declarative SQL Query String
-parser: 1. Lexer & Parser (Generates AST)
-rewriter: 2. Query Rewriter (View expansion & constant folding)
-cbo: 3. Cost-Based Optimizer (CBO Search Engine) {
-  search: Join Permutations & Index Selection
-  cost: Cost Formula = Disk I/O + CPU Instructions
-}
-executor: 4. Physical Execution Engine (Tuple Processing)
-
-sql -> parser: "Raw SQL"
-parser -> rewriter: "Validated AST"
-rewriter -> cbo: "Logical Plan"
-cbo -> executor: "Optimal Physical Plan"
-```
-</details>
+*D2 Source: [`15_query_execution_pipeline_cbo_optimizer.d2`](assets/04_database_internals_and_distributed_systems/15_query_execution_pipeline_cbo_optimizer.d2)*
 
 ---
 
@@ -1076,37 +622,7 @@ ANALYZE inventory.cars;
 
 ![16 Relational Optimization Pushdowns And Pruning](assets/04_database_internals_and_distributed_systems/16_relational_optimization_pushdowns_and_pruning.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Relational Optimization Primitives: Pushdowns & Partition Pruning
-
-unoptimized: 1. Unoptimized Relational Algebra Tree {
-  proj: Project (name, SUM(amount))
-  filter: Filter (date >= 2026-01-01 AND country = 'US')
-  join: Join (customer_id = id)
-  scan_orders: Scan (orders: all columns, all partitions)
-  scan_cust: Scan (customers: all columns)
-  proj -> filter -> join
-  join -> scan_orders
-  join -> scan_cust
-}
-
-optimized: 2. CBO Optimized Plan (Pushed Down to Physical Storage) {
-  o_proj: Project (name, SUM(amount))
-  o_join: Hash Join (customer_id = id)
-  o_scan_orders: Scan orders (Partition Pruning + Projection + Predicate)
-  o_scan_cust: Scan customers (WHERE country = 'US' + Index Scan)
-  o_proj -> o_join
-  o_join -> o_scan_orders
-  o_join -> o_scan_cust
-}
-
-unoptimized -> optimized: "CBO Transformation"
-```
-</details>
+*D2 Source: [`16_relational_optimization_pushdowns_and_pruning.d2`](assets/04_database_internals_and_distributed_systems/16_relational_optimization_pushdowns_and_pruning.d2)*
 
 | Optimization Primitive | Target Stage in Pipeline | Physical Engine Mechanism | Hardware / Network Impact |
 | :--- | :--- | :--- | :--- |
@@ -1122,32 +638,7 @@ Every logical `JOIN` in SQL must be executed by one of three physical join algor
 
 ![17 Physical Join Algorithms Nested Loop Hash Merge](assets/04_database_internals_and_distributed_systems/17_physical_join_algorithms_nested_loop_hash_merge.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Physical Join Algorithms: Nested Loop vs. Hash Join vs. Merge Sort
-
-nlj: 1. Nested Loop Join (Index Probe) {
-  complexity: "O(M * log N)"
-  mechanics: "For each outer row, probe inner B+ Tree index"
-  best_for: "Small outer table with indexed inner table"
-}
-
-hash_join: 2. Hash Join (Build & Probe) {
-  complexity: "O(M + N)"
-  mechanics: "Build in-memory hash table on small table, stream probe large table"
-  best_for: "Large unsorted datasets with equality joins (=)"
-}
-
-merge_join: 3. Merge Sort Join (Synchronized Scan) {
-  complexity: "O(M + N) sorted"
-  mechanics: "Advance two pointers along sorted streams"
-  best_for: "Pre-sorted inputs via B+ Tree indexes"
-}
-```
-</details>
+*D2 Source: [`17_physical_join_algorithms_nested_loop_hash_merge.d2`](assets/04_database_internals_and_distributed_systems/17_physical_join_algorithms_nested_loop_hash_merge.d2)*
 
 #### Physical Join Mechanics & Engine Execution
 
@@ -1184,29 +675,7 @@ The physical execution engine translates the physical plan produced by the Cost-
 
 ![18 Execution Engine Models Volcano Vectorized Jit](assets/04_database_internals_and_distributed_systems/18_execution_engine_models_volcano_vectorized_jit.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Query Execution Engine Models: Volcano vs. Vectorized vs. JIT
-
-volcano: 1. Volcano Model (Tuple-at-a-Time) {
-  flow: "Aggregate.next() -> Filter.next() -> Scan.next()"
-  drawback: "Virtual call overhead & CPU L1i cache misses"
-}
-
-vectorized: 2. Vectorized Model (SIMD Batches) {
-  flow: "L1 Data Cache -> SIMD Registers (AVX-512) -> Output Buffer"
-  feature: "Processes 1024-value columnar vectors per CPU cycle"
-}
-
-jit: 3. Whole-Stage JIT Compilation (HyPer / Spark) {
-  flow: "Plan compiled directly into flattened native while() loop"
-  feature: "Data stays in CPU hardware registers; zero call overhead"
-}
-```
-</details>
+*D2 Source: [`18_execution_engine_models_volcano_vectorized_jit.d2`](assets/04_database_internals_and_distributed_systems/18_execution_engine_models_volcano_vectorized_jit.d2)*
 
 #### Multi-Dimensional Engineering Comparison Matrix
 
@@ -1247,39 +716,7 @@ Execution Time: 187.120 ms
 
 ![19 Explain Analyze Execution Plan Tree](assets/04_database_internals_and_distributed_systems/19_explain_analyze_execution_plan_tree.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: Forensic EXPLAIN & EXPLAIN ANALYZE Execution Plan Tree
-
-hj: Hash Join {
-  cost: "Cost: 1250.00..54200.00 | Actual Time: 185.32 ms"
-  condition: "f.customer_id = c.customer_id"
-}
-
-seq_scan: Seq Scan on fact_orders (f) {
-  cost: "Cost: 0.00..48500.00 | 500,000 rows"
-  filter: "order_date >= '2026-01-01' (Bottleneck: missing index)"
-  style.stroke: "#ef4444"
-}
-
-hash_op: Hash Operator {
-  memory: "Batches: 1 | Memory: 720 kB"
-}
-
-idx_scan: Index Scan on dim_customer (c) {
-  cost: "Using: idx_customer_tier | 8,000 rows"
-  filter: "tier = 'PLATINUM'"
-  style.stroke: "#10b981"
-}
-
-hj -> seq_scan: "Outer Stream"
-hj -> hash_op: "Inner Build Table"
-hash_op -> idx_scan
-```
-</details>
+*D2 Source: [`19_explain_analyze_execution_plan_tree.d2`](assets/04_database_internals_and_distributed_systems/19_explain_analyze_execution_plan_tree.d2)*
 
 | Execution Plan Node | Est. Rows vs Actual Rows | Cost Range | Actual Time | Physical I/O & Memory |
 | :--- | :---: | :---: | :---: | :--- |
@@ -1316,32 +753,7 @@ ACID guarantees are not theoretical software abstractions; they are concrete eng
 
 ![20 Acid Guarantees And Hardware Failure Boundaries](assets/04_database_internals_and_distributed_systems/20_acid_guarantees_and_hardware_failure_boundaries.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: ACID Guarantees & Hardware Failure Boundaries
-
-volatile: VOLATILE BOUNDARY (Lost on Kernel Panic / Power Loss) {
-  tx: Active Transactions (Private Workspace)
-  locks: Lock Manager & MVCC (Enforces ISOLATION & CONSISTENCY)
-  buffers: Buffer Pool Dirty Pages & WAL Ring Buffer in RAM
-}
-
-barrier: Physical Hardware Boundary: OS fsync() Barrier
-
-persistent: NON-VOLATILE PERSISTENCE (Survives Power Loss) {
-  wal: Write-Ahead Log (WAL / Redo Log) {
-    guarantee: "Enforces ATOMICITY & DURABILITY (Append-only fsync)"
-  }
-  heap: Table Heap & Index Files (Slotted Pages on NVMe)
-}
-
-volatile -> barrier: "fsync() Flush"
-barrier -> persistent
-```
-</details>
+*D2 Source: [`20_acid_guarantees_and_hardware_failure_boundaries.d2`](assets/04_database_internals_and_distributed_systems/20_acid_guarantees_and_hardware_failure_boundaries.d2)*
 
 #### Hardware Failure Boundaries & ACID Crash Recovery Matrix
 
@@ -1388,38 +800,7 @@ In PostgreSQL, all row versions (both live and dead) are stored directly inside 
 
 ![21 Mvcc Internals Tuple Versioning Visibility](assets/04_database_internals_and_distributed_systems/21_mvcc_internals_tuple_versioning_visibility.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: PostgreSQL MVCC Internals: In-Heap Tuple Versioning
-
-pg_mvcc: PostgreSQL In-Heap Tuple Versioning (ctid Tracking) {
-  v1: Tuple Version 1 (ctid: 1, 1) {
-    xmin: "100"
-    xmax: "105"
-    data: "Name: 'Alice', Balance: $500"
-    style.stroke: "#ef4444"
-  }
-  v2: Tuple Version 2 (ctid: 1, 2) {
-    xmin: "105"
-    xmax: "0 (Active)"
-    data: "Name: 'Alice', Balance: $400"
-    style.stroke: "#10b981"
-  }
-  v1 -> v2: "Updated by Tx 105 (ctid pointer)"
-}
-
-snapshot: Transaction Snapshot Visibility (Tx 102) {
-  tx102: Transaction 102 Snapshot {
-    rule: "Reads Version 1 because xmin 100 < 102 and xmax 105 is active"
-  }
-}
-
-snapshot.tx102 -> pg_mvcc.v1: "Reads Version 1"
-```
-</details>
+*D2 Source: [`21_mvcc_internals_tuple_versioning_visibility.d2`](assets/04_database_internals_and_distributed_systems/21_mvcc_internals_tuple_versioning_visibility.d2)*
 
 #### 2. MySQL InnoDB MVCC: The Undo Log & Rollback Segment
 Unlike PostgreSQL, MySQL InnoDB keeps **only the latest active row version** in the clustered index leaf page. 
@@ -1436,44 +817,7 @@ In PostgreSQL, when rows are updated or deleted, the old versions remain as **De
 
 ![22 Tuple Visibility Dead Tuples And Autovacuum](assets/04_database_internals_and_distributed_systems/22_tuple_visibility_dead_tuples_and_autovacuum.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Tuple Visibility, Dead Tuples & The AUTOVACUUM Engine
-
-live: 1. Live Tuple {
-  status: "xmin = current_xid, xmax = 0"
-  style.stroke: "#10b981"
-}
-
-updated: 2. Updated / Deleted Tuple {
-  status: "xmax set to current_xid"
-  style.stroke: "#f59e0b"
-}
-
-dead: 3. Dead Tuple (Retained) {
-  status: "Retained while active snapshots reference it"
-  style.stroke: "#ef4444"
-}
-
-eligible: 4. Eligible for Vacuum {
-  status: "Oldest active xmin advances past xmax"
-  style.stroke: "#8b5cf6"
-}
-
-reclaimed: 5. Reclaimed Space {
-  status: "AUTOVACUUM reclaims slot in Page Header"
-  style.stroke: "#10b981"
-}
-
-live -> updated: "UPDATE / DELETE"
-updated -> dead: "Tx Commits"
-dead -> eligible: "Snapshots advance"
-eligible -> reclaimed: "AUTOVACUUM runs"
-```
-</details>
+*D2 Source: [`22_tuple_visibility_dead_tuples_and_autovacuum.d2`](assets/04_database_internals_and_distributed_systems/22_tuple_visibility_dead_tuples_and_autovacuum.d2)*
 
 #### The Transaction ID Wraparound Catastrophe
 PostgreSQL transaction IDs ($XID$) are 32-bit unsigned integers, wrapping around every $2^{32} \approx 4.2 \text{ Billion}$ transactions.
@@ -1490,41 +834,7 @@ A deadlock occurs when concurrent transactions form a circular dependency waitin
 
 ![23 Two Phase Locking Deadlock Detection Cycle](assets/04_database_internals_and_distributed_systems/23_two_phase_locking_deadlock_detection_cycle.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Two-Phase Locking & Deadlock Detection Cycle
-
-graph: Two-Phase Locking Dependency Graph {
-  tx1: Transaction 1 (TxID: 101)
-  tx2: Transaction 2 (TxID: 102)
-  row_a: Account 101
-  row_b: Account 202
-
-  tx1 -> row_a: "Holds Lock"
-  tx1 -> row_b: "Waiting for Lock" {
-    style.stroke: "#ef4444"
-    style.stroke-dash: 4
-  }
-  tx2 -> row_b: "Holds Lock"
-  tx2 -> row_a: "Waiting for Lock" {
-    style.stroke: "#ef4444"
-    style.stroke-dash: 4
-  }
-}
-
-engine: Deadlock Detection Engine {
-  resolution: DEADLOCK CYCLE DETECTED {
-    details: "Wait-for graph cycle: Tx1 <-> Tx2. Engine aborts youngest victim (Tx 2)"
-    style.stroke: "#ef4444"
-  }
-}
-
-graph -> engine.resolution: "Cycle detected via DFS"
-```
-</details>
+*D2 Source: [`23_two_phase_locking_deadlock_detection_cycle.d2`](assets/04_database_internals_and_distributed_systems/23_two_phase_locking_deadlock_detection_cycle.d2)*
 
 ##### Production Mitigation: Deterministic Resource Ordering
 Always acquire locks on multiple entities in the **exact same deterministic order** across the entire application codebase:
@@ -1571,41 +881,7 @@ Instead, the library adopts **MapReduce**:
 
 ![24 Mapreduce Paradigm Distributed Execution](assets/04_database_internals_and_distributed_systems/24_mapreduce_paradigm_distributed_execution.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: MapReduce Paradigm: Distributed Storage & Compute
-
-raw: Raw Input Dataset (100 GB HDFS) {
-  s1: Input Split 0 (64MB)
-  s2: Input Split 1 (64MB)
-  s3: Input Split 2 (64MB)
-}
-
-map_phase: 1. Map & Combiner Phase {
-  m1: Mapper 0 + Combiner 0
-  m2: Mapper 1 + Combiner 1
-  m3: Mapper 2 + Combiner 2
-}
-
-shuffle: 2. Shuffle & Sort Phase {
-  part: HashPartitioner: hash(key) % numReducers
-  sort: Network Shuffle & Merge Sort
-  part -> sort
-}
-
-reduce_phase: 3. Reduce Phase (Final Aggregation) {
-  r1: Reducer 0 ('apple' -> 48)
-  r2: Reducer 1 ('banana' -> 12)
-}
-
-raw -> map_phase: "Data Locality Read"
-map_phase -> shuffle: "Emit (key, sum)"
-shuffle -> reduce_phase: "Sorted key streams"
-```
-</details>
+*D2 Source: [`24_mapreduce_paradigm_distributed_execution.d2`](assets/04_database_internals_and_distributed_systems/24_mapreduce_paradigm_distributed_execution.d2)*
 
 #### Detailed Step-by-Step Execution Trace
 
@@ -1701,34 +977,7 @@ Formulated by Eric Brewer in 2000 and mathematically proven by Seth Gilbert and 
 
 ![25 Cap Theorem Tradeoffs Cp Vs Ap](assets/04_database_internals_and_distributed_systems/25_cap_theorem_tradeoffs_cp_vs_ap.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: CAP Theorem: Architectural Trade-Offs (CP vs. AP)
-
-p: Partition Tolerance (P) {
-  note: "MANDATORY: Physical networks WILL experience latency and partitions"
-  style.stroke: "#8b5cf6"
-}
-
-cp: CP Systems (Consistency > Availability) {
-  examples: "Google Spanner, HBase, Bigtable, ZooKeeper, etcd"
-  behavior: "Blocks writes or returns HTTP 503 on minority split; guarantees zero stale reads"
-  style.stroke: "#3b82f6"
-}
-
-ap: AP Systems (Availability > Consistency) {
-  examples: "Apache Cassandra, Amazon DynamoDB, CouchDB"
-  behavior: "Accepts reads and writes on both sides; returns eventual data; reconciles conflicts later"
-  style.stroke: "#10b981"
-}
-
-p -> cp: "Trade Availability for Correctness"
-p -> ap: "Trade Consistency for 100% Uptime"
-```
-</details>
+*D2 Source: [`25_cap_theorem_tradeoffs_cp_vs_ap.d2`](assets/04_database_internals_and_distributed_systems/25_cap_theorem_tradeoffs_cp_vs_ap.d2)*
 
 #### Why "CA Systems" Do Not Exist in Reality
 Junior engineers frequently ask: *"Can I build a CA database by choosing Consistency and Availability?"*
@@ -1765,39 +1014,7 @@ $$\text{If } \mathbf{P} \text{ (Partition)} \implies \text{Choose } (\mathbf{A} 
 
 ![26 Pacelc Theorem Tradeoffs Normal Vs Partition](assets/04_database_internals_and_distributed_systems/26_pacelc_theorem_tradeoffs_normal_vs_partition.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: PACELC Theorem: Trade-Offs in Normal vs. Partition Operations
-
-state: Is Cluster Currently Partitioned? {
-  shape: diamond
-}
-
-partition_mode: Partition Mode (P): Network Split {
-  pa: PA: High Availability (Cassandra, DynamoDB) {
-    behavior: "Accepts writes, returns stale reads"
-  }
-  pc: PC: Strong Consistency (Spanner, CockroachDB) {
-    behavior: "Rejects writes, preserves correctness"
-  }
-}
-
-normal_mode: Normal Operation (E): Latency vs Consistency {
-  el: EL: Low Latency (Cassandra ONE, DynamoDB Eventual) {
-    behavior: "Sub-2ms local replica read; skips quorum"
-  }
-  ec: EC: Strong Consistency (Spanner TrueTime, Postgres Sync) {
-    behavior: "Synchronous multi-replica commit (30ms+)"
-  }
-}
-
-state -> partition_mode: "If Partitioned (P)"
-state -> normal_mode: "Else Normal (E)"
-```
-</details>
+*D2 Source: [`26_pacelc_theorem_tradeoffs_normal_vs_partition.d2`](assets/04_database_internals_and_distributed_systems/26_pacelc_theorem_tradeoffs_normal_vs_partition.d2)*
 
 #### The $2 \times 2$ PACELC Classification Matrix
 
@@ -1820,35 +1037,7 @@ In distributed computing, **Consensus** is the foundational problem of getting m
 
 ![27 Raft Consensus State Machine](assets/04_database_internals_and_distributed_systems/27_raft_consensus_state_machine.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Raft Distributed Consensus State Machine
-
-follower: Follower {
-  status: "Passive node responding to RPCs"
-  style.stroke: "#3b82f6"
-}
-
-candidate: Candidate {
-  status: "Campaigning for election in Term T"
-  style.stroke: "#f59e0b"
-}
-
-leader: Leader {
-  status: "Active coordinator managing replicated log"
-  style.stroke: "#10b981"
-}
-
-follower -> candidate: "Election timeout fires (150-300ms)"
-candidate -> leader: "Receives majority votes (> N/2)"
-candidate -> follower: "Discovers higher term or valid leader"
-candidate -> candidate: "Split vote: Increment term & retry"
-leader -> follower: "Discovers higher term -> Steps down"
-```
-</details>
+*D2 Source: [`27_raft_consensus_state_machine.d2`](assets/04_database_internals_and_distributed_systems/27_raft_consensus_state_machine.d2)*
 
 #### Raft Execution Protocol: Step-by-Step
 1. **Node Roles:** Every node is always in one of three states:
@@ -1874,40 +1063,7 @@ However, naive lease-based locks (e.g., standard Redis `SET lock:name value EX 3
 
 ![28 Distributed Locking Fencing Token Safety](assets/04_database_internals_and_distributed_systems/28_distributed_locking_fencing_token_safety.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Distributed Locks & Fencing Tokens
-
-c1: Client 1 {
-  status: "Acquires lock with Token 33, then hits 60s GC pause"
-  style.stroke: "#ef4444"
-}
-
-lock_service: Lock Service (ZooKeeper / etcd) {
-  counter: "Monotonically increasing fencing tokens (33 -> 34)"
-}
-
-c2: Client 2 {
-  status: "Acquires lock with Token 34 after lease expires"
-  style.stroke: "#10b981"
-}
-
-storage: Storage Service {
-  rule: "Rejects writes with token < current_token (33 < 34)"
-}
-
-c1 -> lock_service: "Acquire lock (Token 33)"
-lock_service -> c2: "Lease expired: Grant Token 34"
-c2 -> storage: "Write with Token 34 (ACCEPTED)"
-c1 -> storage: "Late write with Token 33 (REJECTED!)" {
-  style.stroke: "#ef4444"
-  style.stroke-dash: 4
-}
-```
-</details>
+*D2 Source: [`28_distributed_locking_fencing_token_safety.d2`](assets/04_database_internals_and_distributed_systems/28_distributed_locking_fencing_token_safety.d2)*
 
 #### The Architectural Solution: Fencing Tokens
 To prevent stale zombie workers from corrupting storage after a long GC pause or network partition, the lock service must issue a monotonically increasing **Fencing Token** (e.g., `Token 43`). Storage targets validate that incoming write tokens are strictly greater than the highest token previously committed:
@@ -1951,31 +1107,7 @@ When a network partition bisects a 5-node cluster into two isolated sub-networks
 
 ![29 Split Brain Mitigation Quorum Mechanics](assets/04_database_internals_and_distributed_systems/29_split_brain_mitigation_quorum_mechanics.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Split-Brain Mitigation: Majority Quorum Mechanics
-
-partition: Network Partition Bisects 5-Node Cluster {
-  west: West Partition (2 Nodes) - MINORITY {
-    n1: Node 1 (Old Leader)
-    n2: Node 2 (Follower)
-    rule: "Quorum Fails: 2 < 3. Node 1 MUST step down to follower!"
-    style.stroke: "#ef4444"
-  }
-
-  east: East Partition (3 Nodes) - MAJORITY QUORUM {
-    n3: Node 3 (Elected New Leader)
-    n4: Node 4 (Follower)
-    n5: Node 5 (Follower)
-    rule: "Quorum Won: 3 >= 3. Node 3 operates as legitimate leader"
-    style.stroke: "#10b981"
-  }
-}
-```
-</details>
+*D2 Source: [`29_split_brain_mitigation_quorum_mechanics.d2`](assets/04_database_internals_and_distributed_systems/29_split_brain_mitigation_quorum_mechanics.d2)*
 
 #### Quorum Arithmetic: Why Odd Node Counts are Mandatory
 In distributed consensus clusters, the minimum number of nodes required to form a majority quorum ($Q$) is defined mathematically as:
@@ -2019,32 +1151,7 @@ When a data warehouse, transactional datastore, or distributed processing engine
 
 ![30 Horizontal Vs Vertical Scaling Amdahls Law](assets/04_database_internals_and_distributed_systems/30_horizontal_vs_vertical_scaling_amdahls_law.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Horizontal vs. Vertical Scaling: Hardware Limits & Amdahl's Law
-
-scale_up: Vertical Scaling (Scale-Up) {
-  server: Single Large Host (128 Cores, 4TB RAM) {
-    features: "Shared memory IPC, zero network overhead"
-    limits: "Hardware ceiling, exponential cost, single point of failure"
-  }
-}
-
-scale_out: Horizontal Scaling (Scale-Out) {
-  lb: Load Balancer / Shard Router
-  n1: Node 1 (16 Cores, 64GB)
-  n2: Node 2 (16 Cores, 64GB)
-  n_n: Node N (16 Cores, 64GB)
-  lb -> n1
-  lb -> n2
-  lb -> n_n
-  features: "Infinite elastic scaling, fault isolation, commodity pricing"
-}
-```
-</details>
+*D2 Source: [`30_horizontal_vs_vertical_scaling_amdahls_law.d2`](assets/04_database_internals_and_distributed_systems/30_horizontal_vs_vertical_scaling_amdahls_law.d2)*
 
 #### 1. Vertical Scaling (Scale-Up): Anatomy & Physics
 Vertical scaling involves migrating the database instance to larger hardware—provisioning faster CPU clock speeds, higher core counts, denser RAM configurations, and higher IOPS NVMe arrays on a single motherboard.
@@ -2083,34 +1190,7 @@ If 5% of your data pipeline is strictly serial (e.g., initial metadata catalog l
 
 ![31 Database Sharding Vs Single Host Partitioning](assets/04_database_internals_and_distributed_systems/31_database_sharding_vs_single_host_partitioning.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Database Sharding vs. Single-Host Partitioning Topologies
-
-single_host: Single-Host Partitioning (PostgreSQL) {
-  parent: Parent Table: fact_orders (Single Instance)
-  f1: orders_2026_q1.dat
-  f2: orders_2026_q2.dat
-  parent -> f1
-  parent -> f2
-  note: "All partitions share single host CPU, RAM, and disk bus"
-}
-
-sharded: Distributed Sharding (Multiple Network Hosts) {
-  router: Query Shard Router
-  db1: Shard 1 (Server 1 - IP: 10.0.1.10)
-  db2: Shard 2 (Server 2 - IP: 10.0.1.11)
-  db3: Shard 3 (Server 3 - IP: 10.0.1.12)
-  router -> db1: "hash in [0, 33]"
-  router -> db2: "hash in [34, 66]"
-  router -> db3: "hash in [67, 100]"
-  note: "Dedicated compute, memory, and disk IOPS per shard"
-}
-```
-</details>
+*D2 Source: [`31_database_sharding_vs_single_host_partitioning.d2`](assets/04_database_internals_and_distributed_systems/31_database_sharding_vs_single_host_partitioning.d2)*
 
 #### The Hotspotting / Shard Skew Trap
 If you shard a database table by a monotonically increasing sequential key (e.g., `created_at` timestamp or auto-incrementing `id`), **100% of all current write traffic slams into the single shard holding the latest range**, while all remaining 99 shards sit idle!
@@ -2132,32 +1212,7 @@ Consistent Hashing maps both **Data Keys** and **Physical Nodes** onto an abstra
 
 ![32 Consistent Hashing Ring Vnodes](assets/04_database_internals_and_distributed_systems/32_consistent_hashing_ring_vnodes.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Consistent Hashing Ring & Virtual Nodes (V-Nodes)
-
-ring: Consistent Hashing Ring (0 to 2^32 - 1) {
-  node_a: Server A (Token: 1,000,000)
-  node_b: Server B (Token: 2,000,000)
-  node_c: Server C (Token: 3,500,000)
-  k1: Key 'user_8412' (Hash: 1.45M)
-  k2: Key 'user_9911' (Hash: 2.80M)
-
-  k1 -> node_b: "Walk Clockwise"
-  k2 -> node_c: "Walk Clockwise"
-}
-
-vnodes: Virtual Nodes (V-Nodes: 256 per node) {
-  benefit1: "Eliminates token range hotspots"
-  benefit2: "Adding/removing node migrates exactly 1/N keys"
-}
-
-ring -> vnodes: "V-Node Enhancement"
-```
-</details>
+*D2 Source: [`32_consistent_hashing_ring_vnodes.d2`](assets/04_database_internals_and_distributed_systems/32_consistent_hashing_ring_vnodes.d2)*
 
 #### Why Virtual Nodes (V-Nodes) are Essential
 In a simple ring with only 3 physical servers, nodes are rarely spaced uniformly. One server may end up responsible for 70% of the ring's arc, creating a massive hot-spot.
@@ -2233,39 +1288,7 @@ print("Distribution across nodes (Uniformity Check):", dict(assignments))
 
 ![33 Replication Topologies Single Multi Leaderless](assets/04_database_internals_and_distributed_systems/33_replication_topologies_single_multi_leaderless.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Database Replication Topologies
-
-single_leader: 1. Single-Leader (Postgres / MySQL) {
-  leader: Primary Node (Accepts Writes)
-  rep1: Replica 1 (Read-Only)
-  rep2: Replica 2 (Read-Only)
-  leader -> rep1: "Replication Stream"
-  leader -> rep2: "Replication Stream"
-}
-
-multi_leader: 2. Multi-Leader (Cross-Region Active-Active) {
-  us_lead: US Region Leader
-  eu_lead: EU Region Leader
-  us_lead <-> eu_lead: "Async cross-region sync & conflict resolution"
-}
-
-leaderless: 3. Leaderless (Cassandra / DynamoDB) {
-  client: Client Write / Read
-  n_a: Storage Node A
-  n_b: Storage Node B
-  n_c: Storage Node C
-  client -> n_a: "Quorum write"
-  client -> n_b: "Quorum write"
-  client -> n_c: "Quorum write"
-  note: "Tunable Consistency: W + R > N guarantees strong consistency"
-}
-```
-</details>
+*D2 Source: [`33_replication_topologies_single_multi_leaderless.d2`](assets/04_database_internals_and_distributed_systems/33_replication_topologies_single_multi_leaderless.d2)*
 
 #### Detailed Architecture Comparison
 
@@ -2306,40 +1329,7 @@ $$W + R > N$$
 
 ![34 Quorum Mathematics Tunable Consistency Overlap](assets/04_database_internals_and_distributed_systems/34_quorum_mathematics_tunable_consistency_overlap.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Quorum Mathematics & Tunable Consistency (W + R > N)
-
-write_req: Client Write (W = 2)
-read_req: Client Read (R = 2)
-
-replicas: 3 Replicas (N = 3) {
-  n1: Node 1 (Write Ack: v2) {
-    style.stroke: "#10b981"
-  }
-  n2: Node 2 (Guaranteed Overlap Node: v2) {
-    style.stroke: "#f59e0b"
-  }
-  n3: Node 3 (Lagging Stale: v1) {
-    style.stroke: "#ef4444"
-  }
-}
-
-client_resolution: Strong Consistency Resolution {
-  result: Client inspects v2 and v1 -> Selects v2 (Latest Timestamp)
-  repair: Read Repair updates Node 3 to v2
-}
-
-write_req -> replicas.n1: "Write Ack"
-write_req -> replicas.n2: "Write Ack"
-read_req -> replicas.n2: "Read Probe"
-read_req -> replicas.n3: "Read Probe"
-replicas.n2 -> client_resolution: "Guaranteed Overlap"
-```
-</details>
+*D2 Source: [`34_quorum_mathematics_tunable_consistency_overlap.d2`](assets/04_database_internals_and_distributed_systems/34_quorum_mathematics_tunable_consistency_overlap.d2)*
 
 #### Why the Overlap Guarantees Correctness: The Pigeonhole Principle
 If $N=3, W=2, R=2$:
@@ -2363,46 +1353,7 @@ Distributed systems do not operate in a binary "strong vs. eventual" world. They
 
 ![35 Distributed Consistency Spectrum Hierarchy](assets/04_database_internals_and_distributed_systems/35_distributed_consistency_spectrum_hierarchy.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Distributed Consistency Spectrum Hierarchy
-
-c1: 1. Strict Linearizability {
-  examples: "Google Spanner TrueTime, etcd"
-  desc: "Global real-time clock order; zero stale reads"
-  style.stroke: "#ef4444"
-}
-
-c2: 2. Sequential Consistency {
-  examples: "Apache ZooKeeper, Raft replicated log"
-  desc: "Operations executed in identical sequence across nodes"
-}
-
-c3: 3. Causal Consistency {
-  examples: "Git commit history, Cosmos DB Causal"
-  desc: "Causally related writes preserved in order"
-}
-
-c4: 4. Read Committed {
-  examples: "PostgreSQL, Oracle Database"
-  desc: "Zero dirty reads; queries only read committed rows"
-}
-
-c5: 5. Eventual Consistency {
-  examples: "Apache Cassandra, Amazon DynamoDB, AWS S3"
-  desc: "Replicas converge over time; sub-millisecond writes"
-  style.stroke: "#10b981"
-}
-
-c1 -> c2: "Relax real-time"
-c2 -> c3: "Relax total order"
-c3 -> c4: "Relax causal graph"
-c4 -> c5: "Relax transactional view"
-```
-</details>
+*D2 Source: [`35_distributed_consistency_spectrum_hierarchy.d2`](assets/04_database_internals_and_distributed_systems/35_distributed_consistency_spectrum_hierarchy.d2)*
 
 | Consistency Model | Network Overhead | Write Latency | Stale Reads Possible? | Typical Systems |
 | :--- | :---: | :---: | :---: | :--- |
@@ -2441,35 +1392,7 @@ Modern data pipelines integrate with external SaaS endpoints and internal micros
 
 ![36 Api Protocols Rest Graphql Grpc Comparison](assets/04_database_internals_and_distributed_systems/36_api_protocols_rest_graphql_grpc_comparison.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: API Protocols: REST vs. GraphQL vs. gRPC
-
-rest: 1. REST (HTTP/1.1 JSON Text) {
-  client: Client App
-  server: REST Server
-  client -> server: "GET /api/v1/users/501"
-  server -> client: "Returns all 45 columns in JSON text (Heavy Over-Fetching)"
-}
-
-graphql: 2. GraphQL (Dynamic Query) {
-  gclient: Client App
-  gserver: GraphQL Server
-  gclient -> gserver: "POST /graphql: query { user { name ltv } }"
-  gserver -> gclient: "Returns exact requested fields (Zero Over-Fetching)"
-}
-
-grpc: 3. gRPC (HTTP/2 Multiplexed Protobuf) {
-  pclient: Worker Microservice
-  pserver: gRPC Server
-  pclient -> pserver: "UserRequest(id=501) via compiled RPC stub"
-  pserver -> pclient: "Binary compressed Protobuf byte buffer (10x faster)"
-}
-```
-</details>
+*D2 Source: [`36_api_protocols_rest_graphql_grpc_comparison.d2`](assets/04_database_internals_and_distributed_systems/36_api_protocols_rest_graphql_grpc_comparison.d2)*
 
 #### Detailed Architecture Comparison Matrix
 
@@ -2594,31 +1517,7 @@ Automated data pipelines operate as headless background jobs without human inter
 
 ![37 Oauth2 Client Credentials Flow Sequence](assets/04_database_internals_and_distributed_systems/37_oauth2_client_credentials_flow_sequence.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: OAuth 2.0 Client Credentials Grant for M2M Pipelines
-
-pipeline: Data Ingestion Worker {
-  creds: "client_id, client_secret stored in KMS"
-}
-
-auth: OAuth 2.0 Auth Server (Okta / Azure AD) {
-  token: "Generates signed JWT Access Token (expires in 3600s)"
-}
-
-saas: Protected SaaS API (Salesforce / Stripe) {
-  validator: "Verifies JWT RSA signature locally via public key"
-}
-
-pipeline -> auth: "1. POST /oauth/v2/token (client_credentials)"
-auth -> pipeline: "2. 200 OK {access_token: 'eyJ...', expires_in: 3600}"
-pipeline -> saas: "3. Loop GET /v1/customers (Header: Bearer <token>)"
-saas -> pipeline: "4. Return customer records"
-```
-</details>
+*D2 Source: [`37_oauth2_client_credentials_flow_sequence.d2`](assets/04_database_internals_and_distributed_systems/37_oauth2_client_credentials_flow_sequence.d2)*
 
 #### Production Python OAuth2 Token Manager with Auto-Refresh
 ```python
@@ -2673,26 +1572,7 @@ In **Mutual TLS (mTLS)**, both client and server present X.509 certificates duri
 
 ![38 Mutual Tls Mtls Zero Trust Handshake](assets/04_database_internals_and_distributed_systems/38_mutual_tls_mtls_zero_trust_handshake.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Mutual TLS (mTLS) for Zero Trust Pipeline Ingress
-
-client: Data Pipeline Worker
-ca: Corporate Root CA (Trust Anchor)
-server: Enterprise Ingress Gateway (Envoy)
-
-client -> server: "1. ClientHello (TLS 1.3 Ciphers)"
-server -> client: "2. ServerHello + Server X.509 Certificate"
-client -> ca: "3. Verify Server Certificate against CA"
-server -> client: "4. CertificateRequest (Demands Client Identity)"
-client -> server: "5. Client X.509 Certificate + Digital Signature"
-server -> ca: "6. Verify Client Certificate against CA"
-client <-> server: "Mutual Cryptographic Trust Established (AES-GCM Tunnel)"
-```
-</details>
+*D2 Source: [`38_mutual_tls_mtls_zero_trust_handshake.d2`](assets/04_database_internals_and_distributed_systems/38_mutual_tls_mtls_zero_trust_handshake.d2)*
 *Enterprise Impact:* Even if an attacker steals an API token, they cannot connect without the physical private cryptographic key certificate installed on the worker node.
 
 ---
@@ -2707,40 +1587,7 @@ External APIs protect their infrastructure against denial-of-service through fou
 
 ![39 Rate Limiting Token Bucket Vs Leaky Bucket](assets/04_database_internals_and_distributed_systems/39_rate_limiting_token_bucket_vs_leaky_bucket.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Rate Limiting Algorithms: Token Bucket vs. Leaky Bucket
-
-token_bucket: 1. Token Bucket: Allows Bursts up to Capacity {
-  refill: "Continuous Refill: +r tokens/sec"
-  bucket: "Token Bucket (Cap: 100)"
-  check: "Token Available?" {
-    shape: diamond
-  }
-  exec: "Consume 1 Token -> Execute Request"
-  drop: "HTTP 429: Throttled"
-  refill -> bucket -> check
-  check -> exec: "Yes"
-  check -> drop: "No"
-}
-
-leaky_bucket: 2. Leaky Bucket: Smooths Traffic to Constant Rate {
-  ingress: "Bursty Requests Ingress"
-  fifo: "Bounded FIFO Buffer (Cap: 50)"
-  overflow: "Buffer Full?" {
-    shape: diamond
-  }
-  leak: "Leak at Strict Constant Rate (10 req/s)"
-  drop_lb: "HTTP 429: Queue Full"
-  ingress -> fifo -> overflow
-  overflow -> leak: "No"
-  overflow -> drop_lb: "Yes"
-}
-```
-</details>
+*D2 Source: [`39_rate_limiting_token_bucket_vs_leaky_bucket.d2`](assets/04_database_internals_and_distributed_systems/39_rate_limiting_token_bucket_vs_leaky_bucket.d2)*
 
 #### Algorithmic Comparison Matrix
 
@@ -2763,37 +1610,7 @@ $$T_{\text{sleep}} = \text{random}(0, \; \min(T_{\text{max}}, \; T_{\text{base}}
 
 ![40 Exponential Backoff Full Jitter Retry Loop](assets/04_database_internals_and_distributed_systems/40_exponential_backoff_full_jitter_retry_loop.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: Exponential Backoff with Full Jitter: Retry Architecture
-
-request: Initial HTTP Request Dispatched {
-  status: "Evaluates Status Code (200 OK vs 429/503)"
-}
-
-backoff: Backoff & Jitter Evaluation {
-  cap: "Exponential Cap: min(MaxSleep, Base * 2^attempt)"
-  jitter: "Full Jitter: Sleep = Uniform(0, Cap)"
-  cap -> jitter
-}
-
-gate: Retry Execution Gate {
-  sleep: "Execute time.sleep()"
-  check: "attempt < MaxRetries?" {
-    shape: diamond
-  }
-  sleep -> check
-}
-
-request -> backoff: "HTTP 429 Throttled"
-backoff.jitter -> gate.sleep
-gate.check -> request: "Yes: Retry with Jitter"
-gate.check -> timeout: "No: Raise TimeoutException"
-```
-</details>
+*D2 Source: [`40_exponential_backoff_full_jitter_retry_loop.d2`](assets/04_database_internals_and_distributed_systems/40_exponential_backoff_full_jitter_retry_loop.d2)*
 
 ---
 
@@ -2804,37 +1621,7 @@ A **Circuit Breaker** acts as an automatic electrical fuse:
 
 ![41 Circuit Breaker Resilience State Machine](assets/04_database_internals_and_distributed_systems/41_circuit_breaker_resilience_state_machine.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Circuit Breaker Design Pattern for Upstream Fault Isolation
-
-closed: CLOSED {
-  status: "Normal Operation: All requests forwarded directly"
-  style.stroke: "#10b981"
-}
-
-open: OPEN {
-  status: "Tripped: Fail-fast immediately without sending network requests"
-  style.stroke: "#ef4444"
-}
-
-half_open: HALF-OPEN {
-  status: "Testing Recovery: Sends a single trial canary request"
-  style.stroke: "#f59e0b"
-}
-
-closed -> open: "Failure rate > 50% over 60s"
-open -> half_open: "Sleep window (60s) expires"
-half_open -> closed: "Canary probe succeeds cleanly"
-half_open -> open: "Any trial request fails" {
-  style.stroke: "#ef4444"
-  style.stroke-dash: 4
-}
-```
-</details>
+*D2 Source: [`41_circuit_breaker_resilience_state_machine.d2`](assets/04_database_internals_and_distributed_systems/41_circuit_breaker_resilience_state_machine.d2)*
 
 #### Production Python Circuit Breaker Implementation
 ```python
@@ -2904,40 +1691,7 @@ Modern data engineering pipelines increasingly ingest real-time events directly 
 
 ![42 Realtime Api Patterns Webhooks Sse Websockets](assets/04_database_internals_and_distributed_systems/42_realtime_api_patterns_webhooks_sse_websockets.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Real-Time API Protocols: Webhooks vs. Polling vs. SSE vs. WebSockets
-
-webhook: 1. Webhook (Reverse API Push) {
-  producer: Producer Server
-  consumer: Consumer Ingestion API
-  producer -> consumer: "HTTP POST /webhook on event"
-}
-
-polling: 2. Long Polling (Held-Open Pull) {
-  pclient: Client
-  pserver: Server
-  pclient -> pserver: "HTTP GET /events (socket held open)"
-  pserver -> pclient: "Response on event or timeout"
-}
-
-sse: 3. Server-Sent Events (SSE) {
-  sclient: Client
-  sserver: Server
-  sclient -> sserver: "HTTP GET text/event-stream"
-  sserver -> sclient: "Continuous unidirectional chunk stream"
-}
-
-ws: 4. WebSockets (Full Duplex) {
-  wclient: Client
-  wserver: Server
-  wclient <-> wserver: "Bidirectional binary/text frames"
-}
-```
-</details>
+*D2 Source: [`42_realtime_api_patterns_webhooks_sse_websockets.d2`](assets/04_database_internals_and_distributed_systems/42_realtime_api_patterns_webhooks_sse_websockets.d2)*
 
 #### Detailed Breakdown of the 4 Integration Paradigms
 
@@ -3007,33 +1761,7 @@ Reverse ETL operationalizes the data warehouse by reading modeled dimensions and
 
 ![43 Reverse Etl Change Detection And Sync Pipeline](assets/04_database_internals_and_distributed_systems/43_reverse_etl_change_detection_and_sync_pipeline.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Reverse ETL: Change Detection & Diff Evaluation
-
-detection: Change Detection & Diff Evaluation {
-  dw: Warehouse Gold Table (gold.dim_customer_360)
-  diff: Diff Engine: Computes SHA256(attributes)
-  check: Hash matches previous state? {
-    shape: diamond
-  }
-  skip: Skip Egress (Zero API credits consumed)
-  dw -> diff -> check
-  check -> skip: "Yes: Unchanged"
-}
-
-sync: Throttled SaaS Synchronization {
-  limiter: Token Bucket Rate Limiter (Max 100 req/s)
-  saas: Salesforce REST API (PATCH /Contact/{id})
-  limiter -> saas
-}
-
-detection.check -> sync.limiter: "No: Changed Record"
-```
-</details>
+*D2 Source: [`43_reverse_etl_change_detection_and_sync_pipeline.d2`](assets/04_database_internals_and_distributed_systems/43_reverse_etl_change_detection_and_sync_pipeline.d2)*
 
 #### Diff Calculation via Row Hashing
 To prevent exhausting SaaS API rate limits, Reverse ETL engines compute an SHA-256 hash of all synced attributes:

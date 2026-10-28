@@ -1,9 +1,20 @@
 direction: right
-title: Push vs. Pull Ingestion Architecture
+title: "Push vs. Pull Ingestion Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-pull_model: 1. Pull Model: Consumer Initiates Polling {
-  consumer: Ingestion Service (Airflow Worker)
-  source: Source REST API / DB
+pull_model: "1. Pull Model: Consumer Initiates Polling" {
+  class: container
+  consumer: "Ingestion Service (Airflow Worker)"
+  source: "Source REST API / DB"
   consumer -> source: "1. GET /orders?since=10:00"
   source -> consumer: "2. Return 0 rows (Empty)"
   consumer -> consumer: "3. Sleep 60 seconds (Wasted Cycles)"
@@ -11,8 +22,9 @@ pull_model: 1. Pull Model: Consumer Initiates Polling {
   source -> consumer: "5. Return 12 rows"
 }
 
-push_model: 2. Push Model: Producer Proactively Emits {
-  producer: Source Application (Order Placed)
-  gateway: Ingestion Gateway (Webhook / Event Hub)
+push_model: "2. Push Model: Producer Proactively Emits" {
+  class: container
+  producer: "Source Application (Order Placed)"
+  gateway: "Ingestion Gateway (Webhook / Event Hub)"
   producer -> gateway: "HTTP POST /webhook (Event Instant Push)"
 }

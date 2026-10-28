@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  user_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  proxy_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  vault_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  llm_node: { style: { fill: "#0C4A6E"; stroke: "#06B6D4"; stroke-width: 2; border-radius: 8 } }
+  res_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+BankEmployee: "Bank Employee / User\nPrompt with PII: John Doe, SSN" { class: user_node }
+PIIProxy: "PII De-Identification Proxy\nPresidio NER & Regex scanner\nToken substitution engine" { class: proxy_node }
+TokenVault: "Encrypted Token Vault\nRedis In-Memory Key-Value\n{<CUST_1>: John Doe} (15m TTL)" { class: vault_node }
+ExternalLLM: "External LLM API (Azure/OpenAI)\nReceives sanitized surrogate tokens\nReasons without seeing real PII" { class: llm_node }
+RehydratedOutput: "Re-hydrated Response\nReverse token mapping applied\nZero PII ever leaves corporate VPC" { class: res_node }
+
+BankEmployee -> PIIProxy: "Raw Prompt"
+PIIProxy -> TokenVault: "Store PII Mapping"
+PIIProxy -> ExternalLLM: "Sanitized Prompt"
+ExternalLLM -> PIIProxy: "Sanitized Completion"
+TokenVault -> PIIProxy: "Retrieve Original PII"
+PIIProxy -> RehydratedOutput: "Deliver Re-hydrated Text"

@@ -1,12 +1,28 @@
-# Cyclic Garbage Collection & Generational Marking
+# Cyclic Garbage Collection & Generational Tri-Color Marking
 direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  gen_box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+}
 
-trap: "The Reference Cycle Trap\n• A points to B, B points to A\n• del a, b drops external pointers\n• Both retain refcnt=1 -> Memory Leak!" {
+trap: "The Reference Cycle Problem" {
+  class: pillar
   style.stroke: "#EF4444"
+  desc: "Self-Referencing & Circular Object Graphs\n• Object A points to B; Object B points to A\n• del a, b drops external namespace references\n• Both retain refcnt == 1 -> Permanent memory leak!\n• Reference counting alone CANNOT reclaim cycles" {
+    class: gen_box
+    style.stroke: "#EF4444"
+  }
 }
 
-gc: "Generational Cyclic GC\n• Gen 0: Young objects (700 threshold)\n• Gen 1: Survivors promoted (10:1 ratio)\n• Gen 2: Long-lived objects (Full scan)\n• Trial deletion isolates cycles" {
+gc: "Generational Cyclic GC Engine" {
+  class: pillar
   style.stroke: "#10B981"
+  g0: "Generation 0 (Young Objects)\n• Threshold: 700 allocations > deallocations\n• High frequency collection; tri-color trial deletion" { class: gen_box; style.stroke: "#3B82F6" }
+  g1: "Generation 1 (Survivors)\n• Triggered after 10 Gen 0 collections (10:1 ratio)\n• Collects medium-lived objects" { class: gen_box; style.stroke: "#F59E0B" }
+  g2: "Generation 2 (Long-Lived Objects)\n• Triggered after 10 Gen 1 collections\n• Full expensive heap scan; resolves permanent cycles" { class: gen_box; style.stroke: "#10B981" }
+
+  g0 -> g1: "Promote Survivors"
+  g1 -> g2: "Promote Survivors"
 }
 
-trap -> gc: "Resolved by GC"
+trap.desc -> gc.g0: "Tri-Color Marking Detects Cycle"

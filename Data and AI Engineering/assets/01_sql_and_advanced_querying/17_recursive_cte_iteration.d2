@@ -1,23 +1,30 @@
 # Recursive CTEs: Fixed-Point Relational Iteration & Cycle Guard
 direction: right
+classes: {
+  step: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+}
 
-s0: "Step 0: Anchor Member\n• Evaluates base case\n• Seeds working table W0" {
+s0: "Step 0: Anchor Member\n• Evaluates base non-recursive case\n• Seeds working table W0 & accumulator R" {
+  class: step
   style.stroke: "#3B82F6"
 }
 
-s1: "Step N: Recursive Member\n• Joins base table with W_N\n• Generates next generation W_N+1" {
+s1: "Step N: Recursive Member\n• Joins base table with working table W_N\n• Generates next generation candidate W_N+1" {
+  class: step
   style.stroke: "#F59E0B"
 }
 
-s2: "Step 2: Cycle Guard\n• Checks child = ANY(visited_path)\n• Aborts infinite graph cycles" {
+s2: "Step 2: Cycle Guard (Array Path)\n• Checks: child_id = ANY(visited_path)\n• Aborts infinite loops on cyclic graphs" {
+  class: step
   style.stroke: "#8B5CF6"
 }
 
-s3: "Step 3: Fixed-Point Check\n• If W_N+1 is empty (Ø): HALT\n• Else: Append to R & Loop Back" {
+s3: "Step 3: Fixed-Point Termination\n• If W_N+1 is empty (Ø): HALT engine\n• Else: Append to R & recurse with W_N+1" {
+  class: step
   style.stroke: "#10B981"
 }
 
 s0 -> s1: "Seeds W0"
 s1 -> s2: "Candidate W_N+1"
-s2 -> s3: "Cycle Safe"
-s3 -> s1: "Loop back with W_N+1"
+s2 -> s3: "Cycle Verified Safe"
+s3 -> s1: "Recurse next generation"

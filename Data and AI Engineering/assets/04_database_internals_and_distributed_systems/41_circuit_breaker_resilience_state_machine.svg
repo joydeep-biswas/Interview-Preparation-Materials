@@ -26,7 +26,7 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Circuit Breaker Design Pattern for Upstream Fault Isolation</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Closed (Normal), Open (Fail-Fast), and Half-Open (Canary Recovery Probe) States</text>
   

@@ -32,14 +32,14 @@
     .badge { font-weight: 600; font-size: 11px; }
     .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
   </style>
-  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <rect width="100%" height="100%" fill="url(#bg-grad)"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="32" class="title" font-size="19" text-anchor="middle">Distributed Rate Limiter: Redis Sliding Window Architecture</text>
   <text x="550" y="52" class="subtitle" text-anchor="middle">Microsecond-precision sliding log via Redis Sorted Sets (ZSET) executing atomic Lua scripts at edge proxies</text>
 
   <!-- Ingress -->
   <g transform="translate(30, 75)">
     <rect width="230" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="115" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">1. Request Ingress</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#60A5FA">• Incoming Client API Call:</text>
     <text x="24" y="78" class="card-body">  - IP / UserID / API Key extracted</text>
@@ -49,14 +49,14 @@
     <text x="24" y="166" class="card-body">  - Evaluates tier policy:</text>
     <text x="24" y="186" class="card-body">    * Tier: 100 requests / min</text>
     <text x="24" y="206" class="card-body">    * Window: 60 seconds</text>
-    <rect x="16" y="244" width="198" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="244" width="198" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="115" y="259" class="badge" fill="#93C5FD" text-anchor="middle">Edge Filter Intercept</text>
   </g>
 
   <!-- Redis ZSET Lua -->
   <g transform="translate(290, 75)">
     <rect width="260" height="280" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="260" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <rect width="260" height="34" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
     <text x="130" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Redis ZSET Sliding Log</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• Atomic Lua Script Execution:</text>
     <text x="24" y="78" class="card-body">  1. ZREMRANGEBYSCORE key 0</text>
@@ -67,14 +67,14 @@
     <text x="24" y="178" class="card-body">       EXPIRE key 60</text>
     <text x="24" y="198" class="card-body">       RETURN 1 (Allowed)</text>
     <text x="24" y="218" class="card-body">     ELSE RETURN 0 (Denied)</text>
-    <rect x="16" y="244" width="228" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="244" width="228" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="130" y="259" class="badge" fill="#A7F3D0" text-anchor="middle">Atomic Sliding Window</text>
   </g>
 
   <!-- Result: Allowed -->
   <g transform="translate(580, 75)">
     <rect width="235" height="135" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="235" height="30" rx="10" ry="10" fill="#064E3B"/>
+    <rect width="235" height="30" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
     <text x="117" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">Allowed: Return 1</text>
     <text x="16" y="52" class="card-body" font-weight="600" fill="#34D399">• Forward to Backend:</text>
     <text x="24" y="72" class="card-body">  - Injects RateLimit headers</text>
@@ -85,7 +85,7 @@
   <!-- Result: Denied (HTTP 429) -->
   <g transform="translate(580, 225)">
     <rect width="235" height="130" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
-    <rect width="235" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <rect width="235" height="30" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
     <text x="117" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">Denied: Return 0 (Rate Limited)</text>
     <text x="16" y="52" class="card-body" font-weight="600" fill="#F87171">• HTTP 429 Too Many Requests:</text>
     <text x="24" y="72" class="card-body">  - Header: Retry-After: 14</text>
@@ -96,7 +96,7 @@
   <!-- Downstream Microservice Backend -->
   <g transform="translate(845, 75)">
     <rect width="225" height="280" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="225" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <rect width="225" height="34" rx="10" ry="10" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
     <text x="112" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">3. Microservice Core</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• Protected Service Pool:</text>
     <text x="24" y="78" class="card-body">  - Thread pools shielded from</text>
@@ -106,7 +106,7 @@
     <text x="24" y="166" class="card-body">  - Eliminates noisy neighbors</text>
     <text x="16" y="194" class="card-body" font-weight="600" fill="#A78BFA">• Audit &amp; Metric Logging:</text>
     <text x="24" y="214" class="card-body">  - Prometheus throttled counters</text>
-    <rect x="16" y="244" width="193" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="244" width="193" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="112" y="259" class="badge" fill="#DDD6FE" text-anchor="middle">Protected Workload</text>
   </g>
 

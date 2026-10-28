@@ -1,31 +1,47 @@
 direction: right
-title: Traditional Data Warehouse (EDW) ETL Architecture
-
-sources: Operational Sources {
-  oltp: OLTP Databases (Oracle/Postgres)
-  crm: Salesforce CRM API
-  erp: SAP ERP Core
+title: "Traditional Data Warehouse (EDW) ETL Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-etl: Heavy Batch ETL Engine {
-  informatica: Informatica / DataStage / SSIS {
+sources: "Operational Sources" {
+  class: container
+  oltp: "OLTP Databases (Oracle/Postgres)"
+  crm: "Salesforce CRM API"
+  erp: "SAP ERP Core"
+}
+
+etl: "Heavy Batch ETL Engine" {
+  class: container
+  informatica: "Informatica / DataStage / SSIS" {
+    class: box
     shape: rectangle
     type: "Nightly batch transformations"
     rules: "Rigid schema-on-write mapping"
   }
 }
 
-edw: Enterprise Data Warehouse {
-  mpp: Snowflake / Teradata / Redshift {
+edw: "Enterprise Data Warehouse" {
+  class: container
+  mpp: "Snowflake / Teradata / Redshift" {
+    class: box
     shape: cylinder
     storage: "Proprietary Columnar"
     schema: "3NF & Kimball Star"
   }
 }
 
-bi: BI Consumers {
-  pbi: Power BI Dashboards
-  tableau: Tableau Analytics
+bi: "BI Consumers" {
+  class: container
+  pbi: "Power BI Dashboards"
+  tableau: "Tableau Analytics"
 }
 
 sources.oltp -> etl.informatica

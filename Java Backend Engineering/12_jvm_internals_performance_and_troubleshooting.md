@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to JVM runtime data areas, ClassLoaders,
 
 ![JVM Runtime Architecture Overview](assets/12_jvm_internals_performance_and_troubleshooting/01_jvm_runtime_architecture_overview.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/01_jvm_runtime_architecture_overview.d2](assets/12_jvm_internals_performance_and_troubleshooting/01_jvm_runtime_architecture_overview.d2)
+*D2 Source: [`01_jvm_runtime_architecture_overview.d2`](assets/12_jvm_internals_performance_and_troubleshooting/01_jvm_runtime_architecture_overview.d2)*
 
 ---
 
@@ -197,7 +197,7 @@ public class DynamicCalculatorGenerator {
 
 ![ClassLoader Parent Delegation Model](assets/12_jvm_internals_performance_and_troubleshooting/02_classloader_parent_delegation_model.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/02_classloader_parent_delegation_model.d2](assets/12_jvm_internals_performance_and_troubleshooting/02_classloader_parent_delegation_model.d2)
+*D2 Source: [`02_classloader_parent_delegation_model.d2`](assets/12_jvm_internals_performance_and_troubleshooting/02_classloader_parent_delegation_model.d2)*
 
 #### The 3 Stages of Class Loading:
 1. **Loading**:
@@ -288,7 +288,7 @@ The JVM Heap is the shared memory pool holding all active object instances and a
 
 ![JVM Heap Memory Generations Layout](assets/12_jvm_internals_performance_and_troubleshooting/03_jvm_heap_generations_memory_layout.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/03_jvm_heap_generations_memory_layout.d2](assets/12_jvm_internals_performance_and_troubleshooting/03_jvm_heap_generations_memory_layout.d2)
+*D2 Source: [`03_jvm_heap_generations_memory_layout.d2`](assets/12_jvm_internals_performance_and_troubleshooting/03_jvm_heap_generations_memory_layout.d2)*
 
 #### Thread-Local Allocation Buffers (TLAB):
 In high-throughput enterprise systems with hundreds of concurrent threads, multiple threads allocating objects simultaneously on the shared heap would create massive lock contention.
@@ -301,7 +301,7 @@ Every object instance stored on the JVM heap consists of three distinct segments
 
 ![HotSpot Java Object Layout Header](assets/12_jvm_internals_performance_and_troubleshooting/04_hotspot_object_header_jol.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/04_hotspot_object_header_jol.d2](assets/12_jvm_internals_performance_and_troubleshooting/04_hotspot_object_header_jol.d2)
+*D2 Source: [`04_hotspot_object_header_jol.d2`](assets/12_jvm_internals_performance_and_troubleshooting/04_hotspot_object_header_jol.d2)*
 
 | Object Layout Segment | Bit / Byte Width | Lock State / Encoding Rules |
 | :--- | :---: | :--- |
@@ -337,7 +337,7 @@ Each active Java thread possesses its own private execution stack. Every method 
 
 ![JVM Thread Stack Frame Architecture](assets/12_jvm_internals_performance_and_troubleshooting/05_jvm_stack_frame_internals.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/05_jvm_stack_frame_internals.d2](assets/12_jvm_internals_performance_and_troubleshooting/05_jvm_stack_frame_internals.d2)
+*D2 Source: [`05_jvm_stack_frame_internals.d2`](assets/12_jvm_internals_performance_and_troubleshooting/05_jvm_stack_frame_internals.d2)*
 
 | Frame Subsystem | Data Structure / Sizing | Low-Level JVM Mechanics & Execution Invariants |
 | :--- | :---: | :--- |
@@ -368,7 +368,7 @@ HotSpot utilizes **Tiered Compilation** (`-XX:+TieredCompilation`, enabled by de
 
 ![HotSpot Tiered Compilation Execution Path](assets/12_jvm_internals_performance_and_troubleshooting/06_tiered_compilation_interpreter_c1_c2.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/06_tiered_compilation_interpreter_c1_c2.d2](assets/12_jvm_internals_performance_and_troubleshooting/06_tiered_compilation_interpreter_c1_c2.d2)
+*D2 Source: [`06_tiered_compilation_interpreter_c1_c2.d2`](assets/12_jvm_internals_performance_and_troubleshooting/06_tiered_compilation_interpreter_c1_c2.d2)*
 
 * **Method Inlining**: C2 replaces method calls with the actual method bytecode, eliminating call stack overhead.
 * **Dead Code Elimination & Loop Unrolling**: Removes unreachable conditional branches and unrolls loops for SIMD vectorization.
@@ -404,7 +404,7 @@ Java uses **Tracing Garbage Collection** based on **GC Roots Reachability**:
 
 ![HotSpot GC Reachability Analysis & Root Sets](assets/12_jvm_internals_performance_and_troubleshooting/07_gc_roots_reachability_graph.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/07_gc_roots_reachability_graph.d2](assets/12_jvm_internals_performance_and_troubleshooting/07_gc_roots_reachability_graph.d2)
+*D2 Source: [`07_gc_roots_reachability_graph.d2`](assets/12_jvm_internals_performance_and_troubleshooting/07_gc_roots_reachability_graph.d2)*
 
 * An object is alive if and only if there is an unbroken chain of references from at least one **GC Root**.
 * Notice that Objects D and E point to each other in a circular reference. Under primitive **Reference Counting**, their reference count is 1, so they would never be collected (a severe memory leak). Under HotSpot's **Reachability Analysis**, because no GC Root reaches them, they are reclaimed cleanly!
@@ -437,7 +437,7 @@ Java uses **Tracing Garbage Collection** based on **GC Roots Reachability**:
 
 ![HotSpot Garbage Collector Comparison Matrix](assets/12_jvm_internals_performance_and_troubleshooting/08_garbage_collectors_comparison.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/08_garbage_collectors_comparison.d2](assets/12_jvm_internals_performance_and_troubleshooting/08_garbage_collectors_comparison.d2)
+*D2 Source: [`08_garbage_collectors_comparison.d2`](assets/12_jvm_internals_performance_and_troubleshooting/08_garbage_collectors_comparison.d2)*
 
 #### 1. Garbage-First (G1) GC Internals
 G1 splits the Heap into ~2048 dynamically assigned regions (ranging from 1 MB to 32 MB each, power of 2):
@@ -460,7 +460,7 @@ Finalized in Java 21 (JEP 439), Generational ZGC achieves **sub-millisecond maxi
 
 ![ZGC Colored Pointer Bitmask & Load Barrier](assets/12_jvm_internals_performance_and_troubleshooting/09_zgc_colored_pointers_bitmask.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/09_zgc_colored_pointers_bitmask.d2](assets/12_jvm_internals_performance_and_troubleshooting/09_zgc_colored_pointers_bitmask.d2)
+*D2 Source: [`09_zgc_colored_pointers_bitmask.d2`](assets/12_jvm_internals_performance_and_troubleshooting/09_zgc_colored_pointers_bitmask.d2)*
 
 | Bit Position | Bit Flag / Field Name | Width | Architectural Function in ZGC Relocation & Marking |
 | :---: | :--- | :---: | :--- |
@@ -742,7 +742,7 @@ Java NIO (`java.nio`) introduces **buffer-oriented, non-blocking I/O multiplexin
 
 ![Java NIO Selector Multiplexing Architecture](assets/12_jvm_internals_performance_and_troubleshooting/10_java_nio_multiplexing_selector.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/10_java_nio_multiplexing_selector.d2](assets/12_jvm_internals_performance_and_troubleshooting/10_java_nio_multiplexing_selector.d2)
+*D2 Source: [`10_java_nio_multiplexing_selector.d2`](assets/12_jvm_internals_performance_and_troubleshooting/10_java_nio_multiplexing_selector.d2)*
 
 1. **Channels**: Open connections to hardware devices, files, or network sockets (`SocketChannel`, `ServerSocketChannel`). Channels are bidirectional (can both read and write).
 2. **Buffers**: Data containers (`ByteBuffer`). Operations revolve around 3 pointers:
@@ -764,7 +764,7 @@ Java NIO (`java.nio`) introduces **buffer-oriented, non-blocking I/O multiplexin
 
 ![Zero-Copy Transfer Architecture vs Traditional IO](assets/12_jvm_internals_performance_and_troubleshooting/11_zero_copy_sendfile_kernel_bypass.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting/11_zero_copy_sendfile_kernel_bypass.d2](assets/12_jvm_internals_performance_and_troubleshooting/11_zero_copy_sendfile_kernel_bypass.d2)
+*D2 Source: [`11_zero_copy_sendfile_kernel_bypass.d2`](assets/12_jvm_internals_performance_and_troubleshooting/11_zero_copy_sendfile_kernel_bypass.d2)*
 
 ---
 

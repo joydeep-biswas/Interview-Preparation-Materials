@@ -1,21 +1,34 @@
 direction: right
-title: Conceptual, Logical, and Physical Data Models
+title: "Conceptual, Logical, and Physical Data Models"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-conceptual: 1. Conceptual Data Model {
+conceptual: "1. Conceptual Data Model" {
+  class: container
   scope: "What the business cares about"
   entities: "Customer, Order, Product"
-  relationships: "Strategic (1:N, M:N)"
+  relationships: "Strategic (1:N; M:N)"
   target: "C-Suite & Business Stakeholders"
 }
 
-logical: 2. Logical Data Model {
+logical: "2. Logical Data Model" {
+  class: container
   scope: "Business rules & relationships"
   keys: "Primary & Foreign keys defined"
   normalization: "3NF applied, vendor agnostic"
   target: "Data Architects & Lead Engineers"
 }
 
-physical: 3. Physical Data Model {
+physical: "3. Physical Data Model" {
+  class: container
   scope: "How data sits on hardware"
   types: "Exact SQL DDL types, DECIMAL(18,2)"
   storage: "Partitioning, Z-Order, Parquet"

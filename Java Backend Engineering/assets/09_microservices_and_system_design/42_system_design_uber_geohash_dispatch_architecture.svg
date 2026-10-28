@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">System Design: Real-Time Priority Notification &amp; Dispatch Mesh</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Redis Deduplication, Priority Kafka Queues, Worker Autoscaling, and Multi-Channel Vendor Failover</text>
 <rect x="40" y="110" width="260" height="320" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
-<rect x="55" y="125" width="200" height="20" rx="10" fill="#1e3a8a"/><text x="155" y="138" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. INGRESS &amp; DEDUP TIER</text>
+<rect x="55" y="125" width="200" height="20" rx="10" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="155" y="138" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. INGRESS &amp; DEDUP TIER</text>
 <text x="170" y="165" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Notification Gateway</text>
 <text x="55" y="195" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Rate Limiting: 100 req/sec per user</text>
 <text x="55" y="215" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Template Resolution &amp; Localization</text>
@@ -40,7 +40,7 @@
 <text x="65" y="305" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">TTL: 300 seconds</text>
 <text x="65" y="322" fill="#34D399" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Discards identical spam alerts!</text>
 <rect x="340" y="110" width="360" height="320" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
-<rect x="355" y="125" width="240" height="20" rx="10" fill="#78350f"/><text x="475" y="138" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. PRIORITY STREAMING MESH</text>
+<rect x="355" y="125" width="240" height="20" rx="10" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="475" y="138" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. PRIORITY STREAMING MESH</text>
 <text x="520" y="165" fill="#FBBF24" font-size="11" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Apache Kafka Partitioned Queues</text>
 <rect x="360" y="185" width="320" height="65" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
 <text x="375" y="208" fill="#FECACA" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">High Priority: 'notif-otp-urgent'</text>
@@ -52,7 +52,7 @@
 <text x="375" y="358" fill="#C084FC" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Bulk / Marketing: 'notif-promotions'</text>
 <text x="375" y="376" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">32 Partitions | Throttled background delivery | Lowest cost</text>
 <rect x="740" y="110" width="300" height="320" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
-<rect x="755" y="125" width="240" height="20" rx="10" fill="#047857"/><text x="875" y="138" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. CHANNEL VENDOR DISPATCH</text>
+<rect x="755" y="125" width="240" height="20" rx="10" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="875" y="138" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. CHANNEL VENDOR DISPATCH</text>
 <text x="890" y="165" fill="#34D399" font-size="11" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Multi-Vendor Dispatch Fleet</text>
 <rect x="755" y="190" width="270" height="60" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
 <text x="890" y="215" fill="#3b82f6" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Push: Apple APNs &amp; Google FCM</text>

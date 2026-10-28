@@ -1,23 +1,27 @@
 direction: down
 title: "The Automated Testing Pyramid: Speed, Cost, and Fidelity Trade-Offs"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-e2e: "End-to-End (E2E) Tests (5-10%)
-Minutes runtime | High Cost | Brittle
-Tests full user journeys through UI/Gateway" {
+e2e: "End-to-End (E2E) Tests (5-10%)\nMinutes runtime | High Cost | Brittle\nTests full user journeys through UI/Gateway" {
   style.fill: "#450a0a"
   style.stroke: "#ef4444"
 }
 
-integration: "Integration Tests (20-30%)
-Seconds runtime | Real DB & Kafka (Testcontainers)
-Verifies service interactions & repository queries" {
+integration: "Integration Tests (20-30%)\nSeconds runtime | Real DB & Kafka (Testcontainers)\nVerifies service interactions & repository queries" {
   style.fill: "#083344"
   style.stroke: "#06b6d4"
 }
 
-unit: "Unit Tests (60-70%)
-Milliseconds runtime | 100% Deterministic
-Tests isolated domain business logic in memory" {
+unit: "Unit Tests (60-70%)\nMilliseconds runtime | 100% Deterministic\nTests isolated domain business logic in memory" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }

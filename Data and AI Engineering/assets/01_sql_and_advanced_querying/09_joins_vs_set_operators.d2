@@ -1,12 +1,30 @@
-# Joins vs Set Operators
+# Joins vs Set Operators: Horizontal vs Vertical Relational Algebra
 direction: right
-
-join: "Relational Joins (Horizontal)" {
-  style.stroke: "#3B82F6"
-  desc: "Combines tables side-by-side\n• Widens schema columns\n• Matches on keys (A.id = B.id)"
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  card: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
 }
 
-setop: "Set Operators (Vertical)" {
+joins: "Relational Joins (Horizontal Stitching)" {
+  class: pillar
+  style.stroke: "#3B82F6"
+  tbl_a: "Table A\n[A1, A2]" { class: card; style.stroke: "#3B82F6" }
+  tbl_b: "Table B\n[B1, B2]" { class: card; style.stroke: "#10B981" }
+  out_join: "Joined Output (Schema Widens)\n[ A1, A2, B1, B2 ]" { class: card; style.stroke: "#F59E0B" }
+  tbl_a -> out_join: "Combine"
+  tbl_b -> out_join: "Combine"
+}
+
+set_ops: "Set Operators (Vertical Stacking)" {
+  class: pillar
   style.stroke: "#10B981"
-  desc: "Stacks rows vertically\n• Preserves schema shape\n• UNION ALL: fast append\n• UNION: dedups via sort/hash"
+  q1: "Query 1\n[Col1, Col2]" { class: card; style.stroke: "#10B981" }
+  q2: "Query 2\n[Col1, Col2]" { class: card; style.stroke: "#10B981" }
+  out_set: "Combined Rowset (Height Increases)\n[ Col1, Col2 ]" { class: card; style.stroke: "#6EE7B7" }
+  q1 -> out_set: "UNION"
+  q2 -> out_set: "UNION"
+}
+
+joins -> set_ops: "VS" {
+  style.stroke: "#F59E0B"
 }

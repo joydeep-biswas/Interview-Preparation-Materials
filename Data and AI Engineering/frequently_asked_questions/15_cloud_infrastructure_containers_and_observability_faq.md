@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to real-world interview scenarios coveri
 
 ![Cloud-Native Infrastructure & Telemetry Plane](assets/15_cloud_infrastructure_containers_and_observability_faq/01_cloud_native_kubernetes_infrastructure_telemetry_mesh.svg)
 
-*D2 Source:* [assets/15_cloud_infrastructure_containers_and_observability_faq/01_cloud_native_kubernetes_infrastructure_telemetry_mesh.d2](assets/15_cloud_infrastructure_containers_and_observability_faq/01_cloud_native_kubernetes_infrastructure_telemetry_mesh.d2)
+*D2 Source: [`01_cloud_native_kubernetes_infrastructure_telemetry_mesh.d2`](assets/15_cloud_infrastructure_containers_and_observability_faq/01_cloud_native_kubernetes_infrastructure_telemetry_mesh.d2)*
 
 ---
 
@@ -147,7 +147,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 ![KubeRay Operator Head Node vs Worker Fleet Scaling](assets/15_cloud_infrastructure_containers_and_observability_faq/02_kuberay_operator_head_node_worker_scaling_architecture.svg)
 
-*D2 Source:* [assets/15_cloud_infrastructure_containers_and_observability_faq/02_kuberay_operator_head_node_worker_scaling_architecture.d2](assets/15_cloud_infrastructure_containers_and_observability_faq/02_kuberay_operator_head_node_worker_scaling_architecture.d2)
+*D2 Source: [`02_kuberay_operator_head_node_worker_scaling_architecture.d2`](assets/15_cloud_infrastructure_containers_and_observability_faq/02_kuberay_operator_head_node_worker_scaling_architecture.d2)*
 - **Global Control Store (GCS):** The Ray Head node maintains cluster metadata (actor locations, object store directory) in GCS.
 - **Fault Tolerance:** If external Redis storage is configured for GCS, a crashed Head Pod can be recreated by Kubernetes and seamlessly restore cluster state without terminating in-flight worker tasks.
 
@@ -200,7 +200,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 ![Triage: Kubernetes Pod OOMKilled (Exit 137) vs PyTorch CUDA OOM](assets/15_cloud_infrastructure_containers_and_observability_faq/03_kubernetes_pod_oomkilled_vs_pytorch_cuda_oom_triage.svg)
 
-*D2 Source:* [assets/15_cloud_infrastructure_containers_and_observability_faq/03_kubernetes_pod_oomkilled_vs_pytorch_cuda_oom_triage.d2](assets/15_cloud_infrastructure_containers_and_observability_faq/03_kubernetes_pod_oomkilled_vs_pytorch_cuda_oom_triage.d2)
+*D2 Source: [`03_kubernetes_pod_oomkilled_vs_pytorch_cuda_oom_triage.d2`](assets/15_cloud_infrastructure_containers_and_observability_faq/03_kubernetes_pod_oomkilled_vs_pytorch_cuda_oom_triage.d2)*
 - **CUDA OOM:** The PyTorch CUDA caching allocator fails to allocate VRAM on the physical GPU. The Python process remains alive; an exception is thrown that can be caught in code.
 - **Exit Code 137 (`OOMKilled`):** Host physical RAM (or container memory cgroup limit) was exceeded. The Linux kernel OOM-killer immediately sends `SIGKILL` ($128 + 9 = 137$) to the container process. The process terminates instantly with zero stack trace.
 

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-green { stroke: #10B981; }
+      .card-blue { stroke: #3B82F6; }
+      .card-red { stroke: #EF4444; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #94A3B8; text-anchor: start; }
+      .code-line { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; fill: #60A5FA; text-anchor: start; }
+    </style>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Main Container -->
+  <rect x="25" y="25" width="1010" height="350" class="pillar-box" stroke="#3B82F6"/>
+  <text x="530" y="55" class="title-text" fill="#60A5FA">Anti-Join Strategies: NOT EXISTS vs LEFT JOIN vs NOT IN (3VL Trap)</text>
+
+  <!-- Card 1: NOT EXISTS -->
+  <rect x="50" y="80" width="290" height="265" class="card card-green"/>
+  <text x="195" y="108" class="card-title" fill="#34D399">1. NOT EXISTS (Production Standard)</text>
+  <text x="65" y="135" class="card-body" fill="#E2E8F0">• Correlated subquery with short-circuit</text>
+  <text x="65" y="155" class="card-body" fill="#34D399">• 100% immune to NULL values</text>
+  <text x="65" y="175" class="card-body">• Optimizer converts to Hash Anti-Join</text>
+  <text x="65" y="195" class="card-body">• Stops scanning on first match</text>
+  <text x="65" y="225" class="code-line">WHERE NOT EXISTS (</text>
+  <text x="65" y="243" class="code-line">  SELECT 1 FROM orders o</text>
+  <text x="65" y="261" class="code-line">  WHERE o.pid = p.pid</text>
+  <text x="65" y="279" class="code-line">    AND o.date &gt;= last_month</text>
+  <text x="65" y="297" class="code-line">)</text>
+  <text x="65" y="325" class="card-body" fill="#10B981">Verdict: Highly Recommended (Safest)</text>
+
+  <!-- Card 2: LEFT JOIN ... IS NULL -->
+  <rect x="375" y="80" width="290" height="265" class="card card-blue"/>
+  <text x="520" y="108" class="card-title" fill="#93C5FD">2. LEFT JOIN ... WHERE right IS NULL</text>
+  <text x="390" y="135" class="card-body" fill="#E2E8F0">• Materializes full outer join stream</text>
+  <text x="390" y="155" class="card-body">• Filters where right side is unmatched</text>
+  <text x="390" y="175" class="card-body" fill="#93C5FD">• Safe from NULL evaluation errors</text>
+  <text x="390" y="195" class="card-body">• Date filter MUST be in ON clause!</text>
+  <text x="390" y="225" class="code-line">FROM products p</text>
+  <text x="390" y="243" class="code-line">LEFT JOIN orders o</text>
+  <text x="390" y="261" class="code-line">  ON p.pid = o.pid AND o.dt &gt;= ...</text>
+  <text x="390" y="279" class="code-line">WHERE o.pid IS NULL;</text>
+  <text x="390" y="325" class="card-body" fill="#3B82F6">Verdict: Acceptable, wide table memory cost</text>
+
+  <!-- Card 3: NOT IN Trap -->
+  <rect x="700" y="80" width="310" height="265" class="card card-red"/>
+  <text x="855" y="108" class="card-title" fill="#FCA5A5">3. NOT IN (The Three-Valued Logic Trap)</text>
+  <text x="715" y="135" class="card-body" fill="#EF4444">• ANSI 3-Valued Logic (TRUE / FALSE / UNKNOWN)</text>
+  <text x="715" y="155" class="card-body" fill="#EF4444">• Expands: x != 1 AND x != 2 AND x != NULL</text>
+  <text x="715" y="175" class="card-body" fill="#FCA5A5">• (x != NULL) yields UNKNOWN!</text>
+  <text x="715" y="195" class="card-body" fill="#FCA5A5">• If subquery has ANY NULL $\to$ 0 rows returned!</text>
+  <text x="715" y="225" class="code-line" fill="#FCA5A5">WHERE p.pid NOT IN (</text>
+  <text x="715" y="243" class="code-line" fill="#FCA5A5">  SELECT o.pid FROM orders o</text>
+  <text x="715" y="261" class="code-line" fill="#FCA5A5">  -- IF ANY pid is NULL,</text>
+  <text x="715" y="279" class="code-line" fill="#FCA5A5">  -- entire query returns EMPTY!</text>
+  <text x="715" y="297" class="code-line" fill="#FCA5A5">)</text>
+  <text x="715" y="325" class="card-body" fill="#EF4444">Verdict: Dangerous! Avoid in production.</text>
+</svg>
+

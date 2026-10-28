@@ -1,12 +1,22 @@
 direction: down
-title: TLS 1.3 Handshake 1-RTT Timeline
+title: "TLS 1.3 Handshake 1-RTT Timeline"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Client: HTTP Client (Browser / App)
-Server: Spring Boot HTTPS Server
+Client: "HTTP Client (Browser / App)"
+Server: "Spring Boot HTTPS Server"
 
-Client -> Server: 1. ClientHello (Key Share: ECDHE public key) { style.stroke: "#38BDF8" }
-Server -> Client: 2. ServerHello (Server Key Share + Encrypted Cert + Finished) { style.stroke: "#34D399" }
-Client -> Client: 3. Computes symmetric keys via HKDF
-Server -> Server: 3. Computes identical symmetric keys via HKDF
-Client -> Server: 4. Finished + Encrypted HTTP GET /orders { style.stroke: "#38BDF8" }
-Server -> Client: 5. Encrypted HTTP 200 OK Response { style.stroke: "#34D399" }
+Client -> Server: "1. ClientHello (Key Share: ECDHE public key)" { style.stroke: "#38BDF8" }
+Server -> Client: "2. ServerHello (Server Key Share + Encrypted Cert + Finished)" { style.stroke: "#34D399" }
+Client -> Client: "3. Computes symmetric keys via HKDF"
+Server -> Server: "3. Computes identical symmetric keys via HKDF"
+Client -> Server: "4. Finished + Encrypted HTTP GET /orders" { style.stroke: "#38BDF8" }
+Server -> Client: "5. Encrypted HTTP 200 OK Response" { style.stroke: "#34D399" }

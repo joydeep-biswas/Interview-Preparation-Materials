@@ -1,21 +1,35 @@
 direction: down
-title: Storage Format Decision Matrix: Row vs. Columnar vs. Text
+title: "Storage Format Decision Matrix: Row vs. Columnar vs. Text"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-decision: What is your primary workload & access pattern? {
+decision: "What is your primary workload & access pattern?" {
+  class: container
   shape: diamond
 }
 
-avro: Row-Oriented Binary: Apache Avro {
+avro: "Row-Oriented Binary: Apache Avro" {
+  class: container
   use: "Row-by-row streaming, CDC, message bus, <1ms writes"
   engines: "Kafka, Flink, Event Ingestion"
 }
 
-csv: Plain Text: CSV / JSON {
+csv: "Plain Text: CSV / JSON" {
+  class: container
   use: "Ad-hoc human inspection, small config exports"
   engines: "File sharing, small utilities"
 }
 
-parquet: Columnar Binary: Apache Parquet / ORC {
+parquet: "Columnar Binary: Apache Parquet / ORC" {
+  class: container
   use: "Large-scale OLAP, aggregations, data lake, BI dashboards"
   engines: "Delta Lake, Iceberg, Snowflake, BigQuery"
 }

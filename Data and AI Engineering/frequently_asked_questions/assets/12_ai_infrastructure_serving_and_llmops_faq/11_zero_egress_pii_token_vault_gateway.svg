@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Node 1: Bank Employee -->
+  <g transform="translate(20, 130)">
+    <rect width="170" height="120" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="85" y="24" class="title" fill="#93C5FD">Bank Employee</text>
+    <text x="10" y="48" class="body-txt">• Submits prompt:</text>
+    <text x="10" y="68" class="body-txt">  "Mortgage for John Doe</text>
+    <text x="10" y="88" class="body-txt">   (SSN: 123-45-6789)?"</text>
+  </g>
+
+  <!-- Connect 1 to Proxy -->
+  <path d="M 190 190 L 225 190" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- Node 2: Presidio PII Proxy -->
+  <g transform="translate(225, 120)">
+    <rect width="210" height="140" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="105" y="24" class="title" fill="#FDE68A">PII De-Ident Proxy</text>
+    <text x="12" y="48" class="body-txt">• Microsoft Presidio NER scan</text>
+    <text x="12" y="68" class="body-txt">• Replaces PII with tokens:</text>
+    <text x="12" y="88" class="body-txt">  &lt;CUST_1&gt;, &lt;SSN_1&gt;</text>
+    <text x="12" y="108" class="body-txt">• Rehydrates on LLM return</text>
+  </g>
+
+  <!-- Proxy to Vault (Top) -->
+  <path d="M 330 120 L 330 85 Q 330 75 345 75 L 475 75 L 485 75" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Vault to Proxy (Return) -->
+  <path d="M 485 105 L 375 105 Q 360 105 360 120" fill="none" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arr-purple)"/>
+
+  <!-- Node 3: Encrypted Token Vault (Top Center) -->
+  <g transform="translate(485, 20)">
+    <rect width="250" height="110" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="125" y="24" class="title" fill="#C4B5FD">Encrypted Token Vault (Redis)</text>
+    <text x="12" y="48" class="body-txt">• Stores: {&lt;CUST_1&gt;: John Doe,</text>
+    <text x="12" y="68" class="body-txt">          &lt;SSN_1&gt;: 123-45-6789}</text>
+    <text x="12" y="88" class="body-txt">• AES-256 GCM | 15 min TTL expiry</text>
+  </g>
+
+  <!-- Proxy to External LLM (Bottom Center) -->
+  <path d="M 435 220 L 465 220 Q 475 220 475 295 L 485 295 L 495 295" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+  <text x="465" y="260" class="edge-label" fill="#06B6D4">Sanitized</text>
+
+  <!-- External LLM to Proxy (Return) -->
+  <path d="M 495 325 L 445 325 Q 425 325 425 260" fill="none" stroke="#06B6D4" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arr-cyan)"/>
+
+  <!-- Node 4: External LLM (Bottom Center) -->
+  <g transform="translate(495, 245)">
+    <rect width="245" height="115" rx="8" fill="#0C4A6E" stroke="#06B6D4" stroke-width="2"/>
+    <text x="122" y="24" class="title" fill="#67E8F9">External LLM API (Cloud)</text>
+    <text x="12" y="48" class="body-txt">• Receives: "Mortgage status for</text>
+    <text x="12" y="68" class="body-txt">  &lt;CUST_1&gt; (SSN: &lt;SSN_1&gt;)?"</text>
+    <text x="12" y="88" class="body-txt">• Zero real PII ever leaves VPC!</text>
+  </g>
+
+  <!-- Proxy to Re-hydrated Output -->
+  <path d="M 435 190 L 780 190" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <rect x="580" y="175" width="70" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="615" y="187" class="edge-label" fill="#10B981">Re-hydrated</text>
+
+  <!-- Node 5: Terminal Output -->
+  <g transform="translate(780, 130)">
+    <rect width="215" height="120" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="107" y="24" class="title" fill="#A7F3D0">Delivered Natural Text</text>
+    <text x="12" y="48" class="body-txt">• Intercepts completion</text>
+    <text x="12" y="68" class="body-txt">• Injects real "John Doe"</text>
+    <text x="12" y="88" class="body-txt">• 100% HIPAA / Sovereign Compliant</text>
+  </g>
+</svg>

@@ -1,24 +1,37 @@
 direction: right
-title: End-to-End Production Lakehouse Data Engineering Blueprint
+title: "End-to-End Production Lakehouse Data Engineering Blueprint"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-ingestion: 1. Ingestion & Network Resiliency {
-  inlet: External APIs / Kafka
-  buffer: Kafka / Event Hubs Buffer
-  bronze: Bronze Raw Lakehouse (Captures DLQ)
+ingestion: "1. Ingestion & Network Resiliency" {
+  class: container
+  inlet: "External APIs / Kafka"
+  buffer: "Kafka / Event Hubs Buffer"
+  bronze: "Bronze Raw Lakehouse (Captures DLQ)"
   inlet -> buffer -> bronze
 }
 
-processing: 2. Processing & Compute Optimization {
-  compute: Spark / Databricks Compute (Instance Pools)
-  transform: Data Transformation Engine (Salting & Bucketing)
-  silver: Silver Clean Lakehouse
+processing: "2. Processing & Compute Optimization" {
+  class: container
+  compute: "Spark / Databricks Compute (Instance Pools)"
+  transform: "Data Transformation Engine (Salting & Bucketing)"
+  silver: "Silver Clean Lakehouse"
   compute -> transform -> silver
 }
 
-governance: 3. Governance, Serving & Reliability {
-  gold: Gold Marts (Kimball Star & SCD2)
-  semantic: Semantic Layer (Metric Standardization)
-  bi: Executive BI & Reverse ETL
+governance: "3. Governance, Serving & Reliability" {
+  class: container
+  gold: "Gold Marts (Kimball Star & SCD2)"
+  semantic: "Semantic Layer (Metric Standardization)"
+  bi: "Executive BI & Reverse ETL"
   gold -> semantic -> bi
 }
 

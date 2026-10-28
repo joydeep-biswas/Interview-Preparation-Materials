@@ -32,7 +32,7 @@
     .badge { font-weight: 600; font-size: 11px; }
     .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
   </style>
-  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <rect width="100%" height="100%" fill="url(#bg-grad)"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
   <text x="500" y="32" class="title" font-size="19" text-anchor="middle">Twitter Snowflake: 64-Bit Globally Unique ID Layout</text>
   <text x="500" y="52" class="subtitle" text-anchor="middle">Bitwise distribution generating roughly 4,096 unique k-sorted IDs per millisecond per node without central coordination</text>
 
@@ -72,24 +72,30 @@
   <!-- Explanatory Invariant Cards -->
   <g transform="translate(50, 215)">
     <!-- Invariant 1: Sorting -->
-    <rect x="0" y="0" width="285" height="115" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
-    <text x="142" y="24" class="card-title" fill="#93C5FD" text-anchor="middle">1. Time-Ordered (K-Sorted)</text>
-    <text x="14" y="50" class="card-body">• High bits contain millisecond epoch</text>
-    <text x="14" y="70" class="card-body">• Primary key B-Tree index inserts append</text>
-    <text x="14" y="90" class="card-body">  sequentially, eliminating page splits!</text>
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="285" height="115" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+      <text x="142" y="24" class="card-title" fill="#93C5FD" text-anchor="middle">1. Time-Ordered (K-Sorted)</text>
+      <text x="14" y="50" class="card-body">• High bits contain millisecond epoch</text>
+      <text x="14" y="70" class="card-body">• Primary key B-Tree index inserts append</text>
+      <text x="14" y="90" class="card-body">  sequentially, eliminating page splits!</text>
+    </g>
 
     <!-- Invariant 2: Throughput -->
-    <rect x="305" y="0" width="290" height="115" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
-    <text x="150" y="24" class="card-title" fill="#A7F3D0" text-anchor="middle">2. 4,096,000 IDs / sec / DC</text>
-    <text x="14" y="50" class="card-body">• 32 workers × 4,096 sequences / ms</text>
-    <text x="14" y="70" class="card-body">• In-memory atomic integer increment</text>
-    <text x="14" y="90" class="card-body">• Zero RPC or central database bottleck</text>
+    <g transform="translate(305, 0)">
+      <rect x="0" y="0" width="290" height="115" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+      <text x="145" y="24" class="card-title" fill="#A7F3D0" text-anchor="middle">2. 4,096,000 IDs / sec / DC</text>
+      <text x="14" y="50" class="card-body">• 32 workers × 4,096 sequences / ms</text>
+      <text x="14" y="70" class="card-body">• In-memory atomic integer increment</text>
+      <text x="14" y="90" class="card-body">• Zero RPC or central database bottleneck</text>
+    </g>
 
     <!-- Invariant 3: Clock Drift -->
-    <rect x="615" y="0" width="285" height="115" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="1.5"/>
-    <text x="142" y="24" class="card-title" fill="#FCA5A5" text-anchor="middle">3. Clock Drift Protection</text>
-    <text x="14" y="50" class="card-body">• If NTP backward drift detected:</text>
-    <text x="14" y="70" class="card-body">• Generator throws ClockMovedBackwards</text>
-    <text x="14" y="90" class="card-body">  or sleeps until caught up (prevents dups)</text>
+    <g transform="translate(615, 0)">
+      <rect x="0" y="0" width="285" height="115" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="1.5"/>
+      <text x="142" y="24" class="card-title" fill="#FCA5A5" text-anchor="middle">3. Clock Drift Protection</text>
+      <text x="14" y="50" class="card-body">• If NTP backward drift detected:</text>
+      <text x="14" y="70" class="card-body">• Generator throws ClockMovedBackwards</text>
+      <text x="14" y="90" class="card-body">  or sleeps until caught up (prevents dups)</text>
+    </g>
   </g>
 </svg>

@@ -1,31 +1,46 @@
 direction: right
-title: Database Normalization Pipeline: 1NF to BCNF Theory
+title: "Database Normalization Pipeline: 1NF to BCNF Theory"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 unf: "UNF (Unnormalized Form)" {
+  class: container
   style.fill: "#1a1116"
   style.stroke: "#ef4444"
   flaws: "Repeating groups & comma-separated strings\n(Update/Delete Anomalies)"
 }
 
 n1: "1st Normal Form (1NF)" {
+  class: container
   style.fill: "#0b1329"
   style.stroke: "#3b82f6"
   rule: "Atomic scalar values & Primary Key identified"
 }
 
 n2: "2nd Normal Form (2NF)" {
+  class: container
   style.fill: "#062e3d"
   style.stroke: "#06b6d4"
   rule: "1NF + Remove partial dependencies on composite PK"
 }
 
 n3: "3rd Normal Form (3NF)" {
+  class: container
   style.fill: "#0c1d1a"
   style.stroke: "#10b981"
   rule: "2NF + Remove transitive dependencies (Nothing But The Key)"
 }
 
 bcnf: "Boyce-Codd Normal Form (BCNF)" {
+  class: container
   style.fill: "#16122b"
   style.stroke: "#8b5cf6"
   rule: "Every determinant X in X -> Y must be a Candidate Key"

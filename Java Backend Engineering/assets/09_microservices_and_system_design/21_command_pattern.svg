@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Command Pattern: Encapsulated Request Objects with Undo/Redo &amp; Queuing</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Decoupling the Invoker from the Receiver to Enable Asynchronous Scheduling and Transaction Rollbacks</text>
 <rect x="40" y="130" width="210" height="270" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
-<rect x="55" y="145" width="120" height="20" rx="10" fill="#1e3a8a"/><text x="115" y="158" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Client</text>
+<rect x="55" y="145" width="120" height="20" rx="10" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="115" y="158" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. Client</text>
 <text x="145" y="190" fill="#60A5FA" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderActionService</text>
 <text x="55" y="225" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Instantiates Command:</text>
 <text x="55" y="245" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Command cmd =</text>
@@ -39,7 +39,7 @@
 <text x="55" y="325" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client does not know</text>
 <text x="55" y="345" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">HOW command runs!</text>
 <rect x="280" y="130" width="250" height="270" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
-<rect x="295" y="145" width="180" height="20" rx="10" fill="#047857"/><text x="385" y="158" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Command Object</text>
+<rect x="295" y="145" width="180" height="20" rx="10" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="385" y="158" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Command Object</text>
 <text x="405" y="185" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt;&amp;lt;interface&amp;gt;&amp;gt; Command</text>
 <text x="405" y="205" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CreateOrderCommand</text>
 <rect x="292" y="235" width="226" height="75" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
@@ -49,7 +49,7 @@
 <text x="295" y="330" fill="#D1FAE5" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Encapsulates request params</text>
 <text x="295" y="348" fill="#6EE7B7" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Serializable for Redis queues</text>
 <rect x="560" y="130" width="240" height="270" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
-<rect x="575" y="145" width="160" height="20" rx="10" fill="#78350f"/><text x="655" y="158" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Invoker / Queue</text>
+<rect x="575" y="145" width="160" height="20" rx="10" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="655" y="158" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Invoker / Queue</text>
 <text x="680" y="190" fill="#FBBF24" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">CommandExecutorQueue</text>
 <text x="575" y="225" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Queue &amp; History Buffer:</text>
 <text x="575" y="245" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Deque&amp;lt;Command&amp;gt; history</text>

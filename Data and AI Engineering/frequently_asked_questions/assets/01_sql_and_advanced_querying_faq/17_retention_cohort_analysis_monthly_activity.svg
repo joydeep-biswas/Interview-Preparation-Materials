@@ -16,19 +16,19 @@
       .edge-purple { stroke: #8B5CF6; }
       .edge-green { stroke: #10B981; }
       .edge-red { stroke: #EF4444; }
-      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 9.5px; font-weight: 700; text-anchor: middle; }
     </style>
-    <marker id="arr-a17" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    <marker id="arr-a17" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
     </marker>
-    <marker id="arr-p17" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    <marker id="arr-p17" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
     </marker>
-    <marker id="arr-g17" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    <marker id="arr-g17" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
     </marker>
-    <marker id="arr-r17" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    <marker id="arr-r17" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
     </marker>
   </defs>
 
@@ -37,32 +37,32 @@
   <text x="510" y="32" class="title-text">Retention Cohort Analysis: Monthly LAG &amp; Gap Detection</text>
 
   <!-- Step 1 -->
-  <rect x="25" y="90" width="165" height="120" class="card card-blue"/>
-  <text x="107" y="118" class="card-title" fill="#93C5FD">1. Raw Orders</text>
+  <rect x="25" y="90" width="155" height="120" class="card card-blue"/>
+  <text x="102.5" y="118" class="card-title" fill="#93C5FD">1. Raw Orders</text>
   <text x="35" y="143" class="card-body">• order_id</text>
   <text x="35" y="163" class="card-body">• customer_id</text>
   <text x="35" y="183" class="card-body">• order_date</text>
 
   <!-- Step 2 -->
-  <rect x="220" y="90" width="175" height="120" class="card card-amber"/>
-  <text x="307" y="118" class="card-title" fill="#FDE68A">2. Truncate Month</text>
-  <text x="230" y="143" class="card-body">• YYYY-MM buckets</text>
-  <text x="230" y="163" class="card-body">• Deduplicate per cust</text>
-  <text x="230" y="183" class="card-body">• Unique activity months</text>
+  <rect x="210" y="90" width="160" height="120" class="card card-amber"/>
+  <text x="290" y="118" class="card-title" fill="#FDE68A">2. Truncate Month</text>
+  <text x="220" y="143" class="card-body">• YYYY-MM buckets</text>
+  <text x="220" y="163" class="card-body">• Deduplicate per cust</text>
+  <text x="220" y="183" class="card-body">• Unique activity months</text>
 
   <!-- Step 3 -->
-  <rect x="425" y="90" width="180" height="120" class="card card-purple"/>
-  <text x="515" y="118" class="card-title" fill="#D8B4FE">3. LAG Month</text>
-  <text x="435" y="143" class="card-body">• PARTITION BY cust</text>
-  <text x="435" y="163" class="card-body">• ORDER BY month</text>
-  <text x="435" y="183" class="card-body">• Computes delta months</text>
+  <rect x="400" y="90" width="165" height="120" class="card card-purple"/>
+  <text x="482.5" y="118" class="card-title" fill="#D8B4FE">3. LAG Month</text>
+  <text x="410" y="143" class="card-body">• PARTITION BY cust</text>
+  <text x="410" y="163" class="card-body">• ORDER BY month</text>
+  <text x="410" y="183" class="card-body">• Computes delta months</text>
 
   <!-- Step 4: Decision Gate -->
-  <rect x="635" y="90" width="150" height="120" class="card card-amber"/>
-  <text x="710" y="118" class="card-title" fill="#FDE68A">Delta == 1?</text>
-  <text x="645" y="143" class="card-body">• Compare to prev</text>
-  <text x="645" y="163" class="card-body">• 1 = consecutive</text>
-  <text x="645" y="183" class="card-body">• &gt;1 = lapse</text>
+  <rect x="595" y="90" width="145" height="120" class="card card-amber"/>
+  <text x="667.5" y="118" class="card-title" fill="#FDE68A">Delta == 1?</text>
+  <text x="605" y="143" class="card-body">• Compare to prev</text>
+  <text x="605" y="163" class="card-body">• 1 = consecutive</text>
+  <text x="605" y="183" class="card-body">• &gt;1 = lapse</text>
 
   <!-- Step 5: Outputs -->
   <rect x="815" y="60" width="180" height="85" class="card card-green"/>
@@ -75,14 +75,18 @@
   <text x="825" y="225" class="card-body" fill="#EF4444">• Lapsed customer</text>
   <text x="825" y="243" class="card-body">• Reset streak counter</text>
 
-  <!-- Connectors -->
-  <path fill="none" d="M 190 150 L 220 150" class="edge edge-amber" marker-end="url(#arr-a17)"/>
-  <path fill="none" d="M 395 150 L 425 150" class="edge edge-purple" marker-end="url(#arr-p17)"/>
-  <path fill="none" d="M 605 150 L 635 150" class="edge edge-amber" marker-end="url(#arr-a17)"/>
+  <!-- Connectors with clean spacing & straight runways -->
+  <path fill="none" d="M 180 150 L 210 150" class="edge edge-amber" marker-end="url(#arr-a17)"/>
+  <path fill="none" d="M 370 150 L 400 150" class="edge edge-purple" marker-end="url(#arr-p17)"/>
+  <path fill="none" d="M 565 150 L 595 150" class="edge edge-amber" marker-end="url(#arr-a17)"/>
 
-  <!-- Gate to Active: exit 785,150 -> curve -> enter 815,102 with runway dx>=14 -->
-  <path fill="none" d="M 785 150 C 795 150, 800 102, 805 102 L 815 102" class="edge edge-green" marker-end="url(#arr-g17)"/>
+  <!-- Gate to Active: exit 740,150 -> 14px departure runway -> 45px curve -> 16px arrival runway L 815,102 -->
+  <path fill="none" d="M 740 150 L 754 150 C 772 150, 781 102, 799 102 L 815 102" class="edge edge-green" marker-end="url(#arr-g17)"/>
+  <rect x="746" y="93" width="56" height="20" rx="3" fill="#0B132B" stroke="#10B981" stroke-width="0.8" />
+  <text x="774" y="107" class="edge-label" fill="#6EE7B7">Yes (=1)</text>
 
-  <!-- Gate to Broken: exit 785,150 -> curve -> enter 815,217 with runway dx>=14 -->
-  <path fill="none" d="M 785 150 C 795 150, 800 217, 805 217 L 815 217" class="edge edge-red" marker-end="url(#arr-r17)"/>
+  <!-- Gate to Broken: exit 740,150 -> 14px departure runway -> 45px curve -> 16px arrival runway L 815,217 -->
+  <path fill="none" d="M 740 150 L 754 150 C 772 150, 781 217, 799 217 L 815 217" class="edge edge-red" marker-end="url(#arr-r17)"/>
+  <rect x="746" y="187" width="56" height="20" rx="3" fill="#0B132B" stroke="#EF4444" stroke-width="0.8" />
+  <text x="774" y="201" class="edge-label" fill="#FCA5A5">No (&gt;1)</text>
 </svg>

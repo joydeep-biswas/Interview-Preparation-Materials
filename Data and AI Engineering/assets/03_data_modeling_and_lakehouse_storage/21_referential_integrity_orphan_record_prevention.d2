@@ -1,25 +1,42 @@
 direction: right
-title: Referential Integrity & Orphan Record Prevention in Distributed Systems
+title: "Referential Integrity & Orphan Record Prevention in Distributed Systems"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-ingest: Incoming Transaction Batch {
-  raw_orders: Raw Orders Batch {
+ingest: "Incoming Transaction Batch" {
+  class: container
+  raw_orders: "Raw Orders Batch" {
+    class: box
     order_id: "994812"
     customer_id: "CUST-8491"
-    amount: "$184.50"
+    amount: "\$184.50"
   }
 }
 
-validation: Referential Integrity Validation {
-  probe: Customer ID Exists in dim_customer? {
+validation: "Referential Integrity Validation" {
+  class: container
+  probe: "Customer ID Exists in dim_customer?" {
+    class: box
     shape: diamond
   }
 }
 
-sinks: Target Lakehouse Sinks {
-  valid: gold.fact_orders (Conformed Fact Table) {
+sinks: "Target Lakehouse Sinks" {
+  class: container
+  valid: "gold.fact_orders (Conformed Fact Table)" {
+    class: box
     status: "100% clean referential integrity"
   }
-  quarantine: quarantine.orphan_orders (Dead-Letter Queue) {
+  quarantine: "quarantine.orphan_orders (Dead-Letter Queue)" {
+    class: box
     status: "Held until parent customer record arrives"
     style.stroke: "#ef4444"
   }

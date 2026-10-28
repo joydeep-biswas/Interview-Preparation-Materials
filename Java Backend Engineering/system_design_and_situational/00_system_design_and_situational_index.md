@@ -8,7 +8,7 @@ A comprehensive, production-grade guide covering distributed system design found
 
 ![Master Architecture & Preparation Roadmap](assets/00_system_design_and_situational_index/01_master_architecture_and_preparation_roadmap.svg)
 
-*D2 Source:* [assets/00_system_design_and_situational_index/01_master_architecture_and_preparation_roadmap.d2](assets/00_system_design_and_situational_index/01_master_architecture_and_preparation_roadmap.d2)
+*D2 Source: [`01_master_architecture_and_preparation_roadmap.d2`](assets/00_system_design_and_situational_index/01_master_architecture_and_preparation_roadmap.d2)*
 
 ---
 

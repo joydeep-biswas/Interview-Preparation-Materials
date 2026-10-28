@@ -57,7 +57,7 @@
   </defs>
 
   <!-- Base Canvas -->
-  <rect width="1000" height="460" rx="10" fill="url(#bg)"/>
+  <rect width="1000" height="460" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g transform="translate(0, 0)">

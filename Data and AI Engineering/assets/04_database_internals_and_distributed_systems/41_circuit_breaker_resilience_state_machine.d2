@@ -1,17 +1,30 @@
 direction: right
-title: Circuit Breaker Design Pattern for Upstream Fault Isolation
+title: "Circuit Breaker Design Pattern for Upstream Fault Isolation"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-closed: CLOSED {
+closed: "CLOSED" {
+  class: container
   status: "Normal Operation: All requests forwarded directly"
   style.stroke: "#10b981"
 }
 
-open: OPEN {
+open: "OPEN" {
+  class: container
   status: "Tripped: Fail-fast immediately without sending network requests"
   style.stroke: "#ef4444"
 }
 
-half_open: HALF-OPEN {
+half_open: "HALF-OPEN" {
+  class: container
   status: "Testing Recovery: Sends a single trial canary request"
   style.stroke: "#f59e0b"
 }

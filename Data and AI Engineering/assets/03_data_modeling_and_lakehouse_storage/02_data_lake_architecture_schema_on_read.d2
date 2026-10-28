@@ -1,23 +1,36 @@
 direction: right
-title: Data Lake Architecture & Schema-on-Read Mechanics
-
-sources: Heterogeneous Sources {
-  db: PostgreSQL CDC
-  logs: Application Logs
-  media: Audio / PDF Media
-  iot: IoT MQTT Telemetry
+title: "Data Lake Architecture & Schema-on-Read Mechanics"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-storage: Cloud Object Storage (S3 / ADLS Gen2 / GCS) {
+sources: "Heterogeneous Sources" {
+  class: container
+  db: "PostgreSQL CDC"
+  logs: "Application Logs"
+  media: "Audio / PDF Media"
+  iot: "IoT MQTT Telemetry"
+}
+
+storage: "Cloud Object Storage (S3 / ADLS Gen2 / GCS)" {
+  class: container
   shape: cylinder
   description: "Low-cost, infinite scale, schema-on-read storage substrate"
 }
 
-compute: Compute on Demand {
-  spark: Apache Spark / EMR
-  trino: Trino / Presto Distributed SQL
-  duckdb: DuckDB Embedded SQL
-  ml: PyTorch / TensorFlow AI Pipelines
+compute: "Compute on Demand" {
+  class: container
+  spark: "Apache Spark / EMR"
+  trino: "Trino / Presto Distributed SQL"
+  duckdb: "DuckDB Embedded SQL"
+  ml: "PyTorch / TensorFlow AI Pipelines"
 }
 
 sources.db -> storage: "HTTP PUT"

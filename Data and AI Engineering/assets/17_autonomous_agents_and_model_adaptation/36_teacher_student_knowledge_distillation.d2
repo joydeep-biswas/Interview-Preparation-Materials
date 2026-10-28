@@ -7,13 +7,9 @@ classes: {
 }
 
 p: "Input Training Prompt x" { class: prompt }
-t: "Teacher Foundation Model (405B)
-Computes Soft Logits (Dark Knowledge)" { class: teacher }
-s: "Student Model (8B)
-Computes Student Logits" { class: student }
-loss: "KL Divergence Loss
-L_KD = T² · KL(q || p)
-Aligns student distribution to teacher" { class: kl }
+t: "Teacher Foundation Model (405B)\nComputes Soft Logits (Dark Knowledge)" { class: teacher }
+s: "Student Model (8B)\nComputes Student Logits" { class: student }
+loss: "KL Divergence Loss\nL_KD = T² · KL(q || p)\nAligns student distribution to teacher" { class: kl }
 
 p -> t
 p -> s

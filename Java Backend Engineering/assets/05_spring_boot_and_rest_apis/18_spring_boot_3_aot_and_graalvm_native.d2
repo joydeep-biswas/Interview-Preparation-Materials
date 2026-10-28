@@ -1,25 +1,39 @@
 direction: right
-title: Spring Boot 3 Ahead-of-Time (AOT) & GraalVM Native Compilation
+title: "Spring Boot 3 Ahead-of-Time (AOT) & GraalVM Native Compilation"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 src: "1. Java Source Code" {
+  class: container
   style.fill: "#0b1329"
   style.stroke: "#3b82f6"
   desc: "Spring Boot 3 App with annotations"
 }
 
 aot: "2. Spring AOT Processing" {
+  class: container
   style.fill: "#1a1c12"
   style.stroke: "#f59e0b"
   desc: "Build-time @Conditional evaluation & static bytecode code-gen"
 }
 
 graal: "3. GraalVM Native Image" {
+  class: container
   style.fill: "#16122b"
   style.stroke: "#8b5cf6"
   desc: "Closed-world analysis & dead-code elimination"
 }
 
 native: "4. Standalone Native Binary" {
+  class: container
   style.fill: "#062e22"
   style.stroke: "#10b981"
   desc: "50ms startup | 30MB RAM | No JVM required"

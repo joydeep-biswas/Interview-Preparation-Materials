@@ -26,12 +26,12 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Production Circular Dependency Remediation Patterns</text>
   <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Architectural refactoring strategies: Extracting shared service, event-driven decoupling, and @Lazy proxy deferral</text>
 <rect x="30" y="85" width="310" height="410" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
 <text x="185" y="112" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Pattern 1: Extract Shared Service</text>
-<rect x="105" y="122" width="160" height="18" rx="9" fill="#047857"/><text x="185" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">RECOMMENDED (Architectural)</text>
+<rect x="105" y="122" width="160" height="18" rx="9" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="185" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">RECOMMENDED (Architectural)</text>
 <rect x="45" y="155" width="280" height="60" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
 <text x="185" y="180" fill="#F8FAFC" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">OrderService</text>
 <text x="185" y="198" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Depends only on InvoiceGenerationService</text>

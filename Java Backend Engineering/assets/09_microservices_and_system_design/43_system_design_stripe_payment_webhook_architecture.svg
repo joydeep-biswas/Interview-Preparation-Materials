@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">System Design: Stripe Payment Processing &amp; Idempotent Webhook Architecture</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Double-Entry Accounting Ledgers, Distributed Redis Locking, and Cryptographic HMAC-SHA256 Webhook Verification</text>
 <rect x="40" y="110" width="220" height="320" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
-<rect x="55" y="125" width="140" height="20" rx="10" fill="#1e3a8a"/><text x="125" y="138" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. CLIENT SUBMIT</text>
+<rect x="55" y="125" width="140" height="20" rx="10" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="125" y="138" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. CLIENT SUBMIT</text>
 <text x="150" y="165" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Checkout Client</text>
 <text x="55" y="195" fill="#38BDF8" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">POST /api/v1/checkout</text>
 <text x="55" y="215" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Headers:</text>
@@ -39,7 +39,7 @@
 <text x="55" y="285" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Client retries automatically</text>
 <text x="55" y="305" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">if network drops</text>
 <rect x="290" y="110" width="240" height="320" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
-<rect x="305" y="125" width="180" height="20" rx="10" fill="#78350f"/><text x="395" y="138" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. LEDGER AUTHORIZATION</text>
+<rect x="305" y="125" width="180" height="20" rx="10" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="395" y="138" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. LEDGER AUTHORIZATION</text>
 <text x="410" y="165" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Payment Service</text>
 <text x="305" y="195" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Acquire Redis Lease Lock</text>
 <text x="315" y="212" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SET 'lock:ord-8102' NX EX 30</text>
@@ -57,7 +57,7 @@
 <text x="585" y="282" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">payment_intent.succeeded</text>
 <text x="585" y="300" fill="#FBBF24" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Header: Stripe-Signature (HMAC)</text>
 <rect x="820" y="110" width="220" height="320" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
-<rect x="835" y="125" width="180" height="20" rx="10" fill="#047857"/><text x="925" y="138" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. WEBHOOK SETTLEMENT</text>
+<rect x="835" y="125" width="180" height="20" rx="10" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="925" y="138" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. WEBHOOK SETTLEMENT</text>
 <text x="930" y="165" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Webhook Listener</text>
 <text x="835" y="195" fill="#34D399" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Verify HMAC-SHA256 Sig</text>
 <text x="845" y="212" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Webhook.constructEvent()</text>

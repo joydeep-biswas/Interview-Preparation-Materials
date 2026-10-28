@@ -1,51 +1,69 @@
 direction: right
-title: Movie Ticket Booking Relational Schema
-
-theater: THEATER {
-  theater_id: bigint [pk]
-  name: varchar
+title: "Movie Ticket Booking Relational Schema"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-auditorium: AUDITORIUM {
-  auditorium_id: bigint [pk]
-  theater_id: bigint [fk]
+theater: "THEATER" {
+  class: container
+  theater_id: "bigint [pk]"
+  name: "varchar"
 }
 
-seat: SEAT {
-  seat_id: bigint [pk]
-  auditorium_id: bigint [fk]
+auditorium: "AUDITORIUM" {
+  class: container
+  auditorium_id: "bigint [pk]"
+  theater_id: "bigint [fk]"
 }
 
-movie: MOVIE {
-  movie_id: bigint [pk]
-  title: varchar
+seat: "SEAT" {
+  class: container
+  seat_id: "bigint [pk]"
+  auditorium_id: "bigint [fk]"
 }
 
-showtime: SHOWTIME {
-  showtime_id: bigint [pk]
-  movie_id: bigint [fk]
-  auditorium_id: bigint [fk]
+movie: "MOVIE" {
+  class: container
+  movie_id: "bigint [pk]"
+  title: "varchar"
 }
 
-show_seat: SHOW_SEAT {
+showtime: "SHOWTIME" {
+  class: container
+  showtime_id: "bigint [pk]"
+  movie_id: "bigint [fk]"
+  auditorium_id: "bigint [fk]"
+}
+
+show_seat: "SHOW_SEAT" {
+  class: table_box
   shape: sql_table
-  show_seat_id: bigint [pk]
-  showtime_id: bigint [fk]
-  seat_id: bigint [fk]
-  seat_status: varchar
-  lock_expiration: timestamp
-  booking_id: bigint [fk]
-  version: int
+  show_seat_id: "bigint [pk]"
+  showtime_id: "bigint [fk]"
+  seat_id: "bigint [fk]"
+  seat_status: "varchar"
+  lock_expiration: "timestamp"
+  booking_id: "bigint [fk]"
+  version: "int"
 }
 
-booking: BOOKING {
-  booking_id: bigint [pk]
-  user_id: bigint [fk]
+booking: "BOOKING" {
+  class: container
+  booking_id: "bigint [pk]"
+  user_id: "bigint [fk]"
 }
 
-user: USER {
-  user_id: bigint [pk]
-  email: varchar
+user: "USER" {
+  class: container
+  user_id: "bigint [pk]"
+  email: "varchar"
 }
 
 theater -> auditorium: "contains"

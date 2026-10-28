@@ -8,7 +8,7 @@ A comprehensive, production-grade guide answering real-world situational enginee
 
 ![Incident Lifecycle & Cross-Service Coordination Protocol](assets/04_situational_scenarios/01_incident_lifecycle_and_cross_service_coordination.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/01_incident_lifecycle_and_cross_service_coordination.d2](assets/04_situational_scenarios/01_incident_lifecycle_and_cross_service_coordination.d2)
+*D2 Source: [`01_incident_lifecycle_and_cross_service_coordination.d2`](assets/04_situational_scenarios/01_incident_lifecycle_and_cross_service_coordination.d2)*
 
 ---
 
@@ -52,7 +52,7 @@ During a high-traffic flash sale, our primary `Order-Processing Service` (Java 1
 
 ![Cascading Failure: Thread Pool Exhaustion & Circuit Breaker Salvation](assets/04_situational_scenarios/02_thread_pool_exhaustion_cascading_failure.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/02_thread_pool_exhaustion_cascading_failure.d2](assets/04_situational_scenarios/02_thread_pool_exhaustion_cascading_failure.d2)
+*D2 Source: [`02_thread_pool_exhaustion_cascading_failure.d2`](assets/04_situational_scenarios/02_thread_pool_exhaustion_cascading_failure.d2)*
 
 #### Incident Command & Execution Playbook
 1. **Immediate Stabilization (Blast Radius Containment):**
@@ -82,7 +82,7 @@ Our high-throughput real-time WebSocket messaging service experienced rolling cr
 
 ![JVM Memory Leak & OOM Diagnostic Architecture](assets/04_situational_scenarios/03_jvm_memory_leak_diagnostic_topology.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/03_jvm_memory_leak_diagnostic_topology.d2](assets/04_situational_scenarios/03_jvm_memory_leak_diagnostic_topology.d2)
+*D2 Source: [`03_jvm_memory_leak_diagnostic_topology.d2`](assets/04_situational_scenarios/03_jvm_memory_leak_diagnostic_topology.d2)*
 
 #### Diagnostic & Remediation Playbook
 1. **Automated Diagnostic Dump Collection:**
@@ -118,7 +118,7 @@ Following a marketing push, our `Wallet-Transfer Service` began throwing `Hikari
 
 ![Distributed Deadlocks: Circular Wait vs Canonical Lock Ordering](assets/04_situational_scenarios/04_distributed_deadlock_detection_and_lock_ordering.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/04_distributed_deadlock_detection_and_lock_ordering.d2](assets/04_situational_scenarios/04_distributed_deadlock_detection_and_lock_ordering.d2)
+*D2 Source: [`04_distributed_deadlock_detection_and_lock_ordering.d2`](assets/04_situational_scenarios/04_distributed_deadlock_detection_and_lock_ordering.d2)*
 
 #### Diagnostic & Architectural Resolution
 1. **Lock Contention Analysis:**
@@ -240,7 +240,7 @@ A staff engineer wanted to introduce Apache Flink and a distributed graph databa
 #### Parallel Run & Expand-Contract Pattern
 ![Zero-Downtime Database Migration: Expand-Contract (Parallel Run) Pattern](assets/04_situational_scenarios/05_zero_downtime_schema_migration_expand_contract.svg)
 
-*D2 Source:* [assets/04_situational_scenarios/05_zero_downtime_schema_migration_expand_contract.d2](assets/04_situational_scenarios/05_zero_downtime_schema_migration_expand_contract.d2)
+*D2 Source: [`05_zero_downtime_schema_migration_expand_contract.d2`](assets/04_situational_scenarios/05_zero_downtime_schema_migration_expand_contract.d2)*
 
 1. **Never Break Contracts in Place:** Never modify fields in an existing REST or Protobuf schema. Apply the **Expand-Contract Pattern**:
    - Add new fields alongside existing fields with dual-writing in service handlers.
@@ -301,7 +301,7 @@ A staff engineer wanted to introduce Apache Flink and a distributed graph databa
 **Question:** *Tell me about a time a project or critical service you designed failed in production. What was the root cause, how did you handle it, and what did you learn?*
 
 #### Production Scenario (STAR Framework)
-- **Situation:** During a high-profile Black Friday flash sale at an e-commerce platform processing 45,000 requests/sec, our Pricing & Promotions engine began serving stale, heavily discounted pricing configurations ($0 items and unintended stacked coupons) for 18 minutes, resulting in an estimated \$180,000 revenue exposure before mitigation.
+- **Situation:** During a high-profile Black Friday flash sale at an e-commerce platform processing 45,000 requests/sec, our Pricing & Promotions engine began serving stale, heavily discounted pricing configurations (\$0 items and unintended stacked coupons) for 18 minutes, resulting in an estimated \$180,000 revenue exposure before mitigation.
 - **Task:** As the lead backend engineer on the order settlement platform, I needed to contain the blast radius immediately, stop erroneous checkout orders from clearing payment, fix the root cause, and establish permanent architectural safeguards.
 - **Action:**
   1. *Immediate Containment:* I triggered an emergency operational feature flag via Consul to revert pricing lookups to a direct read-replica database query and activated payment gateway hold queues for any order with $> 60\%$ discount.
@@ -338,7 +338,7 @@ A staff engineer wanted to introduce Apache Flink and a distributed graph databa
   1. *Scope Decomposition into Reversible Phases:* Partnered with the Product Director to delineate "Must-have Core" (atomic daily payout calculations, bank CSV generation, double-entry ledger verification) from "Nice-to-have Polish" (sub-minute streaming metrics, dynamic charting, self-serve refund simulations).
   2. *Defensive Architectural Compromise:* Implemented Phase 1 using an existing, battle-tested PostgreSQL read replica with daily scheduled batch SQL jobs rather than introducing an entirely new streaming cluster (Kafka + Pinot).
   3. *Automated Reconciliation Guardrail:* Built a lightweight automated audit assertion script that compared batch ledger totals against merchant bank clearing files before dispatches; if any discrepancy $> \$0.01$ occurred, payout batches were paused for manual lead sign-off.
-- **Result:** Successfully shipped on schedule at week 5.5. The client contract was signed successfully ($12M ARR). The simplified architecture processed \$85M in settlement volume with zero financial discrepancies, providing the team a stable runway to transition to the full streaming architecture in Phase 2.
+- **Result:** Successfully shipped on schedule at week 5.5. The client contract was signed successfully (\$12M ARR). The simplified architecture processed \$85M in settlement volume with zero financial discrepancies, providing the team a stable runway to transition to the full streaming architecture in Phase 2.
 
 ---
 

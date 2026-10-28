@@ -26,7 +26,7 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Consistent Hashing Ring &amp; Virtual Nodes (V-Nodes)</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Minimizing Key Migration Overhead During Dynamic Cluster Rebalancing (1/N Keys Moved)</text>
   
@@ -88,8 +88,8 @@
     <text x="559" y="257" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Guarantees near-perfect 33.3% load distribution across all servers.</text>
   
     <rect x="535" y="265" width="400" height="95" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="735.0" y="291" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Dynamic Node Addition / Removal Invariant</text>
-    <text x="735.0" y="307" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Zero Global Rehash</text>
+    <text x="549" y="289" fill="#fde68a" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Node Addition / Removal Invariant</text>
+    <text x="549" y="305" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">Zero Global Rehash (1/N Migration)</text>
     <rect x="828" y="275" width="101" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
     <text x="878.5" y="287" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1/N REBALANCE</text>
     <circle cx="551" cy="320" r="2" fill="#f59e0b"/>

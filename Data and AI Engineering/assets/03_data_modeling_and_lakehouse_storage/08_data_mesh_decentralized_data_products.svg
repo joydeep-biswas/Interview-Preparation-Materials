@@ -83,32 +83,32 @@
     <text x="709" y="273" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Marketing Analysts + ML Engineers</text>
 
   
-    <rect x="30" y="315" width="445" height="105" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+    <rect x="30" y="315" width="445" height="115" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
     <text x="46" y="337" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Federated Computational Governance</text>
   
-    <rect x="45" y="345" width="415" height="65" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="252.5" y="371" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Automated Policy Engine (OPA / Data Contracts)</text>
-    <text x="252.5" y="387" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Central Governance Automation</text>
+    <rect x="45" y="342" width="415" height="82" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="60" y="363" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Automated Policy Engine (OPA / Contracts)</text>
+    <text x="60" y="378" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="start">Central Governance Automation</text>
     <rect x="374" y="355" width="80" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
     <text x="414.0" y="367" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">GOVERNANCE</text>
-    <circle cx="61" cy="400" r="2" fill="#8b5cf6"/>
-    <text x="69" y="403" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">PII Tokenization &amp; Column Masking at read</text>
-    <circle cx="61" cy="416" r="2" fill="#8b5cf6"/>
-    <text x="69" y="419" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Global schema registry &amp; automated compliance validation</text>
+    <circle cx="61" cy="394" r="2" fill="#8b5cf6"/>
+    <text x="69" y="397" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">PII Tokenization &amp; Column Masking at read</text>
+    <circle cx="61" cy="409" r="2" fill="#8b5cf6"/>
+    <text x="69" y="412" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Global schema registry &amp; automated compliance validation</text>
 
   
-    <rect x="505" y="315" width="445" height="105" rx="10" fill="#0b1d28" stroke="#06b6d4" stroke-width="1.5"/>
+    <rect x="505" y="315" width="445" height="115" rx="10" fill="#0b1d28" stroke="#06b6d4" stroke-width="1.5"/>
     <text x="521" y="337" fill="#67e8f9" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Self-Serve Data Infrastructure Platform</text>
   
-    <rect x="520" y="345" width="415" height="65" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
-    <text x="727.5" y="371" fill="#67e8f9" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Central Infrastructure Platform Team</text>
-    <text x="727.5" y="387" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Compute &amp; Storage Abstraction</text>
+    <rect x="520" y="342" width="415" height="82" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="535" y="363" fill="#67e8f9" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Central Infrastructure Platform Team</text>
+    <text x="535" y="378" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="start">Compute &amp; Storage Abstraction</text>
     <rect x="863" y="355" width="66" height="18" rx="9" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
     <text x="896.0" y="367" fill="#06b6d4" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PLATFORM</text>
-    <circle cx="536" cy="400" r="2" fill="#06b6d4"/>
-    <text x="544" y="403" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Provision Spark/Databricks, Kafka, Trino via 1-click declarative IaC</text>
-    <circle cx="536" cy="416" r="2" fill="#06b6d4"/>
-    <text x="544" y="419" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Unified Catalog (Unity Catalog / Polaris) &amp; discovery portal</text>
+    <circle cx="536" cy="394" r="2" fill="#06b6d4"/>
+    <text x="544" y="397" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Provision Spark/Databricks, Kafka, Trino via 1-click declarative IaC</text>
+    <circle cx="536" cy="409" r="2" fill="#06b6d4"/>
+    <text x="544" y="412" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Unified Catalog (Unity Catalog / Polaris) &amp; discovery portal</text>
 
   
     <path d="M 250.0 345.0 L 250.0 336.0 C 250.0 324.8, 180.0 324.8, 180.0 313.5 L 180.0 300.0" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="215.0" y="314.5" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Enforce Policy</text>

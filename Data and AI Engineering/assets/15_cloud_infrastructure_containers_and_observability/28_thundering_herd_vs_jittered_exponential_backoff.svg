@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="400" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="400" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,45 +43,45 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="40" y="95" width="430" height="270" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <rect x="40" y="95" width="430" height="288" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4" />
 <text x="255" y="115" fill="#f87171" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Naive Exponential Backoff (Thundering Herd)</text>
 <text x="255" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Synchronized retry bursts permanently crash struggling backends</text>
-    <rect x="60" y="145" width="390" height="50" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
-<text x="255" y="167" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 0ms: Initial Failure</text>
-<text x="72" y="187" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">1,000 concurrent client requests fail simultaneously due to transient spike</text>
-    <rect x="60" y="205" width="390" height="60" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
-<text x="255" y="227" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 100ms: Synchronized Retry Wave #1</text>
-<text x="72" y="247" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Formula: sleep = 100ms * (2^0)</text>
-<text x="72" y="265" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">ALL 1,000 clients retry at the EXACT same millisecond!</text>
-<text x="72" y="283" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Downstream backend hammered; crashes again</text>
-    <rect x="60" y="275" width="390" height="65" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
-<text x="255" y="297" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 200ms: Synchronized Retry Wave #2</text>
-<text x="72" y="317" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Formula: sleep = 100ms * (2^1)</text>
-<text x="72" y="335" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">ALL 1,000 clients hit backend together again</text>
-<text x="72" y="353" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Permanent cascading failure &amp; thread pool exhaustion</text>
+    <rect x="60" y="145" width="390" height="48" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
+<text x="255" y="165" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 0ms: Initial Failure</text>
+<text x="72" y="181" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">1,000 concurrent client requests fail simultaneously due to transient spike</text>
+    <rect x="60" y="205" width="390" height="78" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
+<text x="255" y="222" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 100ms: Synchronized Retry Wave #1</text>
+<text x="72" y="238" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Formula: sleep = 100ms * (2^0)</text>
+<text x="72" y="254" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">ALL 1,000 clients retry at the EXACT same millisecond!</text>
+<text x="72" y="270" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Downstream backend hammered; crashes again</text>
+    <rect x="60" y="295" width="390" height="78" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
+<text x="255" y="312" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 200ms: Synchronized Retry Wave #2</text>
+<text x="72" y="328" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Formula: sleep = 100ms * (2^1)</text>
+<text x="72" y="344" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">ALL 1,000 clients hit backend together again</text>
+<text x="72" y="360" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Permanent cascading failure &amp; thread pool exhaustion</text>
 
-    <rect x="510" y="95" width="430" height="270" rx="8" fill="#0f172a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <rect x="510" y="95" width="430" height="288" rx="8" fill="#0f172a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,4" />
 <text x="725" y="115" fill="#4ade80" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Decorrelated Full Jitter (Smooth Flow)</text>
 <text x="725" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Randomizing sleep intervals smooths retry traffic into a continuous trickle</text>
-    <rect x="530" y="145" width="390" height="50" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
-<text x="725" y="167" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 0ms: Initial Failure</text>
-<text x="542" y="187" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">1,000 concurrent client requests fail simultaneously</text>
-    <rect x="530" y="205" width="390" height="60" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
-<text x="725" y="227" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 10ms to 200ms: Jittered Dispersion #1</text>
-<text x="542" y="247" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Formula: sleep = random_between(0, base * (2^attempt))</text>
-<text x="542" y="265" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">1,000 retries distributed uniformly across 200ms window</text>
-<text x="542" y="283" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Average concurrency load drops by 90%!</text>
-    <rect x="530" y="275" width="390" height="65" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
-<text x="725" y="297" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 10ms to 400ms: Safe Recovery</text>
-<text x="542" y="317" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Struggling backend experiences a flat, steady queue</text>
-<text x="542" y="335" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Clears backpressure naturally; zero lock stampedes</text>
-<text x="542" y="353" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">100% of failed requests recover gracefully</text>
+    <rect x="530" y="145" width="390" height="48" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
+<text x="725" y="165" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 0ms: Initial Failure</text>
+<text x="542" y="181" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">1,000 concurrent client requests fail simultaneously</text>
+    <rect x="530" y="205" width="390" height="78" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
+<text x="725" y="222" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 10ms to 200ms: Jittered Dispersion #1</text>
+<text x="542" y="238" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Formula: sleep = random_between(0, base * (2^attempt))</text>
+<text x="542" y="254" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">1,000 retries distributed uniformly across 200ms window</text>
+<text x="542" y="270" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Average concurrency load drops by 90%!</text>
+    <rect x="530" y="295" width="390" height="78" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
+<text x="725" y="312" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">T = 10ms to 400ms: Safe Recovery</text>
+<text x="542" y="328" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Struggling backend experiences a flat, steady queue</text>
+<text x="542" y="344" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Clears backpressure naturally; zero lock stampedes</text>
+<text x="542" y="360" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">100% of failed requests recover gracefully</text>
 
-    <line x1="255" y1="195" x2="255" y2="205" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
-    <line x1="255" y1="265" x2="255" y2="275" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+    <line x1="255" y1="193" x2="255" y2="205" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)" />
+    <line x1="255" y1="283" x2="255" y2="295" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)" />
 
-    <line x1="725" y1="195" x2="725" y2="205" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
-    <line x1="725" y1="265" x2="725" y2="275" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <line x1="725" y1="193" x2="725" y2="205" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
+    <line x1="725" y1="283" x2="725" y2="295" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
 
   </g>
 </svg>

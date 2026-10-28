@@ -8,7 +8,7 @@ A comprehensive guide answering all 14 questions on functional programming in Ja
 
 ![Java Stream Pipeline Lifecycle & Lazy Evaluation](assets/03_modern_java_streams_and_records_faq/01_stream_pipeline_lifecycle_lazy_evaluation.svg)
 
-*D2 Source:* [assets/03_modern_java_streams_and_records_faq/01_stream_pipeline_lifecycle_lazy_evaluation.d2](assets/03_modern_java_streams_and_records_faq/01_stream_pipeline_lifecycle_lazy_evaluation.d2)
+*D2 Source: [`01_stream_pipeline_lifecycle_lazy_evaluation.d2`](assets/03_modern_java_streams_and_records_faq/01_stream_pipeline_lifecycle_lazy_evaluation.d2)*
 
 ---
 
@@ -84,7 +84,7 @@ Syntactic shorthand for lambda expressions referring directly to existing method
 
 ![Java Optional Monadic Operations Pipeline](assets/03_modern_java_streams_and_records_faq/02_optional_monadic_operations_pipeline.svg)
 
-*D2 Source:* [assets/03_modern_java_streams_and_records_faq/02_optional_monadic_operations_pipeline.d2](assets/03_modern_java_streams_and_records_faq/02_optional_monadic_operations_pipeline.d2)
+*D2 Source: [`02_optional_monadic_operations_pipeline.d2`](assets/03_modern_java_streams_and_records_faq/02_optional_monadic_operations_pipeline.d2)*
 
 #### Production Rules:
 1. Avoid `Optional.get()` without checking; prefer `orElse()`, `orElseGet()`, or `orElseThrow()`.
@@ -207,7 +207,7 @@ When processing relational employee collections in memory, finding the top earne
 
 ![Java Stream Collectors & Multi-Level Downstream Aggregation](assets/03_modern_java_streams_and_records_faq/03_stream_collectors_downstream_aggregation.svg)
 
-*D2 Source:* [assets/03_modern_java_streams_and_records_faq/03_stream_collectors_downstream_aggregation.d2](assets/03_modern_java_streams_and_records_faq/03_stream_collectors_downstream_aggregation.d2)
+*D2 Source: [`03_stream_collectors_downstream_aggregation.d2`](assets/03_modern_java_streams_and_records_faq/03_stream_collectors_downstream_aggregation.d2)*
 
 #### Production Code
 ```java
@@ -333,7 +333,7 @@ public final class FirstUniqueCharacterFinder {
 
 ![First Non-Repeating Character: IntStream & Frequency Map](assets/03_modern_java_streams_and_records_faq/04_intstream_character_frequency_counting.svg)
 
-*D2 Source:* [assets/03_modern_java_streams_and_records_faq/04_intstream_character_frequency_counting.d2](assets/03_modern_java_streams_and_records_faq/04_intstream_character_frequency_counting.d2)
+*D2 Source: [`04_intstream_character_frequency_counting.d2`](assets/03_modern_java_streams_and_records_faq/04_intstream_character_frequency_counting.d2)*
 
 #### Production-Grade Implementation
 
@@ -414,7 +414,7 @@ public final class StringAnalyticsService {
 
 ![Reduction Mechanics: reduce() vs collect() Memory Allocation](assets/03_modern_java_streams_and_records_faq/05_reduce_vs_collect_memory_mechanics.svg)
 
-*D2 Source:* [assets/03_modern_java_streams_and_records_faq/05_reduce_vs_collect_memory_mechanics.d2](assets/03_modern_java_streams_and_records_faq/05_reduce_vs_collect_memory_mechanics.d2)
+*D2 Source: [`05_reduce_vs_collect_memory_mechanics.d2`](assets/03_modern_java_streams_and_records_faq/05_reduce_vs_collect_memory_mechanics.d2)*
 
 Detailed Comparison:
 

@@ -1,16 +1,31 @@
 direction: right
-title: Hive-Style Partitioning: Directory Layout & Pruning
+title: "Hive-Style Partitioning: Directory Layout & Pruning"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-root: s3://company-lake/fact_orders/ {
-  y2026: year=2026/ {
-    m10: month=10/ {
-      day15: day=15/ (Scanned by Query) {
-        f1: part-0001.parquet
-        f2: part-0002.parquet
+root: "s3://company-lake/fact_orders/" {
+  class: container
+  y2026: "year=2026/" {
+    class: box
+    m10: "month=10/" {
+      class: box
+      day15: "day=15/ (Scanned by Query)" {
+        class: box
+        f1: "part-0001.parquet"
+        f2: "part-0002.parquet"
       }
-      day16: day=16/ (Skipped / Pruned) {
-        f3: part-0001.parquet
-        f4: part-0002.parquet
+      day16: "day=16/ (Skipped / Pruned)" {
+        class: box
+        f3: "part-0001.parquet"
+        f4: "part-0002.parquet"
         style.stroke: "#ef4444"
         style.stroke-dash: 4
       }

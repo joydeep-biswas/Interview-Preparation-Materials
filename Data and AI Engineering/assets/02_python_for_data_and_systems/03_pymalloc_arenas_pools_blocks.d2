@@ -1,16 +1,23 @@
 # PyMalloc Memory Allocator: Arenas, Pools, and Blocks
 direction: right
+classes: {
+  level_box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+}
 
-arena: "Level 1: Arena (256 KB)\n• Allocated from OS via mmap()\n• Subdivided into 64 Pools" {
+arena: "Level 1: Arena (256 KB)\n• Allocated directly from OS via mmap() / malloc()\n• Aligned to 256KB boundaries\n• Subdivided into exactly 64 Pools\n• Only freed back to OS when 100% empty" {
+  class: level_box
   style.stroke: "#3B82F6"
 }
 
-pool: "Level 2: Pool (4 KB)\n• 1 Memory Page\n• Dedicated to 1 size-class (e.g. 32B)\n• Tracks free block list" {
+pool: "Level 2: Pool (4 KB)\n• Matches standard OS memory page (4KB)\n• Strictly dedicated to 1 size-class (e.g., 32B)\n• Tracks free block singly-linked list (freeblock)\n• High watermark allocation pointer" {
+  class: level_box
   style.stroke: "#F59E0B"
 }
 
-blocks: "Level 3: Blocks (8B - 512B)\n• Multiples of 8 bytes\n• Houses PyObject instances\n• > 512B goes to system malloc()" {
+blocks: "Level 3: Blocks (8B to 512B)\n• Multiples of 8 bytes (64 discrete size-classes)\n• Houses small PyObject instances (e.g. PyLong, PyFloat)\n• Allocations > 512B bypass PyMalloc to system malloc()" {
+  class: level_box
   style.stroke: "#10B981"
 }
 
-arena -> pool -> blocks
+arena -> pool: "Subdivides into 64 Pools"
+pool -> blocks: "Carves into uniform Blocks"

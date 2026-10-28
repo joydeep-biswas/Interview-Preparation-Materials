@@ -32,14 +32,14 @@
     .badge { font-weight: 600; font-size: 11px; }
     .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
   </style>
-  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <rect width="100%" height="100%" fill="url(#bg-grad)"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="32" class="title" font-size="19" text-anchor="middle">Enterprise RAG Knowledge Lakehouse: Hybrid Search &amp; Vector Pipeline</text>
   <text x="550" y="52" class="subtitle" text-anchor="middle">Document chunking, dense HNSW + sparse BM25 retrieval, reciprocal rank fusion, and cross-encoder reranking</text>
 
   <!-- Document Ingestion -->
   <g transform="translate(30, 75)">
     <rect width="230" height="290" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="115" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">1. Document Ingestion</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#60A5FA">• Raw Storage Ingress:</text>
     <text x="24" y="78" class="card-body">  - S3 / Azure ADLS Gen2</text>
@@ -50,14 +50,14 @@
     <text x="24" y="186" class="card-body">  - 512-token chunks, 64 overlap</text>
     <text x="16" y="214" class="card-body" font-weight="600" fill="#60A5FA">• MinHash Deduplication:</text>
     <text x="24" y="234" class="card-body">  - Eliminates verbatim duplicates</text>
-    <rect x="16" y="254" width="198" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="198" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="115" y="269" class="badge" fill="#93C5FD" text-anchor="middle">Airflow ETL Pipelines</text>
   </g>
 
   <!-- Embedding & Graph -->
   <g transform="translate(290, 75)">
     <rect width="235" height="290" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="235" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <rect width="235" height="34" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
     <text x="117" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Embedding &amp; Index</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• Dense Embedding Model:</text>
     <text x="24" y="78" class="card-body">  - text-embedding-3-large (1536d)</text>
@@ -68,14 +68,14 @@
     <text x="16" y="194" class="card-body" font-weight="600" fill="#34D399">• Knowledge Graph Link:</text>
     <text x="24" y="214" class="card-body">  - Neo4j entity graph mapping</text>
     <text x="24" y="234" class="card-body">  - Disambiguates domain concepts</text>
-    <rect x="16" y="254" width="203" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="203" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="117" y="269" class="badge" fill="#A7F3D0" text-anchor="middle">Vector &amp; Graph Storage</text>
   </g>
 
   <!-- Hybrid Retrieval -->
   <g transform="translate(555, 75)">
     <rect width="240" height="290" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="240" height="34" rx="10" ry="10" fill="#78350F"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
     <text x="120" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">3. Hybrid Retrieval</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#FBBF24">• Two-Way Search:</text>
     <text x="24" y="78" class="card-body">  - Dense: Top-50 vector cosine</text>
@@ -86,14 +86,14 @@
     <text x="24" y="186" class="card-body">  - Prunes to Top-5 high relevance</text>
     <text x="16" y="214" class="card-body" font-weight="600" fill="#FBBF24">• ACL Metadata Filter:</text>
     <text x="24" y="234" class="card-body">  - User tenant security check</text>
-    <rect x="16" y="254" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="208" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="120" y="269" class="badge" fill="#FDE68A" text-anchor="middle">Sub-50ms Reranking</text>
   </g>
 
   <!-- LLM & Guardrails -->
   <g transform="translate(825, 75)">
     <rect width="245" height="290" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="245" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <rect width="245" height="34" rx="10" ry="10" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
     <text x="122" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">4. LLM &amp; Guardrails</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• Prompt Assembly:</text>
     <text x="24" y="78" class="card-body">  - Injects top-5 verified chunks</text>
@@ -104,7 +104,7 @@
     <text x="24" y="186" class="card-body">  - Prompt injection shield</text>
     <text x="16" y="214" class="card-body" font-weight="600" fill="#A78BFA">• Streaming Response:</text>
     <text x="24" y="234" class="card-body">  - SSE token streaming to client</text>
-    <rect x="16" y="254" width="213" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="213" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="122" y="269" class="badge" fill="#DDD6FE" text-anchor="middle">Safe Generation</text>
   </g>
 

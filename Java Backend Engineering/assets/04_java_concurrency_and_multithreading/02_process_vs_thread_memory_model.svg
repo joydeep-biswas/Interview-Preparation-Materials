@@ -38,7 +38,7 @@
 
   <!-- Left Side: Process Boundary Container -->
   <rect x="50" y="95" width="450" height="375" rx="8" fill="#0B132B" stroke="#1D4ED8" stroke-width="1.5"/>
-  <rect x="50" y="95" width="450" height="30" rx="8" fill="#1E3A8A"/>
+  <rect x="50" y="95" width="450" height="30" rx="8" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
   <text x="275" y="116" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">OS Process: Heavyweight Isolation Boundary</text>
 
   <rect x="70" y="145" width="410" height="135" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
@@ -57,7 +57,7 @@
 
   <!-- Right Side: Intra-Process Thread Model -->
   <rect x="530" y="95" width="600" height="375" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
-  <rect x="530" y="95" width="600" height="30" rx="8" fill="#064E3B"/>
+  <rect x="530" y="95" width="600" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="830" y="116" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Intra-Process Thread Model: Shared Heap &amp; Private Stacks</text>
 
   <!-- Shared Heap in Center -->

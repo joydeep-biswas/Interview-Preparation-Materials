@@ -38,7 +38,7 @@
 
   <!-- State 1: Created -->
   <rect x="50" y="140" width="180" height="110" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="140" width="180" height="26" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="140" width="180" height="26" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="140" y="158" font-size="10" font-weight="700" fill="#7DD3FC" text-anchor="middle">CREATED State</text>
   <text x="65" y="185" font-size="8" fill="#CBD5E1">&#x2022; Filesystem allocated</text>
   <text x="65" y="202" font-size="8" fill="#CBD5E1">&#x2022; Namespaces configured</text>
@@ -47,7 +47,7 @@
 
   <!-- State 2: Running -->
   <rect x="330" y="125" width="220" height="140" rx="8" fill="#06201B" stroke="#10B981" stroke-width="2"/>
-  <rect x="330" y="125" width="220" height="26" rx="8" fill="#047857"/>
+  <rect x="330" y="125" width="220" height="26" rx="8" fill="#047857" stroke="#10B981" stroke-width="1"/>
   <text x="440" y="143" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">&#x2714; RUNNING State</text>
   <text x="345" y="170" font-size="8" fill="#CBD5E1">&#x2022; PID 1 executing in namespaces</text>
   <text x="345" y="188" font-size="8" fill="#CBD5E1">&#x2022; Processing HTTP / gRPC traffic</text>
@@ -61,7 +61,7 @@
 
   <!-- State 3: Paused -->
   <rect x="330" y="335" width="220" height="110" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
-  <rect x="330" y="335" width="220" height="26" rx="8" fill="#78350F"/>
+  <rect x="330" y="335" width="220" height="26" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
   <text x="440" y="353" font-size="10" font-weight="700" fill="#FDE68A" text-anchor="middle">PAUSED State</text>
   <text x="345" y="380" font-size="8" fill="#CBD5E1">&#x2022; Process frozen via cgroup freezer</text>
   <text x="345" y="398" font-size="8" fill="#CBD5E1">&#x2022; Zero CPU cycles allocated</text>

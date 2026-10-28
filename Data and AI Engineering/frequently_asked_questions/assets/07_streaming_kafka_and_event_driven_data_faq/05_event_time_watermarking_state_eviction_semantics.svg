@@ -17,7 +17,7 @@
     </marker>
   </defs>
 
-  <rect width="1000" height="320" fill="#0B0F19"/>
+  <rect width="1000" height="320" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Left: Ingress Events -->
   <g transform="translate(30, 105)">

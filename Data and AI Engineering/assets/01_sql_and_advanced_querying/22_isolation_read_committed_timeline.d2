@@ -1,30 +1,30 @@
 # Transaction Isolation: Non-Repeatable Read under READ COMMITTED
 direction: down
+classes: {
+  timeline_step: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  fix_box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+}
 
-t1_read1: "Time t1: Transaction 1
-• SELECT balance WHERE id = 1
-• Statement Snapshot 1
-• Reads: $100" {
+t1_read1: "Time t1: Transaction 1\n• SELECT balance FROM accounts WHERE id = 1\n• Statement Snapshot 1 generated\n• Reads: \$100" {
+  class: timeline_step
   style.stroke: "#3B82F6"
 }
 
-t2_write: "Time t2: Transaction 2
-• UPDATE balance = 250 WHERE id = 1
-• COMMIT" {
+t2_write: "Time t2: Transaction 2\n• UPDATE accounts SET balance = 250 WHERE id = 1\n• COMMIT transaction\n• Database updates current tuple" {
+  class: timeline_step
   style.stroke: "#F59E0B"
 }
 
-t1_read2: "Time t3: Transaction 1
-• SELECT balance WHERE id = 1
-• NEW Statement Snapshot 2
-• Reads: $250! (Anomaly: $100 ≠ $250)" {
+t1_read2: "Time t3: Transaction 1\n• SELECT balance FROM accounts WHERE id = 1\n• NEW Statement Snapshot 2 generated (sees T2 commit!)\n• Reads: \$250! (Anomaly: \$100 ≠ \$250 in same transaction)" {
+  class: timeline_step
   style.stroke: "#EF4444"
 }
 
-solution: "Architectural Fix: REPEATABLE READ
-• Transaction-level snapshot taken at BEGIN
-• Consistent $100 read via MVCC undo log" {
+solution: "Architectural Remediation: REPEATABLE READ / SERIALIZABLE\n• Transaction-level snapshot taken at BEGIN TRANSACTION\n• Subsequent queries read original \$100 tuple via MVCC undo log\n• Complete isolation against concurrent committed updates" {
+  class: fix_box
   style.stroke: "#10B981"
 }
 
-t1_read1 -> t2_write -> t1_read2 -> solution
+t1_read1 -> t2_write: "Time passes"
+t2_write -> t1_read2: "Time passes"
+t1_read2 -> solution: "Remediated by Snapshot Isolation"

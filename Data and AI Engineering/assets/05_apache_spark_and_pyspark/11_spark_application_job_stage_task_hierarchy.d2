@@ -1,34 +1,48 @@
 direction: right
-title: Spark Execution Hierarchy: App to Task
+title: "Spark Execution Hierarchy: App to Task"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-App: 1. Spark Application {
+App: "1. Spark Application" {
+  class: container
   style.stroke: "#38BDF8"
-  Job0: Job 0: count()
-  Job1: Job 1: write.parquet()
-  Job2: Job 2: collect()
+  Job0: "Job 0: count()"
+  Job1: "Job 1: write.parquet()"
+  Job2: "Job 2: collect()"
 }
 
-Job: 2. Job 1 Decomposition {
+Job: "2. Job 1 Decomposition" {
+  class: container
   style.stroke: "#FBBF24"
-  Stage0: Stage 0: Scan & Filter (200 Partitions)
-  Stage1: Stage 1: Aggregate & Save (200 Partitions)
-  Stage0 -> Stage1: Shuffle Exchange Barrier
+  Stage0: "Stage 0: Scan & Filter (200 Partitions)"
+  Stage1: "Stage 1: Aggregate & Save (200 Partitions)"
+  Stage0 -> Stage1: "Shuffle Exchange Barrier"
 }
 
-Stage: 3. Stage 0 TaskSet {
+Stage: "3. Stage 0 TaskSet" {
+  class: container
   style.stroke: "#C084FC"
-  TaskSet: TaskSet (200 Tasks scheduled by locality)
+  TaskSet: "TaskSet (200 Tasks scheduled by locality)"
 }
 
-Tasks: 4. Tasks on CPU Slots {
+Tasks: "4. Tasks on CPU Slots" {
+  class: container
   style.stroke: "#34D399"
-  T0: Task 0 (Partition 0)
-  T1: Task 1 (Partition 1)
-  T2: Task 2 (Partition 2)
-  TN: ... Task 199 (Partition 199)
+  T0: "Task 0 (Partition 0)"
+  T1: "Task 1 (Partition 1)"
+  T2: "Task 2 (Partition 2)"
+  TN: "... Task 199 (Partition 199)"
 }
 
-App.Job1 -> Job.Stage0: Action triggers execution { style.stroke: "#FBBF24" }
-Job.Stage0 -> Stage.TaskSet: Compiles TaskSet { style.stroke: "#C084FC" }
-Stage.TaskSet -> Tasks.T0: Dispatches to CPU slot { style.stroke: "#34D399" }
-Stage.TaskSet -> Tasks.T1: Dispatches to CPU slot { style.stroke: "#34D399" }
+App.Job1 -> Job.Stage0: "Action triggers execution" { style.stroke: "#FBBF24" }
+Job.Stage0 -> Stage.TaskSet: "Compiles TaskSet" { style.stroke: "#C084FC" }
+Stage.TaskSet -> Tasks.T0: "Dispatches to CPU slot" { style.stroke: "#34D399" }
+Stage.TaskSet -> Tasks.T1: "Dispatches to CPU slot" { style.stroke: "#34D399" }

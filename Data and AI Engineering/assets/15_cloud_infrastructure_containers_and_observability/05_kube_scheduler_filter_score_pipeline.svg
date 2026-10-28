@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="360" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="360" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,14 +43,14 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="40" y="130" width="160" height="110" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="40" y="130" width="160" height="110" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
 <text x="120" y="152" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Unscheduled Pod</text>
 <text x="52" y="172" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Pending in queue</text>
 <text x="52" y="190" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Requests: CPU / RAM</text>
 <text x="52" y="208" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Affinity rules defined</text>
 <text x="52" y="226" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Tolerations evaluated</text>
 
-    <rect x="230" y="125" width="210" height="120" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5"/>
+    <rect x="230" y="125" width="210" height="132" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5" />
 <text x="335" y="147" fill="#fde68a" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">1. Filter Phase (Predicates)</text>
 <text x="242" y="167" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">NodeResourcesFit (CPU/RAM)</text>
 <text x="242" y="185" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">PodTopologySpreadConstraints</text>
@@ -58,7 +58,7 @@
 <text x="242" y="221" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">NodeVolumeLimits (CSI)</text>
 <text x="242" y="239" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Disqualifies ineligible nodes</text>
 
-    <rect x="470" y="125" width="210" height="120" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+    <rect x="470" y="125" width="210" height="132" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5" />
 <text x="575" y="147" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">2. Score Phase (Priorities)</text>
 <text x="482" y="167" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">NodeAffinityPriority</text>
 <text x="482" y="185" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">ImageLocality (Image cached)</text>
@@ -66,7 +66,7 @@
 <text x="482" y="221" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Ranks surviving nodes: 0-100</text>
 <text x="482" y="239" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Selects node with max score</text>
 
-    <rect x="710" y="125" width="230" height="120" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="710" y="125" width="230" height="132" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="825" y="147" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">3. Binding Cycle</text>
 <text x="722" y="167" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Creates Binding object</text>
 <text x="722" y="185" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Sets pod.spec.nodeName in etcd</text>
@@ -74,10 +74,10 @@
 <text x="722" y="221" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Kubelet on target node watches</text>
 <text x="722" y="239" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">and begins container pull</text>
 
-    <line x1="200" y1="185" x2="230" y2="185" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
-    <line x1="440" y1="185" x2="470" y2="185" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+    <line x1="200" y1="185" x2="230" y2="185" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
+    <line x1="440" y1="185" x2="470" y2="185" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-a)" />
 <text x="455" y="175" fill="#fbbf24" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Candidate Nodes</text>
-    <line x1="680" y1="185" x2="710" y2="185" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+    <line x1="680" y1="185" x2="710" y2="185" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)" />
 <text x="695" y="175" fill="#c084fc" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Top Scored Node</text>
 
   </g>

@@ -1,7 +1,18 @@
 direction: right
-title: ConcurrentHashMap Internal Architecture (Java 8+)
+title: "ConcurrentHashMap Internal Architecture (Java 8+)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Table: volatile Node<K,V>[] table {
+Table: "volatile Node<K,V>[] table" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   b0: "Bucket 0 (Empty)"
@@ -10,26 +21,30 @@ Table: volatile Node<K,V>[] table {
   b3: "Bucket 3 (Resizing)"
 }
 
-B0_Logic: Lock-Free CAS Insert {
+B0_Logic: "Lock-Free CAS Insert" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   cas: "casTabAt(tab, i, null, node) -> 100% lock-free"
 }
 
-B1_Logic: Synchronized Head Bin {
+B1_Logic: "Synchronized Head Bin" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
-  sync: "synchronized(firstNode) { appends to chain }"
+  sync: "synchronized(firstNode) { appends to chain }" { class: box }
   benefit: "Only collided bucket contends; others proceed"
 }
 
-B2_Logic: TreeBin (Red-Black Tree) {
+B2_Logic: "TreeBin (Red-Black Tree)" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
   tree: "hash = -2; O(log N) lookup; Hash-DoS immune"
 }
 
-B3_Logic: ForwardingNode (Resizing) {
+B3_Logic: "ForwardingNode (Resizing)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   moved: "hash = -1; threads help transfer to nextTable"

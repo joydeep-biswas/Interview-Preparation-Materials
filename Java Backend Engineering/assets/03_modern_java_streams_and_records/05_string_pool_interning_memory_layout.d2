@@ -1,7 +1,18 @@
 direction: right
-title: Java String Constant Pool & Memory Layout Architecture
+title: "Java String Constant Pool & Memory Layout Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Stack: Thread Stack References {
+Stack: "Thread Stack References" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   s1: "s1 = 'Java' (Pool ptr: 0x7fa810)"
@@ -10,14 +21,16 @@ Stack: Thread Stack References {
   s4: "s4 = s3.intern() (Pool ptr: 0x7fa810)"
 }
 
-Pool: String Constant Pool {
+Pool: "String Constant Pool" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
-  canonical: "Canonical String at 0x7fa810: byte[] {'J','a','v','a'}"
+  canonical: "Canonical String at 0x7fa810: byte[] {'J','a','v','a'}" { class: box }
   compact: "coder = 0 (LATIN-1: 1 byte per char)"
 }
 
-Heap: Regular Heap Space {
+Heap: "Regular Heap Space" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
   duplicate: "Distinct String at 0x7fa820: Redundant wrapper"

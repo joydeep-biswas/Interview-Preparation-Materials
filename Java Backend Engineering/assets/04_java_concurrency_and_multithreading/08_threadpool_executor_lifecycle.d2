@@ -1,34 +1,48 @@
 direction: right
-title: ThreadPoolExecutor Architecture & Task Execution Lifecycle
+title: "ThreadPoolExecutor Architecture & Task Execution Lifecycle"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Stage1: Stage 1 Core Threads {
+Stage1: "Stage 1 Core Threads" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   check: "active < corePoolSize"
   action: "Spawns new core worker thread"
 }
 
-Stage2: Stage 2 Queue Buffering {
+Stage2: "Stage 2 Queue Buffering" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
   check: "queue.offer(task) == true"
   action: "Buffers in BlockingQueue"
 }
 
-Stage3: Stage 3 Max Pool Surge {
+Stage3: "Stage 3 Max Pool Surge" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
   check: "queue full && active < maximumPoolSize"
   action: "Spawns temporary surge worker"
 }
 
-Stage4: Stage 4 Rejection Policy {
+Stage4: "Stage 4 Rejection Policy" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#EF4444"
   check: "queue full && active == maximumPoolSize"
   action: "AbortPolicy, CallerRunsPolicy, DiscardPolicy"
 }
 
-Stage1 -> Stage2: Core pool saturated { style.stroke: "#F59E0B" }
-Stage2 -> Stage3: Queue buffer full { style.stroke: "#10B981" }
-Stage3 -> Stage4: Max pool saturated { style.stroke: "#EF4444" }
+Stage1 -> Stage2: "Core pool saturated" { style.stroke: "#F59E0B" }
+Stage2 -> Stage3: "Queue buffer full" { style.stroke: "#10B981" }
+Stage3 -> Stage4: "Max pool saturated" { style.stroke: "#EF4444" }

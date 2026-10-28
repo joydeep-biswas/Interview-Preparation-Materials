@@ -1,39 +1,51 @@
 direction: right
 title: "Production Saga Orchestrator: State Machine & Compensation Rollback"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 s1: "1. SAGA_STARTED" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#3b82f6"
 }
 s2: "2. ORDER_PENDING" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#06b6d4"
 }
 s3: "3. PAYMENT_AUTHORIZED" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#10b981"
 }
 s4: "4. INVENTORY_RESERVED" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#f59e0b"
 }
 s5: "5. SAGA_COMPLETED" {
+  class: container
   style.fill: "#064e3b"
   style.stroke: "#34d399"
 }
 
-c1: "COMPENSATING_PAYMENT
-Refunds Stripe auth" {
+c1: "COMPENSATING_PAYMENT\nRefunds Stripe auth" {
   style.fill: "#1a1118"
   style.stroke: "#ef4444"
 }
-c2: "COMPENSATING_ORDER
-Cancels Order" {
+c2: "COMPENSATING_ORDER\nCancels Order" {
   style.fill: "#1a1118"
   style.stroke: "#ef4444"
 }
-c3: "SAGA_FAILED
-Consistent baseline" {
+c3: "SAGA_FAILED\nConsistent baseline" {
   style.fill: "#450a0a"
   style.stroke: "#ef4444"
 }

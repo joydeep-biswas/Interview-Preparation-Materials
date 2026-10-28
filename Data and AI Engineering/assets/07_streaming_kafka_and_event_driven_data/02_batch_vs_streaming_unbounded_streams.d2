@@ -1,7 +1,18 @@
 direction: down
-title: Paradigm Shift: Static Tables vs. Infinite Unbounded Streams
+title: "Paradigm Shift: Static Tables vs. Infinite Unbounded Streams"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 batch: "1. Traditional Batch Paradigm (Bounded Static Snapshot)" {
+  class: container
   style.fill: "#1a1116"
   style.stroke: "#ef4444"
 
@@ -13,6 +24,7 @@ batch: "1. Traditional Batch Paradigm (Bounded Static Snapshot)" {
 }
 
 stream: "2. Modern Event Streaming Paradigm (Infinite Unbounded Log)" {
+  class: container
   style.fill: "#0c1d1a"
   style.stroke: "#10b981"
 

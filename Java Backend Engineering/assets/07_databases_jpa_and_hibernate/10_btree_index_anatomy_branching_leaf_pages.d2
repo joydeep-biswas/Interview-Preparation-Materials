@@ -1,50 +1,52 @@
 direction: down
 title: "B+Tree Index Anatomy: Branching Factor & Doubly-Linked Leaves"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-root: "Root Page (Level 0)
-[ 100 | 200 ]" {
+root: "Root Page (Level 0)\n[ 100 | 200 ]" {
   style.fill: "#1e293b"
   style.stroke: "#3b82f6"
 }
 
-branch1: "Branch Page A
-[ 30 | 70 ]" {
+branch1: "Branch Page A\n[ 30 | 70 ]" {
   style.fill: "#1e293b"
   style.stroke: "#8b5cf6"
 }
 
-branch2: "Branch Page B
-[ 130 | 170 ]" {
+branch2: "Branch Page B\n[ 130 | 170 ]" {
   style.fill: "#1e293b"
   style.stroke: "#8b5cf6"
 }
 
-branch3: "Branch Page C
-[ 230 | 270 ]" {
+branch3: "Branch Page C\n[ 230 | 270 ]" {
   style.fill: "#1e293b"
   style.stroke: "#8b5cf6"
 }
 
-leaf1: "Leaf 1 (1..29)
--> Heap (0, 1)" {
+leaf1: "Leaf 1 (1..29)\n-> Heap (0, 1)" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }
 
-leaf2: "Leaf 2 (30..69)
--> Heap (1, 1)" {
+leaf2: "Leaf 2 (30..69)\n-> Heap (1, 1)" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }
 
-leaf3: "Leaf 3 (100..129)
--> Heap (2, 1)" {
+leaf3: "Leaf 3 (100..129)\n-> Heap (2, 1)" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }
 
-leaf4: "Leaf 4 (200..229)
--> Heap (3, 1)" {
+leaf4: "Leaf 4 (200..229)\n-> Heap (3, 1)" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }

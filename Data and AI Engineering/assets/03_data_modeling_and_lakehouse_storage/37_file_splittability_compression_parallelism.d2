@@ -1,14 +1,26 @@
 direction: right
-title: File Splittability: Non-Splittable GZIP vs. Splittable Parquet
+title: "File Splittability: Non-Splittable GZIP vs. Splittable Parquet"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-non_splittable: Non-Splittable Nightmare: 10 GB orders.csv.gz (80 Cores) {
+non_splittable: "Non-Splittable Nightmare: 10 GB orders.csv.gz (80 Cores)" {
+  class: container
   core1: "Core 1: Forced to process ALL 10 GB sequentially from Byte 0"
   idle: "Cores 2 through 80 sit completely IDLE!"
   result: "Total Processing Time: 2 Hours (Out of Memory Risk)"
   core1 -> result
 }
 
-splittable: Splittable Processing: 10 GB Parquet File (80 Cores) {
+splittable: "Splittable Processing: 10 GB Parquet File (80 Cores)" {
+  class: container
   c1: "Core 1: Reads Row Group 1 (0 - 128 MB)"
   c2: "Core 2: Reads Row Group 2 (128 - 256 MB)"
   c80: "Core 80: Reads Row Group 80 (9.87 - 10 GB)"

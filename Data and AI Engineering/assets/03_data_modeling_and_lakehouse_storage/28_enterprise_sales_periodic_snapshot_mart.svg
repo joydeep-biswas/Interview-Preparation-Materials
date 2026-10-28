@@ -32,8 +32,8 @@
   
   
     <rect x="350" y="100" width="280" height="290" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="490.0" y="126" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">FACT_MONTHLY_SALES_AGG</text>
-    <text x="490.0" y="142" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Periodic Snapshot Fact Table</text>
+    <text x="368" y="126" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Monthly Sales Mart</text>
+    <text x="368" y="142" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="start">fact_monthly_sales_agg</text>
     <rect x="523" y="110" width="101" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
     <text x="573.5" y="122" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PERIODIC FACT</text>
     <circle cx="366" cy="155" r="2" fill="#f59e0b"/>

@@ -221,6 +221,10 @@ Python 3.13 introduces experimental **free-threaded builds (`python3.13t` with `
 
 ### 2.1 Built-in Data Structures: Time & Memory Complexities
 
+> [!TIP]
+> **Deep-Dive Interview Scenarios & Production Runbooks:**
+> - [Q43. Extracting Top-K Frequent Destinations from High-Volume Travel Booking Data](frequently_asked_questions/02_python_for_data_and_systems_faq.md#q43-medium-extracting-top-k-frequent-destinations-from-high-volume-travel-booking-data)
+
 #### 1. Overview: The Memory Overhead of CPython Primitives
 In data engineering pipelines, processing millions of incoming records using native Python primitives requires understanding **CPython object overhead**. Unlike low-level systems languages (C++, Rust) where arrays are contiguous blocks of raw primitive bytes, every Python object is a `PyObject` structure containing a reference count (`ob_refcnt`, 8 bytes) and a type pointer (`ob_type`, 8 bytes). A single 64-bit integer that requires 8 bytes in C consumes **28 bytes** in Python!
 

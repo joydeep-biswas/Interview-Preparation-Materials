@@ -1,21 +1,68 @@
-# CPython Runtime & Memory Architecture Overview
+# CPython Runtime, Memory Architecture & Execution Model
 direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  card: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+}
 
 memory: "1. CPython Memory Management" {
-  pymalloc: "PyMalloc (Objects <= 512B)\n• Arenas (256KB) -> Pools (4KB) -> Blocks\n• Thread-local free lists"
-  refcnt: "Reference Counting (Primary GC)\n• Deterministic deallocation at refcnt == 0"
-  gc: "Cyclic GC (Gen 0, 1, 2)\n• Tri-color marking resolves circular cycles"
+  class: pillar
+  style.stroke: "#3B82F6"
+  pymalloc: "PyMalloc Allocator (<= 512B)\n• Arenas (256KB) -> Pools (4KB) -> Blocks\n• Fast O(1) allocation via thread-local free lists" {
+    class: card
+    style.stroke: "#3B82F6"
+  }
+  refcnt: "Reference Counting (Primary GC)\n• ob_refcnt incremented on assignment/call\n• Immediate deterministic deallocation at refcnt == 0" {
+    class: card
+    style.stroke: "#F59E0B"
+  }
+  gc: "Cyclic GC (Generations 0, 1, 2)\n• Resolves circular reference cycles\n• Tri-color marking & trial deletion" {
+    class: card
+    style.stroke: "#EF4444"
+  }
   pymalloc -> refcnt -> gc
 }
 
 engines: "2. Modern Data Engines" {
-  polars: "Polars (Rust Arrow Core)\n• Columnar off-heap buffers\n• Multi-threaded query optimizer"
-  duckdb: "DuckDB (In-Process OLAP)\n• Vectorized SIMD execution\n• Zero-copy Parquet scans"
-  generators: "Generators & Iterators\n• Bounded O(1) RAM streaming"
+  class: pillar
+  style.stroke: "#10B981"
+  polars: "Polars (Rust Arrow Core)\n• Contiguous columnar off-heap buffers\n• Multi-threaded query optimizer (Rayon)" {
+    class: card
+    style.stroke: "#10B981"
+  }
+  duckdb: "DuckDB (In-Process OLAP)\n• Vectorized SIMD execution\n• Zero-copy Parquet scan & out-of-core spill" {
+    class: card
+    style.stroke: "#10B981"
+  }
+  generators: "Generators & Iterators\n• Bounded O(1) RAM streaming pipeline\n• Lazy yield evaluation" {
+    class: card
+    style.stroke: "#3B82F6"
+  }
+  generators -> polars: "Zero-copy ingestion"
 }
 
-concurrency: "3. Concurrency & Runtimes" {
-  gil: "Global Interpreter Lock (GIL)\n• Serializes bytecode to 1 CPU core"
-  mp: "Multiprocessing\n• Bypasses GIL with separate OS processes"
-  asyncio: "Asyncio & Threading\n• High-concurrency I/O event loops"
+concurrency: "3. Concurrency & Execution Boundaries" {
+  class: pillar
+  style.stroke: "#8B5CF6"
+  gil: "Global Interpreter Lock (GIL)\n• Mutex protecting CPython object state\n• Serializes bytecode execution to 1 CPU core" {
+    class: card
+    style.stroke: "#EF4444"
+  }
+  mp: "Multiprocessing (ProcessPool)\n• Spawns independent OS processes\n• Bypasses GIL with separate heaps" {
+    class: card
+    style.stroke: "#10B981"
+  }
+  asyncio: "Asyncio & Threading\n• Non-blocking cooperative I/O event loops\n• GIL released during OS socket calls" {
+    class: card
+    style.stroke: "#8B5CF6"
+  }
+  gil -> mp: "Bypass for CPU workloads"
+  gil -> asyncio: "Release for I/O workloads"
+}
+
+memory.pymalloc -> engines.generators: "Object Allocation" {
+  style.stroke: "#3B82F6"
+}
+engines.polars -> concurrency.mp: "Parallel Execution" {
+  style.stroke: "#10B981"
 }

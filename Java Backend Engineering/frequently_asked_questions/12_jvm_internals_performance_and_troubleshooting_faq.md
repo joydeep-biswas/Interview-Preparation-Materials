@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to real-world interview scenarios and di
 
 ![JVM Subsystems: Memory Layout, Execution & Garbage Collection](assets/12_jvm_internals_performance_and_troubleshooting_faq/01_jvm_subsystems_memory_execution_gc_architecture.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting_faq/01_jvm_subsystems_memory_execution_gc_architecture.d2](assets/12_jvm_internals_performance_and_troubleshooting_faq/01_jvm_subsystems_memory_execution_gc_architecture.d2)
+*D2 Source: [`01_jvm_subsystems_memory_execution_gc_architecture.d2`](assets/12_jvm_internals_performance_and_troubleshooting_faq/01_jvm_subsystems_memory_execution_gc_architecture.d2)*
 
 ---
 
@@ -174,7 +174,7 @@ Where:
 #### Visual Flow
 ![CPU Spike Thread Dump Analysis Decision Tree](assets/12_jvm_internals_performance_and_troubleshooting_faq/02_cpu_spike_thread_dump_analysis_decision_tree.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting_faq/02_cpu_spike_thread_dump_analysis_decision_tree.d2](assets/12_jvm_internals_performance_and_troubleshooting_faq/02_cpu_spike_thread_dump_analysis_decision_tree.d2)
+*D2 Source: [`02_cpu_spike_thread_dump_analysis_decision_tree.d2`](assets/12_jvm_internals_performance_and_troubleshooting_faq/02_cpu_spike_thread_dump_analysis_decision_tree.d2)*
 
 #### Production Implementation / Code Solution
 ```java
@@ -274,7 +274,7 @@ The 5 distinct flavors of OOM in Spring Boot production environments:
 #### Visual Flow
 ![OOM Heap Dump Analysis Dominator Tree](assets/12_jvm_internals_performance_and_troubleshooting_faq/03_oom_heap_dump_analysis_dominator_tree.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting_faq/03_oom_heap_dump_analysis_dominator_tree.d2](assets/12_jvm_internals_performance_and_troubleshooting_faq/03_oom_heap_dump_analysis_dominator_tree.d2)
+*D2 Source: [`03_oom_heap_dump_analysis_dominator_tree.d2`](assets/12_jvm_internals_performance_and_troubleshooting_faq/03_oom_heap_dump_analysis_dominator_tree.d2)*
 
 #### Production Implementation / Code Solution
 ##### 1. Mandatory JVM Flags for Container Production Deployments (`Dockerfile` / Kubernetes Pod spec)
@@ -386,7 +386,7 @@ The primary architectural triggers of GC activity under low external load:
 #### Visual Flow
 ![Premature Tenuring & Allocation Churn Mechanics](assets/12_jvm_internals_performance_and_troubleshooting_faq/04_premature_tenuring_allocation_churn_mechanics.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting_faq/04_premature_tenuring_allocation_churn_mechanics.d2](assets/12_jvm_internals_performance_and_troubleshooting_faq/04_premature_tenuring_allocation_churn_mechanics.d2)
+*D2 Source: [`04_premature_tenuring_allocation_churn_mechanics.d2`](assets/12_jvm_internals_performance_and_troubleshooting_faq/04_premature_tenuring_allocation_churn_mechanics.d2)*
 
 #### Production Implementation / Code Solution
 ##### Bad Code (Allocation Churn in Background Polling) vs Good Code (Zero-Allocation Buffer Re-use)
@@ -504,7 +504,7 @@ When concurrency jumps from 10 to 1,000, if throughput ($\lambda$) cannot scale 
 #### Visual Flow
 ![High-Throughput Microservice Bottleneck Triage Flow](assets/12_jvm_internals_performance_and_troubleshooting_faq/05_high_throughput_microservice_bottleneck_triage_flow.svg)
 
-*D2 Source:* [assets/12_jvm_internals_performance_and_troubleshooting_faq/05_high_throughput_microservice_bottleneck_triage_flow.d2](assets/12_jvm_internals_performance_and_troubleshooting_faq/05_high_throughput_microservice_bottleneck_triage_flow.d2)
+*D2 Source: [`05_high_throughput_microservice_bottleneck_triage_flow.d2`](assets/12_jvm_internals_performance_and_troubleshooting_faq/05_high_throughput_microservice_bottleneck_triage_flow.d2)*
 
 #### Production Implementation / Code Solution
 ##### 1. Production `application.yml` Tuned for 1,000 Concurrency

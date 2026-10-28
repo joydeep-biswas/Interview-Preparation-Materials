@@ -8,7 +8,7 @@ A comprehensive guide answering all 34 frequently asked interview questions on t
 
 ![Iterable & Collection Core Interface Hierarchy](assets/02_java_collections_and_generics_faq/01_iterable_collection_hierarchy.svg)
 
-*D2 Source:* [assets/02_java_collections_and_generics_faq/01_iterable_collection_hierarchy.d2](assets/02_java_collections_and_generics_faq/01_iterable_collection_hierarchy.d2)
+*D2 Source: [`01_iterable_collection_hierarchy.d2`](assets/02_java_collections_and_generics_faq/01_iterable_collection_hierarchy.d2)*
 
 ---
 
@@ -71,7 +71,7 @@ A comprehensive guide answering all 34 frequently asked interview questions on t
 
 ![Memory Layout & Cache Locality: ArrayList vs LinkedList](assets/02_java_collections_and_generics_faq/02_arraylist_vs_linkedlist_memory.svg)
 
-*D2 Source:* [assets/02_java_collections_and_generics_faq/02_arraylist_vs_linkedlist_memory.d2](assets/02_java_collections_and_generics_faq/02_arraylist_vs_linkedlist_memory.d2)
+*D2 Source: [`02_arraylist_vs_linkedlist_memory.d2`](assets/02_java_collections_and_generics_faq/02_arraylist_vs_linkedlist_memory.d2)*
 
 | Operation | `ArrayList` | `LinkedList` |
 | :--- | :--- | :--- |
@@ -142,7 +142,7 @@ Every `HashSet` wraps an internal `HashMap<E, Object>` instance. Adding element 
 
 ![Java HashMap Internal Mechanics & Collision Handling](assets/02_java_collections_and_generics_faq/03_hashmap_internal_mechanics_collision.svg)
 
-*D2 Source:* [assets/02_java_collections_and_generics_faq/03_hashmap_internal_mechanics_collision.d2](assets/02_java_collections_and_generics_faq/03_hashmap_internal_mechanics_collision.d2)
+*D2 Source: [`03_hashmap_internal_mechanics_collision.d2`](assets/02_java_collections_and_generics_faq/03_hashmap_internal_mechanics_collision.d2)*
 
 - **Initial Capacity:** 16 (always a power of 2).
 - **Load Factor:** 0.75.
@@ -384,7 +384,7 @@ When allocating concurrent resources (e.g., meeting rooms, thread workers, datab
 
 ![Meeting Rooms II: Min-Heap Resource Allocation Topology](assets/02_java_collections_and_generics_faq/04_meeting_rooms_min_heap_allocation.svg)
 
-*D2 Source:* [assets/02_java_collections_and_generics_faq/04_meeting_rooms_min_heap_allocation.d2](assets/02_java_collections_and_generics_faq/04_meeting_rooms_min_heap_allocation.d2)
+*D2 Source: [`04_meeting_rooms_min_heap_allocation.d2`](assets/02_java_collections_and_generics_faq/04_meeting_rooms_min_heap_allocation.d2)*
 
 #### Production Code
 ```java
@@ -472,7 +472,7 @@ While Java permits using mutable objects as `HashMap` keys, it is an **enterpris
 
 ![The Hazard of Mutable HashMap Keys & Lookup Failure](assets/02_java_collections_and_generics_faq/05_mutable_hashmap_keys_lookup_failure.svg)
 
-*D2 Source:* [assets/02_java_collections_and_generics_faq/05_mutable_hashmap_keys_lookup_failure.d2](assets/02_java_collections_and_generics_faq/05_mutable_hashmap_keys_lookup_failure.d2)
+*D2 Source: [`05_mutable_hashmap_keys_lookup_failure.d2`](assets/02_java_collections_and_generics_faq/05_mutable_hashmap_keys_lookup_failure.d2)*
 
 * **Production Rule**: Always make `Map` keys strictly **immutable** (e.g., `String`, `UUID`, `Long`, or Java 17+ `record` with primitive/immutable components).
 
@@ -489,7 +489,7 @@ During resizing, elements either stay at the same index or move to `index + oldC
 
 ![HashMap Doubling & Bit Partitioning During resize()](assets/02_java_collections_and_generics_faq/06_hashmap_resize_bit_partitioning.svg)
 
-*D2 Source:* [assets/02_java_collections_and_generics_faq/06_hashmap_resize_bit_partitioning.d2](assets/02_java_collections_and_generics_faq/06_hashmap_resize_bit_partitioning.d2)
+*D2 Source: [`06_hashmap_resize_bit_partitioning.d2`](assets/02_java_collections_and_generics_faq/06_hashmap_resize_bit_partitioning.d2)*
 
 * **Complexity**: Resizing takes $O(N)$ amortized over insertions; single `put()` operation remains $O(1)$.
 * **Production Rule**: When expected element count $E$ is known upfront, initialize map with `new HashMap<>((int) (E / 0.75f) + 1)` to eliminate all resizing pauses.
@@ -525,7 +525,7 @@ To re-introduce flexible polymorphism, Java provides wildcard variance using Jos
 #### Visual Flow
 ![Generics Variance & PECS: Producer Extends, Consumer Super](assets/02_java_collections_and_generics_faq/07_pecs_variance_producer_extends_consumer_super.svg)
 
-*D2 Source:* [assets/02_java_collections_and_generics_faq/07_pecs_variance_producer_extends_consumer_super.d2](assets/02_java_collections_and_generics_faq/07_pecs_variance_producer_extends_consumer_super.d2)
+*D2 Source: [`07_pecs_variance_producer_extends_consumer_super.d2`](assets/02_java_collections_and_generics_faq/07_pecs_variance_producer_extends_consumer_super.d2)*
 
 #### Production Implementation / Code Solution
 ```java
@@ -596,7 +596,7 @@ public final class PecsAndOptionalDemo {
 
 ![Second Largest Element: Single-Pass State Machine](assets/02_java_collections_and_generics_faq/08_second_largest_single_pass_state_machine.svg)
 
-*D2 Source:* [assets/02_java_collections_and_generics_faq/08_second_largest_single_pass_state_machine.d2](assets/02_java_collections_and_generics_faq/08_second_largest_single_pass_state_machine.d2)
+*D2 Source: [`08_second_largest_single_pass_state_machine.d2`](assets/02_java_collections_and_generics_faq/08_second_largest_single_pass_state_machine.d2)*
 
 #### Production-Grade Implementation
 
@@ -686,7 +686,7 @@ public final class ArrayManipulationAlgorithms {
 
 ![Comparative Topologies: HashMap vs LinkedHashMap vs TreeMap](assets/02_java_collections_and_generics_faq/09_map_topology_hashmap_linkedhashmap_treemap.svg)
 
-*D2 Source:* [assets/02_java_collections_and_generics_faq/09_map_topology_hashmap_linkedhashmap_treemap.d2](assets/02_java_collections_and_generics_faq/09_map_topology_hashmap_linkedhashmap_treemap.d2)
+*D2 Source: [`09_map_topology_hashmap_linkedhashmap_treemap.d2`](assets/02_java_collections_and_generics_faq/09_map_topology_hashmap_linkedhashmap_treemap.d2)*
 
 Detailed Comparison Matrix:
 

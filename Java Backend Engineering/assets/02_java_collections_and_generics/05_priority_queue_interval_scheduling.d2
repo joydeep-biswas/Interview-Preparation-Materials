@@ -1,7 +1,18 @@
 direction: right
-title: PriorityQueue Min-Heap for Interval Scheduling (Meeting Rooms II)
+title: "PriorityQueue Min-Heap for Interval Scheduling (Meeting Rooms II)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Input: Sorted Intervals {
+Input: "Sorted Intervals" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   i1: "Interval 1: [0, 30] -> Room 1"
@@ -9,7 +20,8 @@ Input: Sorted Intervals {
   i3: "Interval 3: [15, 20] -> Room 2 free; reuse!"
 }
 
-MinHeap: PriorityQueue<Integer> Tracks End Times {
+MinHeap: "PriorityQueue<Integer> Tracks End Times" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   s1: "Step 1: Offer 30 -> Heap: [30] (1 room)"
@@ -18,12 +30,13 @@ MinHeap: PriorityQueue<Integer> Tracks End Times {
   result: "Max simultaneous rooms = Heap.size() = 2"
 }
 
-ArrayMath: Min-Heap Array Storage {
+ArrayMath: "Min-Heap Array Storage" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#1D4ED8"
   parent: "parent(i) = (i - 1) / 2"
-  left: "left(i) = 2i + 1"
-  right: "right(i) = 2i + 2"
+  "left": "left(i) = 2i + 1"
+  "right": "right(i) = 2i + 2"
   complexity: "Time: O(N log N) | Space: O(N)"
 }
 

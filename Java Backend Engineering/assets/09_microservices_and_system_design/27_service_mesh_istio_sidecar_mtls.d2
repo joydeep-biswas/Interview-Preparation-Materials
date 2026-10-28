@@ -1,25 +1,33 @@
 direction: right
 title: "Service Mesh Architecture: Istio & Envoy Sidecar Proxies"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 pod1: "Pod: Order Service" {
+  class: container
   style.fill: "#0b1329"
   style.stroke: "#3b82f6"
 
-  app1: "Spring Boot App
-Plain HTTP Call"
-  envoy1: "Envoy Sidecar
-SPIFFE Identity & Encryptor"
+  app1: "Spring Boot App\nPlain HTTP Call"
+  envoy1: "Envoy Sidecar\nSPIFFE Identity & Encryptor"
   app1 -> envoy1: "Localhost (Loopback)"
 }
 
 pod2: "Pod: Payment Service" {
+  class: container
   style.fill: "#1a140b"
   style.stroke: "#f59e0b"
 
-  envoy2: "Envoy Sidecar
-Terminates mTLS & AuthPolicy"
-  app2: "Spring Boot App
-Receives Plain HTTP"
+  envoy2: "Envoy Sidecar\nTerminates mTLS & AuthPolicy"
+  app2: "Spring Boot App\nReceives Plain HTTP"
   envoy2 -> app2: "Localhost (Loopback)"
 }
 

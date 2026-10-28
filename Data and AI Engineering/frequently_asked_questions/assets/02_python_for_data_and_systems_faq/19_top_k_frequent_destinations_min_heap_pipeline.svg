@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 340" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Step 1: Stream Ingestion -->
+  <g transform="translate(25, 110)">
+    <rect width="215" height="120" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="107" y="24" class="title" fill="#93C5FD">Streaming Event Stream</text>
+    <text x="14" y="48" class="body-txt">• Millions of booking payloads</text>
+    <text x="14" y="68" class="body-txt">• {"dest": "DXB"}, {"dest": "JFK"}...</text>
+    <text x="14" y="88" class="body-txt">• Continuous low-latency intake</text>
+  </g>
+
+  <!-- Connect 1 to 2 -->
+  <path d="M 240 170 L 275 170" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <rect x="242" y="155" width="28" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="256" y="167" class="edge-label" fill="#93C5FD">O(N)</text>
+
+  <!-- Step 2: Frequency Counter -->
+  <g transform="translate(275, 110)">
+    <rect width="220" height="120" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="110" y="24" class="title" fill="#FDE68A">Frequency Hash Map</text>
+    <text x="14" y="48" class="body-txt">• collections.Counter in O(N)</text>
+    <text x="14" y="68" class="body-txt">• DXB: 450, JFK: 320, LHR: 610</text>
+    <text x="14" y="88" class="body-txt">• U = Unique destination keys</text>
+  </g>
+
+  <!-- Connect 2 to 3 -->
+  <path d="M 495 170 L 530 170" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+  <rect x="498" y="155" width="28" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="512" y="167" class="edge-label" fill="#FDE68A">O(U)</text>
+
+  <!-- Step 3: Min-Heap of Size K -->
+  <g transform="translate(530, 110)">
+    <rect width="225" height="120" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="112" y="24" class="title" fill="#C4B5FD">Min-Heap of Size K</text>
+    <text x="14" y="48" class="body-txt">• Root holds current min in Top-K</text>
+    <text x="14" y="68" class="body-txt">• If count &gt; root: heappushpop()</text>
+    <text x="14" y="88" class="body-txt">• Auxiliary space: O(K) bounded</text>
+  </g>
+
+  <!-- Connect 3 to 4 -->
+  <path d="M 755 170 L 790 170" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <rect x="758" y="155" width="28" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="772" y="167" class="edge-label" fill="#C4B5FD">O(K)</text>
+
+  <!-- Step 4: Sorted Top-K Output -->
+  <g transform="translate(790, 110)">
+    <rect width="205" height="120" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="102" y="24" class="title" fill="#A7F3D0">Sorted Top-K Result</text>
+    <text x="14" y="48" class="body-txt">• [(&apos;LHR&apos;, 610), (&apos;DXB&apos;, 450),</text>
+    <text x="14" y="68" class="body-txt">   (&apos;JFK&apos;, 320)]</text>
+    <text x="14" y="88" class="body-txt">• Total Time: O(N + U log K)</text>
+  </g>
+</svg>

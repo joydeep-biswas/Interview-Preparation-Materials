@@ -8,7 +8,7 @@ A comprehensive, production-grade guide answering real-world Low-Level Design (L
 
 ![Object-Oriented Concurrency & Java Memory Model Internals](assets/03_low_level_system_design/01_concurrency_and_memory_model_internals.svg)
 
-*D2 Source:* [assets/03_low_level_system_design/01_concurrency_and_memory_model_internals.d2](assets/03_low_level_system_design/01_concurrency_and_memory_model_internals.d2)
+*D2 Source: [`01_concurrency_and_memory_model_internals.d2`](assets/03_low_level_system_design/01_concurrency_and_memory_model_internals.d2)*
 
 ---
 
@@ -875,7 +875,7 @@ public class DynamicRuleEngine {
 
 ![Spotify Music Player: State Design Pattern & Domain Model](assets/03_low_level_system_design/02_spotify_music_streaming_class_diagram.svg)
 
-*D2 Source:* [assets/03_low_level_system_design/02_spotify_music_streaming_class_diagram.d2](assets/03_low_level_system_design/02_spotify_music_streaming_class_diagram.d2)
+*D2 Source: [`02_spotify_music_streaming_class_diagram.d2`](assets/03_low_level_system_design/02_spotify_music_streaming_class_diagram.d2)*
 
 #### Production Implementation (Java)
 ```java

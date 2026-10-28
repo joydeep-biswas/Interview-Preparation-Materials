@@ -8,7 +8,7 @@ A comprehensive, production-grade guide covering all core Data Structures & Algo
 
 ![DSA Curriculum Roadmap & Theoretical Progression](assets/00_dsa_study_guide_and_index/01_dsa_curriculum_roadmap.svg)
 
-*D2 Source:* [assets/00_dsa_study_guide_and_index/01_dsa_curriculum_roadmap.d2](assets/00_dsa_study_guide_and_index/01_dsa_curriculum_roadmap.d2)
+*D2 Source: [`01_dsa_curriculum_roadmap.d2`](assets/00_dsa_study_guide_and_index/01_dsa_curriculum_roadmap.d2)*
 
 ---
 

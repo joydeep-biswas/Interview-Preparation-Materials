@@ -1,10 +1,10 @@
 direction: right
 classes: {
-  sent: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  embed: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  dist: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  split: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  merge: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  sent: { style: { fill: "#1e293b"; stroke: "#38bdf8"; font-color: "#f8fafc" } }
+  embed: { style: { fill: "#581c87"; stroke: "#c084fc"; font-color: "#e9d5ff" } }
+  dist: { style: { fill: "#451a03"; stroke: "#fbbf24"; font-color: "#fde68a" } }
+  split: { style: { fill: "#7f1d1d"; stroke: "#f87171"; font-color: "#fecaca" } }
+  merge: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
 }
 
 sentences: "Input Sentences: [S1..S6]" { class: sent }
@@ -12,8 +12,9 @@ embed_s: "Embeddings: [e1..e6]" { class: embed }
 dist_calc: "Cosine Distance:\nd_i = 1 - cos(e_i, e_i+1)" { class: dist }
 
 boundary: "Insert Chunk Boundary\n(d_3 > tau: Topic Shift!)" { class: split }
-coherent: "Group Sentences\n(d_i &lt;= tau: Coherent)" { class: merge }
+coherent: "Group Sentences\n(d_i <= tau: Coherent)" { class: merge }
 
-sentences -> embed_s -> dist_calc
-dist_calc -> boundary: "d > tau"
-dist_calc -> coherent: "d &lt;= tau"
+sentences -> embed_s: "Tokenize"
+embed_s -> dist_calc: "Vector buffer"
+dist_calc -> boundary: "d > tau (Split)"
+dist_calc -> coherent: "d <= tau (Merge)"

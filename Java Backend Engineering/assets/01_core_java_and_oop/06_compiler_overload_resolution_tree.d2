@@ -1,48 +1,68 @@
 direction: right
-title: Java Compiler Overload Resolution Precedence Decision Tree
+title: "Java Compiler Overload Resolution Precedence Decision Tree"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 Call: "Method Call: process(42) [int]" {
+  class: container
   style.fill: "#1E293B"
   style.stroke: "#64748B"
 }
 
 Step1: "1. Exact Match exists?" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#3B82F6"
 }
 Term1: "Invoke Exact: process(int)" {
+  class: container
   style.fill: "#0F172A"
   style.stroke: "#10B981"
 }
 
 Step2: "2. Primitive Widening possible?" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#3B82F6"
 }
 Term2: "Invoke Widened: process(long)" {
+  class: container
   style.fill: "#0F172A"
   style.stroke: "#10B981"
 }
 
 Step3: "3. Autoboxing possible?" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#3B82F6"
 }
 Term3: "Invoke Boxed: process(Integer)" {
+  class: container
   style.fill: "#0F172A"
   style.stroke: "#06B6D4"
 }
 
 Step4: "4. Varargs Fallback available?" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#3B82F6"
 }
 Term4: "Invoke Varargs: process(int...)" {
+  class: container
   style.fill: "#0F172A"
   style.stroke: "#8B5CF6"
 }
 
 Term5: "COMPILER ERROR: No matching method" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#EF4444"
 }

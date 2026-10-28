@@ -1,20 +1,32 @@
 direction: right
-title: AQE Skew Join Optimization
-
-WithoutAQE: Skewed Join: Single Reducer Overloaded {
-  style.stroke: "#EF4444"
-  SkewKey: Customer 1: 50,000,000 Rows (Partition 42)
-  Worker1: Worker 1: Spills & Runs 4 Hours (Straggler)
-  Worker2: Worker 2: Finished in 1 Second (Idle)
-
-  SkewKey -> Worker1: Giant single task { style.stroke: "#EF4444" }
+title: "AQE Skew Join Optimization"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-WithAQE: AQE Skew Join: Dynamic Splitting {
+WithoutAQE: "Skewed Join: Single Reducer Overloaded" {
+  class: container
+  style.stroke: "#EF4444"
+  SkewKey: "Customer 1: 50,000,000 Rows (Partition 42)"
+  Worker1: "Worker 1: Spills & Runs 4 Hours (Straggler)"
+  Worker2: "Worker 2: Finished in 1 Second (Idle)"
+
+  SkewKey -> Worker1: "Giant single task" { style.stroke: "#EF4444" }
+}
+
+WithAQE: "AQE Skew Join: Dynamic Splitting" {
+  class: container
   style.stroke: "#34D399"
-  Chunk1: Chunk 42A (10M Rows) -> WorkerA: Worker A
-  Chunk2: Chunk 42B (10M Rows) -> WorkerB: Worker B
-  Chunk3: Chunk 42C (10M Rows) -> WorkerC: Worker C
-  Chunk4: Chunk 42D (10M Rows) -> WorkerD: Worker D
-  Chunk5: Chunk 42E (10M Rows) -> WorkerE: Worker E
+  Chunk1: "Chunk 42A (10M Rows) -> WorkerA: Worker A"
+  Chunk2: "Chunk 42B (10M Rows) -> WorkerB: Worker B"
+  Chunk3: "Chunk 42C (10M Rows) -> WorkerC: Worker C"
+  Chunk4: "Chunk 42D (10M Rows) -> WorkerD: Worker D"
+  Chunk5: "Chunk 42E (10M Rows) -> WorkerE: Worker E"
 }

@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1100" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1100" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Object-Relational Impedance Mismatch in Enterprise Systems</text>
   <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Bridging Structural, Paradigmatic, and Type Frictions Between OOP Graphs and Relational SQL Tables</text>
 <rect x="40" y="95" width="340" height="360" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
-<rect x="55" y="110" width="200" height="22" rx="11" fill="#1e3a8a"/><text x="155" y="124" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Java Object Domain Model</text>
+<rect x="55" y="110" width="200" height="22" rx="11" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="155" y="124" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Java Object Domain Model</text>
 <rect x="55" y="143" width="310" height="85" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1"/>
 <text x="65" y="163" fill="#60A5FA" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Granularity &amp; Embedded Objects</text>
 <text x="65" y="181" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">class User {</text>
@@ -49,7 +49,7 @@
 <text x="65" y="411" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Circular navigation allowed</text>
 <text x="65" y="427" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Bidirectional List&lt;Order&gt; pointers</text>
 <rect x="410" y="95" width="280" height="360" rx="8" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
-<rect x="425" y="110" width="250" height="22" rx="11" fill="#78350f"/><text x="550" y="124" fill="#FDE68A" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">JPA / Hibernate ORM Layer</text>
+<rect x="425" y="110" width="250" height="22" rx="11" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="550" y="124" fill="#FDE68A" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">JPA / Hibernate ORM Layer</text>
 <text x="550" y="155" fill="#FBBF24" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Translation Bridge</text>
 <rect x="422" y="180" width="256" height="48" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
 <text x="430" y="196" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Granularity: @Embeddable &amp; @Embedded</text>
@@ -69,7 +69,7 @@
 <line x1="380" y1="275" x2="410" y2="275" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
 <line x1="410" y1="295" x2="380" y2="295" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
 <rect x="720" y="95" width="340" height="360" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
-<rect x="735" y="110" width="200" height="22" rx="11" fill="#064e3b"/><text x="835" y="124" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Relational Database (SQL)</text>
+<rect x="735" y="110" width="200" height="22" rx="11" fill="#064e3b" stroke="#10B981" stroke-width="1"/><text x="835" y="124" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Relational Database (SQL)</text>
 <rect x="735" y="143" width="310" height="85" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
 <text x="745" y="163" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Table: users (Normalized Flat)</text>
 <text x="745" y="181" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">id UUID PRIMARY KEY,</text>

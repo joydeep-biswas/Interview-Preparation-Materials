@@ -1,42 +1,49 @@
+# The ANSI SQL 9-Stage Logical Query Processing Lifecycle
 direction: right
 classes: {
-  pillar: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
-  stage: { style: { fill: "#1E293B"; stroke-width: 1.5; rx: 8 } }
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
 }
 
 stage1: "Stage 1: Source & Ingestion" {
   class: pillar
   style.stroke: "#3B82F6"
-  s1: "1. FROM & JOINs\nCross products, ON predicates & virtual tables" { class: stage; style.stroke: "#3B82F6" }
-  s2: "2. WHERE\nFilter rows prior to grouping (prune scan volume)" { class: stage; style.stroke: "#3B82F6" }
+  s1: "1. FROM & JOINs (VT1)\n• Identifies base tables & relations\n• Evaluates ON predicates & Cartesian sets" { class: stage; style.stroke: "#3B82F6" }
+  s2: "2. WHERE Filter (VT2)\n• Evaluates row-level boolean predicates\n• Prunes scans prior to grouping; no aliases" { class: stage; style.stroke: "#EF4444" }
   s1 -> s2
 }
 
 stage2: "Stage 2: Grouping & Aggregation" {
   class: pillar
   style.stroke: "#F59E0B"
-  s3: "3. GROUP BY\nBucket rows into discrete aggregate groups" { class: stage; style.stroke: "#F59E0B" }
-  s4: "4. HAVING\nFilter aggregated metrics (post-grouping prune)" { class: stage; style.stroke: "#F59E0B" }
+  s3: "3. GROUP BY (VT3)\n• Partitions rows into distinct key buckets\n• Non-grouped columns folded into aggregates" { class: stage; style.stroke: "#F59E0B" }
+  s4: "4. HAVING Filter (VT4)\n• Evaluates post-aggregation predicates\n• Prunes groups failing aggregate conditions" { class: stage; style.stroke: "#F59E0B" }
   s3 -> s4
 }
 
 stage3: "Stage 3: Projection & Sets" {
   class: pillar
   style.stroke: "#10B981"
-  s5: "5. SELECT\nEvaluate expressions, scalar math & aliases" { class: stage; style.stroke: "#10B981" }
-  s6: "6. DISTINCT\nHash/sort deduplication across projected columns" { class: stage; style.stroke: "#10B981" }
-  s7: "7. UNION / INTERSECT\nCombine rowsets from distinct subqueries" { class: stage; style.stroke: "#10B981" }
+  s5: "5. SELECT & OVER() (VT5)\n• Projects columns, calculates math & aliases\n• Computes OVER() analytical partitions" { class: stage; style.stroke: "#10B981" }
+  s6: "6. DISTINCT (VT6)\n• Deduplicates materialized projected rows\n• Hash/sort set uniqueness across tuples" { class: stage; style.stroke: "#10B981" }
+  s7: "7. Set Operators (VT7)\n• Combines rows via UNION, INTERSECT, EXCEPT\n• Merges independent query pipelines" { class: stage; style.stroke: "#10B981" }
   s5 -> s6 -> s7
 }
 
 stage4: "Stage 4: Ordering & Limiting" {
   class: pillar
   style.stroke: "#8B5CF6"
-  s8: "8. ORDER BY\nSort final unified result set (aliases visible)" { class: stage; style.stroke: "#8B5CF6" }
-  s9: "9. LIMIT / OFFSET\nRestrict output cardinality for client" { class: stage; style.stroke: "#EF4444" }
+  s8: "8. ORDER BY (VT8)\n• Sorts surviving materialized rows (O(N log N))\n• SELECT column aliases are fully visible" { class: stage; style.stroke: "#8B5CF6" }
+  s9: "9. LIMIT / OFFSET (VT9)\n• Top-N heap / pagination boundary\n• Restricts final cardinality for client egress" { class: stage; style.stroke: "#EF4444" }
   s8 -> s9
 }
 
-stage1.s2 -> stage2.s3: "Filtered Stream"
-stage2.s4 -> stage3.s5: "Aggregated Groups"
-stage3.s7 -> stage4.s8: "Projected Rows"
+stage1.s2 -> stage2.s3: "Filtered Stream (VT2)" {
+  style.stroke: "#F59E0B"
+}
+stage2.s4 -> stage3.s5: "Aggregated Groups (VT4)" {
+  style.stroke: "#10B981"
+}
+stage3.s7 -> stage4.s8: "Projected Set (VT7)" {
+  style.stroke: "#8B5CF6"
+}

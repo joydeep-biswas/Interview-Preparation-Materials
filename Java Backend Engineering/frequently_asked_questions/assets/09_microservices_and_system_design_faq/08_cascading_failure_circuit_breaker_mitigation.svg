@@ -21,7 +21,7 @@
     .badge { font-weight: 600; font-size: 11px; }
   </style>
 
-  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12" stroke="#1F2937" stroke-width="1.5"/>
 
   <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Cascading Failure Meltdown &amp; Circuit Breaker Mitigation</text>
   <text x="530" y="52" class="subtitle" text-anchor="middle">How retry amplification triggers exponential traffic explosion vs Circuit Breaker fail-fast shedding</text>
@@ -29,11 +29,11 @@
   <!-- Left: The Cascading Meltdown -->
   <g transform="translate(40, 75)">
     <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
-    <rect width="460" height="30" rx="10" ry="10" fill="#7F1D1D"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
     <text x="230" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">Pathological Meltdown: Multiplicative Retry Storm</text>
 
     <g transform="translate(20, 48)">
-      <rect x="0" y="0" width="420" height="70" rx="6" ry="6" fill="#1E293B"/>
+      <rect x="0" y="0" width="420" height="70" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
       <text x="15" y="20" class="badge" fill="#93C5FD">Chain of 3 Services with Retries</text>
       <text x="15" y="38" class="card-body" font-family="monospace">Service A (Retries=3) -&gt; Service B (Retries=3) -&gt; Service C</text>
       <text x="15" y="52" class="card-body" font-size="11" fill="#FCA5A5">Each layer retries 3 times on timeout</text>
@@ -51,14 +51,14 @@
       <text x="15" y="234" class="card-body" font-size="11">Total platform blackout triggered by retry amplification.</text>
     </g>
 
-    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#450A0A"/>
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#450A0A" stroke="#EF4444" stroke-width="1"/>
     <text x="210" y="328" class="badge" fill="#FCA5A5" text-anchor="middle">Retries turn a localized slowdown into an existential outage!</text>
   </g>
 
   <!-- Right: Circuit Breaker + Load Shedding -->
   <g transform="translate(560, 75)">
     <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="460" height="30" rx="10" ry="10" fill="#065F46"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#065F46" stroke="#10B981" stroke-width="1"/>
     <text x="230" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">Circuit Breaker &amp; Load Shedding Defense</text>
 
     <g transform="translate(20, 48)">
@@ -79,7 +79,7 @@
       <text x="15" y="231" class="card-body" font-size="11">recovers CPU/memory health, and passes HALF_OPEN health probes.</text>
     </g>
 
-    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#064E3B"/>
+    <rect x="20" y="305" width="420" height="45" rx="4" ry="4" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
     <text x="210" y="328" class="badge" fill="#A7F3D0" text-anchor="middle">Graceful Degradation: System bends under load without breaking!</text>
   </g>
 </svg>

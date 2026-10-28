@@ -1,26 +1,39 @@
 direction: right
-title: Databricks Compute Comparison Matrix
+title: "Databricks Compute Comparison Matrix"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-AllPurpose: 1. All-Purpose Compute {
+AllPurpose: "1. All-Purpose Compute" {
+  class: container
   style.stroke: "#38BDF8"
-  Workload: Interactive Notebook Prototyping
-  Cost: High DBU (~0.50 DBU/hr)
-  Lifecycle: Persistent until manual stop
-  Rule: NEVER run production jobs here!
+  Workload: "Interactive Notebook Prototyping"
+  Cost: "High DBU (~0.50 DBU/hr)"
+  Lifecycle: "Persistent until manual stop"
+  Rule: "NEVER run production jobs here!"
 }
 
-JobCompute: 2. Job Compute Clusters {
+JobCompute: "2. Job Compute Clusters" {
+  class: container
   style.stroke: "#34D399"
-  Workload: Automated Production Workflows & ETL
-  Cost: 50% Cheaper (~0.20 DBU/hr)
-  Lifecycle: Ephemeral (Auto-destroys immediately)
-  Rule: Mandatory for all scheduled pipelines!
+  Workload: "Automated Production Workflows & ETL"
+  Cost: "50% Cheaper (~0.20 DBU/hr)"
+  Lifecycle: "Ephemeral (Auto-destroys immediately)"
+  Rule: "Mandatory for all scheduled pipelines!"
 }
 
-SQLWarehouse: 3. Serverless SQL Warehouses {
+SQLWarehouse: "3. Serverless SQL Warehouses" {
+  class: container
   style.stroke: "#C084FC"
-  Workload: BI Dashboards & Analyst SQL
-  Cost: Auto-stopping Serverless Pool
-  Lifecycle: Starts in <2s, scales horizontally
-  Rule: Photon-native for maximum query speed
+  Workload: "BI Dashboards & Analyst SQL"
+  Cost: "Auto-stopping Serverless Pool"
+  Lifecycle: "Starts in <2s, scales horizontally"
+  Rule: "Photon-native for maximum query speed"
 }

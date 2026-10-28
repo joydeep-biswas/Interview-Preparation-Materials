@@ -1,30 +1,32 @@
 direction: right
 title: "JPA & Hibernate Entity Lifecycle State Transitions"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-transient: "1. TRANSIENT
-new Product()
-No DB Identity, Untracked" {
+transient: "1. TRANSIENT\nnew Product()\nNo DB Identity, Untracked" {
   style.fill: "#1e293b"
   style.stroke: "#3b82f6"
 }
 
-managed: "2. MANAGED (Persistent)
-In Persistence Context
-Auto Dirty Checking Active" {
+managed: "2. MANAGED (Persistent)\nIn Persistence Context\nAuto Dirty Checking Active" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }
 
-detached: "3. DETACHED
-Session closed / em.detach()
-LazyInitializationException trap" {
+detached: "3. DETACHED\nSession closed / em.detach()\nLazyInitializationException trap" {
   style.fill: "#1e293b"
   style.stroke: "#f59e0b"
 }
 
-removed: "4. REMOVED
-Scheduled for SQL DELETE
-em.remove(entity)" {
+removed: "4. REMOVED\nScheduled for SQL DELETE\nem.remove(entity)" {
   style.fill: "#1a1118"
   style.stroke: "#ef4444"
 }

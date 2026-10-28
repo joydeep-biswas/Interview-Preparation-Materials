@@ -38,7 +38,7 @@
 
   <!-- Top: Queue Boundary State -->
   <rect x="50" y="95" width="1100" height="120" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="95" width="1100" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="95" width="1100" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="600" y="116" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Queue Memory State: Sentinel Node Chain with Head &amp; Tail Pointers</text>
 
   <!-- Head Pointer -->
@@ -79,7 +79,7 @@
 
   <!-- Step 1: Read Tail &amp; Verify Next -->
   <rect x="50" y="235" width="340" height="225" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="235" width="340" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="235" width="340" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="220" y="255" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Read Tail &amp; Verify next == null</text>
 
   <rect x="70" y="275" width="300" height="170" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
@@ -93,7 +93,7 @@
 
   <!-- Step 2: CAS Link New Node -->
   <rect x="420" y="235" width="350" height="225" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
-  <rect x="420" y="235" width="350" height="30" rx="8" fill="#064E3B"/>
+  <rect x="420" y="235" width="350" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="595" y="255" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. CAS Link: t.casNext(null, newNode)</text>
 
   <rect x="440" y="275" width="310" height="170" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
@@ -108,7 +108,7 @@
 
   <!-- Step 3: CAS Advance Tail -->
   <rect x="800" y="235" width="350" height="225" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
-  <rect x="800" y="235" width="350" height="30" rx="8" fill="#4C1D95"/>
+  <rect x="800" y="235" width="350" height="30" rx="8" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
   <text x="975" y="255" font-size="12" font-weight="700" fill="#C4B5FD" text-anchor="middle">3. CAS Advance Tail: casTail(t, newNode)</text>
 
   <rect x="820" y="275" width="310" height="170" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>

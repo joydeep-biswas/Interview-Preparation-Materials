@@ -1,21 +1,36 @@
 direction: right
-title: Spark Executor Memory Breakdown
+title: "Spark Executor Memory Breakdown"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-TotalHeap: Total JVM Heap (16 GB) {
+TotalHeap: "Total JVM Heap (16 GB)" {
+  class: container
   style.stroke: "#334155"
 
-  Reserved: Reserved Memory (300MB fixed)
-  UserMem: User Memory (25% = ~3.9GB) {
-    Desc: Custom UDFs, non-Tungsten objects, maps
+  Reserved: "Reserved Memory (300MB fixed)"
+  UserMem: "User Memory (25% = ~3.9GB)" {
+    class: box
+    Desc: "Custom UDFs, non-Tungsten objects, maps"
   }
 
-  UnifiedPool: Spark Memory Pool (75% = ~11.8GB) {
+  UnifiedPool: "Spark Memory Pool (75% = ~11.8GB)" {
+    class: box
     style.stroke: "#38BDF8"
-    Storage: Storage Memory (50% = ~5.9GB) {
-      Cached: Cached DataFrames & Broadcasts
+    Storage: "Storage Memory (50% = ~5.9GB)" {
+      class: box
+      Cached: "Cached DataFrames & Broadcasts"
     }
-    Execution: Execution Memory (50% = ~5.9GB) {
-      Shuffle: Shuffle, Join & Sort Buffers
+    Execution: "Execution Memory (50% = ~5.9GB)" {
+      class: box
+      Shuffle: "Shuffle, Join & Sort Buffers"
     }
 
     Storage <-> Execution: Dynamic Borrowing (Execution has eviction priority!)

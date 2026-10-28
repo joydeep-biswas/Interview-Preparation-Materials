@@ -1,17 +1,30 @@
 direction: right
-title: Graph Topologies & Shortest Paths Architecture
+title: "Graph Topologies & Shortest Paths Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-DataStructures: 1. Graph Data Structures {
+DataStructures: "1. Graph Data Structures" {
+  class: container
   AdjList: "Adjacency List (Sparse O(V+E))"
   AdjMatrix: "Adjacency Matrix (Dense O(V^2))"
 }
 
-Traversals: 2. Core Traversals & Cycle Detection {
+Traversals: "2. Core Traversals & Cycle Detection" {
+  class: container
   BFS: "Breadth-First Search (Frontier Queue)"
   DFS: "DFS 3-Color Cycle Detection\n(White=0, Gray=1, Black=2)"
 }
 
-Algorithms: 3. Dependencies & Shortest Paths {
+Algorithms: "3. Dependencies & Shortest Paths" {
+  class: container
   Kahn: "Kahn's Topological Sort (In-Degree Queue)"
   DSU: "Union-Find DSU (Path Compression)"
   Dijkstra: "Dijkstra Priority Queue (O((V+E)logV))"

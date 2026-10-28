@@ -38,7 +38,7 @@
 
   <!-- Left Side: Stateful Sessions -->
   <rect x="50" y="105" width="510" height="360" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
-  <rect x="50" y="105" width="510" height="32" rx="8" fill="#7F1D1D"/>
+  <rect x="50" y="105" width="510" height="32" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
   <text x="305" y="126" font-size="12" font-weight="700" fill="#FCA5A5" text-anchor="middle">Stateful Session Authentication (Legacy Monolith)</text>
 
   <!-- Browser -->
@@ -61,7 +61,7 @@
 
   <!-- Right Side: Stateless JWT -->
   <rect x="620" y="105" width="510" height="360" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
-  <rect x="620" y="105" width="510" height="32" rx="8" fill="#064E3B"/>
+  <rect x="620" y="105" width="510" height="32" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="875" y="126" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Stateless JWT Authentication (Cloud Microservices)</text>
 
   <!-- Client App -->

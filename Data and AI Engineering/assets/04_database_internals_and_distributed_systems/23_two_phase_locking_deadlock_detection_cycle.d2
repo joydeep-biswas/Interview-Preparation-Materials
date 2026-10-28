@@ -1,11 +1,22 @@
 direction: right
-title: Two-Phase Locking & Deadlock Detection Cycle
+title: "Two-Phase Locking & Deadlock Detection Cycle"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-graph: Two-Phase Locking Dependency Graph {
-  tx1: Transaction 1 (TxID: 101)
-  tx2: Transaction 2 (TxID: 102)
-  row_a: Account 101
-  row_b: Account 202
+graph: "Two-Phase Locking Dependency Graph" {
+  class: container
+  tx1: "Transaction 1 (TxID: 101)"
+  tx2: "Transaction 2 (TxID: 102)"
+  row_a: "Account 101"
+  row_b: "Account 202"
 
   tx1 -> row_a: "Holds Lock"
   tx1 -> row_b: "Waiting for Lock" {
@@ -19,8 +30,10 @@ graph: Two-Phase Locking Dependency Graph {
   }
 }
 
-engine: Deadlock Detection Engine {
-  resolution: DEADLOCK CYCLE DETECTED {
+engine: "Deadlock Detection Engine" {
+  class: container
+  resolution: "DEADLOCK CYCLE DETECTED" {
+    class: box
     details: "Wait-for graph cycle: Tx1 <-> Tx2. Engine aborts youngest victim (Tx 2)"
     style.stroke: "#ef4444"
   }

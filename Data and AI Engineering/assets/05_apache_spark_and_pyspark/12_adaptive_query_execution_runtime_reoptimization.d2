@@ -1,27 +1,40 @@
 direction: right
-title: Adaptive Query Execution (AQE) Architecture
+title: "Adaptive Query Execution (AQE) Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Traditional: Static Execution (Pre-Spark 3) {
+Traditional: "Static Execution (Pre-Spark 3)" {
+  class: container
   style.stroke: "#EF4444"
-  Compile: Static Compile Plan (Fixed 200 partitions)
-  Execute: Executes blindly (Skew stragglers & partition explosion)
+  Compile: "Static Compile Plan (Fixed 200 partitions)"
+  Execute: "Executes blindly (Skew stragglers & partition explosion)"
   Compile -> Execute
 }
 
-AQE: Adaptive Query Execution (Spark 3+) {
+AQE: "Adaptive Query Execution (Spark 3+)" {
+  class: container
   style.stroke: "#34D399"
-  Stage1: Stage 1 Completes (Shuffle files written)
-  Stats: Real Runtime Statistics Analyzed
+  Stage1: "Stage 1 Completes (Shuffle files written)"
+  Stats: "Real Runtime Statistics Analyzed"
 
-  ReOpt: Runtime Optimizations {
-    A: Dynamically Coalesce Partitions
-    B: Switch SMJ to Broadcast Join
-    C: Dynamically Split Skewed Partitions
+  ReOpt: "Runtime Optimizations" {
+    class: box
+    A: "Dynamically Coalesce Partitions"
+    B: "Switch SMJ to Broadcast Join"
+    C: "Dynamically Split Skewed Partitions"
   }
 
-  Stage2: Stage 2 Executes with Optimized Plan
+  Stage2: "Stage 2 Executes with Optimized Plan"
 
-  Stage1 -> Stats: Ground truth partition sizes
-  Stats -> ReOpt: Triggers rules
-  ReOpt -> Stage2: Dispatches balanced tasks
+  Stage1 -> Stats: "Ground truth partition sizes"
+  Stats -> ReOpt: "Triggers rules"
+  ReOpt -> Stage2: "Dispatches balanced tasks"
 }

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="480" viewBox="0 0 1180 480">
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="500" viewBox="0 0 1180 500">
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
@@ -24,29 +24,29 @@
     <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
     </marker>
-    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
-    </marker>
     <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
     </marker>
   </defs>
-  <!-- Canvas Background -->
-  <rect width="1180" height="480" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
-  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">CPython Runtime, Memory Architecture &amp; Execution Model</text>
-  <text x="35" y="54" font-size="11" fill="#94A3B8">Core subsystems: PyMalloc memory hierarchy, modern analytical engines, and thread concurrency boundaries</text>
 
-  <!-- Column 1: Memory Subsystem (x=35..395, w=360) -->
+  <!-- Canvas Background -->
+  <rect width="1180" height="500" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">CPython Runtime, Memory Architecture &amp; Execution Model</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">CPython PyMalloc, Reference Counting, Cyclic GC, and High-Performance Off-Heap Engine Interoperability</text>
+
+  <!-- 3 Equal Width Columns (w=360 each with 25px runway gaps) -->
+
+  <!-- Column 1: CPython Memory (x=35..395, w=360) -->
   <g transform="translate(35, 95)">
     <rect width="360" height="355" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
     <text x="180" y="26" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">1. CPython Memory Management</text>
 
     <!-- Card 1.1 -->
     <rect x="15" y="42" width="330" height="85" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
-    <text x="180" y="66" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">PyMalloc Allocator (Objects &lt;= 512B)</text>
-    <text x="25" y="88" font-size="11" fill="#94A3B8" text-anchor="start">• Arenas (256KB) carved into Pools (4KB)</text>
-    <text x="25" y="104" font-size="11" fill="#94A3B8" text-anchor="start">• Pools divided into size-class Blocks (8B-512B)</text>
-    <text x="25" y="118" font-size="10" fill="#60A5FA" text-anchor="start">Fast O(1) allocation via thread-local free lists</text>
+    <text x="180" y="66" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">PyMalloc Allocator (&lt;= 512 Bytes)</text>
+    <text x="25" y="88" font-size="11" fill="#94A3B8" text-anchor="start">• Arenas (256KB) → Pools (4KB) → Blocks</text>
+    <text x="25" y="104" font-size="11" fill="#94A3B8" text-anchor="start">• O(1) allocation via thread-local free lists</text>
+    <text x="25" y="118" font-size="10" fill="#60A5FA" text-anchor="start">Bypasses glibc malloc to eliminate system call overhead</text>
 
     <!-- Card 1.2 -->
     <rect x="15" y="142" width="330" height="85" rx="6" fill="#1C2541" stroke="#F59E0B" stroke-width="1.2"/>
@@ -119,5 +119,18 @@
     <text x="25" y="288" font-size="11" fill="#BAE6FD" text-anchor="start">• Asyncio: Single-thread non-blocking event loop</text>
     <text x="25" y="304" font-size="11" fill="#BAE6FD" text-anchor="start">• Threading: Preemptive OS threads for disk/db I/O</text>
     <text x="25" y="322" font-size="10" fill="#38BDF8" font-weight="600" text-anchor="start">10k+ concurrent network sockets with low RAM</text>
+  </g>
+
+  <!-- Connectors Layer: Painted AFTER all columns and cards for 100% visibility -->
+  <g id="connectors">
+    <!-- Blue Arrow: PyMalloc to Generators (x=380 to 410) -->
+    <path d="M 380 180 C 400 180, 400 390, 424 390" fill="none" stroke="#3B82F6" stroke-width="2" marker-end="url(#arr-b)"/>
+    <rect x="365" y="275" width="80" height="22" rx="4" fill="#1E293B" stroke="#3B82F6" stroke-width="1"/>
+    <text x="405" y="290" font-size="9" fill="#93C5FD" font-weight="700" text-anchor="middle">Allocation</text>
+
+    <!-- Green Arrow: Polars to Multiprocessing (x=755 to 785) -->
+    <path d="M 755 185 C 775 185, 775 280, 799 280" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+    <rect x="740" y="222" width="80" height="22" rx="4" fill="#1E293B" stroke="#10B981" stroke-width="1"/>
+    <text x="780" y="237" font-size="9" fill="#6EE7B7" font-weight="700" text-anchor="middle">Parallel Run</text>
   </g>
 </svg>

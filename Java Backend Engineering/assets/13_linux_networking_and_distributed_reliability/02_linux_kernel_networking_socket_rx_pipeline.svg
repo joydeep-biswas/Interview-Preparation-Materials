@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1100" height="600" rx="10" fill="url(#bg)"/>
+  <rect width="1100" height="600" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Linux Kernel Networking &amp; High-Concurrency Socket Subsystem</text>
   <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Physical NIC -&gt; DMA -&gt; Kernel RX Ring -&gt; Hard IRQ -&gt; NAPI SoftIRQ -&gt; TCP Stack -&gt; epoll -&gt; Netty</text>
 <rect x="40" y="95" width="1020" height="125" rx="8" fill="#062e3d" stroke="#06b6d4" stroke-width="1.5"/>
@@ -84,7 +84,7 @@
 <line x1="825" y1="317" x2="840" y2="317" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
 <line x1="925" y1="370" x2="925" y2="395" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
 <rect x="40" y="395" width="1020" height="125" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
-<rect x="55" y="405" width="340" height="20" rx="10" fill="#047857"/><text x="225" y="418" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. JVM Runtime &amp; Non-Blocking Sockets (NIO)</text>
+<rect x="55" y="405" width="340" height="20" rx="10" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="225" y="418" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. JVM Runtime &amp; Non-Blocking Sockets (NIO)</text>
 <rect x="60" y="435" width="190" height="65" rx="6" fill="#0f172a" stroke="#34D399" stroke-width="1"/>
 <text x="155" y="457" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Linux epoll_wait()</text>
 <text x="155" y="475" fill="#CBD5E1" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">O(1) event-driven edge-tri</text>

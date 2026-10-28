@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Service Discovery: Client-Side vs Server-Side Architecture</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Netflix Eureka / Ribbon (Client-Side) vs Kubernetes CoreDNS &amp; kube-proxy (Server-Side)</text>
 <rect x="40" y="100" width="480" height="350" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
-<rect x="55" y="115" width="260" height="22" rx="11" fill="#1e3a8a"/><text x="185" y="129" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. CLIENT-SIDE DISCOVERY</text>
+<rect x="55" y="115" width="260" height="22" rx="11" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="185" y="129" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. CLIENT-SIDE DISCOVERY</text>
 <text x="60" y="155" fill="#60A5FA" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Example: Netflix Eureka + Ribbon / Spring Cloud LoadBalancer</text>
 <rect x="60" y="180" width="180" height="70" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
 <text x="150" y="205" fill="#60A5FA" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client Microservice</text>
@@ -52,7 +52,7 @@
 <text x="60" y="395" fill="#34D399" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Pros: 1 network hop (direct point-to-point), client controls LB algorithm.</text>
 <text x="60" y="415" fill="#F87171" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cons: Heavy client library coupling; must implement discovery for every language.</text>
 <rect x="560" y="100" width="480" height="350" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
-<rect x="575" y="115" width="260" height="22" rx="11" fill="#047857"/><text x="705" y="129" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. SERVER-SIDE DISCOVERY</text>
+<rect x="575" y="115" width="260" height="22" rx="11" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="705" y="129" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. SERVER-SIDE DISCOVERY</text>
 <text x="580" y="155" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Example: Kubernetes Service (CoreDNS + kube-proxy / AWS ALB)</text>
 <rect x="580" y="180" width="160" height="70" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
 <text x="660" y="205" fill="#60A5FA" font-size="10.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Client Microservice</text>

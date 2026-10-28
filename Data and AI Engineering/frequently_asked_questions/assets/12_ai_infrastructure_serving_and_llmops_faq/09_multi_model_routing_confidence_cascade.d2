@@ -1,0 +1,23 @@
+direction: right
+classes: {
+  client_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  gateway_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  slm_node: { style: { fill: "#0C4A6E"; stroke: "#06B6D4"; stroke-width: 2; border-radius: 8 } }
+  frontier_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  terminal_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+Client: "End User / Application\nSends inference request" { class: client_node }
+RouterGateway: "Router Gateway\nFast complexity classifier\nEvaluates logprob confidence" { class: gateway_node }
+
+SLM: "Small Model (Llama-3-8B)\nLow-cost fast evaluation\nReturns tokens + logprobs" { class: slm_node }
+FrontierLLM: "Frontier LLM (GPT-4o)\nHigh-precision fallback\nHandles complex logic" { class: frontier_node }
+
+DeliveredResponse: "Verified Response to Client\nAverage latency < 250ms\nSubstantial cost reduction" { class: terminal_node }
+
+Client -> RouterGateway: "1. Submit Prompt"
+RouterGateway -> SLM: "2. Dispatch Standard Query"
+SLM -> RouterGateway: "3. Output + Confidence Score"
+RouterGateway -> DeliveredResponse: "4a. High Confidence (C >= 0.85)"
+RouterGateway -> FrontierLLM: "4b. Low Confidence (C < 0.85)"
+FrontierLLM -> DeliveredResponse: "5. Escalated High-Precision Stream"

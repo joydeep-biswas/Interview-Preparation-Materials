@@ -1,11 +1,31 @@
-# PyArrow: Zero-Copy Memory Sharing IPC
+# Apache Arrow & PyArrow: Zero-Copy Cross-Process Memory Sharing
 direction: right
+classes: {
+  storage: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  ram_box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 10 } }
+  engine: { style: { fill: "#111827"; stroke-width: 2; border-radius: 8 } }
+}
 
-disk: "Parquet on NVMe SSD"
-arrow: "Shared PyArrow Table in RAM\n• Arrow RecordBatch (0x7FFF0042)\n• Standardized columnar memory"
-polars: "Polars Engine\n• pl.from_arrow()\n• Zero-copy pointer bind"
-duckdb: "DuckDB SQL\n• Direct buffer scan\n• Zero-copy SQL execution"
+disk: "Parquet Dataset on Disk\n• Columnar snappy/zstd compressed" {
+  class: storage
+  style.stroke: "#64748B"
+}
 
-disk -> arrow: "mmap()"
-arrow -> polars: "Arrow C Data Interface"
-arrow -> duckdb: "Arrow C Data Interface"
+arrow_ram: "Shared Arrow RecordBatch in RAM (Address: 0x7FFF0042)\n• Standardized columnar binary layout\n• Fixed-width bitmap buffers & offset arrays\n• Zero serialization required across languages!" {
+  class: ram_box
+  style.stroke: "#3B82F6"
+}
+
+polars: "Polars Engine\n• pl.from_arrow()\n• Binds pointer 0x7FFF0042 directly\n• Zero-copy memory access (O(1))" {
+  class: engine
+  style.stroke: "#10B981"
+}
+
+duckdb: "DuckDB SQL Engine\n• duckdb.arrow()\n• Directly scans Arrow buffer via SIMD\n• Zero-copy query execution (O(1))" {
+  class: engine
+  style.stroke: "#F59E0B"
+}
+
+disk -> arrow_ram: "mmap() into RAM"
+arrow_ram -> polars: "Zero-Copy Arrow C Data Interface"
+arrow_ram -> duckdb: "Zero-Copy Arrow C Data Interface"

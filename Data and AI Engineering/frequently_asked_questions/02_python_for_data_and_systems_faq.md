@@ -65,6 +65,10 @@ A comprehensive, production-grade guide answering Python and core programming in
     - [Q40. Pure Python Streaming Aggregation Without External Libraries (Pandas-Free Order Processing)](#q40-medium-pure-python-streaming-aggregation-without-external-libraries-pandas-free-order-processing)
     - [Q41. Peak Overlapping Active Deliveries via Chronological Sweep-Line Interval Event Tracking](#q41-medium-peak-overlapping-active-deliveries-via-chronological-sweep-line-interval-event-tracking)
     - [Q42. Roman Numeral to Integer Parser with Subtractive Lookup](#q42-medium-roman-numeral-to-integer-parser-with-subtractive-lookup)
+    - [Q43. Extracting Top-K Frequent Destinations from High-Volume Travel Booking Data](#q43-medium-extracting-top-k-frequent-destinations-from-high-volume-travel-booking-data)
+    - [Q44. Counting Specific Vowels in a String: Case-Insensitive Frequency Analysis](#q44-easy-counting-specific-vowels-in-a-string-case-insensitive-frequency-analysis)
+    - [Q45. Employee CSV Processing: Department Average Salary Filtering & Top-Earner Selection (Streaming DictReader vs. Pandas)](#q45-medium-employee-csv-processing-department-average-salary-filtering--top-earner-selection-streaming-dictreader-vs-pandas)
+    - [Q46. Grouping Dictionaries by Key and Summing Values: Pure Python Dict vs. defaultdict vs. itertools.groupby](#q46-easy-grouping-dictionaries-by-key-and-summing-values-pure-python-dict-vs-defaultdict-vs-itertoolsgroupby)
 ---
 
 # 1. Large File Processing & 10GB CSV Memory Optimization
@@ -82,7 +86,7 @@ A standard Python process attempting to execute `pd.read_csv("10gb_file.csv")` o
 #### Core Optimization Strategies
 ![Large File Memory Optimization Matrix](assets/02_python_for_data_and_systems_faq/01_large_file_memory_optimization_matrix.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/01_large_file_memory_optimization_matrix.d2](assets/02_python_for_data_and_systems_faq/01_large_file_memory_optimization_matrix.d2)
+*D2 Source: [`01_large_file_memory_optimization_matrix.d2`](assets/02_python_for_data_and_systems_faq/01_large_file_memory_optimization_matrix.d2)*
 
 #### Production Implementation: Chunked Filtering with Pandas (Q1)
 ```python
@@ -427,7 +431,7 @@ In Python, `*args` and `**kwargs` allow a function to accept an arbitrary, unspe
 
 ![Python Argument Unpacking Mechanics: *args vs **kwargs](assets/02_python_for_data_and_systems_faq/02_python_args_kwargs_unpacking_mechanics.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/02_python_args_kwargs_unpacking_mechanics.d2](assets/02_python_for_data_and_systems_faq/02_python_args_kwargs_unpacking_mechanics.d2)
+*D2 Source: [`02_python_args_kwargs_unpacking_mechanics.d2`](assets/02_python_for_data_and_systems_faq/02_python_args_kwargs_unpacking_mechanics.d2)*
 
 #### Production Data Engineering Pipeline Pattern
 In production frameworks, `*args` and `**kwargs` allow creating generic orchestration wrappers and pluggable hook systems:
@@ -485,7 +489,7 @@ During nightly ingestion from a vendor third-party webhook, records can contain 
 
 ![Enterprise Dead-Letter Queue (DLQ) Defensive Exception Architecture](assets/02_python_for_data_and_systems_faq/03_dead_letter_queue_defensive_exception_pipeline.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/03_dead_letter_queue_defensive_exception_pipeline.d2](assets/02_python_for_data_and_systems_faq/03_dead_letter_queue_defensive_exception_pipeline.d2)
+*D2 Source: [`03_dead_letter_queue_defensive_exception_pipeline.d2`](assets/02_python_for_data_and_systems_faq/03_dead_letter_queue_defensive_exception_pipeline.d2)*
 
 #### Production Implementation
 ```python
@@ -656,7 +660,7 @@ To maintain the median dynamically:
 #### Visual Flow
 ![Streaming Ingestion & O(1) Minimum Balance Tracking](assets/02_python_for_data_and_systems_faq/04_streaming_running_and_minimum_balance_tracker.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/04_streaming_running_and_minimum_balance_tracker.d2](assets/02_python_for_data_and_systems_faq/04_streaming_running_and_minimum_balance_tracker.d2)
+*D2 Source: [`04_streaming_running_and_minimum_balance_tracker.d2`](assets/02_python_for_data_and_systems_faq/04_streaming_running_and_minimum_balance_tracker.d2)*
 
 #### Production Implementation
 ```python
@@ -1279,7 +1283,7 @@ Data engineering transformations frequently involve sanitizing raw string payloa
 #### Visual Flow
 ![Core Python Data Structure Normalization Pipeline](assets/02_python_for_data_and_systems_faq/05_core_python_data_structures_normalization_flow.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/05_core_python_data_structures_normalization_flow.d2](assets/02_python_for_data_and_systems_faq/05_core_python_data_structures_normalization_flow.d2)
+*D2 Source: [`05_core_python_data_structures_normalization_flow.d2`](assets/02_python_for_data_and_systems_faq/05_core_python_data_structures_normalization_flow.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1424,7 +1428,7 @@ In CPython, a `list` is implemented as an array of pointers (`PyListObject`). To
 
 ![List Concatenation (+) vs Extend In-Place Memory Allocation](assets/02_python_for_data_and_systems_faq/06_list_plus_concatenation_vs_extend_memory_realloc.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/06_list_plus_concatenation_vs_extend_memory_realloc.d2](assets/02_python_for_data_and_systems_faq/06_list_plus_concatenation_vs_extend_memory_realloc.d2)
+*D2 Source: [`06_list_plus_concatenation_vs_extend_memory_realloc.d2`](assets/02_python_for_data_and_systems_faq/06_list_plus_concatenation_vs_extend_memory_realloc.d2)*
 
 #### List Expansion & Mutation Engineering Reference Matrix
 
@@ -1572,7 +1576,7 @@ When analyzing multi-gigabyte or terabyte server logs:
 #### Visual Flow
 ![Streaming Log Extraction: Generator, Precompiled Regex & Top-K Heap](assets/02_python_for_data_and_systems_faq/07_streaming_generator_log_regex_topk_heap.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/07_streaming_generator_log_regex_topk_heap.d2](assets/02_python_for_data_and_systems_faq/07_streaming_generator_log_regex_topk_heap.d2)
+*D2 Source: [`07_streaming_generator_log_regex_topk_heap.d2`](assets/02_python_for_data_and_systems_faq/07_streaming_generator_log_regex_topk_heap.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1634,7 +1638,7 @@ Under the hood, CPython uses Timsort ($O(N \log N)$ worst-case, adaptive stable 
 #### Visual Flow
 ![Merge Overlapping Intervals: Timsort & Single-Pass Scan](assets/02_python_for_data_and_systems_faq/08_merge_overlapping_intervals_timsort_linear_scan.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/08_merge_overlapping_intervals_timsort_linear_scan.d2](assets/02_python_for_data_and_systems_faq/08_merge_overlapping_intervals_timsort_linear_scan.d2)
+*D2 Source: [`08_merge_overlapping_intervals_timsort_linear_scan.d2`](assets/02_python_for_data_and_systems_faq/08_merge_overlapping_intervals_timsort_linear_scan.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1692,7 +1696,7 @@ As the `right` pointer traverses forward:
 #### Visual Flow
 ![Sliding Window: Longest Substring Without Repeating Characters](assets/02_python_for_data_and_systems_faq/09_sliding_window_longest_substring_without_repeating.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/09_sliding_window_longest_substring_without_repeating.d2](assets/02_python_for_data_and_systems_faq/09_sliding_window_longest_substring_without_repeating.d2)
+*D2 Source: [`09_sliding_window_longest_substring_without_repeating.d2`](assets/02_python_for_data_and_systems_faq/09_sliding_window_longest_substring_without_repeating.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1755,7 +1759,7 @@ def length_of_longest_substring(s: str) -> int:
 #### Visual Flow
 ![First Unique Character: FIFO Queue State Transitions & Stale Eviction](assets/02_python_for_data_and_systems_faq/10_first_unique_character_stream_queue_eviction.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/10_first_unique_character_stream_queue_eviction.d2](assets/02_python_for_data_and_systems_faq/10_first_unique_character_stream_queue_eviction.d2)
+*D2 Source: [`10_first_unique_character_stream_queue_eviction.d2`](assets/02_python_for_data_and_systems_faq/10_first_unique_character_stream_queue_eviction.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1847,7 +1851,7 @@ If no cycle exists, `fast` reaches `None` ($O(N)$ termination). If a cycle of le
 #### Visual Flow
 ![Floyd's Tortoise & Hare: Cycle Detection via Pointer Collision](assets/02_python_for_data_and_systems_faq/11_linked_list_cycle_detection_floyd_tortoise_hare.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/11_linked_list_cycle_detection_floyd_tortoise_hare.d2](assets/02_python_for_data_and_systems_faq/11_linked_list_cycle_detection_floyd_tortoise_hare.d2)
+*D2 Source: [`11_linked_list_cycle_detection_floyd_tortoise_hare.d2`](assets/02_python_for_data_and_systems_faq/11_linked_list_cycle_detection_floyd_tortoise_hare.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1883,7 +1887,7 @@ def has_cycle(head: Optional[ListNode]) -> bool:
 - **Space Complexity:** $O(1)$ strictly constant memory (two pointer references).
 
 #### Engineering Implications & Production Pitfalls
-1. **Hash Set vs Floyd's:** A naive solution stores visited node IDs in a Python `set()`. While $O(N)$ time, it incurs $O(N)$ memory overhead ($>80	ext{MB}$ for 1,000,000 nodes). Floyd's algorithm uses 0 additional heap memory.
+1. **Hash Set vs Floyd's:** A naive solution stores visited node IDs in a Python `set()`. While $O(N)$ time, it incurs $O(N)$ memory overhead ($>80\text{MB}$ for 1,000,000 nodes). Floyd's algorithm uses 0 additional heap memory.
 2. **DAG vs General Graph Cycles:** Linked list cycle detection works on linear pointer sequences. For arbitrary DAG validation (Airflow pipeline tasks with multiple fan-in/fan-out edges), use **Kahn's Algorithm (Topological Sort via In-Degree counts)** or **DFS with 3-color marking (White/Gray/Black)**.
 
 #### Core Curriculum Cross-Reference
@@ -1907,7 +1911,7 @@ When a `'1'` is discovered during a linear grid scan:
 #### Visual Flow
 ![Number of Islands: 2D Grid BFS Flood Fill Traversal](assets/02_python_for_data_and_systems_faq/12_number_of_islands_bfs_flood_fill_grid_traversal.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/12_number_of_islands_bfs_flood_fill_grid_traversal.d2](assets/02_python_for_data_and_systems_faq/12_number_of_islands_bfs_flood_fill_grid_traversal.d2)
+*D2 Source: [`12_number_of_islands_bfs_flood_fill_grid_traversal.d2`](assets/02_python_for_data_and_systems_faq/12_number_of_islands_bfs_flood_fill_grid_traversal.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1945,11 +1949,11 @@ def num_islands(grid: List[List[str]]) -> int:
 
     return island_count
 ```
-- **Time Complexity:** $O(M 	imes N)$ where $M$ is row count and $N$ is column count. Every cell is visited a constant number of times.
+- **Time Complexity:** $O(M \times N)$ where $M$ is row count and $N$ is column count. Every cell is visited a constant number of times.
 - **Space Complexity:** $O(\min(M, N))$ in the worst case (full grid of land) for the BFS queue holding the diagonal perimeter.
 
 #### Engineering Implications & Production Pitfalls
-1. **Recursion Limit Exceeded with DFS:** In Python, recursive DFS on a $1,000 	imes 1,000$ grid will instantly trigger `RecursionError: maximum recursion depth exceeded` (default sys.getrecursionlimit is 1000). Always use iterative BFS with `collections.deque` in production Python services.
+1. **Recursion Limit Exceeded with DFS:** In Python, recursive DFS on a $1,000 \times 1,000$ grid will instantly trigger `RecursionError: maximum recursion depth exceeded` (default sys.getrecursionlimit is 1000). Always use iterative BFS with `collections.deque` in production Python services.
 2. **Eager Visited Marking:** A critical concurrency and memory bug is marking `grid[nr][nc] = '0'` upon *dequeue* rather than upon *enqueue*. Delayed marking allows adjacent nodes to enqueue the same unvisited neighbor multiple times, causing exponential memory explosion.
 
 #### Core Curriculum Cross-Reference
@@ -1972,7 +1976,7 @@ Three distinct architectural approaches exist:
 #### Visual Flow
 ![Top-K Frequent Elements: Min-Heap O(N log K) vs Bucket Sort O(N)](assets/02_python_for_data_and_systems_faq/13_top_k_frequent_elements_min_heap_vs_bucket_sort.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/13_top_k_frequent_elements_min_heap_vs_bucket_sort.d2](assets/02_python_for_data_and_systems_faq/13_top_k_frequent_elements_min_heap_vs_bucket_sort.d2)
+*D2 Source: [`13_top_k_frequent_elements_min_heap_vs_bucket_sort.d2`](assets/02_python_for_data_and_systems_faq/13_top_k_frequent_elements_min_heap_vs_bucket_sort.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -2042,7 +2046,7 @@ Under the hood in CPython (PEP 468 & PEP 509):
 #### Visual Flow
 ![Dictionary Values View: Zero-Copy Set Deduplication](assets/02_python_for_data_and_systems_faq/14_dictionary_values_view_set_deduplication.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/14_dictionary_values_view_set_deduplication.d2](assets/02_python_for_data_and_systems_faq/14_dictionary_values_view_set_deduplication.d2)
+*D2 Source: [`14_dictionary_values_view_set_deduplication.d2`](assets/02_python_for_data_and_systems_faq/14_dictionary_values_view_set_deduplication.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -2073,7 +2077,7 @@ def get_unique_values_order_preserving(d: Dict[Any, Any]) -> List[Any]:
 ```
 - **Time Complexity:**
   - Standard `set(d.values())`: $O(N)$ average time where $N$ is the number of keys.
-  - Fallback unhashable list scan: $O(N 	imes U)$ where $U$ is unique values.
+  - Fallback unhashable list scan: $O(N \times U)$ where $U$ is unique values.
 - **Space Complexity:** $O(U)$ auxiliary space for the output set/list.
 
 #### Engineering Implications & Production Pitfalls
@@ -2273,7 +2277,7 @@ def sieve_of_eratosthenes(limit: int) -> List[int]:
 #### Architectural Blueprint
 ![Enterprise ETL Pipeline: Streaming Pydantic v2 Validation & DLQ Routing](assets/02_python_for_data_and_systems_faq/15_enterprise_etl_pydantic_validation_dlq_upsert.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/15_enterprise_etl_pydantic_validation_dlq_upsert.d2](assets/02_python_for_data_and_systems_faq/15_enterprise_etl_pydantic_validation_dlq_upsert.d2)
+*D2 Source: [`15_enterprise_etl_pydantic_validation_dlq_upsert.d2`](assets/02_python_for_data_and_systems_faq/15_enterprise_etl_pydantic_validation_dlq_upsert.d2)*
 
 #### Production Python Implementation
 ```python
@@ -2418,7 +2422,7 @@ To process millions of orders with minimal memory:
 #### Visual Flow
 ![Streaming Ingestion: Generator Filter & Single-Pass Hash Aggregation](assets/02_python_for_data_and_systems_faq/16_order_stream_filtering_and_single_pass_hash_agg.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/16_order_stream_filtering_and_single_pass_hash_agg.d2](assets/02_python_for_data_and_systems_faq/16_order_stream_filtering_and_single_pass_hash_agg.d2)
+*D2 Source: [`16_order_stream_filtering_and_single_pass_hash_agg.d2`](assets/02_python_for_data_and_systems_faq/16_order_stream_filtering_and_single_pass_hash_agg.d2)*
 
 #### Production Python Implementation
 ```python
@@ -2514,7 +2518,7 @@ The optimal solution is the **Sweep-Line Algorithm**:
 #### Visual Flow
 ![Interval Sweep-Line: Peak Concurrent Fleet Sizing](assets/02_python_for_data_and_systems_faq/17_meeting_rooms_sweep_line_peak_concurrency.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/17_meeting_rooms_sweep_line_peak_concurrency.d2](assets/02_python_for_data_and_systems_faq/17_meeting_rooms_sweep_line_peak_concurrency.d2)
+*D2 Source: [`17_meeting_rooms_sweep_line_peak_concurrency.d2`](assets/02_python_for_data_and_systems_faq/17_meeting_rooms_sweep_line_peak_concurrency.d2)*
 
 #### Production Python Implementation
 ```python
@@ -2612,7 +2616,7 @@ $$\text{Value}(s[i]) = \begin{cases} - \text{ROMAN}[s[i]], & \text{if } \text{RO
 #### Visual Flow
 ![Roman to Integer: Subtractive Lookahead Parsing](assets/02_python_for_data_and_systems_faq/18_roman_to_integer_subtractive_lookahead_parsing.svg)
 
-*D2 Source:* [assets/02_python_for_data_and_systems_faq/18_roman_to_integer_subtractive_lookahead_parsing.d2](assets/02_python_for_data_and_systems_faq/18_roman_to_integer_subtractive_lookahead_parsing.d2)
+*D2 Source: [`18_roman_to_integer_subtractive_lookahead_parsing.d2`](assets/02_python_for_data_and_systems_faq/18_roman_to_integer_subtractive_lookahead_parsing.d2)*
 
 #### Production Python Implementation
 ```python
@@ -2689,6 +2693,411 @@ if __name__ == "__main__":
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [02. Python for Data & Systems: String Parsing & Algorithmic Foundations](../02_python_for_data_and_systems.md#1-cpython-internals--the-memory-hierarchy)*
+---
+
+### Q43. [Medium] Extracting Top-K Frequent Destinations from High-Volume Travel Booking Data
+**Difficulty:** [Medium]  
+**Topic Covered:** Streaming Top-K Elements, `collections.Counter` vs `heapq` Min-Heap, $O(N \log K)$ Memory Optimization  
+**Question:** *Write an efficient, production-grade Python function to calculate the top-K most frequent flight or hotel destinations from an unbounded stream or large collection of travel booking records.*
+
+#### Definition & Core Concepts
+Calculating top-$K$ frequent elements across millions of travel bookings (e.g. flight codes `['LHR', 'JFK', 'DXB', ...]`) requires careful algorithmic trade-offs between memory utilization and runtime complexity:
+1. **In-Memory Hash Map with Min-Heap ($O(N \log K)$):**
+   - For datasets fitting within RAM: Count element frequencies in an $O(N)$ hash map (`collections.Counter` or `defaultdict`).
+   - Use a **Min-Heap of size $K$** (`heapq.nlargest` or maintaining a heap with `(frequency, destination)`). Pushing and popping from a bounded size-$K$ heap takes $O(U \log K)$ where $U$ is unique destinations ($U \ll N$).
+2. **Streaming Heavy Hitters (Space-Saving / Misra-Gries Algorithm):**
+   - For infinite streaming or low-memory edge devices where unique destination cardinality is too large for RAM, an approximate streaming algorithm (e.g., Count-Min Sketch or Misra-Gries with $1/\epsilon$ counters) isolates heavy hitters in $O(1)$ auxiliary space per event.
+
+#### Visual Architectural Flow
+![Top K Frequent Destinations Min Heap Pipeline](assets/02_python_for_data_and_systems_faq/19_top_k_frequent_destinations_min_heap_pipeline.svg)
+
+*D2 Source: [`19_top_k_frequent_destinations_min_heap_pipeline.d2`](assets/02_python_for_data_and_systems_faq/19_top_k_frequent_destinations_min_heap_pipeline.d2)*
+
+#### Production Implementation / Python Solution
+```python
+from typing import Iterable, Dict, List, Tuple
+from collections import Counter
+import heapq
+
+def find_top_k_destinations(
+    bookings: Iterable[Dict[str, str]], 
+    destination_key: str = "destination", 
+    k: int = 5
+) -> List[Tuple[str, int]]:
+    """
+    Computes top-k frequent destinations from a stream or list of booking dictionaries.
+    
+    Time Complexity: O(N + U log K) where N is total records, U is unique destinations.
+    Space Complexity: O(U) for the frequency table.
+    """
+    if k <= 0:
+        return []
+
+    # Step 1: Single-pass frequency counting
+    frequency_map: Counter[str] = Counter()
+    for record in bookings:
+        dest = record.get(destination_key)
+        if dest:
+            frequency_map[dest.strip().upper()] += 1
+
+    if not frequency_map:
+        return []
+
+    # Step 2: Extract top-K via Min-Heap (O(U log K))
+    # Python's heapq.nlargest optimizes this internally using an inverted min-heap
+    return heapq.nlargest(k, frequency_map.items(), key=lambda item: item[1])
+
+# --- Production Verification Unit Test ---
+if __name__ == "__main__":
+    sample_bookings = [
+        {"booking_id": "B1", "destination": "DXB"},
+        {"booking_id": "B2", "destination": "LHR"},
+        {"booking_id": "B3", "destination": "JFK"},
+        {"booking_id": "B4", "destination": "DXB"},
+        {"booking_id": "B5", "destination": "LHR"},
+        {"booking_id": "B6", "destination": "DXB"},
+        {"booking_id": "B7", "destination": "SIN"},
+        {"booking_id": "B8", "destination": "LHR"},
+        {"booking_id": "B9", "destination": "HND"},
+    ]
+    
+    top_3 = find_top_k_destinations(sample_bookings, k=3)
+    print(f"Top 3 Destinations: {top_3}")
+    # Output: [('DXB', 3), ('LHR', 3), ('JFK', 1)]
+```
+
+#### Complexity Analysis
+- **Time Complexity:**
+  - Counting: $O(N)$ time to iterate through $N$ booking records.
+  - Heap Selection: $O(U \log K)$ time where $U$ is the number of distinct airport codes (e.g., standard IATA airport codes $\approx 9{,}000$ codes globally).
+  - Total Time: $O(N + U \log K)$. When $U \ll N$, this performs significantly faster than full array sorting ($O(U \log U)$).
+- **Space Complexity:** $O(U)$ space to store frequency counts for unique destination strings. Auxiliary heap memory is strictly $O(K)$.
+
+#### Engineering Implications & Production Pitfalls
+- **Case and Whitespace Inconsistencies:** Airport codes in legacy APIs arrive with varied formatting (`"dxb"`, `"DXB "`, `" DXB"`). Failing to sanitize (`strip().upper()`) results in fragmented bucket counts.
+- **Ties in Frequency:** When frequencies match (e.g. DXB and LHR both have 3 bookings), standard Python tuple comparisons compare destination strings lexicographically. If deterministic tie-breaking is required by business logic, sort secondary keys explicitly (e.g. `key=lambda x: (x[1], x[0])`).
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [02. Python for Data & Systems: CPython Internals & Algorithmic Foundations](../02_python_for_data_and_systems.md#1-cpython-internals--the-memory-hierarchy)*
+
+---
+
+### Q44. [Easy] Counting Specific Vowels in a String: Case-Insensitive Frequency Analysis
+**Difficulty:** [Easy]  
+**Topic Covered:** String Manipulation, Hash Tables, Generator Streaming, Case Normalization & CPython Memory  
+**Question:** *Write a Python program to count the frequency of vowels in a given string. Given `text = "Data Engineering"`, the expected output is `{'a': 2, 'e': 3, 'i': 2}` (or `a=2, e=3, i=2`). How do you implement this efficiently for massive text streams while ignoring consonants and non-alphabetic characters?*
+
+#### Definition & Core Concepts
+A fundamental string analytics problem testing case-normalization, constant-time set lookups, and memory-conscious iteration:
+1. **Case Invariance:** Text contains uppercase and lowercase characters (`'D'`, `'E'`). A robust pipeline normalizes characters using `.lower()` during streaming.
+2. **$O(1)$ Membership Testing:** Checking vowel membership against a Python `set` (`{'a', 'e', 'i', 'o', 'u'}`) is an $O(1)$ hash table probe, far superior to linear string searches.
+3. **Space Invariant:** Because the English vowel set has a fixed cardinality of 5, the auxiliary storage for the frequency hash table is strictly $O(1)$ regardless of string length.
+
+#### Visual Flow
+![Streaming Case-Insensitive Vowel Frequency Pipeline](assets/02_python_for_data_and_systems_faq/20_vowel_frequency_case_insensitive_pipeline.svg)
+
+*D2 Source: [`20_vowel_frequency_case_insensitive_pipeline.d2`](assets/02_python_for_data_and_systems_faq/20_vowel_frequency_case_insensitive_pipeline.d2)*
+
+#### Production Implementation / Python Solution
+
+```python
+from typing import Dict, Iterable
+from collections import Counter
+
+VOWELS_SET = frozenset({'a', 'e', 'i', 'o', 'u'})
+
+def count_vowels_stream(text: str) -> Dict[str, int]:
+    """
+    Counts vowel frequencies in a string using single-pass hash aggregation.
+    
+    Time Complexity: O(N) where N is the character count.
+    Space Complexity: O(1) auxiliary space (at most 5 hash keys).
+    """
+    # Pattern 1: High-Performance Single-Pass Dictionary Loop
+    counts: Dict[str, int] = {}
+    for char in text:
+        lower_char = char.lower()
+        if lower_char in VOWELS_SET:
+            counts[lower_char] = counts.get(lower_char, 0) + 1
+            
+    # Sort keys for deterministic output: 'a', 'e', 'i', 'o', 'u'
+    return dict(sorted(counts.items()))
+
+def count_vowels_counter(text: str) -> Counter:
+    """
+    Idiomatic Python solution using collections.Counter and generator streaming.
+    Avoids materializing intermediate lists in RAM.
+    """
+    return Counter(c.lower() for c in text if c.lower() in VOWELS_SET)
+
+# --- Production Verification Script ---
+if __name__ == "__main__":
+    text = "Data Engineering"
+    
+    result = count_vowels_stream(text)
+    print(f"Dictionary Result: {result}")
+    # Output: {'a': 2, 'e': 3, 'i': 2}
+    
+    formatted_str = ", ".join(f"{k}={v}" for k, v in result.items())
+    print(f"Formatted Output: {formatted_str}")
+    # Output: a=2, e=3, i=2
+    
+    counter_result = count_vowels_counter(text)
+    assert dict(counter_result) == {'a': 2, 'e': 3, 'i': 2}
+    print("All assertions passed!")
+```
+
+#### Complexity Analysis
+- **Time Complexity:** $O(N)$ where $N$ is the number of characters in the string. Each character is processed once with an $O(1)$ lowercase check and $O(1)$ set lookup.
+- **Space Complexity:** $O(1)$ auxiliary space. The output map holds at most 5 entries (`a, e, i, o, u`).
+
+#### Engineering Implications & Production Pitfalls
+- **List Materialization Anti-Pattern:** Writing `Counter([c.lower() for c in text])` allocates a full Python list in memory before passing it to `Counter`. On a 2 GB log string, this triggers a 2 GB memory allocation. Passing a generator expression `(c.lower() for c in text if ...)` streams characters through the iterator without auxiliary heap allocations.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [02. Python for Data & Systems: CPython Internals & Algorithmic Foundations](../02_python_for_data_and_systems.md#1-cpython-internals--the-memory-hierarchy)*
+
+---
+
+### Q45. [Medium] Employee CSV Processing: Department Average Salary Filtering & Top-Earner Selection (Streaming DictReader vs. Pandas)
+**Difficulty:** [Medium]  
+**Topic Covered:** Streaming I/O, `csv.DictReader`, Two-Pass File Traversal, Memory-Constrained Aggregations & Tie Breaking  
+**Question:** *Write a Python program to read an employee CSV file and find employees whose salary is greater than their department's average salary. Return the highest-paid qualifying employee(s) in each department (handling ties). How do you implement this without running out of memory on a 10 GB file?*
+
+#### Definition & Core Concepts
+Processing multi-gigabyte CSV files in constrained environments requires **Two-Pass Streaming**:
+1. **Pass 1 (Department Aggregation):** Stream the CSV row-by-row using `csv.DictReader`. Accumulate each department's total salary and headcount in a lightweight hash map. Calculate `dept_avg = total_salary / headcount`. Memory consumption is $O(D)$ where $D$ is the number of unique departments (e.g. 50 departments consume $< 10 \text{ KB}$ of RAM).
+2. **Pass 2 (Threshold Filtering & Max Selection):** Rewind the file stream using `file.seek(0)`. Stream through rows again, filtering `salary > dept_avg[dept]`. Maintain the maximum qualifying salary and list of winners per department.
+3. **Tie Handling:** If multiple employees share the department's top qualifying salary, store all of them in a list.
+
+#### Visual Flow
+![Two-Pass Streaming CSV Architecture: O(D) Department Memory](assets/02_python_for_data_and_systems_faq/21_employee_csv_dept_average_and_max_earner_stream.svg)
+
+*D2 Source: [`21_employee_csv_dept_average_and_max_earner_stream.d2`](assets/02_python_for_data_and_systems_faq/21_employee_csv_dept_average_and_max_earner_stream.d2)*
+
+#### Production Implementation / Python Solution
+
+```python
+import csv
+import io
+from typing import Dict, List, Any
+
+def find_highest_earners_above_dept_avg(csv_file_path: str) -> Dict[str, Dict[str, Any]]:
+    """
+    Two-pass streaming CSV processor that calculates department averages and 
+    extracts the highest-earning qualifying employee(s) per department.
+    
+    Memory Footprint: O(D) where D is unique departments. 
+    100% safe for 10 GB+ CSV files without Pandas OOM.
+    """
+    dept_totals: Dict[str, float] = {}
+    dept_counts: Dict[str, int] = {}
+
+    # -------------------------------------------------------------------------
+    # PASS 1: Stream CSV and aggregate department salary totals & counts
+    # -------------------------------------------------------------------------
+    with open(csv_file_path, mode="r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            dept = row["department"].strip()
+            try:
+                salary = float(row["salary"].strip())
+            except (ValueError, KeyError):
+                continue  # Skip corrupt/malformed records defensively
+
+            dept_totals[dept] = dept_totals.get(dept, 0.0) + salary
+            dept_counts[dept] = dept_counts.get(dept, 0) + 1
+
+        # Calculate department averages
+        dept_averages: Dict[str, float] = {
+            dept: dept_totals[dept] / dept_counts[dept]
+            for dept in dept_totals if dept_counts[dept] > 0
+        }
+
+        # ---------------------------------------------------------------------
+        # PASS 2: Rewind file pointer and find highest qualifying employees
+        # ---------------------------------------------------------------------
+        f.seek(0)
+        reader = csv.DictReader(f)
+        
+        # Structure: {dept: {"max_salary": float, "employees": List[str], "avg_salary": float}}
+        top_earners_by_dept: Dict[str, Dict[str, Any]] = {}
+
+        for row in reader:
+            dept = row["department"].strip()
+            emp_name = row["emp_name"].strip()
+            try:
+                salary = float(row["salary"].strip())
+            except (ValueError, KeyError):
+                continue
+
+            dept_avg = dept_averages.get(dept)
+            if dept_avg is None or salary <= dept_avg:
+                continue  # Must strictly exceed department average
+
+            if dept not in top_earners_by_dept:
+                top_earners_by_dept[dept] = {
+                    "max_salary": salary,
+                    "employees": [emp_name],
+                    "dept_avg": round(dept_avg, 2)
+                }
+            else:
+                curr_max = top_earners_by_dept[dept]["max_salary"]
+                if salary > curr_max:
+                    # New undisputed highest salary found
+                    top_earners_by_dept[dept]["max_salary"] = salary
+                    top_earners_by_dept[dept]["employees"] = [emp_name]
+                elif salary == curr_max:
+                    # Tie: append to winner list
+                    top_earners_by_dept[dept]["employees"].append(emp_name)
+
+    return top_earners_by_dept
+
+# --- Production Verification Script ---
+if __name__ == "__main__":
+    sample_csv_data = """emp_id,emp_name,department,salary
+1,Alice,Engineering,150000
+2,Bob,Engineering,110000
+3,Charlie,Engineering,100000
+4,Dave,Sales,80000
+5,Eve,Sales,95000
+6,Frank,Sales,95000
+7,Grace,HR,60000
+8,Heidi,HR,70000
+"""
+    # Write to a temporary file buffer
+    import tempfile, os
+    with tempfile.NamedTemporaryFile("w+", delete=False, suffix=".csv") as tmp:
+        tmp.write(sample_csv_data)
+        tmp_path = tmp.name
+
+    try:
+        results = find_highest_earners_above_dept_avg(tmp_path)
+        for dept, info in results.items():
+            print(f"Department: {dept:12} | Dept Avg: ${info['dept_avg']:,.2f} | "
+                  f"Top Salary: ${info['max_salary']:,.2f} | Highest Earner(s): {info['employees']}")
+        
+        # Engineering Avg = (150k + 110k + 100k)/3 = 120k -> Qualifying: Alice (150k)
+        assert results["Engineering"]["employees"] == ["Alice"]
+        # Sales Avg = (80k + 95k + 95k)/3 = 90k -> Qualifying: Eve (95k) & Frank (95k) [TIE]
+        assert results["Sales"]["employees"] == ["Eve", "Frank"]
+        print("\nAll assertions verified successfully!")
+    finally:
+        os.remove(tmp_path)
+```
+
+#### Complexity Analysis
+- **Time Complexity:** $2 \times O(N) = O(N)$ where $N$ is the number of CSV rows. Two sequential I/O streaming passes.
+- **Space Complexity:** $O(D)$ where $D$ is the number of unique departments. Memory consumption is virtually constant regardless of whether the CSV has 1,000 rows or 50,000,000 rows.
+
+#### Engineering Implications & Production Pitfalls
+- **Pandas Memory Hazard:** Loading a 10 GB CSV into Pandas (`pd.read_csv()`) creates uncompressed Python objects requiring 35–50 GB of RAM, triggering Linux `OOMKilled` on standard cloud worker nodes. The streaming two-pass approach operates in $< 5 \text{ MB}$ of memory.
+- **Floating-Point Imprecision:** When calculating financial figures, using standard Python `float` can accumulate rounding anomalies ($0.1 + 0.2 \neq 0.3$). For strict financial and payroll pipelines, replace `float` with Python's built-in `decimal.Decimal`.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [02. Python for Data & Systems: Built-in Data Structures & Complexity](../02_python_for_data_and_systems.md#21-built-in-data-structures-time--memory-complexities)*
+
+---
+
+### Q46. [Easy] Grouping Dictionaries by Key and Summing Values: Pure Python Dict vs. defaultdict vs. itertools.groupby
+**Difficulty:** [Easy]  
+**Topic Covered:** Dictionary Aggregations, `collections.defaultdict`, `itertools.groupby`, Algorithm Complexity & Data Transformations  
+**Question:** *Given a list of dictionaries representing employees with department and salary fields, how would you group employees by department and calculate the total salary for each department? Compare `collections.defaultdict`, standard dictionary loops, and `itertools.groupby`.*
+
+#### Definition & Core Concepts
+Grouping records and aggregating metrics across a key is a ubiquitous data engineering interview question testing algorithmic trade-offs:
+1. **Hash Table Aggregation ($O(N)$ Time, $O(D)$ Space):** Using a hash map (`dict` or `collections.defaultdict`), we iterate through the list once. Each lookup and summation takes amortized $O(1)$ time. Input order does not matter.
+2. **Sorting-Based Grouping ($O(N \log N)$ Time):** `itertools.groupby` requires input elements to be **pre-sorted by the grouping key**. If an unsorted list is passed, `itertools.groupby` creates disjoint duplicate groups for the same department, producing completely invalid aggregations.
+
+#### Visual Flow
+![Dictionary List Aggregation: Hash Aggregation vs itertools.groupby](assets/02_python_for_data_and_systems_faq/22_group_by_department_salary_aggregation_flow.svg)
+
+*D2 Source: [`22_group_by_department_salary_aggregation_flow.d2`](assets/02_python_for_data_and_systems_faq/22_group_by_department_salary_aggregation_flow.d2)*
+
+#### Production Implementation / Python Solution
+
+```python
+from typing import List, Dict, Any
+from collections import defaultdict
+import itertools
+
+def sum_salary_by_dept_defaultdict(employees: List[Dict[str, Any]]) -> Dict[str, float]:
+    """
+    Approach 1: collections.defaultdict (Recommended Industry Standard)
+    Time Complexity: O(N) | Space Complexity: O(D)
+    """
+    salary_totals: defaultdict[str, float] = defaultdict(float)
+    for emp in employees:
+        dept = emp.get("department", "Unknown")
+        sal = float(emp.get("salary", 0.0))
+        salary_totals[dept] += sal
+    return dict(salary_totals)
+
+def sum_salary_by_dept_puredict(employees: List[Dict[str, Any]]) -> Dict[str, float]:
+    """
+    Approach 2: Pure Python dict using .get() (Zero imports, lightweight)
+    Time Complexity: O(N) | Space Complexity: O(D)
+    """
+    salary_totals: Dict[str, float] = {}
+    for emp in employees:
+        dept = emp.get("department", "Unknown")
+        sal = float(emp.get("salary", 0.0))
+        salary_totals[dept] = salary_totals.get(dept, 0.0) + sal
+    return salary_totals
+
+def sum_salary_by_dept_groupby(employees: List[Dict[str, Any]]) -> Dict[str, float]:
+    """
+    Approach 3: itertools.groupby (REQUIRES PRE-SORTING)
+    Time Complexity: O(N log N) due to mandatory sort step!
+    """
+    # CRITICAL: groupby only aggregates contiguous keys! Must sort first!
+    sorted_employees = sorted(employees, key=lambda x: x.get("department", "Unknown"))
+    
+    result: Dict[str, float] = {}
+    for dept, group in itertools.groupby(sorted_employees, key=lambda x: x.get("department", "Unknown")):
+        result[dept] = sum(float(emp.get("salary", 0.0)) for emp in group)
+    return result
+
+# --- Production Verification Script ---
+if __name__ == "__main__":
+    employees_data = [
+        {"emp_id": 101, "emp_name": "Alice",   "department": "Engineering", "salary": 140000},
+        {"emp_id": 102, "emp_name": "Bob",     "department": "Sales",       "salary": 85000},
+        {"emp_id": 103, "emp_name": "Charlie", "department": "Engineering", "salary": 125000},
+        {"emp_id": 104, "emp_name": "Dave",    "department": "HR",          "salary": 72000},
+        {"emp_id": 105, "emp_name": "Eve",     "department": "Sales",       "salary": 95000},
+    ]
+
+    expected = {
+        "Engineering": 265000.0,
+        "Sales": 180000.0,
+        "HR": 72000.0
+    }
+
+    res_defaultdict = sum_salary_by_dept_defaultdict(employees_data)
+    res_puredict    = sum_salary_by_dept_puredict(employees_data)
+    res_groupby     = sum_salary_by_dept_groupby(employees_data)
+
+    assert res_defaultdict == expected, f"Failed defaultdict: {res_defaultdict}"
+    assert res_puredict == expected, f"Failed puredict: {res_puredict}"
+    assert res_groupby == expected, f"Failed groupby: {res_groupby}"
+
+    print("Department Salary Totals:")
+    for dept, total in res_defaultdict.items():
+        print(f"  {dept:15}: ${total:,.2f}")
+    print("\nAll 3 aggregation approaches successfully validated!")
+```
+
+#### Complexity Analysis
+- **`defaultdict` and Pure `dict`:** Time $O(N)$ single-pass iteration. Space $O(D)$ where $D$ is the count of distinct departments.
+- **`itertools.groupby`:** Time $O(N \log N)$ because the mandatory sort step dominates execution. Space $O(N)$ for sorting buffer.
+
+#### Engineering Implications & Production Pitfalls
+- **The Silent `itertools.groupby` Catastrophe:** Unlike SQL `GROUP BY`, Python's `itertools.groupby()` does **not** group all matching keys in the collection. It operates like Unix `uniq`, only grouping *consecutive* matching keys. If an unsorted list `[Eng, Sales, Eng]` is passed, `itertools.groupby` outputs three separate groups: `Eng: 140k`, `Sales: 85k`, and `Eng: 125k`. In production, this causes metric fragmentation and duplicate key errors. Prefer `collections.defaultdict`.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [02. Python for Data & Systems: Built-in Data Structures & Complexity](../02_python_for_data_and_systems.md#21-built-in-data-structures-time--memory-complexities)*
+
 
 ---
 

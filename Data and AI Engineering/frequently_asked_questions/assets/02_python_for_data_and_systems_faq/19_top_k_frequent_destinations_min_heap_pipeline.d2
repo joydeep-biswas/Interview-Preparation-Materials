@@ -1,0 +1,16 @@
+direction: right
+classes: {
+  stream_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  map_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  heap_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  res_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+BookingStream: "Streaming Travel Bookings\n[{'dest': 'DXB'}, {'dest': 'JFK'}, ...]\nMillions of records" { class: stream_node }
+FrequencyMap: "Frequency Hash Map (Counter)\nAccumulates raw counts in O(N)\nDXB: 450, JFK: 320, LHR: 610" { class: map_node }
+MinHeap: "Bounded Min-Heap of Size K\nRoot holds K-th smallest frequency\nheappushpop(heap, (count, dest))" { class: heap_node }
+TopKOutput: "Sorted Top-K Destinations\nO(U log K) total complexity\n[('LHR', 610), ('DXB', 450), ('JFK', 320)]" { class: res_node }
+
+BookingStream -> FrequencyMap: "Single-pass Ingest O(N)"
+FrequencyMap -> MinHeap: "Iterate (dest, count) O(U)"
+MinHeap -> TopKOutput: "heapq.nlargest / sort O(K log K)"

@@ -8,7 +8,7 @@ A comprehensive guide answering all 8 questions on message broker concepts, Rabb
 
 ![Event Streaming vs Message Queuing: RabbitMQ vs Apache Kafka](assets/08_caching_redis_and_kafka_faq/01_rabbitmq_vs_kafka_architecture.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka_faq/01_rabbitmq_vs_kafka_architecture.d2](assets/08_caching_redis_and_kafka_faq/01_rabbitmq_vs_kafka_architecture.d2)
+*D2 Source: [`01_rabbitmq_vs_kafka_architecture.d2`](assets/08_caching_redis_and_kafka_faq/01_rabbitmq_vs_kafka_architecture.d2)*
 
 ---
 
@@ -142,7 +142,7 @@ Direct dual-writing from application code to both a database and Kafka creates d
 
 ![Transactional Outbox Pattern & Debezium CDC Architecture](assets/08_caching_redis_and_kafka_faq/02_transactional_outbox_pattern_debezium.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka_faq/02_transactional_outbox_pattern_debezium.d2](assets/08_caching_redis_and_kafka_faq/02_transactional_outbox_pattern_debezium.d2)
+*D2 Source: [`02_transactional_outbox_pattern_debezium.d2`](assets/08_caching_redis_and_kafka_faq/02_transactional_outbox_pattern_debezium.d2)*
 
 ---
 
@@ -202,7 +202,7 @@ When consumer instances report healthy HTTP liveness/readiness probes and contin
 #### Visual Flow
 ![Kafka Consumer Lag Troubleshooting & Triage Hierarchy](assets/08_caching_redis_and_kafka_faq/03_kafka_consumer_lag_troubleshooting.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka_faq/03_kafka_consumer_lag_troubleshooting.d2](assets/08_caching_redis_and_kafka_faq/03_kafka_consumer_lag_troubleshooting.d2)
+*D2 Source: [`03_kafka_consumer_lag_troubleshooting.d2`](assets/08_caching_redis_and_kafka_faq/03_kafka_consumer_lag_troubleshooting.d2)*
 
 #### Production Implementation / Tuning Configuration
 ```yaml
@@ -261,7 +261,7 @@ A common enterprise misunderstanding is assuming `acks=all` guarantees multi-bro
 #### Visual Flow
 ![Kafka Producer acks Configuration & Durability Matrix](assets/08_caching_redis_and_kafka_faq/04_kafka_producer_acks_durability_matrix.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka_faq/04_kafka_producer_acks_durability_matrix.d2](assets/08_caching_redis_and_kafka_faq/04_kafka_producer_acks_durability_matrix.d2)
+*D2 Source: [`04_kafka_producer_acks_durability_matrix.d2`](assets/08_caching_redis_and_kafka_faq/04_kafka_producer_acks_durability_matrix.d2)*
 
 #### Production Implementation / Producer Configuration
 ```java
@@ -331,7 +331,7 @@ public class ResilientKafkaProducerConfig {
 
 ![Cache-Aside Mutation: Delete vs Update & Stale Data Races](assets/08_caching_redis_and_kafka_faq/05_distributed_cache_aside_mutation_split_brain.svg)
 
-*D2 Source:* [assets/08_caching_redis_and_kafka_faq/05_distributed_cache_aside_mutation_split_brain.d2](assets/08_caching_redis_and_kafka_faq/05_distributed_cache_aside_mutation_split_brain.d2)
+*D2 Source: [`05_distributed_cache_aside_mutation_split_brain.d2`](assets/08_caching_redis_and_kafka_faq/05_distributed_cache_aside_mutation_split_brain.d2)*
 
 The Two Flawed Approaches:
 1. **Flawed Approach A (Auto-commit `enable.auto.commit=true`):** Offsets commit in the background every 5 seconds. If the consumer crashes before DB write finishes, data is lost permanently (at-most-once).

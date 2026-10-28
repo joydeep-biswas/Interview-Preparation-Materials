@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="360" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="360" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,26 +43,26 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="40" y="95" width="430" height="230" rx="8" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <rect x="40" y="95" width="430" height="230" rx="8" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4" />
 <text x="255" y="115" fill="#94a3b8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Well-Classified Easy Sample (p_t = 0.99)</text>
 <text x="255" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Model is 99% confident; standard cross-entropy wastes gradients</text>
-    <rect x="60" y="140" width="390" height="50" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="60" y="140" width="390" height="50" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5" />
 <text x="255" y="162" fill="#f8fafc" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Standard Cross-Entropy Loss</text>
 <text x="72" y="182" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">CE = -log(0.99) = 0.0100 (Small loss, but dominates when x1,000,000 samples!)</text>
-    <rect x="60" y="200" width="390" height="85" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="60" y="200" width="390" height="114" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="255" y="222" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Focal Loss Dynamic Modulation (gamma = 2.0)</text>
 <text x="72" y="242" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Modulating Factor: (1 - p_t)^gamma = (1 - 0.99)^2 = 0.0001</text>
 <text x="72" y="260" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Focal Loss = 0.0001 * 0.0100 = 0.000001!</text>
 <text x="72" y="278" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Loss is attenuated by 10,000x! Gradient contribution drops to near zero.</text>
 <text x="72" y="296" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Prevents overwhelming background negatives from drowning out learning.</text>
 
-    <rect x="510" y="95" width="430" height="230" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <rect x="510" y="95" width="430" height="230" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4" />
 <text x="725" y="115" fill="#f87171" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Misclassified Hard Sample (p_t = 0.10)</text>
 <text x="725" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Model is wrong / confused; gradient must force parameter updates</text>
-    <rect x="530" y="140" width="390" height="50" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+    <rect x="530" y="140" width="390" height="50" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
 <text x="725" y="162" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Standard Cross-Entropy Loss</text>
 <text x="542" y="182" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">CE = -log(0.10) = 2.3025 (High error requiring correction)</text>
-    <rect x="530" y="200" width="390" height="85" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+    <rect x="530" y="200" width="390" height="114" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
 <text x="725" y="222" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Focal Loss Dynamic Modulation (gamma = 2.0)</text>
 <text x="542" y="242" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Modulating Factor: (1 - p_t)^gamma = (1 - 0.10)^2 = 0.8100</text>
 <text x="542" y="260" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Focal Loss = 0.8100 * 2.3025 = 1.8650</text>

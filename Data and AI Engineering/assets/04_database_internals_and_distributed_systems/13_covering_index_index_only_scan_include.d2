@@ -1,18 +1,32 @@
 direction: right
-title: Covering Indexes & Index-Only Scans (The INCLUDE Clause)
+title: "Covering Indexes & Index-Only Scans (The INCLUDE Clause)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-standard: Standard Index Scan (2-Hop I/O) {
-  i1: 1. Traverse Index B+ Tree for email = 'alice@corp.com'
-  h1: 2. Extract ctid = (Page 42, Slot 3)
-  t1: 3. Random I/O Read from Table Heap Disk to fetch user_id {
+standard: "Standard Index Scan (2-Hop I/O)" {
+  class: container
+  i1: "1. Traverse Index B+ Tree for email = 'alice@corp.com'"
+  h1: "2. Extract ctid = (Page 42, Slot 3)"
+  t1: "3. Random I/O Read from Table Heap Disk to fetch user_id" {
+    class: box
     style.stroke: "#ef4444"
   }
   i1 -> h1 -> t1
 }
 
-include_scan: Index-Only Scan with INCLUDE (1-Hop I/O) {
-  i2: 1. Traverse Index on (email) INCLUDE (user_id)
-  extract: 2. Extract user_id directly from Index Leaf payload! {
+include_scan: "Index-Only Scan with INCLUDE (1-Hop I/O)" {
+  class: container
+  i2: "1. Traverse Index on (email) INCLUDE (user_id)"
+  extract: "2. Extract user_id directly from Index Leaf payload!" {
+    class: box
     details: "Zero Table Heap Reads Required! 100% Cache Friendly"
     style.stroke: "#10b981"
   }

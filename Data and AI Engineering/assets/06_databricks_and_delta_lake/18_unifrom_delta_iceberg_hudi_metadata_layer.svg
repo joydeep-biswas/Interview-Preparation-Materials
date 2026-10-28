@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Databricks Universal Format (UniForm) Architecture</text>
   <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Single physical Parquet storage layer simultaneously queryable via Delta Lake, Apache Iceberg, and Apache Hudi</text>
 <rect x="330" y="85" width="380" height="65" rx="8" fill="#0b1329" stroke="#38bdf8" stroke-width="1.5"/>

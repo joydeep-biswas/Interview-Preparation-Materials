@@ -27,7 +27,7 @@
     .badge { font-weight: 600; font-size: 11px; }
   </style>
 
-  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12" stroke="#1F2937" stroke-width="1.5"/>
 
   <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Java Stream Collectors &amp; Multi-Level Downstream Aggregation</text>
   <text x="530" y="52" class="subtitle" text-anchor="middle">Composing groupingBy, mapping, and averagingDouble into a single-pass O(N) aggregation pipeline</text>
@@ -35,7 +35,7 @@
   <!-- Stage 1: Stream Input -->
   <g transform="translate(40, 75)">
     <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="110" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">1. Stream&lt;Employee&gt;</text>
 
     <g transform="translate(15, 48)">
@@ -55,7 +55,7 @@
       <text x="15" y="180" class="card-body">Salary: $120,000</text>
     </g>
 
-    <rect x="15" y="280" width="190" height="70" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="280" width="190" height="70" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="95" y="302" class="badge" fill="#60A5FA" text-anchor="middle">Single Stream Flow</text>
     <text x="95" y="322" class="card-body" font-size="11" text-anchor="middle">Stream feeds employees</text>
     <text x="95" y="338" class="card-body" font-size="11" text-anchor="middle">one-by-one into collector</text>
@@ -64,10 +64,10 @@
   <!-- Stage 2: groupingBy Classifier -->
   <g transform="translate(290, 75)">
     <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="230" height="30" rx="10" ry="10" fill="#92400E"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#92400E" stroke="#F59E0B" stroke-width="1"/>
     <text x="115" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">2. groupingBy(Classifier)</text>
 
-    <rect x="15" y="45" width="200" height="75" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="200" height="75" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="100" y="66" class="badge" fill="#FDE68A" text-anchor="middle">Classifier Function</text>
     <text x="15" y="88" class="card-body" font-family="monospace">Employee::department</text>
     <text x="15" y="106" class="card-body">Extracts Map keys</text>
@@ -84,7 +84,7 @@
       <text x="15" y="122" class="card-body">• Routes Emp 3 (Charlie)</text>
     </g>
 
-    <rect x="15" y="300" width="200" height="50" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="300" width="200" height="50" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="100" y="322" class="badge" fill="#FCD34D" text-anchor="middle">Map&lt;Department, ...&gt;</text>
     <text x="100" y="338" class="card-body" font-size="11" text-anchor="middle">Creates partition branches</text>
   </g>
@@ -92,10 +92,10 @@
   <!-- Stage 3: Downstream Mapping -->
   <g transform="translate(545, 75)">
     <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="230" height="30" rx="10" ry="10" fill="#5B21B6"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#5B21B6" stroke="#8B5CF6" stroke-width="1"/>
     <text x="115" y="20" class="card-title" fill="#DDD6FE" text-anchor="middle">3. Downstream mapping()</text>
 
-    <rect x="15" y="45" width="200" height="75" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="200" height="75" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="100" y="66" class="badge" fill="#DDD6FE" text-anchor="middle">Field Extraction</text>
     <text x="15" y="88" class="card-body" font-family="monospace">mapping(Employee::salary,</text>
     <text x="15" y="106" class="card-body" font-family="monospace">        downstream...)</text>
@@ -111,7 +111,7 @@
       <text x="15" y="122" class="card-body" font-family="monospace">120000.0</text>
     </g>
 
-    <rect x="15" y="300" width="200" height="50" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="300" width="200" height="50" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="100" y="322" class="badge" fill="#C4B5FD" text-anchor="middle">Reduces Memory</text>
     <text x="100" y="338" class="card-body" font-size="11" text-anchor="middle">Prevents storing lists</text>
   </g>
@@ -119,10 +119,10 @@
   <!-- Stage 4: Downstream Aggregator -->
   <g transform="translate(800, 75)">
     <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="220" height="30" rx="10" ry="10" fill="#065F46"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#065F46" stroke="#10B981" stroke-width="1"/>
     <text x="110" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">4. averagingDouble()</text>
 
-    <rect x="15" y="45" width="190" height="75" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="190" height="75" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="95" y="66" class="badge" fill="#A7F3D0" text-anchor="middle">Accumulator</text>
     <text x="15" y="88" class="card-body">Maintains running [sum,</text>
     <text x="15" y="106" class="card-body">count] in O(1) space</text>

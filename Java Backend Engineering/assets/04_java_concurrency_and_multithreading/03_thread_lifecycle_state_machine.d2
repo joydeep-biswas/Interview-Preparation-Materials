@@ -1,41 +1,57 @@
 direction: right
-title: JVM Thread Lifecycle State Machine (java.lang.Thread.State)
+title: "JVM Thread Lifecycle State Machine (java.lang.Thread.State)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-NEW: NEW (Created) {
+NEW: "NEW (Created)" {
+  class: container
   style.fill: "#1E293B"
   style.stroke: "#3B82F6"
 }
 
-RUNNABLE: RUNNABLE (Ready & Running) {
+RUNNABLE: "RUNNABLE (Ready & Running)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
 }
 
-BLOCKED: BLOCKED (Monitor Lock Contention) {
+BLOCKED: "BLOCKED (Monitor Lock Contention)" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#EF4444"
 }
 
-WAITING: WAITING (Indefinite Wait) {
+WAITING: "WAITING (Indefinite Wait)" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
 }
 
-TIMED_WAITING: TIMED_WAITING (Timeout Wait) {
+TIMED_WAITING: "TIMED_WAITING (Timeout Wait)" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
 }
 
-TERMINATED: TERMINATED (Dead) {
+TERMINATED: "TERMINATED (Dead)" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
 }
 
-NEW -> RUNNABLE: thread.start()
-RUNNABLE -> BLOCKED: synchronized lock contention
-BLOCKED -> RUNNABLE: lock acquired
-RUNNABLE -> WAITING: wait(), join(), park()
-WAITING -> RUNNABLE: notify(), unpark()
-RUNNABLE -> TIMED_WAITING: sleep(ms), wait(timeout)
-TIMED_WAITING -> RUNNABLE: timeout expires
-RUNNABLE -> TERMINATED: run() completes
+NEW -> RUNNABLE: "thread.start()"
+RUNNABLE -> BLOCKED: "synchronized lock contention"
+BLOCKED -> RUNNABLE: "lock acquired"
+RUNNABLE -> WAITING: "wait(), join(), park()"
+WAITING -> RUNNABLE: "notify(), unpark()"
+RUNNABLE -> TIMED_WAITING: "sleep(ms), wait(timeout)"
+TIMED_WAITING -> RUNNABLE: "timeout expires"
+RUNNABLE -> TERMINATED: "run() completes"

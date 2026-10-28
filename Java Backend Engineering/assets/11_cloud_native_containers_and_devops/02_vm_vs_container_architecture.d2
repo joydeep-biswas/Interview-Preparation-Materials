@@ -1,23 +1,35 @@
 direction: right
-title: Virtual Machine vs Container Architecture
+title: "Virtual Machine vs Container Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-VM: Virtual Machines (Hardware Virtualization) {
+VM: "Virtual Machines (Hardware Virtualization)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
-  hw: Physical Hardware
-  hyp: Hypervisor (ESXi / KVM)
+  hw: "Physical Hardware"
+  hyp: "Hypervisor (ESXi / KVM)"
   vm1: "Guest VM 1 (Full OS 2-10GB + App)"
   vm2: "Guest VM 2 (Full OS 2-10GB + App)"
   hw -> hyp -> vm1
   hyp -> vm2
 }
 
-Container: Containers (OS-Level Virtualization) {
+Container: "Containers (OS-Level Virtualization)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
-  hw: Physical Hardware
-  kernel: Shared Linux Host Kernel
-  runtime: Container Runtime (containerd)
+  hw: "Physical Hardware"
+  kernel: "Shared Linux Host Kernel"
+  runtime: "Container Runtime (containerd)"
   c1: "Container 1 (Distroless 140MB)"
   c2: "Container 2 (Distroless 140MB)"
   hw -> kernel -> runtime -> c1

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #94A3B8; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr-b26" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g26" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <rect x="25" y="25" width="1010" height="350" class="pillar-box" stroke="#3B82F6"/>
+  <text x="530" y="55" class="title-text" fill="#60A5FA">Micro-Partitions, Clustering Keys &amp; Reclustering Cost Economics</text>
+
+  <!-- Col 1: Micro-Partitions Layout -->
+  <rect x="50" y="80" width="290" height="265" class="card" stroke="#3B82F6"/>
+  <text x="195" y="108" class="card-title" fill="#93C5FD">1. Micro-Partition Anatomy</text>
+  <text x="65" y="135" class="card-body" fill="#F8FAFC">• Size: 50–500 MB (16 MB compressed)</text>
+  <text x="65" y="155" class="card-body">• Immutable columnar blocks</text>
+  <text x="65" y="175" class="card-body" fill="#38BDF8">• Metadata Service Header:</text>
+  <text x="75" y="195" class="card-body">  - Min/Max range per column</text>
+  <text x="75" y="215" class="card-body">  - NULL count &amp; distinct count</text>
+  <text x="65" y="240" class="card-body">• Natural clustering: insertion order</text>
+  <text x="65" y="265" class="card-body" fill="#94A3B8">• Zero manual partitioning maintenance</text>
+  <text x="65" y="320" class="card-body" fill="#38BDF8">Physical Storage: S3 / ADLS / GCS</text>
+
+  <!-- Arrow Col 1 -> Col 2 -->
+  <path d="M 340 210 L 370 210" class="edge" stroke="#3B82F6" marker-end="url(#arr-b26)"/>
+
+  <!-- Col 2: Clustering Keys & Pruning -->
+  <rect x="380" y="80" width="300" height="265" class="card" stroke="#10B981"/>
+  <text x="530" y="108" class="card-title" fill="#34D399">2. Clustering Keys &amp; Query Pruning</text>
+  <text x="395" y="135" class="card-body" fill="#F8FAFC">• Multi-Column Keys: (date, tenant_id)</text>
+  <text x="395" y="155" class="card-body">• Aligns data order across files</text>
+  <text x="395" y="175" class="card-body" fill="#34D399">• Metadata Pruning in Central Engine:</text>
+  <text x="405" y="195" class="card-body">  - Query: WHERE date = '2026-10-28'</text>
+  <text x="405" y="215" class="card-body">  - Eliminates 95%+ of files WITHOUT I/O</text>
+  <text x="395" y="240" class="card-body">• Clustering Depth:</text>
+  <text x="405" y="260" class="card-body">  - Low Depth (1-2) = high separation</text>
+  <text x="405" y="280" class="card-body">  - High Depth = heavy file overlap</text>
+  <text x="395" y="320" class="card-body" fill="#10B981">Query Latency: Sub-second Pruning</text>
+
+  <!-- Arrow Col 2 -> Col 3 -->
+  <path d="M 680 210 L 710 210" class="edge" stroke="#10B981" marker-end="url(#arr-g26)"/>
+
+  <!-- Col 3: Cost Economics -->
+  <rect x="720" y="80" width="290" height="265" class="card" stroke="#F59E0B"/>
+  <text x="865" y="108" class="card-title" fill="#FCD34D">3. Reclustering Cost vs ROI</text>
+  <text x="735" y="135" class="card-body" fill="#F8FAFC">• Background Reclustering Service:</text>
+  <text x="745" y="155" class="card-body">  - Burns compute credits on rewrites</text>
+  <text x="735" y="180" class="card-body" fill="#34D399">WHEN IT IS WORTH THE COST:</text>
+  <text x="745" y="200" class="card-body">  ✓ Multi-TB tables (&gt; 500 GB)</text>
+  <text x="745" y="218" class="card-body">  ✓ High query volume (&gt; 1,000 queries/day)</text>
+  <text x="745" y="236" class="card-body">  ✓ Queries filter heavily by cluster key</text>
+  <text x="735" y="260" class="card-body" fill="#EF4444">WHEN IT IS A WASTE OF MONEY:</text>
+  <text x="745" y="278" class="card-body">  ✗ High churn / frequent continuous DML</text>
+  <text x="745" y="296" class="card-body">  ✗ Small tables (&lt; 100 GB)</text>
+  <text x="735" y="320" class="card-body" fill="#F59E0B">ROI Rule: Scan Savings &gt; Recluster Credits</text>
+</svg>
+

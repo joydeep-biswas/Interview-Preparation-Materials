@@ -131,5 +131,5 @@
 
   <!-- Bottom Invariant -->
   <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
-  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">BHJ Invariant: BroadcastHashJoin completely avoids network shuffle for the large fact table by replicating the small dimension table across all worker nodes, transforming the join into a fast local narrow operation.</text>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">BHJ Invariant: BroadcastHashJoin avoids fact table shuffle by replicating the small dimension table across executors, making joins local.</text>
 </svg>

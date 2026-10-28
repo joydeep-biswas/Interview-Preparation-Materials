@@ -1,26 +1,39 @@
 direction: right
-title: Databricks Serverless Compute Architecture
+title: "Databricks Serverless Compute Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Customer: Customer Environment {
+Customer: "Customer Environment" {
+  class: container
   style.stroke: "#38BDF8"
-  Query: User Query / BI Tool / API
-  Storage: Customer Cloud Storage (S3 / ADLS Gen2)
+  Query: "User Query / BI Tool / API"
+  Storage: "Customer Cloud Storage (S3 / ADLS Gen2)"
 }
 
-PrivateNet: Private Connectivity {
+PrivateNet: "Private Connectivity" {
+  class: container
   style.stroke: "#FBBF24"
-  Tunnel: AWS PrivateLink / Azure VNet Peering
+  Tunnel: "AWS PrivateLink / Azure VNet Peering"
 }
 
-Serverless: Databricks Serverless Compute {
+Serverless: "Databricks Serverless Compute" {
+  class: container
   style.stroke: "#34D399"
-  WarmPool: Pre-Warmed MicroVM Fleet (<2s boot)
-  IsolatedPods: Sandboxed Customer Containers
-  ScaleZero: Scale-to-Zero Auto Termination
+  WarmPool: "Pre-Warmed MicroVM Fleet (<2s boot)"
+  IsolatedPods: "Sandboxed Customer Containers"
+  ScaleZero: "Scale-to-Zero Auto Termination"
 
   WarmPool -> IsolatedPods -> ScaleZero
 }
 
-Customer.Query -> PrivateNet.Tunnel: Submits SQL/Task { style.stroke: "#FBBF24" }
-PrivateNet.Tunnel -> Serverless.WarmPool: Direct connection { style.stroke: "#34D399" }
-Serverless.IsolatedPods -> Customer.Storage: Reads Parquet & Delta via PrivateLink { style.stroke: "#22D3EE" }
+Customer.Query -> PrivateNet.Tunnel: "Submits SQL/Task" { style.stroke: "#FBBF24" }
+PrivateNet.Tunnel -> Serverless.WarmPool: "Direct connection" { style.stroke: "#34D399" }
+Serverless.IsolatedPods -> Customer.Storage: "Reads Parquet & Delta via PrivateLink" { style.stroke: "#22D3EE" }

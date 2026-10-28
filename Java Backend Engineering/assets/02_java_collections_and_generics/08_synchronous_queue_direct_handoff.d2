@@ -1,22 +1,32 @@
 direction: right
-title: SynchronousQueue Direct Handoff Sequence Diagram
+title: "SynchronousQueue Direct Handoff Sequence Diagram"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Producer: Producer Thread
-Queue: SynchronousQueue (0 Capacity)
-Consumer: Consumer Thread
+Producer: "Producer Thread"
+Queue: "SynchronousQueue (0 Capacity)"
+Consumer: "Consumer Thread"
 
-Producer -> Queue: 1. put("TASK-101") (Producer parks) {
+Producer -> Queue: "1. put(\"TASK-101\") (Producer parks)" {
   style.stroke: "#3B82F6"
 }
 
-Consumer -> Queue: 2. take() arrives {
+Consumer -> Queue: "2. take() arrives" {
   style.stroke: "#10B981"
 }
 
-Queue -> Consumer: 3. Returns "TASK-101" (Direct handoff) {
+Queue -> Consumer: "3. Returns \"TASK-101\" (Direct handoff)" {
   style.stroke: "#10B981"
 }
 
-Queue -> Producer: Unparks Producer Thread {
+Queue -> Producer: "Unparks Producer Thread" {
   style.stroke: "#3B82F6"
 }

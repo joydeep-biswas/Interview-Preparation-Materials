@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,28 +43,28 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="40" y="95" width="430" height="290" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <rect x="40" y="95" width="430" height="290" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4" />
 <text x="255" y="115" fill="#f87171" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Anti-Pattern: Natural Language Telephone</text>
 <text x="255" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Semantic Drift &amp; Compounding Hallucinations</text>
-    <rect x="60" y="140" width="390" height="50" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+    <rect x="60" y="140" width="390" height="55" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
 <text x="255" y="162" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Agent 1 (Financial Analyst)</text>
 <text x="72" y="182" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">'Revenue seems to be about $4.2M, though refunds are pending.'</text>
-    <rect x="60" y="205" width="390" height="50" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+    <rect x="60" y="205" width="390" height="55" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
 <text x="255" y="227" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Agent 2 (Report Writer)</text>
 <text x="72" y="247" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">'The company made $4.2M without deductions.' (Drops refund context!)</text>
-    <rect x="60" y="270" width="390" height="85" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+    <rect x="60" y="270" width="390" height="96" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
 <text x="255" y="292" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Agent 3 (Executive Memo Drafter)</text>
 <text x="72" y="312" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">'Record profit of $4.2M guaranteed! Zero risk.'</text>
 <text x="72" y="330" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">FATAL HALLUCINATION: Inaccurate financial claim presented</text>
 <text x="72" y="348" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">to executives due to loss of nuance across agent handoffs!</text>
 
-    <line x1="255" y1="190" x2="255" y2="205" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
-    <line x1="255" y1="255" x2="255" y2="270" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+    <line x1="255" y1="190" x2="255" y2="205" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)" />
+    <line x1="255" y1="255" x2="255" y2="270" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)" />
 
-    <rect x="510" y="95" width="430" height="290" rx="8" fill="#0f172a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <rect x="510" y="95" width="430" height="290" rx="8" fill="#0f172a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,4" />
 <text x="725" y="115" fill="#4ade80" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Best Practice: Pydantic State Schema Contract</text>
 <text x="725" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Zero Semantic Drift / Strict Data Types</text>
-    <rect x="530" y="140" width="390" height="220" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="530" y="140" width="390" height="220" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="725" y="162" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Pydantic State Schema (MissionState)</text>
 <text x="542" y="182" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">class MissionState(BaseModel):</text>
 <text x="542" y="200" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">    revenue_gross_usd: Decimal = 4200000.00</text>

@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4" />
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Left: Ingestion & LLM -->
+  <g transform="translate(25, 140)">
+    <rect width="200" height="115" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="100" y="24" class="title" fill="#93C5FD">Primary LLM Generation</text>
+    <text x="14" y="48" class="body-txt">• Grounded Doc Context</text>
+    <text x="14" y="68" class="body-txt">• User Request &amp; Constraints</text>
+    <text x="14" y="88" class="body-txt">• Streaming generation</text>
+  </g>
+
+  <!-- Connect LLM to Pillar 1 (Top) -->
+  <path d="M 225 170 L 255 170 Q 270 170 270 85 L 285 85 L 295 85" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Connect LLM to Pillar 2 (Bottom) -->
+  <path d="M 225 220 L 255 220 Q 270 220 270 305 L 285 305 L 295 305" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+
+  <!-- Pillar 1: Citation Enforcement -->
+  <g transform="translate(295, 25)">
+    <rect width="260" height="120" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="130" y="24" class="title" fill="#C4B5FD">Pillar 1: Citation Enforcement</text>
+    <text x="14" y="48" class="body-txt">• Formats: [Claim] [Source: Chunk_ID]</text>
+    <text x="14" y="68" class="body-txt">• Strict regex token validation</text>
+    <text x="14" y="88" class="body-txt">• Rejects ungrounded statements</text>
+  </g>
+
+  <!-- Pillar 2: Grammar Constrained Decoding -->
+  <g transform="translate(295, 245)">
+    <rect width="260" height="120" rx="8" fill="#0C4A6E" stroke="#06B6D4" stroke-width="2"/>
+    <text x="130" y="24" class="title" fill="#67E8F9">Pillar 2: Grammar Constrained</text>
+    <text x="14" y="48" class="body-txt">• Outlines / Guidance / Jsonformer</text>
+    <text x="14" y="68" class="body-txt">• Real-time vocabulary logit masking</text>
+    <text x="14" y="88" class="body-txt">• 100% Guaranteed JSON syntax</text>
+  </g>
+
+  <!-- Connect Pillars to NLI Critic -->
+  <path d="M 555 85 L 585 85 Q 600 85 600 170 L 615 170 L 625 170" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <path d="M 555 305 L 585 305 Q 600 305 600 220 L 615 220 L 625 220" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+
+  <!-- Center-Right: Pillar 3 NLI Critic -->
+  <g transform="translate(625, 135)">
+    <rect width="200" height="125" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="100" y="24" class="title" fill="#FDE68A">Pillar 3: NLI Critic</text>
+    <text x="14" y="48" class="body-txt">• Natural Language Inference</text>
+    <text x="14" y="68" class="body-txt">• Premise vs Hypothesis test</text>
+    <text x="14" y="88" class="body-txt">• Classifies: Entail / Contradict</text>
+    <text x="14" y="108" class="body-txt">• Fast SLM classifier (~20ms)</text>
+  </g>
+
+  <!-- Connect NLI Critic to Terminals -->
+  <!-- Top: Pass -->
+  <path d="M 825 170 L 845 170 Q 860 170 860 85 L 870 85 L 880 85" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <!-- Bottom: Fail -->
+  <path d="M 825 225 L 845 225 Q 860 225 860 305 L 870 305 L 880 305" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+
+  <!-- Top Terminal: Verified -->
+  <g transform="translate(880, 30)">
+    <rect width="115" height="110" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="57" y="24" class="title" fill="#A7F3D0">Delivered</text>
+    <text x="10" y="48" class="body-txt">• Entailed</text>
+    <text x="10" y="68" class="body-txt">• 100% safe</text>
+    <text x="10" y="88" class="body-txt">• Verified</text>
+  </g>
+
+  <!-- Bottom Terminal: Fallback / Retry -->
+  <g transform="translate(880, 250)">
+    <rect width="115" height="110" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <text x="57" y="24" class="title" fill="#FECACA">Fallback</text>
+    <text x="10" y="48" class="body-txt">• Re-prompt</text>
+    <text x="10" y="68" class="body-txt">• Escalate</text>
+    <text x="10" y="88" class="body-txt">• Block bad</text>
+  </g>
+</svg>

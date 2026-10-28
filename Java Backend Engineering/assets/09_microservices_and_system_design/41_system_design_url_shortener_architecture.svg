@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">System Design: Highly Scalable URL Shortener Architecture (TinyURL)</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Cloudflare Edge CDN, Range-Based Snowflake ID Allocation, Redis LRU Cache, and Base62 Encoding</text>
 <rect x="40" y="130" width="210" height="300" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
-<rect x="55" y="145" width="140" height="20" rx="10" fill="#1e3a8a"/><text x="125" y="158" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. EDGE INGRESS</text>
+<rect x="55" y="145" width="140" height="20" rx="10" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="125" y="158" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. EDGE INGRESS</text>
 <text x="145" y="185" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Cloudflare CDN Edge</text>
 <text x="55" y="215" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Edge 301 Redirect Cache</text>
 <text x="55" y="232" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Absorbs 85% of read QPS</text>
@@ -51,7 +51,7 @@
 <text x="310" y="338" fill="#CBD5E1" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Atomic in-memory counter</text>
 <text x="310" y="352" fill="#34D399" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero DB collision lock!</text>
 <rect x="540" y="130" width="210" height="300" rx="8" fill="#1a140b" stroke="#f59e0b" stroke-width="2"/>
-<rect x="555" y="145" width="150" height="20" rx="10" fill="#78350f"/><text x="630" y="158" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. REDIS LRU CACHE</text>
+<rect x="555" y="145" width="150" height="20" rx="10" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="630" y="158" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. REDIS LRU CACHE</text>
 <text x="645" y="185" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Redis Cluster (LRU)</text>
 <text x="555" y="215" fill="#FDE68A" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Caching Topology:</text>
 <text x="555" y="235" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Key: 'short_key'</text>
@@ -61,7 +61,7 @@
 <text x="555" y="310" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Eviction: allkeys-lru</text>
 <text x="555" y="335" fill="#6EE7B7" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Sub-millisecond redirect!</text>
 <rect x="790" y="130" width="240" height="300" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
-<rect x="805" y="145" width="180" height="20" rx="10" fill="#047857"/><text x="895" y="158" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. PERSISTENT STORAGE</text>
+<rect x="805" y="145" width="180" height="20" rx="10" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="895" y="158" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. PERSISTENT STORAGE</text>
 <text x="910" y="185" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL / DynamoDB</text>
 <text x="805" y="215" fill="#A7F3D0" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Table: url_mappings</text>
 <text x="805" y="235" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• short_key VARCHAR(7) PK</text>

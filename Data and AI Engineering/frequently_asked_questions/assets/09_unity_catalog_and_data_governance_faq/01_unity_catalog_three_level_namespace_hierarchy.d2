@@ -1,32 +1,47 @@
-direction: down
+direction: right
+title: "Unity Catalog 3-Level Namespace Architecture"
 classes: {
-  meta_box: { style: { fill: "#111827", stroke: "#8B5CF6", stroke-width: 2 } }
-  cat_box: { style: { fill: "#111827", stroke: "#3B82F6", stroke-width: 2 } }
-  schema_box: { style: { fill: "#111827", stroke: "#06B6D4", stroke-width: 2 } }
-  gold_box: { style: { fill: "#111827", stroke: "#10B981", stroke-width: 2 } }
-  obj_box: { style: { fill: "#064E3B", stroke: "#10B981", stroke-width: 2 } }
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-Account: "Databricks Account Metastore\nCentral cross-workspace root" { class: meta_box }
+Metastore: "Unity Catalog Metastore (Central Root)" {
+  class: container
+  style.stroke: "#38BDF8"
+}
 
-DevCat: "dev_catalog (Sandbox)" { class: cat_box }
-TestCat: "test_catalog (Integration)" { class: cat_box }
-ProdCat: "prod_catalog (Production)" { class: cat_box }
+Catalogs: "Catalogs (1st Level)" {
+  class: container
+  style.stroke: "#8B5CF6"
+  Dev: "dev_catalog (Sandbox)"
+  Prod: "prod_catalog (Governed Production)"
+}
 
-Bronze: "bronze (Raw)" { class: schema_box }
-Silver: "silver (Curated)" { class: schema_box }
-Gold: "gold (Data Marts)" { class: gold_box }
+Schemas: "Schemas / Databases (2nd Level)" {
+  class: container
+  style.stroke: "#FBBF24"
+  Sales: "sales_schema"
+  HR: "hr_schema"
+}
 
-T1: "fact_daily_revenue (Table)" { class: obj_box }
-V1: "v_masked_customer (View)" { class: gold_box }
+Assets: "Securable Assets (3rd Level)" {
+  class: container
+  style.stroke: "#34D399"
+  Table: "fact_orders (Managed Table)"
+  Volume: "raw_landing (/Volumes/ Non-tabular files)"
+  View: "vw_vip_customers (Column-Masked View)"
+}
 
-Account -> DevCat
-Account -> TestCat
-Account -> ProdCat
-
-ProdCat -> Bronze
-ProdCat -> Silver
-ProdCat -> Gold
-
-Gold -> T1
-Gold -> V1
+Metastore -> Catalogs.Dev
+Metastore -> Catalogs.Prod
+Catalogs.Prod -> Schemas.Sales
+Catalogs.Prod -> Schemas.HR
+Schemas.Sales -> Assets.Table
+Schemas.Sales -> Assets.Volume
+Schemas.Sales -> Assets.View

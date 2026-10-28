@@ -1,7 +1,18 @@
 direction: right
-title: JVM Call Stack Unwinding & Exception Propagation Mechanics
+title: "JVM Call Stack Unwinding & Exception Propagation Mechanics"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-CallPush: Phase 1: Method Invocation (Frame Push) {
+CallPush: "Phase 1: Method Invocation (Frame Push)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   f1: "Frame 1: main() [try-catch handler]"
@@ -10,7 +21,8 @@ CallPush: Phase 1: Method Invocation (Frame Push) {
   f1 -> f2 -> f3
 }
 
-UnwindPop: Phase 2: Exception Unwinding (Frame Pop) {
+UnwindPop: "Phase 2: Exception Unwinding (Frame Pop)" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#EF4444"
   pop3: "1. Frame 3 popped (uncaught)"
@@ -19,4 +31,4 @@ UnwindPop: Phase 2: Exception Unwinding (Frame Pop) {
   pop3 -> pop2 -> catch1
 }
 
-CallPush.f3 -> UnwindPop.pop3: Exception Thrown { style.stroke: "#EF4444" }
+CallPush.f3 -> UnwindPop.pop3: "Exception Thrown" { style.stroke: "#EF4444" }

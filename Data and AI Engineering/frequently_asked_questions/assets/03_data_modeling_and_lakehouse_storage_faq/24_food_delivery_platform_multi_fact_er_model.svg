@@ -9,64 +9,64 @@
       .edge-lbl { fill: #64748B; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
   </defs>
 
-  <rect width="1040" height="540" fill="#0B0F19"/>
+  <rect width="1040" height="540" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Left Column: Conformed Dimensions -->
   <g transform="translate(30, 25)">
-    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5" />
     <text x="85" y="24" class="entity-title" fill="#93C5FD">dim_customer</text>
-    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1" />
     <text x="15" y="52" class="field-pk">customer_key (PK)</text>
     <text x="15" y="70" class="field-norm">name, tier, address</text>
   </g>
 
   <g transform="translate(30, 125)">
-    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5" />
     <text x="85" y="24" class="entity-title" fill="#93C5FD">dim_dasher</text>
-    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1" />
     <text x="15" y="52" class="field-pk">dasher_key (PK)</text>
     <text x="15" y="70" class="field-norm">vehicle, rating, active</text>
   </g>
 
   <g transform="translate(30, 225)">
-    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5" />
     <text x="85" y="24" class="entity-title" fill="#93C5FD">dim_merchant_store</text>
-    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1" />
     <text x="15" y="52" class="field-pk">store_key (PK)</text>
     <text x="15" y="70" class="field-norm">cuisine, payout_tier</text>
   </g>
 
   <g transform="translate(30, 325)">
-    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5" />
     <text x="85" y="24" class="entity-title" fill="#93C5FD">dim_geo_zone</text>
-    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1" />
     <text x="15" y="52" class="field-pk">geo_zone_key (PK)</text>
     <text x="15" y="70" class="field-norm">city, metro_area, zip</text>
   </g>
 
   <g transform="translate(30, 425)">
-    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5" />
     <text x="85" y="24" class="entity-title" fill="#93C5FD">dim_date</text>
-    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1" />
     <text x="15" y="52" class="field-pk">order_date_key (PK)</text>
     <text x="15" y="70" class="field-norm">full_date, day_of_wk</text>
   </g>
 
   <!-- Center: fact_delivery_lifecycle -->
   <g transform="translate(280, 50)">
-    <rect width="360" height="420" rx="10" ry="10" fill="#1F2937" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="360" height="420" rx="10" ry="10" fill="#1F2937" stroke="#F59E0B" stroke-width="2" />
     <text x="180" y="26" class="entity-title" fill="#FCD34D">fact_delivery_lifecycle (Core Grain)</text>
-    <line x1="15" y1="36" x2="345" y2="36" stroke="#374151" stroke-width="1.5"/>
+    <line x1="15" y1="36" x2="345" y2="36" stroke="#374151" stroke-width="1.5" />
     <text x="20" y="58" class="field-pk">delivery_key (PK)</text>
     <text x="20" y="78" class="field-norm">order_id (Business Degenerate)</text>
     <text x="20" y="98" class="field-fk">customer_key (FK)</text>
@@ -74,14 +74,14 @@
     <text x="20" y="138" class="field-fk">store_key (FK)</text>
     <text x="20" y="158" class="field-fk">geo_zone_key (FK)</text>
     <text x="20" y="178" class="field-fk">order_date_key (FK)</text>
-    <line x1="20" y1="192" x2="340" y2="192" stroke="#374151" stroke-width="1"/>
+    <line x1="20" y1="192" x2="340" y2="192" stroke="#374151" stroke-width="1" />
     <text x="20" y="212" class="field-norm">order_placed_at (Timestamp)</text>
     <text x="20" y="232" class="field-norm">store_accepted_at (Timestamp)</text>
     <text x="20" y="252" class="field-norm">dasher_assigned_at (Timestamp)</text>
     <text x="20" y="272" class="field-norm">dasher_arrived_store_at (Timestamp)</text>
     <text x="20" y="292" class="field-norm">order_picked_up_at (Timestamp)</text>
     <text x="20" y="312" class="field-norm">order_delivered_at (Timestamp)</text>
-    <line x1="20" y1="326" x2="340" y2="326" stroke="#374151" stroke-width="1"/>
+    <line x1="20" y1="326" x2="340" y2="326" stroke="#374151" stroke-width="1" />
     <text x="20" y="346" class="field-norm">merchant_prep_seconds (Measure)</text>
     <text x="20" y="366" class="field-norm">driver_transit_seconds (Measure)</text>
     <text x="20" y="386" class="field-norm">total_fulfillment_seconds (Measure)</text>
@@ -90,9 +90,9 @@
 
   <!-- Right Top: fact_order_financials -->
   <g transform="translate(720, 40)">
-    <rect width="280" height="235" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="280" height="235" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="140" y="26" class="entity-title" fill="#6EE7B7">fact_order_financials</text>
-    <line x1="15" y1="36" x2="265" y2="36" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="36" x2="265" y2="36" stroke="#1F2937" stroke-width="1.5" />
     <text x="20" y="58" class="field-pk">order_key (PK)</text>
     <text x="20" y="78" class="field-fk">delivery_key (FK - 1:1 Reconcile)</text>
     <text x="20" y="98" class="field-norm">gross_food_amount</text>
@@ -106,9 +106,9 @@
 
   <!-- Right Bottom: fact_merchant_payout_settlement -->
   <g transform="translate(720, 310)">
-    <rect width="280" height="185" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="280" height="196" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2" />
     <text x="140" y="26" class="entity-title" fill="#C4B5FD">fact_merchant_payout_settlement</text>
-    <line x1="15" y1="36" x2="265" y2="36" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="36" x2="265" y2="36" stroke="#1F2937" stroke-width="1.5" />
     <text x="20" y="58" class="field-pk">settlement_key (PK)</text>
     <text x="20" y="78" class="field-fk">store_key (FK)</text>
     <text x="20" y="98" class="field-fk">settlement_date_key (FK)</text>
@@ -119,15 +119,15 @@
   </g>
 
   <!-- Edges from Dims to Center -->
-  <path fill="none" d="M 200 67.5 L 280 67.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-  <path fill="none" d="M 200 167.5 L 280 167.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-  <path fill="none" d="M 200 267.5 L 280 267.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-  <path fill="none" d="M 200 367.5 L 280 367.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-  <path fill="none" d="M 200 467.5 L 280 467.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-
   <!-- Center to Financials -->
-  <path fill="none" d="M 640 157.5 L 720 157.5" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-
   <!-- Store dim to Settlement (Curved with straight runway) -->
-  <path fill="none" d="M 200 280 L 240 280 C 250 280, 250 515, 680 515 L 760 515 C 780 515, 780 495, 780 495" class="edge" stroke="#8B5CF6"/>
-</svg>
+  <path fill="none" d="M 200 280 L 240 280 C 250 280, 250 515, 680 515 L 760 515 C 780 515, 780 495, 780 495" class="edge" stroke="#8B5CF6" />
+<g id="connectors"><path fill="none" d="M 200 67.5 L 280 67.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+  <path fill="none" d="M 200 167.5 L 280 167.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+  <path fill="none" d="M 200 267.5 L 280 267.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+  <path fill="none" d="M 200 367.5 L 280 367.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+  <path fill="none" d="M 200 467.5 L 280 467.5" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 640 157.5 L 720 157.5" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+
+  </g></svg>

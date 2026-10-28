@@ -1,33 +1,47 @@
 direction: right
-title: Relational Schema Normalization: 3NF & BCNF Architecture
-
-customer: CUSTOMER {
-  shape: sql_table
-  customer_id: bigint [pk]
-  name: varchar
-  email: varchar
+title: "Relational Schema Normalization: 3NF & BCNF Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-order: ORDER {
+customer: "CUSTOMER" {
+  class: table_box
   shape: sql_table
-  order_id: bigint [pk]
-  customer_id: bigint [fk]
-  order_date: timestamp
+  customer_id: "bigint [pk]"
+  name: "varchar"
+  email: "varchar"
 }
 
-order_item: ORDER_ITEM {
+order: "ORDER" {
+  class: table_box
   shape: sql_table
-  order_id: bigint [pk, fk]
-  item_id: bigint [pk, fk]
-  quantity: int
-  unit_price: numeric
+  order_id: "bigint [pk]"
+  customer_id: "bigint [fk]"
+  order_date: "timestamp"
 }
 
-item: ITEM {
+order_item: "ORDER_ITEM" {
+  class: table_box
   shape: sql_table
-  item_id: bigint [pk]
-  item_name: varchar
-  current_price: numeric
+  order_id: "bigint [pk, fk]"
+  item_id: "bigint [pk, fk]"
+  quantity: "int"
+  unit_price: "numeric"
+}
+
+item: "ITEM" {
+  class: table_box
+  shape: sql_table
+  item_id: "bigint [pk]"
+  item_name: "varchar"
+  current_price: "numeric"
 }
 
 customer -> order: "places (1:N)"

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+      .container-title { fill: #CBD5E1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 700; text-anchor: start; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Left: Requests -->
+  <g transform="translate(25, 45)">
+    <rect width="190" height="110" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="95" y="24" class="title" fill="#93C5FD">Request 1 (Session A)</text>
+    <text x="12" y="48" class="body-txt">• System Prompt: 2,048 tok</text>
+    <text x="12" y="68" class="body-txt">• Query: "Balance inquiry"</text>
+    <text x="12" y="88" class="body-txt">• Prefill candidate</text>
+  </g>
+
+  <g transform="translate(25, 215)">
+    <rect width="190" height="110" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="95" y="24" class="title" fill="#93C5FD">Request 2 (Session B)</text>
+    <text x="12" y="48" class="body-txt">• System Prompt: 2,048 tok</text>
+    <text x="12" y="68" class="body-txt">• Query: "Transfer funds"</text>
+    <text x="12" y="88" class="body-txt">• Prefill candidate</text>
+  </g>
+
+  <!-- Connect Requests to Prefix Match Engine -->
+  <path d="M 215 100 L 255 100 Q 270 100 270 160 L 280 160 L 290 160" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <path d="M 215 270 L 255 270 Q 270 270 270 220 L 280 220 L 290 220" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- Match Engine -->
+  <g transform="translate(290, 135)">
+    <rect width="185" height="110" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="92" y="24" class="title" fill="#FDE68A">Radix Match Engine</text>
+    <text x="12" y="48" class="body-txt">• Token sequence hashing</text>
+    <text x="12" y="68" class="body-txt">• Match: 2,048 Shared Prefix</text>
+    <text x="12" y="88" class="body-txt">• Bypasses prefill compute</text>
+  </g>
+
+  <!-- Connect Match Engine to Tree Container -->
+  <path d="M 475 190 L 515 190" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+
+  <!-- Center Container: GPU Radix Tree Cache -->
+  <g transform="translate(515, 25)">
+    <rect width="280" height="330" rx="8" fill="#0D1526" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="15" y="22" class="container-title" fill="#C4B5FD">GPU VRAM Radix Tree Cache</text>
+
+    <!-- Root Node -->
+    <g transform="translate(20, 40)">
+      <rect width="240" height="90" rx="6" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+      <text x="120" y="24" class="title" fill="#C4B5FD">Root Node (System Prompt)</text>
+      <text x="10" y="48" class="body-txt">• 2,048 Tokens KV Cache</text>
+      <text x="10" y="68" class="body-txt">• Locked in GPU High-Bandwidth RAM</text>
+    </g>
+
+    <!-- Branch A -->
+    <g transform="translate(20, 160)">
+      <rect width="240" height="65" rx="6" fill="#1E293B" stroke="#64748B" stroke-width="1.5"/>
+      <text x="120" y="22" class="title" fill="#F8FAFC">Branch A: Session A Tensors</text>
+      <text x="10" y="44" class="body-txt">Only stores 50 new user tokens!</text>
+    </g>
+
+    <!-- Branch B -->
+    <g transform="translate(20, 245)">
+      <rect width="240" height="65" rx="6" fill="#1E293B" stroke="#64748B" stroke-width="1.5"/>
+      <text x="120" y="22" class="title" fill="#F8FAFC">Branch B: Session B Tensors</text>
+      <text x="10" y="44" class="body-txt">Only stores 45 new user tokens!</text>
+    </g>
+
+    <!-- Connections inside tree -->
+    <path d="M 140 130 L 140 160" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+    <path d="M 140 225 L 140 245" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  </g>
+
+  <!-- Connect Radix Tree to Performance Result -->
+  <path d="M 795 190 L 835 190" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+  <!-- Far Right: Performance Result -->
+  <g transform="translate(835, 125)">
+    <rect width="160" height="130" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="80" y="24" class="title" fill="#A7F3D0">Execution Win</text>
+    <text x="10" y="48" class="body-txt">• TTFT: 650ms -> 25ms</text>
+    <text x="10" y="68" class="body-txt">• Zero VRAM duplication</text>
+    <text x="10" y="88" class="body-txt">• 95% GPU prefill savings</text>
+    <text x="10" y="108" class="body-txt">• 20x user concurrency</text>
+  </g>
+</svg>

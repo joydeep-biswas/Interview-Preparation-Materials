@@ -1,7 +1,18 @@
 direction: down
-title: Java 21 Virtual Threads (Project Loom) Carrier Multiplexing
+title: "Java 21 Virtual Threads (Project Loom) Carrier Multiplexing"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-VirtualThreads: Millions of Lightweight Virtual Threads (JVM Heap) {
+VirtualThreads: "Millions of Lightweight Virtual Threads (JVM Heap)" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
   vt1: "VT 1 (Running on Carrier 1)"
@@ -10,7 +21,8 @@ VirtualThreads: Millions of Lightweight Virtual Threads (JVM Heap) {
   vtn: "1,000,000+ concurrent threads"
 }
 
-CarrierPool: Small Pool of OS Carrier Threads (Platform Threads) {
+CarrierPool: "Small Pool of OS Carrier Threads (Platform Threads)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   c1: "Carrier Thread 1 (Core 1)"
@@ -19,6 +31,6 @@ CarrierPool: Small Pool of OS Carrier Threads (Platform Threads) {
   c4: "Carrier Thread 4 (Core 4)"
 }
 
-VirtualThreads.vt1 -> CarrierPool.c1: Mounted when executing CPU code { style.stroke: "#10B981" }
-VirtualThreads.vt2 -> CarrierPool.c2: Mounted when executing CPU code { style.stroke: "#10B981" }
-VirtualThreads.vt3 -> CarrierPool.c3: Unmounted on blocking I/O (continuation to heap) { style.stroke: "#F59E0B" }
+VirtualThreads.vt1 -> CarrierPool.c1: "Mounted when executing CPU code" { style.stroke: "#10B981" }
+VirtualThreads.vt2 -> CarrierPool.c2: "Mounted when executing CPU code" { style.stroke: "#10B981" }
+VirtualThreads.vt3 -> CarrierPool.c3: "Unmounted on blocking I/O (continuation to heap)" { style.stroke: "#F59E0B" }

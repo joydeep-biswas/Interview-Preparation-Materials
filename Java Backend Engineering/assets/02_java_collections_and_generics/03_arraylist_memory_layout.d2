@@ -1,7 +1,18 @@
 direction: down
-title: ArrayList Backing Array & Geometric Resizing Architecture
+title: "ArrayList Backing Array & Geometric Resizing Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Buffer: Contiguous Object[] elementData {
+Buffer: "Contiguous Object[] elementData" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   cells: "Index 0: 'Alpha' | Index 1: 'Bravo' | Index 2: 'Charlie' | Index 3: 'Delta' | Index 4: 'Echo'"
@@ -9,7 +20,8 @@ Buffer: Contiguous Object[] elementData {
   state: "size = 5 (active) | capacity = 8 (allocated buffer)"
 }
 
-Resizing: 1.5x Geometric Capacity Expansion {
+Resizing: "1.5x Geometric Capacity Expansion" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   formula: "newCapacity = oldCapacity + (oldCapacity >> 1)"
@@ -17,12 +29,13 @@ Resizing: 1.5x Geometric Capacity Expansion {
   copy: "Uses System.arraycopy (native SIMD memory block transfer)"
 }
 
-Proof: Amortized O(1) Complexity {
+Proof: "Amortized O(1) Complexity" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#1D4ED8"
   work: "Total copy work for N inserts: N + N/2 + N/4... < 2N"
   amortized: "Cost per append: 2N / N = 2 = O(1) average!"
 }
 
-Buffer -> Resizing: Triggers when size == capacity
+Buffer -> Resizing: "Triggers when size == capacity"
 Resizing -> Proof

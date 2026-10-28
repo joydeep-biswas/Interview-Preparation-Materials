@@ -1,0 +1,28 @@
+direction: right
+classes: {
+  req_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  tree_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  match_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  save_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+Req1: "Request 1 (Session A)\nShares Enterprise System Prompt\nUser Query: Balance Inquiry" { class: req_node }
+Req2: "Request 2 (Session B)\nShares Enterprise System Prompt\nUser Query: Transfer Funds" { class: req_node }
+
+RadixCache: "GPU VRAM Radix Tree Cache" {
+  style: { fill: "#0D1526"; stroke: "#8B5CF6"; stroke-width: 1.5; border-radius: 8 }
+  RootPrompt: "Root Node (2,048 Tokens)\nSystem Prompt KV Cache Hash\nResident in GPU VRAM" { class: tree_node }
+  Branch1: "Leaf A: Session A Tokens\nReuses Root KV Tensors" { class: tree_node }
+  Branch2: "Leaf B: Session B Tokens\nReuses Root KV Tensors" { class: tree_node }
+}
+
+PrefixMatch: "Radix Match Engine\nIdentifies 2,048 token prefix\nBypasses prefill matrix math" { class: match_node }
+Result: "Prefill Bypassed!\nTTFT drops 650ms -> 25ms\nZero redundant VRAM usage" { class: save_node }
+
+Req1 -> PrefixMatch: "Lookup Prefix"
+Req2 -> PrefixMatch: "Lookup Prefix"
+PrefixMatch -> RadixCache.RootPrompt: "Cache Hit"
+RadixCache.RootPrompt -> RadixCache.Branch1
+RadixCache.RootPrompt -> RadixCache.Branch2
+RadixCache.Branch1 -> Result: "Instant Decode"
+RadixCache.Branch2 -> Result: "Instant Decode"

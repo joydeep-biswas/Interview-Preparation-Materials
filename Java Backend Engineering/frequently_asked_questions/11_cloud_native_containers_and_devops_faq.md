@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to real-world interview scenarios and en
 
 ![Enterprise Cloud Native CI/CD & GitOps Kubernetes Pipeline](assets/11_cloud_native_containers_and_devops_faq/01_enterprise_cloud_native_cicd_gitops_kubernetes_pipeline.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops_faq/01_enterprise_cloud_native_cicd_gitops_kubernetes_pipeline.d2](assets/11_cloud_native_containers_and_devops_faq/01_enterprise_cloud_native_cicd_gitops_kubernetes_pipeline.d2)
+*D2 Source: [`01_enterprise_cloud_native_cicd_gitops_kubernetes_pipeline.d2`](assets/11_cloud_native_containers_and_devops_faq/01_enterprise_cloud_native_cicd_gitops_kubernetes_pipeline.d2)*
 
 ---
 
@@ -244,7 +244,7 @@ VPCs isolate cloud resources using Public Subnets (connected to Internet Gateway
 
 ![GitOps Continuous Delivery: ECR -> ArgoCD -> EKS](assets/11_cloud_native_containers_and_devops_faq/02_gitops_continuous_delivery_ecr_argocd_eks.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops_faq/02_gitops_continuous_delivery_ecr_argocd_eks.d2](assets/11_cloud_native_containers_and_devops_faq/02_gitops_continuous_delivery_ecr_argocd_eks.d2)
+*D2 Source: [`02_gitops_continuous_delivery_ecr_argocd_eks.d2`](assets/11_cloud_native_containers_and_devops_faq/02_gitops_continuous_delivery_ecr_argocd_eks.d2)*
 
 ---
 
@@ -326,7 +326,7 @@ Historically, Java 8 was unaware of container cgroups and calculated heap size b
 
 ![AWS Compute Continuum & Enterprise Observability Pipeline](assets/11_cloud_native_containers_and_devops_faq/03_aws_compute_continuum_and_observability_pipeline.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops_faq/03_aws_compute_continuum_and_observability_pipeline.d2](assets/11_cloud_native_containers_and_devops_faq/03_aws_compute_continuum_and_observability_pipeline.d2)
+*D2 Source: [`03_aws_compute_continuum_and_observability_pipeline.d2`](assets/11_cloud_native_containers_and_devops_faq/03_aws_compute_continuum_and_observability_pipeline.d2)*
 
 #### Production Implementation / Java Code
 

@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to real-world interview scenarios and en
 
 ![From Loss Surfaces to Distributed Attention Architecture](assets/16_machine_learning_and_transformer_foundations_faq/01_loss_surfaces_to_distributed_attention_overview.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/01_loss_surfaces_to_distributed_attention_overview.d2](assets/16_machine_learning_and_transformer_foundations_faq/01_loss_surfaces_to_distributed_attention_overview.d2)
+*D2 Source: [`01_loss_surfaces_to_distributed_attention_overview.d2`](assets/16_machine_learning_and_transformer_foundations_faq/01_loss_surfaces_to_distributed_attention_overview.d2)*
 
 ---
 
@@ -75,7 +75,7 @@ In high-scale enterprise systems, engineers diagnose bias vs variance by plottin
 #### Visual Flow
 ![Bias-Variance Tradeoff Decomposition: Underfitting vs Optimal vs Overfitting](assets/16_machine_learning_and_transformer_foundations_faq/02_bias_variance_tradeoff_decomposition.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/02_bias_variance_tradeoff_decomposition.d2](assets/16_machine_learning_and_transformer_foundations_faq/02_bias_variance_tradeoff_decomposition.d2)
+*D2 Source: [`02_bias_variance_tradeoff_decomposition.d2`](assets/16_machine_learning_and_transformer_foundations_faq/02_bias_variance_tradeoff_decomposition.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -126,7 +126,7 @@ def diagnose_bias_variance(estimator, X: np.ndarray, y: np.ndarray, cv: int = 5)
 - **Space Complexity:** $O(N \cdot M)$ memory consumption to hold dataset splits.
 
 #### Engineering Implications & Production Pitfalls
-1. **The Data Scalability Trap:** If your model has high bias, spending $50,000 to acquire 1,000,000 new training samples yields zero performance improvement. Adding more data only helps if the model has high variance.
+1. **The Data Scalability Trap:** If your model has high bias, spending \$50,000 to acquire 1,000,000 new training samples yields zero performance improvement. Adding more data only helps if the model has high variance.
 2. **Double Descent in Modern Deep Learning:** While classical theory posits that increasing capacity beyond the interpolation threshold inevitably explodes variance, modern over-parameterized neural networks (LLMs, ResNets) undergo **Deep Double Descent**, where test error decreases again due to inductive biases in stochastic gradient descent (SGD).
 
 #### Core Curriculum Cross-Reference
@@ -161,7 +161,7 @@ Regularization prevents high variance by augmenting the loss objective $\mathcal
 #### Visual Flow
 ![L1 (Lasso) vs L2 (Ridge) Geometric Constraint Spaces](assets/16_machine_learning_and_transformer_foundations_faq/03_l1_lasso_vs_l2_ridge_geometric_constraints.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/03_l1_lasso_vs_l2_ridge_geometric_constraints.d2](assets/16_machine_learning_and_transformer_foundations_faq/03_l1_lasso_vs_l2_ridge_geometric_constraints.d2)
+*D2 Source: [`03_l1_lasso_vs_l2_ridge_geometric_constraints.d2`](assets/16_machine_learning_and_transformer_foundations_faq/03_l1_lasso_vs_l2_ridge_geometric_constraints.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -240,14 +240,14 @@ A common production mistake is deploying Machine Learning to solve problems that
 
 #### Production Case Study: Credit Card Fraud Detection
 In high-scale banking platforms (e.g., Visa/Mastercard processing 50,000 transactions/second), handcrafted rules (`if amount > $5000 and country != home_country then reject`) fail catastrophically:
-- Sophisticated fraudsters deliberately structure payments ($4,900) to bypass static thresholds.
+- Sophisticated fraudsters deliberately structure payments (\$4,900) to bypass static thresholds.
 - Legitimate users traveling on vacation suffer false declines, destroying customer trust.
 - A gradient-boosted decision tree (LightGBM/XGBoost) or Real-Time Graph Neural Network (GNN) evaluates non-linear interactions across 300+ features (velocity of transactions in the last 10 minutes, IP subnet entropy, merchant category distance, device fingerprinting) in $< 15\text{ ms}$, predicting a calibrated fraud probability $P(\text{fraud} \mid \mathbf{x})$.
 
 #### Visual Flow
 ![Hybrid Fraud Detection: Deterministic Rules vs ML Inference Pipeline](assets/16_machine_learning_and_transformer_foundations_faq/04_fraud_detection_rules_engine_vs_ml_inference_pipeline.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/04_fraud_detection_rules_engine_vs_ml_inference_pipeline.d2](assets/16_machine_learning_and_transformer_foundations_faq/04_fraud_detection_rules_engine_vs_ml_inference_pipeline.d2)
+*D2 Source: [`04_fraud_detection_rules_engine_vs_ml_inference_pipeline.d2`](assets/16_machine_learning_and_transformer_foundations_faq/04_fraud_detection_rules_engine_vs_ml_inference_pipeline.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -336,7 +336,7 @@ Where $\eta > 0$ is the learning rate, and $\mathbf{g}_t$ is the gradient estima
 #### Visual Flow
 ![Gradient Descent Learning Rate Dynamics & Convergence](assets/16_machine_learning_and_transformer_foundations_faq/05_gradient_descent_learning_rate_dynamics.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/05_gradient_descent_learning_rate_dynamics.d2](assets/16_machine_learning_and_transformer_foundations_faq/05_gradient_descent_learning_rate_dynamics.d2)
+*D2 Source: [`05_gradient_descent_learning_rate_dynamics.d2`](assets/16_machine_learning_and_transformer_foundations_faq/05_gradient_descent_learning_rate_dynamics.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -423,7 +423,7 @@ Engineers address class imbalance across three complementary architectural tiers
 #### Visual Flow
 ![Class Imbalance Pipeline: Resampling, Focal Loss & Cost Thresholding](assets/16_machine_learning_and_transformer_foundations_faq/06_class_imbalance_smote_undersampling_focal_loss_pipeline.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/06_class_imbalance_smote_undersampling_focal_loss_pipeline.d2](assets/16_machine_learning_and_transformer_foundations_faq/06_class_imbalance_smote_undersampling_focal_loss_pipeline.d2)
+*D2 Source: [`06_class_imbalance_smote_undersampling_focal_loss_pipeline.d2`](assets/16_machine_learning_and_transformer_foundations_faq/06_class_imbalance_smote_undersampling_focal_loss_pipeline.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -510,7 +510,7 @@ $$\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(1)}} = \left( \prod_{k=1}^{L
 #### Visual Flow
 ![Backpropagation Computational Graph & Vanishing Gradient Anatomy](assets/16_machine_learning_and_transformer_foundations_faq/07_backpropagation_computational_graph_vanishing_gradient.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/07_backpropagation_computational_graph_vanishing_gradient.d2](assets/16_machine_learning_and_transformer_foundations_faq/07_backpropagation_computational_graph_vanishing_gradient.d2)
+*D2 Source: [`07_backpropagation_computational_graph_vanishing_gradient.d2`](assets/16_machine_learning_and_transformer_foundations_faq/07_backpropagation_computational_graph_vanishing_gradient.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -603,7 +603,7 @@ Given an activation tensor of shape $(B, T, C)$ where $B$ is batch size, $T$ is 
 #### Visual Flow
 ![Feature Normalization Topologies: BatchNorm vs LayerNorm vs RMSNorm](assets/16_machine_learning_and_transformer_foundations_faq/08_batch_norm_vs_layer_norm_vs_rmsnorm_tensors.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/08_batch_norm_vs_layer_norm_vs_rmsnorm_tensors.d2](assets/16_machine_learning_and_transformer_foundations_faq/08_batch_norm_vs_layer_norm_vs_rmsnorm_tensors.d2)
+*D2 Source: [`08_batch_norm_vs_layer_norm_vs_rmsnorm_tensors.d2`](assets/16_machine_learning_and_transformer_foundations_faq/08_batch_norm_vs_layer_norm_vs_rmsnorm_tensors.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -678,7 +678,7 @@ Every deep learning architecture embeds specific **Inductive Biases** (assumptio
 #### Visual Flow
 ![Inductive Bias Spectrum: CNNs vs RNNs vs Transformers](assets/16_machine_learning_and_transformer_foundations_faq/09_inductive_bias_cnn_vs_rnn_vs_transformer.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/09_inductive_bias_cnn_vs_rnn_vs_transformer.d2](assets/16_machine_learning_and_transformer_foundations_faq/09_inductive_bias_cnn_vs_rnn_vs_transformer.d2)
+*D2 Source: [`09_inductive_bias_cnn_vs_rnn_vs_transformer.d2`](assets/16_machine_learning_and_transformer_foundations_faq/09_inductive_bias_cnn_vs_rnn_vs_transformer.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -750,7 +750,7 @@ Model selection in enterprise engineering is an optimization problem balancing *
 #### Decision Flowchart: Model Selection Architecture
 ![Machine Learning Algorithm Selection Decision Tree](assets/16_machine_learning_and_transformer_foundations_faq/10_machine_learning_model_selection_decision_tree.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/10_machine_learning_model_selection_decision_tree.d2](assets/16_machine_learning_and_transformer_foundations_faq/10_machine_learning_model_selection_decision_tree.d2)
+*D2 Source: [`10_machine_learning_model_selection_decision_tree.d2`](assets/16_machine_learning_and_transformer_foundations_faq/10_machine_learning_model_selection_decision_tree.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -838,7 +838,7 @@ A catastrophic drop in production model performance (e.g. $95\% \to 60\%$) is al
 #### Visual Flow
 ![Production Model Accuracy Drop Triage Sequence](assets/16_machine_learning_and_transformer_foundations_faq/11_production_model_accuracy_drop_triage_sequence.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/11_production_model_accuracy_drop_triage_sequence.d2](assets/16_machine_learning_and_transformer_foundations_faq/11_production_model_accuracy_drop_triage_sequence.d2)
+*D2 Source: [`11_production_model_accuracy_drop_triage_sequence.d2`](assets/16_machine_learning_and_transformer_foundations_faq/11_production_model_accuracy_drop_triage_sequence.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -905,7 +905,7 @@ A performance discrepancy between weekdays and weekends is classic **Temporal Di
 #### Visual Flow
 ![Temporal Slicing & Cyclical Feature Engineering Framework](assets/16_machine_learning_and_transformer_foundations_faq/12_temporal_seasonality_and_cyclical_feature_engineering.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/12_temporal_seasonality_and_cyclical_feature_engineering.d2](assets/16_machine_learning_and_transformer_foundations_faq/12_temporal_seasonality_and_cyclical_feature_engineering.d2)
+*D2 Source: [`12_temporal_seasonality_and_cyclical_feature_engineering.d2`](assets/16_machine_learning_and_transformer_foundations_faq/12_temporal_seasonality_and_cyclical_feature_engineering.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1007,7 +1007,7 @@ $$\{\text{Low Latency (Fast)}, \quad \text{Low Cost (Cheap)}, \quad \text{High P
 #### Visual Flow: The Production Pareto Frontier
 ![The Fast, Cheap, Accurate Production ML Pareto Frontier](assets/16_machine_learning_and_transformer_foundations_faq/13_fast_cheap_accurate_ml_pareto_front.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/13_fast_cheap_accurate_ml_pareto_front.d2](assets/16_machine_learning_and_transformer_foundations_faq/13_fast_cheap_accurate_ml_pareto_front.d2)
+*D2 Source: [`13_fast_cheap_accurate_ml_pareto_front.d2`](assets/16_machine_learning_and_transformer_foundations_faq/13_fast_cheap_accurate_ml_pareto_front.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1098,7 +1098,7 @@ Defaulting to $\tau = 0.5$ assumes symmetric error costs ($C(\text{FP}) = C(\tex
 #### Visual Flow: Optimal Threshold Selection via Expected Cost Minimization
 ![Cost-Sensitive Optimal Classification Threshold Calibration](assets/16_machine_learning_and_transformer_foundations_faq/14_cost_sensitive_threshold_calibration_sweep.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/14_cost_sensitive_threshold_calibration_sweep.d2](assets/16_machine_learning_and_transformer_foundations_faq/14_cost_sensitive_threshold_calibration_sweep.d2)
+*D2 Source: [`14_cost_sensitive_threshold_calibration_sweep.d2`](assets/16_machine_learning_and_transformer_foundations_faq/14_cost_sensitive_threshold_calibration_sweep.d2)*
 
 #### Production Python Implementation: Cost-Sensitive Threshold Optimizer
 ```python
@@ -1207,7 +1207,7 @@ In deep neural networks, a single optimization iteration transforms input tensor
 #### Visual Flow: Gradient Descent Trajectory across Non-Convex Loss Surface
 ![Production Gradient Descent Mechanics & AdamW Memory Buffers](assets/16_machine_learning_and_transformer_foundations_faq/15_production_gradient_descent_adamw_optimizer_dynamics.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/15_production_gradient_descent_adamw_optimizer_dynamics.d2](assets/16_machine_learning_and_transformer_foundations_faq/15_production_gradient_descent_adamw_optimizer_dynamics.d2)
+*D2 Source: [`15_production_gradient_descent_adamw_optimizer_dynamics.d2`](assets/16_machine_learning_and_transformer_foundations_faq/15_production_gradient_descent_adamw_optimizer_dynamics.d2)*
 
 #### Production Python Implementation: Standalone AdamW Step Implementation
 ```python
@@ -1342,7 +1342,7 @@ Introduced in *Attention Is All You Need* (Vaswani et al., 2017), the Transforme
 #### Visual Flow
 ![Transformer Full Request Lifecycle & Feed-Forward Sequence](assets/16_machine_learning_and_transformer_foundations_faq/16_transformer_encoder_decoder_inference_lifecycle.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/16_transformer_encoder_decoder_inference_lifecycle.d2](assets/16_machine_learning_and_transformer_foundations_faq/16_transformer_encoder_decoder_inference_lifecycle.d2)
+*D2 Source: [`16_transformer_encoder_decoder_inference_lifecycle.d2`](assets/16_machine_learning_and_transformer_foundations_faq/16_transformer_encoder_decoder_inference_lifecycle.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1422,7 +1422,7 @@ $$\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\fr
 #### Visual Flow
 ![Architectural Comparison: Encoder-Only vs Decoder-Only vs Encoder-Decoder](assets/16_machine_learning_and_transformer_foundations_faq/17_encoder_only_vs_decoder_only_vs_encoder_decoder.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/17_encoder_only_vs_decoder_only_vs_encoder_decoder.d2](assets/16_machine_learning_and_transformer_foundations_faq/17_encoder_only_vs_decoder_only_vs_encoder_decoder.d2)
+*D2 Source: [`17_encoder_only_vs_decoder_only_vs_encoder_decoder.d2`](assets/16_machine_learning_and_transformer_foundations_faq/17_encoder_only_vs_decoder_only_vs_encoder_decoder.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1490,7 +1490,7 @@ Developing a production Large Language Model follows a two-stage thermodynamic k
 #### Visual Flow
 ![LLM Lifecycle: Pre-Training, Supervised Fine-Tuning & Alignment](assets/16_machine_learning_and_transformer_foundations_faq/18_llm_pretraining_instruction_tuning_alignment_phases.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/18_llm_pretraining_instruction_tuning_alignment_phases.d2](assets/16_machine_learning_and_transformer_foundations_faq/18_llm_pretraining_instruction_tuning_alignment_phases.d2)
+*D2 Source: [`18_llm_pretraining_instruction_tuning_alignment_phases.d2`](assets/16_machine_learning_and_transformer_foundations_faq/18_llm_pretraining_instruction_tuning_alignment_phases.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1561,7 +1561,7 @@ Before 2017, sequential modeling was dominated by Recurrent Neural Networks (RNN
 #### Visual Flow
 ![Transition from Sequential RNN/LSTM Bottlenecks to Self-Attention](assets/16_machine_learning_and_transformer_foundations_faq/19_rnn_lstm_sequential_bottleneck_to_self_attention.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/19_rnn_lstm_sequential_bottleneck_to_self_attention.d2](assets/16_machine_learning_and_transformer_foundations_faq/19_rnn_lstm_sequential_bottleneck_to_self_attention.d2)
+*D2 Source: [`19_rnn_lstm_sequential_bottleneck_to_self_attention.d2`](assets/16_machine_learning_and_transformer_foundations_faq/19_rnn_lstm_sequential_bottleneck_to_self_attention.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1635,7 +1635,7 @@ If $A_{1000, 1} > 0$, the gradient flows instantaneously without vanishing.
 #### Visual Flow
 ![Self-Attention Mechanics: Q, K, V Projections & Attention Maps](assets/16_machine_learning_and_transformer_foundations_faq/20_self_attention_matrix_multiplication_qkv_geometry.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/20_self_attention_matrix_multiplication_qkv_geometry.d2](assets/16_machine_learning_and_transformer_foundations_faq/20_self_attention_matrix_multiplication_qkv_geometry.d2)
+*D2 Source: [`20_self_attention_matrix_multiplication_qkv_geometry.d2`](assets/16_machine_learning_and_transformer_foundations_faq/20_self_attention_matrix_multiplication_qkv_geometry.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1710,7 +1710,7 @@ Because the self-attention operation is **permutation-equivariant** ($\text{Atte
 #### Visual Flow
 ![Positional Encoding Foundations: Sinusoidal vs Rotary Embeddings (RoPE)](assets/16_machine_learning_and_transformer_foundations_faq/21_positional_encoding_sinusoidal_vs_rotary_rope.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/21_positional_encoding_sinusoidal_vs_rotary_rope.d2](assets/16_machine_learning_and_transformer_foundations_faq/21_positional_encoding_sinusoidal_vs_rotary_rope.d2)
+*D2 Source: [`21_positional_encoding_sinusoidal_vs_rotary_rope.d2`](assets/16_machine_learning_and_transformer_foundations_faq/21_positional_encoding_sinusoidal_vs_rotary_rope.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1775,7 +1775,7 @@ $$\text{head}_i = \text{Attention}(\mathbf{Q}\mathbf{W}_i^Q, \mathbf{K}\mathbf{W
 #### Visual Flow
 ![Multi-Head Attention Subspace Projection & Projection Matrices](assets/16_machine_learning_and_transformer_foundations_faq/22_multi_head_attention_subspace_projection_concatenation.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/22_multi_head_attention_subspace_projection_concatenation.d2](assets/16_machine_learning_and_transformer_foundations_faq/22_multi_head_attention_subspace_projection_concatenation.d2)
+*D2 Source: [`22_multi_head_attention_subspace_projection_concatenation.d2`](assets/16_machine_learning_and_transformer_foundations_faq/22_multi_head_attention_subspace_projection_concatenation.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1859,7 +1859,7 @@ The difference between **Masked Language Modeling (MLM)** and **Causal Language 
 #### Visual Flow
 ![Masked Language Modeling (BERT) vs Causal Language Modeling (GPT)](assets/16_machine_learning_and_transformer_foundations_faq/23_masked_language_modeling_vs_causal_language_modeling.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/23_masked_language_modeling_vs_causal_language_modeling.d2](assets/16_machine_learning_and_transformer_foundations_faq/23_masked_language_modeling_vs_causal_language_modeling.d2)
+*D2 Source: [`23_masked_language_modeling_vs_causal_language_modeling.d2`](assets/16_machine_learning_and_transformer_foundations_faq/23_masked_language_modeling_vs_causal_language_modeling.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1934,7 +1934,7 @@ The system crashes with `CUDA Out of Memory` before even serving a single concur
 #### Visual Flow
 ![KV Cache Memory Architecture: Multi-Head vs Grouped-Query (GQA) vs MQA](assets/16_machine_learning_and_transformer_foundations_faq/24_kv_cache_mha_vs_gqa_vs_mqa_memory_scaling.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/24_kv_cache_mha_vs_gqa_vs_mqa_memory_scaling.d2](assets/16_machine_learning_and_transformer_foundations_faq/24_kv_cache_mha_vs_gqa_vs_mqa_memory_scaling.d2)
+*D2 Source: [`24_kv_cache_mha_vs_gqa_vs_mqa_memory_scaling.d2`](assets/16_machine_learning_and_transformer_foundations_faq/24_kv_cache_mha_vs_gqa_vs_mqa_memory_scaling.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -2007,7 +2007,7 @@ Developed by Tri Dao et al., **FlashAttention** does NOT alter the mathematical 
 #### Visual Flow
 ![Attention Complexity: O(N^2) HBM Memory Bottleneck vs FlashAttention-2 SRAM Tiling](assets/16_machine_learning_and_transformer_foundations_faq/25_attention_quadratic_complexity_vs_flashattention_sram.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/25_attention_quadratic_complexity_vs_flashattention_sram.d2](assets/16_machine_learning_and_transformer_foundations_faq/25_attention_quadratic_complexity_vs_flashattention_sram.d2)
+*D2 Source: [`25_attention_quadratic_complexity_vs_flashattention_sram.d2`](assets/16_machine_learning_and_transformer_foundations_faq/25_attention_quadratic_complexity_vs_flashattention_sram.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -2071,7 +2071,7 @@ Since an NVIDIA H100 has 80GB VRAM, the model **cannot fit onto a single GPU**. 
 #### Visual Flow
 ![Distributed Training Parallelisms: Tensor, Pipeline & ZeRO-3 / FSDP](assets/16_machine_learning_and_transformer_foundations_faq/26_distributed_training_tensor_pipeline_fsdp_zero.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/26_distributed_training_tensor_pipeline_fsdp_zero.d2](assets/16_machine_learning_and_transformer_foundations_faq/26_distributed_training_tensor_pipeline_fsdp_zero.d2)
+*D2 Source: [`26_distributed_training_tensor_pipeline_fsdp_zero.d2`](assets/16_machine_learning_and_transformer_foundations_faq/26_distributed_training_tensor_pipeline_fsdp_zero.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -2138,7 +2138,7 @@ LLM inference generation is **memory-bandwidth bound**: reading 70B parameters f
 #### Visual Flow
 ![Speculative Decoding: Draft Model Proposal & Target Rejection Sampling](assets/16_machine_learning_and_transformer_foundations_faq/27_speculative_decoding_draft_target_verification_flow.svg)
 
-*D2 Source:* [assets/16_machine_learning_and_transformer_foundations_faq/27_speculative_decoding_draft_target_verification_flow.d2](assets/16_machine_learning_and_transformer_foundations_faq/27_speculative_decoding_draft_target_verification_flow.d2)
+*D2 Source: [`27_speculative_decoding_draft_target_verification_flow.d2`](assets/16_machine_learning_and_transformer_foundations_faq/27_speculative_decoding_draft_target_verification_flow.d2)*
 
 #### Production Implementation / Code Solution
 ```python

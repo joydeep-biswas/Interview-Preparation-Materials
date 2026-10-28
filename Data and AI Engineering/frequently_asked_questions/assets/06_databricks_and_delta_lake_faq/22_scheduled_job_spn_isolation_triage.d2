@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  fail_node: { style: { fill: "#7F1D1D"; stroke: "#EF4444"; stroke-width: 2; border-radius: 8 } }
+  diag_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  fix_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+JobFailure: "Scheduled Workflow Job Fails\n(Runs fine interactively in notebook)\nImmediate exit with error code" { class: fail_node }
+RootCauseMatrix: "Root Cause Classification\n1. Identity / IAM divergence\n2. Ephemeral cluster libraries\n3. Secret scopes & parameters" { class: diag_node }
+
+FixIAM: "Fix 1: Service Principal Permissions\nGrant USE_CATALOG, USE_SCHEMA, SELECT\non Unity Catalog to spn-data-pipeline" { class: fix_node }
+FixLib: "Fix 2: Formal Task Libraries\nAttach Python wheel / PyPI spec\nto Job Task YAML (No %pip in cells)" { class: fix_node }
+FixParam: "Fix 3: Parameter Default Values\nDefine default widget values\nin Workflow Task Parameters dictionary" { class: fix_node }
+
+JobFailure -> RootCauseMatrix
+RootCauseMatrix -> FixIAM: "AccessDenied / 403"
+RootCauseMatrix -> FixLib: "ModuleNotFoundError"
+RootCauseMatrix -> FixParam: "KeyError / Missing Widget"

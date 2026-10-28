@@ -1,19 +1,32 @@
 direction: down
-title: Java Collections Framework & Map Architecture
+title: "Java Collections Framework & Map Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Iterable: <<interface>> Iterable<T> {
+Iterable: "<<interface>> Iterable<T>" {
+  class: container
   style.fill: "#1E293B"
   style.stroke: "#3B82F6"
   methods: "iterator(), forEach(), spliterator()"
 }
 
-Collection: <<interface>> Collection<E> {
+Collection: "<<interface>> Collection<E>" {
+  class: container
   style.fill: "#1E293B"
   style.stroke: "#3B82F6"
   methods: "add(), remove(), size(), contains(), stream()"
 }
 
-List: <<interface>> List<E> {
+List: "<<interface>> List<E>" {
+  class: container
   style.fill: "#0F172A"
   style.stroke: "#0284C7"
   ArrayList: "Contiguous array, O(1) random access"
@@ -21,7 +34,8 @@ List: <<interface>> List<E> {
   CopyOnWrite: "Thread-safe snapshot reads"
 }
 
-Set: <<interface>> Set<E> {
+Set: "<<interface>> Set<E>" {
+  class: container
   style.fill: "#0F172A"
   style.stroke: "#10B981"
   HashSet: "O(1) hash table lookup"
@@ -29,7 +43,8 @@ Set: <<interface>> Set<E> {
   TreeSet: "Sorted Red-Black tree O(log N)"
 }
 
-Queue: <<interface>> Queue & Deque<E> {
+Queue: "<<interface>> Queue & Deque<E>" {
+  class: container
   style.fill: "#0F172A"
   style.stroke: "#8B5CF6"
   ArrayDeque: "Circular buffer; high performance stack/queue"
@@ -37,7 +52,8 @@ Queue: <<interface>> Queue & Deque<E> {
   BlockingQueue: "Thread-safe bounded buffer"
 }
 
-MapRoot: Independent Map<K,V> Hierarchy {
+MapRoot: "Independent Map<K,V> Hierarchy" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
   HashMap: "Hash table with red-black treeify"

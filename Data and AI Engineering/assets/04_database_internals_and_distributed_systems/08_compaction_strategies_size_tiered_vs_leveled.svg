@@ -26,7 +26,7 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SSTable Compaction Strategies: Size-Tiered (STCS) vs. Leveled (LCS)</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Comparing Write-Heavy Cassandra Throughput with Read-Heavy RocksDB Predictability</text>
   
@@ -43,7 +43,7 @@
     <text x="69" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Trigger: When 4 files of similar size accumulate, tier merge fires.</text>
   
     <rect x="45" y="230" width="400" height="135" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="245.0" y="256" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Merged Tier SSTable (400 MB Output)</text>
+    <text x="60" y="256" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Merged Tier SSTable (400 MB)</text>
     <text x="245.0" y="272" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Characteristics &amp; Trade-Offs</text>
     <rect x="324" y="240" width="115" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
     <text x="381.5" y="252" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">WRITE-OPTIMIZED</text>
@@ -73,7 +73,7 @@
     <text x="559" y="256" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">[Key A-G] | [Key H-N] | [Key O-Z] (Strictly isolated partitions)</text>
   
     <rect x="535" y="285" width="400" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="735.0" y="311" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Level 2: Target 100 MB (10x Size Capacity)</text>
+    <text x="550" y="311" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Level 2: 100 MB Target (10x L1)</text>
     <text x="735.0" y="327" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Characteristics &amp; Trade-Offs</text>
     <rect x="821" y="295" width="108" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="875.0" y="307" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">READ-OPTIMIZED</text>

@@ -1,25 +1,38 @@
 direction: right
-title: Database Replication Topologies
+title: "Database Replication Topologies"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-single_leader: 1. Single-Leader (Postgres / MySQL) {
-  leader: Primary Node (Accepts Writes)
-  rep1: Replica 1 (Read-Only)
-  rep2: Replica 2 (Read-Only)
+single_leader: "1. Single-Leader (Postgres / MySQL)" {
+  class: container
+  leader: "Primary Node (Accepts Writes)"
+  rep1: "Replica 1 (Read-Only)"
+  rep2: "Replica 2 (Read-Only)"
   leader -> rep1: "Replication Stream"
   leader -> rep2: "Replication Stream"
 }
 
-multi_leader: 2. Multi-Leader (Cross-Region Active-Active) {
-  us_lead: US Region Leader
-  eu_lead: EU Region Leader
+multi_leader: "2. Multi-Leader (Cross-Region Active-Active)" {
+  class: container
+  us_lead: "US Region Leader"
+  eu_lead: "EU Region Leader"
   us_lead <-> eu_lead: "Async cross-region sync & conflict resolution"
 }
 
-leaderless: 3. Leaderless (Cassandra / DynamoDB) {
-  client: Client Write / Read
-  n_a: Storage Node A
-  n_b: Storage Node B
-  n_c: Storage Node C
+leaderless: "3. Leaderless (Cassandra / DynamoDB)" {
+  class: container
+  client: "Client Write / Read"
+  n_a: "Storage Node A"
+  n_b: "Storage Node B"
+  n_c: "Storage Node C"
   client -> n_a: "Quorum write"
   client -> n_b: "Quorum write"
   client -> n_c: "Quorum write"

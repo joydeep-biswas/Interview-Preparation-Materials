@@ -1,21 +1,35 @@
 direction: right
-title: Metadata-Driven Pipelines & Control Table Framework
+title: "Metadata-Driven Pipelines & Control Table Framework"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-catalog: Metadata Control Catalog {
+catalog: "Metadata Control Catalog" {
+  class: container
   schema: "table_name, primary_key, watermark_col, sync_type"
 }
 
-engine: Central Metadata Pipeline Orchestrator {
+engine: "Central Metadata Pipeline Orchestrator" {
+  class: container
   logic: "Reads catalog & generates parameterized SQL queries dynamically"
 }
 
-workers: Parallel Worker Threads {
+workers: "Parallel Worker Threads" {
+  class: container
   w1: "Worker 1: Sync customers (Watermark: updated_at)"
   w2: "Worker 2: Sync orders (Watermark: order_ts)"
   w3: "Worker 3: Sync products (Full Table Snapshot)"
 }
 
-audit: Pipeline Audit & Watermark Log {
+audit: "Pipeline Audit & Watermark Log" {
+  class: container
   schema: "last_successful_sync, rows_loaded, execution_status"
 }
 

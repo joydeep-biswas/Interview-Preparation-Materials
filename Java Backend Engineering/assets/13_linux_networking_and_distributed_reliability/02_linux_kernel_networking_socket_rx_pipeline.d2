@@ -1,20 +1,27 @@
 direction: down
 title: "Linux Kernel Networking & High-Concurrency Socket Subsystem"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-nic: "1. Hardware & Driver
-NIC -> DMA -> RX Ring -> Hard IRQ -> NAPI SoftIRQ" {
+nic: "1. Hardware & Driver\nNIC -> DMA -> RX Ring -> Hard IRQ -> NAPI SoftIRQ" {
   style.fill: "#062e3d"
   style.stroke: "#06b6d4"
 }
 
-tcp: "2. Kernel TCP/IP Stack
-IP Route -> Netfilter -> TCP Engine -> SYN Backlog -> Accept Queue" {
+tcp: "2. Kernel TCP/IP Stack\nIP Route -> Netfilter -> TCP Engine -> SYN Backlog -> Accept Queue" {
   style.fill: "#1a102f"
   style.stroke: "#8b5cf6"
 }
 
-jvm: "3. JVM Runtime & NIO Sockets
-epoll_wait() -> Netty EventLoop -> SO_RCVBUF -> Java App Logic" {
+jvm: "3. JVM Runtime & NIO Sockets\nepoll_wait() -> Netty EventLoop -> SO_RCVBUF -> Java App Logic" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }

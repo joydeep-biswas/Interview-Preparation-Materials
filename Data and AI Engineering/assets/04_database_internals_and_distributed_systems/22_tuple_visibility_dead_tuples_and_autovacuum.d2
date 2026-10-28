@@ -1,27 +1,42 @@
 direction: right
-title: Tuple Visibility, Dead Tuples & The AUTOVACUUM Engine
+title: "Tuple Visibility, Dead Tuples & The AUTOVACUUM Engine"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-live: 1. Live Tuple {
+live: "1. Live Tuple" {
+  class: container
   status: "xmin = current_xid, xmax = 0"
   style.stroke: "#10b981"
 }
 
-updated: 2. Updated / Deleted Tuple {
+updated: "2. Updated / Deleted Tuple" {
+  class: container
   status: "xmax set to current_xid"
   style.stroke: "#f59e0b"
 }
 
-dead: 3. Dead Tuple (Retained) {
+dead: "3. Dead Tuple (Retained)" {
+  class: container
   status: "Retained while active snapshots reference it"
   style.stroke: "#ef4444"
 }
 
-eligible: 4. Eligible for Vacuum {
+eligible: "4. Eligible for Vacuum" {
+  class: container
   status: "Oldest active xmin advances past xmax"
   style.stroke: "#8b5cf6"
 }
 
-reclaimed: 5. Reclaimed Space {
+reclaimed: "5. Reclaimed Space" {
+  class: container
   status: "AUTOVACUUM reclaims slot in Page Header"
   style.stroke: "#10b981"
 }

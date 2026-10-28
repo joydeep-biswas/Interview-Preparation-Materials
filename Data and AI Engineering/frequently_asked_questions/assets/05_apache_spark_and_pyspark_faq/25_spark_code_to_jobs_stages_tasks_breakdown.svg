@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #94A3B8; text-anchor: start; }
+      .code-line { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; fill: #60A5FA; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 9.5px; font-weight: 600; text-anchor: middle; fill: #F59E0B; }
+    </style>
+    <marker id="arr-b25" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g25" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <rect x="25" y="25" width="1010" height="350" class="pillar-box" stroke="#3B82F6"/>
+  <text x="530" y="55" class="title-text" fill="#60A5FA">Determining Jobs, Stages, Tasks &amp; Partitions: DAG Breakdown</text>
+
+  <!-- Stage 1 -->
+  <rect x="45" y="80" width="220" height="265" class="card" stroke="#3B82F6"/>
+  <text x="155" y="108" class="card-title" fill="#93C5FD">Stage 0 (4 Tasks)</text>
+  <text x="55" y="135" class="code-line">df = spark.read.csv()</text>
+  <text x="55" y="155" class="card-body" fill="#F8FAFC">• Input CSV: 4 files/parts</text>
+  <text x="55" y="175" class="card-body">• 4 map tasks spawned</text>
+  <text x="55" y="195" class="code-line">df.repartition(10)</text>
+  <text x="55" y="215" class="card-body" fill="#EF4444">• SHUFFLE BOUNDARY 1</text>
+  <text x="55" y="235" class="card-body">• Writes shuffle map outputs</text>
+  <text x="55" y="280" class="card-body" fill="#3B82F6">Partitions: 4</text>
+  <text x="55" y="300" class="card-body" fill="#3B82F6">Tasks: 4</text>
+
+  <!-- Edge Stage 0 -> Stage 1 -->
+  <path d="M 265 210 L 295 210" class="edge" stroke="#F59E0B" marker-end="url(#arr-b25)"/>
+  <text x="280" y="195" class="edge-label">Shuffle 1</text>
+
+  <!-- Stage 2 -->
+  <rect x="305" y="80" width="230" height="265" class="card" stroke="#F59E0B"/>
+  <text x="420" y="108" class="card-title" fill="#FCD34D">Stage 1 (10 Tasks)</text>
+  <text x="315" y="135" class="card-body" fill="#F8FAFC">• Shuffle read from 4 parts</text>
+  <text x="315" y="155" class="card-body">• Output parts = 10</text>
+  <text x="315" y="175" class="code-line">.filter("status = 'ACTIVE'")</text>
+  <text x="315" y="195" class="card-body">• Narrow transformation (pipelined)</text>
+  <text x="315" y="215" class="code-line">.groupBy("cat").count()</text>
+  <text x="315" y="235" class="card-body" fill="#EF4444">• SHUFFLE BOUNDARY 2</text>
+  <text x="315" y="255" class="card-body">• Partial map-side aggregate</text>
+  <text x="315" y="280" class="card-body" fill="#F59E0B">Partitions: 10</text>
+  <text x="315" y="300" class="card-body" fill="#F59E0B">Tasks: 10</text>
+
+  <!-- Edge Stage 1 -> Stage 2 -->
+  <path d="M 535 210 L 565 210" class="edge" stroke="#10B981" marker-end="url(#arr-g25)"/>
+  <text x="550" y="195" class="edge-label">Shuffle 2</text>
+
+  <!-- Stage 3 -->
+  <rect x="575" y="80" width="230" height="265" class="card" stroke="#10B981"/>
+  <text x="690" y="108" class="card-title" fill="#34D399">Stage 2 (200 Tasks)</text>
+  <text x="585" y="135" class="card-body" fill="#F8FAFC">• Reduce shuffle read</text>
+  <text x="585" y="155" class="card-body">• spark.sql.shuffle.partitions</text>
+  <text x="585" y="175" class="card-body" fill="#34D399">• Default = 200 partitions</text>
+  <text x="585" y="195" class="card-body">• Final global aggregation</text>
+  <text x="585" y="215" class="code-line">.write.parquet("out/")</text>
+  <text x="585" y="235" class="card-body" fill="#34D399">• ACTION evaluated</text>
+  <text x="585" y="255" class="card-body">• 200 files written (1 per task)</text>
+  <text x="585" y="280" class="card-body" fill="#10B981">Partitions: 200</text>
+  <text x="585" y="300" class="card-body" fill="#10B981">Tasks: 200</text>
+
+  <!-- Summary Box -->
+  <rect x="825" y="80" width="190" height="265" class="card" stroke="#8B5CF6"/>
+  <text x="920" y="108" class="card-title" fill="#C084FC">Executive Totals</text>
+  <text x="835" y="140" class="card-body" fill="#F8FAFC font-weight:700">• Total Jobs: 1</text>
+  <text x="845" y="160" class="card-body">(Triggered by write action)</text>
+  <text x="835" y="190" class="card-body" fill="#FCD34D font-weight:700">• Total Stages: 3</text>
+  <text x="845" y="210" class="card-body">(2 shuffle boundaries)</text>
+  <text x="835" y="240" class="card-body" fill="#34D399 font-weight:700">• Total Tasks: 214</text>
+  <text x="845" y="260" class="card-body">4 + 10 + 200 = 214</text>
+  <text x="835" y="295" class="card-body" fill="#C084FC">• AQE Note:</text>
+  <text x="845" y="315" class="card-body">Coalesces 200 down dynamically</text>
+</svg>
+

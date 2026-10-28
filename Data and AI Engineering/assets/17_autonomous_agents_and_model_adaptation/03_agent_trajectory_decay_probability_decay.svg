@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -42,39 +42,39 @@
 
   <!-- Diagram Body -->
   <g id="diagram-elements">
-    <rect x="120" y="120" width="760" height="200" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-<line x1="120" y1="270" x2="880" y2="270" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,2"/>
+    <rect x="120" y="120" width="760" height="273" fill="#0f172a" stroke="#334155" stroke-width="1" />
+<line x1="120" y1="270" x2="880" y2="270" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,2" />
 <text x="108" y="274" fill="#94a3b8" font-size="10" text-anchor="end">25%</text>
-<line x1="120" y1="220" x2="880" y2="220" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="120" y1="220" x2="880" y2="220" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,2" />
 <text x="108" y="224" fill="#94a3b8" font-size="10" text-anchor="end">50%</text>
-<line x1="120" y1="170" x2="880" y2="170" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="120" y1="170" x2="880" y2="170" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,2" />
 <text x="108" y="174" fill="#94a3b8" font-size="10" text-anchor="end">75%</text>
-<line x1="120" y1="120" x2="880" y2="120" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="120" y1="120" x2="880" y2="120" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,2" />
 <text x="108" y="124" fill="#94a3b8" font-size="10" text-anchor="end">100%</text>
-<rect x="155" y="130" width="55" height="190" rx="4" fill="#4ade80" stroke="#4ade80" stroke-width="1"/>
+<rect x="155" y="130" width="55" height="190" rx="4" fill="#4ade80" stroke="#4ade80" stroke-width="1" />
 <text x="182" y="122" fill="#4ade80" font-size="11" font-weight="700" text-anchor="middle">95%</text>
 <text x="182" y="338" fill="#cbd5e1" font-size="11" text-anchor="middle">Step 1</text>
-<rect x="245" y="148" width="55" height="172" rx="4" fill="#4ade80" stroke="#4ade80" stroke-width="1"/>
+<rect x="245" y="148" width="55" height="172" rx="4" fill="#4ade80" stroke="#4ade80" stroke-width="1" />
 <text x="272" y="140" fill="#4ade80" font-size="11" font-weight="700" text-anchor="middle">86%</text>
 <text x="272" y="338" fill="#cbd5e1" font-size="11" text-anchor="middle">Step 3</text>
-<rect x="335" y="166" width="55" height="154" rx="4" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"/>
+<rect x="335" y="166" width="55" height="154" rx="4" fill="#fbbf24" stroke="#fbbf24" stroke-width="1" />
 <text x="362" y="158" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">77%</text>
 <text x="362" y="338" fill="#cbd5e1" font-size="11" text-anchor="middle">Step 5</text>
-<rect x="425" y="188" width="55" height="132" rx="4" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"/>
+<rect x="425" y="188" width="55" height="132" rx="4" fill="#fbbf24" stroke="#fbbf24" stroke-width="1" />
 <text x="452" y="180" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">66%</text>
 <text x="452" y="338" fill="#cbd5e1" font-size="11" text-anchor="middle">Step 8</text>
-<rect x="515" y="200" width="55" height="120" rx="4" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"/>
+<rect x="515" y="200" width="55" height="120" rx="4" fill="#fbbf24" stroke="#fbbf24" stroke-width="1" />
 <text x="542" y="192" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">60%</text>
 <text x="542" y="338" fill="#cbd5e1" font-size="11" text-anchor="middle">Step 10</text>
-<rect x="605" y="228" width="55" height="92" rx="4" fill="#f87171" stroke="#f87171" stroke-width="1"/>
+<rect x="605" y="228" width="55" height="92" rx="4" fill="#f87171" stroke="#f87171" stroke-width="1" />
 <text x="632" y="220" fill="#f87171" font-size="11" font-weight="700" text-anchor="middle">46%</text>
 <text x="632" y="338" fill="#cbd5e1" font-size="11" text-anchor="middle">Step 15</text>
-<rect x="695" y="248" width="55" height="72" rx="4" fill="#f87171" stroke="#f87171" stroke-width="1"/>
+<rect x="695" y="248" width="55" height="72" rx="4" fill="#f87171" stroke="#f87171" stroke-width="1" />
 <text x="722" y="240" fill="#f87171" font-size="11" font-weight="700" text-anchor="middle">36%</text>
 <text x="722" y="338" fill="#cbd5e1" font-size="11" text-anchor="middle">Step 20</text>
-<rect x="785" y="264" width="55" height="56" rx="4" fill="#f87171" stroke="#f87171" stroke-width="1"/>
+<rect x="785" y="264" width="55" height="56" rx="4" fill="#f87171" stroke="#f87171" stroke-width="1" />
 <text x="812" y="256" fill="#f87171" font-size="11" font-weight="700" text-anchor="middle">28%</text>
 <text x="812" y="338" fill="#cbd5e1" font-size="11" text-anchor="middle">Step 25</text>
-<text x="490" y="375" fill="#fca5a5" font-size="12" font-weight="700" text-anchor="middle">CRITICAL TAKEAWAY: Long agent trajectories (>15 steps) compound errors exponentially! Limit trajectory lengths or inject checkpoints.</text>
+<text x="490" y="375" fill="#fca5a5" font-size="12" font-weight="700" text-anchor="middle">CRITICAL TAKEAWAY: Long agent trajectories (&gt;15 steps) compound errors exponentially! Limit trajectory lengths or inject checkpoints.</text>
   </g>
 </svg>

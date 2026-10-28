@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="360" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="360" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,33 +43,33 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="40" y="95" width="430" height="230" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <rect x="40" y="95" width="430" height="210" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4" />
 <text x="255" y="115" fill="#f87171" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Traditional Monitoring (The Car Dashboard)</text>
 <text x="255" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Static Thresholds &amp; Known-Known Failure Modes</text>
-    <rect x="60" y="140" width="390" height="70" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
-<text x="255" y="162" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Check Engine Light / Buzzer</text>
-<text x="72" y="182" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Trigger: Static threshold exceeded (CPU &amp;gt; 85%)</text>
-<text x="72" y="200" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Provides binary alert: Something is broken!</text>
-<text x="72" y="218" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Zero context on root cause, causal chains, or dependencies</text>
-    <rect x="60" y="220" width="390" height="85" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
-<text x="255" y="242" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Operational Outcome</text>
-<text x="72" y="262" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Engineers panic during outages; alert fatigue is rampant</text>
-<text x="72" y="280" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Requires manual guesswork, log grepping, and trial-and-error</text>
-<text x="72" y="298" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Ineffective for distributed microservice mesh debugging</text>
+    <rect x="60" y="140" width="390" height="70" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
+<text x="255" y="158" fill="#fca5a5" font-size="12" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Check Engine Light / Buzzer</text>
+<text x="72" y="174" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Trigger: Static threshold exceeded (CPU &gt; 85%)</text>
+<text x="72" y="188" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Provides binary alert: Something is broken!</text>
+<text x="72" y="202" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Zero context on root cause, causal chains, or dependencies</text>
+    <rect x="60" y="220" width="390" height="72" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
+<text x="255" y="238" fill="#fca5a5" font-size="12" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Operational Outcome</text>
+<text x="72" y="254" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Engineers panic during outages; alert fatigue is rampant</text>
+<text x="72" y="268" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Requires manual guesswork, log grepping, and trial-and-error</text>
+<text x="72" y="282" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Ineffective for distributed microservice mesh debugging</text>
 
-    <rect x="510" y="95" width="430" height="230" rx="8" fill="#0f172a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <rect x="510" y="95" width="430" height="210" rx="8" fill="#0f172a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,4" />
 <text x="725" y="115" fill="#4ade80" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Modern Observability (The Hospital ICU)</text>
 <text x="725" y="131" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Exploratory Queryability &amp; Unknown-Unknown Failures</text>
-    <rect x="530" y="140" width="390" height="70" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
-<text x="725" y="162" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">High-Frequency Correlated Telemetry</text>
-<text x="542" y="182" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Distributed Traces (Interservice RPC waterfall timing)</text>
-<text x="542" y="200" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Metrics (Rate, Error, Duration distributions)</text>
-<text x="542" y="218" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Structured Logs &amp; Continuous Profiling (Memory/CPU flamegraphs)</text>
-    <rect x="530" y="220" width="390" height="85" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
-<text x="725" y="242" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Correlated Differential Diagnosis</text>
-<text x="542" y="262" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Isolates rare edge cases across high-cardinality tags (tenant_id)</text>
-<text x="542" y="280" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Pinpoints causal propagation: Gateway -&gt; Auth -&gt; SQL Lock</text>
-<text x="542" y="298" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Resolves novel failure modes never before encountered</text>
+    <rect x="530" y="140" width="390" height="70" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
+<text x="725" y="158" fill="#86efac" font-size="12" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">High-Frequency Correlated Telemetry</text>
+<text x="542" y="174" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Distributed Traces (Interservice RPC waterfall timing)</text>
+<text x="542" y="188" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Metrics (Rate, Error, Duration distributions)</text>
+<text x="542" y="202" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Structured Logs &amp; Continuous Profiling (Memory/CPU flamegraphs)</text>
+    <rect x="530" y="220" width="390" height="72" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
+<text x="725" y="238" fill="#86efac" font-size="12" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Correlated Differential Diagnosis</text>
+<text x="542" y="254" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Isolates rare edge cases across high-cardinality tags (tenant_id)</text>
+<text x="542" y="268" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Pinpoints causal propagation: Gateway -&gt; Auth -&gt; SQL Lock</text>
+<text x="542" y="282" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Resolves novel failure modes never before encountered</text>
 
   </g>
 </svg>

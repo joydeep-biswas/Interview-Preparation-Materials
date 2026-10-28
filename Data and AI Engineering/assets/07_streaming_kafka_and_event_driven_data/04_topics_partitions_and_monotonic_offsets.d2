@@ -1,21 +1,35 @@
 direction: down
-title: Kafka Topics, Partitions, and Monotonic Sequential Offsets
+title: "Kafka Topics, Partitions, and Monotonic Sequential Offsets"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 topic: "Topic: commerce.orders" {
+  class: container
   style.fill: "#0b1329"
   style.stroke: "#3b82f6"
 
   p0: "Partition 0 (Broker 1 Leader)" {
+    class: box
     style.stroke: "#f59e0b"
     offsets: "Off 0 -> Off 1 -> Off 2 -> Off 3 -> Off 4 -> Off 5 -> Off 6"
   }
 
   p1: "Partition 1 (Broker 2 Leader)" {
+    class: box
     style.stroke: "#10b981"
     offsets: "Off 0 -> Off 1 -> Off 2 -> Off 3 -> Off 4 -> Off 5"
   }
 
   p2: "Partition 2 (Broker 3 Leader)" {
+    class: box
     style.stroke: "#8b5cf6"
     offsets: "Off 0 -> Off 1 -> Off 2 -> Off 3 -> Off 4 -> Off 5 -> Off 6 -> Off 7"
   }

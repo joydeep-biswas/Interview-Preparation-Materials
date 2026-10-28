@@ -31,11 +31,11 @@
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Immutable Master Data Lake Store, Real-Time Streaming Delta, and Serving Query Merge</text>
   
   
-    <rect x="390" y="85" width="200" height="50" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="490.0" y="111" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Incoming Event Stream</text>
-    <text x="490.0" y="127" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Kafka / Kinesis Events</text>
-    <rect x="518" y="95" width="66" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
-    <text x="551.0" y="107" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1M msg/s</text>
+    <rect x="365" y="85" width="250" height="50" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="380" y="111" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Incoming Event Stream</text>
+    <text x="380" y="125" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="start">Kafka / Kinesis Events</text>
+    <rect x="540" y="95" width="66" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="573.0" y="107" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1M msg/s</text>
 
   
     <rect x="30" y="165" width="440" height="175" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
@@ -106,11 +106,11 @@
     <text x="759" y="306" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Replaced by batch view</text>
 
   
-    <rect x="340" y="360" width="300" height="55" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="490.0" y="386" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Serving Layer Query Processor</text>
+    <rect x="320" y="360" width="340" height="55" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="335" y="384" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Serving Layer Query Processor</text>
     <text x="490.0" y="402" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Unified Client Request Merge</text>
-    <rect x="589" y="370" width="45" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
-    <text x="611.5" y="382" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MERGE</text>
+    <rect x="605" y="370" width="45" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="627.5" y="382" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">MERGE</text>
     <circle cx="356" cy="415" r="2" fill="#8b5cf6"/>
     <text x="364" y="418" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Query: SELECT * FROM batch_view UNION speed_view</text>
     <circle cx="356" cy="431" r="2" fill="#8b5cf6"/>

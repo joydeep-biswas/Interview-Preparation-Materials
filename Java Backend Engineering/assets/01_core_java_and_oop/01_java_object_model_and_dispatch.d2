@@ -1,49 +1,68 @@
 direction: right
-title: JVM Object Model & Dynamic Method Dispatch Architecture
+title: "JVM Object Model & Dynamic Method Dispatch Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-ThreadStack: Thread Stack (Stack Frame) {
+ThreadStack: "Thread Stack (Stack Frame)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#1E3A8A"
   
-  RefVar: Object Reference Variable {
+  RefVar: "Object Reference Variable" {
+    class: box
     name: "Order order"
     type: "4B Compressed OOP / 8B Raw"
     target: "0x7fa81000"
   }
   
-  Locals: Primitive Locals {
+  Locals: "Primitive Locals" {
+    class: box
     orderId: "int 42"
     active: "boolean true"
   }
 }
 
-JVMHeap: JVM Heap Space (Object Instance at 0x7fa81000) {
+JVMHeap: "JVM Heap Space (Object Instance at 0x7fa81000)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0369A1"
   
-  ObjectHeader: 64-bit Object Header (12B/16B) {
+  ObjectHeader: "64-bit Object Header (12B/16B)" {
+    class: box
     MarkWord: "Mark Word (8B): Hashcode | GC Age | Lock Bits"
     KlassWord: "Klass Word (4B/8B): Narrow pointer to Metaspace"
   }
   
-  InstanceFields: Instance Fields Payload {
+  InstanceFields: "Instance Fields Payload" {
+    class: box
     primitives: "timestamp (8B), amount (8B)"
     references: "orderId (4B OOP), items (4B OOP)"
   }
   
-  Padding: Alignment Padding (0-7 Bytes)
+  Padding: "Alignment Padding (0-7 Bytes)"
 }
 
-Metaspace: Metaspace (Native Memory) {
+Metaspace: "Metaspace (Native Memory)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   
-  InstanceKlass: Order.class {
+  InstanceKlass: "Order.class" {
+    class: box
     super: "java.lang.Object"
     constants: "Constant Pool Cache & Offsets"
   }
   
-  VTable: Virtual Method Table (vtable) {
+  VTable: "Virtual Method Table (vtable)" {
+    class: box
     m0: "[0] toString() -> Object"
     m1: "[1] hashCode() -> Object"
     m2: "[2] checkout() -> Order.checkout"
@@ -51,14 +70,14 @@ Metaspace: Metaspace (Native Memory) {
   }
 }
 
-ThreadStack.RefVar -> JVMHeap.ObjectHeader: Points to Heap Base Address {
+ThreadStack.RefVar -> JVMHeap.ObjectHeader: "Points to Heap Base Address" {
   style.stroke: "#3B82F6"
 }
 
-JVMHeap.ObjectHeader.KlassWord -> Metaspace.InstanceKlass: Klass Pointer {
+JVMHeap.ObjectHeader.KlassWord -> Metaspace.InstanceKlass: "Klass Pointer" {
   style.stroke: "#06B6D4"
 }
 
-Metaspace.InstanceKlass -> Metaspace.VTable: Contains Method Offsets {
+Metaspace.InstanceKlass -> Metaspace.VTable: "Contains Method Offsets" {
   style.stroke: "#10B981"
 }

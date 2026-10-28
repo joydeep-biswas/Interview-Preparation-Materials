@@ -38,7 +38,7 @@
 
   <!-- Hazard 1: Cache Stampede -->
   <rect x="40" y="105" width="270" height="400" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
-  <rect x="40" y="105" width="270" height="30" rx="8" fill="#7F1D1D"/>
+  <rect x="40" y="105" width="270" height="30" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
   <text x="175" y="125" font-size="11" font-weight="700" fill="#FCA5A5" text-anchor="middle">1. Cache Stampede (Herd)</text>
 
   <rect x="55" y="150" width="240" height="120" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>
@@ -61,7 +61,7 @@
 
   <!-- Hazard 2: Cache Penetration -->
   <rect x="330" y="105" width="270" height="400" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
-  <rect x="330" y="105" width="270" height="30" rx="8" fill="#7F1D1D"/>
+  <rect x="330" y="105" width="270" height="30" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
   <text x="465" y="125" font-size="11" font-weight="700" fill="#FCA5A5" text-anchor="middle">2. Cache Penetration</text>
 
   <rect x="345" y="150" width="240" height="120" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>
@@ -83,16 +83,16 @@
 
   <!-- Hazard 3: Cache Avalanche -->
   <rect x="620" y="105" width="270" height="400" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
-  <rect x="620" y="105" width="270" height="30" rx="8" fill="#78350F"/>
+  <rect x="620" y="105" width="270" height="30" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
   <text x="755" y="125" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">3. Cache Avalanche</text>
 
   <rect x="635" y="150" width="240" height="120" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
-  <text x="645" y="172" font-size="10" font-weight="700" fill="#FBBF24">Failure Mechanics:</text>
-  <text x="645" y="195" font-size="8.5" fill="#CBD5E1">&#x2022; Millions of keys seeded with</text>
-  <text x="645" y="208" font-size="8.5" fill="#CBD5E1">  identical TTL (e.g. midnight 24h)</text>
-  <text x="645" y="215" font-size="9" fill="#CBD5E1">&#x2022; Mass simultaneous expiration</text>
-  <text x="645" y="235" font-size="9" fill="#EF4444">&#x2718; Huge traffic tsunami cascades</text>
-  <text x="645" y="255" font-size="9" fill="#EF4444">  onto DB simultaneously!</text>
+  <text x="645" y="170" font-size="10" font-weight="700" fill="#FBBF24">Failure Mechanics:</text>
+  <text x="645" y="188" font-size="8.5" fill="#CBD5E1">&#x2022; Millions of keys seeded with</text>
+  <text x="645" y="201" font-size="8.5" fill="#CBD5E1">  identical TTL (e.g. midnight 24h)</text>
+  <text x="645" y="219" font-size="8.5" fill="#CBD5E1">&#x2022; Mass simultaneous expiration</text>
+  <text x="645" y="237" font-size="8.5" fill="#EF4444">&#x2718; Huge traffic tsunami cascades</text>
+  <text x="645" y="250" font-size="8.5" fill="#EF4444">  onto DB simultaneously!</text>
 
   <rect x="635" y="285" width="240" height="205" rx="6" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
   <text x="645" y="310" font-size="10" font-weight="700" fill="#34D399">&#x2714; Engineering Defenses:</text>
@@ -107,7 +107,7 @@
 
   <!-- Hazard 4: Dual-Write Inconsistency -->
   <rect x="910" y="105" width="270" height="400" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
-  <rect x="910" y="105" width="270" height="30" rx="8" fill="#4C1D95"/>
+  <rect x="910" y="105" width="270" height="30" rx="8" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
   <text x="1045" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">4. Dual-Write Inconsistency</text>
 
   <rect x="925" y="150" width="240" height="120" rx="6" fill="#0F172A" stroke="#8B5CF6" stroke-width="1"/>

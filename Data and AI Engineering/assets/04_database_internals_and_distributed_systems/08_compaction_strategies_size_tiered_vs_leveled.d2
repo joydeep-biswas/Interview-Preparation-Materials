@@ -1,7 +1,18 @@
 direction: right
-title: Compaction Strategies: Size-Tiered vs. Leveled
+title: "Compaction Strategies: Size-Tiered vs. Leveled"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-stcs: Size-Tiered Compaction Strategy (STCS - Cassandra Default) {
+stcs: "Size-Tiered Compaction Strategy (STCS - Cassandra Default)" {
+  class: container
   files: "Accumulate 4 SSTables of Similar Size (100MB each)"
   merge: "Sequential Read & Merge Sort"
   output: "New Tier SSTable (400MB)"
@@ -9,7 +20,8 @@ stcs: Size-Tiered Compaction Strategy (STCS - Cassandra Default) {
   files -> merge -> output -> tradeoff
 }
 
-lcs: Leveled Compaction Strategy (LCS - RocksDB Default) {
+lcs: "Leveled Compaction Strategy (LCS - RocksDB Default)" {
+  class: container
   l0: "Level 0 (MemTable Flush): Overlapping Keys"
   l1: "Level 1 (Target: 10MB): [A-G] | [H-N] | [O-Z] (Non-Overlapping)"
   l2: "Level 2 (Target: 100MB): 10x Capacity, Non-Overlapping"

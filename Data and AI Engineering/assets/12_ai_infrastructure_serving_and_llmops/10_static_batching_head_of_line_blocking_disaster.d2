@@ -1,7 +1,7 @@
 direction: down
 classes: {
-  req: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  slow: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  req: { style: { fill: "#7f1d1d"; stroke: "#f87171"; font-color: "#fecaca" } }
+  slow: { style: { fill: "#451a03"; stroke: "#fbbf24"; font-color: "#fde68a" } }
 }
 
 batch: "Static Request Batch (Padded Tensor)" {
@@ -10,6 +10,6 @@ batch: "Static Request Batch (Padded Tensor)" {
   r3: "Req 3: 'Hello' (2 tokens)\n[Blocked 14.95s by padding]" { class: req }
 }
 
-disaster: "Head-of-Line Blocking:\nRequests 1 & 3 finished in 0.1s but cannot return until Req 2 completes!" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+disaster: "Head-of-Line Blocking:\nRequests 1 & 3 finished in 0.1s but cannot return until Req 2 completes!" { style: { fill: "#7f1d1d"; stroke: "#f87171"; font-color: "#fecaca" } }
 
 batch -> disaster

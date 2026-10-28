@@ -32,7 +32,7 @@
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="360" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="360" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -67,13 +67,13 @@
 
     <rect x="670" y="115" width="270" height="190" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
 <text x="805" y="137" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">3. Subword (BPE / SentencePiece)</text>
-<text x="682" y="157" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">THE SWEET SPOT OF MODERN AI:</text>
-<text x="682" y="175" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Frequent words are single tokens ('elephant')</text>
-<text x="682" y="193" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Rare words split into known stems ('un', 'believ', 'able')</text>
-<text x="682" y="211" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Typo resilience ('cat', 'tt')</text>
-<text x="682" y="229" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">-------------------------------------------</text>
-<text x="682" y="247" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Optimal Vocabulary Size: 32,000 to 128,000 tokens</text>
-<text x="682" y="265" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Standard in GPT-4, LLaMA-3, Claude, Gemini</text>
+<text x="682" y="157" fill="#cbd5e1" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">THE SWEET SPOT OF MODERN AI:</text>
+<text x="682" y="175" fill="#cbd5e1" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Frequent words: single tokens ('elephant')</text>
+<text x="682" y="193" fill="#cbd5e1" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Rare words: split stems ('un', 'believ', 'able')</text>
+<text x="682" y="211" fill="#cbd5e1" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Typo resilience ('cat', 'tt')</text>
+<text x="682" y="229" fill="#cbd5e1" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">-------------------------------------------</text>
+<text x="682" y="247" fill="#cbd5e1" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Optimal Vocab: 32k to 128k tokens</text>
+<text x="682" y="265" fill="#cbd5e1" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Standard in GPT-4, LLaMA-3, Gemini</text>
 
   </g>
 </svg>

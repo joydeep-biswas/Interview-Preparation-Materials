@@ -1,8 +1,19 @@
 direction: right
-title: Dual-Heaps & Sweep-Line Architecture
+title: "Dual-Heaps & Sweep-Line Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Heaps: 1. Two-Heaps Streaming Median {
-  Stream: Unbounded Input Stream
+Heaps: "1. Two-Heaps Streaming Median" {
+  class: container
+  Stream: "Unbounded Input Stream"
   MaxH: "Max-Heap (Lower 50%)\nRoot = Max of Lower"
   MinH: "Min-Heap (Upper 50%)\nRoot = Min of Upper"
   Stream -> MaxH
@@ -10,7 +21,8 @@ Heaps: 1. Two-Heaps Streaming Median {
   MaxH <-> MinH: "Balance: 0 <= |MaxH| - |MinH| <= 1"
 }
 
-SweepLine: 2. Sweep-Line Interval Projection {
+SweepLine: "2. Sweep-Line Interval Projection" {
+  class: container
   E1: "t=5 [Start: +1]"
   E2: "t=10 [Start: +1]"
   E3: "t=15 [End: -1]"

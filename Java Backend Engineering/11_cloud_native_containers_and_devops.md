@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to containerization, Kubernetes orchestr
 
 ![Cloud Native Enterprise Delivery Architecture](assets/11_cloud_native_containers_and_devops/01_cloud_native_delivery_overview.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/01_cloud_native_delivery_overview.d2](assets/11_cloud_native_containers_and_devops/01_cloud_native_delivery_overview.d2)
+*D2 Source: [`01_cloud_native_delivery_overview.d2`](assets/11_cloud_native_containers_and_devops/01_cloud_native_delivery_overview.d2)*
 
 ---
 
@@ -82,7 +82,7 @@ Containers virtualize the operating system. All containers running on a host sha
 
 ![Virtual Machine vs. Container Architecture](assets/11_cloud_native_containers_and_devops/02_vm_vs_container_architecture.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/02_vm_vs_container_architecture.d2](assets/11_cloud_native_containers_and_devops/02_vm_vs_container_architecture.d2)
+*D2 Source: [`02_vm_vs_container_architecture.d2`](assets/11_cloud_native_containers_and_devops/02_vm_vs_container_architecture.d2)*
 
 #### Detailed Architectural Comparison
 
@@ -104,7 +104,7 @@ A Docker container is not a magical virtual computer; it is simply a standard Li
 
 ![Linux Kernel Container Primitives: Namespaces, Cgroups & OverlayFS](assets/11_cloud_native_containers_and_devops/03_linux_kernel_container_primitives.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/03_linux_kernel_container_primitives.d2](assets/11_cloud_native_containers_and_devops/03_linux_kernel_container_primitives.d2)
+*D2 Source: [`03_linux_kernel_container_primitives.d2`](assets/11_cloud_native_containers_and_devops/03_linux_kernel_container_primitives.d2)*
 
 1. **Linux Namespaces (What the Process Can See)**:
    - **`pid`**: Isolates process IDs. The Java process sees itself as `PID 1` inside the container, while the host kernel tracks it as an arbitrary PID (e.g. `PID 48291`).
@@ -132,7 +132,7 @@ Understanding container states is essential for diagnosing operational productio
 
 ![Docker / OCI Container Lifecycle State Machine](assets/11_cloud_native_containers_and_devops/04_container_lifecycle_state_machine.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/04_container_lifecycle_state_machine.d2](assets/11_cloud_native_containers_and_devops/04_container_lifecycle_state_machine.d2)
+*D2 Source: [`04_container_lifecycle_state_machine.d2`](assets/11_cloud_native_containers_and_devops/04_container_lifecycle_state_machine.d2)*
 
 - **`Created`**: Container filesystem and metadata prepared; no active running processes.
 - **`Running`**: Main process (`PID 1`) executing actively within isolated namespaces.
@@ -396,7 +396,7 @@ Kubernetes is an open-source distributed system for orchestrating containerized 
 
 ![Kubernetes Cluster Architecture: Control Plane & Worker Node Subsystems](assets/11_cloud_native_containers_and_devops/05_kubernetes_control_plane_and_worker_nodes.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/05_kubernetes_control_plane_and_worker_nodes.d2](assets/11_cloud_native_containers_and_devops/05_kubernetes_control_plane_and_worker_nodes.d2)
+*D2 Source: [`05_kubernetes_control_plane_and_worker_nodes.d2`](assets/11_cloud_native_containers_and_devops/05_kubernetes_control_plane_and_worker_nodes.d2)*
 
 #### Control Plane Components Breakdown
 1. **`kube-apiserver`**: The front door of the cluster. All internal components and external `kubectl` clients communicate exclusively through this RESTful API. Validates requests, authenticates, authorizes (RBAC), and writes state mutations directly to `etcd`.
@@ -416,7 +416,7 @@ Kubernetes is an open-source distributed system for orchestrating containerized 
 
 ![Kubernetes Pod Lifecycle State Machine & Diagnostic Troubleshooting](assets/11_cloud_native_containers_and_devops/06_pod_lifecycle_and_troubleshooting.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/06_pod_lifecycle_and_troubleshooting.d2](assets/11_cloud_native_containers_and_devops/06_pod_lifecycle_and_troubleshooting.d2)
+*D2 Source: [`06_pod_lifecycle_and_troubleshooting.d2`](assets/11_cloud_native_containers_and_devops/06_pod_lifecycle_and_troubleshooting.d2)*
 
 #### Diagnostic State Troubleshooting Guide
 - **`Pending`**: Pod cannot be scheduled. Run `kubectl describe pod <name>` to view `Events`. Common causes: insufficient node CPU/memory requests, node selector mismatches, or unbound PersistentVolumeClaims (PVCs).
@@ -461,7 +461,7 @@ In Kubernetes, applications are orchestrated through declarative state machines.
 
 ![Kubernetes Networking & Traffic Routing: Ingress, ClusterIP & iptables DNAT](assets/11_cloud_native_containers_and_devops/07_k8s_networking_service_routing.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/07_k8s_networking_service_routing.d2](assets/11_cloud_native_containers_and_devops/07_k8s_networking_service_routing.d2)
+*D2 Source: [`07_k8s_networking_service_routing.d2`](assets/11_cloud_native_containers_and_devops/07_k8s_networking_service_routing.d2)*
 
 #### Service Types Explained
 1. **`ClusterIP` (Default)**: Assigns a stable internal virtual IP address visible only within the cluster. Internal microservices reach each other via CoreDNS (`http://order-service.production.svc.cluster.local:80`).
@@ -781,7 +781,7 @@ In modern production Kubernetes clusters, manual SSL certificate renewal is a cr
 
 ![Automated TLS Certificate Management in Kubernetes](assets/11_cloud_native_containers_and_devops/08_automated_tls_cert_manager_patterns.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/08_automated_tls_cert_manager_patterns.d2](assets/11_cloud_native_containers_and_devops/08_automated_tls_cert_manager_patterns.d2)
+*D2 Source: [`08_automated_tls_cert_manager_patterns.d2`](assets/11_cloud_native_containers_and_devops/08_automated_tls_cert_manager_patterns.d2)*
 
 #### 1. Production `ClusterIssuer` Manifest (Let's Encrypt Production)
 
@@ -840,7 +840,7 @@ The generated Kubernetes Secret holds two Base64-encoded keys required by standa
 
 ![Continuous Integration (CI) vs. Delivery vs. Deployment (CD)](assets/11_cloud_native_containers_and_devops/09_ci_cd_continuous_delivery_pipeline.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/09_ci_cd_continuous_delivery_pipeline.d2](assets/11_cloud_native_containers_and_devops/09_ci_cd_continuous_delivery_pipeline.d2)
+*D2 Source: [`09_ci_cd_continuous_delivery_pipeline.d2`](assets/11_cloud_native_containers_and_devops/09_ci_cd_continuous_delivery_pipeline.d2)*
 
 - **Continuous Integration (CI)**: Developers commit code to the trunk frequently. Every commit automatically triggers a pipeline that compiles code, executes unit tests, runs integration tests against real databases (via Testcontainers), and enforces static security analysis.
 - **Continuous Delivery (CD)**: Extends CI by automatically packaging deployable release artifacts (Docker images, Helm charts) and deploying them to staging/UAT environments. Deployment to production requires human approval.
@@ -866,7 +866,7 @@ The generated Kubernetes Secret holds two Base64-encoded keys required by standa
 
 ![Zero-Downtime Deployment Strategies: Rolling, Blue-Green, Canary & Shadow](assets/11_cloud_native_containers_and_devops/10_zero_downtime_deployment_strategies.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/10_zero_downtime_deployment_strategies.d2](assets/11_cloud_native_containers_and_devops/10_zero_downtime_deployment_strategies.d2)
+*D2 Source: [`10_zero_downtime_deployment_strategies.d2`](assets/11_cloud_native_containers_and_devops/10_zero_downtime_deployment_strategies.d2)*
 
 #### In-Depth Architectural Comparison
 
@@ -1087,7 +1087,7 @@ GitOps is an operational framework that takes DevOps best practices used for app
 
 ![GitOps Declarative Delivery: Automated Reconciliation via ArgoCD](assets/11_cloud_native_containers_and_devops/11_gitops_argocd_declarative_reconciliation.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/11_gitops_argocd_declarative_reconciliation.d2](assets/11_cloud_native_containers_and_devops/11_gitops_argocd_declarative_reconciliation.d2)
+*D2 Source: [`11_gitops_argocd_declarative_reconciliation.d2`](assets/11_cloud_native_containers_and_devops/11_gitops_argocd_declarative_reconciliation.d2)*
 
 1. **Declarative State**: The entire desired system state (applications, networking, ingress, resource quotas) is declared declaratively via Kubernetes manifests, Kustomize, or Helm charts.
 2. **Version-Controlled Single Source of Truth**: The Git repository is the sole authority for what is allowed to run in the cluster.
@@ -1215,7 +1215,7 @@ In an enterprise Microsoft Azure deployment, zero-trust network isolation, manag
 
 ![Enterprise Microsoft Azure Cloud Architecture for Java Backends](assets/11_cloud_native_containers_and_devops/12_azure_enterprise_cloud_mesh.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/12_azure_enterprise_cloud_mesh.d2](assets/11_cloud_native_containers_and_devops/12_azure_enterprise_cloud_mesh.d2)
+*D2 Source: [`12_azure_enterprise_cloud_mesh.d2`](assets/11_cloud_native_containers_and_devops/12_azure_enterprise_cloud_mesh.d2)*
 
 ---
 
@@ -1258,7 +1258,7 @@ In an enterprise Microsoft Azure deployment, zero-trust network isolation, manag
 
 ![Azure Service Bus vs. Azure Event Hubs: Architectural Comparison](assets/11_cloud_native_containers_and_devops/13_azure_service_bus_vs_event_hubs.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/13_azure_service_bus_vs_event_hubs.d2](assets/11_cloud_native_containers_and_devops/13_azure_service_bus_vs_event_hubs.d2)
+*D2 Source: [`13_azure_service_bus_vs_event_hubs.d2`](assets/11_cloud_native_containers_and_devops/13_azure_service_bus_vs_event_hubs.d2)*
 
 | Architectural Dimension | Azure Service Bus | Azure Event Hubs |
 | :--- | :--- | :--- |
@@ -1278,7 +1278,7 @@ Hardcoding database passwords or API keys in configuration files is a critical v
 
 ![Azure Workload Identity: Passwordless OIDC Cloud Federation](assets/11_cloud_native_containers_and_devops/14_azure_workload_identity_oidc_federation.svg)
 
-*D2 Source:* [assets/11_cloud_native_containers_and_devops/14_azure_workload_identity_oidc_federation.d2](assets/11_cloud_native_containers_and_devops/14_azure_workload_identity_oidc_federation.d2)
+*D2 Source: [`14_azure_workload_identity_oidc_federation.d2`](assets/11_cloud_native_containers_and_devops/14_azure_workload_identity_oidc_federation.d2)*
 
 #### Production Java Code: Zero-Credential Key Vault Access via `DefaultAzureCredential`
 

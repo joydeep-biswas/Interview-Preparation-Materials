@@ -1,10 +1,19 @@
-# Window Framing: ROWS vs RANGE
+# Window Framing: ROWS vs RANGE Mechanics
 direction: right
+classes: {
+  frame: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+}
 
-rows: "ROWS Framing\n• Physical row offset\n• Monotonic increments\n• Running: 100, 200, 300" {
+rows: "ROWS Framing (Physical Offset)\n• Strict physical tuple count offset\n• ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n• Monotonic increments on running metrics\n• Example with duplicates: 100, 200, 300" {
+  class: frame
   style.stroke: "#10B981"
 }
 
-range: "RANGE Framing (Default)\n• Logical peer group\n• Jumps across duplicates\n• Running: 100, 300, 300 ⚠️" {
+range: "RANGE Framing (Default Logical Peer Group)\n• Logical value range based on ORDER BY key\n• RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n• Identical values share frame peer boundary\n• ⚠️ Jumps across duplicate dates: 100, 300, 300!" {
+  class: frame
+  style.stroke: "#F59E0B"
+}
+
+rows -> range: "VS" {
   style.stroke: "#F59E0B"
 }

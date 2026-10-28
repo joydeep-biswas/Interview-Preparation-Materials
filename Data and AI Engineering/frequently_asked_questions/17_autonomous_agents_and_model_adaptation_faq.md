@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to real-world interview scenarios coveri
 
 ![Autonomous Agent Cognitive Runtime & Fine-Tuning Mesh](assets/17_autonomous_agents_and_model_adaptation_faq/01_autonomous_agent_cognitive_runtime_mesh.svg)
 
-*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/01_autonomous_agent_cognitive_runtime_mesh.d2](assets/17_autonomous_agents_and_model_adaptation_faq/01_autonomous_agent_cognitive_runtime_mesh.d2)
+*D2 Source: [`01_autonomous_agent_cognitive_runtime_mesh.d2`](assets/17_autonomous_agents_and_model_adaptation_faq/01_autonomous_agent_cognitive_runtime_mesh.d2)*
 
 ---
 
@@ -22,7 +22,7 @@ A comprehensive, production-grade guide to real-world interview scenarios coveri
 - [Q5. **`[Hard]`** End-to-End Enterprise GenAI & Multi-Agent Architecture Reference Blueprint](#q5-hard-end-to-end-enterprise-genai--multi-agent-architecture-reference-blueprint)
 
 ### 2. Model Adaptation, Fine-Tuning & Preference Optimization
-- [Q6. **`[Medium]`** Parameter-Efficient Fine-Tuning (PEFT): LoRA vs QLoRA Architecture, Rank $r$, Alpha Scaling $lpha$, and Quantization Precision](#q6-medium-parameter-efficient-fine-tuning-peft-lora-vs-qlora-architecture-rank-r-alpha-scaling-alpha-and-quantization-precision)
+- [Q6. **`[Medium]`** Parameter-Efficient Fine-Tuning (PEFT): LoRA vs QLoRA Architecture, Rank $r$, Alpha Scaling $\alpha$, and Quantization Precision](#q6-medium-parameter-efficient-fine-tuning-peft-lora-vs-qlora-architecture-rank-r-alpha-scaling-alpha-and-quantization-precision)
 - [Q7. **`[Hard]`** Direct Preference Optimization (DPO) vs RLHF with PPO: Mathematical Formulation, Reward Function Implication & Training Stability](#q7-hard-direct-preference-optimization-dpo-vs-rlhf-with-ppo-mathematical-formulation-reward-function-implication--training-stability)
 
 ### 3. Agent Memory, Resilience & Tool Execution Safety
@@ -66,7 +66,7 @@ An **AI Agent** is an autonomous, goal-directed computational system that pairs 
 
 ![Traditional Linear LLM/RAG vs Autonomous Agent MAPE-K Loop](assets/17_autonomous_agents_and_model_adaptation_faq/02_traditional_rag_vs_autonomous_agent_loop.svg)
 
-*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/02_traditional_rag_vs_autonomous_agent_loop.d2](assets/17_autonomous_agents_and_model_adaptation_faq/02_traditional_rag_vs_autonomous_agent_loop.d2)
+*D2 Source: [`02_traditional_rag_vs_autonomous_agent_loop.d2`](assets/17_autonomous_agents_and_model_adaptation_faq/02_traditional_rag_vs_autonomous_agent_loop.d2)*
 
 *Deep-dive theoretical reference: See [Module 17: Autonomous Agents & Model Adaptation](../17_autonomous_agents_and_model_adaptation.md#1-the-autonomous-agent-paradigm)*
 
@@ -111,7 +111,7 @@ An **AI Agent** is an autonomous, goal-directed computational system that pairs 
 
 ![Core Production Prompt Engineering Techniques](assets/17_autonomous_agents_and_model_adaptation_faq/03_production_prompt_engineering_techniques_hierarchy.svg)
 
-*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/03_production_prompt_engineering_techniques_hierarchy.d2](assets/17_autonomous_agents_and_model_adaptation_faq/03_production_prompt_engineering_techniques_hierarchy.d2)
+*D2 Source: [`03_production_prompt_engineering_techniques_hierarchy.d2`](assets/17_autonomous_agents_and_model_adaptation_faq/03_production_prompt_engineering_techniques_hierarchy.d2)*
 
 1. **System Prompts & Boundary Engineering:** Defines role boundaries, persona, permissions, and hard negative constraints.
 2. **Few-Shot In-Context Learning:** Supplies 3 to 5 clear input-output exemplars illustrating edge cases and desired syntax.
@@ -132,7 +132,7 @@ An **AI Agent** is an autonomous, goal-directed computational system that pairs 
 
 ![MCP Tool Execution: Client Idempotency & Database Unique Constraints](assets/17_autonomous_agents_and_model_adaptation_faq/04_mcp_idempotency_key_two_phase_deduction_flow.svg)
 
-*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/04_mcp_idempotency_key_two_phase_deduction_flow.d2](assets/17_autonomous_agents_and_model_adaptation_faq/04_mcp_idempotency_key_two_phase_deduction_flow.d2)
+*D2 Source: [`04_mcp_idempotency_key_two_phase_deduction_flow.d2`](assets/17_autonomous_agents_and_model_adaptation_faq/04_mcp_idempotency_key_two_phase_deduction_flow.d2)*
 
 1. **Client-Side Deterministic Idempotency Keys:** Every mutation tool call requires an `idempotency_key` generated deterministically from `UUIDv5(workflow_id, step_number)`.
 2. **Database Hard Unique Constraints:** The SQL ledger table enforces `idempotency_key VARCHAR(64) UNIQUE`. Retries with the same key collide at the DB level, triggering a cached response replay instead of a second debit.
@@ -149,7 +149,7 @@ An **AI Agent** is an autonomous, goal-directed computational system that pairs 
 
 ![Enterprise Multi-Agent Collaboration Mesh: Supervisor & Specialist Workers](assets/17_autonomous_agents_and_model_adaptation_faq/05_enterprise_multi_agent_mesh_supervisor_specialists.svg)
 
-*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/05_enterprise_multi_agent_mesh_supervisor_specialists.d2](assets/17_autonomous_agents_and_model_adaptation_faq/05_enterprise_multi_agent_mesh_supervisor_specialists.d2)
+*D2 Source: [`05_enterprise_multi_agent_mesh_supervisor_specialists.d2`](assets/17_autonomous_agents_and_model_adaptation_faq/05_enterprise_multi_agent_mesh_supervisor_specialists.d2)*
 
 *Deep-dive theoretical reference: See [Module 17: Autonomous Agents & Model Adaptation](../17_autonomous_agents_and_model_adaptation.md#10-architectural-topologies-for-collaboration)*
 
@@ -157,27 +157,27 @@ An **AI Agent** is an autonomous, goal-directed computational system that pairs 
 
 ## 2. Model Adaptation, Fine-Tuning & Preference Optimization
 
-### Q6. [Medium] Parameter-Efficient Fine-Tuning (PEFT): LoRA vs QLoRA Architecture, Rank $r$, Alpha Scaling $lpha$, and Quantization Precision
+### Q6. [Medium] Parameter-Efficient Fine-Tuning (PEFT): LoRA vs QLoRA Architecture, Rank $r$, Alpha Scaling $\alpha$, and Quantization Precision
 **Difficulty:** [Medium]  
 **Topic Covered:** PEFT, Low-Rank Adaptation, QLoRA, NF4 Quantization, VRAM Sizing  
-**Question:** What is LoRA (Low-Rank Adaptation) and how does QLoRA improve on it? How do you choose rank $r$ and scaling factor $\\alpha$, and how does QLoRA achieve 4-bit fine-tuning with zero loss in output quality?
+**Question:** What is LoRA (Low-Rank Adaptation) and how does QLoRA improve on it? How do you choose rank $r$ and scaling factor $\alpha$, and how does QLoRA achieve 4-bit fine-tuning with zero loss in output quality?
 
 #### Mathematical Mechanics of LoRA
-During standard full-parameter fine-tuning, a weight matrix $W_0 \\in \\mathbb{R}^{d \\times k}$ is updated via $\\Delta W$:
-$$W = W_0 + \\Delta W$$
+During standard full-parameter fine-tuning, a weight matrix $W_0 \in \mathbb{R}^{d \times k}$ is updated via $\Delta W$:
+$$W = W_0 + \Delta W$$
 For a 70B model, storing optimizer states for $\\Delta W$ requires hundreds of gigabytes of VRAM.
-**LoRA Hypothesis:** The intrinsic rank of weight updates during task adaptation is much lower than the full matrix rank ($r \\ll \\min(d, k)$).
-LoRA decomposes $\\Delta W$ into two low-rank matrices $B \\in \\mathbb{R}^{d \\times r}$ and $A \\in \\mathbb{R}^{r \\times k}$:
-$$h = W_0 x + \\frac{\\alpha}{r} (B A) x$$
+**LoRA Hypothesis:** The intrinsic rank of weight updates during task adaptation is much lower than the full matrix rank ($r \ll \min(d, k)$).
+LoRA decomposes $\\Delta W$ into two low-rank matrices $B \in \mathbb{R}^{d \times r}$ and $A \in \mathbb{R}^{r \times k}$:
+$$h = W_0 x + \frac{\alpha}{r} (B A) x$$
 Where:
 - $W_0$ remains completely frozen.
-- $A$ is initialized with random Gaussian noise $\\mathcal{N}(0, \\sigma^2)$.
-- $B$ is initialized to 0, ensuring $\\Delta W = 0$ at the start of training.
-- $\\alpha$ is a constant scaling hyperparameter (typically set to $2r$ or $r$). When changing $r$, scaling by $\\frac{\\alpha}{r}$ prevents needing to retune learning rates.
+- $A$ is initialized with random Gaussian noise $\mathcal{N}(0, \sigma^2)$.
+- $B$ is initialized to 0, ensuring $\Delta W = 0$ at the start of training.
+- $\alpha$ is a constant scaling hyperparameter (typically set to $2r$ or $r$). When changing $r$, scaling by $\frac{\alpha}{r}$ prevents needing to retune learning rates.
 
 ![LoRA / QLoRA Low-Rank Adapter Matrix Multiplication Architecture](assets/17_autonomous_agents_and_model_adaptation_faq/06_lora_qlora_low_rank_adapter_matrix_geometry.svg)
 
-*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/06_lora_qlora_low_rank_adapter_matrix_geometry.d2](assets/17_autonomous_agents_and_model_adaptation_faq/06_lora_qlora_low_rank_adapter_matrix_geometry.d2)
+*D2 Source: [`06_lora_qlora_low_rank_adapter_matrix_geometry.d2`](assets/17_autonomous_agents_and_model_adaptation_faq/06_lora_qlora_low_rank_adapter_matrix_geometry.d2)*
 
 #### QLoRA: 3 Architectural Innovations
 QLoRA (Dettmers et al., 2023) reduces VRAM by another 60%, allowing a 70B parameter model to be fine-tuned on a single 48GB GPU:
@@ -203,15 +203,15 @@ Traditional RLHF requires training 4 separate models simultaneously:
 *Why PPO Fails:* Extreme training instability, sensitivity to hyperparameter drift, high memory footprint (all 4 models loaded in VRAM), and "reward hacking" (generating repetitive verbose text that exploits weaknesses in the reward model).
 
 #### The Mathematical Breakthrough of DPO (Rafailov et al., 2023)
-DPO mathematically proves that the ground-truth reward function $r(x, y)$ can be expressed directly in terms of the optimal policy $\\pi_\\theta$ and reference policy $\\pi_{	ext{ref}}$:
-$$r(x, y) = \\beta \\log \\frac{\\pi_\\theta(y|x)}{\\pi_{	ext{ref}}(y|x)} + \\beta \\log Z(x)$$
+DPO mathematically proves that the ground-truth reward function $r(x, y)$ can be expressed directly in terms of the optimal policy $\pi_\theta$ and reference policy $\pi_{\text{ref}}$:
+$$r(x, y) = \beta \log \frac{\pi_\theta(y|x)}{\pi_{\text{ref}}(y|x)} + \beta \log Z(x)$$
 Substituting this into the Bradley-Terry preference loss yields the exact **DPO Objective**:
-$$\\mathcal{L}_{	ext{DPO}}(\\pi_\\theta; \\pi_{	ext{ref}}) = - \\mathbb{E}_{(x, y_w, y_l)} \\left[ \\log \\sigma \\left( \\beta \\log \\frac{\\pi_\\theta(y_w|x)}{\\pi_{	ext{ref}}(y_w|x)} - \\beta \\log \\frac{\\pi_\\theta(y_l|x)}{\\pi_{	ext{ref}}(y_l|x)} \\right) \\right]$$
+$$\mathcal{L}_{\text{DPO}}(\pi_\theta; \pi_{\text{ref}}) = - \mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma \left( \beta \log \frac{\pi_\theta(y_w|x)}{\pi_{\text{ref}}(y_w|x)} - \beta \log \frac{\pi_\theta(y_l|x)}{\pi_{\text{ref}}(y_l|x)} \right) \right]$$
 Where $y_w$ is the winning (preferred) response, and $y_l$ is the losing response.
 
 ![Direct Preference Optimization (DPO) vs Traditional RLHF with PPO](assets/17_autonomous_agents_and_model_adaptation_faq/07_dpo_vs_traditional_rlhf_ppo_comparison.svg)
 
-*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/07_dpo_vs_traditional_rlhf_ppo_comparison.d2](assets/17_autonomous_agents_and_model_adaptation_faq/07_dpo_vs_traditional_rlhf_ppo_comparison.d2)
+*D2 Source: [`07_dpo_vs_traditional_rlhf_ppo_comparison.d2`](assets/17_autonomous_agents_and_model_adaptation_faq/07_dpo_vs_traditional_rlhf_ppo_comparison.d2)*
 
 #### Why DPO Dominates Production Workflows:
 1. **Zero Reinforcement Learning:** Formulated purely as a standard supervised classification loss (Binary Cross-Entropy).
@@ -238,7 +238,7 @@ Where $y_w$ is the winning (preferred) response, and $y_l$ is the losing respons
 
 ![Self-Correction, Reflexion & Evaluator-Optimizer Cycle Breaker](assets/17_autonomous_agents_and_model_adaptation_faq/08_agent_self_correction_reflexion_cycle_breaker.svg)
 
-*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/08_agent_self_correction_reflexion_cycle_breaker.d2](assets/17_autonomous_agents_and_model_adaptation_faq/08_agent_self_correction_reflexion_cycle_breaker.d2)
+*D2 Source: [`08_agent_self_correction_reflexion_cycle_breaker.d2`](assets/17_autonomous_agents_and_model_adaptation_faq/08_agent_self_correction_reflexion_cycle_breaker.d2)*
 
 *Deep-dive theoretical reference: See [Module 17: Autonomous Agents & Model Adaptation](../17_autonomous_agents_and_model_adaptation.md#6-stateful-orchestration-with-langgraph)*
 
@@ -291,7 +291,7 @@ Where $y_w$ is the winning (preferred) response, and $y_l$ is the losing respons
 
 ![Sandboxed Autonomous Code Interpreter: gVisor / Docker Isolation](assets/17_autonomous_agents_and_model_adaptation_faq/09_sandboxed_autonomous_code_interpreter_gvisor.svg)
 
-*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/09_sandboxed_autonomous_code_interpreter_gvisor.d2](assets/17_autonomous_agents_and_model_adaptation_faq/09_sandboxed_autonomous_code_interpreter_gvisor.d2)
+*D2 Source: [`09_sandboxed_autonomous_code_interpreter_gvisor.d2`](assets/17_autonomous_agents_and_model_adaptation_faq/09_sandboxed_autonomous_code_interpreter_gvisor.d2)*
 
 1. **Kernel Virtualization via gVisor (`runsc`):** Standard Docker containers share the host Linux kernel (`syscall` vulnerabilities risk host escape). gVisor intercepts all system calls in user space, presenting a virtualized kernel barrier.
 2. **Network Isolation (Zero Egress):** The sandboxed pod runs in an isolated network namespace with zero outbound internet access. The agent cannot download malicious binaries or exfiltrate environment tokens.
@@ -317,7 +317,7 @@ When an LLM agent consumes untrusted third-party data, the model cannot inherent
 
 ![Enterprise Multi-Agent Security: Indirect Prompt Injection Defense](assets/17_autonomous_agents_and_model_adaptation_faq/10_multi_agent_indirect_prompt_injection_defense.svg)
 
-*D2 Source:* [assets/17_autonomous_agents_and_model_adaptation_faq/10_multi_agent_indirect_prompt_injection_defense.d2](assets/17_autonomous_agents_and_model_adaptation_faq/10_multi_agent_indirect_prompt_injection_defense.d2)
+*D2 Source: [`10_multi_agent_indirect_prompt_injection_defense.d2`](assets/17_autonomous_agents_and_model_adaptation_faq/10_multi_agent_indirect_prompt_injection_defense.d2)*
 
 1. **Structural Delimitation & Prompt Tagging:** Wrap untrusted inputs in unambiguous, escaped XML boundaries:
    ```markdown

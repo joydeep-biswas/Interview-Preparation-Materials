@@ -8,75 +8,75 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
   </defs>
 
-  <rect width="1000" height="360" fill="#0B0F19"/>
+  <rect width="1000" height="360" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Top Ingestion Pipeline -->
   <g transform="translate(30, 30)">
-    <rect width="200" height="80" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="200" height="80" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="100" y="32" class="title" fill="#93C5FD">Web &amp; Mobile Clients</text>
     <text x="100" y="55" class="body-txt" text-anchor="middle">50,000 Events / Sec</text>
   </g>
 
-  <path fill="none" d="M 230 70 L 275 70" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-
   <g transform="translate(275, 30)">
-    <rect width="210" height="80" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="210" height="80" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="105" y="32" class="title" fill="#FCD34D">1. Ingestion Broker</text>
     <text x="105" y="55" class="body-txt" text-anchor="middle">Kafka / Event Hubs / Kinesis</text>
   </g>
 
-  <path fill="none" d="M 485 70 L 530 70" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
-
   <g transform="translate(530, 30)">
-    <rect width="210" height="80" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="210" height="80" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="105" y="32" class="title" fill="#6EE7B7">2. Stream Processing</text>
     <text x="105" y="55" class="body-txt" text-anchor="middle">Spark Streaming / Auto Loader</text>
   </g>
 
-  <path fill="none" d="M 740 70 L 785 70" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-
   <g transform="translate(785, 30)">
-    <rect width="185" height="80" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="185" height="80" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2" />
     <text x="92.5" y="32" class="title" fill="#C4B5FD">3. Partitioned Lake</text>
     <text x="92.5" y="55" class="body-txt" text-anchor="middle">Delta Lake / Parquet</text>
   </g>
 
   <!-- Downward arrow to Columnar Layout -->
-  <path fill="none" d="M 877.5 110 L 877.5 145 C 877.5 160, 520 150, 500 160 L 500 170" class="edge" stroke="#8B5CF6" marker-end="url(#arr-blue)"/>
-
   <!-- Optimal Columnar Schema Architecture Box -->
   <g transform="translate(30, 175)">
-    <rect width="940" height="155" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect width="940" height="155" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="1.5" />
     <text x="470" y="28" class="title" fill="#93C5FD">Optimal Columnar Physical Layout (Low-Cost Analytical Ingestion)</text>
-    <line x1="20" y1="40" x2="920" y2="40" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="20" y1="40" x2="920" y2="40" stroke="#1F2937" stroke-width="1.5" />
 
     <!-- Schema Columns -->
-    <rect x="25" y="55" width="280" height="38" class="col-box"/>
+    <rect x="25" y="55" width="280" height="38" class="col-box" />
     <text x="35" y="79" class="col-txt"><tspan fill="#FCD34D">event_date</tspan> (Date) - Partition Key</text>
 
-    <rect x="325" y="55" width="290" height="38" class="col-box"/>
+    <rect x="325" y="55" width="290" height="38" class="col-box" />
     <text x="335" y="79" class="col-txt"><tspan fill="#6EE7B7">user_id</tspan> (String) - Liquid Clustered</text>
 
-    <rect x="635" y="55" width="280" height="38" class="col-box"/>
+    <rect x="635" y="55" width="280" height="38" class="col-box" />
     <text x="645" y="79" class="col-txt"><tspan fill="#93C5FD">event_timestamp</tspan> (TimestampNTZ)</text>
 
-    <rect x="25" y="102" width="280" height="38" class="col-box"/>
+    <rect x="25" y="102" width="280" height="38" class="col-box" />
     <text x="35" y="126" class="col-txt"><tspan fill="#E2E8F0">event_id</tspan> (UUID / Surrogate Key)</text>
 
-    <rect x="325" y="102" width="290" height="38" class="col-box"/>
+    <rect x="325" y="102" width="290" height="38" class="col-box" />
     <text x="335" y="126" class="col-txt"><tspan fill="#E2E8F0">event_name</tspan> (Low-card Enum)</text>
 
-    <rect x="635" y="102" width="280" height="38" class="col-box"/>
+    <rect x="635" y="102" width="280" height="38" class="col-box" />
     <text x="645" y="126" class="col-txt"><tspan fill="#C4B5FD">properties_payload</tspan> (VARIANT JSON)</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 230 70 L 275 70" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 485 70 L 530 70" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)" />
+
+  <path fill="none" d="M 740 70 L 785 70" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+
+  <path fill="none" d="M 877.5 110 L 877.5 145 C 877.5 160, 520 150, 500 160 L 500 170" class="edge" stroke="#8B5CF6" marker-end="url(#arr-blue)" />
+
+  </g></svg>

@@ -32,14 +32,14 @@
     .badge { font-weight: 600; font-size: 11px; }
     .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
   </style>
-  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <rect width="100%" height="100%" fill="url(#bg-grad)"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="32" class="title" font-size="19" text-anchor="middle">Distributed Systems Architecture: Core Blueprint</text>
   <text x="550" y="52" class="subtitle" text-anchor="middle">Ingress &amp; edge caching, core microservices, distributed caching, and polyglot persistence</text>
 
   <!-- Ingress Layer -->
   <g transform="translate(30, 75)">
     <rect width="240" height="260" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="240" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="120" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">1. Ingress &amp; Edge Layer</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#60A5FA">• Clients (Web / Mobile / IoT)</text>
     <text x="16" y="86" class="card-body" font-weight="600" fill="#60A5FA">• Geo-DNS / Anycast Routing</text>
@@ -48,14 +48,14 @@
     <text x="24" y="162" class="card-body">  - Rate limiting (Token Bucket)</text>
     <text x="24" y="182" class="card-body">  - SSL termination &amp; Auth JWT</text>
     <text x="24" y="202" class="card-body">  - Consistent hash routing</text>
-    <rect x="16" y="226" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="226" width="208" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="120" y="241" class="badge" fill="#93C5FD" text-anchor="middle">Edge &amp; Security</text>
   </g>
 
   <!-- Microservices Layer -->
   <g transform="translate(300, 75)">
     <rect width="240" height="260" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="240" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
     <text x="120" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Core Microservices</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• Domain Services:</text>
     <text x="24" y="78" class="card-body">  - Order Service</text>
@@ -65,14 +65,14 @@
     <text x="24" y="166" class="card-body">  - Envoy sidecars</text>
     <text x="24" y="186" class="card-body">  - Resilience4j Circuit Breakers</text>
     <text x="24" y="206" class="card-body">  - Distributed tracing (W3C trace)</text>
-    <rect x="16" y="226" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="226" width="208" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="120" y="241" class="badge" fill="#A7F3D0" text-anchor="middle">Stateless Compute Tier</text>
   </g>
 
   <!-- Distributed Caching -->
   <g transform="translate(570, 75)">
     <rect width="240" height="260" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="240" height="34" rx="10" ry="10" fill="#78350F"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
     <text x="120" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">3. Caching &amp; Fast Data</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#FBBF24">• Redis Cluster (L1/L2):</text>
     <text x="24" y="78" class="card-body">  - In-memory key-value store</text>
@@ -82,14 +82,14 @@
     <text x="24" y="166" class="card-body">  - Write-Through / Write-Behind</text>
     <text x="24" y="186" class="card-body">  - Consistent hash sharding</text>
     <text x="24" y="206" class="card-body">  - Eviction: Volatile-LRU</text>
-    <rect x="16" y="226" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="226" width="208" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="120" y="241" class="badge" fill="#FDE68A" text-anchor="middle">Sub-Millisecond Read Tier</text>
   </g>
 
   <!-- Distributed Persistence -->
   <g transform="translate(840, 75)">
     <rect width="240" height="260" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="240" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
     <text x="120" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Polyglot Persistence</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• Primary OLTP Relational:</text>
     <text x="24" y="78" class="card-body">  - Sharded PostgreSQL / Aurora</text>
@@ -99,7 +99,7 @@
     <text x="24" y="166" class="card-body">  - MongoDB / DynamoDB</text>
     <text x="16" y="194" class="card-body" font-weight="600" fill="#A78BFA">• Consensus &amp; Coordination:</text>
     <text x="24" y="214" class="card-body">  - Raft / etcd / Zookeeper</text>
-    <rect x="16" y="226" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="226" width="208" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="120" y="241" class="badge" fill="#DDD6FE" text-anchor="middle">Durable Storage &amp; Raft</text>
   </g>
 

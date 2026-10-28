@@ -6,36 +6,34 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arrow-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
   </defs>
 
   <!-- Background -->
-  <rect width="1000" height="240" fill="#0B0F19"/>
+  <rect width="1000" height="240" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Card 1: Raw Data -->
   <g transform="translate(30, 45)">
-    <rect width="190" height="145" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="190" height="145" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="95" y="45" class="title" fill="#93C5FD">Ingestion Volume</text>
-    <line x1="20" y1="65" x2="170" y2="65" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="20" y1="65" x2="170" y2="65" stroke="#1F2937" stroke-width="1.5" />
     <text x="95" y="95" class="title" font-size="16" fill="#F9FAFB">1 Billion Rows</text>
     <text x="95" y="120" class="body-txt" text-anchor="middle">(10 TB+ Analytical Ingress)</text>
   </g>
 
   <!-- Edge 1 -> 2 -->
-  <path fill="none" d="M 220 117.5 L 265 117.5" class="edge" stroke="#3B82F6" marker-end="url(#arrow-blue)"/>
-
   <!-- Card 2: Layout -->
   <g transform="translate(265, 45)">
-    <rect width="220" height="145" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="220" height="152" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="110" y="32" class="title" fill="#FCD34D">1. Storage Layout</text>
-    <line x1="15" y1="46" x2="205" y2="46" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="46" x2="205" y2="46" stroke="#1F2937" stroke-width="1.5" />
     <text x="20" y="70" class="body-txt">• Parquet / Delta columnar</text>
     <text x="20" y="92" class="body-txt">• ZSTD / Snappy compression</text>
     <text x="20" y="114" class="body-txt">• 128 MB - 512 MB file target</text>
@@ -43,13 +41,11 @@
   </g>
 
   <!-- Edge 2 -> 3 -->
-  <path fill="none" d="M 485 117.5 L 530 117.5" class="edge" stroke="#F59E0B" marker-end="url(#arrow-amber)"/>
-
   <!-- Card 3: Pruning -->
   <g transform="translate(530, 45)">
-    <rect width="215" height="145" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="215" height="152" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="107.5" y="32" class="title" fill="#6EE7B7">2. Intelligent Pruning</text>
-    <line x1="15" y1="46" x2="200" y2="46" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="46" x2="200" y2="46" stroke="#1F2937" stroke-width="1.5" />
     <text x="20" y="70" class="body-txt">• Partition by low-card date</text>
     <text x="20" y="92" class="body-txt">• Liquid Clustering / Z-Order</text>
     <text x="20" y="114" class="body-txt">• File min/max stats skipping</text>
@@ -57,16 +53,20 @@
   </g>
 
   <!-- Edge 3 -> 4 -->
-  <path fill="none" d="M 745 117.5 L 790 117.5" class="edge" stroke="#10B981" marker-end="url(#arrow-green)"/>
-
   <!-- Card 4: Serving -->
   <g transform="translate(790, 45)">
-    <rect width="180" height="145" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="180" height="152" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#C4B5FD">3. Serving Engine</text>
-    <line x1="15" y1="46" x2="165" y2="46" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="46" x2="165" y2="46" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• Materialized Views</text>
     <text x="18" y="92" class="body-txt">• RAM / NVMe result cache</text>
     <text x="18" y="114" class="body-txt">• Strict column projection</text>
     <text x="18" y="134" class="body-txt">• Avoid SELECT * in marts</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 220 117.5 L 265 117.5" class="edge" stroke="#3B82F6" marker-end="url(#arrow-blue)" />
+
+  <path fill="none" d="M 485 117.5 L 530 117.5" class="edge" stroke="#F59E0B" marker-end="url(#arrow-amber)" />
+
+  <path fill="none" d="M 745 117.5 L 790 117.5" class="edge" stroke="#10B981" marker-end="url(#arrow-green)" />
+
+  </g></svg>

@@ -6,81 +6,81 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
   </defs>
 
-  <rect width="1020" height="220" fill="#0B0F19"/>
+  <rect width="1020" height="220" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Step 0: Backlog -->
   <g transform="translate(25, 40)">
-    <rect width="170" height="140" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <rect width="170" height="148" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="2" />
     <text x="85" y="32" class="title" fill="#FECACA">Streaming Backlog</text>
-    <line x1="15" y1="44" x2="155" y2="44" stroke="#991B1B" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="155" y2="44" stroke="#991B1B" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• Input &gt; Processing</text>
     <text x="18" y="90" class="body-txt">• Lag accumulating</text>
     <text x="18" y="110" class="body-txt">• SLA breached</text>
     <text x="18" y="130" class="body-txt">• Trigger triage</text>
   </g>
 
-  <path fill="none" d="M 195 110 L 225 110" class="edge" stroke="#EF4444" marker-end="url(#arr-blue)"/>
-
   <!-- Step 1 -->
   <g transform="translate(225, 40)">
-    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="180" height="148" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#93C5FD">1. Spark UI Stages</text>
-    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• Check GC pause time</text>
     <text x="18" y="90" class="body-txt">• Check shuffle spills</text>
     <text x="18" y="110" class="body-txt">• Check external REST</text>
     <text x="18" y="130" class="body-txt">  HTTP call latency</text>
   </g>
 
-  <path fill="none" d="M 405 110 L 435 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-amber)"/>
-
   <!-- Step 2 -->
   <g transform="translate(435, 40)">
-    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="180" height="148" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#FCD34D">2. Sink Bottleneck</text>
-    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• Check Delta file size</text>
     <text x="18" y="90" class="body-txt">• Too many 1MB files?</text>
     <text x="18" y="110" class="body-txt">• Run OPTIMIZE</text>
     <text x="18" y="130" class="body-txt">• Enable autoCompact</text>
   </g>
 
-  <path fill="none" d="M 615 110 L 645 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-green)"/>
-
   <!-- Step 3 -->
   <g transform="translate(645, 40)">
-    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="180" height="148" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#6EE7B7">3. Tune Capacity</text>
-    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• maxFilesPerTrigger</text>
     <text x="18" y="90" class="body-txt">• maxBytesPerTrigger</text>
     <text x="18" y="110" class="body-txt">• Fully saturate</text>
     <text x="18" y="130" class="body-txt">  all executor cores</text>
   </g>
 
-  <path fill="none" d="M 825 110 L 855 110" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-
   <!-- Step 4 -->
   <g transform="translate(855, 40)">
-    <rect width="140" height="140" rx="10" ry="10" fill="#064E3B" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="140" height="148" rx="10" ry="10" fill="#064E3B" stroke="#8B5CF6" stroke-width="2" />
     <text x="70" y="32" class="title" fill="#C4B5FD">4. Scale Nodes</text>
-    <line x1="15" y1="44" x2="125" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="125" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="70" class="body-txt" fill="#C4B5FD">• Scale workers</text>
     <text x="15" y="90" class="body-txt" fill="#C4B5FD">• Photon engine</text>
     <text x="15" y="110" class="body-txt" fill="#C4B5FD">• Memory-opt VMs</text>
     <text x="15" y="130" class="body-txt" fill="#C4B5FD">• Catch up lag</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 195 110 L 225 110" class="edge" stroke="#EF4444" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 405 110 L 435 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-amber)" />
+
+  <path fill="none" d="M 615 110 L 645 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-green)" />
+
+  <path fill="none" d="M 825 110 L 855 110" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+
+  </g></svg>

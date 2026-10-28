@@ -10,62 +10,7 @@ The diagram below illustrates the end-to-end dataflow of a production hybrid sea
 
 ![Hybrid Search Architecture Rrf Fusion](assets/11_embeddings_vector_databases_and_rag_pipelines/01_hybrid_search_architecture_rrf_fusion.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  raw: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  store: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  query: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  rrf: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-}
-
-ingestion: "1. Dual-Path Indexing Pipeline" {
-  chunk: "Normalized Document Chunk" { class: raw }
-  dense_model: "Dense Embedding Model\n(BGE-Large / Voyage-3)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  sparse_tok: "BM25 Lexical Analyzer" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-
-  chunk -> dense_model
-  chunk -> sparse_tok
-}
-
-storage: "2. High-Performance Index Storage" {
-  hnsw: "Dense Vector Store\n(HNSW Graph Qdrant)" { class: store }
-  inverted: "BM25 Inverted Index\n(Posting Lists)" { class: store }
-}
-
-ingestion.dense_model -> storage.hnsw: "v in R^1536"
-ingestion.sparse_tok -> storage.inverted: "Postings"
-
-query_box: "3. Real-Time Query Fan-Out" {
-  user_q: "Incoming User Query" { class: query }
-  q_dense: "v_q = Embed(Query)" { class: query }
-  q_sparse: "Sparse Tokens" { class: query }
-
-  user_q -> q_dense
-  user_q -> q_sparse
-}
-
-query_box.q_dense -> storage.hnsw: "ANN Search"
-query_box.q_sparse -> storage.inverted: "Term Match"
-
-fusion: "4. Candidate Retrieval & RRF Fusion" {
-  c_dense: "Top-K Dense (Semantic)" { class: raw }
-  c_sparse: "Top-K Sparse (Keyword)" { class: rrf }
-  rrf_engine: "Reciprocal Rank Fusion (RRF)\nScore = Sigma 1/(60 + rank)" { class: query }
-  final_res: "Final Ranked Context\n(Dispatched to LLM)" { class: store }
-
-  c_dense -> rrf_engine
-  c_sparse -> rrf_engine
-  rrf_engine -> final_res
-}
-
-storage.hnsw -> fusion.c_dense
-storage.inverted -> fusion.c_sparse
-```
-</details>
+*D2 Source: [`01_hybrid_search_architecture_rrf_fusion.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/01_hybrid_search_architecture_rrf_fusion.d2)*
 
 ---
 
@@ -172,46 +117,7 @@ $$f_{\theta}: \text{Text} \longrightarrow \mathbb{R}^D$$
 
 ![Geometric Clustering Continuous Embedding Space](assets/11_embeddings_vector_databases_and_rag_pipelines/02_geometric_clustering_continuous_embedding_space.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  tech: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  fin: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  food: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-}
-
-tech_cluster: "Cloud Infrastructure Cluster" {
-  t1: "'Kubernetes Pod'" { class: tech }
-  t2: "'Docker Container'" { class: tech }
-  t3: "'K8s Deployment'" { class: tech }
-
-  t1 --- t2
-  t2 --- t3
-}
-
-finance_cluster: "Corporate Finance Cluster" {
-  f1: "'Quarterly Revenue'" { class: fin }
-  f2: "'EBITDA Margin'" { class: fin }
-  f3: "'Fiscal Balance Sheet'" { class: fin }
-
-  f1 --- f2
-  f2 --- f3
-}
-
-culinary_cluster: "Culinary Arts Cluster" {
-  c1: "'Artisan Sourdough'" { class: food }
-  c2: "'French Baguette'" { class: food }
-
-  c1 --- c2
-}
-
-tech_cluster -> finance_cluster: "Semantic Distance"
-finance_cluster -> culinary_cluster: "Semantic Distance"
-```
-</details>
+*D2 Source: [`02_geometric_clustering_continuous_embedding_space.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/02_geometric_clustering_continuous_embedding_space.d2)*
 
 Words, sentences, and paragraphs with similar semantic meanings map to coordinates that are geometrically close in $D$-dimensional Euclidean space. The system captures synonyms, analogies, and conceptual relationships naturally.
 
@@ -223,39 +129,7 @@ In production semantic search systems, neural ranking models are divided into tw
 
 ![Bi Encoder Vs Cross Encoder Scoring Architectures](assets/11_embeddings_vector_databases_and_rag_pipelines/03_bi_encoder_vs_cross_encoder_scoring_architectures.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  bi: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  cross: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  score: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-bi_encoder: "1. Bi-Encoder Architecture (Fast Search)" {
-  q: "Query: 'How to restart pod?'" { class: bi }
-  d: "Doc: 'kubectl delete pod...'" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  vq: "v_q in R^1536" { class: bi }
-  vd: "v_d in R^1536" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  dot: "Cosine / Dot Product\n(&lt;2ms latency)" { class: score }
-
-  q -> vq
-  d -> vd
-  vq -> dot
-  vd -> dot
-}
-
-cross_encoder: "2. Cross-Encoder Architecture (Re-Ranking)" {
-  concat: "[CLS] Query [SEP] Document [SEP]" { class: cross }
-  attn: "Full Joint Cross-Attention\nEvery token attends to all tokens" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  rel: "Scalar Relevance Score\n(High precision, ~50ms)" { class: score }
-
-  concat -> attn -> rel
-}
-```
-</details>
+*D2 Source: [`03_bi_encoder_vs_cross_encoder_scoring_architectures.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/03_bi_encoder_vs_cross_encoder_scoring_architectures.d2)*
 
 * **Bi-Encoders:** Query and document are embedded independently. Document vectors are pre-computed at ingestion time. Search requires only evaluating inner products across pre-indexed vectors in sub-milliseconds.
 * **Cross-Encoders:** Query and document are concatenated and processed jointly through all transformer layers. Every query token attends directly to every document token. Yields state-of-the-art precision, but is computationally expensive ($O((|q| + |d|)^2)$ FLOPs per pair), making it suitable only as a second-stage reranker over top candidates.
@@ -354,26 +228,7 @@ When vectors are $L_2$-normalized:
 
 ![Distance Metrics Geometric Vector Space](assets/11_embeddings_vector_databases_and_rag_pipelines/04_distance_metrics_geometric_vector_space.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  l1: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  l2: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  cos: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  ip: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-m1: "Manhattan (L1) Distance\nd_1 = Sigma |u_i - v_i|" { class: l1 }
-m2: "Euclidean (L2) Distance\nd_2 = sqrt(Sigma (u_i - v_i)^2)" { class: l2 }
-m3: "Cosine Distance\nd_cos = 1 - (u.v)/(||u|| ||v||)" { class: cos }
-m4: "Dot Product (Inner Product)\ns = Sigma (u_i * v_i)" { class: ip }
-
-m1 -> m2 -> m3 -> m4
-```
-</details>
+*D2 Source: [`04_distance_metrics_geometric_vector_space.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/04_distance_metrics_geometric_vector_space.d2)*
 
 ---
 
@@ -478,36 +333,7 @@ Almost all the volume of a high-dimensional cube concentrates at its outer corne
 
 ![Ivf Flat Voronoi Tessellation](assets/11_embeddings_vector_databases_and_rag_pipelines/05_ivf_flat_voronoi_tessellation.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  cell: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  match: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  pruned: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  nprobe: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-}
-
-voronoi: "IVF-Flat Voronoi Tessellation" {
-  c1: "Cell 1 (Centroid C1)" { class: cell }
-  c2: "Cell 2 (Centroid C2 - Query Match)" { class: match }
-  c3: "Cell 3 (Centroid C3 - Pruned)" { class: pruned }
-  c4: "Cell 4 (Centroid C4 - nprobe Neighbor)" { class: nprobe }
-}
-
-execution: "Query Execution Flow" {
-  centroid_scan: "1. Scan Centroids Only (K=1024)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  cell_search: "2. Scan nprobe Cells (C2 & C4)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  result: "3. 98% Database Pruned!" { class: match }
-
-  centroid_scan -> cell_search -> result
-}
-
-voronoi.c2 -> execution.centroid_scan: "Closest Centroid"
-```
-</details>
+*D2 Source: [`05_ivf_flat_voronoi_tessellation.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/05_ivf_flat_voronoi_tessellation.d2)*
 
 #### Search Complexity & Parameters:
 * $n_{\text{list}}$: Number of clusters (centroids).
@@ -526,25 +352,7 @@ $$\text{Memory}(10\text{M vectors}, D=1536) = 10^7 \times 1536 \times 4\text{ by
 
 ![Product Quantization Subvector Decomposition](assets/11_embeddings_vector_databases_and_rag_pipelines/06_product_quantization_subvector_decomposition.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  orig: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  split: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  code: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-orig_vec: "Original Float32 Vector\n(Dim: 1536, 6144 Bytes)" { class: orig }
-sub_split: "Split into m=8 Sub-Vectors\n(Each 192 dimensions)" { class: split }
-quant_vec: "Quantized 8-Byte Code\n[42, 1A, F9, 08, C3, 7E, 21, AA]\n(97% RAM Compression)" { class: code }
-
-orig_vec -> sub_split: "Dimension slice"
-sub_split -> quant_vec: "Assign centroid ID"
-```
-</details>
+*D2 Source: [`06_product_quantization_subvector_decomposition.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/06_product_quantization_subvector_decomposition.d2)*
 
 * **Asymmetric Distance Computation (ADC):** At query time, the query vector is kept in full unquantized FP32 precision, while distances to compressed vectors are computed via fast table lookups.
 * **Memory Impact:** Memory footprint drops from $61.44\text{ GB}$ down to **$\approx 960\text{ MB}$**, enabling billion-scale search on a single machine.
@@ -573,48 +381,7 @@ In a classical 1D **Skip-List**, sorted linked lists are stacked hierarchically:
 
 ![Hnsw Multi Layer Graph Architecture](assets/11_embeddings_vector_databases_and_rag_pipelines/07_hnsw_multi_layer_graph_architecture.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: down
-classes: {
-  l2: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  l1: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  l0: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-layer2: "Layer 2: Sparse Highway Graph" {
-  l2_a: "Node A (Entry Point)" { class: l2 }
-  l2_f: "Node F" { class: l2 }
-
-  l2_a -> l2_f: "Highway Long-Range Jump"
-}
-
-layer1: "Layer 1: Medium Density Graph" {
-  l1_a: "Node A" { class: l1 }
-  l1_c: "Node C" { class: l1 }
-  l1_e: "Node E" { class: l1 }
-  l1_f: "Node F" { class: l1 }
-
-  l1_a -> l1_c -> l1_e -> l1_f
-}
-
-layer0: "Layer 0: Full Connectivity Dense Graph" {
-  l0_a: "Node A" { class: l0 }
-  l0_b: "Node B" { class: l0 }
-  l0_c: "Node C" { class: l0 }
-  l0_d: "Node D" { class: l0 }
-  l0_e: "Node E" { class: l0 }
-  l0_f: "Node F (Nearest Neighbor)" { class: l0 }
-
-  l0_a -> l0_b -> l0_c -> l0_d -> l0_e -> l0_f
-}
-
-layer2.l2_a -> layer1.l1_a: "Descend"
-layer1.l1_f -> layer0.l0_f: "Greedy Local Search"
-```
-</details>
+*D2 Source: [`07_hnsw_multi_layer_graph_architecture.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/07_hnsw_multi_layer_graph_architecture.d2)*
 
 **HNSW generalizes the Skip-List to multi-dimensional geometric graphs:**
 1. A node's maximum layer assignment is drawn from an exponential decay probability distribution:
@@ -732,22 +499,7 @@ In classical TF-IDF, term frequency scales linearly ($\text{TF} \propto f(t, D)$
 
 ![Bm25 Term Saturation Curve Vs Linear Tf](assets/11_embeddings_vector_databases_and_rag_pipelines/08_bm25_term_saturation_curve_vs_linear_tf.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  linear: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  bm25: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-naive_tf: "Naive Linear Term Frequency (TF)\nScore = TF\n(Unbounded growth, spam vulnerable)" { class: linear }
-bm25_tf: "BM25 Saturation Curve (k1 = 1.5)\nScore tapers off at (k1 + 1) = 2.5\n(Immune to keyword stuffing)" { class: bm25 }
-
-naive_tf -> bm25_tf: "BM25 Dampens Inflation"
-```
-</details>
+*D2 Source: [`08_bm25_term_saturation_curve_vs_linear_tf.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/08_bm25_term_saturation_curve_vs_linear_tf.d2)*
 
 * **When $k_1 = 0$:** Term frequency is completely ignored; scoring behaves like a pure binary presence indicator.
 * **When $k_1 \to \infty$:** Scoring approaches linear un-saturated term frequency.
@@ -1038,36 +790,7 @@ Where $P_{\eta}(z \mid x)$ represents the probability that chunk $z$ is relevant
 
 ![Parametric Closed Book Vs Non Parametric Rag](assets/11_embeddings_vector_databases_and_rag_pipelines/09_parametric_closed_book_vs_non_parametric_rag.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  closed: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  open: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  norm: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-}
-
-parametric: "Parametric Generation (Closed Book)" {
-  q1: "User Query" { class: norm }
-  theta: "Frozen Weights theta\n(Static cutoff)" { class: closed }
-  hallucinate: "Plausible Hallucination\n(No verification possible)" { class: closed }
-
-  q1 -> theta -> hallucinate
-}
-
-rag: "Retrieval-Augmented Generation (Open Book)" {
-  q2: "User Query" { class: norm }
-  retriever: "Retriever eta\n(Non-Parametric Corpus D)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  context: "Top-K Grounded Chunks z" { class: open }
-  generator: "Generator theta\n(Grounded with citations)" { class: open }
-
-  q2 -> retriever -> context -> generator
-  q2 -> generator
-}
-```
-</details>
+*D2 Source: [`09_parametric_closed_book_vs_non_parametric_rag.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/09_parametric_closed_book_vs_non_parametric_rag.d2)*
 
 ---
 
@@ -1080,25 +803,7 @@ In real-world enterprise deployments, this **Naive RAG** pattern suffers failure
 
 ![Four Critical Failure Modes Naive Rag](assets/11_embeddings_vector_databases_and_rag_pipelines/10_four_critical_failure_modes_naive_rag.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  warn: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  purp: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-f1: "1. Flawed Extraction\n(Multi-column garble & flattened tables)" { class: fail }
-f2: "2. Semantic Fragmentation\n(Fixed splits bisect critical clauses)" { class: warn }
-f3: "3. Dense Vector Blind Spots\n(Part numbers & error codes fail)" { class: purp }
-f4: "4. Lost-in-the-Middle\n(Attention dilution on middle chunks)" { class: fail }
-
-f1 -> f2 -> f3 -> f4
-```
-</details>
+*D2 Source: [`10_four_critical_failure_modes_naive_rag.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/10_four_critical_failure_modes_naive_rag.d2)*
 
 ---
 
@@ -1108,24 +813,7 @@ When an enterprise RAG application generates an incorrect or misleading answer, 
 
 ![Canonical Rag Evaluation Triad](assets/11_embeddings_vector_databases_and_rag_pipelines/11_canonical_rag_evaluation_triad.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  ret: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  ground: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  ans: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-c1: "1. Context Relevance\n(Did retriever fetch ground truth?)" { class: ret }
-c2: "2. Groundedness (Faithfulness)\n(Is answer strictly supported by context?)" { class: ground }
-c3: "3. Answer Relevance\n(Does response address user prompt?)" { class: ans }
-
-c1 -> c2 -> c3
-```
-</details>
+*D2 Source: [`11_canonical_rag_evaluation_triad.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/11_canonical_rag_evaluation_triad.d2)*
 
 > [!TIP]
 > **Deep-Dive Interview Scenarios & Production Runbooks:**
@@ -1219,32 +907,7 @@ $$\text{Separators} = [\text{`\textbackslash n\textbackslash n'}, \text{`\textba
 
 ![Document Segmentation Strategy Decision Tree](assets/11_embeddings_vector_databases_and_rag_pipelines/12_document_segmentation_strategy_decision_tree.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  inp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  router: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  strat: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-block: "Input Document Block\n(Exceeds token target)" { class: inp }
-check: "Document Structure Check" { class: router }
-
-s_prose: "Recursive Character Splitter\n(Markdown & Technical Prose)" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-s_code: "AST-Aware Code Splitter\n(Classes & Functions intact)" { class: strat }
-s_sem: "Semantic Similarity Chunking\n(Dense Unstructured Text)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-s_fixed: "Fixed-Size Token Window\n(High-Throughput Streaming Logs)" { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-
-block -> check
-check -> s_prose: "Prose"
-check -> s_code: "Code"
-check -> s_sem: "Unstructured"
-check -> s_fixed: "Streaming"
-```
-</details>
+*D2 Source: [`12_document_segmentation_strategy_decision_tree.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/12_document_segmentation_strategy_decision_tree.d2)*
 
 By recursively descending the hierarchy, paragraphs are kept intact whenever possible, falling back to sentences and words only when necessary.
 
@@ -1265,31 +928,7 @@ Rather than relying on arbitrary character or word boundaries, **Semantic Chunki
 
 ![Semantic Chunking Cosine Distance Spikes](assets/11_embeddings_vector_databases_and_rag_pipelines/13_semantic_chunking_cosine_distance_spikes.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  sent: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  embed: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  dist: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  split: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  merge: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-sentences: "Input Sentences: [S1..S6]" { class: sent }
-embed_s: "Embeddings: [e1..e6]" { class: embed }
-dist_calc: "Cosine Distance:\nd_i = 1 - cos(e_i, e_i+1)" { class: dist }
-
-boundary: "Insert Chunk Boundary\n(d_3 > tau: Topic Shift!)" { class: split }
-coherent: "Group Sentences\n(d_i &lt;= tau: Coherent)" { class: merge }
-
-sentences -> embed_s -> dist_calc
-dist_calc -> boundary: "d > tau"
-dist_calc -> coherent: "d &lt;= tau"
-```
-</details>
+*D2 Source: [`13_semantic_chunking_cosine_distance_spikes.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/13_semantic_chunking_cosine_distance_spikes.d2)*
 
 #### The Distance Spike Algorithm:
 1. Split document into individual sentences: $S_1, S_2, \dots, S_N$.
@@ -1330,28 +969,7 @@ $$\text{Similarity}(q, d) = \mathbf{u} \cdot \mathbf{v}$$
 
 ![Bi Encoder Fast Retrieval Architecture](assets/11_embeddings_vector_databases_and_rag_pipelines/14_bi_encoder_fast_retrieval_architecture.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  d: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  enc: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  score: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-query: "Query: 'How to restart pod?'" { class: q }
-doc: "Doc: 'Run kubectl delete pod...'" { class: d }
-enc_q: "Encoder Network (Query)" { class: enc }
-enc_d: "Encoder Network (Doc)" { class: enc }
-dot: "Dot Product u . v\n(&lt;2ms HNSW search)" { class: score }
-
-query -> enc_q -> dot: "u in R^1536"
-doc -> enc_d -> dot: "v in R^1536"
-```
-</details>
+*D2 Source: [`14_bi_encoder_fast_retrieval_architecture.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/14_bi_encoder_fast_retrieval_architecture.d2)*
 
 * **Advantage:** All document embeddings $\mathbf{v}$ are precomputed at ingestion time. Finding nearest neighbors requires only sub-millisecond dot products against an HNSW index.
 * **Fatal Flaw:** Because the query tokens never interact with the document tokens during encoding (no cross-attention), Bi-Encoders miss nuanced negations, exact numeric matches, and syntactic subtleties.
@@ -1368,24 +986,7 @@ $$\text{Relevance Score} = \sigma(\mathbf{W} \cdot \text{Transformer}(\mathbf{X}
 
 ![Cross Encoder Joint Attention Reranker](assets/11_embeddings_vector_databases_and_rag_pipelines/15_cross_encoder_joint_attention_reranker.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  inp: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  attn: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  out: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-concat: "Concatenated Input:\n[CLS] Query [SEP] Document [SEP]" { class: inp }
-cross_attn: "Full Multi-Head Cross-Attention\nEvery query token attends to all document tokens" { class: attn }
-score: "Scalar Relevance Score [0..1]\n(Applied to top 50 candidates)" { class: out }
-
-concat -> cross_attn -> score
-```
-</details>
+*D2 Source: [`15_cross_encoder_joint_attention_reranker.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/15_cross_encoder_joint_attention_reranker.d2)*
 
 * **Why Cross-Encoders Are Superior in Precision:** Every single token in the query attends directly to every single token in the document across every transformer layer. The model evaluates whether the document actually answers the question, rather than just sharing high-level topical concepts.
 * **Computational Cost:** Because query and document must be concatenated at runtime, scoring 10,000 documents would require 10,000 full forward passes ($> 30\text{ seconds}$).
@@ -1403,41 +1004,18 @@ $$\text{Score}(q, d) = \sum_{i \in q} \max_{j \in d} \left( \mathbf{E}_{q, i} \c
 
 ![Colbert Late Interaction Maxsim Operator](assets/11_embeddings_vector_databases_and_rag_pipelines/16_colbert_late_interaction_maxsim_operator.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  d: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  maxsim: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-q_tokens: "Query Token Vectors E_q" {
-  q1: "q_1: 'restart'" { class: q }
-  q2: "q_2: 'k8s'" { class: q }
-  q3: "q_3: 'pod'" { class: q }
-}
-
-d_tokens: "Doc Token Vectors E_d" {
-  d1: "d_1: 'kubectl'" { class: d }
-  d2: "d_2: 'delete'" { class: d }
-  d3: "d_3: 'pod'" { class: d }
-}
-
-maxsim: "ColBERT MaxSim Operator\nScore = Sigma_q max_d (E_q . E_d)\n(Fast late interaction)" { class: maxsim }
-
-q_tokens -> maxsim: "Query tokens"
-d_tokens -> maxsim: "Doc tokens"
-```
-</details>
+*D2 Source: [`16_colbert_late_interaction_maxsim_operator.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/16_colbert_late_interaction_maxsim_operator.d2)*
 
 * Token representations are pre-computed and stored using vector quantization. At query time, the **MaxSim** operator computes token-level alignments in $< 10\text{ms}$ while preserving near-Cross-Encoder retrieval precision.
 
 ---
 
 ### 12.4 Production Rerankers: Cohere Rerank vs. BGE-Reranker-v2
+
+> [!TIP]
+> **Deep-Dive Interview Scenarios & Production Runbooks:**
+> - [Scenario 12: RAG Candidate Recovery: Reranking & Context Compression for Deep Rank Targets](frequently_asked_questions/11_embeddings_vector_databases_and_rag_pipelines_faq.md#scenario-12-hard-rag-candidate-recovery-reranking--context-compression-for-deep-rank-targets)
+> - [Scenario 13: Why LLMs Hallucinate & Three Production Mitigation Techniques with Cost Trade-Offs](frequently_asked_questions/11_embeddings_vector_databases_and_rag_pipelines_faq.md#scenario-13-medium-why-llms-hallucinate--three-production-mitigation-techniques-with-cost-trade-offs)
 
 | Reranker Model | Architecture | Parameters / Hosting | Latency (Top-50 Chunks) | Ideal Deployment |
 | :--- | :--- | :--- | :---: | :--- |
@@ -1480,26 +1058,7 @@ Formulated by Gao et al. (2022), **HyDE** bridges the vocabulary mismatch betwee
 
 ![Hypothetical Document Embeddings Hyde Workflow](assets/11_embeddings_vector_databases_and_rag_pipelines/17_hypothetical_document_embeddings_hyde_workflow.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  gen: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  hyp: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  real: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-user_q: "1. User Query\n(Short, ambiguous)" { class: q }
-llm_gen: "2. Zero-Shot LLM\n(Generates hypothetical answer)" { class: gen }
-hyp_doc: "3. Hypothetical Document Vector\n(Embeds hallucinated answer)" { class: hyp }
-corpus_search: "4. Vector DB Search\n(Document-Document match finds real docs!)" { class: real }
-
-user_q -> llm_gen -> hyp_doc -> corpus_search
-```
-</details>
+*D2 Source: [`17_hypothetical_document_embeddings_hyde_workflow.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/17_hypothetical_document_embeddings_hyde_workflow.d2)*
 
 * **Why HyDE Works:** Even if the hallucinated hypothetical document contains factual inaccuracies, its **semantic manifold and vocabulary structure** perfectly match real engineering documentation. Embedding the hypothetical answer retrieves real documents far more effectively than embedding the raw user query.
 
@@ -1546,32 +1105,7 @@ In high-consequence enterprise applications (medical, financial, compliance), mo
 
 ![Automated Nli Groundedness Verification](assets/11_embeddings_vector_databases_and_rag_pipelines/18_automated_nli_groundedness_verification.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  hyp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  prem: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  nli: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  pass: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-}
-
-claim: "Generated Claim (Hypothesis)" { class: hyp }
-source: "Cited Context (Premise)" { class: prem }
-nli_model: "NLI Model (DeBERTa)\nEvaluates Premise -> Hypothesis" { class: nli }
-
-verdict_pass: "Verified Grounded Citation\n(P(Entailment) > 0.85)" { class: pass }
-verdict_fail: "Flagged Hallucination / Redact\n(P(Contradiction / Neutral))" { class: fail }
-
-claim -> nli_model
-source -> nli_model
-nli_model -> verdict_pass: "Entailment"
-nli_model -> verdict_fail: "Contradiction"
-```
-</details>
+*D2 Source: [`18_automated_nli_groundedness_verification.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/18_automated_nli_groundedness_verification.d2)*
 
 If the NLI classifier does not evaluate the relationship as **Entailment**, the citation is rejected and the answer is returned for human review.
 
@@ -1593,37 +1127,7 @@ Introduced by Asai et al. (2023), **Self-RAG** trains the language model to gene
 
 ![Self Rag Reflection And Adaptive Retrieval Loop](assets/11_embeddings_vector_databases_and_rag_pipelines/19_self_rag_reflection_and_adaptive_retrieval_loop.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  q: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  ref: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  gen: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  final: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-prompt: "User Query" { class: q }
-need_ret: "Require Retrieval?\n[Retrieve] token?" { class: ref }
-direct: "Direct Parametric Answer" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-
-retrieve: "Fetch Chunks from Vector DB" { class: q }
-eval_rel: "Chunk Relevant?\n[IsRel] / [IsNotRel]" { class: ref }
-generate: "Generate Candidate Passage" { class: gen }
-eval_sup: "Passage Grounded?\n[IsSup] / [IsNotSup]" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-final_out: "Emit Best Grounded Response\n[IsUse: 1-5]" { class: final }
-
-prompt -> need_ret
-need_ret -> direct: "No"
-need_ret -> retrieve: "Yes"
-retrieve -> eval_rel
-eval_rel -> generate: "Relevant"
-generate -> eval_sup
-eval_sup -> final_out: "Supported"
-```
-</details>
+*D2 Source: [`19_self_rag_reflection_and_adaptive_retrieval_loop.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/19_self_rag_reflection_and_adaptive_retrieval_loop.d2)*
 
 ---
 
@@ -1962,29 +1466,7 @@ When a production RAG system produces an incorrect or hallucinated response, exe
 
 ![Systematic Rag Hallucination Triage Decision Tree](assets/11_embeddings_vector_databases_and_rag_pipelines/20_systematic_rag_hallucination_triage_decision_tree.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  gate: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  fix_r: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  fix_g: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-incident: "RAG Emits Flawed / Hallucinated Answer" { class: fail }
-gate: "1. Inspect Retrieved Chunks\nDo chunks contain the ground-truth factual answer?" { class: gate }
-
-retrieval_fail: "TRIAGE RETRIEVAL SUBSYSTEM\n• Check PDF table parsing\n• Fix chunk boundary cuts\n• Add BM25 hybrid search\n• Deploy HyDE expansion" { class: fix_r }
-generation_fail: "TRIAGE GENERATION SUBSYSTEM\n• Fix Lost-in-the-Middle\n• Set Temperature = 0.0\n• Enforce strict system prompt\n• Add NLI post-verifier" { class: fix_g }
-
-incident -> gate
-gate -> retrieval_fail: "NO (Ground truth missing)"
-gate -> generation_fail: "YES (Ground truth present!)"
-```
-</details>
+*D2 Source: [`20_systematic_rag_hallucination_triage_decision_tree.d2`](assets/11_embeddings_vector_databases_and_rag_pipelines/20_systematic_rag_hallucination_triage_decision_tree.d2)*
 
 ---
 

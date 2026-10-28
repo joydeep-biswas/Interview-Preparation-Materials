@@ -1,20 +1,33 @@
 direction: right
-title: Traditional ETL vs. Modern ELT Architecture
+title: "Traditional ETL vs. Modern ELT Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-traditional: 1. Traditional ETL (Transform Before Load) {
-  src: Source DB
-  etl_server: Dedicated ETL Server (Informatica / Spark) {
+traditional: "1. Traditional ETL (Transform Before Load)" {
+  class: container
+  src: "Source DB"
+  etl_server: "Dedicated ETL Server (Informatica / Spark)" {
+    class: box
     status: "Transforms & permanently drops unselected fields"
     style.stroke: "#ef4444"
   }
-  edw: Data Warehouse (Only processed data)
+  edw: "Data Warehouse (Only processed data)"
   src -> etl_server -> edw
 }
 
-modern: 2. Modern ELT (Load Raw, Transform In-Engine) {
-  src: Source DB
-  bronze: Bronze Lakehouse (Raw storage: 100% columns preserved)
-  engine: Cloud In-Engine Pushdown Compute (Snowflake / Databricks)
-  gold: Silver & Gold Marts (Business Aggregations)
+modern: "2. Modern ELT (Load Raw, Transform In-Engine)" {
+  class: container
+  src: "Source DB"
+  bronze: "Bronze Lakehouse (Raw storage: 100% columns preserved)"
+  engine: "Cloud In-Engine Pushdown Compute (Snowflake / Databricks)"
+  gold: "Silver & Gold Marts (Business Aggregations)"
   src -> bronze -> engine -> gold
 }

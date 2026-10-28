@@ -1,18 +1,31 @@
 direction: right
-title: Horizontal vs. Vertical Scaling: Hardware Limits & Amdahl's Law
+title: "Horizontal vs. Vertical Scaling: Hardware Limits & Amdahl's Law"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-scale_up: Vertical Scaling (Scale-Up) {
-  server: Single Large Host (128 Cores, 4TB RAM) {
+scale_up: "Vertical Scaling (Scale-Up)" {
+  class: container
+  server: "Single Large Host (128 Cores, 4TB RAM)" {
+    class: box
     features: "Shared memory IPC, zero network overhead"
     limits: "Hardware ceiling, exponential cost, single point of failure"
   }
 }
 
-scale_out: Horizontal Scaling (Scale-Out) {
-  lb: Load Balancer / Shard Router
-  n1: Node 1 (16 Cores, 64GB)
-  n2: Node 2 (16 Cores, 64GB)
-  n_n: Node N (16 Cores, 64GB)
+scale_out: "Horizontal Scaling (Scale-Out)" {
+  class: container
+  lb: "Load Balancer / Shard Router"
+  n1: "Node 1 (16 Cores, 64GB)"
+  n2: "Node 2 (16 Cores, 64GB)"
+  n_n: "Node N (16 Cores, 64GB)"
   lb -> n1
   lb -> n2
   lb -> n_n

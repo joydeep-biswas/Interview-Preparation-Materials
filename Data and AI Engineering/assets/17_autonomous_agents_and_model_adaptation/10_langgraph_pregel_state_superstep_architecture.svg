@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,7 +43,7 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="60" y="160" width="220" height="100" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5"/>
+    <rect x="60" y="160" width="220" height="150" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5" />
 <text x="170" y="182" fill="#fde68a" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">State Channels (Shared)</text>
 <text x="72" y="202" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">TypedDict / Pydantic schema</text>
 <text x="72" y="220" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Immutable shared state dict</text>
@@ -52,36 +52,36 @@
 <text x="72" y="274" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">  'query': str</text>
 <text x="72" y="292" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">}</text>
 
-    <rect x="360" y="115" width="230" height="80" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="360" y="115" width="230" height="96" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
 <text x="475" y="137" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Node A: Retriever (Pure)</text>
 <text x="372" y="157" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Reads state['query']</text>
 <text x="372" y="175" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Executes vector similarity</text>
 <text x="372" y="193" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Emits state delta: {'docs': [...]}</text>
 
-    <rect x="360" y="225" width="230" height="80" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="360" y="225" width="230" height="123" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
 <text x="475" y="247" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Node B: Guardrail (Pure)</text>
 <text x="372" y="267" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Reads state['messages']</text>
 <text x="372" y="285" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Executes safety checks</text>
 <text x="372" y="303" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Emits delta: {'is_safe': True}</text>
 
-    <rect x="680" y="160" width="240" height="100" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="680" y="160" width="240" height="114" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="800" y="182" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Channel Reducer Engine</text>
 <text x="692" y="202" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Deterministic State Merging</text>
 <text x="692" y="220" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Applies reducers (e.g. operator.add)</text>
 <text x="692" y="238" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Prevents race conditions</text>
 <text x="692" y="256" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Advances Pregel Superstep: t -&gt; t+1</text>
 
-    <path d="M 280.0 190.0 L 290.0 190.0 C 318.0 190.0, 318.0 155.0, 346.0 155.0 L 360.0 155.0" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+    <path d="M 280.0 190.0 L 290.0 190.0 C 318.0 190.0, 318.0 155.0, 346.0 155.0 L 360.0 155.0" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
 <text x="320" y="162" fill="#38bdf8" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Read State</text>
-    <path d="M 280.0 230.0 L 290.0 230.0 C 318.0 230.0, 318.0 265.0, 346.0 265.0 L 360.0 265.0" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+    <path d="M 280.0 230.0 L 290.0 230.0 C 318.0 230.0, 318.0 265.0, 346.0 265.0 L 360.0 265.0" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
 <text x="320" y="257" fill="#38bdf8" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Read State</text>
 
-    <path d="M 590.0 155.0 L 600.0 155.0 C 633.0 155.0, 633.0 190.0, 666.0 190.0 L 680.0 190.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 590.0 155.0 L 600.0 155.0 C 633.0 155.0, 633.0 190.0, 666.0 190.0 L 680.0 190.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
 <text x="635" y="162" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">State Delta</text>
-    <path d="M 590.0 265.0 L 600.0 265.0 C 633.0 265.0, 633.0 230.0, 666.0 230.0 L 680.0 230.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <path d="M 590.0 265.0 L 600.0 265.0 C 633.0 265.0, 633.0 230.0, 666.0 230.0 L 680.0 230.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
 <text x="635" y="257" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">State Delta</text>
 
-    <polyline points="800,260 800,340 170,340 170,260" fill="none" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+    <polyline points="800,260 800,340 170,340 170,260" fill="none" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-a)" />
 <text x="490" y="330" fill="#fbbf24" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Updated State Snapshot (Step t+1)</text>
 
   </g>

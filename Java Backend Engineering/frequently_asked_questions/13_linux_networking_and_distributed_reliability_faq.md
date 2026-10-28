@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to real-world interview scenarios and op
 
 ![Linux Kernel Network Socket Subsystem to Service Runtime](assets/13_linux_networking_and_distributed_reliability_faq/01_linux_kernel_network_socket_subsystem_to_runtime.svg)
 
-*D2 Source:* [assets/13_linux_networking_and_distributed_reliability_faq/01_linux_kernel_network_socket_subsystem_to_runtime.d2](assets/13_linux_networking_and_distributed_reliability_faq/01_linux_kernel_network_socket_subsystem_to_runtime.d2)
+*D2 Source: [`01_linux_kernel_network_socket_subsystem_to_runtime.d2`](assets/13_linux_networking_and_distributed_reliability_faq/01_linux_kernel_network_socket_subsystem_to_runtime.d2)*
 
 ---
 
@@ -186,7 +186,7 @@ Production attribution is achieved deterministically through **Distributed Traci
 #### Visual Flow
 ![Distributed Latency Breakdown: 5,439ms End-to-End Trace Triage](assets/13_linux_networking_and_distributed_reliability_faq/02_distributed_latency_breakdown_distributed_tracing.svg)
 
-*D2 Source:* [assets/13_linux_networking_and_distributed_reliability_faq/02_distributed_latency_breakdown_distributed_tracing.d2](assets/13_linux_networking_and_distributed_reliability_faq/02_distributed_latency_breakdown_distributed_tracing.d2)
+*D2 Source: [`02_distributed_latency_breakdown_distributed_tracing.d2`](assets/13_linux_networking_and_distributed_reliability_faq/02_distributed_latency_breakdown_distributed_tracing.d2)*
 
 #### Production Implementation / Code Solution
 ```java

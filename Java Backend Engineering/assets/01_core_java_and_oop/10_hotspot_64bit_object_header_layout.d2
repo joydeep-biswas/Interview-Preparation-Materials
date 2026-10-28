@@ -1,11 +1,23 @@
 direction: down
-title: HotSpot 64-bit Java Object Memory Layout & Lock States
+title: "HotSpot 64-bit Java Object Memory Layout & Lock States"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Header: Object Header (12 Bytes with +UseCompressedClassPointers / 16 Bytes Raw) {
+Header: "Object Header (12 Bytes with +UseCompressedClassPointers / 16 Bytes Raw)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#1D4ED8"
   
-  MarkWord: Mark Word (64 bits / 8 Bytes) {
+  MarkWord: "Mark Word (64 bits / 8 Bytes)" {
+    class: box
     unlocked: "Unlocked (01): HashCode (31b) | Age (4b) | Lock: 01"
     biased: "Biased (01): ThreadID (54b) | Epoch (2b) | Lock: 01"
     thin: "Lightweight (00): Pointer to BasicObjectLock on Stack"
@@ -13,20 +25,23 @@ Header: Object Header (12 Bytes with +UseCompressedClassPointers / 16 Bytes Raw)
     gc: "GC Marked (11): Forwarding pointer during compaction"
   }
   
-  KlassWord: Klass Word (32b / 64b) {
+  KlassWord: "Klass Word (32b / 64b)" {
+    class: box
     compressed: "Compressed: 32 bits (4B narrow pointer) -> Metaspace"
     uncompressed: "Raw: 64 bits (8B direct pointer) -> Metaspace"
   }
 }
 
-InstanceData: Instance Fields Data {
+InstanceData: "Instance Fields Data" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   order: "Field Reordering: long/double (8B) -> int/float (4B) -> short/char (2B) -> byte/bool (1B) -> OOPs (4B)"
   rule: "Superclass fields precede subclass fields; reordering eliminates internal gaps"
 }
 
-Padding: Alignment Padding (0 to 7 Bytes) {
+Padding: "Alignment Padding (0 to 7 Bytes)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#475569"
   rule: "Rounds total object byte count up to exact multiple of 8 bytes (64 bits)"

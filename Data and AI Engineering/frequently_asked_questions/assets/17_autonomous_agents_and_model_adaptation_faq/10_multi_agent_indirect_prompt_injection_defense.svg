@@ -24,7 +24,7 @@
     .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
     .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
   </style>
-  <rect width="100%" height="100%" fill="#0B0F19"/>
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Step 1: Untrusted Input -->
   <rect x="25" y="40" width="200" height="190" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>

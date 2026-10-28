@@ -4,11 +4,7 @@ classes: {
   factorized: { style: { fill: "#142e2b"; stroke: "#34d399"; stroke-width: 2; border-radius: 8 } }
 }
 
-full: "Full Delta W Matrix
-4096 x 4096
-(16.7M Parameters)" { class: dense }
-lora: "LoRA Factorized (B · A)
-B: 4096x16, A: 16x4096
-(131k Params: -99.2% Reduction)" { class: factorized }
+full: "Full Delta W Matrix\n4096 x 4096\n(16.7M Parameters)" { class: dense }
+lora: "LoRA Factorized (B · A)\nB: 4096x16; A: 16x4096\n(131k Params: -99.2% Reduction)" { class: factorized }
 
 full -> lora: "Decompose into rank r=16"

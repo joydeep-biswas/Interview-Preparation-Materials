@@ -70,6 +70,12 @@ A comprehensive, production-grade guide answering Azure Data Factory (ADF), ETL 
     - [Q46. Dynamic Metadata-Driven ADF Ingestion Framework for 500+ Enterprise Tables](#q46-medium-dynamic-metadata-driven-adf-ingestion-framework-for-500-enterprise-tables)
     - [Q47. Upstream Database Outage Recovery & Safe Pipeline Replay (Azure SQL Down)](#q47-medium-upstream-database-outage-recovery--safe-pipeline-replay-azure-sql-down)
     - [Q48. Zero-Downtime Data Pipeline Deployment & Instant Rollback Strategies](#q48-expert-zero-downtime-data-pipeline-deployment--instant-rollback-strategies)
+17. **ADF Billion-Row Scale, Schema Drift, AWS Glue & Multi-Cadence Consumption**
+    - [Q49. Optimizing ADF Copy Activity for Billions of Rows from SQL to ADLS Gen2](#q49-hard-optimizing-adf-copy-activity-for-billions-of-rows-from-sql-to-adls-gen2)
+    - [Q50. Handling Schema Drift in ADF Mapping Data Flows (Dynamic Datasets & JSON/Parquet)](#q50-medium-handling-schema-drift-in-adf-mapping-data-flows-dynamic-datasets--jsonparquet)
+    - [Q51. AWS Glue & Amazon S3 Schema Evolution and Crawler Ingestion Management](#q51-medium-aws-glue--amazon-s3-schema-evolution-and-crawler-ingestion-management)
+    - [Q52. Multi-Consumer Architecture for Datasets Requiring Divergent Refresh Frequencies](#q52-medium-multi-consumer-architecture-for-datasets-requiring-divergent-refresh-frequencies)
+    - [Q53. Handling NULLs, Duplicates, and Corrupted Records in Production ETL Pipelines (Dead-Letter Queues, PERMISSIVE Schema & Idempotent Quarantine)](#q53-medium-handling-nulls-duplicates-and-corrupted-records-in-production-etl-pipelines-dead-letter-queues-permissive-schema--idempotent-quarantine)
 ---
 
 # 1. Core ETL Architecture: Idempotency, Checkpointing & Deduplication
@@ -127,7 +133,7 @@ When external vendors accidentally send the identical file twice on the same day
 
 ![Idempotent File Ingestion & Checksum Deduplication Flow](assets/08_etl_pipelines_orchestration_and_data_quality_faq/01_idempotent_file_deduplication_checksum_flow.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/01_idempotent_file_deduplication_checksum_flow.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/01_idempotent_file_deduplication_checksum_flow.d2)
+*D2 Source: [`01_idempotent_file_deduplication_checksum_flow.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/01_idempotent_file_deduplication_checksum_flow.d2)*
 
 ---
 
@@ -170,7 +176,7 @@ Instead of building 100 individual ADF pipelines for 100 tables, build **ONE gen
 
 ![ADF Dynamic Metadata-Driven Ingestion Architecture](assets/08_etl_pipelines_orchestration_and_data_quality_faq/02_adf_dynamic_metadata_driven_ingestion_architecture.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/02_adf_dynamic_metadata_driven_ingestion_architecture.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/02_adf_dynamic_metadata_driven_ingestion_architecture.d2)
+*D2 Source: [`02_adf_dynamic_metadata_driven_ingestion_architecture.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/02_adf_dynamic_metadata_driven_ingestion_architecture.d2)*
 
 ---
 
@@ -233,7 +239,7 @@ ADF supports four conditional activity dependencies:
 
 ![ADF Activity Dependency Branching & Error Resilience](assets/08_etl_pipelines_orchestration_and_data_quality_faq/03_adf_activity_dependency_branching_error_resilience.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/03_adf_activity_dependency_branching_error_resilience.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/03_adf_activity_dependency_branching_error_resilience.d2)
+*D2 Source: [`03_adf_activity_dependency_branching_error_resilience.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/03_adf_activity_dependency_branching_error_resilience.d2)*
 
 ---
 
@@ -414,7 +420,7 @@ ALTER TABLE dim_customers ADD COLUMNS (
 #### End-to-End Architectural Blueprint
 ![End-to-End Multimodal Document Intelligence Pipeline](assets/08_etl_pipelines_orchestration_and_data_quality_faq/04_end_to_end_multimodal_document_intelligence_pipeline.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/04_end_to_end_multimodal_document_intelligence_pipeline.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/04_end_to_end_multimodal_document_intelligence_pipeline.d2)
+*D2 Source: [`04_end_to_end_multimodal_document_intelligence_pipeline.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/04_end_to_end_multimodal_document_intelligence_pipeline.d2)*
 
 #### Step-by-Step Processing Pipeline
 1. **Storage Landing:** Stream raw PDF/TIFF files into ADLS Gen2 raw container.
@@ -443,7 +449,7 @@ ALTER TABLE dim_customers ADD COLUMNS (
 #### The 5-Step Systematic RCA Diagnostic Tree
 ![5-Step Systematic ETL RCA Diagnostic Tree](assets/08_etl_pipelines_orchestration_and_data_quality_faq/05_systematic_etl_rca_diagnostic_tree.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/05_systematic_etl_rca_diagnostic_tree.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/05_systematic_etl_rca_diagnostic_tree.d2)
+*D2 Source: [`05_systematic_etl_rca_diagnostic_tree.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/05_systematic_etl_rca_diagnostic_tree.d2)*
 
 #### Diagnostic Step-by-Step Runbook:
 1. **Identify the Culprit Task:** Open Airflow Gantt view or ADF Monitoring. Compare the duration of every task against the 7-day baseline average. 95% of slowdowns isolate to a single task.
@@ -465,7 +471,7 @@ $$\text{Total Delivery Time} = T_{\text{kitchen\_prep}} + T_{\text{driver\_assig
 
 ![SLA Breach Dimensional Decomposition Framework](assets/08_etl_pipelines_orchestration_and_data_quality_faq/06_sla_breach_dimensional_decomposition_framework.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/06_sla_breach_dimensional_decomposition_framework.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/06_sla_breach_dimensional_decomposition_framework.d2)
+*D2 Source: [`06_sla_breach_dimensional_decomposition_framework.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/06_sla_breach_dimensional_decomposition_framework.d2)*
 
 #### Investigation Steps:
 1. **Deconstruct the Funnel:** Break delivery time into discrete timestamp intervals: Order Placed $\to$ Kitchen Accepted $\to$ Food Prepared $\to$ Driver Assigned $\to$ Driver Arrived $\to$ Delivered.
@@ -488,7 +494,7 @@ $$\text{Total Delivery Time} = T_{\text{kitchen\_prep}} + T_{\text{driver\_assig
 
 ![Circuit Breakers, Token-Bucket Rate Limiters & Dead-Letter Backoff](assets/08_etl_pipelines_orchestration_and_data_quality_faq/07_circuit_breaker_token_bucket_dead_letter_pipeline.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/07_circuit_breaker_token_bucket_dead_letter_pipeline.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/07_circuit_breaker_token_bucket_dead_letter_pipeline.d2)
+*D2 Source: [`07_circuit_breaker_token_bucket_dead_letter_pipeline.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/07_circuit_breaker_token_bucket_dead_letter_pipeline.d2)*
 
 #### The 3 Architectural Controls:
 1. **Circuit Breaker Pattern:**
@@ -577,7 +583,7 @@ In distributed orchestrators (CeleryExecutor / KubernetesExecutor), duplicate ex
 #### End-to-End ADF Pipeline Control Flow
 ![ADF Watermark Incremental Extraction Control Flow](assets/08_etl_pipelines_orchestration_and_data_quality_faq/08_adf_watermark_incremental_extraction_control_flow.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/08_adf_watermark_incremental_extraction_control_flow.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/08_adf_watermark_incremental_extraction_control_flow.d2)
+*D2 Source: [`08_adf_watermark_incremental_extraction_control_flow.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/08_adf_watermark_incremental_extraction_control_flow.d2)*
 
 #### Production Hardening Rule:
 Notice the query boundary: `LastModifiedDate > @OldWatermark AND LastModifiedDate <= @NewWatermark`.
@@ -622,7 +628,7 @@ Directly executing `ALTER TABLE orders RENAME COLUMN customer_id TO client_uuid;
 
 ![Expand / Contract Zero-Downtime Migration Pattern](assets/08_etl_pipelines_orchestration_and_data_quality_faq/09_expand_contract_zero_downtime_migration_pattern.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/09_expand_contract_zero_downtime_migration_pattern.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/09_expand_contract_zero_downtime_migration_pattern.d2)
+*D2 Source: [`09_expand_contract_zero_downtime_migration_pattern.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/09_expand_contract_zero_downtime_migration_pattern.d2)*
 
 ---
 
@@ -699,7 +705,7 @@ Traditional batch CDC queries databases via polling (`WHERE updated_at > last_wa
 #### Visual Flow
 ![Log-Based CDC & ACID Lakehouse Pipeline](assets/08_etl_pipelines_orchestration_and_data_quality_faq/10_log_based_cdc_debezium_kafka_delta_lakehouse.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/10_log_based_cdc_debezium_kafka_delta_lakehouse.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/10_log_based_cdc_debezium_kafka_delta_lakehouse.d2)
+*D2 Source: [`10_log_based_cdc_debezium_kafka_delta_lakehouse.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/10_log_based_cdc_debezium_kafka_delta_lakehouse.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -777,7 +783,7 @@ Key pillars:
 #### Visual Flow
 ![Unity Catalog 3-Level Namespace & Governance Enforcement](assets/08_etl_pipelines_orchestration_and_data_quality_faq/11_unity_catalog_three_level_namespace_governance.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/11_unity_catalog_three_level_namespace_governance.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/11_unity_catalog_three_level_namespace_governance.d2)
+*D2 Source: [`11_unity_catalog_three_level_namespace_governance.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/11_unity_catalog_three_level_namespace_governance.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -871,7 +877,7 @@ final_output_df.coalesce(2).write.format("parquet").save("abfss://...")
 #### Architectural Root Causes & Prevention Framework
 ![Architectural Root Causes & 3-Pillar Invariants](assets/08_etl_pipelines_orchestration_and_data_quality_faq/12_architectural_duplicate_prevention_three_pillars.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/12_architectural_duplicate_prevention_three_pillars.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/12_architectural_duplicate_prevention_three_pillars.d2)
+*D2 Source: [`12_architectural_duplicate_prevention_three_pillars.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/12_architectural_duplicate_prevention_three_pillars.d2)*
 
 1. **Pipeline Concurrency Limit (`concurrency = 1`):** In ADF pipeline settings, set **Concurrency to 1**. Subsequent triggers are queued sequentially rather than executing in parallel.
 2. **Sink Idempotency Guarantee:** Never write raw batch outputs directly via `INSERT INTO` or append mode. Always load into a temporary staging table and execute an idempotent `MERGE` on natural keys (`target.id = stage.id`).
@@ -887,7 +893,7 @@ final_output_df.coalesce(2).write.format("parquet").save("abfss://...")
 
 ![Incremental Ingestion Strategies Without Timestamps](assets/08_etl_pipelines_orchestration_and_data_quality_faq/13_incremental_ingestion_strategies_without_timestamps.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/13_incremental_ingestion_strategies_without_timestamps.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/13_incremental_ingestion_strategies_without_timestamps.d2)
+*D2 Source: [`13_incremental_ingestion_strategies_without_timestamps.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/13_incremental_ingestion_strategies_without_timestamps.d2)*
 
 #### Production Implementation: SQL Server Change Tracking Pattern
 ```sql
@@ -955,7 +961,7 @@ CREATE TABLE etl_control.pipeline_task_checkpoint (
 #### Mapping Data Flow Design Graph
 ![Mapping Data Flow SCD Type 2 Conditional Split Architecture](assets/08_etl_pipelines_orchestration_and_data_quality_faq/14_mapping_data_flow_scd_type_2_conditional_split.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/14_mapping_data_flow_scd_type_2_conditional_split.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/14_mapping_data_flow_scd_type_2_conditional_split.d2)
+*D2 Source: [`14_mapping_data_flow_scd_type_2_conditional_split.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/14_mapping_data_flow_scd_type_2_conditional_split.d2)*
 
 #### Step-by-Step Data Flow Configuration:
 1. **Source:** Ingests updated customer records. Add Derived Column: `incoming_hash = md5(name + address + phone)`.
@@ -980,7 +986,7 @@ CREATE TABLE etl_control.pipeline_task_checkpoint (
 #### Hybrid Architecture Blueprint
 ![Hybrid On-Premises to Azure SHIR Ingestion Architecture](assets/08_etl_pipelines_orchestration_and_data_quality_faq/15_hybrid_onprem_to_azure_shir_ingestion_architecture.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/15_hybrid_onprem_to_azure_shir_ingestion_architecture.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/15_hybrid_onprem_to_azure_shir_ingestion_architecture.d2)
+*D2 Source: [`15_hybrid_onprem_to_azure_shir_ingestion_architecture.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/15_hybrid_onprem_to_azure_shir_ingestion_architecture.d2)*
 
 #### Production Engineering Rules:
 1. **High-Availability SHIR Clustering:** Deploy SHIR across at least 2 on-premises VMs in an active-active cluster to ensure zero single-point-of-failure and automatic failover.
@@ -1011,7 +1017,7 @@ The three production patterns to enforce strict idempotency are:
 #### Visual Flow
 ![Non-Idempotent Append vs Idempotent Staging Table Overwrite](assets/08_etl_pipelines_orchestration_and_data_quality_faq/16_non_idempotent_append_vs_idempotent_partition_overwrite.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/16_non_idempotent_append_vs_idempotent_partition_overwrite.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/16_non_idempotent_append_vs_idempotent_partition_overwrite.d2)
+*D2 Source: [`16_non_idempotent_append_vs_idempotent_partition_overwrite.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/16_non_idempotent_append_vs_idempotent_partition_overwrite.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1064,7 +1070,7 @@ COMMIT;
 ### Q38. [Medium] Strict Airflow Task Sequential Execution & Failure Handling (`T1 >> T2 >> T3`)
 **Difficulty:** [Medium]
 **Topic Covered:** Airflow DAG Construction, Task Dependencies, Trigger Rules & Failure Callbacks  
-**Question:** You need tasks T1, T2, and T3 to execute strictly in order ($T_1 	o T_2 	o T_3$). How would you define dependencies, pass context between tasks, and handle failures defensively?
+**Question:** You need tasks T1, T2, and T3 to execute strictly in order ($T_1 \to T_2 \to T_3$). How would you define dependencies, pass context between tasks, and handle failures defensively?
 
 #### Definition & Core Concepts
 In Apache Airflow, DAG task dependencies define an execution graph:
@@ -1078,7 +1084,7 @@ In Apache Airflow, DAG task dependencies define an execution graph:
 #### Visual Flow
 ![Airflow Trigger Rules: ALL_SUCCESS vs ALL_DONE Teardown](assets/08_etl_pipelines_orchestration_and_data_quality_faq/17_airflow_all_success_vs_all_done_teardown_branching.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/17_airflow_all_success_vs_all_done_teardown_branching.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/17_airflow_all_success_vs_all_done_teardown_branching.d2)
+*D2 Source: [`17_airflow_all_success_vs_all_done_teardown_branching.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/17_airflow_all_success_vs_all_done_teardown_branching.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1150,7 +1156,7 @@ with DAG(
 - **Space Complexity:** $O(1)$ scheduler metadata footprint.
 
 #### Engineering Implications & Production Pitfalls
-1. **The XCom Megabyte Explosion:** Airflow stores XCom return values in its backend metadata database (Postgres / MySQL). Never pass entire DataFrames, CSV blobs, or huge JSON dictionaries through XCom! Pass only lightweight metadata pointers (e.g. S3 file URIs or row counts). Passing $>10	ext{MB}$ payloads locks the Airflow scheduler database.
+1. **The XCom Megabyte Explosion:** Airflow stores XCom return values in its backend metadata database (Postgres / MySQL). Never pass entire DataFrames, CSV blobs, or huge JSON dictionaries through XCom! Pass only lightweight metadata pointers (e.g. S3 file URIs or row counts). Passing $>10\text{MB}$ payloads locks the Airflow scheduler database.
 2. **`depends_on_past` Deadlocks:** Setting `depends_on_past=True` means today's run cannot start until yesterday's run succeeds. If an engineer forgets to clear or resolve a single failed run from 3 weeks ago, all future scheduled DAG runs freeze indefinitely.
 
 #### Core Curriculum Cross-Reference
@@ -1161,21 +1167,21 @@ with DAG(
 ### Q39. [Medium] Upstream Dependency Cascade & Critical Path Delay Propagation
 **Difficulty:** [Medium]
 **Topic Covered:** Pipeline Dependency Chains, Critical Path Analysis, Sensor Deadlocks & Pool Starvation  
-**Question:** Pipeline A depends on Pipeline B, and Pipeline B depends on Pipeline C ($C 	o B 	o A$). Pipeline C suffers a major performance degradation. Why can Pipeline A miss its SLA even if its own internal transformations run at blazing speed? How do you prevent cascade failures?
+**Question:** Pipeline A depends on Pipeline B, and Pipeline B depends on Pipeline C ($C \to B \to A$). Pipeline C suffers a major performance degradation. Why can Pipeline A miss its SLA even if its own internal transformations run at blazing speed? How do you prevent cascade failures?
 
 #### Definition & Core Concepts
 In enterprise data platforms, data marts ($A$) consume transformed dimensional models ($B$), which consume ingested raw tables ($C$).
 When upstream Pipeline $C$ slows down:
 1. **Critical Path Propagation:** The total wall-clock completion time of Pipeline $A$ is bounded by the sum of its serial dependency chain:
-   $$	ext{Completion Time}_A = T_{	ext{start}} + 	ext{Duration}_C + 	ext{Duration}_B + 	ext{Duration}_A$$
-   Even if $	ext{Duration}_A$ is only 5 minutes, if $	ext{Duration}_C$ explodes from 20 minutes to 4 hours, Pipeline $A$ will miss its 6:00 AM SLA by over 3 hours.
+   $$\text{Completion Time}_A = T_{\text{start}} + \text{Duration}_C + \text{Duration}_B + \text{Duration}_A$$
+   Even if $\text{Duration}_A$ is only 5 minutes, if $\text{Duration}_C$ explodes from 20 minutes to 4 hours, Pipeline $A$ will miss its 6:00 AM SLA by over 3 hours.
 2. **Airflow Sensor Deadlocks & Pool Starvation:**
    If Pipeline $A$ waits for Pipeline $B$ using an `ExternalTaskSensor` configured in default **`mode='poke'`**, the sensor worker thread blocks an Airflow worker slot continuously for 4 hours! With multiple sensor tasks waiting simultaneously, all worker pool slots are exhausted (`Pool Starvation`). Other unrelated pipelines across the company cannot find an available worker slot and freeze.
 
 #### Visual Flow
 ![Upstream Cascade SLA Delay & Dependency Mitigation](assets/08_etl_pipelines_orchestration_and_data_quality_faq/18_upstream_cascade_sla_delay_and_mitigation.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/18_upstream_cascade_sla_delay_and_mitigation.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/18_upstream_cascade_sla_delay_and_mitigation.d2)
+*D2 Source: [`18_upstream_cascade_sla_delay_and_mitigation.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/18_upstream_cascade_sla_delay_and_mitigation.d2)*
 
 #### Production Architectural Solution: Reschedule Mode & Data Contracts
 ```python
@@ -1218,7 +1224,7 @@ In high-scale enterprise environments with thousands of tables, hardcoding a sep
 #### Visual Flow
 ![Metadata-Driven YAML Configurable Ingestion Engine](assets/08_etl_pipelines_orchestration_and_data_quality_faq/19_metadata_driven_yaml_configurable_ingestion_engine.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/19_metadata_driven_yaml_configurable_ingestion_engine.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/19_metadata_driven_yaml_configurable_ingestion_engine.d2)
+*D2 Source: [`19_metadata_driven_yaml_configurable_ingestion_engine.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/19_metadata_driven_yaml_configurable_ingestion_engine.d2)*
 
 #### Production Implementation / Code Solution
 ```python
@@ -1297,7 +1303,7 @@ Analytical batch queries running against production OLTP databases can degrade t
 #### Visual Flow
 ![PostgreSQL ETL CPU Spike Diagnostic & Remediation Flow](assets/08_etl_pipelines_orchestration_and_data_quality_faq/20_postgresql_etl_cpu_spike_diagnostic_remediation.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/20_postgresql_etl_cpu_spike_diagnostic_remediation.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/20_postgresql_etl_cpu_spike_diagnostic_remediation.d2)
+*D2 Source: [`20_postgresql_etl_cpu_spike_diagnostic_remediation.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/20_postgresql_etl_cpu_spike_diagnostic_remediation.d2)*
 
 #### Production Implementation / Diagnostic Playbook
 ```sql
@@ -1329,7 +1335,7 @@ FROM orders
 WHERE updated_at >= :last_watermark
   AND order_id BETWEEN :chunk_start_id AND :chunk_end_id;
 ```
-- **Time Complexity:** Replacing sequential scan $O(N)$ with index seek reduces query time from $O(N) 	o O(\log N + K)$ where $K$ is matching records.
+- **Time Complexity:** Replacing sequential scan $O(N)$ with index seek reduces query time from $O(N) \to O(\log N + K)$ where $K$ is matching records.
 - **Space Complexity:** $O(1)$ additional CPU overhead once indexed.
 
 #### Engineering Implications & Production Pitfalls
@@ -1363,7 +1369,7 @@ The decision between an **Immediate Automated Rollback** and a **Fix-Forward** i
 #### Visual Flow
 ![Deployment Failure Rate Spike Triage & Rollback Decision Tree](assets/08_etl_pipelines_orchestration_and_data_quality_faq/21_deployment_failure_rate_spike_triage_rollback_decision.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/21_deployment_failure_rate_spike_triage_rollback_decision.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/21_deployment_failure_rate_spike_triage_rollback_decision.d2)
+*D2 Source: [`21_deployment_failure_rate_spike_triage_rollback_decision.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/21_deployment_failure_rate_spike_triage_rollback_decision.d2)*
 
 #### Production Incident Runbook: Delta Lake Automated Rollback
 ```sql
@@ -1404,7 +1410,7 @@ When an ADF pipeline's execution duration jumps $6\times$ on static data volumes
 #### Visual Flow: ADF Latency Diagnostic Triage Hierarchy
 ![ADF Latency Diagnostic Triage Hierarchy](assets/08_etl_pipelines_orchestration_and_data_quality_faq/22_adf_pipeline_latency_diagnostic_triage_hierarchy.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/22_adf_pipeline_latency_diagnostic_triage_hierarchy.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/22_adf_pipeline_latency_diagnostic_triage_hierarchy.d2)
+*D2 Source: [`22_adf_pipeline_latency_diagnostic_triage_hierarchy.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/22_adf_pipeline_latency_diagnostic_triage_hierarchy.d2)*
 
 #### Production Diagnostic Runbook:
 
@@ -1456,7 +1462,7 @@ In cloud object storage (Azure Data Lake Storage Gen2, AWS S3, Google Cloud Stor
 #### Visual Flow: Auto Loader Event Grid Architecture vs. Directory Scans
 ![Auto Loader Event Grid Architecture vs Recursive Directory Scans](assets/08_etl_pipelines_orchestration_and_data_quality_faq/23_autoloader_eventgrid_vs_naive_directory_scan.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/23_autoloader_eventgrid_vs_naive_directory_scan.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/23_autoloader_eventgrid_vs_naive_directory_scan.d2)
+*D2 Source: [`23_autoloader_eventgrid_vs_naive_directory_scan.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/23_autoloader_eventgrid_vs_naive_directory_scan.d2)*
 
 #### Production Implementation: Databricks Auto Loader (File Notification Mode)
 ```python
@@ -1507,7 +1513,7 @@ When multiple triggers initiate the same ADF pipeline simultaneously, concurrent
 #### Visual Flow: Multi-Trigger Guardrail Pipeline
 ![Multi-Trigger Guardrail Pipeline & Distributed Blob Lease](assets/08_etl_pipelines_orchestration_and_data_quality_faq/24_adf_multi_trigger_guardrail_distributed_lease_pipeline.svg)
 
-*D2 Source:* [assets/08_etl_pipelines_orchestration_and_data_quality_faq/24_adf_multi_trigger_guardrail_distributed_lease_pipeline.d2](assets/08_etl_pipelines_orchestration_and_data_quality_faq/24_adf_multi_trigger_guardrail_distributed_lease_pipeline.d2)
+*D2 Source: [`24_adf_multi_trigger_guardrail_distributed_lease_pipeline.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/24_adf_multi_trigger_guardrail_distributed_lease_pipeline.d2)*
 
 ---
 
@@ -1615,6 +1621,390 @@ We implement **Blue-Green Data Product Deployments with View Pointer Aliasing**:
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [08. ETL Pipelines, Orchestration & Data Quality: Pipeline Idempotency & Zero-Downtime Blue-Green Deployments](../08_etl_pipelines_orchestration_and_data_quality.md#11-etl-vs-elt-architecture--processing-paradigms)*
+---
+
+### Q49. [Hard] Optimizing ADF Copy Activity for Billions of Rows from SQL to ADLS Gen2
+**Difficulty:** [Hard]  
+**Topic Covered:** Azure Data Factory Copy Activity, Source Physical/Range Partitioning, DIU Tuning & Parallelism  
+**Question:** *How do you optimize an Azure Data Factory (ADF) copy activity when extracting billions of rows from an enterprise SQL database into ADLS Gen2 to avoid timeouts and maximize throughput?*
+
+#### Definition & Core Concepts
+When moving multi-billion-row tables ($>500\text{ GB}$) from Azure SQL Database or SQL Server to ADLS Gen2, default ADF Copy Activities execute as a single-threaded table scan, leading to connection timeouts, severe transaction log lock escalation, and multihour runtimes.
+1. **Source Parallel Partitioning Strategy:**
+   - **Physical Partitions of Table:** If the source table is already partitioned on a date or integer range, select `Physical partitions of table` in ADF to execute concurrent sub-queries directly against physical partition slices.
+   - **Dynamic Range Partitioning:** If the table is not physically partitioned, configure `Dynamic range` partitioning with an indexed integer or date column (e.g. `transaction_id` or `created_date`). ADF automatically injects `?AdfRangePartitionLowBound` and `?AdfRangePartitionUpperBound` clauses into parallel read threads.
+2. **Data Integration Units (DIU) Sizing:**
+   - Default auto-DIUs often cap compute at 4–16 DIUs. For billion-row tables, configure **32 to 128 DIUs**.
+3. **Degree of Copy Parallelism:** Set `degreeOfCopyParallelism` to **16–32**, matching the number of parallel dynamic range partition chunks.
+4. **Staged Copy via Blob / Direct Binary Sink:** Enable PolyBase or staged copy if loading into Synapse, or direct compressed Parquet generation with Snappy/ZSTD into ADLS Gen2.
+
+#### Visual Architectural Flow
+![ADF Copy Activity Dynamic Partitioning Engine](assets/08_etl_pipelines_orchestration_and_data_quality_faq/25_adf_copy_activity_billion_row_partitioning.svg)
+
+*D2 Source: [`25_adf_copy_activity_billion_row_partitioning.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/25_adf_copy_activity_billion_row_partitioning.d2)*
+
+#### Production Implementation / Pipeline JSON Configuration
+```json
+{
+  "name": "CopyBillionRowSQLToADLS",
+  "type": "Copy",
+  "typeProperties": {
+    "source": {
+      "type": "AzureSqlSource",
+      "sqlReaderQuery": "SELECT * FROM sales.transactions WHERE ?AdfRangePartitionColumnName <= ?AdfRangePartitionUpperBound AND ?AdfRangePartitionColumnName >= ?AdfRangePartitionLowBound",
+      "partitionOption": "DynamicRange",
+      "partitionSettings": {
+        "partitionColumnName": "transaction_id",
+        "partitionUpperBound": "1000000000",
+        "partitionLowerBound": "1"
+      },
+      "isolationLevel": "ReadCommittedWithRowLock"
+    },
+    "sink": {
+      "type": "ParquetSink",
+      "storeSettings": {
+        "type": "AzureBlobFSWriteSettings",
+        "copyBehavior": "PreserveHierarchy"
+      },
+      "formatSettings": {
+        "type": "ParquetWriteSettings",
+        "compressionCodec": "snappy"
+      }
+    },
+    "enableStaging": false,
+    "parallelCopies": 32,
+    "dataIntegrationUnits": 64
+  }
+}
+```
+
+#### Complexity & Operational Metrics
+- **Throughput:** Increases extraction throughput from $pprox 5\text{ MB/s}$ (single thread) to $> 120\text{ MB/s}$ across 32 concurrent streams.
+- **Source Impact:** Dynamic range reads require index seek coverage on `transaction_id`. Without an index, parallel range scans trigger multiple table scans, degrading source database CPU.
+
+#### Engineering Implications & Production Pitfalls
+- **Table Lock Contention:** Always use `isolationLevel: "ReadCommittedWithRowLock"` or `NOLOCK` hints (if dirty reads are tolerated) to prevent locking operational transactions on the transactional database.
+- **Skewed Range Boundaries:** Ensure `transaction_id` has a uniform distribution. If IDs contain massive gaps, threads will finish unevenly, leaving straggler threads running.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [08. ETL Pipelines, Orchestration & Data Quality: Azure Data Factory (ADF) Deep-Dive](../08_etl_pipelines_orchestration_and_data_quality.md#15-azure-data-factory-adf-deep-dive)*
+
+---
+
+### Q50. [Medium] Handling Schema Drift in ADF Mapping Data Flows (Dynamic Datasets & JSON/Parquet)
+**Difficulty:** [Medium]  
+**Topic Covered:** ADF Mapping Data Flows, Schema Drift, Rule-Based Column Mapping, Semi-Structured Payloads  
+**Question:** *How do you configure and handle schema drift in Azure Data Factory (ADF) Mapping Data Flows when ingesting dynamic datasets and semi-structured payloads like JSON or Parquet?*
+
+#### Definition & Core Concepts
+**Schema Drift** occurs when upstream data providers add, rename, or drop fields without notifying downstream pipeline owners. In ADF Mapping Data Flows:
+1. **Allow Schema Drift Option:** Enabling `Allow schema drift` on the Source transformation instructs ADF to read all incoming columns even if they are not explicitly declared in the dataset projection schema.
+2. **Rule-Based Mapping in Sinks:** Avoid hardcoded 1:1 column projections. In the Sink transformation, enable `Auto-mapping` or configure **Rule-based mapping** using `true()` to dynamically forward all drifted columns directly to the target storage (Delta Lake / Parquet).
+3. **Semi-Structured Payload Handling (JSON):**
+   - Use expression language functions `byName('field_name')` or `byPosition(1)` to access dynamic properties.
+   - For deeply nested, evolving JSON objects, parse top-level attributes and serialize the remaining dynamic/drifted attributes into a stringified JSON column (`toString(unparsed_payload)`) for downstream schema-on-read querying.
+
+#### Visual Data Flow Architecture
+![ADF Mapping Data Flow Schema Drift Pipeline](assets/08_etl_pipelines_orchestration_and_data_quality_faq/26_adf_mapping_data_flow_schema_drift_pipeline.svg)
+
+*D2 Source: [`26_adf_mapping_data_flow_schema_drift_pipeline.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/26_adf_mapping_data_flow_schema_drift_pipeline.d2)*
+
+#### Production Mapping Data Flow Expression Pattern
+```sql
+-- ADF Mapping Data Flow Script: Accessing drifted columns safely
+-- In Derived Column or Select transformation:
+-- If 'discount_rate' exists in the drifted schema, cast it; otherwise fallback to default 0.0:
+case(
+    hasColumn('discount_rate'), 
+    toDecimal(byName('discount_rate'), 10, 2), 
+    toDecimal(0.0, 10, 2)
+)
+
+-- Flattening or capturing all drifted attributes into a single string column:
+-- Collect all columns matching regex or dynamic patterns into JSON string
+```
+
+#### Complexity Analysis
+- **Execution Overhead:** $< 3\%$ Spark compilation overhead in ADF Data Flow runtime.
+- **Storage Trade-off:** Target storage must support schema evolution (Delta Lake or Parquet).
+
+#### Engineering Implications & Production Pitfalls
+- **Silent Schema Corruption in Tabular Databases:** Enabling schema drift into an Azure SQL or Postgres sink will cause pipeline failures if target tables lack matching DDL columns. Always pair schema drift with Delta Lake sinks or use a staging table with flexible JSON columns.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [08. ETL Pipelines, Orchestration & Data Quality: Automated Schema Drift Detection](../08_etl_pipelines_orchestration_and_data_quality.md#36-automated-schema-drift-detection)*
+
+---
+
+### Q51. [Medium] AWS Glue & Amazon S3 Schema Evolution and Crawler Ingestion Management
+**Difficulty:** [Medium]  
+**Topic Covered:** AWS Glue Data Catalog, Crawler Schema Updates, DynamicFrame `resolveChoice` & Athena Compatibility  
+**Question:** *How do you handle schema changes and schema evolution in AWS Glue pipelines and Amazon S3 data lakes without breaking downstream Athena queries and Glue ETL jobs?*
+
+#### Definition & Core Concepts
+In AWS-native lakehouse architectures (S3, AWS Glue, Amazon Athena), schema changes occur asynchronously across files:
+1. **AWS Glue Crawler Schema Update Policies:**
+   - When a crawler discovers new columns or partitions in S3, configure the Crawler output configuration:
+     - `Update the table definition in the data catalog` (Checked)
+     - `Inherit schema from higher level` or set `Update behavior` to **"Add new columns only"** (never set "Update table definition" unconditionally if columns are removed, as dropping columns breaks historical queries).
+2. **Schema Type Conflicts & `resolveChoice` in Glue DynamicFrames:**
+   - If an incoming file has an integer where previous files had a string, Glue DynamicFrames assign a `ChoiceType` (e.g. `choice<int, string>`).
+   - Downstream Athena queries fail on `ChoiceType` fields with `HIVE_PARTITION_SCHEMA_MISMATCH`.
+   - Apply `.resolveChoice(choice='cast:string')` or `.resolveChoice(choice='make_struct')` to explicitly force type widening before writing to S3.
+3. **Partition Projection in Athena:** Use Athena Partition Projection on date-based partitions to prevent Athena from scanning the entire Glue Data Catalog metadata tree.
+
+#### Visual Architectural Flow
+![AWS Glue Crawler and DynamicFrame Schema Evolution](assets/08_etl_pipelines_orchestration_and_data_quality_faq/27_aws_glue_crawler_schema_evolution_pipeline.svg)
+
+*D2 Source: [`27_aws_glue_crawler_schema_evolution_pipeline.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/27_aws_glue_crawler_schema_evolution_pipeline.d2)*
+
+#### Production Implementation / Glue ETL Python Script
+```python
+import sys
+from awsglue.transforms import *
+from awsglue.utils import getResolvedOptions
+from pyspark.context import SparkContext
+from awsglue.context import GlueContext
+from awsglue.job import Job
+
+sc = SparkContext()
+glueContext = GlueContext(sc)
+spark = glueContext.spark_session
+job = Job(glueContext)
+
+# 1. Read from Glue Catalog as DynamicFrame
+datasource = glueContext.create_dynamic_frame.from_catalog(
+    database="financial_db",
+    table_name="raw_transactions"
+)
+
+# 2. Resolve ambiguous schema types (e.g. customer_zip integer vs string)
+# Cast all conflicting variants to STRING to prevent schema clash
+resolved_df = datasource.resolveChoice(
+    specs=[("customer_zip", "cast:string"), ("transaction_amount", "cast:double")]
+)
+
+# 3. Write back to S3 in Parquet with partition keys
+glueContext.write_dynamic_frame.from_options(
+    frame=resolved_df,
+    connection_type="s3",
+    connection_options={"path": "s3://prod-lakehouse-clean/transactions/", "partitionKeys": ["year", "month"]},
+    format="parquet",
+    format_options={"compression": "snappy"}
+)
+
+job.commit()
+```
+
+#### Complexity Analysis
+- **Athena Query Overhead:** $O(1)$ catalog lookup latency when Partition Projection is active.
+- **DynamicFrame Resolution:** Incurs $O(N)$ single-pass evaluation per batch without additional distributed shuffle.
+
+#### Engineering Implications & Production Pitfalls
+- **Crawler Overwrites:** Never configure crawlers to delete missing columns (`Delete tables and partitions from the data catalog`). If an upstream batch temporarily omits an optional column, the crawler will delete the column definition, instantly breaking all historical Athena queries that reference that column.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [08. ETL Pipelines, Orchestration & Data Quality: Automated Schema Inference & Evolution Policies](../08_etl_pipelines_orchestration_and_data_quality.md#48-automated-schema-inference--evolution-policies)*
+
+---
+
+### Q52. [Medium] Multi-Consumer Architecture for Datasets Requiring Divergent Refresh Frequencies
+**Difficulty:** [Medium]  
+**Topic Covered:** Multi-Cadence Data Consumption, Lambda/Kappa Hybrids, Tiered Materialized Views, Storage Decoupling  
+**Question:** *Multiple downstream applications depend on the exact same core enterprise dataset, but Application A requires sub-minute real-time updates, Application B requires hourly micro-batches, and Application C requires daily audited snapshots. How do you design the ingestion and storage architecture?*
+
+#### Definition & Core Concepts
+Attempting to force all consumers onto a single unified refresh cycle leads to either prohibitive compute costs (running heavy transformations every minute) or unacceptable latency violations:
+1. **Decoupled Lakehouse Ingestion (Kappa Variant):**
+   - Ingest all operational events continuously into an **Append-Only Streaming Bronze Delta Table** via Kafka / Spark Structured Streaming or Auto Loader ($10	ext{–}30\text{s}$ latency).
+2. **Tiered Serving Architecture:**
+   - **Real-Time Consumer (Application A - Sub-minute):** Reads directly from the streaming Bronze/Silver Delta table using Delta Streaming Source or materialized streaming state stores (RocksDB / Redis cache for point lookups).
+   - **Micro-Batch Consumer (Application B - Hourly):** Triggers an hourly lightweight incremental transformation via Delta Lake Change Data Feed (CDF) or incremental MERGE, populating an hourly materialized aggregation table.
+   - **Audited Financial Consumer (Application C - Daily Snapshot):** Executes a scheduled nightly batch job at midnight. It reads an immutable snapshot (`VERSION AS OF` or `TIMESTAMP AS OF '2026-10-28 00:00:00'`), enforces strict reconciliation gates, and publishes a certified Gold financial mart.
+
+#### Visual Architectural Flow
+![Multi Consumer Tiered Cadence Architecture](assets/08_etl_pipelines_orchestration_and_data_quality_faq/28_multi_consumer_tiered_cadence_architecture.svg)
+
+*D2 Source: [`28_multi_consumer_tiered_cadence_architecture.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/28_multi_consumer_tiered_cadence_architecture.d2)*
+
+#### Production Implementation / Tiered Consumption Pattern
+```python
+# 1. Real-Time Application A: Structured Streaming directly from Bronze Delta
+realtime_stream = (
+    spark.readStream.format("delta")
+    .table("bronze.transactions")
+    .filter("amount > 10000")  # Immediate high-value transaction filter
+    .writeStream
+    .format("delta")
+    .outputMode("append")
+    .option("checkpointLocation", "/checkpoints/fraud_realtime/")
+    .toTable("silver.fraud_alerts")
+)
+
+# 2. Hourly Application B: Incremental CDF Read
+def process_hourly_batch():
+    latest_version = spark.sql("DESCRIBE HISTORY bronze.transactions LIMIT 1").collect()[0]["version"]
+    hourly_cdf = (
+        spark.read.format("delta")
+        .option("readChangeFeed", "true")
+        .option("startingVersion", latest_version - 10)
+        .table("bronze.transactions")
+    )
+    # Perform hourly aggregation and upsert
+    ...
+
+# 3. Daily Application C: Audited Point-in-Time Snapshot
+daily_snapshot = (
+    spark.read.format("delta")
+    .option("timestampAsOf", "2026-10-28 00:00:00")
+    .table("bronze.transactions")
+)
+# Run Great Expectations verification, write to gold.regulatory_transactions
+```
+
+#### Complexity & Cost Optimization Analysis
+- **Cost Efficiency:** Offloading daily consumers from the high-frequency streaming compute avoids paying 24x streaming cluster charges for data only evaluated once a day.
+- **Isolation Guarantee:** Heavy ad-hoc queries from daily reporting analysts cannot starve resources from the real-time sub-minute alerting engine.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [08. ETL Pipelines, Orchestration & Data Quality: Pipeline Idempotency & Re-execution Safety](../08_etl_pipelines_orchestration_and_data_quality.md#11-etl-vs-elt-architecture--processing-paradigms)*
+
+---
+
+### Q53. [Medium] Handling NULLs, Duplicates, and Corrupted Records in Production ETL Pipelines (Dead-Letter Queues, PERMISSIVE Schema & Idempotent Quarantine)
+**Difficulty:** [Medium]  
+**Topic Covered:** Data Quality Engineering, Dead-Letter Queues (DLQ), Corrupted Record Isolation, Defensive Deduplication & Idempotent Merges  
+**Question:** *Explain how you handle null values, duplicate records, and corrupted/bad data in production ETL processing. Walk through the architectural triage from ingestion to loading, showing how pipelines avoid crashing while preventing dirty data from contaminating downstream Gold analytics.*
+
+#### Definition & Core Concepts
+In production data engineering, dirty data is an inevitability rather than an anomaly. A robust production pipeline adheres to the **Zero-Crash, Zero-Silent-Corruption Invariant** using a **3-Tier Triage Framework**:
+1. **Tier 1 (Corrupted & Malformed Records):** Unparseable payloads (malformed JSON, broken CSV escapes, truncated rows). In Spark, configuring `mode: PERMISSIVE` with `columnNameOfCorruptRecord = "_corrupt_record"` captures malformed text strings without throwing an execution exception. Corrupt records are immediately bifurcated and offloaded to a **Dead-Letter Queue (DLQ)** in cloud storage (`abfss://dlq/corrupt/`).
+2. **Tier 2 (Schema & Business Rule Violations — Missing NULLs):** Syntactically valid records that violate data contracts (e.g. `order_id IS NULL`, negative transaction amounts, or missing customer foreign keys). These records are filtered via data quality gates (e.g., Delta Live Tables Expectations or Great Expectations) and routed to a **Quarantine Table** (`quarantine.fact_orders`) annotated with diagnostic audit metadata (`error_code`, `failed_constraint`, `ingested_at`).
+3. **Tier 3 (Duplicate Records):** Retried event streams and multi-source merges frequently introduce duplicate natural keys. Valid records are deterministically deduplicated using window analytical ranking (`ROW_NUMBER() OVER (PARTITION BY business_key ORDER BY event_timestamp DESC) WHERE rn = 1`) and upserted into Silver/Gold Delta tables using idempotent `MERGE INTO` operations.
+
+#### Visual Architectural Flow
+![Production 3-Tier Data Quality Triage: Bad Records, NULLs & Duplicates](assets/08_etl_pipelines_orchestration_and_data_quality_faq/29_etl_nulls_duplicates_bad_records_quarantine_triage.svg)
+
+*D2 Source: [`29_etl_nulls_duplicates_bad_records_quarantine_triage.d2`](assets/08_etl_pipelines_orchestration_and_data_quality_faq/29_etl_nulls_duplicates_bad_records_quarantine_triage.d2)*
+
+#### Production Implementation / PySpark 3-Tier Quality Pipeline
+
+```python
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
+from pyspark.sql.window import Window
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType, TimestampType
+
+spark = SparkSession.builder.appName("ProductionDataQualityTriage").getOrCreate()
+
+# -----------------------------------------------------------------------------
+# STEP 1: Ingestion with PERMISSIVE Corrupt Record Isolation (Tier 1)
+# -----------------------------------------------------------------------------
+raw_schema = StructType([
+    StructField("order_id", StringType(), True),
+    StructField("customer_id", StringType(), True),
+    StructField("amount", DoubleType(), True),
+    StructField("order_timestamp", TimestampType(), True),
+    StructField("_corrupt_record", StringType(), True)  # Special internal column
+])
+
+inbound_df = (
+    spark.read
+    .format("json")
+    .schema(raw_schema)
+    .option("mode", "PERMISSIVE")
+    .option("columnNameOfCorruptRecord", "_corrupt_record")
+    .load("abfss://raw@datalake.dfs.core.windows.net/inbound_orders/")
+)
+
+# Offload corrupt records to Dead-Letter Queue (DLQ)
+corrupt_records_df = inbound_df.filter(F.col("_corrupt_record").isNotNull())
+if not corrupt_records_df.isEmpty():
+    (
+        corrupt_records_df
+        .select("_corrupt_record", F.current_timestamp().alias("dlq_ingested_at"))
+        .write.format("json")
+        .mode("append")
+        .save("abfss://dlq@datalake.dfs.core.windows.net/corrupt_orders/")
+    )
+
+# Retain syntactically valid records
+valid_syntax_df = inbound_df.filter(F.col("_corrupt_record").isNull()).drop("_corrupt_record")
+
+# -----------------------------------------------------------------------------
+# STEP 2: Schema Validation & NULL Key Quarantine Routing (Tier 2)
+# -----------------------------------------------------------------------------
+# Rule: order_id and customer_id MUST NOT be NULL, amount MUST be positive
+null_or_invalid_condition = (
+    F.col("order_id").isNull() | 
+    F.col("customer_id").isNull() | 
+    (F.col("amount") <= 0.0) |
+    F.col("amount").isNull()
+)
+
+# Route violating records to Quarantine Delta Table
+quarantine_df = valid_syntax_df.filter(null_or_invalid_condition).withColumn(
+    "quarantine_reason",
+    F.when(F.col("order_id").isNull(), "NULL_ORDER_ID")
+     .when(F.col("customer_id").isNull(), "NULL_CUSTOMER_ID")
+     .when(F.col("amount") <= 0.0, "NON_POSITIVE_AMOUNT")
+     .otherwise("UNKNOWN_VALIDATION_FAILURE")
+).withColumn("quarantined_at", F.current_timestamp())
+
+(
+    quarantine_df.write
+    .format("delta")
+    .mode("append")
+    .saveAsTable("quarantine.orders")
+)
+
+# -----------------------------------------------------------------------------
+# STEP 3: Deterministic Deduplication & Loading (Tier 3)
+# -----------------------------------------------------------------------------
+clean_valid_df = valid_syntax_df.filter(~null_or_invalid_condition)
+
+# Window Deduplication: Select latest record per order_id
+dedup_window = Window.partitionBy("order_id").orderBy(F.col("order_timestamp").desc())
+
+deduplicated_df = (
+    clean_valid_df
+    .withColumn("rn", F.row_number().over(dedup_window))
+    .filter(F.col("rn") == 1)
+    .drop("rn")
+)
+
+# -----------------------------------------------------------------------------
+# STEP 4: Idempotent MERGE into Gold Delta Lakehouse
+# -----------------------------------------------------------------------------
+deduplicated_df.createOrReplaceTempView("staged_clean_orders")
+
+spark.sql("""
+    MERGE INTO gold.fact_orders AS target
+    USING staged_clean_orders AS source
+    ON target.order_id = source.order_id
+    WHEN MATCHED AND source.order_timestamp > target.order_timestamp THEN
+      UPDATE SET 
+        target.customer_id = source.customer_id,
+        target.amount = source.amount,
+        target.order_timestamp = source.order_timestamp,
+        target.updated_at = current_timestamp()
+    WHEN NOT MATCHED THEN
+      INSERT (order_id, customer_id, amount, order_timestamp, updated_at)
+      VALUES (source.order_id, source.customer_id, source.amount, source.order_timestamp, current_timestamp())
+""")
+```
+
+#### Complexity & Operational Metrics
+- **Pipeline Throughput:** Using `PERMISSIVE` schema offloading eliminates JVM job aborts, enabling $99.99\%$ batch reliability even when upstream third-party APIs emit malformed JSON.
+- **Observability Alert Thresholds:** Calculate the quarantine error ratio: $\text{Error Rate} = \frac{|Quarantined|}{|Inbound|}$. If $\text{Error Rate} > 1.0\%$, trigger PagerDuty/Slack Sev-2 alerts for immediate data producer contract breach investigation.
+
+#### Engineering Implications & Production Pitfalls
+- **The Infinite DLQ Storage Leak:** Dead-letter queues must be configured with lifecycle expiration policies (e.g. 30–60 days). Quarantined records must have an automated replay notebook (`reprocess_quarantine_batch.py`) that re-ingests records once upstream systems push retroactive corrections.
+- **Delta MERGE Multiple-Match Trap:** If Step 3 deduplication is omitted prior to `MERGE INTO`, duplicate rows within the same incoming batch matching target keys will trigger a runtime `DeltaConcurrentModificationException` or `CANNOT_MODIFY_TARGET_TABLE_MULTIPLE_TIMES`. Deduplication prior to MERGE is mandatory.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [08. ETL Pipelines, Orchestration & Data Quality: Dead Letter Queues & Bad Records Handling](../08_etl_pipelines_orchestration_and_data_quality.md#29-dead-letter-queues-dlq--quarantine-routing)*
+
 
 ---
 

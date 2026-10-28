@@ -1,13 +1,23 @@
 direction: down
-title: Cross-Site Request Forgery (CSRF) Attack Mechanics vs Defense
+title: "Cross-Site Request Forgery (CSRF) Attack Mechanics vs Defense"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Victim: Victim User Browser
-Bank: Bank Portal (Cookie Auth)
-Attacker: Malicious Forum Site
+Victim: "Victim User Browser"
+Bank: "Bank Portal (Cookie Auth)"
+Attacker: "Malicious Forum Site"
 
-Victim -> Bank: 1. User logs in { style.stroke: "#38BDF8" }
-Bank -> Victim: 2. Returns JSESSIONID cookie { style.stroke: "#34D399" }
-Victim -> Attacker: 3. Visits malicious site in another tab { style.stroke: "#F59E0B" }
-Attacker -> Victim: 4. Fires hidden auto-submitting POST form { style.stroke: "#EF4444" }
-Victim -> Bank: 5. Browser automatically sends cookie to bank! { style.stroke: "#EF4444" }
-Bank -> Bank: 6. SameSite=Strict or CSRF token header blocks unauthorized request { style.stroke: "#10B981" }
+Victim -> Bank: "1. User logs in" { style.stroke: "#38BDF8" }
+Bank -> Victim: "2. Returns JSESSIONID cookie" { style.stroke: "#34D399" }
+Victim -> Attacker: "3. Visits malicious site in another tab" { style.stroke: "#F59E0B" }
+Attacker -> Victim: "4. Fires hidden auto-submitting POST form" { style.stroke: "#EF4444" }
+Victim -> Bank: "5. Browser automatically sends cookie to bank!" { style.stroke: "#EF4444" }
+Bank -> Bank: "6. SameSite=Strict or CSRF token header blocks unauthorized request" { style.stroke: "#10B981" }

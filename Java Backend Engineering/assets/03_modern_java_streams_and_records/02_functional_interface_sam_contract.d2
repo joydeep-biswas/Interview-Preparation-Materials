@@ -1,7 +1,18 @@
 direction: right
-title: Single Abstract Method (SAM) Contract & Functional Interfaces
+title: "Single Abstract Method (SAM) Contract & Functional Interfaces"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Interface: <<@FunctionalInterface>> CryptoTransformer<T, R> {
+Interface: "<<@FunctionalInterface>> CryptoTransformer<T, R>" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   sam: "R transform(T rawInput) [EXACTLY 1 ABSTRACT METHOD]"
@@ -10,7 +21,8 @@ Interface: <<@FunctionalInterface>> CryptoTransformer<T, R> {
   objectMethod: "boolean equals(Object) [Allowed, does not count]"
 }
 
-LambdaRuntime: Lambda Runtime via invokedynamic {
+LambdaRuntime: "Lambda Runtime via invokedynamic" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
   callsite: "CryptoTransformer<String, String> t = s -> s.toUpperCase()"
@@ -18,6 +30,6 @@ LambdaRuntime: Lambda Runtime via invokedynamic {
   benefit: "No anonymous inner class .class files generated; direct JIT inlining"
 }
 
-Interface -> LambdaRuntime: Compiles to invokedynamic instruction {
+Interface -> LambdaRuntime: "Compiles to invokedynamic instruction" {
   style.stroke: "#8B5CF6"
 }

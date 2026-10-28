@@ -26,7 +26,7 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Backpressure Management &amp; Dynamic Rate Limiting in Streaming</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Preventing Worker JVM Out-of-Memory Crashes During High-Volume Traffic Spikes</text>
   
@@ -41,7 +41,7 @@
     <text x="69" y="186" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Lag accumulated during upstream maintenance or promo spike</text>
   
     <rect x="45" y="215" width="400" height="65" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
-    <text x="245.0" y="241" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Worker Heap Pulls All 50M Messages at Once!</text>
+    <text x="59" y="238" fill="#fca5a5" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Heap Pulls 50M Messages at Once</text>
     
     <rect x="373" y="225" width="66" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
     <text x="406.0" y="237" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">OOM RISK</text>
@@ -49,7 +49,7 @@
     <text x="69" y="261" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Unbounded memory allocation in Spark Worker JVM (16GB RAM)</text>
   
     <rect x="45" y="290" width="400" height="75" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
-    <text x="245.0" y="316" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Fatal JVM Crash: java.lang.OutOfMemoryError</text>
+    <text x="59" y="313" fill="#fca5a5" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Fatal JVM Crash: OutOfMemoryError</text>
     
     <rect x="359" y="300" width="80" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
     <text x="399.0" y="312" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">CRASH LOOP</text>
@@ -72,7 +72,7 @@
     <text x="559" y="186" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Lag managed safely without crashing workers</text>
   
     <rect x="535" y="215" width="400" height="65" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="735.0" y="241" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Throttled Ingress: maxOffsetsPerTrigger = 500,000</text>
+    <text x="549" y="238" fill="#6ee7b7" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Throttled: maxOffsetsPerTrigger = 500k</text>
     
     <rect x="856" y="225" width="73" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="892.5" y="237" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">THROTTLED</text>
@@ -80,7 +80,7 @@
     <text x="559" y="261" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Caps batch size to fit comfortably in worker RAM headroom</text>
   
     <rect x="535" y="290" width="400" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="735.0" y="316" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Stable Predictable Processing: Batch Commit in 30s</text>
+    <text x="549" y="313" fill="#6ee7b7" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Predictable Processing: Commit in 30s</text>
     
     <rect x="877" y="300" width="52" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="903.0" y="312" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">STABLE</text>

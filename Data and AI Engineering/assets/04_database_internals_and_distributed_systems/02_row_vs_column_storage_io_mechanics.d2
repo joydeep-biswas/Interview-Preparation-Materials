@@ -1,9 +1,20 @@
 direction: right
-title: Row-Oriented vs. Column-Oriented Storage Mechanics
+title: "Row-Oriented vs. Column-Oriented Storage Mechanics"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 target_query: "Target Query: SELECT AVG(dwell_time) FROM page_views WHERE date = '2026-10-01'"
 
-row_store: Row Store (OLTP) - High I/O Overhead {
+row_store: "Row Store (OLTP) - High I/O Overhead" {
+  class: container
   p1: "Page 1: [ID, IP, User, Date, DwellTime, Country, Session, Device...]"
   p2: "Page 2: [ID, IP, User, Date, DwellTime, Country, Session, Device...]"
   result: "Must scan 100% of bytes off disk -> Severe I/O Bottleneck"
@@ -11,7 +22,8 @@ row_store: Row Store (OLTP) - High I/O Overhead {
   p2 -> result
 }
 
-col_store: Column Store (OLAP) - Columnar Pruning {
+col_store: "Column Store (OLAP) - Columnar Pruning" {
+  class: container
   c_date: "Column File 'date' (Min/Max Header Stats -> File Pruning)"
   c_dwell: "Column File 'dwell_time' (Dense Contiguous Float Array)"
   result: "Scans ONLY 2 target columns -> 90%+ I/O Reduction & High Compression"

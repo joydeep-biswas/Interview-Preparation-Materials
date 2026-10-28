@@ -1,33 +1,47 @@
 direction: right
-title: Exact Class Loading & Instance Initialization Order
+title: "Exact Class Loading & Instance Initialization Order"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Phase1: Phase 1 Class Loading (<clinit>) - Once {
+Phase1: "Phase 1 Class Loading (<clinit>) - Once" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#1D4ED8"
   
-  S1: 1. Superclass Static Initializers {
-    desc: "Static fields & static { } blocks run in textual order"
+  S1: "1. Superclass Static Initializers" {
+    class: box
+    desc: "Static fields & static { } blocks run in textual order" { class: box }
   }
   
-  S2: 2. Subclass Static Initializers {
-    desc: "Subclass static fields & static { } blocks run in textual order"
+  S2: "2. Subclass Static Initializers" {
+    class: box
+    desc: "Subclass static fields & static { } blocks run in textual order" { class: box }
   }
   
   S1 -> S2
 }
 
-Phase2: Phase 2 Instance Instantiation (<init>) - Per 'new' {
+Phase2: "Phase 2 Instance Instantiation (<init>) - Per 'new'" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   
-  S3: 3. Superclass Instance Fields & { } Init Blocks
-  S4: 4. Superclass Constructor Body
-  S5: 5. Subclass Instance Fields & { } Init Blocks
-  S6: 6. Subclass Constructor Body
+  S3: "3. Superclass Instance Fields & { } Init Blocks" { class: box }
+  S4: "4. Superclass Constructor Body"
+  S5: "5. Subclass Instance Fields & { } Init Blocks" { class: box }
+  S6: "6. Subclass Constructor Body"
   
   S3 -> S4 -> S5 -> S6
 }
 
-Phase1 -> Phase2: First 'new' triggers Phase 1 then Phase 2 {
+Phase1 -> Phase2: "First 'new' triggers Phase 1 then Phase 2" {
   style.stroke: "#10B981"
 }

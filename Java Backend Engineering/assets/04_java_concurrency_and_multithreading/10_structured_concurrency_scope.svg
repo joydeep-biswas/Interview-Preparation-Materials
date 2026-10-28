@@ -38,7 +38,7 @@
 
   <!-- Parent Scope Container -->
   <rect x="50" y="95" width="1100" height="390" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="95" width="1100" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="95" width="1100" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="600" y="116" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Parent Scope: handleUserRequest() - StructuredTaskScope.ShutdownOnFailure</text>
 
   <!-- Subtask 1 -->

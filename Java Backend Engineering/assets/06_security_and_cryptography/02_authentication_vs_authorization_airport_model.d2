@@ -1,7 +1,18 @@
 direction: right
-title: Authentication vs Authorization (Airport Model)
+title: "Authentication vs Authorization (Airport Model)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-AuthN: Authentication (AuthN): "Who are you?" {
+AuthN: "Authentication (AuthN): \"Who are you?\"" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
   checkpoint: "TSA Checkpoint: Passport & Biometrics"
@@ -9,7 +20,8 @@ AuthN: Authentication (AuthN): "Who are you?" {
   status: "Failure: 401 Unauthorized"
 }
 
-AuthZ: Authorization (AuthZ): "What are you permitted to do?" {
+AuthZ: "Authorization (AuthZ): \"What are you permitted to do?\"" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
   gate: "Gate Agent: Flight 402, Seat 12B allowed"
@@ -17,4 +29,4 @@ AuthZ: Authorization (AuthZ): "What are you permitted to do?" {
   status: "Failure: 403 Forbidden"
 }
 
-AuthN -> AuthZ: Authenticated identity passed to authorization manager { style.stroke: "#38BDF8" }
+AuthN -> AuthZ: "Authenticated identity passed to authorization manager" { style.stroke: "#38BDF8" }

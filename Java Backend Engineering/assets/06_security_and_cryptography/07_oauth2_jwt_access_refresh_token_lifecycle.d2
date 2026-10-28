@@ -1,15 +1,25 @@
 direction: down
-title: OAuth 2.0 Access vs Refresh Token Lifecycle & Silent Token Rotation
+title: "OAuth 2.0 Access vs Refresh Token Lifecycle & Silent Token Rotation"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Client: Client App / Browser
-IdP: Authorization Server (Keycloak / Auth0)
-Resource: Spring Resource Server
+Client: "Client App / Browser"
+IdP: "Authorization Server (Keycloak / Auth0)"
+Resource: "Spring Resource Server"
 
-Client -> IdP: 1. POST /login credentials { style.stroke: "#38BDF8" }
-IdP -> Client: 2. Access Token (15m) + HttpOnly Refresh Token (7d) { style.stroke: "#34D399" }
-Client -> Resource: 3. GET /orders (Bearer AccessToken) { style.stroke: "#38BDF8" }
-Resource -> Client: 4. 200 OK (Orders Data) { style.stroke: "#34D399" }
-Client -> Resource: 5. 15m later: GET /orders (Expired) { style.stroke: "#F59E0B" }
-Resource -> Client: 6. 401 Unauthorized (token_expired) { style.stroke: "#EF4444" }
-Client -> IdP: 7. POST /oauth/token (grant_type=refresh_token) { style.stroke: "#C084FC" }
-IdP -> Client: 8. Rotates tokens: Returns NEW Access + NEW Refresh token { style.stroke: "#34D399" }
+Client -> IdP: "1. POST /login credentials" { style.stroke: "#38BDF8" }
+IdP -> Client: "2. Access Token (15m) + HttpOnly Refresh Token (7d)" { style.stroke: "#34D399" }
+Client -> Resource: "3. GET /orders (Bearer AccessToken)" { style.stroke: "#38BDF8" }
+Resource -> Client: "4. 200 OK (Orders Data)" { style.stroke: "#34D399" }
+Client -> Resource: "5. 15m later: GET /orders (Expired)" { style.stroke: "#F59E0B" }
+Resource -> Client: "6. 401 Unauthorized (token_expired)" { style.stroke: "#EF4444" }
+Client -> IdP: "7. POST /oauth/token (grant_type=refresh_token)" { style.stroke: "#C084FC" }
+IdP -> Client: "8. Rotates tokens: Returns NEW Access + NEW Refresh token" { style.stroke: "#34D399" }

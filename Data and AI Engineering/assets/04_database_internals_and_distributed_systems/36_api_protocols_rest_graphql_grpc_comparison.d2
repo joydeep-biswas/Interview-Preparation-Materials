@@ -1,23 +1,36 @@
 direction: right
-title: API Protocols: REST vs. GraphQL vs. gRPC
+title: "API Protocols: REST vs. GraphQL vs. gRPC"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-rest: 1. REST (HTTP/1.1 JSON Text) {
-  client: Client App
-  server: REST Server
+rest: "1. REST (HTTP/1.1 JSON Text)" {
+  class: container
+  client: "Client App"
+  server: "REST Server"
   client -> server: "GET /api/v1/users/501"
   server -> client: "Returns all 45 columns in JSON text (Heavy Over-Fetching)"
 }
 
-graphql: 2. GraphQL (Dynamic Query) {
-  gclient: Client App
-  gserver: GraphQL Server
+graphql: "2. GraphQL (Dynamic Query)" {
+  class: container
+  gclient: "Client App"
+  gserver: "GraphQL Server"
   gclient -> gserver: "POST /graphql: query { user { name ltv } }"
   gserver -> gclient: "Returns exact requested fields (Zero Over-Fetching)"
 }
 
-grpc: 3. gRPC (HTTP/2 Multiplexed Protobuf) {
-  pclient: Worker Microservice
-  pserver: gRPC Server
+grpc: "3. gRPC (HTTP/2 Multiplexed Protobuf)" {
+  class: container
+  pclient: "Worker Microservice"
+  pserver: "gRPC Server"
   pclient -> pserver: "UserRequest(id=501) via compiled RPC stub"
   pserver -> pclient: "Binary compressed Protobuf byte buffer (10x faster)"
 }

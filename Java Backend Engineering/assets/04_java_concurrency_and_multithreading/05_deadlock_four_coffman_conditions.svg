@@ -38,7 +38,7 @@
 
   <!-- Left Side: Circular Wait Graph -->
   <rect x="50" y="95" width="540" height="380" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
-  <rect x="50" y="95" width="540" height="30" rx="8" fill="#7F1D1D"/>
+  <rect x="50" y="95" width="540" height="30" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
   <text x="320" y="116" font-size="12" font-weight="700" fill="#FCA5A5" text-anchor="middle">Deadlock Circular Dependency Graph</text>
 
   <!-- Thread 1 -->
@@ -84,7 +84,7 @@
 
   <!-- Right Side: 4 Coffman Conditions &amp; Solution -->
   <rect x="620" y="95" width="550" height="380" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="620" y="95" width="550" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="620" y="95" width="550" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="895" y="116" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">The 4 Necessary Coffman Conditions</text>
 
   <rect x="640" y="140" width="510" height="155" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>

@@ -1,29 +1,51 @@
-direction: right
-
-servlet_bridge: "1. Servlet Bridge" {
-  style.fill: "#111827"
-  style.stroke: "#3B82F6"
-  proxy: "DelegatingFilterProxy bridges Servlet to Spring"
+direction: down
+title: "Spring Security 6 Servlet Filter Pipeline Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-hub: "2. FilterChainProxy Hub" {
-  style.fill: "#111827"
-  style.stroke: "#F59E0B"
-  matcher: "Matches request URL to specific SecurityFilterChain"
+Tomcat: "Tomcat Servlet Container" {
+  class: container
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  proxy: "DelegatingFilterProxy"
 }
 
-chain: "3. SecurityFilterChain" {
-  style.fill: "#111827"
+SpringBean: "Spring ApplicationContext" {
+  class: container
+  style.fill: "#06201B"
   style.stroke: "#10B981"
-  filters: "SecurityContext -> AuthFilter -> ExceptionTranslation -> AuthorizationFilter"
+  fcp: "FilterChainProxy (springSecurityFilterChain)"
 }
 
-target: "4. Target Controller" {
-  style.fill: "#111827"
+Chain: "SecurityFilterChain Pipeline" {
+  class: container
+  style.fill: "#0F172A"
   style.stroke: "#8B5CF6"
-  auth: "Authenticated SecurityContext available"
+  cors: "1. CorsFilter"
+  csrf: "2. CsrfFilter"
+  jwt: "3. BearerTokenAuthenticationFilter"
+  ex: "4. ExceptionTranslationFilter"
+  authz: "5. AuthorizationFilter"
+  cors -> csrf -> jwt -> ex -> authz
 }
 
-servlet_bridge -> hub: "Delegate doFilter()"
-hub -> chain: "Route to matching chain"
-chain -> target: "Pass authorized request"
+MVC: "Spring MVC Core" {
+  class: container
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  servlet: "DispatcherServlet"
+  controller: "@RestController Handler Method"
+  servlet -> controller
+}
+
+Tomcat.proxy -> SpringBean.fcp: "Delegates to Spring Bean" { style.stroke: "#38BDF8" }
+SpringBean.fcp -> Chain.cors: "Dispatches filter pipeline" { style.stroke: "#10B981" }
+Chain.authz -> MVC.servlet: "Request passed (Principal verified)" { style.stroke: "#34D399" }

@@ -1,21 +1,34 @@
 direction: right
-title: Pipeline Replayability & Event Re-Sourcing Workflow
+title: "Pipeline Replayability & Event Re-Sourcing Workflow"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-remediation: 1. Code Remediation {
-  bug: Bug Discovered (Gold Metric Logic Error)
-  fix: Deploy Bugfix to Git & Docker
+remediation: "1. Code Remediation" {
+  class: container
+  bug: "Bug Discovered (Gold Metric Logic Error)"
+  fix: "Deploy Bugfix to Git & Docker"
   bug -> fix
 }
 
-reset: 2. Offset Reset & Staging {
-  offset: Reset Consumer Offset to Tuesday 00:00:00
-  sink: Target Staging Table (gold.sales_recalculated_temp)
+reset: "2. Offset Reset & Staging" {
+  class: container
+  offset: "Reset Consumer Offset to Tuesday 00:00:00"
+  sink: "Target Staging Table (gold.sales_recalculated_temp)"
   offset -> sink
 }
 
-replay: 3. High-Speed Replay & Promotion {
-  fast_replay: Replay 3 days of events at 10x speed
-  swap: Validate assertions & atomic table swap
+replay: "3. High-Speed Replay & Promotion" {
+  class: container
+  fast_replay: "Replay 3 days of events at 10x speed"
+  swap: "Validate assertions & atomic table swap"
   fast_replay -> swap
 }
 

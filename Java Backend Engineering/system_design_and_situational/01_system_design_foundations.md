@@ -8,7 +8,7 @@ A comprehensive, production-grade guide covering universal distributed systems f
 
 ![Distributed Systems Architecture: Core Blueprint](assets/01_system_design_foundations/01_distributed_systems_core_blueprint.svg)
 
-*D2 Source:* [assets/01_system_design_foundations/01_distributed_systems_core_blueprint.d2](assets/01_system_design_foundations/01_distributed_systems_core_blueprint.d2)
+*D2 Source: [`01_distributed_systems_core_blueprint.d2`](assets/01_system_design_foundations/01_distributed_systems_core_blueprint.d2)*
 
 ---
 
@@ -48,7 +48,7 @@ Load balancers operate across multiple OSI layers to multiplex network traffic a
 3. **Consistent Hashing**:
    - Maps both server nodes and incoming request keys (e.g., `user_id`, session tokens) onto an abstract 32-bit or 64-bit circular integer ring ($[0, 2^{32}-1]$).
    - Keys map to the nearest clockwise server on the ring.
-   - *Virtual Nodes (V-Nodes)*: Each physical server is assigned $V$ distinct points on the ring (e.g., $V = 256$) using cryptographic hashing (`SHA-256(node_id + "#" + replica_index)`). This solves non-uniform key distribution, preventing severe load skew when nodes join or fail. When a node is removed, only $rac{1}{N}$ keys require migration instead of complete re-hashing ($K \pmod N$).
+   - *Virtual Nodes (V-Nodes)*: Each physical server is assigned $V$ distinct points on the ring (e.g., $V = 256$) using cryptographic hashing (`SHA-256(node_id + "#" + replica_index)`). This solves non-uniform key distribution, preventing severe load skew when nodes join or fail. When a node is removed, only $\frac{1}{N}$ keys require migration instead of complete re-hashing ($K \pmod N$).
 
 ---
 
@@ -57,7 +57,7 @@ Load balancers operate across multiple OSI layers to multiplex network traffic a
 ### 2.1 The CAP Theorem
 Formulated by Eric Brewer and proven by Gilbert & Lynch, the CAP theorem dictates that in an asynchronous network subject to partitions ($P$), a distributed data store can guarantee at most one of Consistency ($C$) or Availability ($A$):
 
-$$	ext{Partition Tolerance } (P) \implies 	ext{Tradeoff between } C 	ext{ (Linearizability)} 	ext{ and } A 	ext{ (Availability)}$$
+$$\text{Partition Tolerance } (P) \implies \text{Tradeoff between } C \text{ (Linearizability)} \text{ and } A \text{ (Availability)}$$
 
 1. **CP (Consistency + Partition Tolerance)**: Under a network split, minority partitions reject writes or block to prevent split-brain state divergences (e.g., Apache ZooKeeper, etcd, Spanner, CockroachDB).
 2. **AP (Availability + Partition Tolerance)**: All nodes accept reads and writes regardless of partition status, deferring reconciliation to gossip protocols or eventual conflict resolution (e.g., AWS DynamoDB, Apache Cassandra, Couchbase).
@@ -65,7 +65,7 @@ $$	ext{Partition Tolerance } (P) \implies 	ext{Tradeoff between } C 	ext{ (Linea
 ### 2.2 The PACELC Theorem
 Daniel Abadi extended CAP to reflect steady-state operational realities when no network partitions exist:
 
-$$	extbf{If } \mathbf{P} 	ext{ (Partition)}: \quad 	ext{Choose between } \mathbf{A} 	ext{ and } \mathbf{C}; \quad 	extbf{Else } (\mathbf{E}): \quad 	ext{Choose between } \mathbf{L} 	ext{ (Latency)} 	ext{ and } \mathbf{C} 	ext{ (Consistency)}.$$
+$$\textbf{If } \mathbf{P} \text{ (Partition)}: \quad \text{Choose between } \mathbf{A} \text{ and } \mathbf{C}; \quad \textbf{Else } (\mathbf{E}): \quad \text{Choose between } \mathbf{L} \text{ (Latency)} \text{ and } \mathbf{C} \text{ (Consistency)}.$$
 
 | System | PACELC Classification | Architectural Behavior |
 | :--- | :--- | :--- |
@@ -90,8 +90,7 @@ Raft provides deterministic linearizable state machine replication across $2F+1$
   1. Client sends command to Leader.
   2. Leader appends entry to its local log.
   3. Leader sends `AppendEntries` RPC to followers.
-  4. Once entry is replicated to a quorum ($\lfloor rac{N}{2} 
-floor + 1$ nodes), Leader commits the entry, applies it to its state machine, and replies to client.
+  4. Once entry is replicated to a quorum ($\lfloor \frac{N}{2} \rfloor + 1$ nodes), Leader commits the entry, applies it to its state machine, and replies to client.
   5. Subsequent heartbeats notify followers to commit the entry locally.
 
 ---
@@ -104,7 +103,7 @@ floor + 1$ nodes), Leader commits the entry, applies it to its state machine, an
 | **Primary Workload** | Read-Heavy OLTP, Range Scans | Write-Heavy Ingestion, High-Velocity Timeseries |
 | **Write Mechanism** | In-place update: traverses tree, modifies page buffer in RAM, appends physical delta to WAL. | Out-of-place append: writes sequentially to in-memory `MemTable` and WAL. No random disk seeks. |
 | **Write Amplification** | High: modifying a single 32-byte tuple requires flushing an entire 8KB or 16KB dirty page to disk. | Moderate to High: continuous background compaction passes re-write data into sorted runs. |
-| **Read Complexity** | $O(\log_B N)$ disk seeks where fan-out $B pprox 100	ext{--}1000$. Single seek with cache. | $O(L \cdot \log N)$ where $L$ is level count; mitigated via Bloom Filters and Sparse Indexes. |
+| **Read Complexity** | $O(\log_B N)$ disk seeks where fan-out $B \approx 100\text{--}1000$. Single seek with cache. | $O(L \cdot \log N)$ where $L$ is level count; mitigated via Bloom Filters and Sparse Indexes. |
 | **Disk Space Efficiency** | Suffers from internal page fragmentation (typically 30%--50% dead space after deletions). | Highly packed, sequential SSTables with Snappy/ZSTD block compression. |
 
 ---
@@ -113,7 +112,7 @@ floor + 1$ nodes), Leader commits the entry, applies it to its state machine, an
 
 1. **Range Sharding**: Divides data based on contiguous value intervals (e.g., dates `2026-01` to `2026-03`).
    - *Risk*: Severe write hotspotting when data values increase monotonically (all inserts route to the latest active partition).
-2. **Hash Sharding**: Applies a hash function to the partition key modulo shard count ($h(	ext{key}) \pmod N$).
+2. **Hash Sharding**: Applies a hash function to the partition key modulo shard count ($h(\text{key}) \pmod N$).
    - *Advantage*: Uniform write distribution across physical disks.
    - *Disadvantage*: Scatter-gather overhead for range queries across multiple shards.
 3. **Directory-Based Sharding**: Employs a lookup service to map entities to target partitions, enabling custom data migration without changing application logic.
@@ -150,12 +149,12 @@ floor + 1$ nodes), Leader commits the entry, applies it to its state machine, an
 
 ![Resilience4j Circuit Breaker State Machine](assets/01_system_design_foundations/02_resilience4j_circuit_breaker_state_machine.svg)
 
-*D2 Source:* [assets/01_system_design_foundations/02_resilience4j_circuit_breaker_state_machine.d2](assets/01_system_design_foundations/02_resilience4j_circuit_breaker_state_machine.d2)
+*D2 Source: [`02_resilience4j_circuit_breaker_state_machine.d2`](assets/01_system_design_foundations/02_resilience4j_circuit_breaker_state_machine.d2)*
 
 1. **Circuit Breakers (Resilience4j / Envoy)**: Prevents cascading failure by failing fast when downstream services become degraded.
 2. **Bulkhead Pattern**: Partitions thread pools, connection pools, and memory quotas so that the exhaustion of one integration does not bring down the entire host.
 3. **Exponential Backoff with Full Jitter**:
-   $$t_{	ext{sleep}} = 	ext{random}(0, \min(t_{	ext{max}}, t_{	ext{base}} \cdot 2^{	ext{attempt}}))$$
+   $$t_{\text{sleep}} = \text{random}(0, \min(t_{\text{max}}, t_{\text{base}} \cdot 2^{\text{attempt}}))$$
    Decorrelates retry spikes, preventing self-inflicted DDoS against recovering services.
 4. **Rate Limiting Algorithms**:
    - *Token Bucket*: Tokens replenished at constant rate $r$; bursts allowed up to capacity $b$.

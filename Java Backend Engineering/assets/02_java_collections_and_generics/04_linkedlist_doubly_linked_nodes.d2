@@ -1,22 +1,35 @@
 direction: right
-title: LinkedList Internal Memory Anatomy: Doubly-Linked Heap Nodes
+title: "LinkedList Internal Memory Anatomy: Doubly-Linked Heap Nodes"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Head: first (Head Ptr)
-Tail: last (Tail Ptr)
+Head: "first (Head Ptr)"
+Tail: "last (Tail Ptr)"
 
-Node1: Node 1 (0x10a0) {
+Node1: "Node 1 (0x10a0)" {
+  class: container
   prev: "null"
   item: "'A'"
   next: "0x20b0"
 }
 
-Node2: Node 2 (0x20b0) {
+Node2: "Node 2 (0x20b0)" {
+  class: container
   prev: "0x10a0"
   item: "'B'"
   next: "0x30c0"
 }
 
-Node3: Node 3 (0x30c0) {
+Node3: "Node 3 (0x30c0)" {
+  class: container
   prev: "0x20b0"
   item: "'C'"
   next: "null"
@@ -27,7 +40,8 @@ Node1 <-> Node2: Doubly-linked
 Node2 <-> Node3: Doubly-linked
 Node3 -> Tail
 
-Overhead: 24B Overhead Per Node {
+Overhead: "24B Overhead Per Node" {
+  class: container
   header: "12B Object Header"
   pointers: "12B for (prev, next, item OOPs)"
   total: "24B/elem vs 4B/elem in ArrayList"

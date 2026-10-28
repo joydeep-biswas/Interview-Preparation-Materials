@@ -8,7 +8,7 @@ A unified, comprehensive, production-grade guide to the Databricks Lakehouse Pla
 
 ![Databricks Control Plane vs Data Plane Architecture (Classic)](assets/06_databricks_and_delta_lake/01_databricks_control_vs_data_plane_classic.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/01_databricks_control_vs_data_plane_classic.d2](assets/06_databricks_and_delta_lake/01_databricks_control_vs_data_plane_classic.d2)*
+*D2 Source: [`01_databricks_control_vs_data_plane_classic.d2`](assets/06_databricks_and_delta_lake/01_databricks_control_vs_data_plane_classic.d2)*
 
 ---
 
@@ -72,7 +72,7 @@ A unified, comprehensive, production-grade guide to the Databricks Lakehouse Pla
    - [8.3 JSON Commits & Checkpoint Parquet Files](#83-json-commits--checkpoint-parquet-files)
    - [8.4 ACID Transactions & Optimistic Concurrency Control (OCC)](#84-acid-transactions--optimistic-concurrency-control-occ)
    - [8.5 Schema Enforcement](#85-schema-enforcement)
-   - [8.6 Schema Evolution (`mergeSchema`)](#86-schema-evolution-mergeschema)
+   - [8.6 Schema Evolution (`mergeSchema` & `autoMerge`)](#86-schema-evolution-mergeschema--automerge)
    - [8.7 Time Travel](#87-time-travel)
    - [8.8 `RESTORE TABLE` Disaster Recovery](#88-restore-table-disaster-recovery)
 9. [Delta Performance & Storage Optimization](#9-delta-performance--storage-optimization)
@@ -108,6 +108,7 @@ A unified, comprehensive, production-grade guide to the Databricks Lakehouse Pla
 > - [Q20. Monitoring and Maintaining Delta Tables in Production](frequently_asked_questions/06_databricks_and_delta_lake_faq.md#q20-medium-monitoring-and-maintaining-delta-tables-in-production)
 > - [Q25. Databricks Lakeflow Architecture & Databricks Asset Bundles (DABs)](frequently_asked_questions/06_databricks_and_delta_lake_faq.md#q25-medium-databricks-lakeflow-architecture--databricks-asset-bundles-dabs)
 > - [Q26. Catalog Table Referencing vs Direct File Path Ingestion in Delta Lake](frequently_asked_questions/06_databricks_and_delta_lake_faq.md#q26-easy-catalog-table-referencing-vs-direct-file-path-ingestion-in-delta-lake)
+> - [Q43. Resolving Databricks Git Merge Conflicts & Enterprise Promotion Pipeline (Dev → UAT → Production)](frequently_asked_questions/06_databricks_and_delta_lake_faq.md#q43-medium-resolving-databricks-git-merge-conflicts--enterprise-promotion-pipeline-dev--uat--production)
 
 ---
 
@@ -138,7 +139,7 @@ Databricks separates its architecture into two distinct administrative planes:
 
 ![Databricks Serverless Compute Network Architecture](assets/06_databricks_and_delta_lake/02_serverless_compute_network_architecture.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/02_serverless_compute_network_architecture.d2](assets/06_databricks_and_delta_lake/02_serverless_compute_network_architecture.d2)*
+*D2 Source: [`02_serverless_compute_network_architecture.d2`](assets/06_databricks_and_delta_lake/02_serverless_compute_network_architecture.d2)*
 
 #### Security Implications & Plane Comparison Matrix
 Customer data remains entirely within the customer's own cloud perimeter, adhering to strict enterprise data sovereignty and compliance requirements (HIPAA, PCI-DSS, SOC2).
@@ -236,7 +237,7 @@ Databricks decouples compute from storage, allowing compute clusters to spin up 
 
 ![Databricks Compute Comparison: All-Purpose vs Jobs vs SQL Warehouses](assets/06_databricks_and_delta_lake/03_all_purpose_vs_job_vs_sql_warehouses.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/03_all_purpose_vs_job_vs_sql_warehouses.d2](assets/06_databricks_and_delta_lake/03_all_purpose_vs_job_vs_sql_warehouses.d2)*
+*D2 Source: [`03_all_purpose_vs_job_vs_sql_warehouses.d2`](assets/06_databricks_and_delta_lake/03_all_purpose_vs_job_vs_sql_warehouses.d2)*
 
 #### Cost Optimization Rule
 **Never run production workloads on All-Purpose clusters.** Always execute automated production pipelines using Job clusters to cut compute bills in half.
@@ -325,7 +326,7 @@ Photon is Databricks' ultra-fast, native, vectorized query engine written comple
 
 ![Databricks Photon Engine: Native Vectorized C++ Execution](assets/06_databricks_and_delta_lake/04_photon_vectorized_engine_cpp_execution.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/04_photon_vectorized_engine_cpp_execution.d2](assets/06_databricks_and_delta_lake/04_photon_vectorized_engine_cpp_execution.d2)*
+*D2 Source: [`04_photon_vectorized_engine_cpp_execution.d2`](assets/06_databricks_and_delta_lake/04_photon_vectorized_engine_cpp_execution.d2)*
 
 #### Performance Gains
 Delivers 2x to 5x faster query performance on analytical SQL workloads, especially for high-cardinality aggregations and string transformations.
@@ -347,7 +348,7 @@ An **Instance Pool** maintains a set of pre-acquired, idle virtual machines runn
 
 ![Databricks Instance Pools: Cluster Warm-Start Architecture](assets/06_databricks_and_delta_lake/05_instance_pools_cluster_warm_start.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/05_instance_pools_cluster_warm_start.d2](assets/06_databricks_and_delta_lake/05_instance_pools_cluster_warm_start.d2)*
+*D2 Source: [`05_instance_pools_cluster_warm_start.d2`](assets/06_databricks_and_delta_lake/05_instance_pools_cluster_warm_start.d2)*
 
 #### Pool Configuration Parameters:
 - **`min_idle_instances`:** Minimum number of idle VMs kept warm in the cloud account (costs cloud VM infrastructure, but incurs 0 Databricks DBUs while idle).
@@ -377,7 +378,7 @@ Databricks Workflows is a fully managed, enterprise-grade data orchestration ser
 
 ![Databricks Workflows: Multi-Task DAG Orchestration](assets/06_databricks_and_delta_lake/06_databricks_workflows_multitask_dag.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/06_databricks_workflows_multitask_dag.d2](assets/06_databricks_and_delta_lake/06_databricks_workflows_multitask_dag.d2)*
+*D2 Source: [`06_databricks_workflows_multitask_dag.d2`](assets/06_databricks_and_delta_lake/06_databricks_workflows_multitask_dag.d2)*
 
 #### References
 - [Databricks Documentation: Workflows](https://docs.databricks.com/en/workflows/index.html)
@@ -465,7 +466,7 @@ Delta Live Tables (DLT) is a declarative ETL framework for building reliable, ma
 
 ![Delta Live Tables (DLT) Streaming Pipeline & Data Expectations](assets/06_databricks_and_delta_lake/07_delta_live_tables_dlt_pipeline_expectations.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/07_delta_live_tables_dlt_pipeline_expectations.d2](assets/06_databricks_and_delta_lake/07_delta_live_tables_dlt_pipeline_expectations.d2)*
+*D2 Source: [`07_delta_live_tables_dlt_pipeline_expectations.d2`](assets/06_databricks_and_delta_lake/07_delta_live_tables_dlt_pipeline_expectations.d2)*
 
 #### Code Example (Declarative Python DLT Pipeline)
 ```python
@@ -563,7 +564,7 @@ dlt.apply_changes(
 
 ![Lakehouse Medallion Architecture: Bronze, Silver, Gold](assets/06_databricks_and_delta_lake/08_medallion_architecture_bronze_silver_gold.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/08_medallion_architecture_bronze_silver_gold.d2](assets/06_databricks_and_delta_lake/08_medallion_architecture_bronze_silver_gold.d2)*
+*D2 Source: [`08_medallion_architecture_bronze_silver_gold.d2`](assets/06_databricks_and_delta_lake/08_medallion_architecture_bronze_silver_gold.d2)*
 
 #### Code Example: Declarative Lakeflow Pipeline with Data Quality & CDC
 ```python
@@ -666,7 +667,7 @@ Databricks Asset Bundles (DABs) is the modern Infrastructure-as-Code (IaC) stand
 
 ![Databricks Asset Bundles (DAB) CI/CD Deployment Flow](assets/06_databricks_and_delta_lake/09_databricks_asset_bundles_dab_cicd.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/09_databricks_asset_bundles_dab_cicd.d2](assets/06_databricks_and_delta_lake/09_databricks_asset_bundles_dab_cicd.d2)*
+*D2 Source: [`09_databricks_asset_bundles_dab_cicd.d2`](assets/06_databricks_and_delta_lake/09_databricks_asset_bundles_dab_cicd.d2)*
 
 #### Code Example (`databricks.yml` Bundle Configuration)
 ```yaml
@@ -745,11 +746,11 @@ resource "databricks_grant" "analyst_access" {
 
 #### Definition
 Unity Catalog organizes all data assets into an intuitive, hierarchical 3-level namespace:
-$$	ext{Catalog} \longrightarrow 	ext{Schema (Database)} \longrightarrow 	ext{Table / View / Volume}$$
+$$\text{Catalog} \longrightarrow \text{Schema (Database)} \longrightarrow \text{Table / View / Volume}$$
 
 ![Unity Catalog Three-Level Namespace & Governance Hierarchy](assets/06_databricks_and_delta_lake/10_unity_catalog_three_level_namespace.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/10_unity_catalog_three_level_namespace.d2](assets/06_databricks_and_delta_lake/10_unity_catalog_three_level_namespace.d2)*
+*D2 Source: [`10_unity_catalog_three_level_namespace.d2`](assets/06_databricks_and_delta_lake/10_unity_catalog_three_level_namespace.d2)*
 
 #### References
 - [Databricks Documentation: Unity Catalog Overview](https://docs.databricks.com/en/data-governance/unity-catalog/index.html)
@@ -1027,11 +1028,11 @@ Delta Lake is an open-source storage framework that enables building Lakehouse a
 #### Definition
 Delta Lake stores tabular datasets as a combination of **immutable Apache Parquet data files** alongside an ordered, append-only **ACID Transaction Log** residing in a subfolder named `_delta_log/`.
 
-$$	ext{Delta Table} = 	ext{Parquet Data Files} + 	ext{Transaction Log (\_delta\_log/)}$$
+$$\text{Delta Table} = \text{Parquet Data Files} + \text{Transaction Log (\_delta\_log/)}$$
 
 ![Delta Lake ACID Transaction Log & Parquet Layout](assets/06_databricks_and_delta_lake/11_delta_lake_transaction_log_parquet_layout.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/11_delta_lake_transaction_log_parquet_layout.d2](assets/06_databricks_and_delta_lake/11_delta_lake_transaction_log_parquet_layout.d2)*
+*D2 Source: [`11_delta_lake_transaction_log_parquet_layout.d2`](assets/06_databricks_and_delta_lake/11_delta_lake_transaction_log_parquet_layout.d2)*
 
 #### Why Parquet Alone is Insufficient
 Raw Parquet files on cloud storage lack atomicity: if an append job writing 50 Parquet files fails on file 42, the table is left corrupted with partial data. In Delta Lake, reader engines query the `_delta_log` first. If a commit failed, the orphaned files are never listed in the log and are completely ignored by readers.
@@ -1094,7 +1095,7 @@ Every **10 commits**, Delta automatically triggers a **Checkpoint**: it aggregat
 
 ![Delta Lake Time Travel & Commit Snapshot Timeline](assets/06_databricks_and_delta_lake/12_delta_time_travel_commit_history.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/12_delta_time_travel_commit_history.d2](assets/06_databricks_and_delta_lake/12_delta_time_travel_commit_history.d2)*
+*D2 Source: [`12_delta_time_travel_commit_history.d2`](assets/06_databricks_and_delta_lake/12_delta_time_travel_commit_history.d2)*
 
 ---
 
@@ -1113,7 +1114,7 @@ Delta Lake uses **Optimistic Concurrency Control (OCC)** to manage concurrent tr
 
 ![Delta Lake Optimistic Concurrency Control (OCC) & Conflict Resolution](assets/06_databricks_and_delta_lake/13_optimistic_concurrency_control_conflict_resolution.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/13_optimistic_concurrency_control_conflict_resolution.d2](assets/06_databricks_and_delta_lake/13_optimistic_concurrency_control_conflict_resolution.d2)*
+*D2 Source: [`13_optimistic_concurrency_control_conflict_resolution.d2`](assets/06_databricks_and_delta_lake/13_optimistic_concurrency_control_conflict_resolution.d2)*
 
 #### References
 - [Databricks: Concurrency Control in Delta Lake](https://docs.databricks.com/en/optimizations/concurrency-control.html)
@@ -1131,12 +1132,20 @@ Schema Enforcement (Schema Validation) is a defensive safeguard that prevents ba
 
 ---
 
-### 8.6 Schema Evolution (`mergeSchema`)
+### 8.6 Schema Evolution (`mergeSchema` & `autoMerge`)
 
-#### Definition
-Schema Evolution allows developers to alter a table's schema dynamically to accommodate changing business payloads over time without dropping or rewriting historical data.
+#### Definition & Core Concepts
+Schema Evolution enables developers to alter a Delta table's physical schema dynamically to accommodate changing business payloads without rewriting historical Parquet data:
+1. **Append/Overwrite Writes (`mergeSchema`):** Passing `.option("mergeSchema", "true")` on `DataFrameWriter` allows append operations to add new columns automatically to the target Delta transaction log.
+2. **MERGE (Upsert) Operations (`autoMerge`):**
+   > [!IMPORTANT]
+   > Passing `.option("mergeSchema", "true")` has **zero effect on SQL or DeltaTable `MERGE` operations**. To evolve schema during upserts, you must enable the session-level configuration:
+   > ```python
+   > spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", "true")
+   > ```
+3. **Type Widening vs Incompatible Mutations:** Safe scalar promotions (`Byte` $\to$ `Short` $\to$ `Int` $\to$ `Long`) are handled natively. Incompatible casts (e.g. `String` to `Int`) are rejected to prevent silent table corruption.
 
-#### Code Example
+#### Production Code Example
 ```python
 # Enabling schema evolution during append write
 df_new_features.write \
@@ -1144,8 +1153,21 @@ df_new_features.write \
     .mode("append") \
     .option("mergeSchema", "true") \
     .save("/lakehouse/customer_profiles/")
+
+# Enabling schema evolution for Delta MERGE (Upsert) statements
+spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", "true")
+target_delta = DeltaTable.forName(spark, "silver.customers")
+target_delta.alias("t").merge(
+    source=df_updates.alias("s"),
+    condition="t.customer_id = s.customer_id"
+).whenMatchedUpdateAll().whenNotMatchedInsertAll().execute()
 ```
-*Result:* Historical records automatically receive `NULL` for newly added columns; existing columns are preserved.
+
+> [!TIP]
+> **Deep-Dive Interview Scenarios & Production Runbooks:**
+> - [Q17. Schema Enforcement vs Schema Evolution](frequently_asked_questions/06_databricks_and_delta_lake_faq.md#q17-easy-schema-enforcement-vs-schema-evolution)
+> - [Q35. Production Schema Validation & Type Widening Recovery (Integer to String)](frequently_asked_questions/06_databricks_and_delta_lake_faq.md#q35-medium-production-schema-validation--type-widening-recovery-integer-to-string)
+> - [Q36. Delta Lake MERGE Schema Evolution: autoMerge vs mergeSchema Trap](frequently_asked_questions/06_databricks_and_delta_lake_faq.md#q36-medium-delta-lake-merge-schema-evolution-automerge-vs-mergeschema-trap)
 
 #### References
 - [Databricks Documentation: Delta Lake Schema Evolution](https://docs.databricks.com/en/delta/update-schema.html)
@@ -1299,7 +1321,7 @@ Traditionally, deleting or updating a single row inside a 500MB Parquet file req
 
 ![Delta Lake Deletion Vectors vs Copy-on-Write (COW)](assets/06_databricks_and_delta_lake/14_delta_merge_copy_on_write_vs_deletion_vectors.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/14_delta_merge_copy_on_write_vs_deletion_vectors.d2](assets/06_databricks_and_delta_lake/14_delta_merge_copy_on_write_vs_deletion_vectors.d2)*
+*D2 Source: [`14_delta_merge_copy_on_write_vs_deletion_vectors.d2`](assets/06_databricks_and_delta_lake/14_delta_merge_copy_on_write_vs_deletion_vectors.d2)*
 
 #### References
 - [Databricks Documentation: Deletion Vectors](https://docs.databricks.com/en/delta/deletion-vectors.html)
@@ -1321,7 +1343,7 @@ Change Data Feed (CDF) records row-level change events (insert, update-preimage,
 
 ![Delta Lake Change Data Feed (CDF) Architecture](assets/06_databricks_and_delta_lake/15_change_data_feed_cdf_streaming_cdc.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/15_change_data_feed_cdf_streaming_cdc.d2](assets/06_databricks_and_delta_lake/15_change_data_feed_cdf_streaming_cdc.d2)*
+*D2 Source: [`15_change_data_feed_cdf_streaming_cdc.d2`](assets/06_databricks_and_delta_lake/15_change_data_feed_cdf_streaming_cdc.d2)*
 
 #### Enabling and Querying CDF
 ```sql
@@ -1358,7 +1380,7 @@ Enterprises operating in cloud environments face potential regional outages, ran
 
 ![Delta Lake Clones: Shallow vs Deep Clone Mechanics](assets/06_databricks_and_delta_lake/16_delta_lake_clones_shallow_vs_deep.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/16_delta_lake_clones_shallow_vs_deep.d2](assets/06_databricks_and_delta_lake/16_delta_lake_clones_shallow_vs_deep.d2)*
+*D2 Source: [`16_delta_lake_clones_shallow_vs_deep.d2`](assets/06_databricks_and_delta_lake/16_delta_lake_clones_shallow_vs_deep.d2)*
 
 #### Code Example
 ```sql
@@ -1408,7 +1430,7 @@ Delta Sharing is the industry's first open, secure REST protocol for data sharin
 
 ![Delta Sharing Open & Secure Protocol Architecture](assets/06_databricks_and_delta_lake/17_delta_sharing_open_secure_rest_protocol.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/17_delta_sharing_open_secure_rest_protocol.d2](assets/06_databricks_and_delta_lake/17_delta_sharing_open_secure_rest_protocol.d2)*
+*D2 Source: [`17_delta_sharing_open_secure_rest_protocol.d2`](assets/06_databricks_and_delta_lake/17_delta_sharing_open_secure_rest_protocol.d2)*
 
 #### References
 - [Delta Sharing Official Open Source Project](https://delta.io/sharing/)
@@ -1446,7 +1468,7 @@ Universal Format (UniForm) allows Delta Lake tables to be read as if they were *
 
 ![Databricks Universal Format (UniForm) Architecture](assets/06_databricks_and_delta_lake/18_unifrom_delta_iceberg_hudi_metadata_layer.svg)
 
-*D2 Source: [assets/06_databricks_and_delta_lake/18_unifrom_delta_iceberg_hudi_metadata_layer.d2](assets/06_databricks_and_delta_lake/18_unifrom_delta_iceberg_hudi_metadata_layer.d2)*
+*D2 Source: [`18_unifrom_delta_iceberg_hudi_metadata_layer.d2`](assets/06_databricks_and_delta_lake/18_unifrom_delta_iceberg_hudi_metadata_layer.d2)*
 
 ```sql
 -- Creating a Delta table readable by Iceberg engines

@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="540" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">End-to-End Delivery Semantics: At-Most-Once, At-Least-Once, Exactly-Once</text>
   <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Mathematical fault-tolerance trade-offs: Offset commit order, failure recovery replay, and transactional 2PC deduplication</text>
 <rect x="30" y="85" width="300" height="425" rx="8" fill="#1a1116" stroke="#ef4444" stroke-width="1.5"/>
@@ -71,7 +71,7 @@
 <text x="395" y="474" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Requires idempotent sink to become EOS</text>
 <rect x="710" y="85" width="300" height="425" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
 <text x="860" y="112" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Exactly-Once Processing (EOS)</text>
-<rect x="770" y="122" width="180" height="18" rx="9" fill="#047857"/><text x="860" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Gold Standard / Zero Dups &amp; Loss</text>
+<rect x="770" y="122" width="180" height="18" rx="9" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="860" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Gold Standard / Zero Dups &amp; Loss</text>
 <rect x="725" y="155" width="270" height="70" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1"/>
 <text x="735" y="178" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Pillar 1: Idempotent Producer</text>
 <text x="735" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">enable.idempotence=true</text>

@@ -26,25 +26,25 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">JPA &amp; Hibernate Entity Lifecycle State Transitions</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The 4 Core Entity States: Transient, Managed (Persistent), Detached, and Removed State Machine</text>
 <rect x="70" y="110" width="360" height="160" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
-<rect x="85" y="125" width="140" height="22" rx="11" fill="#1e3a8a"/><text x="155" y="139" fill="#93C5FD" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. TRANSIENT</text>
+<rect x="85" y="125" width="140" height="22" rx="11" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="155" y="139" fill="#93C5FD" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. TRANSIENT</text>
 <text x="90" y="170" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Created via new Product() in JVM heap</text>
 <text x="90" y="188" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Has NO database identity (id is null)</text>
 <text x="90" y="206" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• NOT associated with any Persistence Context</text>
 <text x="90" y="224" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Garbage collected normally if dereferenced</text>
 <text x="90" y="250" fill="#64748b" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">No SQL generated yet</text>
 <rect x="650" y="110" width="360" height="160" rx="10" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
-<rect x="665" y="125" width="180" height="22" rx="11" fill="#047857"/><text x="755" y="139" fill="#D1FAE5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. MANAGED (Persistent)</text>
+<rect x="665" y="125" width="180" height="22" rx="11" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="755" y="139" fill="#D1FAE5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. MANAGED (Persistent)</text>
 <text x="670" y="170" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Associated with active Persistence Context (L1)</text>
 <text x="670" y="188" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Has guaranteed database identity (@Id)</text>
 <text x="670" y="206" fill="#FDE68A" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• AUTOMATIC DIRTY CHECKING: Mutations tracked!</text>
 <text x="670" y="224" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Synchronized to DB on flush() / commit()</text>
 <text x="670" y="250" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SQL: INSERT (if new) or UPDATE (if dirty)</text>
 <rect x="650" y="340" width="360" height="160" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
-<rect x="665" y="355" width="140" height="22" rx="11" fill="#78350f"/><text x="735" y="369" fill="#FDE68A" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. DETACHED</text>
+<rect x="665" y="355" width="140" height="22" rx="11" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="735" y="369" fill="#FDE68A" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. DETACHED</text>
 <text x="670" y="400" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Has database identity (@Id exists)</text>
 <text x="670" y="418" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Disconnected from Session (L1 cache cleared)</text>
 <text x="670" y="436" fill="#FCA5A5" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Mutations are NOT tracked by Hibernate!</text>
@@ -52,20 +52,20 @@
 <text x="670" y="470" fill="#EF4444" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  throws LazyInitializationException!</text>
 <text x="670" y="488" fill="#FDE68A" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Re-attached via em.merge(entity)</text>
 <rect x="70" y="340" width="360" height="160" rx="10" fill="#1a1118" stroke="#ef4444" stroke-width="2"/>
-<rect x="85" y="355" width="140" height="22" rx="11" fill="#7f1d1d"/><text x="155" y="369" fill="#FECACA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. REMOVED</text>
+<rect x="85" y="355" width="140" height="22" rx="11" fill="#7f1d1d" stroke="#EF4444" stroke-width="1"/><text x="155" y="369" fill="#FECACA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">4. REMOVED</text>
 <text x="90" y="400" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Scheduled for deletion from database</text>
 <text x="90" y="418" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Still in Persistence Context until flush()</text>
 <text x="90" y="436" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Removed from Identity Map upon commit</text>
 <text x="90" y="454" fill="#93C5FD" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Can be resurrected via em.persist(entity)</text>
-<text x="90" y="250" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SQL: DELETE issued on flush()</text>
+<text x="90" y="480" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SQL: DELETE issued on flush()</text>
 <line x1="430" y1="155" x2="650" y2="155" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
-<rect x="465" y="145" width="150" height="20" rx="10" fill="#064e3b"/><text x="540" y="158" fill="#6EE7B7" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">em.persist(entity)</text>
+<rect x="465" y="145" width="150" height="20" rx="10" fill="#064e3b" stroke="#10B981" stroke-width="1"/><text x="540" y="158" fill="#6EE7B7" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">em.persist(entity)</text>
 <line x1="750" y1="270" x2="750" y2="340" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
-<rect x="765" y="290" width="160" height="20" rx="10" fill="#78350f"/><text x="845" y="303" fill="#FDE68A" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">em.detach() / em.clear()</text>
+<rect x="765" y="290" width="160" height="20" rx="10" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="845" y="303" fill="#FDE68A" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">em.detach() / em.clear()</text>
 <line x1="900" y1="340" x2="900" y2="270" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
-<rect x="910" y="290" width="120" height="20" rx="10" fill="#064e3b"/><text x="970" y="303" fill="#6EE7B7" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">em.merge(entity)</text>
+<rect x="910" y="290" width="120" height="20" rx="10" fill="#064e3b" stroke="#10B981" stroke-width="1"/><text x="970" y="303" fill="#6EE7B7" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">em.merge(entity)</text>
 <path d="M 650 230 L 540 230 L 540 385 L 430 385" stroke="#F87171" stroke-width="2" fill="none" marker-end="url(#arr-r)"/>
-<rect x="465" y="230" width="140" height="20" rx="10" fill="#7f1d1d"/><text x="535" y="243" fill="#FECACA" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">em.remove(entity)</text>
+<rect x="465" y="230" width="140" height="20" rx="10" fill="#7f1d1d" stroke="#EF4444" stroke-width="1"/><text x="535" y="243" fill="#FECACA" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">em.remove(entity)</text>
 <line x1="430" y1="430" x2="540" y2="430" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3"/>
 <line x1="540" y1="430" x2="540" y2="250" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3"/>
 <line x1="540" y1="250" x2="650" y2="250" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr-b)"/>

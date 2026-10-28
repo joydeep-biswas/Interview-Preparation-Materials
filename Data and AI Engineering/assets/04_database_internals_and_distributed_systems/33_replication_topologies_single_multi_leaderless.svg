@@ -26,7 +26,7 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Database Replication Topologies: Single-Leader vs. Multi vs. Leaderless</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Comparing Primary-Replica, Active-Active Cross-Region, and Dynamo-Style Quorums</text>
   
@@ -75,8 +75,8 @@
     <text x="361" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. Multi-Leader (Active-Active)</text>
   
     <rect x="360" y="135" width="260" height="105" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="490.0" y="161" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">US Leader &lt;-&gt; EU Leader</text>
-    <text x="490.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cross-Region Active-Active</text>
+    <text x="374" y="158" fill="#c084fc" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Multi-Leader Mesh</text>
+    <text x="374" y="174" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">Cross-Region Active-Active</text>
     <rect x="513" y="145" width="101" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
     <text x="563.5" y="157" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ACTIVE-ACTIVE</text>
     <circle cx="376" cy="190" r="2" fill="#8b5cf6"/>
@@ -107,8 +107,8 @@
     <text x="676" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">3. Leaderless (Cassandra / DynamoDB)</text>
   
     <rect x="675" y="135" width="260" height="235" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="805.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Peer-to-Peer Quorum (W + R &gt; N)</text>
-    <text x="805.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Zero Single Point of Failure</text>
+    <text x="689" y="158" fill="#6ee7b7" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Leaderless Quorum</text>
+    <text x="689" y="174" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">Peer-to-Peer (W + R &gt; N)</text>
     <rect x="877" y="145" width="52" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="903.0" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">QUORUM</text>
     <circle cx="691" cy="190" r="2" fill="#10b981"/>

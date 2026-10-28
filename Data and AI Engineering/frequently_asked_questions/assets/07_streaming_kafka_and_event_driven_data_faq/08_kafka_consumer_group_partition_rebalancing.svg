@@ -6,56 +6,56 @@
       .edge { stroke-width: 1.5; fill: none; }
     </style>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
   </defs>
 
-  <rect width="980" height="340" fill="#0B0F19"/>
+  <rect width="980" height="340" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Left: Kafka Partitions -->
   <g transform="translate(40, 30)">
-    <rect width="360" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="360" height="280" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="180" y="30" class="title" fill="#93C5FD">Kafka Topic: 12 Partitions (Concurrency Ceiling)</text>
-    <line x1="15" y1="42" x2="345" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="42" x2="345" y2="42" stroke="#1F2937" stroke-width="1.5" />
 
-    <rect x="25" y="60" width="310" height="42" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="60" width="310" height="42" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="180" y="85" class="title" font-size="11" fill="#93C5FD">Partition 0</text>
 
-    <rect x="25" y="115" width="310" height="42" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="115" width="310" height="88" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="180" y="140" class="title" font-size="11" fill="#93C5FD">Partition 1</text>
 
     <text x="180" y="185" class="title" font-size="14" fill="#64748B">. . .</text>
 
-    <rect x="25" y="210" width="310" height="42" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="210" width="310" height="42" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="180" y="235" class="title" font-size="11" fill="#93C5FD">Partition 11</text>
   </g>
 
   <!-- Right: Consumer Group -->
   <g transform="translate(560, 30)">
-    <rect width="380" height="280" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="380" height="280" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="190" y="30" class="title" fill="#6EE7B7">Consumer Group: 15 Consumers</text>
-    <line x1="15" y1="42" x2="365" y2="42" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="42" x2="365" y2="42" stroke="#1F2937" stroke-width="1.5" />
 
     <!-- Active 1..12 -->
-    <rect x="20" y="60" width="340" height="38" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="20" y="60" width="340" height="38" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5" />
     <text x="190" y="84" class="title" font-size="11" fill="#A7F3D0">Consumer 1 (Active on Partition 0)</text>
 
-    <rect x="20" y="105" width="340" height="38" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="20" y="105" width="340" height="78" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5" />
     <text x="190" y="129" class="title" font-size="11" fill="#A7F3D0">Consumer 2 (Active on Partition 1)</text>
 
     <text x="190" y="165" class="title" font-size="14" fill="#64748B">. . .</text>
 
-    <rect x="20" y="180" width="340" height="38" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="20" y="180" width="340" height="38" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5" />
     <text x="190" y="204" class="title" font-size="11" fill="#A7F3D0">Consumer 12 (Active on Partition 11)</text>
 
     <!-- Idle Standby Consumers 13..15 -->
-    <rect x="20" y="225" width="340" height="42" rx="6" ry="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+    <rect x="20" y="225" width="340" height="53" rx="6" ry="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5" />
     <text x="190" y="246" class="title" font-size="11" fill="#FECACA">Consumers 13, 14, 15 (IDLE STANDBY)</text>
     <text x="190" y="260" class="body-txt" text-anchor="middle" fill="#FCA5A5">Max concurrency = Number of Partitions!</text>
   </g>
 
   <!-- Connectors with straight runways -->
-  <path fill="none" d="M 375 111 L 465 111 C 510 111, 530 111, 550 111 L 580 111" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-  <path fill="none" d="M 375 166 L 465 166 C 510 166, 530 156, 550 156 L 580 156" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-  <path fill="none" d="M 375 261 L 465 261 C 510 261, 530 231, 550 231 L 580 231" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-</svg>
+  <g id="connectors"><path fill="none" d="M 375 111 L 465 111 C 510 111, 530 111, 550 111 L 580 111" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+  <path fill="none" d="M 375 166 L 465 166 C 510 166, 530 156, 550 156 L 580 156" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+  <path fill="none" d="M 375 261 L 465 261 C 510 261, 530 231, 550 231 L 580 231" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+</g></svg>

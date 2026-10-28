@@ -1,13 +1,35 @@
 # Generators: Streaming 50GB Files in 15MB RAM
 direction: right
+classes: {
+  stage: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+}
 
-file: "50GB File on Disk"
-g1: "1. stream_lines()\n• 4 KB buffer"
-g2: "2. parse_json()\n• 8 KB Dict"
-g3: "3. filter_anomalies()\n• Zero overhead"
-sink: "4. Micro-Batch Sink\n• Flushes 5,000 records"
+disk: "50GB Raw Log File on Disk\n• Uncompressed JSON stream on NVMe" {
+  class: stage
+  style.stroke: "#64748B"
+}
 
-file -> g1: "Line by line"
-g1 -> g2: "yield raw_str"
-g2 -> g3: "yield dict"
-g3 -> sink: "yield clean_rec"
+p1: "Stage 1: stream_lines()\n• Reads file line-by-line via iterator\n• Memory footprint: 4 KB OS page buffer" {
+  class: stage
+  style.stroke: "#3B82F6"
+}
+
+p2: "Stage 2: parse_json()\n• json.loads() single record\n• Transient 8 KB dict; immediately yielded" {
+  class: stage
+  style.stroke: "#F59E0B"
+}
+
+p3: "Stage 3: filter_anomalies()\n• Evaluates filtering predicate\n• Discards invalid tuples; zero RAM growth" {
+  class: stage
+  style.stroke: "#8B5CF6"
+}
+
+sink: "Stage 4: Micro-Batch Sink\n• Accumulates 5,000 records (10MB buffer)\n• Bulk INSERT to PostgreSQL / Delta Lake" {
+  class: stage
+  style.stroke: "#10B981"
+}
+
+disk -> p1: "Iterates line"
+p1 -> p2: "yield raw_str"
+p2 -> p3: "yield payload_dict"
+p3 -> sink: "yield clean_record"

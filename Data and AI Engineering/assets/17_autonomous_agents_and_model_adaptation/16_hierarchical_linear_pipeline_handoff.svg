@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="360" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="360" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,14 +43,14 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="40" y="135" width="170" height="110" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="40" y="135" width="170" height="110" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
 <text x="125" y="157" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Customer Ingress</text>
 <text x="52" y="177" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Inbound Support Ticket:</text>
 <text x="52" y="195" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">'I was double charged</text>
 <text x="52" y="213" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">on invoice #8042 and</text>
 <text x="52" y="231" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">need an urgent refund.'</text>
 
-    <rect x="250" y="135" width="200" height="110" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="250" y="135" width="200" height="132" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
 <text x="350" y="157" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">1. Triage Agent</text>
 <text x="262" y="177" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Role: Intent Classification</text>
 <text x="262" y="195" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Analyzes ticket sentiment</text>
@@ -58,7 +58,7 @@
 <text x="262" y="231" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Extracts invoice entity</text>
 <text x="262" y="249" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Handoff target: Billing Agent</text>
 
-    <rect x="490" y="135" width="210" height="110" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="490" y="135" width="210" height="132" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="595" y="157" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">2. Billing Agent</text>
 <text x="502" y="177" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Role: Transaction Execution</text>
 <text x="502" y="195" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Queries Stripe API</text>
@@ -66,7 +66,7 @@
 <text x="502" y="231" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Issues $120.00 refund</text>
 <text x="502" y="249" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Handoff target: Comms Agent</text>
 
-    <rect x="740" y="135" width="200" height="110" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+    <rect x="740" y="135" width="200" height="132" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5" />
 <text x="840" y="157" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">3. Comms Agent</text>
 <text x="752" y="177" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Role: Customer Experience</text>
 <text x="752" y="195" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Drafts empathetic email</text>
@@ -74,10 +74,10 @@
 <text x="752" y="231" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Closes support ticket</text>
 <text x="752" y="249" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Resolution Complete!</text>
 
-    <line x1="210" y1="190" x2="250" y2="190" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
-    <line x1="450" y1="190" x2="490" y2="190" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <line x1="210" y1="190" x2="250" y2="190" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
+    <line x1="450" y1="190" x2="490" y2="190" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
 <text x="470" y="180" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Handoff Billing</text>
-    <line x1="700" y1="190" x2="740" y2="190" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+    <line x1="700" y1="190" x2="740" y2="190" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)" />
 <text x="720" y="180" fill="#c084fc" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Handoff Comms</text>
 
   </g>

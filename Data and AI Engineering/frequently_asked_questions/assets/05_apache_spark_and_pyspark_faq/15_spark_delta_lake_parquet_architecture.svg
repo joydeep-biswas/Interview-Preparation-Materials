@@ -6,63 +6,63 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
   </defs>
 
-  <rect width="1020" height="320" fill="#0B0F19"/>
+  <rect width="1020" height="320" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Col 1: Compute Engine -->
   <g transform="translate(30, 40)">
-    <rect width="280" height="240" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="280" height="240" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="140" y="32" class="title" fill="#93C5FD">1. Compute: Apache Spark</text>
-    <line x1="20" y1="44" x2="260" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="20" y1="44" x2="260" y2="44" stroke="#1F2937" stroke-width="1.5" />
 
-    <rect x="25" y="60" width="230" height="45" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="60" width="230" height="45" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="140" y="87" class="title" font-size="11" fill="#F9FAFB">Spark Driver (DAG &amp; Commits)</text>
 
-    <rect x="25" y="115" width="230" height="45" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="115" width="230" height="45" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="140" y="142" class="body-txt" text-anchor="middle" fill="#E2E8F0">Executor 1 (In-Memory Processing)</text>
 
-    <rect x="25" y="170" width="230" height="45" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="170" width="230" height="45" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="140" y="197" class="body-txt" text-anchor="middle" fill="#E2E8F0">Executor 2 (Tungsten Off-Heap)</text>
   </g>
 
-  <path fill="none" d="M 310 160 L 365 160" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-
   <!-- Col 2: Table Format Delta Lake -->
   <g transform="translate(365, 40)">
-    <rect width="280" height="240" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="280" height="240" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="140" y="32" class="title" fill="#FCD34D">2. Table Format: Delta Lake</text>
-    <line x1="20" y1="44" x2="260" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="20" y1="44" x2="260" y2="44" stroke="#1F2937" stroke-width="1.5" />
 
-    <rect x="25" y="60" width="230" height="65" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="60" width="230" height="65" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="140" y="85" class="title" font-size="11" fill="#FCD34D">_delta_log/ Transaction Log</text>
     <text x="140" y="105" class="body-txt" text-anchor="middle">ACID Serializability &amp; State</text>
 
-    <rect x="25" y="135" width="230" height="85" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="135" width="230" height="85" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="140" y="160" class="title" font-size="11" fill="#FCD34D">Metadata &amp; Governance</text>
     <text x="140" y="180" class="body-txt" text-anchor="middle">• Schema Enforcement</text>
     <text x="140" y="198" class="body-txt" text-anchor="middle">• Time Travel &amp; Compaction</text>
   </g>
 
-  <path fill="none" d="M 645 160 L 700 160" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
-
   <!-- Col 3: Storage Format Parquet -->
   <g transform="translate(700, 40)">
-    <rect width="290" height="240" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="290" height="240" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="145" y="32" class="title" fill="#6EE7B7">3. Physical Storage: Parquet</text>
-    <line x1="20" y1="44" x2="270" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="20" y1="44" x2="270" y2="44" stroke="#1F2937" stroke-width="1.5" />
 
-    <rect x="20" y="60" width="250" height="65" rx="6" ry="6" fill="#064E3B"/>
+    <rect x="20" y="60" width="250" height="65" rx="6" ry="6" fill="#064E3B"  stroke="#10B981" stroke-width="1"/>
     <text x="145" y="85" class="title" font-size="11" fill="#A7F3D0">part-00000.parquet</text>
     <text x="145" y="105" class="body-txt" text-anchor="middle" fill="#A7F3D0">Columnar chunks, dictionary enc</text>
 
-    <rect x="20" y="135" width="250" height="65" rx="6" ry="6" fill="#064E3B"/>
+    <rect x="20" y="135" width="250" height="65" rx="6" ry="6" fill="#064E3B"  stroke="#10B981" stroke-width="1"/>
     <text x="145" y="160" class="title" font-size="11" fill="#A7F3D0">part-00001.parquet</text>
     <text x="145" y="180" class="body-txt" text-anchor="middle" fill="#A7F3D0">Column stats for data skipping</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 310 160 L 365 160" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 645 160 L 700 160" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)" />
+
+  </g></svg>

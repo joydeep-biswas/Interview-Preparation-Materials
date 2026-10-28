@@ -8,7 +8,7 @@ A comprehensive, production-grade guide answering real-world Data Engineering Lo
 
 ![Component Internals of a Real-Time Streaming Data Engine](assets/03_low_level_system_design/01_streaming_engine_component_internals.svg)
 
-*D2 Source:* [assets/03_low_level_system_design/01_streaming_engine_component_internals.d2](assets/03_low_level_system_design/01_streaming_engine_component_internals.d2)
+*D2 Source: [`01_streaming_engine_component_internals.d2`](assets/03_low_level_system_design/01_streaming_engine_component_internals.d2)*
 
 ---
 

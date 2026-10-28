@@ -2,62 +2,62 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="100%" stop-color="#0f172a"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="100%" stop-color="#0f172a" />
     </linearGradient>
 
     <!-- Card Gradients -->
     <linearGradient id="card-blue" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#0f172a"/>
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
     </linearGradient>
     <linearGradient id="card-green" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8" />
     </linearGradient>
     <linearGradient id="card-amber" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7"/>
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7" />
     </linearGradient>
     <linearGradient id="card-red" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8" />
     </linearGradient>
     <linearGradient id="card-purple" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7"/>
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7" />
     </linearGradient>
     <linearGradient id="card-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2"/>
+      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2" />
     </linearGradient>
 
     <!-- Markers -->
     <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399" />
     </marker>
     <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24" />
     </marker>
     <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171" />
     </marker>
     <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc" />
     </marker>
     <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee" />
     </marker>
     <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Canvas -->
-  <rect width="1000" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="1000" height="420" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g transform="translate(0, 0)">
@@ -67,58 +67,58 @@
 
   <!-- Diagram Body -->
   <g transform="translate(40, 95)">
-  <rect width="430" height="300" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#f87171" stroke-width="1.5" stroke-dasharray="6,4"/>
-  <rect x="14" y="-12" width="338" height="22" rx="4" fill="#0f172a" stroke="#f87171" stroke-width="1"/>
+  <rect width="430" height="300" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#f87171" stroke-width="1.5" stroke-dasharray="6,4" />
+  <rect x="14" y="-12" width="338" height="22" rx="4" fill="#0f172a" stroke="#f87171" stroke-width="1" />
   <text x="183.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#f87171">Anti-Pattern: The Floating Alias Pointer</text>
 </g>
 <g transform="translate(60, 130)">
-  <rect width="390" height="60" rx="8" fill="url(#card-red)" stroke="#f87171" stroke-width="1.5"/>
+  <rect width="390" height="70" rx="8" fill="url(#card-red)" stroke="#f87171" stroke-width="1.5" />
   <text x="195.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#fca5a5">Floating Pointer: 'gpt-4o' (Unpinned)</text>
-  <line x1="12" y1="34" x2="378" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="378" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Cloud vendor silently redirects pointer to new snapshots!</text>
 </g>
 <g transform="translate(60, 205)">
-  <rect width="180" height="70" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <rect width="180" height="70" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" />
   <text x="90.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">May 2024: Snap A</text>
-  <line x1="12" y1="34" x2="168" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="168" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Passed all evals</text>
 </g>
 <g transform="translate(270, 205)">
-  <rect width="180" height="70" rx="8" fill="url(#card-amber)" stroke="#fbbf24" stroke-width="1.5"/>
+  <rect width="180" height="70" rx="8" fill="url(#card-amber)" stroke="#fbbf24" stroke-width="1.5" />
   <text x="90.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Aug 2024: Snap B</text>
-  <line x1="12" y1="34" x2="168" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="168" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Silent prompt tuning</text>
 </g>
 <g transform="translate(160, 300)">
-  <rect width="200" height="75" rx="8" fill="url(#card-red)" stroke="#f87171" stroke-width="1.5"/>
+  <rect width="200" height="88" rx="8" fill="url(#card-red)" stroke="#f87171" stroke-width="1.5" />
   <text x="100.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#fca5a5">Production Outage!</text>
-  <line x1="12" y1="34" x2="188" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="188" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">JSON output format changes</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">4% of downstream pipelines crash!</text>
 </g>
-<line x1="150" y1="190" x2="150" y2="205" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
-<line x1="360" y1="190" x2="360" y2="205" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arr-a)"/>
-<polyline points="360,275 360,337 360,337" fill="none" stroke="#f87171" stroke-width="1.8" marker-end="url(#arr-r)"/>
 <g transform="translate(510, 95)">
-  <rect width="450" height="300" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#34d399" stroke-width="1.5" stroke-dasharray="6,4"/>
-  <rect x="14" y="-12" width="346" height="22" rx="4" fill="#0f172a" stroke="#34d399" stroke-width="1"/>
+  <rect width="450" height="300" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#34d399" stroke-width="1.5" stroke-dasharray="6,4" />
+  <rect x="14" y="-12" width="346" height="22" rx="4" fill="#0f172a" stroke="#34d399" stroke-width="1" />
   <text x="187.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#34d399">Best Practice: Immutable Snapshot Pinning</text>
 </g>
 <g transform="translate(530, 130)">
-  <rect width="410" height="80" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <rect width="410" height="106" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" />
   <text x="205.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Pinned Version Tag: 'gpt-4o-2024-08-06'</text>
-  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• 100% immutable model snapshot</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Weights and system prompt frozen indefinitely</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Zero surprise breaking changes in production!</text>
 </g>
 <g transform="translate(530, 240)">
-  <rect width="410" height="135" rx="8" fill="url(#card-cyan)" stroke="#22d3ee" stroke-width="1.5"/>
+  <rect width="410" height="135" rx="8" fill="url(#card-cyan)" stroke="#22d3ee" stroke-width="1.5" />
   <text x="205.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Structured Upgrade Workflow</text>
-  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">1. Vendor releases new model snapshot (e.g. 2024-11-20)</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">2. Run automated offline evaluation benchmark suite</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">3. Deploy to Canary environment (10% traffic)</text>
   <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">4. Explicitly update configuration string in Git repository</text>
 </g>
-</svg>
+<g id="connectors"><line x1="150" y1="190" x2="150" y2="205" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)" />
+<line x1="360" y1="190" x2="360" y2="205" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arr-a)" />
+<polyline points="360,275 360,337 360,337" fill="none" stroke="#f87171" stroke-width="1.8" marker-end="url(#arr-r)" />
+</g></svg>

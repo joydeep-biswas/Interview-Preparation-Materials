@@ -1,38 +1,53 @@
 direction: right
-title: Class Blueprint vs Heap Instances
+title: "Class Blueprint vs Heap Instances"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Blueprint: Metaspace Class Blueprint {
+Blueprint: "Metaspace Class Blueprint" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#1D4ED8"
   
-  AccountClass: class Account (Loaded ONCE) {
-    fields: "accountNumber: String, balance: double"
+  AccountClass: "class Account (Loaded ONCE)" {
+    class: box
+    fields: "accountNumber: String; balance: double"
     methods: "deposit(), withdraw()"
     static: "MIN_BALANCE = 50.00"
   }
 }
 
-HeapSpace: JVM Heap Space {
+HeapSpace: "JVM Heap Space" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   
-  Instance1: Heap Instance 1 (0x7fa810) {
+  Instance1: "Heap Instance 1 (0x7fa810)" {
+    class: box
     header: "Mark Word + Klass Word"
     accountNumber: "'ACC-001'"
-    balance: "$100.00"
+    balance: "\$100.00"
   }
   
-  Instance2: Heap Instance 2 (0x7fa838) {
+  Instance2: "Heap Instance 2 (0x7fa838)" {
+    class: box
     header: "Mark Word + Klass Word"
     accountNumber: "'ACC-002'"
-    balance: "$500.00"
+    balance: "\$500.00"
   }
 }
 
-Blueprint -> HeapSpace.Instance1: new Account("ACC-1", $100) {
+Blueprint -> HeapSpace.Instance1: "new Account(\"ACC-1\", \$100)" {
   style.stroke: "#10B981"
 }
 
-Blueprint -> HeapSpace.Instance2: new Account("ACC-2", $500) {
+Blueprint -> HeapSpace.Instance2: "new Account(\"ACC-2\", \$500)" {
   style.stroke: "#10B981"
 }

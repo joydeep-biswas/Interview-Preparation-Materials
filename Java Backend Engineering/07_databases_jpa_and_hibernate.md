@@ -8,64 +8,7 @@ A comprehensive, production-grade guide to relational database architecture, SQL
 
 ![Enterprise Database Engine & Storage Architecture](assets/07_databases_jpa_and_hibernate/01_database_engine_and_persistence_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Enterprise Database Engine & Persistence Architecture
-
-pool: "1. Client & Pool (HikariCP)" {
-  style.fill: "#0b1329"
-  style.stroke: "#3b82f6"
-
-  app: "Spring Boot Apps"
-  hikari: "HikariCP Pool (ConcurrentBag)"
-}
-
-engine: "2. Query Processing Engine" {
-  style.fill: "#062e3d"
-  style.stroke: "#06b6d4"
-
-  parser: "SQL Parser & AST"
-  cbo: "Cost-Based Optimizer"
-  exec: "Volcano Iterator Executor"
-
-  parser -> cbo -> exec
-}
-
-memory: "3. Storage Memory Buffers" {
-  style.fill: "#1a1c12"
-  style.stroke: "#f59e0b"
-
-  buffers: "Shared Buffer Pool (8KB Pages)"
-  wal_buf: "WAL Buffer (RAM)"
-}
-
-disk: "4. Persistent NVMe Storage" {
-  style.fill: "#1e1e38"
-  style.stroke: "#8b5cf6"
-
-  wal_disk: "WAL Log Disk (fsync on COMMIT)"
-  heap: "Table Heap Files (Async Checkpoint)"
-}
-
-replicas: "5. Read Replicas (Streaming)" {
-  style.fill: "#0b1329"
-  style.stroke: "#38bdf8"
-
-  r1: "Replica 1 (Reporting)"
-  r2: "Replica 2 (Analytics)"
-}
-
-pool.hikari -> engine.parser
-engine.exec -> memory.buffers
-memory.wal_buf -> disk.wal_disk: "fsync() on COMMIT"
-memory.buffers -> disk.heap: "Async Checkpoint"
-disk.wal_disk -> replicas.r1: "Streaming WAL"
-disk.wal_disk -> replicas.r2: "Streaming WAL"
-```
-</details>
+*D2 Source: [`01_database_engine_and_persistence_architecture.d2`](assets/07_databases_jpa_and_hibernate/01_database_engine_and_persistence_architecture.d2)*
 
 ---
 
@@ -195,49 +138,7 @@ Normalization is the systematic process of organizing relational schemas to elim
 
 ![Database Normalization Pipeline: 1NF to BCNF](assets/07_databases_jpa_and_hibernate/02_database_normalization_pipeline_1nf_to_bcnf.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Database Normalization Pipeline: 1NF to BCNF Theory
-
-unf: "UNF (Unnormalized Form)" {
-  style.fill: "#1a1116"
-  style.stroke: "#ef4444"
-  flaws: "Repeating groups & comma-separated strings\n(Update/Delete Anomalies)"
-}
-
-n1: "1st Normal Form (1NF)" {
-  style.fill: "#0b1329"
-  style.stroke: "#3b82f6"
-  rule: "Atomic scalar values & Primary Key identified"
-}
-
-n2: "2nd Normal Form (2NF)" {
-  style.fill: "#062e3d"
-  style.stroke: "#06b6d4"
-  rule: "1NF + Remove partial dependencies on composite PK"
-}
-
-n3: "3rd Normal Form (3NF)" {
-  style.fill: "#0c1d1a"
-  style.stroke: "#10b981"
-  rule: "2NF + Remove transitive dependencies (Nothing But The Key)"
-}
-
-bcnf: "Boyce-Codd Normal Form (BCNF)" {
-  style.fill: "#16122b"
-  style.stroke: "#8b5cf6"
-  rule: "Every determinant X in X -> Y must be a Candidate Key"
-}
-
-unf -> n1: "Eliminate repeating groups"
-n1 -> n2: "Remove partial PK dependencies"
-n2 -> n3: "Remove transitive dependencies"
-n3 -> bcnf: "Enforce superkey determinants"
-```
-</details>
+*D2 Source: [`02_database_normalization_pipeline_1nf_to_bcnf.d2`](assets/07_databases_jpa_and_hibernate/02_database_normalization_pipeline_1nf_to_bcnf.d2)*
 
 #### The Three Destructive Anomalies of Unnormalized Data:
 1. **Insertion Anomaly**: You cannot record a customer until they place an order, or you cannot record a new product until someone purchases it.
@@ -360,49 +261,7 @@ A pervasive beginner trap is writing an SQL query according to its visual syntax
 
 ![SQL Logical Order of Execution Pipeline](assets/07_databases_jpa_and_hibernate/03_sql_logical_order_of_execution.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: The Exact Logical SQL Order of Execution with Clause Dependencies
-
-s1: "Stage 1: Tables & Base Filter" {
-  style.fill: "#0b1329"
-  style.stroke: "#3b82f6"
-
-  from_join: "1. FROM & JOIN (Cartesian + ON)"
-  where: "2. WHERE (Base row filtering; NO aliases!)"
-
-  from_join -> where
-}
-
-s2: "Stage 2: Bucketing & Group Filter" {
-  style.fill: "#0c1d1a"
-  style.stroke: "#10b981"
-
-  groupby: "3. GROUP BY (Bucket aggregation)"
-  having: "4. HAVING (Filter aggregate buckets)"
-
-  groupby -> having
-}
-
-s3: "Stage 3: Projection & Egress" {
-  style.fill: "#16122b"
-  style.stroke: "#8b5cf6"
-
-  select: "5. SELECT & OVER() (Aliases generated)"
-  distinct: "6. DISTINCT (Deduplicate rows)"
-  orderby: "7. ORDER BY (Sorts rows; can use aliases!)"
-  limit: "8. LIMIT / OFFSET (Pagination)"
-
-  select -> distinct -> orderby -> limit
-}
-
-s1.where -> s2.groupby
-s2.having -> s3.select
-```
-</details>
+*D2 Source: [`03_sql_logical_order_of_execution.d2`](assets/07_databases_jpa_and_hibernate/03_sql_logical_order_of_execution.d2)*
 
 #### Detailed Query Trace:
 Consider this analytical query:
@@ -441,38 +300,7 @@ LIMIT 5;
 
 ![SQL JOIN Taxonomy & Venn Mechanics](assets/07_databases_jpa_and_hibernate/04_sql_join_taxonomy_venn_mechanics.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: Relational JOIN Taxonomy & Relational Algebra Mechanics
-
-inner: "1. INNER JOIN (A ∩ B)" {
-  style.fill: "#0c1d1a"
-  style.stroke: "#10b981"
-  rule: "Matching rows only; unmatched rows excluded"
-}
-
-left: "2. LEFT OUTER JOIN (All A + Matching B)" {
-  style.fill: "#0b1329"
-  style.stroke: "#3b82f6"
-  rule: "Preserves Table A; NULL for missing B rows"
-}
-
-full: "3. FULL OUTER JOIN (A ∪ B)" {
-  style.fill: "#16122b"
-  style.stroke: "#8b5cf6"
-  rule: "All rows from both tables; NULL on missing sides"
-}
-
-cross: "4. CROSS JOIN (Cartesian A × B)" {
-  style.fill: "#1a1116"
-  style.stroke: "#ef4444"
-  rule: "Every row paired with every row (N × M tuples)"
-}
-```
-</details>
+*D2 Source: [`04_sql_join_taxonomy_venn_mechanics.d2`](assets/07_databases_jpa_and_hibernate/04_sql_join_taxonomy_venn_mechanics.d2)*
 
 ---
 
@@ -865,33 +693,7 @@ Relational databases organize persistent storage into fixed-size disk blocks cal
 
 ![Physical 8KB Slotted Page Storage Layout](assets/07_databases_jpa_and_hibernate/05_slotted_page_storage_layout_8kb.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: Internal 8KB Database Page Anatomy: Slotted Page Architecture
-
-page: "Internal 8KB Database Page (8192 Bytes)" {
-  style.fill: "#0b1329"
-  style.stroke: "#3b82f6"
-
-  header: "Page Header (24 bytes: LSN, checksum, free space offsets)"
-  ptrs: "Line Pointers / ItemIds (Grows Downwards from offset 24)"
-  free: "Free Space Gap (Hole for future row allocations)"
-  tuples: "Tuple Storage (Grows Upwards from 8192 byte boundary)"
-
-  header -> ptrs -> free -> tuples
-}
-
-immutable_tid: "Tuples can move inside page without breaking external ItemPointer!" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-page.tuples -> immutable_tid
-```
-</details>
+*D2 Source: [`05_slotted_page_storage_layout_8kb.d2`](assets/07_databases_jpa_and_hibernate/05_slotted_page_storage_layout_8kb.d2)*
 
 * **Slotted Page Design**: The `ItemId` array grows downwards from the top, while raw row byte tuples grow upwards from the bottom. An external pointer (e.g. from an index) points to `(page_number, item_offset)`. When a row is updated, it can move inside the page without changing its external index pointer!
 * **TOAST (The Oversized-Attribute Storage Technique)**: Database pages cannot span multiple physical blocks. When a column value (`TEXT`, `JSONB`) exceeds $\sim 2\text{KB}$, the engine compresses it. If it still exceeds the threshold, it is moved out-of-line into a dedicated auxiliary TOAST table, storing only an 18-byte pointer in the main page.
@@ -904,28 +706,7 @@ Relational databases achieve ACID persistence while maintaining high write throu
 
 ![Write-Ahead Logging (WAL) Durability Sequence](assets/07_databases_jpa_and_hibernate/06_wal_redo_log_acid_durability_sequence.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: Write-Ahead Logging (WAL / Redo Log): How Durability is Guaranteed
-
-app: "Spring Boot App"
-engine: "Query Engine"
-buf: "Buffer Pool (RAM)"
-wal: "WAL Disk (NVMe)"
-heap: "Data Heap Disk"
-
-app -> engine: "1. UPDATE accounts SET balance = balance + 50"
-engine -> buf: "2. Modifies page in RAM (Marked DIRTY)"
-engine -> wal: "3. Writes redo record to WAL buffer"
-app -> engine: "4. COMMIT TRANSACTION"
-engine -> wal: "5. Synchronous fsync() flushes WAL to disk!"
-engine -> app: "6. Commit ACK (DURABLE!)"
-buf -> heap: "7. Async Checkpointer flushes dirty pages later"
-```
-</details>
+*D2 Source: [`06_wal_redo_log_acid_durability_sequence.d2`](assets/07_databases_jpa_and_hibernate/06_wal_redo_log_acid_durability_sequence.d2)*
 
 * **The WAL Principle**: Sequential disk writes are up to $100\times$ faster than random page writes. The database appends transaction logs sequentially to WAL and acknowledges commits immediately. If the server loses power, on reboot the engine replays the WAL to recover all unwritten dirty pages!
 
@@ -996,39 +777,7 @@ Database engines therefore implement **Transaction Isolation Levels**—tunable 
 ##### 1. Non-Repeatable Read (Fuzzy Read) Anomaly under Read Committed:
 ![Isolation Anomaly: Non-Repeatable Read (Fuzzy Read)](assets/07_databases_jpa_and_hibernate/07_isolation_non_repeatable_read_anomaly.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Isolation Anomaly: Non-Repeatable Read (Fuzzy Read)"
-
-session1: "Session 1 (Tx 101: Read Committed)" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-  q1: "1. BEGIN & SELECT balance"
-  q2: "3. Repeated SELECT balance"
-}
-
-db: "PostgreSQL Database Engine" {
-  style.fill: "#0f172a"
-  style.stroke: "#10b981"
-  snap1: "Snapshot 1 -> returns $100.00"
-  commit: "Tx 102 committed: balance=$150.00"
-  snap2: "Snapshot 2 -> returns $150.00 (Fuzzy Read Anomaly!)"
-}
-
-session2: "Session 2 (Tx 102)" {
-  style.fill: "#1e293b"
-  style.stroke: "#f59e0b"
-  upd: "2. UPDATE balance=150 & COMMIT"
-}
-
-session1.q1 -> db.snap1: "Read $100.00"
-session2.upd -> db.commit: "Commit $150.00"
-session1.q2 -> db.snap2: "Read $150.00 (Value mutated mid-transaction!)"
-```
-</details>
+*D2 Source: [`07_isolation_non_repeatable_read_anomaly.d2`](assets/07_databases_jpa_and_hibernate/07_isolation_non_repeatable_read_anomaly.d2)*
 * **Why it happens in Read Committed**: Every single SQL statement takes a **fresh snapshot** of the database at the instant the statement begins. Because Tx 102 committed between statement 1 and statement 2, statement 2 sees the new value.
 * **How Repeatable Read solves it**: The transaction takes a **single snapshot at the beginning of the transaction**, maintaining that identical point-in-time view across all subsequent queries.
 
@@ -1037,40 +786,7 @@ Write Skew occurs when two concurrent transactions read overlapping data, verify
 
 ![Isolation Anomaly: Write Skew Under Repeatable Read](assets/07_databases_jpa_and_hibernate/08_isolation_write_skew_anomaly.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Isolation Anomaly: Write Skew Under Repeatable Read"
-
-alice: "Dr. Alice (Tx 1: Repeatable Read)" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-  read: "1. Read Count=2 (Safe)"
-  write: "3. Set Alice=off & Commit"
-}
-
-db: "Hospital Database Engine" {
-  style.fill: "#0f172a"
-  style.stroke: "#ef4444"
-  inv: "Invariant: Count >= 1"
-  violation: "CRITICAL: Count = 0 (Write Skew Anomaly!)"
-}
-
-bob: "Dr. Bob (Tx 2: Repeatable Read)" {
-  style.fill: "#1e293b"
-  style.stroke: "#f59e0b"
-  read: "2. Read Count=2 (Safe)"
-  write: "4. Set Bob=off & Commit"
-}
-
-alice.read -> db.inv: "Sees 2 on call"
-bob.read -> db.inv: "Sees 2 on call"
-alice.write -> db.violation: "Commits (No row conflict)"
-bob.write -> db.violation: "Commits (No row conflict)"
-```
-</details>
+*D2 Source: [`08_isolation_write_skew_anomaly.d2`](assets/07_databases_jpa_and_hibernate/08_isolation_write_skew_anomaly.d2)*
 
 * **Why Repeatable Read permits Write Skew**: Neither transaction updated the same row (Alice modified row 1; Bob modified row 2), so row locks never collided!
 * **Production Defenses**:
@@ -1093,44 +809,7 @@ In PostgreSQL, every table row (tuple) on disk includes a 23-byte header contain
 
 ![PostgreSQL MVCC: Physical Heap Tuple Versioning & HOT Chain](assets/07_databases_jpa_and_hibernate/09_postgres_mvcc_heap_tuple_versioning.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "PostgreSQL MVCC: Physical Heap Tuple Versioning & HOT Chain"
-
-page: "PostgreSQL 8KB Heap Page (Block 0)" {
-  style.fill: "#0f172a"
-  style.stroke: "#3b82f6"
-
-  t1: "Tuple 1 (Dead Row Version)
-xmin=100 | xmax=105
-t_ctid=(0, 2)
-balance=100.00" {
-    style.fill: "#7f1d1d"
-    style.stroke: "#ef4444"
-  }
-
-  t2: "Tuple 2 (Live Row Version)
-xmin=105 | xmax=0
-t_ctid=(0, 2)
-balance=150.00" {
-    style.fill: "#064e3b"
-    style.stroke: "#10b981"
-  }
-
-  t1 -> t2: "t_ctid HOT chain pointer"
-}
-
-index: "B+Tree Index on id=1" {
-  style.fill: "#1e293b"
-  style.stroke: "#06b6d4"
-}
-
-index -> page.t1: "Points to Tuple 1 ItemId"
-```
-</details>
+*D2 Source: [`09_postgres_mvcc_heap_tuple_versioning.d2`](assets/07_databases_jpa_and_hibernate/09_postgres_mvcc_heap_tuple_versioning.d2)*
 
 | Physical Tuple Slot | Low-Level Header (`xmin` / `xmax` / `ctid`) | Tuple Status | Visibility Under Active Transactions |
 | :--- | :--- | :---: | :--- |
@@ -1177,75 +856,7 @@ The **B+Tree** is the universal indexing data structure for relational databases
 
 ![B+Tree Index Anatomy: Branching Factor & Leaf Page Doubly-Linked List](assets/07_databases_jpa_and_hibernate/10_btree_index_anatomy_branching_leaf_pages.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: "B+Tree Index Anatomy: Branching Factor & Doubly-Linked Leaves"
-
-root: "Root Page (Level 0)
-[ 100 | 200 ]" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-}
-
-branch1: "Branch Page A
-[ 30 | 70 ]" {
-  style.fill: "#1e293b"
-  style.stroke: "#8b5cf6"
-}
-
-branch2: "Branch Page B
-[ 130 | 170 ]" {
-  style.fill: "#1e293b"
-  style.stroke: "#8b5cf6"
-}
-
-branch3: "Branch Page C
-[ 230 | 270 ]" {
-  style.fill: "#1e293b"
-  style.stroke: "#8b5cf6"
-}
-
-leaf1: "Leaf 1 (1..29)
--> Heap (0, 1)" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-leaf2: "Leaf 2 (30..69)
--> Heap (1, 1)" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-leaf3: "Leaf 3 (100..129)
--> Heap (2, 1)" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-leaf4: "Leaf 4 (200..229)
--> Heap (3, 1)" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-root -> branch1: "< 100"
-root -> branch2: "100..199"
-root -> branch3: ">= 200"
-
-branch1 -> leaf1
-branch1 -> leaf2
-branch2 -> leaf3
-branch3 -> leaf4
-
-leaf1 <-> leaf2: "Doubly Linked"
-leaf2 <-> leaf3: "Doubly Linked"
-leaf3 <-> leaf4: "Doubly Linked"
-```
-</details>
+*D2 Source: [`10_btree_index_anatomy_branching_leaf_pages.d2`](assets/07_databases_jpa_and_hibernate/10_btree_index_anatomy_branching_leaf_pages.d2)*
 
 #### Why B+Trees Outperform Standard Binary Trees:
 1. **High Branching Factor (Fanout)**: Each 8KB database page holds hundreds of keys (branching factor $\sim 200$). A B+Tree of height 3 can index $200^3 = 8,000,000\text{ rows}$, requiring at most **3 disk I/O operations** to find any row!
@@ -1335,52 +946,7 @@ Execution Time: 0.058 ms
 
 ![Database Access Paths: Cost-Based Optimizer Scan Decision Matrix](assets/07_databases_jpa_and_hibernate/11_index_scan_types_seq_index_bitmap_indexonly.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Database Access Paths: Cost-Based Optimizer Scan Decision Matrix"
-
-cbo: "CBO Query Planner" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-}
-
-seq: "1. Sequential Scan
-> 15-20% selectivity
-Sequential 8KB Heap Reads" {
-  style.fill: "#7f1d1d"
-  style.stroke: "#ef4444"
-}
-
-idx: "2. Index Scan
-< 1-5% selectivity
-B+Tree -> Random Heap I/O" {
-  style.fill: "#083344"
-  style.stroke: "#06b6d4"
-}
-
-bm: "3. Bitmap Index Scan
-5-15% selectivity
-Memory Bitmap Batches Disk Reads" {
-  style.fill: "#451a03"
-  style.stroke: "#f59e0b"
-}
-
-idxonly: "4. Index-Only Scan
-Covering Index + Visibility Map
-Zero Heap Access!" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-cbo -> seq: "> 20% rows"
-cbo -> idx: "< 5% rows"
-cbo -> bm: "5-15% rows or OR clauses"
-cbo -> idxonly: "All cols in index"
-```
-</details>
+*D2 Source: [`11_index_scan_types_seq_index_bitmap_indexonly.d2`](assets/07_databases_jpa_and_hibernate/11_index_scan_types_seq_index_bitmap_indexonly.d2)*
 
 ##### 1. Sequential Scan (`Seq Scan`)
 Reads every single 8KB block of the table heap from start to finish. Outstanding for small tables ($< 1,000$ rows) or queries returning $>25\%$ of the table, but disastrous on 50-million-row tables.
@@ -1582,46 +1148,7 @@ The **Expand-Contract (Parallel Run) Pattern** achieves zero-downtime database e
 
 ![Zero-Downtime Database Refactoring: Expand-Contract Pattern](assets/07_databases_jpa_and_hibernate/12_zero_downtime_database_refactoring_expand_contract.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Zero-Downtime Database Refactoring: The Expand-Contract Pattern"
-
-p1: "Phase 1: Expand
-Add nullable 'full_name'
-Dual-write trigger/app logic" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-}
-
-p2: "Phase 2: Backfill
-Async throttled batch worker
-Copies legacy data in chunks" {
-  style.fill: "#1e293b"
-  style.stroke: "#06b6d4"
-}
-
-p3: "Phase 3: Switch Reads
-Deploy app reading 'full_name'
-Writes still dual-write" {
-  style.fill: "#1e293b"
-  style.stroke: "#10b981"
-}
-
-p4: "Phase 4: Contract
-Remove dual-write logic
-Drop legacy 'name' column" {
-  style.fill: "#1e293b"
-  style.stroke: "#8b5cf6"
-}
-
-p1 -> p2: "Schema Expanded"
-p2 -> p3: "100% Backfilled"
-p3 -> p4: "Verified in Prod"
-```
-</details>
+*D2 Source: [`12_zero_downtime_database_refactoring_expand_contract.d2`](assets/07_databases_jpa_and_hibernate/12_zero_downtime_database_refactoring_expand_contract.d2)*
 
 #### Complete Step-by-Step Production Migration Scripts
 
@@ -1932,52 +1459,7 @@ WHERE idx_scan = 0;
   
 ![PostgreSQL Transaction ID (XID) Wraparound & VACUUM FREEZE](assets/07_databases_jpa_and_hibernate/13_postgres_xid_wraparound_autovacuum_freeze.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "PostgreSQL Transaction ID (XID) Wraparound & VACUUM FREEZE"
-
-horizon: "Circular 32-Bit Transaction Space (4.29B XIDs)" {
-  style.fill: "#0b101d"
-  style.stroke: "#3b82f6"
-
-  past: "Past Horizon
-2.14 Billion XIDs
-Visible to Snapshots" {
-    style.fill: "#064e3b"
-    style.stroke: "#10b981"
-  }
-
-  current: "Current XID
-Active Epoch
-Advances with writes" {
-    style.fill: "#7f1d1d"
-    style.stroke: "#ef4444"
-  }
-
-  future: "Future Horizon
-2.14 Billion XIDs
-Invisible to Snapshots" {
-    style.fill: "#1e293b"
-    style.stroke: "#64748b"
-  }
-
-  past -> current
-  current -> future
-}
-
-freeze: "VACUUM FREEZE
-Converts xmin -> FrozenXID (2)
-Eternally visible in all pasts!" {
-  style.fill: "#78350f"
-  style.stroke: "#f59e0b"
-}
-
-freeze -> horizon.past: "Anchors ancient tuples permanently"
-```
-</details>
+*D2 Source: [`13_postgres_xid_wraparound_autovacuum_freeze.d2`](assets/07_databases_jpa_and_hibernate/13_postgres_xid_wraparound_autovacuum_freeze.d2)*
 
   To prevent older transactions from wrapping around into the "future" and disappearing, `VACUUM FREEZE` marks row tuples with a special `FrozenTransactionId` (value 2), signaling they are eternally committed. If autovacuum cannot keep up (due to aggressive vacuum throttling, long-running transactions holding oldest XID back, or orphaned replication slots), the database approaches the $2\text{ billion}$ limit. At 10 million transactions remaining, PostgreSQL refuses all writes to preserve data integrity.
 * **Diagnostic Query**:
@@ -2083,44 +1565,7 @@ Relational databases and object-oriented programming languages are built upon fu
 
 ![The Object-Relational Impedance Mismatch in Enterprise Systems](assets/07_databases_jpa_and_hibernate/14_object_relational_impedance_mismatch.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "The Object-Relational Impedance Mismatch in Enterprise Systems"
-
-java: "Java OOP Domain Model" {
-  style.fill: "#0f172a"
-  style.stroke: "#3b82f6"
-  obj: "User Object
-UUID id
-Address address (Value Object)
-List<Order> orders
-SavingsAccount (Polymorphism)"
-}
-
-orm: "JPA / Hibernate ORM Bridge" {
-  style.fill: "#111827"
-  style.stroke: "#f59e0b"
-  map: "@Embeddable Address
-@Inheritance SINGLE_TABLE
-@OneToMany(mappedBy)
-L1 Identity Map & Dirty Checking"
-}
-
-sql: "Relational Database (SQL)" {
-  style.fill: "#0f172a"
-  style.stroke: "#10b981"
-  tables: "users (id, name, street, city)
-accounts (id, dtype, interest_rate, user_id FK)
-orders (id, user_id FK, total)"
-}
-
-java <-> orm: "Translates object graph"
-orm <-> sql: "Generates SQL queries & updates"
-```
-</details>
+*D2 Source: [`14_object_relational_impedance_mismatch.d2`](assets/07_databases_jpa_and_hibernate/14_object_relational_impedance_mismatch.d2)*
 
 #### The Five Primary Impedance Mismatch Dimensions:
 1. **Granularity Problem**: A domain model often possesses complex value objects (e.g. `Money` consisting of an amount and currency, or `Coordinates` with latitude and longitude). In a relational table, there are no composite data types; everything must be flattened into primitive columns (`money_amount`, `money_currency`).
@@ -2326,51 +1771,7 @@ Opening a physical database connection requires TCP handshakes, TLS parameter ne
 
 ![HikariCP Fast-Path Connection Pool Architecture](assets/07_databases_jpa_and_hibernate/15_hikaricp_connection_pool_fast_path.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: "HikariCP Fast-Path Connection Pool Architecture"
-
-req: "Thread calls dataSource.getConnection()" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-}
-
-fp: "Tier 1: Fast-Path Thread-Local
-threadLocal.get() -> FastList" {
-  style.fill: "#083344"
-  style.stroke: "#06b6d4"
-}
-
-hit: "Fast-Path Borrow Success!
-Zero lock contention (~500ns)
-Direct return to thread" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-bag: "Tier 2: Lock-Free ConcurrentBag
-CAS Array Scanning
-compareAndSet(NOT_IN_USE, IN_USE)" {
-  style.fill: "#1e293b"
-  style.stroke: "#f59e0b"
-}
-
-exhaust: "Tier 3: HandOffQueue Wait
-Thread parks up to connectionTimeout (30s)
-Throws SQLTransientConnectionException" {
-  style.fill: "#450a0a"
-  style.stroke: "#ef4444"
-}
-
-req -> fp
-fp -> hit: "Cache Hit (>95%)"
-fp -> bag: "Cache Miss"
-bag -> exhaust: "Pool Empty"
-```
-</details>
+*D2 Source: [`15_hikaricp_connection_pool_fast_path.d2`](assets/07_databases_jpa_and_hibernate/15_hikaricp_connection_pool_fast_path.d2)*
 
 #### The Connection Pool Sizing Formula (Brett Wooldridge):
 A pervasive beginner fallacy is configuring large connection pools (`maximum-pool-size=100`). In relational databases, database connections compete for physical CPU cores, RAM, and disk spindle I/O. As connection count increases beyond hardware capacity, the database spends $90\%$ of its CPU cycles context-switching between competing threads rather than executing queries!
@@ -2421,48 +1822,7 @@ The **Persistence Context** is an in-memory cache managed by `EntityManager`. It
 
 ![JPA & Hibernate Entity Lifecycle State Transitions](assets/07_databases_jpa_and_hibernate/16_hibernate_entity_lifecycle_states.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "JPA & Hibernate Entity Lifecycle State Transitions"
-
-transient: "1. TRANSIENT
-new Product()
-No DB Identity, Untracked" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-}
-
-managed: "2. MANAGED (Persistent)
-In Persistence Context
-Auto Dirty Checking Active" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-detached: "3. DETACHED
-Session closed / em.detach()
-LazyInitializationException trap" {
-  style.fill: "#1e293b"
-  style.stroke: "#f59e0b"
-}
-
-removed: "4. REMOVED
-Scheduled for SQL DELETE
-em.remove(entity)" {
-  style.fill: "#1a1118"
-  style.stroke: "#ef4444"
-}
-
-transient -> managed: "em.persist()"
-managed -> detached: "em.detach() / clear()"
-detached -> managed: "em.merge()"
-managed -> removed: "em.remove()"
-removed -> managed: "em.persist() (resurrect)"
-```
-</details>
+*D2 Source: [`16_hibernate_entity_lifecycle_states.d2`](assets/07_databases_jpa_and_hibernate/16_hibernate_entity_lifecycle_states.d2)*
 
 1. **Transient (New)**:
    * Created using standard Java `new` operator (`Product p = new Product()`).
@@ -2528,49 +1888,7 @@ How does Hibernate know an entity was modified without explicit save calls?
 
 ![Hibernate Automatic Dirty Checking & Flush Synchronization](assets/07_databases_jpa_and_hibernate/17_hibernate_dirty_checking_and_flush_sync.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Hibernate Automatic Dirty Checking & Flush Synchronization"
-
-app: "Application Service" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-  find: "em.find(101L)"
-  mutate: "order.setStatus(CONFIRMED)"
-  commit: "commit() / flush()"
-}
-
-pc: "Persistence Context (L1)" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-  snap: "LoadedState: ['PENDING', 100]"
-  diff: "Diff: 'CONFIRMED' != 'PENDING' -> DIRTY!"
-}
-
-aq: "ActionQueue" {
-  style.fill: "#1e293b"
-  style.stroke: "#f59e0b"
-  sched: "Schedules EntityUpdateAction"
-}
-
-db: "PostgreSQL Database" {
-  style.fill: "#0f172a"
-  style.stroke: "#06b6d4"
-  sql: "UPDATE orders SET status='CONFIRMED' WHERE id=101"
-}
-
-app.find -> pc: "Lookup"
-pc -> db: "SELECT"
-db -> pc: "Row loaded"
-pc.snap -> app.mutate: "Managed instance"
-app.commit -> pc.diff: "Trigger flush"
-pc.diff -> aq.sched: "Enqueue"
-aq.sched -> db.sql: "Execute SQL"
-```
-</details>
+*D2 Source: [`17_hibernate_dirty_checking_and_flush_sync.d2`](assets/07_databases_jpa_and_hibernate/17_hibernate_dirty_checking_and_flush_sync.d2)*
 
 > [!IMPORTANT]
 > **Production Standard**: Calling `repository.save(entity)` on an already managed entity inside a `@Transactional` method is redundant and indicates a misunderstanding of JPA dirty checking.
@@ -2581,49 +1899,7 @@ aq.sched -> db.sql: "Execute SQL"
 
 ![Hibernate Caching Architecture: L1 Session Cache vs L2 Distributed Cache](assets/07_databases_jpa_and_hibernate/18_first_level_cache_vs_second_level_cache.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Hibernate Caching Architecture: L1 Session Cache vs L2 Distributed Cache"
-
-app: "Application Service Method" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-}
-
-l1: "First-Level (L1) Cache
-Scope: EntityManager / Session
-Always Enabled | Thread-Bound
-Live Object References" {
-  style.fill: "#062e3d"
-  style.stroke: "#06b6d4"
-}
-
-l2: "Second-Level (L2) Cache
-Scope: SessionFactory / Cluster
-Optional (Redis / Ehcache)
-Disassembled Hydrated State" {
-  style.fill: "#1a102f"
-  style.stroke: "#8b5cf6"
-}
-
-db: "Relational Database
-Scope: Disk Storage
-PostgreSQL 8KB Heap Blocks
-ACID Source of Truth" {
-  style.fill: "#0f172a"
-  style.stroke: "#10b981"
-}
-
-app -> l1: "1. Query"
-l1 -> l2: "2. L1 Miss"
-l2 -> db: "3. L2 Miss"
-db -> l2: "4. Populates L2"
-l2 -> l1: "5. Populates L1"
-```
-</details>
+*D2 Source: [`18_first_level_cache_vs_second_level_cache.d2`](assets/07_databases_jpa_and_hibernate/18_first_level_cache_vs_second_level_cache.d2)*
 
 | Dimension | First-Level (L1) Cache | Second-Level (L2) Cache |
 | :--- | :--- | :--- |
@@ -2732,43 +2008,7 @@ public class CustomerEntity {
 
 ![JPA Relationship Mappings & Fetch Strategies](assets/07_databases_jpa_and_hibernate/19_jpa_relationship_mappings_cardinality.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "JPA Relationship Mappings & Fetch Strategies"
-
-customer: "CustomerEntity (1)
-Inverse Side
-@OneToMany(mappedBy='customer')
-orders: List<OrderEntity>" {
-  style.fill: "#0f172a"
-  style.stroke: "#3b82f6"
-}
-
-order: "OrderEntity (N)
-Owning Side of Customer FK
-@ManyToOne(fetch=LAZY)
-@JoinColumn(name='customer_id')
-customer: CustomerEntity" {
-  style.fill: "#0f172a"
-  style.stroke: "#10b981"
-}
-
-item: "OrderItemEntity (N)
-Owning Side of Order FK
-@ManyToOne(fetch=LAZY)
-@JoinColumn(name='order_id')
-order: OrderEntity" {
-  style.fill: "#0f172a"
-  style.stroke: "#f59e0b"
-}
-
-customer <-> order: "1:N Bidirectional"
-order <-> item: "1:N Bidirectional"
-```
-</details>
+*D2 Source: [`19_jpa_relationship_mappings_cardinality.d2`](assets/07_databases_jpa_and_hibernate/19_jpa_relationship_mappings_cardinality.d2)*
 
 ---
 
@@ -2839,37 +2079,7 @@ Using a direct `@ManyToMany` annotation between `Student` and `Course` creates a
 
 ![ManyToMany Decomposition: Why Direct @ManyToMany is an Anti-Pattern](assets/07_databases_jpa_and_hibernate/20_many_to_many_decomposition_join_entity.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "ManyToMany Decomposition: Why Direct @ManyToMany is an Anti-Pattern"
-
-antipattern: "Direct @ManyToMany Anti-Pattern" {
-  style.fill: "#1a1118"
-  style.stroke: "#ef4444"
-  s: "Student"
-  j: "Hidden Join Table
-student_courses"
-  c: "Course"
-  s -> j -> c
-}
-
-bestpractice: "Enterprise Pattern: Explicit Join Entity" {
-  style.fill: "#062e3b"
-  style.stroke: "#10b981"
-  student: "StudentEntity (1)"
-  enrollment: "EnrollmentEntity (N)
-@EmbeddedId EnrollmentId
-enrolledAt, grade, status"
-  course: "CourseEntity (1)"
-
-  student <-> enrollment: "@OneToMany / @ManyToOne"
-  enrollment <-> course: "@ManyToOne / @OneToMany"
-}
-```
-</details>
+*D2 Source: [`20_many_to_many_decomposition_join_entity.d2`](assets/07_databases_jpa_and_hibernate/20_many_to_many_decomposition_join_entity.d2)*
 
 ---
 
@@ -3155,55 +2365,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
 ![Spring AOP Transaction Interceptor Architecture](assets/07_databases_jpa_and_hibernate/21_spring_transaction_interceptor_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Spring AOP Transaction Interceptor Architecture"
-
-caller: "External Caller
-Controller / Listener" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-}
-
-proxy: "CGLIB Proxy
-OrderService$$SpringCGLIB
-Inspects @Transactional" {
-  style.fill: "#0f172a"
-  style.stroke: "#10b981"
-}
-
-interceptor: "TransactionInterceptor
-invokeWithinTransaction()
-Manages advice chain" {
-  style.fill: "#111827"
-  style.stroke: "#f59e0b"
-}
-
-txmgr: "PlatformTransactionManager
-Acquires DB Connection
-Binds to ThreadLocal" {
-  style.fill: "#083344"
-  style.stroke: "#06b6d4"
-}
-
-target: "Target Service Method
-OrderService.placeOrder()
-Executes Business Logic" {
-  style.fill: "#1e293b"
-  style.stroke: "#8b5cf6"
-}
-
-caller -> proxy: "1. Calls placeOrder()"
-proxy -> interceptor: "2. Delegates to AOP Advice"
-interceptor -> txmgr: "3. Begin Tx / Get Conn"
-txmgr -> target: "4. Execute Target Method"
-target -> interceptor: "5. Return / Throw"
-interceptor -> txmgr: "6. Commit or Rollback"
-```
-</details>
+*D2 Source: [`21_spring_transaction_interceptor_architecture.d2`](assets/07_databases_jpa_and_hibernate/21_spring_transaction_interceptor_architecture.d2)*
 
 ---
 
@@ -3339,88 +2501,13 @@ A lethal hazard in high-concurrency Spring backends occurs when `REQUIRES_NEW` i
 
 ![Spring Transaction Propagation: REQUIRED vs REQUIRES_NEW](assets/07_databases_jpa_and_hibernate/22_transaction_propagation_required_vs_requires_new.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Spring Transaction Propagation: REQUIRED vs REQUIRES_NEW"
-
-svcA: "ServiceA (REQUIRED)
-Tx 1 Scope" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-}
-
-pool: "HikariCP Pool" {
-  style.fill: "#083344"
-  style.stroke: "#06b6d4"
-}
-
-audit: "AuditService (REQUIRES_NEW)
-Tx 2 Scope" {
-  style.fill: "#111827"
-  style.stroke: "#f59e0b"
-}
-
-db: "PostgreSQL Database" {
-  style.fill: "#0f172a"
-  style.stroke: "#10b981"
-}
-
-svcA -> pool: "1. Borrows Conn 1 (Tx 1)"
-svcA -> db: "2. INSERT orders (Tx 1)"
-svcA -> audit: "3. Invokes log() [Suspends Tx 1]"
-audit -> pool: "4. Borrows Conn 2 (Tx 2) [DEADLOCK RISK!]"
-audit -> db: "5. INSERT audit_log"
-audit -> pool: "6. Commit Tx 2 & release Conn 2"
-svcA -> pool: "7. Rollback Tx 1 on Exception & release Conn 1"
-```
-</details>
+*D2 Source: [`22_transaction_propagation_required_vs_requires_new.d2`](assets/07_databases_jpa_and_hibernate/22_transaction_propagation_required_vs_requires_new.d2)*
 
 ##### Scenario B: `REQUIRED` calling `NESTED` (JDBC Savepoints):
 
 ![Spring Transaction Propagation: REQUIRED vs NESTED (Savepoints)](assets/07_databases_jpa_and_hibernate/23_transaction_propagation_required_vs_nested.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Spring Transaction Propagation: REQUIRED vs NESTED (Savepoints)"
-
-runner: "Batch Job Runner" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-}
-
-svc: "BatchOrderService (REQUIRED)
-Uses 1 Physical Connection" {
-  style.fill: "#0f172a"
-  style.stroke: "#10b981"
-}
-
-pool: "HikariCP Pool" {
-  style.fill: "#083344"
-  style.stroke: "#06b6d4"
-}
-
-db: "Database Engine
-JDBC Savepoints" {
-  style.fill: "#111827"
-  style.stroke: "#f59e0b"
-}
-
-runner -> svc: "1. processBatch()"
-svc -> pool: "2. Borrows Conn 1"
-svc -> db: "3. SAVEPOINT item_1"
-svc -> db: "4. INSERT item 1 (Success)"
-svc -> db: "5. SAVEPOINT item_2"
-svc -> db: "6. ROLLBACK TO SAVEPOINT item_2 (Failed)"
-svc -> db: "7. COMMIT Tx 1"
-svc -> pool: "8. Return Conn 1"
-```
-</details>
+*D2 Source: [`23_transaction_propagation_required_vs_nested.d2`](assets/07_databases_jpa_and_hibernate/23_transaction_propagation_required_vs_nested.d2)*
 
 #### Programmatic Transaction Management with `TransactionTemplate`:
 When declarative `@Transactional` annotations cause proxy self-invocation issues or when fine-grained transaction scopes are required (avoiding holding database connections across slow third-party API calls):
@@ -3535,45 +2622,7 @@ Optimistic locking assumes conflicts are rare. It uses a version column without 
 
 ![Optimistic Locking (@Version) & Automated Spring Retry Pattern](assets/07_databases_jpa_and_hibernate/24_optimistic_locking_version_and_retry.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Optimistic Locking (@Version) & Automated Spring Retry Pattern"
-
-t1: "Thread 1 (User A)" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-  read: "1. Read Account (v1)"
-  upd: "3. UPDATE ... WHERE id=1 AND version=1"
-}
-
-db: "PostgreSQL Database
-accounts table" {
-  style.fill: "#0f172a"
-  style.stroke: "#10b981"
-  state1: "id=1, balance=150, version=2"
-  state2: "0 rows matched for version=1!"
-}
-
-t2: "Thread 2 (User B)
-@Retryable" {
-  style.fill: "#111827"
-  style.stroke: "#f59e0b"
-  read: "2. Read Account (v1)"
-  upd: "4. UPDATE ... WHERE id=1 AND version=1"
-  retry: "5. Catches OptimisticLockException
-Re-reads v2 & succeeds on retry!"
-}
-
-t1.read -> db
-t2.read -> db
-t1.upd -> db.state1: "Success (1 row updated)"
-t2.upd -> db.state2: "Conflict (0 rows updated)"
-db.state2 -> t2.retry: "OptimisticLockException"
-```
-</details>
+*D2 Source: [`24_optimistic_locking_version_and_retry.d2`](assets/07_databases_jpa_and_hibernate/24_optimistic_locking_version_and_retry.d2)*
 
 ```java
 @Entity

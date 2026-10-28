@@ -1,21 +1,35 @@
 direction: right
-title: High-Throughput Log & Time-Series Data Modeling
-
-ingest: Raw Stream: 1M events/sec {
-  buffer: Kafka Commit Log
+title: "High-Throughput Log & Time-Series Data Modeling"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-bronze: Delta Bronze: Append-Only Parquet {
+ingest: "Raw Stream: 1M events/sec" {
+  class: container
+  buffer: "Kafka Commit Log"
+}
+
+bronze: "Delta Bronze: Append-Only Parquet" {
+  class: container
   partition: "date=2026-10-15/hour=14/"
   throughput: "High write throughput, append-only"
 }
 
-compaction: Nightly OPTIMIZE + Liquid Clustering {
+compaction: "Nightly OPTIMIZE + Liquid Clustering" {
+  class: container
   keys: "Clustered by tenant_id, event_type"
   size: "Compacted to 1GB target file size"
 }
 
-serving: Analytical Queries {
+serving: "Analytical Queries" {
+  class: container
   speed: "Partition Pruning + Column Skipping (Sub-second)"
 }
 

@@ -1,16 +1,27 @@
 direction: right
-title: Race Condition & Lost Update Concurrency Anomaly
+title: "Race Condition & Lost Update Concurrency Anomaly"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-T1: Thread 1
-Memory: Shared Heap (count = 0)
-T2: Thread 2
+T1: "Thread 1"
+Memory: "Shared Heap (count = 0)"
+T2: "Thread 2"
 
-Memory -> T1: 1. Reads count = 0 (r1 = 0) { style.stroke: "#3B82F6" }
-Memory -> T2: 2. Reads count = 0 (r2 = 0, Stale!) { style.stroke: "#8B5CF6" }
-T1 -> Memory: 3. Writes count = 1 { style.stroke: "#3B82F6" }
-T2 -> Memory: 4. Overwrites count = 1 (Lost update!) { style.stroke: "#EF4444" }
+Memory -> T1: "1. Reads count = 0 (r1 = 0)" { style.stroke: "#3B82F6" }
+Memory -> T2: "2. Reads count = 0 (r2 = 0, Stale!)" { style.stroke: "#8B5CF6" }
+T1 -> Memory: "3. Writes count = 1" { style.stroke: "#3B82F6" }
+T2 -> Memory: "4. Overwrites count = 1 (Lost update!)" { style.stroke: "#EF4444" }
 
-Anomaly: Lost Update Anomaly {
+Anomaly: "Lost Update Anomaly" {
+  class: container
   desc: "2 increments executed, but final value is 1 instead of 2!"
   fix: "AtomicInteger.incrementAndGet(), synchronized, or ReentrantLock"
 }

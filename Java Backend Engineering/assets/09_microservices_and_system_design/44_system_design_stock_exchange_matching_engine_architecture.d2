@@ -1,24 +1,27 @@
 direction: right
 title: "System Design: High-Frequency Stock Exchange Matching Engine Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-ingress: "1. Ingress & RingBuffer
-Kernel Bypass 10GbE
-LMAX Disruptor (Zero-GC)" {
+ingress: "1. Ingress & RingBuffer\nKernel Bypass 10GbE\nLMAX Disruptor (Zero-GC)" {
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 }
 
-engine: "2. Matching Engine (Single-Threaded)
-Pinned to CPU core
-B+Tree Order Book (Bids vs Asks)
-Price-Time Priority (< 400ns)" {
+engine: "2. Matching Engine (Single-Threaded)\nPinned to CPU core\nB+Tree Order Book (Bids vs Asks)\nPrice-Time Priority (< 400ns)" {
   style.fill: "#062e24"
   style.stroke: "#10b981"
 }
 
-settlement: "3. Settlement & Multicast
-UDP Multicast Market Data
-NVMe Persistence WAL" {
+settlement: "3. Settlement & Multicast\nUDP Multicast Market Data\nNVMe Persistence WAL" {
   style.fill: "#111827"
   style.stroke: "#f59e0b"
 }

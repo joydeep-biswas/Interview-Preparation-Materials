@@ -1,20 +1,34 @@
 direction: right
 classes: {
-  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
 }
 
-alert: "🚨 Query Latency Alert\np99 Latency &gt; 8,000ms" { class: box; style.stroke: "#EF4444" }
-plan: "1. EXPLAIN (ANALYZE, BUFFERS)\nInspect actual execution time & buffer hits" { class: box; style.stroke: "#3B82F6" }
+pipeline: "1. Analysis Pipeline" {
+  class: pillar
+  style.stroke: "#3B82F6"
+  explain: "EXPLAIN (ANALYZE, BUFFERS)\nInspect actual execution time & scan nodes" { class: stage; style.stroke: "#3B82F6" }
+  metrics: "Buffer & I/O Profiling\nCheck cache hit ratio vs disk block reads" { class: stage; style.stroke: "#3B82F6" }
+  explain -> metrics { style.stroke: "#3B82F6" }
+}
 
-check_scan: "Sequential Scan on Large Table?" { class: box; style.stroke: "#F59E0B" }
-fix1: "Fix 1: CREATE INDEX CONCURRENTLY\nIndex predicate / join columns" { class: box; style.stroke: "#10B981" }
+decision: "2. Diagnostic Decision Tree" {
+  class: pillar
+  style.stroke: "#F59E0B"
+  check_scan: "Decision 1: Seq Scan on Large Table?\nMissing index causing full table scan" { class: stage; style.stroke: "#F59E0B" }
+  check_stats: "Decision 2: Stale Statistics?\nActual rows >> Planner estimated rows" { class: stage; style.stroke: "#F59E0B" }
+  check_scan -> check_stats: "No" { style.stroke: "#F59E0B" }
+}
 
-check_stats: "Stale Statistics / Misestimates?" { class: box; style.stroke: "#F59E0B" }
-fix2: "Fix 2: Run ANALYZE\nRefresh correlation histograms" { class: box; style.stroke: "#10B981" }
-fix3: "Fix 3: Query Rewrite\nEliminate correlated subqueries & redundant CTEs" { class: box; style.stroke: "#F59E0B" }
+remediation: "3. Remediation Strategies" {
+  class: pillar
+  style.stroke: "#10B981"
+  fix_index: "Fix 1: CREATE INDEX CONCURRENTLY\nAdd B-tree / BRIN index on filter cols" { class: stage; style.stroke: "#10B981" }
+  fix_stats: "Fix 2: Run ANALYZE (Refresh Stats)\nRecalculate histograms & MCV lists" { class: stage; style.stroke: "#10B981" }
+  fix_mem: "Fix 3: Query Rewrite & work_mem\nIncrease work_mem to eliminate spill" { class: stage; style.stroke: "#F59E0B" }
+}
 
-alert -> plan -> check_scan
-check_scan -> fix1: "Yes (Missing Index)"
-check_scan -> check_stats: "No (Index Used)"
-check_stats -> fix2: "Yes (Outdated Stats)"
-check_stats -> fix3: "No (Operator Plan)"
+pipeline.explain -> decision.check_scan { style.stroke: "#3B82F6" }
+decision.check_scan -> remediation.fix_index: "Yes (Missing Index)" { style.stroke: "#10B981" }
+decision.check_stats -> remediation.fix_stats: "Yes (Stale Stats)" { style.stroke: "#10B981" }
+decision.check_stats -> remediation.fix_mem: "No (Spill to Disk)" { style.stroke: "#F59E0B" }

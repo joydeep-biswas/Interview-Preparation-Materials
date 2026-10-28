@@ -1,15 +1,25 @@
 direction: down
-title: OAuth 2.0 PKCE Flow
+title: "OAuth 2.0 PKCE Flow"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-SPA: Browser SPA (React / Mobile)
-IdP: Authorization Server (Keycloak / Auth0)
-Backend: Spring Backend Resource Server
+SPA: "Browser SPA (React / Mobile)"
+IdP: "Authorization Server (Keycloak / Auth0)"
+Backend: "Spring Backend Resource Server"
 
-SPA -> SPA: 1. Generates code_verifier & code_challenge (S256)
-SPA -> IdP: 2. GET /authorize with code_challenge { style.stroke: "#38BDF8" }
-IdP -> SPA: 4. 302 Redirect with ?code=AUTH_CODE_123 { style.stroke: "#F59E0B" }
-SPA -> IdP: 5. POST /token (code + code_verifier) { style.stroke: "#C084FC" }
-IdP -> IdP: 6. Computes SHA256(verifier) == code_challenge
-IdP -> SPA: 7. Returns Access Token (JWT) { style.stroke: "#34D399" }
-SPA -> Backend: 8. GET /api/profile (Bearer JWT) { style.stroke: "#38BDF8" }
-Backend -> SPA: 9. Returns Protected Profile { style.stroke: "#34D399" }
+SPA -> SPA: "1. Generates code_verifier & code_challenge (S256)"
+SPA -> IdP: "2. GET /authorize with code_challenge" { style.stroke: "#38BDF8" }
+IdP -> SPA: "4. 302 Redirect with ?code=AUTH_CODE_123" { style.stroke: "#F59E0B" }
+SPA -> IdP: "5. POST /token (code + code_verifier)" { style.stroke: "#C084FC" }
+IdP -> IdP: "6. Computes SHA256(verifier) == code_challenge"
+IdP -> SPA: "7. Returns Access Token (JWT)" { style.stroke: "#34D399" }
+SPA -> Backend: "8. GET /api/profile (Bearer JWT)" { style.stroke: "#38BDF8" }
+Backend -> SPA: "9. Returns Protected Profile" { style.stroke: "#34D399" }

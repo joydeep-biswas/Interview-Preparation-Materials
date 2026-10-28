@@ -1,21 +1,33 @@
 direction: right
-title: Databricks Instance Pools Warm-Start
+title: "Databricks Instance Pools Warm-Start"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-WithoutPool: Cold Boot Lag (5-7 Mins) {
+WithoutPool: "Cold Boot Lag (5-7 Mins)" {
+  class: container
   style.stroke: "#EF4444"
-  Trigger: 1. Job Triggered
-  CloudVM: 2. Cloud VM Allocation (4 mins)
-  DBRDownload: 3. DBR 10GB Container Pull (3 mins)
-  Run: 4. Total Wait: 7 Minutes!
+  Trigger: "1. Job Triggered"
+  CloudVM: "2. Cloud VM Allocation (4 mins)"
+  DBRDownload: "3. DBR 10GB Container Pull (3 mins)"
+  Run: "4. Total Wait: 7 Minutes!"
 
   Trigger -> CloudVM -> DBRDownload -> Run
 }
 
-WithPool: Instance Pool Warm Start (<30s) {
+WithPool: "Instance Pool Warm Start (<30s)" {
+  class: container
   style.stroke: "#34D399"
-  Pool: Pre-Warmed VM Pool (Zero DBU while idle)
-  JobAttach: Instant VM Attachment (<30s)
-  Execute: Immediate Execution
+  Pool: "Pre-Warmed VM Pool (Zero DBU while idle)"
+  JobAttach: "Instant VM Attachment (<30s)"
+  Execute: "Immediate Execution"
 
   Pool -> JobAttach -> Execute
 }

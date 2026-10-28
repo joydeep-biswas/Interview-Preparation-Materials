@@ -201,58 +201,7 @@ Every table row on disk contains hidden 4-byte header fields:
 
 ![PostgreSQL MVCC Table Heap Page &amp; HOT Chain Layout](assets/14_persistence_caching_and_service_architecture/01_postgres_mvcc_tuple_heap_layout.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  heap_container: {
-    style: {
-      fill: "#0f172a"
-      stroke: "#38bdf8"
-      stroke-width: 2
-      stroke-dash: 4
-    }
-  }
-  tuple_dead: {
-    style: {
-      fill: "#1e1b2e"
-      stroke: "#f87171"
-      stroke-width: 2
-      font-color: "#fca5a5"
-    }
-  }
-  tuple_live: {
-    style: {
-      fill: "#0f291e"
-      stroke: "#4ade80"
-      stroke-width: 2
-      font-color: "#86efac"
-    }
-  }
-}
-
-heap: "Table Heap Page (8 KB Data Block)" {
-  class: heap_container
-
-  t1: "Tuple 1 (Dead Version - Balance: $100.00)\nxmin: 100 | xmax: 105\nt_ctid: (Block 0, Slot 2)\nStatus: Invisible to snapshots > 105" {
-    class: tuple_dead
-  }
-
-  t2: "Tuple 2 (Current Version - Balance: $150.00)\nxmin: 105 | xmax: 0 (Live)\nt_ctid: (Block 0, Slot 2) [Self]\nStatus: Visible to active TX" {
-    class: tuple_live
-  }
-
-  t1 -> t2: "t_ctid (HOT Version Chain Pointer)" {
-    style: {
-      stroke: "#fbbf24"
-      stroke-width: 2
-    }
-  }
-}
-
-```
-</details>
+*D2 Source: [`01_postgres_mvcc_tuple_heap_layout.d2`](assets/14_persistence_caching_and_service_architecture/01_postgres_mvcc_tuple_heap_layout.d2)*
 
 | Header Field | Type | Description | Visibility Rule |
 | :--- | :--- | :--- | :--- |
@@ -651,57 +600,7 @@ The standard PostgreSQL index is a **$B^+$-Tree** (balanced search tree):
 
 ![PostgreSQL B-Tree Index Architecture &amp; Range Scan Traversal](assets/14_persistence_caching_and_service_architecture/02_b_tree_storage_and_leaf_traversal.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  node_root: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  node_internal: { style: { fill: "#1e293b"; stroke: "#c084fc"; stroke-width: 2 } }
-  node_leaf: { style: { fill: "#1e293b"; stroke: "#4ade80"; stroke-width: 2 } }
-  heap_target: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-}
-
-root: "Root Page\n[100 | 500]" { class: node_root }
-
-internal: {
-  n1: "Internal Node A\nKeys < 100" { class: node_internal }
-  n2: "Internal Node B\n100 <= Keys < 500" { class: node_internal }
-  n3: "Internal Node C\nKeys >= 500" { class: node_internal }
-}
-
-leaves: {
-  la: "Leaf A\n[10, 25, 45]" { class: node_leaf }
-  lb: "Leaf B\n[55, 75, 95]" { class: node_leaf }
-  lc: "Leaf C\n[120, 180]" { class: node_leaf }
-  ld: "Leaf D\n[260, 350]" { class: node_leaf }
-  le: "Leaf E\n[550, 680]" { class: node_leaf }
-  lf: "Leaf F\n[760, 890]" { class: node_leaf }
-
-  la <-> lb: "Bidirectional Link"
-  lb <-> lc: "Bidirectional Link"
-  lc <-> ld: "Bidirectional Link"
-  ld <-> le: "Bidirectional Link"
-  le <-> lf: "Bidirectional Link"
-}
-
-heap: "PostgreSQL Table Heap\nTuple Storage Block" { class: heap_target }
-
-root -> internal.n1
-root -> internal.n2
-root -> internal.n3
-
-internal.n1 -> leaves.la
-internal.n1 -> leaves.lb
-internal.n2 -> leaves.lc
-internal.n2 -> leaves.ld
-internal.n3 -> leaves.le
-internal.n3 -> leaves.lf
-
-leaves.la -> heap: "ItemPointer (ctid)"
-
-```
-</details>
+*D2 Source: [`02_b_tree_storage_and_leaf_traversal.d2`](assets/14_persistence_caching_and_service_architecture/02_b_tree_storage_and_leaf_traversal.d2)*
 
 * **Self-Balancing**: All leaf nodes reside at the exact same depth ($O(\log N)$ search, insertion, and deletion complexity).
 * **Doubly-Linked Leaf Nodes**: Leaf nodes store sorted keys paired with table heap row pointers (`ItemPointer: page_id, offset`). Leaf pages are linked bidirectionally, enabling lightning-fast range scans (`WHERE age BETWEEN 20 AND 30`).
@@ -920,42 +819,7 @@ PostgreSQL employs a **Process-per-Connection architecture** (forking a native O
 
 ![PgBouncer High-Concurrency Connection Pooling Architecture](assets/14_persistence_caching_and_service_architecture/03_pgbouncer_connection_pooling_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  client_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  bouncer_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  pg_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-clients: "FastAPI Application Workers" {
-  w1: "Worker 1 (Socket #1)" { class: client_box }
-  w2: "Worker 2 (Socket #2)" { class: client_box }
-  wn: "Worker N (5,000 App Sockets)" { class: client_box }
-}
-
-bouncer: "PgBouncer Proxy Engine\n(Transaction Pooling Mode)\nMultiplexing Ratio 100:1" {
-  class: bouncer_box
-}
-
-postgres: "PostgreSQL Database Server\n50 Dedicated OS Backend Processes\nShared Buffers Cache" {
-  class: pg_box
-}
-
-clients.w1 -> bouncer: "TCP Socket"
-clients.w2 -> bouncer: "TCP Socket"
-clients.wn -> bouncer: "5,000 Client Sockets" {
-  style: { stroke: "#fbbf24"; stroke-width: 2 }
-}
-
-bouncer -> postgres: "50 Multiplexed Connections\n(Checked out per TX)" {
-  style: { stroke: "#4ade80"; stroke-width: 2 }
-}
-
-```
-</details>
+*D2 Source: [`03_pgbouncer_connection_pooling_architecture.d2`](assets/14_persistence_caching_and_service_architecture/03_pgbouncer_connection_pooling_architecture.d2)*
 
 | Pooling Mode | Connection Release Timing | Concurrency Scale | Hazard / Restrictions |
 | :--- | :--- | :---: | :--- |
@@ -1284,51 +1148,7 @@ assert c1 is c2
 
 ![SQLAlchemy ORM Instance Lifecycle &amp; Identity Map States](assets/14_persistence_caching_and_service_architecture/04_sqlalchemy_orm_unit_of_work_lifecycle.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  transient_state: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  pending_state: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  persistent_state: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2 } }
-  detached_state: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2 } }
-  deleted_state: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2 } }
-}
-
-init: "" { shape: circle }
-
-transient: "1. Transient\nCustomer(name='Alice')\nPure heap object, no DB identity" {
-  class: transient_state
-}
-
-pending: "2. Pending\nRegistered in Session\nNo SQL emitted yet" {
-  class: pending_state
-}
-
-persistent: "3. Persistent\nRow exists in DB\nPK populated & Identity Map tracked" {
-  class: persistent_state
-}
-
-detached: "4. Detached\nsession.close() / expunge()\nNo Session link (Lazy loads fail)" {
-  class: detached_state
-}
-
-deleted: "5. Deleted\nsession.delete()\nRow removed on commit" {
-  class: deleted_state
-}
-
-done: "" { shape: double-circle }
-
-init -> transient: "instantiate"
-transient -> pending: "session.add(cust)"
-pending -> persistent: "session.flush() / commit()"
-persistent -> detached: "session.close()"
-persistent -> deleted: "session.delete(cust)"
-deleted -> done: "session.commit()"
-
-```
-</details>
+*D2 Source: [`04_sqlalchemy_orm_unit_of_work_lifecycle.d2`](assets/14_persistence_caching_and_service_architecture/04_sqlalchemy_orm_unit_of_work_lifecycle.d2)*
 
 ---
 
@@ -1658,31 +1478,7 @@ Instead of writing Python migration files with SQLAlchemy operation calls, **you
 
 ![Flyway / Pyway Versioned SQL Migration Hierarchy](assets/14_persistence_caching_and_service_architecture/05_flyway_versioned_sql_migration_layout.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  dir_box: { style: { fill: "#0f172a"; stroke: "#38bdf8"; stroke-width: 2; stroke-dash: 4 } }
-  ver_file: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  rep_file: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-}
-
-dir: "📁 migrations/ (Flyway / Pyway SQL Repository)" {
-  class: dir_box
-
-  v1: "📄 V1.0__create_customers.sql\nBaseline Schema DDL\nChecksum: Locked" { class: ver_file }
-  v2: "📄 V1.1__create_orders.sql\nOrders & FK Constraints\nChecksum: Locked" { class: ver_file }
-  v3: "📄 V1.2__add_idx_email.sql\nConcurrent Performance Index\nChecksum: Locked" { class: ver_file }
-  r1: "📄 R__recreate_order_view.sql\nRepeatable Analytical View\nRe-runs on checksum diff" { class: rep_file }
-
-  v1 -> v2: "Sequential DDL"
-  v2 -> v3: "Sequential DDL"
-  v3 -> r1: "Executes after versioned migrations"
-}
-
-```
-</details>
+*D2 Source: [`05_flyway_versioned_sql_migration_layout.d2`](assets/14_persistence_caching_and_service_architecture/05_flyway_versioned_sql_migration_layout.d2)*
 
 | Migration Prefix | Classification | Execution Semantics | Use Case |
 | :--- | :--- | :--- | :--- |
@@ -1715,35 +1511,7 @@ When Pyway executes, it creates a table in PostgreSQL named `pyway_schema_histor
 
 ![Database Migration Paradigms: Alembic vs. Pyway/Flyway](assets/14_persistence_caching_and_service_architecture/06_alembic_vs_flyway_migration_paradigms.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  alembic_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  flyway_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-alembic: "Alembic Paradigm (Python ORM Centric)" {
-  models: "SQLAlchemy DeclarativeBase Models" { class: alembic_box }
-  engine: "Alembic Autogenerate Engine\n(Diffs models vs live DB catalog)" { class: alembic_box }
-  rev: "Revision File (.py)\nupgrade() & downgrade() hooks" { class: alembic_box }
-
-  models -> engine: "inspect metadata"
-  engine -> rev: "synthesize migration script"
-}
-
-flyway: "Pyway / Flyway Paradigm (Raw SQL Centric)" {
-  sql: "Handcrafted DDL Scripts (.sql)\nV1.0__create_tables.sql" { class: flyway_box }
-  runner: "Pyway Migration Runner\n(Calculates SHA-256 Checksums)" { class: flyway_box }
-  history: "pyway_schema_history Table\n(Immutable audit trail in DB)" { class: flyway_box }
-
-  sql -> runner: "execute in lexicographical order"
-  runner -> history: "record checksum and status"
-}
-
-```
-</details>
+*D2 Source: [`06_alembic_vs_flyway_migration_paradigms.d2`](assets/14_persistence_caching_and_service_architecture/06_alembic_vs_flyway_migration_paradigms.d2)*
 
 #### Detailed Head-to-Head Comparison Matrix:
 
@@ -1791,32 +1559,7 @@ In $85\text{--}90\%$ of professional Python backend engineering teams (FastAPI, 
 
 ![Expand / Contract Zero-Downtime Schema Evolution](assets/14_persistence_caching_and_service_architecture/07_expand_contract_zero_downtime_migration.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  pod_old: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  db_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  pod_new: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2 } }
-}
-
-old_app: "Old App Pods (v1.0)\nReads & Writes full_name" { class: pod_old }
-database: "PostgreSQL Database\nUsers Table" { class: db_box }
-new_app: "New App Pods (v2.0)\nDual-Writes full_name + display_name" { class: pod_new }
-
-phase1: "Phase 1: Expand\nADD COLUMN display_name NULLABLE\nDeploy v2.0 dual-writing pods"
-phase2: "Phase 2: Backfill\nBatched background worker UPDATE\nSyncs historical rows without locking"
-phase3: "Phase 3: Contract\nDecommission v1.0 pods\nDeploy v2.1 (reads display_name only)\nDROP COLUMN full_name"
-
-database -> phase1: "1. Expand schema"
-new_app -> phase1: "2. Dual-write"
-database -> phase2: "3. Batched UPDATE"
-new_app -> phase3: "4. Read display_name"
-database -> phase3: "5. Drop legacy column"
-
-```
-</details>
+*D2 Source: [`07_expand_contract_zero_downtime_migration.d2`](assets/14_persistence_caching_and_service_architecture/07_expand_contract_zero_downtime_migration.d2)*
 
 ---
 
@@ -2043,39 +1786,7 @@ Redis avoids CPU context-switching overhead, race conditions, and locking locks 
 
 ![Redis Persistence Architecture: RDB Snapshots vs. AOF Append Log](assets/14_persistence_caching_and_service_architecture/08_redis_persistence_rdb_vs_aof.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  ram_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  rdb_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  aof_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-ram: "Redis In-Memory Engine\nActive Keyspace (SET, HSET, DEL)" { class: ram_box }
-
-rdb: "1. RDB Engine" {
-  bgsave: "Background BGSAVE\nOS fork() + Copy-on-Write (COW)" { class: rdb_box }
-  dump: "dump.rdb\nCompact Binary Snapshot File" { class: rdb_box }
-  bgsave -> dump: "serializes to disk"
-}
-
-aof: "2. AOF Engine" {
-  journal: "Continuous Command Log\nfsync: everysec (Prod default)" { class: aof_box }
-  rewrite: "BGREWRITEAOF\nBackground Log Compaction" { class: aof_box }
-  journal -> rewrite: "triggers on threshold"
-}
-
-ram -> rdb.bgsave: "Point-in-Time Fork" {
-  style: { stroke: "#fbbf24"; stroke-width: 2 }
-}
-ram -> aof.journal: "Continuous Write Stream" {
-  style: { stroke: "#4ade80"; stroke-width: 2 }
-}
-
-```
-</details>
+*D2 Source: [`08_redis_persistence_rdb_vs_aof.d2`](assets/14_persistence_caching_and_service_architecture/08_redis_persistence_rdb_vs_aof.d2)*
 
 | Persistence Mode | Mechanism | Durability / Data Loss Window | Restart Recovery Speed | Performance Impact |
 | :--- | :--- | :--- | :--- | :--- |
@@ -2509,38 +2220,7 @@ Apache Kafka is a **distributed append-only commit log**:
 
 ![Kafka Partitioning &amp; Consumer Group Parallelism Model](assets/14_persistence_caching_and_service_architecture/09_kafka_partition_consumer_group_assignment.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  topic_container: { style: { fill: "#0f172a"; stroke: "#38bdf8"; stroke-width: 2; stroke-dash: 4 } }
-  part_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  worker_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-topic: "Kafka Topic 'order-events'\n(Distributed Commit Log)" {
-  class: topic_container
-
-  p0: "Partition 0\nOffsets [0]..[N]\nLeader: Broker 1" { class: part_box }
-  p1: "Partition 1\nOffsets [0]..[N]\nLeader: Broker 2" { class: part_box }
-  p2: "Partition 2\nOffsets [0]..[N]\nLeader: Broker 3" { class: part_box }
-}
-
-group: "Consumer Group 'order-processors'\n(Max concurrency = partition count)" {
-  class: topic_container
-
-  w1: "Worker Pod 1\nAssigned: Partition 0" { class: worker_box }
-  w2: "Worker Pod 2\nAssigned: Partition 1" { class: worker_box }
-  w3: "Worker Pod 3\nAssigned: Partition 2" { class: worker_box }
-}
-
-topic.p0 -> group.w1: "Sequential poll() stream" { style: { stroke: "#4ade80"; stroke-width: 2 } }
-topic.p1 -> group.w2: "Sequential poll() stream" { style: { stroke: "#4ade80"; stroke-width: 2 } }
-topic.p2 -> group.w3: "Sequential poll() stream" { style: { stroke: "#4ade80"; stroke-width: 2 } }
-
-```
-</details>
+*D2 Source: [`09_kafka_partition_consumer_group_assignment.d2`](assets/14_persistence_caching_and_service_architecture/09_kafka_partition_consumer_group_assignment.d2)*
 
 * **Topics & Partitions**: A topic is partitioned for horizontal scale. A single partition is ordered and immutable.
 * **Consumer Groups**: Consumers in the same group share partition processing. If a topic has 4 partitions and a consumer group has 4 workers, each worker reads exactly 1 partition. If you have 5 workers, the 5th worker sits idle!
@@ -2679,30 +2359,7 @@ Unlike Kafka (where messages remain stored on disk and consumers track their own
 
 ![RabbitMQ AMQP 0-9-1 Message Routing Architecture](assets/14_persistence_caching_and_service_architecture/10_rabbitmq_amqp_exchange_queue_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  endpoint_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2; font-color: "#f8fafc" } }
-  exchange_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; font-color: "#f8fafc" } }
-  binding_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  queue_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-producer: "Producer Application\nPublishes to exchange" { class: endpoint_box }
-exchange: "AMQP Exchange\n(Topic / Direct / Fanout)" { class: exchange_box }
-binding: "Queue Binding\nPattern: 'orders.*'" { class: binding_box }
-queue: "Durable Message Queue\nFIFO buffer in RAM & Disk" { class: queue_box }
-consumer: "Consumer Worker\n(basic_ack / basic_nack)" { class: endpoint_box }
-
-producer -> exchange: "Publishes with routing key 'orders.eu'" { style: { stroke: "#38bdf8"; stroke-width: 2 } }
-exchange -> binding: "Evaluates binding pattern" { style: { stroke: "#fbbf24"; stroke-width: 2 } }
-binding -> queue: "Routes message into buffer" { style: { stroke: "#4ade80"; stroke-width: 2 } }
-queue -> consumer: "Dispatches with prefetch limit" { style: { stroke: "#94a3b8"; stroke-width: 2 } }
-
-```
-</details>
+*D2 Source: [`10_rabbitmq_amqp_exchange_queue_architecture.d2`](assets/14_persistence_caching_and_service_architecture/10_rabbitmq_amqp_exchange_queue_architecture.d2)*
 
 1. **Direct Exchange**: Routes messages to queues whose binding key matches the routing key exactly.
 2. **Fanout Exchange**: Broadcasts messages to **all bound queues**, ignoring routing keys (Pub/Sub pattern).

@@ -1,32 +1,46 @@
 direction: right
-title: Java Fail-Fast Iteration & modCount Detection Mechanics
+title: "Java Fail-Fast Iteration & modCount Detection Mechanics"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Stage1: 1. Iterator Initialization {
+Stage1: "1. Iterator Initialization" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   init: "it = list.iterator()"
   state: "expectedModCount = list.modCount = 5"
 }
 
-Stage2: 2. Direct Modification {
+Stage2: "2. Direct Modification" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
   mutation: "list.add('Element') -> list.modCount++ (6)"
   desync: "list.modCount (6) != it.expectedModCount (5)"
 }
 
-Stage3: 3. Fail-Fast Exception {
+Stage3: "3. Fail-Fast Exception" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#EF4444"
   check: "it.next() checks: modCount == expectedModCount"
   error: "Throws ConcurrentModificationException"
 }
 
-SafePattern: Safe Alternative {
+SafePattern: "Safe Alternative" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
   solution: "Use it.remove(): syncs expectedModCount = modCount"
 }
 
-Stage1 -> Stage2: Mutation occurs during loop
-Stage2 -> Stage3: Next it.next() call triggers check
+Stage1 -> Stage2: "Mutation occurs during loop"
+Stage2 -> Stage3: "Next it.next() call triggers check"

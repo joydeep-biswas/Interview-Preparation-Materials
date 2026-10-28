@@ -1,24 +1,30 @@
 direction: right
 classes: {
-  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
 }
 
 s1: "Stage 1: Compaction (OPTIMIZE)" {
   class: box
   style.stroke: "#3B82F6"
-  small: "Fragmented Small Files (1MB-5MB)" -> comp: "Uniform 1 GB Parquet Files\nBin-packed active files"
+  small: "Fragmented Small Files (1MB-5MB)"
+  comp: "Uniform 1 GB Parquet Files\nBin-packed active files"
+  small -> comp
 }
 
 s2: "Stage 2: Clustering (Z-ORDER)" {
   class: box
   style.stroke: "#10B981"
-  unclust: "Compacted Parquet" -> zord: "Clustered Parquet Files\nMin/Max Zone Maps enable 90%+ skipping"
+  unclust: "Compacted Parquet"
+  zord: "Clustered Parquet Files\nMin/Max Zone Maps enable 90%+ skipping"
+  unclust -> zord
 }
 
 s3: "Stage 3: Purging (VACUUM)" {
   class: box
   style.stroke: "#F59E0B"
-  tomb: "Tombstoned Parquet Files" -> purge: "Purged Cloud Storage\nVACUUM table RETAIN 168 HOURS"
+  tomb: "Tombstoned Parquet Files"
+  purge: "Purged Cloud Storage\nVACUUM table RETAIN 168 HOURS"
+  tomb -> purge
 }
 
 s1.comp -> s2.unclust: "Optimized Layout"

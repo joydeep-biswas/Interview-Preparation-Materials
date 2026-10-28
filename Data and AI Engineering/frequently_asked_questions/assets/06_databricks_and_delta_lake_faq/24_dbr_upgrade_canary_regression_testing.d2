@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  baseline_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  canary_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  diff_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  pass_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+  fail_node: { style: { fill: "#7F1D1D"; stroke: "#EF4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+BaselineRun: "Baseline Pipeline (DBR 13.3 LTS)\nProduction snapshot dataset\nRuntime: 18m | Spill: 0 GB | DBU: 12" { class: baseline_node }
+CanaryRun: "Canary Pipeline (DBR 14.3 LTS)\nExact same snapshot via time travel\nIdentical executor & driver specs" { class: canary_node }
+
+DiffEngine: "Automated Metric Diff Engine\nDiffs: Runtime delta, shuffle bytes,\ndisk spill GB, Catalyst explain plan" { class: diff_node }
+
+PromoteApproval: "Promotion Approved\nRuntime variance < 5%\nZero disk spill regressions\nSafe production upgrade" { class: pass_node }
+RegressionAlert: "Regression Alert & Triage\nRuntime > 15% slower OR disk spill detected\n1. Compare Catalyst physical plan\n2. Check Photon operator fallback" { class: fail_node }
+
+BaselineRun -> DiffEngine
+CanaryRun -> DiffEngine
+DiffEngine -> PromoteApproval: "Delta within SLA"
+DiffEngine -> RegressionAlert: "Delta > 15% OR Spill"

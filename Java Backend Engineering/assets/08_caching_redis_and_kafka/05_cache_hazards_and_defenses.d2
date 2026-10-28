@@ -1,28 +1,42 @@
 direction: right
-title: Production Caching Hazards & Hardened Defenses
+title: "Production Caching Hazards & Hardened Defenses"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-H1: 1. Cache Stampede (Herd) {
+H1: "1. Cache Stampede (Herd)" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#EF4444"
   cause: "Hot key expires; 10,000 threads hammer DB"
   defense: "Redisson Distributed Lock / Probabilistic XFetch"
 }
 
-H2: 2. Cache Penetration {
+H2: "2. Cache Penetration" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#EF4444"
   cause: "Bogus IDs bypass cache directly to DB"
   defense: "Bloom Filter / Null Object Caching"
 }
 
-H3: 3. Cache Avalanche {
+H3: "3. Cache Avalanche" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
   cause: "Mass simultaneous TTL expiration"
   defense: "Randomized TTL Jitter + Multi-AZ Cluster"
 }
 
-H4: 4. Dual-Write Inconsistency {
+H4: "4. Dual-Write Inconsistency" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
   cause: "Out-of-order writes between DB and Redis"

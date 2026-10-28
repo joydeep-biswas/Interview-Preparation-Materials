@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1100" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1100" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Hibernate Caching Architecture: L1 Session Cache vs L2 Distributed Cache</text>
   <text x="550" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Transactional Boundary Scope vs Cluster-Wide Multi-Node Cache Sharing (Redis, Ehcache, Hazelcast)</text>
 <rect x="40" y="95" width="320" height="330" rx="8" fill="#062e3d" stroke="#06b6d4" stroke-width="2"/>
@@ -60,7 +60,7 @@
 <text x="415" y="370" fill="#34D399" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Latency: ~200µs (In-Memory) to 1-2ms (Redis)</text>
 <text x="415" y="390" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Supports Hibernate Query Cache</text>
 <rect x="750" y="95" width="310" height="330" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
-<rect x="765" y="110" width="200" height="22" rx="11" fill="#047857"/><text x="865" y="124" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Relational Database</text>
+<rect x="765" y="110" width="200" height="22" rx="11" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="865" y="124" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Relational Database</text>
 <text x="770" y="155" fill="#34D399" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Scope: Persistent Disk Storage (ACID)</text>
 <text x="770" y="173" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Single Source of Truth for system state</text>
 <text x="770" y="191" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Reached only on L1 Miss AND L2 Miss</text>
@@ -75,13 +75,13 @@
 <text x="775" y="370" fill="#F87171" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Latency: 2ms - 50ms+ (Network + Disk I/O)</text>
 <text x="775" y="390" fill="#FCA5A5" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Expensive resource bottleneck</text>
 <line x1="360" y1="215" x2="390" y2="215" stroke="#FBBF24" stroke-width="2" marker-end="url(#arr-a)"/>
-<rect x="365" y="200" width="50" height="18" rx="9" fill="#78350f"/><text x="390" y="212" fill="#FDE68A" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">L1 Miss</text>
+<text x="375" y="208" fill="#FDE68A" font-size="7.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">L1 Miss</text>
 <line x1="720" y1="215" x2="750" y2="215" stroke="#F87171" stroke-width="2" marker-end="url(#arr-r)"/>
-<rect x="725" y="200" width="50" height="18" rx="9" fill="#7f1d1d"/><text x="750" y="212" fill="#FECACA" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">L2 Miss</text>
+<text x="735" y="208" fill="#FECACA" font-size="7.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">L2 Miss</text>
 <line x1="750" y1="335" x2="720" y2="335" stroke="#34D399" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arr-g)"/>
-<rect x="725" y="320" width="50" height="18" rx="9" fill="#064e3b"/><text x="750" y="332" fill="#6EE7B7" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Populates</text>
+<text x="735" y="350" fill="#6EE7B7" font-size="7.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Populates</text>
 <line x1="390" y1="335" x2="360" y2="335" stroke="#34D399" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arr-g)"/>
-<rect x="365" y="320" width="50" height="18" rx="9" fill="#064e3b"/><text x="390" y="332" fill="#6EE7B7" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Populates</text>
+<text x="375" y="350" fill="#6EE7B7" font-size="7.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Populates</text>
 <rect x="40" y="445" width="1020" height="115" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
 <text x="65" y="470" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Architectural Comparison Matrix:</text>
 <text x="65" y="490" fill="#F87171" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Query Cache Trap: Hibernate's Query Cache only stores IDs, not entity bodies! If L2 entity cache is NOT configured, running a cached query causes N separate SQL lookups (N+1 disaster)!</text>

@@ -1,0 +1,36 @@
+# Handling NULLs, Duplicates, and Bad Records in Production ETL Pipelines
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke-width: 1.5; border-radius: 8 } }
+}
+
+triage_pipeline: "3-Tier Data Quality Triage & Quarantine Architecture" {
+  class: box
+  style.stroke: "#3B82F6"
+
+  ingest: "Ingested Raw Records Stream\n• Ingestion via Kafka / Auto Loader / ADF\n• Incomplete, duplicate & corrupt payloads" {
+    class: stage
+    style.stroke: "#3B82F6"
+  }
+
+  tier1: "Tier 1: Malformed & Unparseable Bytes\n• Mode: PERMISSIVE with _corrupt_record\n• Or Spark badRecordsPath\n• Routes unparseable JSON/CSV to DLQ S3/ADLS bucket" {
+    class: stage
+    style.stroke: "#EF4444"
+  }
+
+  tier2: "Tier 2: Missing & Schema-Violating NULLs\n• Great Expectations / Pydantic / DLT Expectations\n• Validates mandatory primary keys & foreign keys\n• Routes records missing required keys to Quarantine Table" {
+    class: stage
+    style.stroke: "#F59E0B"
+  }
+
+  tier3: "Tier 3: Duplicate Record Deduplication\n• Deterministic Window: ROW_NUMBER() OVER\n  (PARTITION BY natural_key ORDER BY updated_at DESC)\n• Silver layer merge: Delta MERGE idempotency\n• Writes clean unique records to Gold" {
+    class: stage
+    style.stroke: "#10B981"
+  }
+
+  ingest -> tier1
+  ingest -> tier2
+  ingest -> tier3
+}
+

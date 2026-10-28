@@ -26,14 +26,14 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Snowflake Snowpipe Serverless Ingestion Architecture</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Event-Driven SQS Notification, IAM Storage Integration, and Micro-Partition Loading</text>
   
   
     <rect x="40" y="110" width="190" height="170" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="135.0" y="136" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">1. External App</text>
-    <text x="135.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Data Producer</text>
+    <text x="54" y="133" fill="#93c5fd" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">1. External App</text>
+    <text x="54" y="149" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Data Producer</text>
     <rect x="158" y="120" width="66" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
     <text x="191.0" y="132" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PRODUCER</text>
     <circle cx="56" cy="165" r="2" fill="#3b82f6"/>
@@ -47,8 +47,8 @@
 
   
     <rect x="260" y="110" width="200" height="170" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="360.0" y="136" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">2. S3 Landing Bucket</text>
-    <text x="360.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cloud Object Storage</text>
+    <text x="274" y="133" fill="#93c5fd" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">2. S3 Landing</text>
+    <text x="274" y="149" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Object Storage</text>
     <rect x="381" y="120" width="73" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
     <text x="417.5" y="132" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">S3 BUCKET</text>
     <circle cx="276" cy="165" r="2" fill="#3b82f6"/>
@@ -62,8 +62,8 @@
 
   
     <rect x="490" y="110" width="200" height="170" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="590.0" y="136" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">3. AWS SQS Queue</text>
-    <text x="590.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Snowpipe Notification Queue</text>
+    <text x="504" y="133" fill="#fde68a" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">3. AWS SQS</text>
+    <text x="504" y="149" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Notification Queue</text>
     <rect x="611" y="120" width="73" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
     <text x="647.5" y="132" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SQS QUEUE</text>
     <circle cx="506" cy="165" r="2" fill="#f59e0b"/>
@@ -77,8 +77,8 @@
 
   
     <rect x="720" y="110" width="220" height="170" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="830.0" y="136" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">4. Snowflake Snowpipe</text>
-    <text x="830.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Serverless Ingestion Engine</text>
+    <text x="734" y="133" fill="#6ee7b7" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">4. Snowpipe</text>
+    <text x="734" y="149" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Serverless Ingest</text>
     <rect x="868" y="120" width="66" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="901.0" y="132" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SNOWPIPE</text>
     <circle cx="736" cy="165" r="2" fill="#10b981"/>
@@ -93,11 +93,11 @@
     <text x="744" y="232" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Target Micro-Partitions</text>
 
   
-    <line x1="230" y1="195" x2="260" y2="195" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="245.0" y="187.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Upload File</text>
+    <line x1="230" y1="195" x2="260" y2="195" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><rect x="229" y="180" width="32" height="14" rx="2" fill="#090d16" stroke="#3b82f6" stroke-width="0.8"/><text x="245" y="190" fill="#3b82f6" font-size="7" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">PUT</text>
   
-    <line x1="460" y1="195" x2="490" y2="195" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="475.0" y="187.0" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">ObjectCreated</text>
+    <line x1="460" y1="195" x2="490" y2="195" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><rect x="459" y="180" width="32" height="14" rx="2" fill="#090d16" stroke="#f59e0b" stroke-width="0.8"/><text x="475" y="190" fill="#f59e0b" font-size="7" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Event</text>
   
-    <line x1="690" y1="195" x2="720" y2="195" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="705.0" y="187.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Consume Msg</text>
+    <line x1="690" y1="195" x2="720" y2="195" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><rect x="689" y="180" width="32" height="14" rx="2" fill="#090d16" stroke="#10b981" stroke-width="0.8"/><text x="705" y="190" fill="#10b981" font-size="7" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Poll</text>
 
   
     <rect x="40" y="310" width="900" height="85" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
@@ -108,6 +108,6 @@
     <circle cx="56" cy="365" r="2" fill="#8b5cf6"/>
     <text x="64" y="368" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Snowpipe runs on Snowflake-managed serverless compute. You do NOT need to keep a dedicated virtual warehouse running 24/7!</text>
     <circle cx="56" cy="381" r="2" fill="#8b5cf6"/>
-    <text x="64" y="384" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Charges are calculated based strictly on the exact compute used to process each micro-batch (per-second billing), reducing continuous ingestion cost by up to 70%.</text>
+    <text x="64" y="384" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Charges are based strictly on exact compute per micro-batch (per-second billing), cutting ingestion cost by 70%.</text>
 
 </svg>

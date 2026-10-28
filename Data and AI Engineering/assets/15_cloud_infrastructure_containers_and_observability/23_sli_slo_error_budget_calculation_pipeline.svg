@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,21 +43,21 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="40" y="150" width="160" height="90" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="40" y="150" width="160" height="114" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5" />
 <text x="120" y="172" fill="#f8fafc" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Raw Ingress Events</text>
 <text x="52" y="192" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">All incoming traffic</text>
 <text x="52" y="210" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Synthetic health probes</text>
 <text x="52" y="228" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">User API requests</text>
 <text x="52" y="246" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">4xx client errors</text>
 
-    <rect x="240" y="150" width="180" height="90" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5"/>
+    <rect x="240" y="150" width="180" height="114" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5" />
 <text x="330" y="172" fill="#fde68a" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Traffic Filtering</text>
 <text x="252" y="192" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Exclude synthetic probes</text>
 <text x="252" y="210" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Exclude client 4xx errors</text>
 <text x="252" y="228" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Only evaluate valid user</text>
 <text x="252" y="246" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">production traffic</text>
 
-    <rect x="460" y="130" width="240" height="130" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="460" y="130" width="240" height="150" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
 <text x="580" y="152" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">SLI Evaluation</text>
 <text x="472" y="172" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Service Level Indicator (SLI):</text>
 <text x="472" y="190" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Good Events / Total Valid Events</text>
@@ -66,7 +66,7 @@
 <text x="472" y="244" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">2. Status != 5xx server error</text>
 <text x="472" y="262" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">SLI = 99.92% over 30 days</text>
 
-    <rect x="740" y="130" width="200" height="130" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="740" y="130" width="200" height="150" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="840" y="152" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">SLO &amp; Error Budget</text>
 <text x="752" y="172" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">SLO Target: 99.9%</text>
 <text x="752" y="190" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Allowed Unreliability:</text>
@@ -75,10 +75,10 @@
 <text x="752" y="244" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Burn Rate: Rate of budget</text>
 <text x="752" y="262" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">consumption during outages</text>
 
-    <line x1="200" y1="195" x2="240" y2="195" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
-    <line x1="420" y1="195" x2="460" y2="195" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+    <line x1="200" y1="195" x2="240" y2="195" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
+    <line x1="420" y1="195" x2="460" y2="195" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
 <text x="440" y="185" fill="#38bdf8" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Valid Events</text>
-    <line x1="700" y1="195" x2="740" y2="195" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <line x1="700" y1="195" x2="740" y2="195" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
 <text x="720" y="185" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Compute Budget</text>
 
   </g>

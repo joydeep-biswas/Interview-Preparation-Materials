@@ -43,7 +43,7 @@
 
   <!-- Phase 1: Fork Phase -->
   <rect x="50" y="165" width="340" height="345" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="165" width="340" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="165" width="340" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="220" y="185" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Fork Phase (Recursive Spliterator)</text>
 
   <rect x="70" y="210" width="300" height="75" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
@@ -65,7 +65,7 @@
 
   <!-- Phase 2: Execution Phase -->
   <rect x="420" y="165" width="360" height="345" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
-  <rect x="420" y="165" width="360" height="30" rx="8" fill="#78350F"/>
+  <rect x="420" y="165" width="360" height="30" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
   <text x="600" y="185" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">2. Execution Phase: ForkJoinPool</text>
 
   <rect x="440" y="210" width="320" height="150" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
@@ -85,7 +85,7 @@
 
   <!-- Phase 3: Join Phase -->
   <rect x="810" y="165" width="340" height="345" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
-  <rect x="810" y="165" width="340" height="30" rx="8" fill="#064E3B"/>
+  <rect x="810" y="165" width="340" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="980" y="185" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">3. Join Phase: Recursive Reduction</text>
 
   <rect x="830" y="210" width="300" height="120" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1"/>

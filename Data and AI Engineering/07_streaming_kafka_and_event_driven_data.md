@@ -10,7 +10,7 @@ Event streaming treats data not as static snapshots stored in tables, but as a *
 
 ![Distributed Event Streaming Platform Architecture](assets/07_streaming_kafka_and_event_driven_data/01_distributed_event_streaming_ecosystem.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/01_distributed_event_streaming_ecosystem.d2](assets/07_streaming_kafka_and_event_driven_data/01_distributed_event_streaming_ecosystem.d2)*
+*D2 Source: [`01_distributed_event_streaming_ecosystem.d2`](assets/07_streaming_kafka_and_event_driven_data/01_distributed_event_streaming_ecosystem.d2)*
 
 ---
 
@@ -94,7 +94,7 @@ This paradigm introduces an artificial **24-hour latency barrier**. In the real 
 
 ![Paradigm Shift: Static Tables vs. Infinite Unbounded Streams](assets/07_streaming_kafka_and_event_driven_data/02_batch_vs_streaming_unbounded_streams.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/02_batch_vs_streaming_unbounded_streams.d2](assets/07_streaming_kafka_and_event_driven_data/02_batch_vs_streaming_unbounded_streams.d2)*
+*D2 Source: [`02_batch_vs_streaming_unbounded_streams.d2`](assets/07_streaming_kafka_and_event_driven_data/02_batch_vs_streaming_unbounded_streams.d2)*
 
 ---
 
@@ -105,7 +105,7 @@ The answer lies in **destructive reads vs. replayable commit logs**:
 
 ![Traditional Message Queue vs Distributed Commit Log](assets/07_streaming_kafka_and_event_driven_data/03_kafka_log_vs_traditional_mq_amqp.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/03_kafka_log_vs_traditional_mq_amqp.d2](assets/07_streaming_kafka_and_event_driven_data/03_kafka_log_vs_traditional_mq_amqp.d2)*
+*D2 Source: [`03_kafka_log_vs_traditional_mq_amqp.d2`](assets/07_streaming_kafka_and_event_driven_data/03_kafka_log_vs_traditional_mq_amqp.d2)*
 
 | Dimension | Traditional Message Queue (RabbitMQ / SQS) | Distributed Commit Log (Apache Kafka) |
 | :--- | :--- | :--- |
@@ -138,7 +138,7 @@ In modern architectures, the append-only log is the **Single Source of Truth**:
 
 ![Kafka Topics, Partitions, and Monotonic Sequential Offsets](assets/07_streaming_kafka_and_event_driven_data/04_topics_partitions_and_monotonic_offsets.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/04_topics_partitions_and_monotonic_offsets.d2](assets/07_streaming_kafka_and_event_driven_data/04_topics_partitions_and_monotonic_offsets.d2)*
+*D2 Source: [`04_topics_partitions_and_monotonic_offsets.d2`](assets/07_streaming_kafka_and_event_driven_data/04_topics_partitions_and_monotonic_offsets.d2)*
 
 > [!IMPORTANT]
 > **Total Ordering Guarantee:**
@@ -177,7 +177,7 @@ Producers do *not* make a network call for every single record. Instead, records
 
 ![Kafka Producer Architecture: RecordAccumulator & Micro-Batching](assets/07_streaming_kafka_and_event_driven_data/05_producer_record_accumulator_microbatching.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/05_producer_record_accumulator_microbatching.d2](assets/07_streaming_kafka_and_event_driven_data/05_producer_record_accumulator_microbatching.d2)*
+*D2 Source: [`05_producer_record_accumulator_microbatching.d2`](assets/07_streaming_kafka_and_event_driven_data/05_producer_record_accumulator_microbatching.d2)*
 
 - **`batch.size` (Default 16 KB):** Maximum byte size per partition batch.
 - **`linger.ms` (Default 0 ms):** Artificial delay to wait for more records to arrive before sending. Setting `linger.ms = 20` enables the producer to aggregate hundreds of events into a single compressed batch, increasing throughput by 500% with negligible latency cost.
@@ -199,7 +199,7 @@ In compacted topics, a background cleaner thread periodically merges log segment
 
 ![Kafka Log Compaction & Tombstone Deletion Mechanics](assets/07_streaming_kafka_and_event_driven_data/06_log_compaction_and_tombstones.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/06_log_compaction_and_tombstones.d2](assets/07_streaming_kafka_and_event_driven_data/06_log_compaction_and_tombstones.d2)*
+*D2 Source: [`06_log_compaction_and_tombstones.d2`](assets/07_streaming_kafka_and_event_driven_data/06_log_compaction_and_tombstones.d2)*
 
 - **Tombstones:** To delete a key from a compacted topic, the producer sends a record with the key and a **`NULL` value**. The cleaner retains this tombstone for `delete.retention.ms` (e.g., 24 hours) so consumers observe the deletion, then purges the key permanently.
 
@@ -213,7 +213,7 @@ On disk, a partition is not one massive file. It is sliced into **Segments** (ty
 
 ![Kafka Physical Storage Architecture: Partition Directory & Segment Files](assets/07_streaming_kafka_and_event_driven_data/07_physical_segment_files_index_timeindex.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/07_physical_segment_files_index_timeindex.d2](assets/07_streaming_kafka_and_event_driven_data/07_physical_segment_files_index_timeindex.d2)*
+*D2 Source: [`07_physical_segment_files_index_timeindex.d2`](assets/07_streaming_kafka_and_event_driven_data/07_physical_segment_files_index_timeindex.d2)*
 
 | Segment File Component | Physical File Format | Hardware & OS Lookup Mechanism |
 | :--- | :--- | :--- |
@@ -237,7 +237,7 @@ Why can a single Kafka broker transmit gigabytes of data per second across 10Gbp
 
 ![Zero-Copy Network I/O: Traditional Read/Write vs. OS sendfile()](assets/07_streaming_kafka_and_event_driven_data/08_zero_copy_network_io_sendfile.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/08_zero_copy_network_io_sendfile.d2](assets/07_streaming_kafka_and_event_driven_data/08_zero_copy_network_io_sendfile.d2)*
+*D2 Source: [`08_zero_copy_network_io_sendfile.d2`](assets/07_streaming_kafka_and_event_driven_data/08_zero_copy_network_io_sendfile.d2)*
 
 By relying on Linux **`sendfile()`** system call, the kernel transfers bytes directly from the storage cache to the network card via Direct Memory Access (DMA), completely bypassing user-space JVM memory and eliminating CPU copy overhead.
 
@@ -249,7 +249,7 @@ Apache Kafka 3.x+ deprecated external ZooKeeper clusters in favor of **KRaft (Ka
 
 ![Kafka Metadata Architecture: Legacy ZooKeeper vs. Modern KRaft](assets/07_streaming_kafka_and_event_driven_data/09_zookeeper_vs_kraft_consensus.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/09_zookeeper_vs_kraft_consensus.d2](assets/07_streaming_kafka_and_event_driven_data/09_zookeeper_vs_kraft_consensus.d2)*
+*D2 Source: [`09_zookeeper_vs_kraft_consensus.d2`](assets/07_streaming_kafka_and_event_driven_data/09_zookeeper_vs_kraft_consensus.d2)*
 
 #### Why KRaft is Superior:
 1. **Millions of Partitions:** ZooKeeper bottlenecked at $\approx 200,000$ partitions per cluster. KRaft scales to **millions of partitions**.
@@ -271,7 +271,7 @@ Apache Kafka 3.x+ deprecated external ZooKeeper clusters in favor of **KRaft (Ka
 
 ![Producer ACKs & Replication Durability Matrix](assets/07_streaming_kafka_and_event_driven_data/10_producer_acks_0_1_all_durability.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/10_producer_acks_0_1_all_durability.d2](assets/07_streaming_kafka_and_event_driven_data/10_producer_acks_0_1_all_durability.d2)*
+*D2 Source: [`10_producer_acks_0_1_all_durability.d2`](assets/07_streaming_kafka_and_event_driven_data/10_producer_acks_0_1_all_durability.d2)*
 
 | Acks Configuration | Network Round-Trips | Write Latency ($p99$) | Durability Guarantee | Production Failure Mode |
 | :--- | :--- | :--- | :--- | :--- |
@@ -308,7 +308,7 @@ A **Consumer Group** represents a coordinated team of consumers cooperating to r
 
 ![Kafka Consumer Groups & Partition Assignment Dynamics](assets/07_streaming_kafka_and_event_driven_data/11_consumer_groups_and_rebalancing.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/11_consumer_groups_and_rebalancing.d2](assets/07_streaming_kafka_and_event_driven_data/11_consumer_groups_and_rebalancing.d2)*
+*D2 Source: [`11_consumer_groups_and_rebalancing.d2`](assets/07_streaming_kafka_and_event_driven_data/11_consumer_groups_and_rebalancing.d2)*
 
 ---
 
@@ -372,7 +372,7 @@ Spark Structured Streaming abstracts streaming data as an **Unbounded Table** th
 
 ![Spark Structured Streaming: Unbounded Table Mental Model & Output Modes](assets/07_streaming_kafka_and_event_driven_data/12_spark_streaming_unbounded_table_modes.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/12_spark_streaming_unbounded_table_modes.d2](assets/07_streaming_kafka_and_event_driven_data/12_spark_streaming_unbounded_table_modes.d2)*
+*D2 Source: [`12_spark_streaming_unbounded_table_modes.d2`](assets/07_streaming_kafka_and_event_driven_data/12_spark_streaming_unbounded_table_modes.d2)*
 
 ---
 
@@ -456,7 +456,7 @@ windowed_counts = (
 
 ![Streaming Windowing Strategies: Tumbling, Sliding, and Session Windows](assets/07_streaming_kafka_and_event_driven_data/13_streaming_windows_tumbling_sliding_session.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/13_streaming_windows_tumbling_sliding_session.d2](assets/07_streaming_kafka_and_event_driven_data/13_streaming_windows_tumbling_sliding_session.d2)*
+*D2 Source: [`13_streaming_windows_tumbling_sliding_session.d2`](assets/07_streaming_kafka_and_event_driven_data/13_streaming_windows_tumbling_sliding_session.d2)*
 
 ---
 
@@ -519,7 +519,7 @@ $$\text{End-to-End Semantics} = \min(\text{Producer Guarantees}, \ \text{Broker 
 
 ![End-to-End Delivery Semantics: At-Most-Once, At-Least-Once, Exactly-Once](assets/07_streaming_kafka_and_event_driven_data/14_delivery_semantics_at_least_most_exactly_once.svg)
 
-*D2 Source: [assets/07_streaming_kafka_and_event_driven_data/14_delivery_semantics_at_least_most_exactly_once.d2](assets/07_streaming_kafka_and_event_driven_data/14_delivery_semantics_at_least_most_exactly_once.d2)*
+*D2 Source: [`14_delivery_semantics_at_least_most_exactly_once.d2`](assets/07_streaming_kafka_and_event_driven_data/14_delivery_semantics_at_least_most_exactly_once.d2)*
 
 ---
 

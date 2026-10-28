@@ -8,7 +8,7 @@ A comprehensive, production-grade guide answering real-world large-scale distrib
 
 ![High-Scale Distributed Platform: Reference Architecture Model](assets/02_high_level_system_design/01_high_scale_distributed_platform_reference_model.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/01_high_scale_distributed_platform_reference_model.d2](assets/02_high_level_system_design/01_high_scale_distributed_platform_reference_model.d2)
+*D2 Source: [`01_high_scale_distributed_platform_reference_model.d2`](assets/02_high_level_system_design/01_high_scale_distributed_platform_reference_model.d2)*
 
 ---
 
@@ -71,7 +71,7 @@ A comprehensive, production-grade guide answering real-world large-scale distrib
 
 ![URL Shortener: Sub-5ms Read Redirection Architecture](assets/02_high_level_system_design/02_url_shortener_redirection_flow.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/02_url_shortener_redirection_flow.d2](assets/02_high_level_system_design/02_url_shortener_redirection_flow.d2)
+*D2 Source: [`02_url_shortener_redirection_flow.d2`](assets/02_high_level_system_design/02_url_shortener_redirection_flow.d2)*
 
 #### Production Base62 Conversion Implementation (Java)
 ```java
@@ -110,7 +110,7 @@ public class Base62Encoder {
 #### Multi-Region Architectural Blueprint
 ![URL Shortener: Multi-Region Active-Active Architecture](assets/02_high_level_system_design/03_url_shortener_multiregion_architecture.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/03_url_shortener_multiregion_architecture.d2](assets/02_high_level_system_design/03_url_shortener_multiregion_architecture.d2)
+*D2 Source: [`03_url_shortener_multiregion_architecture.d2`](assets/02_high_level_system_design/03_url_shortener_multiregion_architecture.d2)*
 
 1. **Partitioned ID Space Across Regions (Zero Cross-Region Coordination):**
    - Avoid cross-region distributed locks for ID generation. Pre-assign distinct **Datacenter IDs** in Snowflake generators:
@@ -215,7 +215,7 @@ public class SlidingWindowRateLimiter {
 #### 64-bit Bitwise Layout
 ![Twitter Snowflake: 64-Bit Globally Unique ID Layout](assets/02_high_level_system_design/04_twitter_snowflake_64bit_layout.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/04_twitter_snowflake_64bit_layout.d2](assets/02_high_level_system_design/04_twitter_snowflake_64bit_layout.d2)
+*D2 Source: [`04_twitter_snowflake_64bit_layout.d2`](assets/02_high_level_system_design/04_twitter_snowflake_64bit_layout.d2)*
 
 #### Production Snowflake Implementation (Java)
 ```java
@@ -323,7 +323,7 @@ public class SnowflakeIdGenerator {
 #### Architecture Blueprint
 ![Distributed Notification Service: High-Scale Fanout Architecture](assets/02_high_level_system_design/05_distributed_notification_service_architecture.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/05_distributed_notification_service_architecture.d2](assets/02_high_level_system_design/05_distributed_notification_service_architecture.d2)
+*D2 Source: [`05_distributed_notification_service_architecture.d2`](assets/02_high_level_system_design/05_distributed_notification_service_architecture.d2)*
 
 ---
 
@@ -355,7 +355,7 @@ public class SnowflakeIdGenerator {
 #### End-to-End Architectural Blueprint (50,000 TPS)
 ![Payment Gateway: 50,000 TPS Idempotent Processing Flow](assets/02_high_level_system_design/06_payment_gateway_idempotent_processing_flow.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/06_payment_gateway_idempotent_processing_flow.d2](assets/02_high_level_system_design/06_payment_gateway_idempotent_processing_flow.d2)
+*D2 Source: [`06_payment_gateway_idempotent_processing_flow.d2`](assets/02_high_level_system_design/06_payment_gateway_idempotent_processing_flow.d2)*
 
 ---
 
@@ -435,7 +435,7 @@ Payments enter extended `PENDING` state due to network dropouts, asynchronous 3D
 #### The 2-Tier Inventory Reservation Architecture
 ![E-Commerce Flash Sale: 2-Tier Inventory Reservation Architecture](assets/02_high_level_system_design/07_ecommerce_flash_sale_two_tier_inventory_reservation.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/07_ecommerce_flash_sale_two_tier_inventory_reservation.d2](assets/02_high_level_system_design/07_ecommerce_flash_sale_two_tier_inventory_reservation.d2)
+*D2 Source: [`07_ecommerce_flash_sale_two_tier_inventory_reservation.d2`](assets/02_high_level_system_design/07_ecommerce_flash_sale_two_tier_inventory_reservation.d2)*
 
 ---
 
@@ -460,7 +460,7 @@ Payments enter extended `PENDING` state due to network dropouts, asynchronous 3D
 #### Architecture Blueprint
 ![Distributed Rate Limiter: Redis Sliding Window Architecture](assets/02_high_level_system_design/08_distributed_rate_limiter_sliding_window_architecture.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/08_distributed_rate_limiter_sliding_window_architecture.d2](assets/02_high_level_system_design/08_distributed_rate_limiter_sliding_window_architecture.d2)
+*D2 Source: [`08_distributed_rate_limiter_sliding_window_architecture.d2`](assets/02_high_level_system_design/08_distributed_rate_limiter_sliding_window_architecture.d2)*
 
 #### SQL vs. NoSQL Trade-Off Analysis for Uber Eats
 1. **Relational / SQL (PostgreSQL):** Used for **Order Placements, Payment Ledgers, and Merchant Billing** where strict ACID transactions, foreign keys, and zero phantom reads are mathematically required.
@@ -578,7 +578,7 @@ The comparison matrix below contrasts the architectural topology, computational 
 #### Architecture Blueprint
 ![Distributed Real-Time Chat: Netty WebSocket & Cassandra Architecture](assets/02_high_level_system_design/09_whatsapp_distributed_chat_architecture.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/09_whatsapp_distributed_chat_architecture.d2](assets/02_high_level_system_design/09_whatsapp_distributed_chat_architecture.d2)
+*D2 Source: [`09_whatsapp_distributed_chat_architecture.d2`](assets/02_high_level_system_design/09_whatsapp_distributed_chat_architecture.d2)*
 
 1. **State Machine Definition (JSON/YAML DSL):** Workflows are defined as declarative JSON state machines specifying states, tasks, transitions, retry policies, and compensating error handlers (Sagas).
 2. **Durable Execution & Event Sourcing:**
@@ -616,7 +616,7 @@ In a graph with $V = 10^9$ users and average degree $d = 500$:
 #### High-Scale Architecture
 ![Ride-Sharing: High-Scale Geospatial Matching Engine (Uber / Lyft)](assets/02_high_level_system_design/10_ride_sharing_geospatial_matching_engine.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/10_ride_sharing_geospatial_matching_engine.d2](assets/02_high_level_system_design/10_ride_sharing_geospatial_matching_engine.d2)
+*D2 Source: [`10_ride_sharing_geospatial_matching_engine.d2`](assets/02_high_level_system_design/10_ride_sharing_geospatial_matching_engine.d2)*
 
 1. **Storage: Roaring Bitmaps in In-Memory Cache (Facebook TAO Pattern):**
    - Each user's friend list is stored as a compressed **Roaring Bitmap** in an in-memory Redis/Memcached cluster.
@@ -649,7 +649,7 @@ In a graph with $V = 10^9$ users and average degree $d = 500$:
 In distributed payment settlement across heterogeneous banking networks, network timeouts are inevitable:
 ![Payment Timeout Dilemma: Two-Phase Reconciliation Protocol](assets/02_high_level_system_design/11_payment_timeout_dilemma_two_phase_settlement.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/11_payment_timeout_dilemma_two_phase_settlement.d2](assets/02_high_level_system_design/11_payment_timeout_dilemma_two_phase_settlement.d2)
+*D2 Source: [`11_payment_timeout_dilemma_two_phase_settlement.d2`](assets/02_high_level_system_design/11_payment_timeout_dilemma_two_phase_settlement.d2)*
 
 #### Core Architecture & Mechanics
 1. **Three-State Ledger Locking (Never Debit Immediately):**
@@ -682,7 +682,7 @@ In distributed payment settlement across heterogeneous banking networks, network
 
 ![Real-Time Fraud Detection Gateway: Sub-50ms Scoring Architecture](assets/02_high_level_system_design/12_realtime_fraud_detection_gateway_architecture.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/12_realtime_fraud_detection_gateway_architecture.d2](assets/02_high_level_system_design/12_realtime_fraud_detection_gateway_architecture.d2)
+*D2 Source: [`12_realtime_fraud_detection_gateway_architecture.d2`](assets/02_high_level_system_design/12_realtime_fraud_detection_gateway_architecture.d2)*
 
 #### Core Mechanics & Features
 1. **Budget Allocation (100ms Hard Budget):**
@@ -709,7 +709,7 @@ In distributed payment settlement across heterogeneous banking networks, network
 #### Architectural Walkthrough
 ![Open Banking API: Edge Token & Consent Validation Architecture](assets/02_high_level_system_design/13_open_banking_consent_and_token_validation.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/13_open_banking_consent_and_token_validation.d2](assets/02_high_level_system_design/13_open_banking_consent_and_token_validation.d2)
+*D2 Source: [`13_open_banking_consent_and_token_validation.d2`](assets/02_high_level_system_design/13_open_banking_consent_and_token_validation.d2)*
 
 #### Core Mechanics
 1. **Granular Consent Metadata in FAPI Token:**
@@ -730,7 +730,7 @@ In distributed payment settlement across heterogeneous banking networks, network
 
 ![Mainframe Modernization: Strangler Fig 4-Phase Migration Roadmap](assets/02_high_level_system_design/14_mainframe_strangler_fig_migration_roadmap.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/14_mainframe_strangler_fig_migration_roadmap.d2](assets/02_high_level_system_design/14_mainframe_strangler_fig_migration_roadmap.d2)
+*D2 Source: [`14_mainframe_strangler_fig_migration_roadmap.d2`](assets/02_high_level_system_design/14_mainframe_strangler_fig_migration_roadmap.d2)*
 
 #### Core Mechanics & Consistency Guarantees
 1. **Phase 1: Initial Bulk Load + CDC Stream:**

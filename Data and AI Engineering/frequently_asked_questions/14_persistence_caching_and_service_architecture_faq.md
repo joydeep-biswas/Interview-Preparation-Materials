@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to real-world interview scenarios and en
 
 ![High-Throughput Persistence & Distributed Caching Topology](assets/14_persistence_caching_and_service_architecture_faq/01_high_throughput_persistence_distributed_caching_topology.svg)
 
-*D2 Source:* [assets/14_persistence_caching_and_service_architecture_faq/01_high_throughput_persistence_distributed_caching_topology.d2](assets/14_persistence_caching_and_service_architecture_faq/01_high_throughput_persistence_distributed_caching_topology.d2)
+*D2 Source: [`01_high_throughput_persistence_distributed_caching_topology.d2`](assets/14_persistence_caching_and_service_architecture_faq/01_high_throughput_persistence_distributed_caching_topology.d2)*
 
 ---
 

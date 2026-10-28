@@ -1,18 +1,28 @@
 # Hash Aggregation vs Sort/Stream Aggregation
 direction: right
+classes: {
+  strategy: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  step: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+}
 
 hash: "Strategy A: Hash Aggregation" {
+  class: strategy
   style.stroke: "#3B82F6"
-  s1: "1. Build Hash Table\n• In-memory hash map of keys"
-  s2: "2. Memory Check\n• If keys > work_mem: spills to disk!"
-  s3: "3. Emit Tuples\n• Best for low/med cardinality unsorted data"
+  s1: "1. Build Hash Table\n• In-memory hash map of grouping keys" { class: step; style.stroke: "#3B82F6" }
+  s2: "2. Memory Check (work_mem)\n• If keys > work_mem: spills to disk!" { class: step; style.stroke: "#EF4444" }
+  s3: "3. Emit Tuples\n• Best for low/medium cardinality unsorted data" { class: step; style.stroke: "#10B981" }
   s1 -> s2 -> s3
 }
 
 sort: "Strategy B: Sort/Stream Aggregation" {
+  class: strategy
   style.stroke: "#10B981"
-  s1: "1. Presorted Stream\n• Fed via B+Tree index scan"
-  s2: "2. Streaming Accumulator\n• Constant O(1) RAM footprint; no spills"
-  s3: "3. Pipeline Emit\n• Best for massive cardinality pre-indexed data"
+  s1: "1. Presorted Stream\n• Fed directly via B+Tree index scan" { class: step; style.stroke: "#10B981" }
+  s2: "2. Streaming Accumulator\n• Constant O(1) RAM footprint; zero spills" { class: step; style.stroke: "#10B981" }
+  s3: "3. Pipeline Emit\n• Best for massive cardinality pre-indexed data" { class: step; style.stroke: "#8B5CF6" }
   s1 -> s2 -> s3
+}
+
+hash -> sort: "VS" {
+  style.stroke: "#F59E0B"
 }

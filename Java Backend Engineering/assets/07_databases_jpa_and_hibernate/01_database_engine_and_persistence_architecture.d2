@@ -1,7 +1,18 @@
 direction: right
-title: Enterprise Database Engine & Persistence Architecture
+title: "Enterprise Database Engine & Persistence Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 pool: "1. Client & Pool (HikariCP)" {
+  class: container
   style.fill: "#0b1329"
   style.stroke: "#3b82f6"
 
@@ -10,6 +21,7 @@ pool: "1. Client & Pool (HikariCP)" {
 }
 
 engine: "2. Query Processing Engine" {
+  class: container
   style.fill: "#062e3d"
   style.stroke: "#06b6d4"
 
@@ -21,6 +33,7 @@ engine: "2. Query Processing Engine" {
 }
 
 memory: "3. Storage Memory Buffers" {
+  class: container
   style.fill: "#1a1c12"
   style.stroke: "#f59e0b"
 
@@ -29,6 +42,7 @@ memory: "3. Storage Memory Buffers" {
 }
 
 disk: "4. Persistent NVMe Storage" {
+  class: container
   style.fill: "#1e1e38"
   style.stroke: "#8b5cf6"
 
@@ -37,6 +51,7 @@ disk: "4. Persistent NVMe Storage" {
 }
 
 replicas: "5. Read Replicas (Streaming)" {
+  class: container
   style.fill: "#0b1329"
   style.stroke: "#38bdf8"
 

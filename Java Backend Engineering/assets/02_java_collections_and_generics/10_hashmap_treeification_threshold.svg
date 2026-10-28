@@ -38,7 +38,7 @@
 
   <!-- Stage 1: Linked List Chaining -->
   <rect x="50" y="95" width="340" height="425" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="95" width="340" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="95" width="340" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="220" y="116" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Stage 1: Chained Linked List (&lt; 8 Nodes)</text>
 
   <rect x="70" y="140" width="300" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
@@ -61,7 +61,7 @@
 
   <!-- Stage 2: Treeification Trigger -->
   <rect x="420" y="95" width="360" height="425" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
-  <rect x="420" y="95" width="360" height="30" rx="8" fill="#78350F"/>
+  <rect x="420" y="95" width="360" height="30" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
   <text x="600" y="116" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Stage 2: Treeification Decision Rule</text>
 
   <rect x="440" y="140" width="320" height="110" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1.5"/>
@@ -85,7 +85,7 @@
 
   <!-- Stage 3: Red-Black Tree &amp; Untreeify -->
   <rect x="810" y="95" width="360" height="425" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
-  <rect x="810" y="95" width="360" height="30" rx="8" fill="#064E3B"/>
+  <rect x="810" y="95" width="360" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="990" y="116" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Stage 3: Red-Black Tree (TreeBin)</text>
 
   <rect x="830" y="140" width="320" height="145" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>

@@ -1,33 +1,37 @@
 direction: right
 title: "Chain of Responsibility Pattern: Sequential Decoupled Pipeline"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-req: "OrderRequest
-user_id=42
-amount=$12.5k" {
+req: "OrderRequest\nuser_id=42\namount=\$12.5k" {
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 }
 
-f1: "1. BlacklistFilter
-OFAC sanction check" {
+f1: "1. BlacklistFilter\nOFAC sanction check" {
   style.fill: "#1e293b"
   style.stroke: "#ef4444"
 }
 
-f2: "2. CreditLimitFilter
-Exposure threshold check" {
+f2: "2. CreditLimitFilter\nExposure threshold check" {
   style.fill: "#1e293b"
   style.stroke: "#f59e0b"
 }
 
-f3: "3. FraudDetectionFilter
-ML fraud scoring < 0.8" {
+f3: "3. FraudDetectionFilter\nML fraud scoring < 0.8" {
   style.fill: "#1e293b"
   style.stroke: "#06b6d4"
 }
 
-core: "4. OrderExecutionService
-Persists order to DB" {
+core: "4. OrderExecutionService\nPersists order to DB" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }

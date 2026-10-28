@@ -6,76 +6,76 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
   </defs>
 
-  <rect width="1020" height="220" fill="#0B0F19"/>
+  <rect width="1020" height="220" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Card 1 -->
   <g transform="translate(25, 40)">
-    <rect width="170" height="140" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="170" height="140" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="85" y="32" class="title" fill="#93C5FD">ADLS Gen2 Storage</text>
-    <line x1="15" y1="44" x2="155" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="155" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• 100 GB CSV Daily</text>
     <text x="18" y="92" class="body-txt">• 60 Compute Nodes</text>
     <text x="18" y="114" class="body-txt">• Split into &gt;60 files</text>
   </g>
 
-  <path fill="none" d="M 195 110 L 225 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-
   <!-- Card 2 -->
   <g transform="translate(225, 40)">
-    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#06B6D4" stroke-width="2"/>
+    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#06B6D4" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#67E8F9">COPY INTO Engine</text>
-    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• Direct Reader nodes</text>
     <text x="18" y="92" class="body-txt">• Zero single-thread bottleneck</text>
     <text x="18" y="114" class="body-txt">• Auto format detection</text>
   </g>
 
-  <path fill="none" d="M 405 110 L 435 110" class="edge" stroke="#06B6D4" marker-end="url(#arr-cyan)"/>
-
   <!-- Card 3 -->
   <g transform="translate(435, 40)">
-    <rect width="175" height="140" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="175" height="140" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="87.5" y="32" class="title" fill="#FCD34D">Staging Table</text>
-    <line x1="15" y1="44" x2="160" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="160" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• Round-Robin Heap</text>
     <text x="18" y="92" class="body-txt">• Maximum ingestion speed</text>
     <text x="18" y="114" class="body-txt">• No index overhead</text>
   </g>
 
-  <path fill="none" d="M 610 110 L 640 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
-
   <!-- Card 4 -->
   <g transform="translate(640, 40)">
-    <rect width="175" height="140" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="175" height="140" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2" />
     <text x="87.5" y="32" class="title" fill="#C4B5FD">CTAS Pipeline</text>
-    <line x1="15" y1="44" x2="160" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="160" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• Distributed Hash Key</text>
     <text x="18" y="92" class="body-txt">• In-memory sorting</text>
     <text x="18" y="114" class="body-txt">• Build row groups</text>
   </g>
 
-  <path fill="none" d="M 815 110 L 845 110" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
-
   <!-- Card 5 -->
   <g transform="translate(845, 40)">
-    <rect width="150" height="140" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="150" height="140" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="75" y="32" class="title" fill="#6EE7B7">Fact Table</text>
-    <line x1="15" y1="44" x2="135" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="135" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="70" class="body-txt">• Clustered CCI</text>
     <text x="15" y="92" class="body-txt">• High compression</text>
     <text x="15" y="114" class="body-txt">• Sub-second query</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 195 110 L 225 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 405 110 L 435 110" class="edge" stroke="#06B6D4" marker-end="url(#arr-cyan)" />
+
+  <path fill="none" d="M 610 110 L 640 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)" />
+
+  <path fill="none" d="M 815 110 L 845 110" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)" />
+
+  </g></svg>

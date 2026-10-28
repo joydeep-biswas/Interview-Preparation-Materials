@@ -1,6 +1,6 @@
 direction: right
 classes: {
-  box: { style: { fill: "#111827"; stroke-width: 2; rx: 10 } }
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
 }
 
 pod: "Kubernetes Executor Pod (cgroup Limit = 10 GB)" {
@@ -15,7 +15,6 @@ pod: "Kubernetes Executor Pod (cgroup Limit = 10 GB)" {
 }
 
 killer: "Linux Kernel OOM Killer\nContainer exceeds cgroup memory\nTerminates Pod -> Exit Code 137" {
-  class: box
   style.stroke: "#EF4444"
 }
 

@@ -1,14 +1,22 @@
 direction: right
 title: "API Gateway Architecture: Routing & Security Offloading"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-client: "Public Clients
-Web, Mobile, B2B" {
+client: "Public Clients\nWeb, Mobile, B2B" {
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 }
 
-gw: "API Gateway
-Spring Cloud Gateway / Envoy" {
+gw: "API Gateway\nSpring Cloud Gateway / Envoy" {
   style.fill: "#083344"
   style.stroke: "#06b6d4"
 
@@ -20,8 +28,7 @@ Spring Cloud Gateway / Envoy" {
   tls -> jwt -> rate -> route
 }
 
-services: "Internal Services
-Order, Payment, User" {
+services: "Internal Services\nOrder, Payment, User" {
   style.fill: "#062e24"
   style.stroke: "#10b981"
 }

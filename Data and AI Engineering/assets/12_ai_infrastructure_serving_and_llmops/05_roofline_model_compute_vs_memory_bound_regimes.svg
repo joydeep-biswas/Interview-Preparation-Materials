@@ -2,62 +2,62 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="100%" stop-color="#0f172a"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="100%" stop-color="#0f172a" />
     </linearGradient>
 
     <!-- Card Gradients -->
     <linearGradient id="card-blue" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#0f172a"/>
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
     </linearGradient>
     <linearGradient id="card-green" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8" />
     </linearGradient>
     <linearGradient id="card-amber" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7"/>
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7" />
     </linearGradient>
     <linearGradient id="card-red" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8" />
     </linearGradient>
     <linearGradient id="card-purple" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7"/>
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7" />
     </linearGradient>
     <linearGradient id="card-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2"/>
+      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2" />
     </linearGradient>
 
     <!-- Markers -->
     <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399" />
     </marker>
     <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24" />
     </marker>
     <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171" />
     </marker>
     <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc" />
     </marker>
     <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee" />
     </marker>
     <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Canvas -->
-  <rect width="1000" height="440" rx="10" fill="url(#bg)"/>
+  <rect width="1000" height="440" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g transform="translate(0, 0)">
@@ -67,44 +67,44 @@
 
   <!-- Diagram Body -->
   <g transform="translate(40, 95)">
-  <rect width="430" height="310" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#f87171" stroke-width="1.5" stroke-dasharray="6,4"/>
-  <rect x="14" y="-12" width="346" height="22" rx="4" fill="#0f172a" stroke="#f87171" stroke-width="1"/>
+  <rect width="430" height="310" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#f87171" stroke-width="1.5" stroke-dasharray="6,4" />
+  <rect x="14" y="-12" width="346" height="22" rx="4" fill="#0f172a" stroke="#f87171" stroke-width="1" />
   <text x="187.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#f87171">1. Memory-Bound Regime (LLM Token Decode)</text>
 </g>
 <g transform="translate(60, 130)">
-  <rect width="390" height="85" rx="8" fill="url(#card-red)" stroke="#f87171" stroke-width="1.5"/>
+  <rect width="390" height="106" rx="8" fill="url(#card-red)" stroke="#f87171" stroke-width="1.5" />
   <text x="195.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#fca5a5">Characteristics: Low Arithmetic Intensity</text>
-  <line x1="12" y1="34" x2="378" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="378" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Operational Intensity: 0.5 to 2.0 FLOPs / Byte scanned</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Generating 1 token requires loading all 140GB weights from HBM!</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Tensor Cores sit IDLE 95% of the time waiting for memory bus!</text>
 </g>
 <g transform="translate(60, 235)">
-  <rect width="390" height="145" rx="8" fill="url(#card-amber)" stroke="#fbbf24" stroke-width="1.5"/>
+  <rect width="390" height="145" rx="8" fill="url(#card-amber)" stroke="#fbbf24" stroke-width="1.5" />
   <text x="195.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Optimization Levers</text>
-  <line x1="12" y1="34" x2="378" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="378" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Increase Batch Size (Continuous Batching amortizes weight load)</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Quantization (FP8 / INT4 halves bytes transferred per token)</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Speculative Decoding (Draft model generates multiple candidates)</text>
   <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Ceiling governed strictly by: Memory Bandwidth (3.35 TB/s)</text>
 </g>
 <g transform="translate(510, 95)">
-  <rect width="450" height="310" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#34d399" stroke-width="1.5" stroke-dasharray="6,4"/>
-  <rect x="14" y="-12" width="370" height="22" rx="4" fill="#0f172a" stroke="#34d399" stroke-width="1"/>
+  <rect width="450" height="310" rx="10" fill="#0f172a" fill-opacity="0.08" stroke="#34d399" stroke-width="1.5" stroke-dasharray="6,4" />
+  <rect x="14" y="-12" width="370" height="22" rx="4" fill="#0f172a" stroke="#34d399" stroke-width="1" />
   <text x="199.0" y="3" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#34d399">2. Compute-Bound Regime (LLM Prompt Prefill)</text>
 </g>
 <g transform="translate(530, 130)">
-  <rect width="410" height="85" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <rect width="410" height="106" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" />
   <text x="205.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Characteristics: High Arithmetic Intensity</text>
-  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Operational Intensity: 150 to 500+ FLOPs / Byte scanned</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Prompt tokens processed in parallel as dense GEMM matrix!</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Weights loaded ONCE and reused across thousands of prompt tokens</text>
 </g>
 <g transform="translate(530, 235)">
-  <rect width="410" height="145" rx="8" fill="url(#card-cyan)" stroke="#22d3ee" stroke-width="1.5"/>
+  <rect width="410" height="145" rx="8" fill="url(#card-cyan)" stroke="#22d3ee" stroke-width="1.5" />
   <text x="205.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Optimization Levers</text>
-  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="398" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Chunked Prefill (Prevents long prompts from starving decode loops)</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Tensor Cores saturate at maximum hardware limit: 989 TFLOPs FP8</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• FlashAttention-2 / FlashAttention-3 tiling in SRAM</text>

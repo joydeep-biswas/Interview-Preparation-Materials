@@ -27,7 +27,7 @@
     .badge { font-weight: 600; font-size: 11px; }
   </style>
 
-  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12" stroke="#1F2937" stroke-width="1.5"/>
 
   <text x="530" y="32" class="title" font-size="20" text-anchor="middle">JWT Edge Authentication &amp; Microservices Identity Propagation</text>
   <text x="530" y="52" class="subtitle" text-anchor="middle">Public-key RSA/ECDSA verification at Edge API Gateway with lightweight internal mTLS token propagation</text>
@@ -35,10 +35,10 @@
   <!-- Step 1: External Client -->
   <g transform="translate(40, 75)">
     <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="110" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">1. External Client</text>
 
-    <rect x="15" y="45" width="190" height="90" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="190" height="90" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="95" y="66" class="badge" fill="#93C5FD" text-anchor="middle">Bearer JWT Token</text>
     <text x="15" y="88" class="card-body" font-size="11">Authorization: Bearer eyJ...</text>
     <text x="15" y="104" class="card-body" font-size="11">Signed by Identity Provider</text>
@@ -50,7 +50,7 @@
     <text x="15" y="206" class="card-body" font-family="monospace">roles: ["USER", "PREMIUM"]</text>
     <text x="15" y="222" class="card-body" font-family="monospace">exp: 1735689600</text>
 
-    <rect x="15" y="255" width="190" height="80" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="255" width="190" height="80" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="95" y="278" class="badge" fill="#93C5FD" text-anchor="middle">Stateless Invariant</text>
     <text x="15" y="298" class="card-body" font-size="11">No database session lookup</text>
     <text x="15" y="314" class="card-body" font-size="11">required on client side</text>
@@ -59,10 +59,10 @@
   <!-- Step 2: API Gateway Edge Authentication -->
   <g transform="translate(290, 75)">
     <rect width="240" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="240" height="30" rx="10" ry="10" fill="#065F46"/>
+    <rect width="240" height="30" rx="10" ry="10" fill="#065F46" stroke="#10B981" stroke-width="1"/>
     <text x="120" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">2. API Gateway (Edge AuthN)</text>
 
-    <rect x="15" y="45" width="210" height="90" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="210" height="90" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="105" y="66" class="badge" fill="#A7F3D0" text-anchor="middle">Asymmetric Signature Verify</text>
     <text x="15" y="88" class="card-body">• Fetches JWKS public keys</text>
     <text x="15" y="104" class="card-body">• Validates RS256/ES256 signature</text>
@@ -74,7 +74,7 @@
     <text x="15" y="206" class="card-body" font-size="11">O(1) fast blacklist check</text>
     <text x="15" y="222" class="badge" fill="#6EE7B7">Protects against compromised tokens</text>
 
-    <rect x="15" y="250" width="210" height="85" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="250" width="210" height="85" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="105" y="272" class="badge" fill="#A7F3D0" text-anchor="middle">Edge Defense Boundary</text>
     <text x="15" y="292" class="card-body" font-size="11">Rejects invalid/expired tokens</text>
     <text x="15" y="308" class="card-body" font-size="11">with 401 Unauthorized</text>
@@ -83,10 +83,10 @@
   <!-- Step 3: Identity Propagation -->
   <g transform="translate(560, 75)">
     <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="230" height="30" rx="10" ry="10" fill="#92400E"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#92400E" stroke="#F59E0B" stroke-width="1"/>
     <text x="115" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">3. Downstream Propagation</text>
 
-    <rect x="15" y="45" width="200" height="90" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="200" height="90" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="100" y="66" class="badge" fill="#FDE68A" text-anchor="middle">Sanitize &amp; Mint Headers</text>
     <text x="15" y="88" class="card-body" font-family="monospace">X-User-Id: user-4829</text>
     <text x="15" y="104" class="card-body" font-family="monospace">X-User-Roles: USER,PREMIUM</text>
@@ -99,7 +99,7 @@
     <text x="15" y="222" class="card-body">• Encrypted internal network</text>
     <text x="15" y="236" class="badge" fill="#FCD34D">• Prevents header spoofing</text>
 
-    <rect x="15" y="255" width="200" height="80" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="255" width="200" height="80" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="100" y="278" class="badge" fill="#FCD34D" text-anchor="middle">Zero Overhead</text>
     <text x="15" y="298" class="card-body" font-size="11">Downstream services skip</text>
     <text x="15" y="314" class="card-body" font-size="11">heavy RSA verification!</text>
@@ -108,17 +108,17 @@
   <!-- Step 4: Internal Microservices -->
   <g transform="translate(815, 75)">
     <rect width="205" height="370" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="205" height="30" rx="10" ry="10" fill="#5B21B6"/>
+    <rect width="205" height="30" rx="10" ry="10" fill="#5B21B6" stroke="#8B5CF6" stroke-width="1"/>
     <text x="102" y="20" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Internal Services</text>
 
     <g transform="translate(15, 45)">
-      <rect x="0" y="0" width="175" height="80" rx="6" ry="6" fill="#1E293B"/>
+      <rect x="0" y="0" width="175" height="80" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
       <text x="15" y="20" class="badge" fill="#DDD6FE">Order Service</text>
       <text x="15" y="40" class="card-body">Extracts X-User-Id</text>
       <text x="15" y="56" class="card-body">Sets SecurityContext</text>
       <text x="15" y="72" class="badge" fill="#34D399">Lightweight O(1)</text>
 
-      <rect x="0" y="90" width="175" height="80" rx="6" ry="6" fill="#1E293B"/>
+      <rect x="0" y="90" width="175" height="80" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
       <text x="15" y="110" class="badge" fill="#DDD6FE">Payment Service</text>
       <text x="15" y="130" class="card-body">Trusts Gateway mTLS</text>
       <text x="15" y="146" class="card-body">Checks PREMIUM role</text>
@@ -130,7 +130,7 @@
       <text x="15" y="238" class="card-body">MDC / OpenTelemetry</text>
     </g>
 
-    <rect x="15" y="315" width="175" height="40" rx="4" ry="4" fill="#0F172A"/>
+    <rect x="15" y="315" width="175" height="40" rx="4" ry="4" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="87" y="338" class="badge" fill="#34D399" text-anchor="middle">High Performance Mesh</text>
   </g>
 

@@ -1,47 +1,64 @@
 direction: right
-title: Snowflake Schema: Normalized Dimension Hierarchies
-
-fact_sales: FACT_SALES {
-  shape: sql_table
-  sales_fact_id: bigint [pk]
-  product_sk: int [fk]
-  store_sk: int [fk]
+title: "Snowflake Schema: Normalized Dimension Hierarchies"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-dim_product: DIM_PRODUCT {
+fact_sales: "FACT_SALES" {
+  class: table_box
   shape: sql_table
-  product_sk: int [pk]
-  subcategory_id: int [fk]
+  sales_fact_id: "bigint [pk]"
+  product_sk: "int [fk]"
+  store_sk: "int [fk]"
 }
 
-dim_subcategory: DIM_SUBCATEGORY {
+dim_product: "DIM_PRODUCT" {
+  class: table_box
   shape: sql_table
-  subcategory_id: int [pk]
-  category_id: int [fk]
+  product_sk: "int [pk]"
+  subcategory_id: "int [fk]"
 }
 
-dim_category: DIM_CATEGORY {
+dim_subcategory: "DIM_SUBCATEGORY" {
+  class: table_box
   shape: sql_table
-  category_id: int [pk]
-  category_name: varchar
+  subcategory_id: "int [pk]"
+  category_id: "int [fk]"
 }
 
-dim_store: DIM_STORE {
+dim_category: "DIM_CATEGORY" {
+  class: table_box
   shape: sql_table
-  store_sk: int [pk]
-  city_id: int [fk]
+  category_id: "int [pk]"
+  category_name: "varchar"
 }
 
-dim_city: DIM_CITY {
+dim_store: "DIM_STORE" {
+  class: table_box
   shape: sql_table
-  city_id: int [pk]
-  region_id: int [fk]
+  store_sk: "int [pk]"
+  city_id: "int [fk]"
 }
 
-dim_region: DIM_REGION {
+dim_city: "DIM_CITY" {
+  class: table_box
   shape: sql_table
-  region_id: int [pk]
-  region_name: varchar
+  city_id: "int [pk]"
+  region_id: "int [fk]"
+}
+
+dim_region: "DIM_REGION" {
+  class: table_box
+  shape: sql_table
+  region_id: "int [pk]"
+  region_name: "varchar"
 }
 
 fact_sales -> dim_product: "FK: product_sk"

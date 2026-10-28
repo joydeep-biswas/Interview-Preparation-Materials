@@ -1,40 +1,35 @@
 # Distributed Join Comparison & Selection Decision Tree
 direction: down
-
-d1: "Is one table < Broadcast Threshold? (<10MB)" {
-  shape: diamond
+classes: {
+  decision: { shape: diamond; style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2 } }
+  action: { style: { fill: "#111827"; stroke-width: 2; border-radius: 8 } }
 }
-bhj: "Broadcast Hash Join (BHJ)
-• Highest Performance
-• Zero shuffle of large fact table" {
+
+d1: "Is one table < Broadcast Threshold?\n(< 10MB - 100MB)" { class: decision }
+bhj: "Broadcast Hash Join (BHJ)\n• Highest Performance; zero shuffle of large fact\n• Build HT in executor RAM; avoids network exchange" {
+  class: action
   style.stroke: "#10B981"
 }
 
-d2: "Are both inputs pre-sorted & clustered?" {
-  shape: diamond
-}
-smj: "Sort-Merge Join (SMJ)
-• Highly Scalable
-• Bypasses sort; stream merges O(N+M)" {
+d2: "Are both inputs pre-sorted & clustered on key?" { class: decision }
+smj: "Sort-Merge Join (SMJ)\n• Highly Scalable; petabyte-safe\n• Bypasses sort; stream-merges in O(N+M)" {
+  class: action
   style.stroke: "#3B82F6"
 }
 
-d3: "Is extreme key skew detected? (>50% on 1 key)" {
-  shape: diamond
-}
-salt: "Skewed Salting Join
-• Prevents Straggler OOMs
-• Splits hot key 1..K" {
+d3: "Is extreme key skew detected?\n(> 50% records on 1 key)" { class: decision }
+salt: "Skewed Salting Join\n• Replicates dimension key with salt (1..K)\n• Distributes hot key across workers; eliminates stragglers" {
+  class: action
   style.stroke: "#8B5CF6"
 }
-shj: "Shuffle Hash Join (SHJ)
-• Shuffles both tables; builds HT per partition" {
+shj: "Shuffle Hash Join (SHJ)\n• Shuffles both tables on join key hash\n• Builds hash table per partition; fails if partition > RAM" {
+  class: action
   style.stroke: "#F59E0B"
 }
 
-d1 -> bhj: "YES"
-d1 -> d2: "NO"
-d2 -> smj: "YES"
-d2 -> d3: "NO"
-d3 -> salt: "YES"
-d3 -> shj: "NO"
+d1 -> bhj: "YES (Broadcastable)"
+d1 -> d2: "NO (Both Large)"
+d2 -> smj: "YES (Pre-Sorted)"
+d2 -> d3: "NO (Unsorted)"
+d3 -> salt: "YES (Severe Skew)"
+d3 -> shj: "NO (Uniform Distribution)"

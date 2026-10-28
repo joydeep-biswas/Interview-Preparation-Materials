@@ -6,81 +6,81 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
     <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
   </defs>
 
-  <rect width="1020" height="220" fill="#0B0F19"/>
+  <rect width="1020" height="220" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Col 1 -->
   <g transform="translate(25, 40)">
-    <rect width="170" height="140" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="170" height="148" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="85" y="32" class="title" fill="#93C5FD">Migration Scope</text>
-    <line x1="15" y1="44" x2="155" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="155" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• Legacy Oracle / SQL</text>
     <text x="18" y="90" class="body-txt">• Teradata / Netezza</text>
     <text x="18" y="110" class="body-txt">• Migrating to Delta</text>
     <text x="18" y="130" class="body-txt">• Cutover readiness</text>
   </g>
 
-  <path fill="none" d="M 195 110 L 225 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-
   <!-- Col 2 -->
   <g transform="translate(225, 40)">
-    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="180" height="148" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#93C5FD">1. Row Count &amp; PK</text>
-    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• COUNT(*)</text>
     <text x="18" y="90" class="body-txt">• COUNT(DISTINCT pk)</text>
     <text x="18" y="110" class="body-txt">• Exact cardinality match</text>
     <text x="18" y="130" class="body-txt">• Zero ghost records</text>
   </g>
 
-  <path fill="none" d="M 405 110 L 435 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-amber)"/>
-
   <!-- Col 3 -->
   <g transform="translate(435, 40)">
-    <rect width="180" height="140" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="180" height="148" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="90" y="32" class="title" fill="#FCD34D">2. Numerical Footing</text>
-    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="165" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• SUM(revenue)</text>
     <text x="18" y="90" class="body-txt">• MIN / MAX dates</text>
     <text x="18" y="110" class="body-txt">• AVG(balances)</text>
     <text x="18" y="130" class="body-txt">• 4 decimal precision</text>
   </g>
 
-  <path fill="none" d="M 615 110 L 645 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-green)"/>
-
   <!-- Col 4 -->
   <g transform="translate(645, 40)">
-    <rect width="175" height="140" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="175" height="148" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="87.5" y="32" class="title" fill="#6EE7B7">3. Checksum Hash</text>
-    <line x1="15" y1="44" x2="160" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="160" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="18" y="70" class="body-txt">• MD5 / SHA-256 hash</text>
     <text x="18" y="90" class="body-txt">• Bitwise row checksum</text>
     <text x="18" y="110" class="body-txt">• Deterministic sort</text>
     <text x="18" y="130" class="body-txt">• Catches silent flips</text>
   </g>
 
-  <path fill="none" d="M 820 110 L 850 110" class="edge" stroke="#10B981" marker-end="url(#arr-purple)"/>
-
   <!-- Col 5 -->
   <g transform="translate(850, 40)">
-    <rect width="145" height="140" rx="10" ry="10" fill="#064E3B" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="145" height="148" rx="10" ry="10" fill="#064E3B" stroke="#8B5CF6" stroke-width="2" />
     <text x="72.5" y="32" class="title" fill="#C4B5FD">4. Shadow Run</text>
-    <line x1="15" y1="44" x2="130" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="130" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="70" class="body-txt" fill="#C4B5FD">• Dual execution</text>
     <text x="15" y="90" class="body-txt" fill="#C4B5FD">• 14-day parallel</text>
     <text x="15" y="110" class="body-txt" fill="#C4B5FD">• Daily diff checks</text>
     <text x="15" y="130" class="body-txt" fill="#C4B5FD">• Zero-risk switch</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 195 110 L 225 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 405 110 L 435 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-amber)" />
+
+  <path fill="none" d="M 615 110 L 645 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-green)" />
+
+  <path fill="none" d="M 820 110 L 850 110" class="edge" stroke="#10B981" marker-end="url(#arr-purple)" />
+
+  </g></svg>

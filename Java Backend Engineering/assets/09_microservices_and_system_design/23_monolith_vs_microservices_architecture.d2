@@ -1,29 +1,35 @@
 direction: right
 title: "Monolithic vs Microservices Architecture Deep-Dive"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 monolith: "Monolithic Architecture" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#ef4444"
 
-  app: "Unified JVM Monolith
-User, Order, Payment, Catalog"
-  db: "Central Monolithic DB
-Shared Tables & Relational FKs"
+  app: "Unified JVM Monolith\nUser, Order, Payment, Catalog"
+  db: "Central Monolithic DB\nShared Tables & Relational FKs"
   app -> db: "ACID transactions"
 }
 
 microservices: "Microservices Architecture" {
+  class: container
   style.fill: "#062e24"
   style.stroke: "#10b981"
 
-  gw: "API Gateway
-L7 Routing & Auth"
-  u_svc: "User Service
-Postgres DB"
-  o_svc: "Order Service
-Postgres DB"
-  p_svc: "Payment Service
-MongoDB"
+  gw: "API Gateway\nL7 Routing & Auth"
+  u_svc: "User Service\nPostgres DB"
+  o_svc: "Order Service\nPostgres DB"
+  p_svc: "Payment Service\nMongoDB"
 
   gw -> u_svc
   gw -> o_svc

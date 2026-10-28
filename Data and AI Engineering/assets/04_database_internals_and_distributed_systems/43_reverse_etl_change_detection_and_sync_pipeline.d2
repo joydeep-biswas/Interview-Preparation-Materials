@@ -1,20 +1,33 @@
 direction: right
-title: Reverse ETL: Change Detection & Diff Evaluation
+title: "Reverse ETL: Change Detection & Diff Evaluation"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-detection: Change Detection & Diff Evaluation {
-  dw: Warehouse Gold Table (gold.dim_customer_360)
-  diff: Diff Engine: Computes SHA256(attributes)
-  check: Hash matches previous state? {
+detection: "Change Detection & Diff Evaluation" {
+  class: container
+  dw: "Warehouse Gold Table (gold.dim_customer_360)"
+  diff: "Diff Engine: Computes SHA256(attributes)"
+  check: "Hash matches previous state?" {
+    class: box
     shape: diamond
   }
-  skip: Skip Egress (Zero API credits consumed)
+  skip: "Skip Egress (Zero API credits consumed)"
   dw -> diff -> check
   check -> skip: "Yes: Unchanged"
 }
 
-sync: Throttled SaaS Synchronization {
-  limiter: Token Bucket Rate Limiter (Max 100 req/s)
-  saas: Salesforce REST API (PATCH /Contact/{id})
+sync: "Throttled SaaS Synchronization" {
+  class: container
+  limiter: "Token Bucket Rate Limiter (Max 100 req/s)"
+  saas: "Salesforce REST API (PATCH /Contact/{id})" { class: box }
   limiter -> saas
 }
 

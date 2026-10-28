@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  stream_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  bronze_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  tier1_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  tier2_node: { style: { fill: "#0C4A6E"; stroke: "#06B6D4"; stroke-width: 2; border-radius: 8 } }
+  tier3_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+EventStream: "Transaction Event Stream\nKafka / Azure Event Hubs\n10,000 msgs/sec throughput" { class: stream_node }
+BronzeDelta: "Bronze Delta Table\nAppend-Only Immutable Ingest\nSub-minute latency commits" { class: bronze_node }
+
+Tier1: "Tier 1: Real-Time Fraud Engine\nDirect Delta readStream\nLatency: < 30 seconds" { class: tier1_node }
+Tier2: "Tier 2: Operations BI Mart\nHourly CDF micro-batch\nLatency: 1 hour window" { class: tier2_node }
+Tier3: "Tier 3: Audited Financial Mart\nNightly VERSION AS OF snapshot\n100% Reconciled Consistency" { class: tier3_node }
+
+EventStream -> BronzeDelta: "Structured Streaming"
+BronzeDelta -> Tier1: "Streaming Read"
+BronzeDelta -> Tier2: "Hourly CDF Read"
+BronzeDelta -> Tier3: "Nightly Snapshot"

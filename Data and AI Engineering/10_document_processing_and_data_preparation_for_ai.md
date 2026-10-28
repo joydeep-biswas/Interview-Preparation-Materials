@@ -8,59 +8,7 @@ A comprehensive, production-grade guide to unstructured document ingestion, OCR 
 
 ![End To End Unstructured Ai Data Pipeline](assets/10_document_processing_and_data_preparation_for_ai/01_end_to_end_unstructured_ai_data_pipeline.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  ing: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  parse: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  chunk: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  sink: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-gateways: "1. Ingestion Gateways" {
-  pdf: "PDFs / Scans" { class: ing }
-  html: "Web & Wikis" { class: ing }
-  audio: "Audio Transcripts" { class: ing }
-}
-
-parsing: "2. Layout Parsing Engine" {
-  native: "Native Stream Parser\n(PyMuPDF)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  ocr: "Visual OCR & Layout\n(LayoutLMv3 / ColPali)" { class: parse }
-  table: "Table Transformer (TATR)" { class: parse }
-  md: "Canonical Markdown" { class: sink }
-
-  native -> table
-  ocr -> table
-  table -> md
-}
-
-chunking: "3. Advanced Chunking Strategy" {
-  rec: "Recursive Character" { class: chunk }
-  hier: "Parent-Child (Hierarchical)" { class: chunk }
-  sem: "Semantic Inflection" { class: chunk }
-  enforce: "Token Budget Enforcer\n(cl100k_base)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-
-  rec -> enforce
-  hier -> enforce
-  sem -> enforce
-}
-
-enrichment: "4. Deduplication & Storage" {
-  minhash: "MinHash LSH Deduplication" { class: parse }
-  meta: "Breadcrumb Injection" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  vdb: "Vector Store & Doc Store\n(Dense Vectors + Hierarchy)" { class: sink }
-
-  minhash -> meta -> vdb
-}
-
-gateways.pdf -> parsing.native
-parsing.md -> chunking.rec
-chunking.enforce -> enrichment.minhash
-```
-</details>
+*D2 Source: [`01_end_to_end_unstructured_ai_data_pipeline.d2`](assets/10_document_processing_and_data_preparation_for_ai/01_end_to_end_unstructured_ai_data_pipeline.d2)*
 
 ---
 
@@ -119,38 +67,7 @@ A PDF file consists of four primary binary structural layers:
 
 ![Pdf Binary Structure And Postscript Painting](assets/10_document_processing_and_data_preparation_for_ai/02_pdf_binary_structure_and_postscript_painting.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  pdf: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  post: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-binary: "Physical PDF Binary Architecture" {
-  header: "%PDF-1.7 (Magic Bytes Header)" { class: pdf }
-  body: "Body Objects (/Catalog, /Pages, /Page)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  stream: "Content Streams (PostScript Painting Operators)" { class: post }
-  xref: "XREF Table & Trailer (Byte Offset Index)" { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-
-  header -> body -> stream -> xref
-}
-
-painting: "Decompressed Text Painting Stream" {
-  bt: "BT (Begin Text)" { class: post }
-  tf: "/F1 12.0 Tf (Set Font)" { class: post }
-  tm: "1 0 0 1 72 712 Tm (Position x=72, y=712)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  tj: "[(Quarterly) 10 (Earnings)] TJ (Paint Glyphs)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  et: "ET (End Text)" { class: post }
-
-  bt -> tf -> tm -> tj -> et
-}
-
-binary.stream -> painting.bt: "Decompressed Stream"
-```
-</details>
+*D2 Source: [`02_pdf_binary_structure_and_postscript_painting.d2`](assets/10_document_processing_and_data_preparation_for_ai/02_pdf_binary_structure_and_postscript_painting.d2)*
 
 ### 1.2 Font Dictionaries, Glyphs & ToUnicode CMap Corruption
 
@@ -188,37 +105,7 @@ Standard open-source text extractors read PDF text streams sequentially by Y-coo
 
 ![Multicolumn Pdf Layout Reading Order Extraction](assets/10_document_processing_and_data_preparation_for_ai/03_multicolumn_pdf_layout_reading_order_extraction.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  doc: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  bad: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  good: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-page: "Multi-Column Page Layout" {
-  c1: "Column 1:\nIn this study we prove that linear attention" { class: doc }
-  c2: "Column 2:\nHowever, prior work failed to converge" { class: doc }
-}
-
-naive: "Naive Y-Coordinate Sorting\n(Garbled Output)" {
-  bad_text: "Line 1: In this study we prove However, prior work\nLine 2: that linear attention failed to converge" { class: bad }
-}
-
-layout_aware: "LayoutLM / Vision Bounding Box\n(Reading Order Graph)" {
-  b1: "Block 1: In this study we prove that linear attention" { class: good }
-  b2: "Block 2: However, prior work failed to converge" { class: good }
-
-  b1 -> b2: "Natural Reading Order"
-}
-
-page -> naive: "Naive Y-Sort"
-page -> layout_aware: "Bounding Box Segmentation"
-```
-</details>
+*D2 Source: [`03_multicolumn_pdf_layout_reading_order_extraction.d2`](assets/10_document_processing_and_data_preparation_for_ai/03_multicolumn_pdf_layout_reading_order_extraction.d2)*
 
 ### 2.2 Deep Learning Layout Models: LayoutLMv1–v3 vs Donut vs Nougat
 
@@ -233,13 +120,13 @@ To overcome reading order collapse, modern document pipelines treat document lay
 ### 2.3 The Vision-Native Revolution: ColPali Late-Interaction Patch Embeddings
 
 The most significant architectural breakthrough in AI document processing is **ColPali** (Faysse et al., 2024), built upon the PaliGemma vision-language model:
-- **The Core Flaw of OCR Pipelines:** Classical pipelines convert images $	o$ OCR text $	o$ clean text $	o$ dense text embedding. If OCR fails on an architectural flowchart, chemical structure, or financial graphic, the information is permanently lost.
+- **The Core Flaw of OCR Pipelines:** Classical pipelines convert images $\to$ OCR text $\to$ clean text $\to$ dense text embedding. If OCR fails on an architectural flowchart, chemical structure, or financial graphic, the information is permanently lost.
 - **The ColPali Mechanism:**
   1. Rasterizes document pages directly into 300 DPI images (no OCR whatsoever!).
-  2. Passes the image into a Vision Transformer that projects $32 	imes 32$ pixel patches into a grid of 128-dimensional multi-vector embeddings (producing $pprox 1024$ patch vectors per page).
+  2. Passes the image into a Vision Transformer that projects $32 \times 32$ pixel patches into a grid of 128-dimensional multi-vector embeddings (producing $\approx 1024$ patch vectors per page).
   3. Text queries are tokenized into 128-dimensional multi-vectors.
   4. Matching occurs via **Late-Interaction MaxSim operator** (borrowed from ColBERT):
-     $$	ext{Score}(Q, D) = \sum_{q \in Q} \max_{d \in D} (q \cdot d^T)$$
+     $$\text{Score}(Q, D) = \sum_{q \in Q} \max_{d \in D} (q \cdot d^T)$$
 - **Why It Dominates:** Text queries match directly against visual patches of charts, fonts, logos, and tables with zero layout destruction.
 
 > [!TIP]
@@ -296,28 +183,7 @@ Chunking is the single most critical hyperparameter in RAG retrieval pipelines. 
 
 ![Five Core Chunking Paradigms Comparison](assets/10_document_processing_and_data_preparation_for_ai/04_five_core_chunking_paradigms_comparison.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  fixed: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  rec: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  struct: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  sem: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  hier: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-c1: "1. Fixed-Size Token\n(Arbitrary boundaries)" { class: fixed }
-c2: "2. Recursive Character\n(Paragraphs -> Lines)" { class: rec }
-c3: "3. Structure-Aware\n(Breadcrumb Injection)" { class: struct }
-c4: "4. Semantic Inflection\n(Cosine drop split)" { class: sem }
-c5: "5. Parent-Child Multi-Vector\n(High Precision + Full Context)" { class: hier }
-
-c1 -> c2 -> c3 -> c4 -> c5
-```
-</details>
+*D2 Source: [`04_five_core_chunking_paradigms_comparison.d2`](assets/10_document_processing_and_data_preparation_for_ai/04_five_core_chunking_paradigms_comparison.d2)*
 
 ### 4.1 Fixed-Size Token Chunking with Sliding Overlap
 - **Mechanics:** Slices the token stream into fixed blocks (e.g. 512 tokens) with a sliding overlap window (e.g. 50 tokens or 10%).
@@ -341,7 +207,7 @@ c1 -> c2 -> c3 -> c4 -> c5
   1. Splits document into individual sentences: $S_1, S_2, \dots, S_N$.
   2. Computes sentence embeddings using a fast embedding model.
   3. Calculates the cosine distance between adjacent sentences: $d_i = 1 - \cos(\mathbf{e}_i, \mathbf{e}_{i+1})$.
-  4. Identifies inflection points where $d_i$ exceeds a statistical threshold (e.g., $95	ext{th}$ percentile of distances). A distance spike indicates a sudden topic transition, placing a chunk boundary.
+  4. Identifies inflection points where $d_i$ exceeds a statistical threshold (e.g., $95\text{th}$ percentile of distances). A distance spike indicates a sudden topic transition, placing a chunk boundary.
 
 ### 4.5 Hierarchical Parent-Child & Anthropic Contextual Retrieval
 - **The Dilemma:** Small chunks (150 tokens) produce sharp, high-precision vector matches, but lack the surrounding conversational context required by the LLM. Large chunks (1,500 tokens) contain full context, but dilute vector embeddings.
@@ -370,10 +236,10 @@ LLMs do not read characters or English words; they process numerical token IDs g
 
 Token counts vary dramatically depending on the linguistic and structural nature of the text:
 
-$$	ext{Token Inflation Factor} = rac{	ext{Token Count}}{	ext{Word Count}}$$
+$$\text{Token Inflation Factor} = \frac{\text{Token Count}}{\text{Word Count}}$$
 
-- **English Prose:** Averages $pprox 0.75$ words per token ($1000	ext{ words} pprox 1333	ext{ tokens}$).
-- **Python / SQL Code:** Averages $pprox 1.5$ to $2.5$ tokens per word due to indentation, brackets, and syntax characters.
+- **English Prose:** Averages $\approx 0.75$ words per token ($1000\text{ words} \approx 1333\text{ tokens}$).
+- **Python / SQL Code:** Averages $\approx 1.5$ to $2.5$ tokens per word due to indentation, brackets, and syntax characters.
 - **Financial Tables:** Numeric values with commas and decimals (`$14,250,890.45`) are frequently split into 5 to 7 separate subword tokens!
 - **Non-Latin Scripts (Hindi, Japanese, Arabic):** Experience massive token inflation (up to 4x to 8x more tokens than English for identical semantic content).
 
@@ -382,7 +248,7 @@ $$	ext{Token Inflation Factor} = rac{	ext{Token Count}}{	ext{Word Count}}$$
 Most enterprise dense embedding models have strict maximum context length limits:
 - `text-embedding-3-small` / `large`: 8,192 tokens.
 - Open-source BGE / GTE models: Often **512 tokens**.
-- **The Silent Truncation Bug:** If an engineer slices text by raw character count (e.g. 2,000 characters) assuming 4 characters per token ($2000 / 4 = 500	ext{ tokens}$), a chunk containing a code snippet or German compound words might actually expand to 750 tokens.
+- **The Silent Truncation Bug:** If an engineer slices text by raw character count (e.g. 2,000 characters) assuming 4 characters per token ($2000 / 4 = 500\text{ tokens}$), a chunk containing a code snippet or German compound words might actually expand to 750 tokens.
 - Many embedding client libraries **silently truncate** tokens beyond position 512 without throwing an error! The trailing 238 tokens are completely discarded from the vector embedding, creating fatal retrieval blind spots.
 
 ---
@@ -397,9 +263,9 @@ To measure textual similarity mathematically:
 1. **$k$-Shingle:** A contiguous sequence of $k$ characters or words extracted from a document.
    - For text *"apple juice"* with $k=5$ character shingles: `{"apple", "pple ", "ple j", "le ju", "e jui", " juic", "juice"}`.
 2. **Jaccard Similarity:** Measures set overlap between documents $D_1$ and $D_2$:
-   $$J(D_1, D_2) = rac{|S(D_1) \cap S(D_2)|}{|S(D_1) \cup S(D_2)|}$$
+   $$J(D_1, D_2) = \frac{|S(D_1) \cap S(D_2)|}{|S(D_1) \cup S(D_2)|}$$
 
-Computing pairwise Jaccard similarity across $N = 1,000,000$ documents requires $pprox rac{N^2}{2} = 5 	imes 10^{11}$ comparisons—computationally impossible in production.
+Computing pairwise Jaccard similarity across $N = 1,000,000$ documents requires $\approx \frac{N^2}{2} = 5 \times 10^{11}$ comparisons—computationally impossible in production.
 
 ### 6.2 MinHash Signature Generation
 
@@ -419,49 +285,22 @@ Locality-Sensitive Hashing partitions MinHash signature vectors to detect candid
 
 ![Minhash Lsh Banding And Candidate Collisions](assets/10_document_processing_and_data_preparation_for_ai/05_minhash_lsh_banding_and_candidate_collisions.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  sig: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  bucket: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-matrix: "MinHash Signature Vector (M = 128 hashes)" {
-  b1: "Band 1 (Rows 1 to r)" { class: sig }
-  b2: "Band 2 (Rows r+1 to 2r)" { class: sig }
-  bb: "Band b (Rows (b-1)r+1 to M)" { class: sig }
-}
-
-buckets: "LSH Hash Buckets (Candidate Collision Tables)" {
-  h1: "Bucket Table 1\n(Hash of Band 1)" { class: bucket }
-  h2: "Bucket Table 2\n(Hash of Band 2)" { class: bucket }
-  hb: "Bucket Table b\n(Hash of Band b)" { class: bucket }
-}
-
-matrix.b1 -> buckets.h1: "Hash r integers"
-matrix.b2 -> buckets.h2: "Hash r integers"
-matrix.bb -> buckets.hb: "Hash r integers"
-```
-</details>
+*D2 Source: [`05_minhash_lsh_banding_and_candidate_collisions.d2`](assets/10_document_processing_and_data_preparation_for_ai/05_minhash_lsh_banding_and_candidate_collisions.d2)*
 
 #### Mathematical S-Curve Derivation
 Let Jaccard similarity between two documents be $s$:
 1. Probability that all $r$ hashes match in a single specific band:
-   $$P(	ext{band match}) = s^r$$
+   $$P(\text{band match}) = s^r$$
 2. Probability that a band does *not* match:
-   $$P(	ext{band mismatch}) = 1 - s^r$$
+   $$P(\text{band mismatch}) = 1 - s^r$$
 3. Probability that *no* band matches across all $b$ bands:
-   $$P(	ext{no collision}) = (1 - s^r)^b$$
+   $$P(\text{no collision}) = (1 - s^r)^b$$
 4. Probability of **at least one collision** (Candidate Identification):
-   $$P(	ext{collision}) = 1 - (1 - s^r)^b$$
+   $$P(\text{collision}) = 1 - (1 - s^r)^b$$
 
-The transition threshold (inflection point) where $P(	ext{collision}) = 0.5$ is:
-$$t pprox \left(rac{1}{b}
-ight)^{1/r}$$
-By tuning $b$ and $r$ (e.g. $b=16, r=8 \implies t pprox 0.70$), the system automatically drops near-identical documents with $>70\%$ similarity while inspecting $<0.1\%$ of the total corpus!
+The transition threshold (inflection point) where $P(\text{collision}) = 0.5$ is:
+$$t \approx \left(\frac{1}{b}\right)^{1/r}$$
+By tuning $b$ and $r$ (e.g. $b=16, r=8 \implies t \approx 0.70$), the system automatically drops near-identical documents with $>70\%$ similarity while inspecting $<0.1\%$ of the total corpus!
 
 ---
 

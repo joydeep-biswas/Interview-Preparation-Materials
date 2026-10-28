@@ -1,19 +1,32 @@
 direction: down
-title: ACID Guarantees & Hardware Failure Boundaries
-
-volatile: VOLATILE BOUNDARY (Lost on Kernel Panic / Power Loss) {
-  tx: Active Transactions (Private Workspace)
-  locks: Lock Manager & MVCC (Enforces ISOLATION & CONSISTENCY)
-  buffers: Buffer Pool Dirty Pages & WAL Ring Buffer in RAM
+title: "ACID Guarantees & Hardware Failure Boundaries"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-barrier: Physical Hardware Boundary: OS fsync() Barrier
+volatile: "VOLATILE BOUNDARY (Lost on Kernel Panic / Power Loss)" {
+  class: container
+  tx: "Active Transactions (Private Workspace)"
+  locks: "Lock Manager & MVCC (Enforces ISOLATION & CONSISTENCY)"
+  buffers: "Buffer Pool Dirty Pages & WAL Ring Buffer in RAM"
+}
 
-persistent: NON-VOLATILE PERSISTENCE (Survives Power Loss) {
-  wal: Write-Ahead Log (WAL / Redo Log) {
+barrier: "Physical Hardware Boundary: OS fsync() Barrier"
+
+persistent: "NON-VOLATILE PERSISTENCE (Survives Power Loss)" {
+  class: container
+  wal: "Write-Ahead Log (WAL / Redo Log)" {
+    class: box
     guarantee: "Enforces ATOMICITY & DURABILITY (Append-only fsync)"
   }
-  heap: Table Heap & Index Files (Slotted Pages on NVMe)
+  heap: "Table Heap & Index Files (Slotted Pages on NVMe)"
 }
 
 volatile -> barrier: "fsync() Flush"

@@ -1,20 +1,34 @@
 direction: right
-title: Databricks Auto Loader (cloudFiles) Execution Architecture
+title: "Databricks Auto Loader (cloudFiles) Execution Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-storage: Cloud Storage Bucket (S3 / ADLS) {
+storage: "Cloud Storage Bucket (S3 / ADLS)" {
+  class: container
   files: "s3://landing/incoming/*.json"
 }
 
-queue: Cloud Event Queue (AWS SQS / Event Grid) {
+queue: "Cloud Event Queue (AWS SQS / Event Grid)" {
+  class: container
   events: "Buffered s3:ObjectCreated events"
 }
 
-autoloader: Databricks Auto Loader (cloudFiles) {
+autoloader: "Databricks Auto Loader (cloudFiles)" {
+  class: container
   engine: "spark.readStream.format('cloudFiles')"
   features: "Schema inference, schema evolution, O(1) queue discovery"
 }
 
-bronze: Bronze Delta Lake Table {
+bronze: "Bronze Delta Lake Table" {
+  class: container
   table: "bronze.raw_events"
   column: "_rescued_data (Captures unexpected schema drift)"
 }

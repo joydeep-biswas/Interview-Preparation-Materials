@@ -1,40 +1,54 @@
 direction: right
-title: Enterprise Microsoft Azure Cloud Architecture
+title: "Enterprise Microsoft Azure Cloud Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Edge: Public Edge {
+Edge: "Public Edge" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
-  user: Users
-  afd: Azure Front Door (WAF)
+  user: "Users"
+  afd: "Azure Front Door (WAF)"
   user -> afd
 }
 
-Hub: Hub VNet (10.0.0.0/16) {
+Hub: "Hub VNet (10.0.0.0/16)" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
-  fw: Azure Firewall
-  dns: Private DNS Zones
+  fw: "Azure Firewall"
+  dns: "Private DNS Zones"
 }
 
-Compute: Spoke Compute (AKS Cluster) {
+Compute: "Spoke Compute (AKS Cluster)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
-  appgw: Application Gateway v2
-  pods: Spring Boot Pods (Order & Payment)
+  appgw: "Application Gateway v2"
+  pods: "Spring Boot Pods (Order & Payment)"
   appgw -> pods
 }
 
-Data: Spoke Data (Private Endpoints) {
+Data: "Spoke Data (Private Endpoints)" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
-  kv: Azure Key Vault
-  sql: Azure PostgreSQL DB
-  redis: Azure Redis Cache
-  sb: Azure Service Bus
+  kv: "Azure Key Vault"
+  sql: "Azure PostgreSQL DB"
+  redis: "Azure Redis Cache"
+  sb: "Azure Service Bus"
 }
 
-Edge.afd -> Hub.fw: Private Link { style.stroke: "#38BDF8" }
-Hub.fw -> Compute.appgw: VNet Peering { style.stroke: "#10B981" }
-Compute.pods -> Data.sql: Private Endpoint { style.stroke: "#8B5CF6" }
-Compute.pods -> Data.redis: Private Endpoint { style.stroke: "#8B5CF6" }
-Compute.pods -> Data.kv: Workload Identity { style.stroke: "#8B5CF6" }
+Edge.afd -> Hub.fw: "Private Link" { style.stroke: "#38BDF8" }
+Hub.fw -> Compute.appgw: "VNet Peering" { style.stroke: "#10B981" }
+Compute.pods -> Data.sql: "Private Endpoint" { style.stroke: "#8B5CF6" }
+Compute.pods -> Data.redis: "Private Endpoint" { style.stroke: "#8B5CF6" }
+Compute.pods -> Data.kv: "Workload Identity" { style.stroke: "#8B5CF6" }

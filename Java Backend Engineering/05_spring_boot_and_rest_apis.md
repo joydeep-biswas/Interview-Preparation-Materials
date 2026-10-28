@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to the Spring ecosystem, Spring Boot aut
 
 ![Enterprise Spring Core & Spring Boot Runtime Architecture](assets/05_spring_boot_and_rest_apis/01_spring_boot_startup_and_lifecycle.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/01_spring_boot_startup_and_lifecycle.d2](assets/05_spring_boot_and_rest_apis/01_spring_boot_startup_and_lifecycle.d2)*
+*D2 Source: [`01_spring_boot_startup_and_lifecycle.d2`](assets/05_spring_boot_and_rest_apis/01_spring_boot_startup_and_lifecycle.d2)*
 
 ---
 
@@ -140,7 +140,7 @@ Imagine a chef in a restaurant:
 
 ![Direct Coupling vs. Inversion of Control (IoC)](assets/05_spring_boot_and_rest_apis/02_ioc_direct_coupling_vs_container.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/02_ioc_direct_coupling_vs_container.d2](assets/05_spring_boot_and_rest_apis/02_ioc_direct_coupling_vs_container.d2)*
+*D2 Source: [`02_ioc_direct_coupling_vs_container.d2`](assets/05_spring_boot_and_rest_apis/02_ioc_direct_coupling_vs_container.d2)*
 
 #### Why IoC is Vital for Enterprise Systems:
 1. **Loose Coupling**: Business services depend only on interfaces (`OrderRepository`), never concrete database implementations (`PostgresOrderRepository`). Switching to MongoDB, Cassandra, or an in-memory test store requires zero changes to core business code.
@@ -250,7 +250,7 @@ Spring separates its container design into two fundamental interface hierarchies
 
 ![BeanFactory vs. ApplicationContext Architecture](assets/05_spring_boot_and_rest_apis/03_beanfactory_vs_applicationcontext.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/03_beanfactory_vs_applicationcontext.d2](assets/05_spring_boot_and_rest_apis/03_beanfactory_vs_applicationcontext.d2)*
+*D2 Source: [`03_beanfactory_vs_applicationcontext.d2`](assets/05_spring_boot_and_rest_apis/03_beanfactory_vs_applicationcontext.d2)*
 
 | Dimension | `BeanFactory` | `ApplicationContext` |
 | :--- | :--- | :--- |
@@ -311,7 +311,7 @@ public class AuthenticationService {
 
 ![The Prototype-in-Singleton Injection Dilemma & Solutions](assets/05_spring_boot_and_rest_apis/04_prototype_in_singleton_injection_dilemma.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/04_prototype_in_singleton_injection_dilemma.d2](assets/05_spring_boot_and_rest_apis/04_prototype_in_singleton_injection_dilemma.d2)*
+*D2 Source: [`04_prototype_in_singleton_injection_dilemma.d2`](assets/05_spring_boot_and_rest_apis/04_prototype_in_singleton_injection_dilemma.d2)*
 
 #### Production Solutions:
 
@@ -396,7 +396,7 @@ Stereotype annotations are specialized forms of `@Component` that assign clear a
 
 ![Spring Stereotype Annotations Hierarchy & Responsibilities](assets/05_spring_boot_and_rest_apis/05_stereotype_annotations_hierarchy.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/05_stereotype_annotations_hierarchy.d2](assets/05_spring_boot_and_rest_apis/05_stereotype_annotations_hierarchy.d2)*
+*D2 Source: [`05_stereotype_annotations_hierarchy.d2`](assets/05_spring_boot_and_rest_apis/05_stereotype_annotations_hierarchy.d2)*
 
 #### Stereotype Responsibilities:
 * **`@Component`**: The root stereotype. Any class annotated with `@Component` is picked up during component scanning and registered as a Spring bean definition.
@@ -420,7 +420,7 @@ but 2 were found: [stripeGateway, payPalGateway]
 
 ![Bean Disambiguation: @Autowired, @Primary, and @Qualifier](assets/05_spring_boot_and_rest_apis/06_bean_disambiguation_primary_qualifier.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/06_bean_disambiguation_primary_qualifier.d2](assets/05_spring_boot_and_rest_apis/06_bean_disambiguation_primary_qualifier.d2)*
+*D2 Source: [`06_bean_disambiguation_primary_qualifier.d2`](assets/05_spring_boot_and_rest_apis/06_bean_disambiguation_primary_qualifier.d2)*
 
 #### Production Resolution Strategies:
 
@@ -470,7 +470,7 @@ Spring provides native support for the **Strategy Pattern**. If you inject a col
 
 ![Multi-Bean Injection & The Dynamic Strategy Pattern](assets/05_spring_boot_and_rest_apis/07_multi_bean_injection_strategy_pattern.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/07_multi_bean_injection_strategy_pattern.d2](assets/05_spring_boot_and_rest_apis/07_multi_bean_injection_strategy_pattern.d2)*
+*D2 Source: [`07_multi_bean_injection_strategy_pattern.d2`](assets/05_spring_boot_and_rest_apis/07_multi_bean_injection_strategy_pattern.d2)*
 
 #### Production Implementation: Pluggable Payment Routing Engine
 ```java
@@ -526,7 +526,7 @@ A circular dependency occurs when Bean A requires Bean B, and Bean B directly or
 
 ![Circular Dependencies: The Three-Level Cache Resolution Architecture](assets/05_spring_boot_and_rest_apis/08_circular_dependencies_three_level_cache.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/08_circular_dependencies_three_level_cache.d2](assets/05_spring_boot_and_rest_apis/08_circular_dependencies_three_level_cache.d2)*
+*D2 Source: [`08_circular_dependencies_three_level_cache.d2`](assets/05_spring_boot_and_rest_apis/08_circular_dependencies_three_level_cache.d2)*
 
 #### How Spring Solved This Historically: The Three-Level Cache
 Inside `DefaultSingletonBeanRegistry`, Spring maintains three concurrent maps:
@@ -558,7 +558,7 @@ The dependencies of some of the beans in the application context form a cycle:
 
 ![Production Circular Dependency Remediation Patterns](assets/05_spring_boot_and_rest_apis/09_circular_dependency_remediation_patterns.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/09_circular_dependency_remediation_patterns.d2](assets/05_spring_boot_and_rest_apis/09_circular_dependency_remediation_patterns.d2)*
+*D2 Source: [`09_circular_dependency_remediation_patterns.d2`](assets/05_spring_boot_and_rest_apis/09_circular_dependency_remediation_patterns.d2)*
 
 2. **Event-Driven Decoupling**: Replace the synchronous method call with an in-process `ApplicationEventPublisher`. `OrderService` publishes an `OrderCompletedEvent`, and `BillingService` listens via `@EventListener`. Neither service references the other.
 3. **`@Lazy` Injection (Temporary Band-aid)**: Injecting `@Lazy` on one side tells Spring to inject a dynamic CGLIB proxy instead of the real bean. The proxy defers resolution of the target bean until a method is actually invoked at runtime:
@@ -591,7 +591,7 @@ Understanding the exact sequence of bean instantiation, property injection, init
 
 ![The Complete 12-Phase Spring Bean Lifecycle](assets/05_spring_boot_and_rest_apis/10_complete_spring_bean_lifecycle_phases.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/10_complete_spring_bean_lifecycle_phases.d2](assets/05_spring_boot_and_rest_apis/10_complete_spring_bean_lifecycle_phases.d2)*
+*D2 Source: [`10_complete_spring_bean_lifecycle_phases.d2`](assets/05_spring_boot_and_rest_apis/10_complete_spring_bean_lifecycle_phases.d2)*
 
 #### Detailed Phase Breakdown:
 1. **BeanDefinition Parsing**: The container scans the classpath, parsing annotations (`@Component`, `@Service`, `@Bean`) into metadata structures called `BeanDefinition`. These record the bean class, scope, lazy initialization state, and dependency requirements.
@@ -679,7 +679,7 @@ These three extension interfaces are frequently confused in technical interviews
 
 ![Core Extension Points: BeanFactoryPostProcessor vs. BeanPostProcessor vs. FactoryBean<T>](assets/05_spring_boot_and_rest_apis/11_bfpp_vs_bpp_vs_factorybean.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/11_bfpp_vs_bpp_vs_factorybean.d2](assets/05_spring_boot_and_rest_apis/11_bfpp_vs_bpp_vs_factorybean.d2)*
+*D2 Source: [`11_bfpp_vs_bpp_vs_factorybean.d2`](assets/05_spring_boot_and_rest_apis/11_bfpp_vs_bpp_vs_factorybean.d2)*
 
 | Interface | Operates On | Execution Timing | Primary Enterprise Use Case |
 | :--- | :--- | :--- | :--- |
@@ -942,7 +942,7 @@ public class OrderService {
 
 ![Event Handling: @EventListener vs. @TransactionalEventListener](assets/05_spring_boot_and_rest_apis/12_event_listener_vs_transactional_event_listener.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/12_event_listener_vs_transactional_event_listener.d2](assets/05_spring_boot_and_rest_apis/12_event_listener_vs_transactional_event_listener.d2)*
+*D2 Source: [`12_event_listener_vs_transactional_event_listener.d2`](assets/05_spring_boot_and_rest_apis/12_event_listener_vs_transactional_event_listener.d2)*
 
 ```java
 @Component
@@ -1005,7 +1005,7 @@ When Spring encounters an `@Aspect`, `@Transactional`, or `@Cacheable` annotatio
 
 ![Spring AOP Proxy Mechanics: JDK Dynamic Proxies vs. CGLIB](assets/05_spring_boot_and_rest_apis/13_aop_proxy_mechanics_jdk_vs_cglib.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/13_aop_proxy_mechanics_jdk_vs_cglib.d2](assets/05_spring_boot_and_rest_apis/13_aop_proxy_mechanics_jdk_vs_cglib.d2)*
+*D2 Source: [`13_aop_proxy_mechanics_jdk_vs_cglib.d2`](assets/05_spring_boot_and_rest_apis/13_aop_proxy_mechanics_jdk_vs_cglib.d2)*
 
 | Dimension | JDK Dynamic Proxy | CGLIB Proxy |
 | :--- | :--- | :--- |
@@ -1043,7 +1043,7 @@ public class UserService {
 
 ![The Self-Invocation Proxy Bypass Trap & Production Fixes](assets/05_spring_boot_and_rest_apis/14_self_invocation_proxy_bypass_trap.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/14_self_invocation_proxy_bypass_trap.d2](assets/05_spring_boot_and_rest_apis/14_self_invocation_proxy_bypass_trap.d2)*
+*D2 Source: [`14_self_invocation_proxy_bypass_trap.d2`](assets/05_spring_boot_and_rest_apis/14_self_invocation_proxy_bypass_trap.d2)*
 
 #### Production Fixes for Self-Invocation:
 
@@ -1183,7 +1183,7 @@ The `@SpringBootApplication` annotation on your main entry class is a meta-annot
 
 ![Deconstructing @SpringBootApplication: The Meta-Annotation Triad](assets/05_spring_boot_and_rest_apis/15_springbootapplication_triad_decomposition.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/15_springbootapplication_triad_decomposition.d2](assets/05_spring_boot_and_rest_apis/15_springbootapplication_triad_decomposition.d2)*
+*D2 Source: [`15_springbootapplication_triad_decomposition.d2`](assets/05_spring_boot_and_rest_apis/15_springbootapplication_triad_decomposition.d2)*
 
 #### Step-by-Step Bootstrap Sequence of `SpringApplication.run()`:
 1. **Instantiate `SpringApplication`**:
@@ -1217,7 +1217,7 @@ How does Spring Boot know to configure a PostgreSQL `DataSource` when `org.postg
 
 ![The Auto-Configuration Engine: Conditional Evaluation Pipeline](assets/05_spring_boot_and_rest_apis/16_autoconfiguration_engine_conditional_evaluation.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/16_autoconfiguration_engine_conditional_evaluation.d2](assets/05_spring_boot_and_rest_apis/16_autoconfiguration_engine_conditional_evaluation.d2)*
+*D2 Source: [`16_autoconfiguration_engine_conditional_evaluation.d2`](assets/05_spring_boot_and_rest_apis/16_autoconfiguration_engine_conditional_evaluation.d2)*
 
 * **In Spring Boot 3.x / 2.7+**: Candidate auto-configurations are listed in:
   `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
@@ -1232,7 +1232,7 @@ Building custom internal starters is a senior engineering requirement for standa
 #### Project Layout:
 ![Production Custom Spring Boot Starter: File & Directory Layout](assets/05_spring_boot_and_rest_apis/17_custom_starter_project_layout.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/17_custom_starter_project_layout.d2](assets/05_spring_boot_and_rest_apis/17_custom_starter_project_layout.d2)*
+*D2 Source: [`17_custom_starter_project_layout.d2`](assets/05_spring_boot_and_rest_apis/17_custom_starter_project_layout.d2)*
 
 #### Step 1: Configuration Properties Record
 ```java
@@ -1309,7 +1309,7 @@ Spring Boot 3 introduces native support for **Ahead-of-Time (AOT) Compilation** 
 
 ![Spring Boot 3 Ahead-of-Time (AOT) & GraalVM Native Compilation](assets/05_spring_boot_and_rest_apis/18_spring_boot_3_aot_and_graalvm_native.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/18_spring_boot_3_aot_and_graalvm_native.d2](assets/05_spring_boot_and_rest_apis/18_spring_boot_3_aot_and_graalvm_native.d2)*
+*D2 Source: [`18_spring_boot_3_aot_and_graalvm_native.d2`](assets/05_spring_boot_and_rest_apis/18_spring_boot_3_aot_and_graalvm_native.d2)*
 
 | Metric | Traditional JVM Mode (`java -jar`) | GraalVM Native Image |
 | :--- | :--- | :--- |
@@ -1376,7 +1376,7 @@ Actuator natively understands Kubernetes Pod lifecycle semantics:
 
 ![Kubernetes Liveness & Readiness Probes (AvailabilityState Model)](assets/05_spring_boot_and_rest_apis/19_kubernetes_liveness_readiness_probes.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/19_kubernetes_liveness_readiness_probes.d2](assets/05_spring_boot_and_rest_apis/19_kubernetes_liveness_readiness_probes.d2)*
+*D2 Source: [`19_kubernetes_liveness_readiness_probes.d2`](assets/05_spring_boot_and_rest_apis/19_kubernetes_liveness_readiness_probes.d2)*
 
 #### Dynamically Modifying Pod Readiness During Cache Warming:
 ```java
@@ -1576,7 +1576,7 @@ Spring MVC implements the **Front Controller Architectural Pattern** via **`Disp
 
 ![DispatcherServlet Front Controller: 3-Phase Internal Architecture](assets/05_spring_boot_and_rest_apis/20_dispatcherservlet_front_controller_architecture.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/20_dispatcherservlet_front_controller_architecture.d2](assets/05_spring_boot_and_rest_apis/20_dispatcherservlet_front_controller_architecture.d2)*
+*D2 Source: [`20_dispatcherservlet_front_controller_architecture.d2`](assets/05_spring_boot_and_rest_apis/20_dispatcherservlet_front_controller_architecture.d2)*
 
 ---
 
@@ -1584,7 +1584,7 @@ Spring MVC implements the **Front Controller Architectural Pattern** via **`Disp
 
 ![End-to-End Spring Boot HTTP Request Lifecycle Sequence](assets/05_spring_boot_and_rest_apis/21_end_to_end_http_request_lifecycle_sequence.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/21_end_to_end_http_request_lifecycle_sequence.d2](assets/05_spring_boot_and_rest_apis/21_end_to_end_http_request_lifecycle_sequence.d2)*
+*D2 Source: [`21_end_to_end_http_request_lifecycle_sequence.d2`](assets/05_spring_boot_and_rest_apis/21_end_to_end_http_request_lifecycle_sequence.d2)*
 
 ---
 
@@ -1594,7 +1594,7 @@ While Servlet `Filter` instances wrap the entire servlet invocation (before `Dis
 
 ![HandlerInterceptor Lifecycle & ThreadLocal Context Cleanup](assets/05_spring_boot_and_rest_apis/22_handlerinterceptor_lifecycle_threadlocal_cleanup.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/22_handlerinterceptor_lifecycle_threadlocal_cleanup.d2](assets/05_spring_boot_and_rest_apis/22_handlerinterceptor_lifecycle_threadlocal_cleanup.d2)*
+*D2 Source: [`22_handlerinterceptor_lifecycle_threadlocal_cleanup.d2`](assets/05_spring_boot_and_rest_apis/22_handlerinterceptor_lifecycle_threadlocal_cleanup.d2)*
 
 #### Production Standard: Distributed Trace Logging & MDC Cleanup Interceptor
 ```java
@@ -1806,7 +1806,7 @@ REST (Representational State Transfer), formulated by Roy Fielding, is an archit
 
 ![Transport Protocol Evolution: HTTP/1.1 vs. HTTP/2 vs. HTTP/3 (QUIC)](assets/05_spring_boot_and_rest_apis/23_transport_protocol_evolution_http1_http2_http3.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/23_transport_protocol_evolution_http1_http2_http3.d2](assets/05_spring_boot_and_rest_apis/23_transport_protocol_evolution_http1_http2_http3.d2)*
+*D2 Source: [`23_transport_protocol_evolution_http1_http2_http3.d2`](assets/05_spring_boot_and_rest_apis/23_transport_protocol_evolution_http1_http2_http3.d2)*
 
 | Dimension | HTTP/1.1 | HTTP/2 | HTTP/3 (QUIC) |
 | :--- | :--- | :--- | :--- |
@@ -1862,7 +1862,7 @@ The foundational constraint of RESTful architecture is the **Uniform Interface**
 
 ![REST Idempotency & Safety: POST vs. PUT Mechanics](assets/05_spring_boot_and_rest_apis/24_rest_idempotency_post_vs_put.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/24_rest_idempotency_post_vs_put.d2](assets/05_spring_boot_and_rest_apis/24_rest_idempotency_post_vs_put.d2)*
+*D2 Source: [`24_rest_idempotency_post_vs_put.d2`](assets/05_spring_boot_and_rest_apis/24_rest_idempotency_post_vs_put.d2)*
 
 #### 2. The `DELETE` 404 Paradox: Is `DELETE` Truly Idempotent?
 Consider this scenario:
@@ -1924,7 +1924,7 @@ When a browser makes a cross-origin HTTP request (`https://dashboard.company.com
 
 ![CORS Preflight Handshake: OPTIONS Method & Security Headers](assets/05_spring_boot_and_rest_apis/25_cors_preflight_handshake_options.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/25_cors_preflight_handshake_options.d2](assets/05_spring_boot_and_rest_apis/25_cors_preflight_handshake_options.d2)*
+*D2 Source: [`25_cors_preflight_handshake_options.d2`](assets/05_spring_boot_and_rest_apis/25_cors_preflight_handshake_options.d2)*
 
 ---
 
@@ -2010,7 +2010,7 @@ The **`Idempotency-Key` specification (IETF Draft)** resolves this:
 
 ![Idempotency Lifecycle State Machine: Distributed Redis Protocol](assets/05_spring_boot_and_rest_apis/26_idempotency_key_redis_state_machine.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/26_idempotency_key_redis_state_machine.d2](assets/05_spring_boot_and_rest_apis/26_idempotency_key_redis_state_machine.d2)*
+*D2 Source: [`26_idempotency_key_redis_state_machine.d2`](assets/05_spring_boot_and_rest_apis/26_idempotency_key_redis_state_machine.d2)*
 
 ---
 
@@ -2586,7 +2586,7 @@ Sample RFC 9457 response returned to client:
 
 ![API Communication Paradigms: Resource REST vs. Action gRPC](assets/05_spring_boot_and_rest_apis/27_api_paradigms_rest_vs_grpc.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/27_api_paradigms_rest_vs_grpc.d2](assets/05_spring_boot_and_rest_apis/27_api_paradigms_rest_vs_grpc.d2)*
+*D2 Source: [`27_api_paradigms_rest_vs_grpc.d2`](assets/05_spring_boot_and_rest_apis/27_api_paradigms_rest_vs_grpc.d2)*
 
 ---
 
@@ -2603,7 +2603,7 @@ gRPC (Google Remote Procedure Call) utilizes **HTTP/2** as its underlying transp
 
 ![gRPC Communication Modes: Unary, Server, Client & Bidirectional](assets/05_spring_boot_and_rest_apis/28_grpc_communication_modes_streaming.svg)
 
-*D2 Source: [assets/05_spring_boot_and_rest_apis/28_grpc_communication_modes_streaming.d2](assets/05_spring_boot_and_rest_apis/28_grpc_communication_modes_streaming.d2)*
+*D2 Source: [`28_grpc_communication_modes_streaming.d2`](assets/05_spring_boot_and_rest_apis/28_grpc_communication_modes_streaming.d2)*
 
 ---
 

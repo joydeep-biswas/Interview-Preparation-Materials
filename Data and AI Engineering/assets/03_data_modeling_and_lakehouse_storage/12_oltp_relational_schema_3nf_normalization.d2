@@ -1,40 +1,55 @@
 direction: right
-title: OLTP Relational Schema: 3NF & BCNF Normalization
-
-zip_codes: ZIP_CODES {
-  shape: sql_table
-  zip_code: varchar [pk]
-  city: varchar
-  state: varchar
+title: "OLTP Relational Schema: 3NF & BCNF Normalization"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-customers: CUSTOMERS {
+zip_codes: "ZIP_CODES" {
+  class: table_box
   shape: sql_table
-  customer_id: varchar [pk]
-  customer_name: varchar
-  street_address: varchar
-  zip_code: varchar [fk]
+  zip_code: "varchar [pk]"
+  city: "varchar"
+  state: "varchar"
 }
 
-orders: ORDERS {
+customers: "CUSTOMERS" {
+  class: table_box
   shape: sql_table
-  order_id: bigint [pk]
-  customer_id: varchar [fk]
-  order_date: timestamp
+  customer_id: "varchar [pk]"
+  customer_name: "varchar"
+  street_address: "varchar"
+  zip_code: "varchar [fk]"
 }
 
-order_items: ORDER_ITEMS {
+orders: "ORDERS" {
+  class: table_box
   shape: sql_table
-  order_id: bigint [pk, fk]
-  item_id: varchar [pk, fk]
-  quantity: int
+  order_id: "bigint [pk]"
+  customer_id: "varchar [fk]"
+  order_date: "timestamp"
 }
 
-items: ITEMS {
+order_items: "ORDER_ITEMS" {
+  class: table_box
   shape: sql_table
-  item_id: varchar [pk]
-  item_name: varchar
-  current_price: decimal
+  order_id: "bigint [pk, fk]"
+  item_id: "varchar [pk, fk]"
+  quantity: "int"
+}
+
+items: "ITEMS" {
+  class: table_box
+  shape: sql_table
+  item_id: "varchar [pk]"
+  item_name: "varchar"
+  current_price: "decimal"
 }
 
 zip_codes -> customers: "locates (1:N)"

@@ -35,7 +35,7 @@
     <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Bitemporal Time Plane</text>
   
     <rect x="45" y="140" width="210" height="105" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="150.0" y="166" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Valid / Business Time</text>
+    <text x="58" y="166" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Valid Time</text>
     <text x="150.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Real-World Occurrence</text>
     <rect x="204" y="150" width="45" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
     <text x="226.5" y="162" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">VALID</text>
@@ -49,7 +49,7 @@
     <text x="69" y="246" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Can record past or future dates</text>
   
     <rect x="45" y="260" width="210" height="105" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="150.0" y="286" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">System / Transaction Time</text>
+    <text x="58" y="286" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Transaction Time</text>
     <text x="150.0" y="302" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Database Audit Timestamp</text>
     <rect x="197" y="270" width="52" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
     <text x="223.0" y="282" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SYSTEM</text>

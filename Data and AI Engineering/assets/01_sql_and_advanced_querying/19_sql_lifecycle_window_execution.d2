@@ -1,19 +1,44 @@
-# SQL Execution Lifecycle: Window Functions in WHERE
+# SQL Execution Lifecycle: Window Functions in WHERE & Architectural Solutions
 direction: right
-
-s1: "Stage 1: FROM/JOIN"
-s2: "Stage 2: WHERE
-❌ Cannot access Window results!" {
-  style.stroke: "#EF4444"
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  sol_box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
 }
-s3: "Stage 3: GROUP BY"
-s4: "Stage 4: WINDOW
-✓ Window funcs computed here!" {
+
+lifecycle: "1. Logical Evaluation Lifecycle (Conflict Origin)" {
+  class: pillar
+  style.stroke: "#EF4444"
+
+  s1: "Stage 1: FROM / JOIN\n• Scans base tables & joins" { class: stage; style.stroke: "#3B82F6" }
+  s2: "Stage 2: WHERE\n❌ RUNS HERE!\n• Window funcs do not exist yet" { class: stage; style.stroke: "#EF4444" }
+  s3: "Stage 3: GROUP BY & HAVING\n• Aggregates groups & filters buckets" { class: stage; style.stroke: "#F59E0B" }
+  s4: "Stage 4: WINDOW Functions\n✓ COMPUTED HERE!\n• ROW_NUMBER(), RANK(), OVER()" { class: stage; style.stroke: "#10B981" }
+  s5: "Stage 5: SELECT / Output\n• Materializes aliases, ORDER BY, LIMIT" { class: stage; style.stroke: "#8B5CF6" }
+
+  s1 -> s2 -> s3 -> s4 -> s5
+  s4 -> s2: "❌ Backward reference impossible!" {
+    style.stroke: "#EF4444"
+    style.stroke-dash: 3
+  }
+}
+
+solutions: "2. Architectural Remediation Patterns" {
+  class: pillar
   style.stroke: "#10B981"
-}
-s5: "Stage 5: SELECT"
 
-s1 -> s2 -> s3 -> s4 -> s5
-s4 -> s2: "❌ Backward reference impossible!" {
-  style.stroke: "#EF4444"
+  sol_a: "Solution A: QUALIFY Clause (Modern Cloud Engines)\n• Native in BigQuery, Snowflake, DuckDB, Databricks\n• Logically evaluates at Stage 4.5 (directly AFTER Window funcs)\n• SELECT * FROM sales QUALIFY ROW_NUMBER() OVER(...) = 1" {
+    class: sol_box
+    style.stroke: "#10B981"
+  }
+
+  sol_b: "Solution B: CTE / Subquery Wrapper (Universal ANSI Standard)\n• Supported across PostgreSQL, MySQL, SQL Server, Oracle\n• Inner query materializes window metric; Outer query filters in WHERE\n• WITH ranked AS (SELECT *, ROW_NUMBER() ... rn) SELECT * WHERE rn=1" {
+    class: sol_box
+    style.stroke: "#3B82F6"
+  }
+
+  sol_a -> sol_b: "Alternative Patterns"
 }
+
+lifecycle.s4 -> solutions.sol_a: "Filter window results"
+lifecycle.s4 -> solutions.sol_b: "Filter window results"

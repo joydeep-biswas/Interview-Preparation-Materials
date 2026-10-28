@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="960" height="380" rx="10" fill="url(#bg)"/>
+  <rect width="960" height="380" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -44,10 +44,10 @@
   <g id="diagram-elements">
     
     <!-- Start node -->
-    <circle cx="60" cy="200" r="12" fill="#38bdf8" stroke="#0284c7" stroke-width="2"/>
+    <circle cx="60" cy="200" r="12" fill="#38bdf8" stroke="#0284c7" stroke-width="2" />
     <text x="60" y="225" fill="#94a3b8" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Instance Init</text>
 
-    <rect x="120" y="145" width="170" height="110" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="120" y="145" width="170" height="132" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
 <text x="205" y="167" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">1. Transient</text>
 <text x="132" y="187" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Customer(name=Alice)</text>
 <text x="132" y="205" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Pure Python heap object</text>
@@ -55,7 +55,7 @@
 <text x="132" y="241" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">No Primary Key assigned</text>
 <text x="132" y="259" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Zero DB communication</text>
 
-    <rect x="340" y="145" width="170" height="110" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5"/>
+    <rect x="340" y="145" width="170" height="132" rx="6" fill="#231e12" stroke="#fbbf24" stroke-width="1.5" />
 <text x="425" y="167" fill="#fde68a" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">2. Pending</text>
 <text x="352" y="187" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">session.add(cust)</text>
 <text x="352" y="205" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Registered in Session</text>
@@ -63,7 +63,7 @@
 <text x="352" y="241" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">NO SQL emitted yet</text>
 <text x="352" y="259" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Awaiting flush/commit</text>
 
-    <rect x="560" y="145" width="170" height="110" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="560" y="145" width="170" height="132" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="645" y="167" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">3. Persistent</text>
 <text x="572" y="187" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">session.flush() / commit()</text>
 <text x="572" y="205" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Row exists in PostgreSQL</text>
@@ -71,14 +71,14 @@
 <text x="572" y="241" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">PK id populated (e.g. 42)</text>
 <text x="572" y="259" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Dirty tracking active</text>
 
-    <rect x="780" y="100" width="150" height="95" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+    <rect x="780" y="100" width="150" height="114" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5" />
 <text x="855" y="122" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">4. Detached</text>
 <text x="792" y="142" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">session.close() / expunge()</text>
 <text x="792" y="160" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">PK remains in Python</text>
 <text x="792" y="178" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">No Session tracking</text>
 <text x="792" y="196" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Lazy loading fails!</text>
 
-    <rect x="780" y="230" width="150" height="95" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+    <rect x="780" y="230" width="150" height="114" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
 <text x="855" y="252" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">5. Deleted</text>
 <text x="792" y="272" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">session.delete(cust)</text>
 <text x="792" y="290" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Row removed on commit</text>
@@ -86,21 +86,21 @@
 <text x="792" y="326" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Target deallocated</text>
 
     <!-- Transitions -->
-    <line x1="72" y1="200" x2="120" y2="200" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
-    <line x1="290" y1="200" x2="340" y2="200" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+    <line x1="72" y1="200" x2="120" y2="200" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
+    <line x1="290" y1="200" x2="340" y2="200" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-a)" />
 <text x="315" y="190" fill="#fbbf24" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">session.add()</text>
-    <line x1="510" y1="200" x2="560" y2="200" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <line x1="510" y1="200" x2="560" y2="200" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
 <text x="535" y="190" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">flush() / commit()</text>
 
-    <polyline points="730,180 750,150 780,150" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+    <polyline points="730,180 750,150 780,150" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)" />
 <text x="745" y="135" fill="#c084fc" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">session.close()</text>
-    <polyline points="730,220 750,270 780,270" fill="none" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+    <polyline points="730,220 750,270 780,270" fill="none" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)" />
 <text x="745" y="290" fill="#f87171" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">session.delete()</text>
 
     <!-- End node from Deleted -->
-    <circle cx="855" cy="350" r="10" fill="#f87171" stroke="#ef4444" stroke-width="2"/>
-    <circle cx="855" cy="350" r="5" fill="#fca5a5"/>
-    <line x1="855" y1="325" x2="855" y2="340" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+    <circle cx="855" cy="350" r="10" fill="#f87171" stroke="#ef4444" stroke-width="2" />
+    <circle cx="855" cy="350" r="5" fill="#fca5a5" />
+    <line x1="855" y1="325" x2="855" y2="340" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)" />
 
   </g>
 </svg>

@@ -1,32 +1,44 @@
 direction: right
-title: Enterprise Caching, Messaging & Event Mesh Architecture
-
-AppTier: 1. Application Tier & Multi-Tier Caching {
-  style.fill: "#0B132B"
-  style.stroke: "#0284C7"
-  app: Spring Boot 3 Services
-  l1: L1 Local Cache (Caffeine in JVM Heap)
-  l2: L2 Distributed Cache (Redis Enterprise)
-  db: Primary Database (PostgreSQL)
-  app <-> l1: In-process heap hit
-  app <-> l2: Cache-Aside / Redlock
-  app -> db: ACID transactions
+title: "Enterprise Caching, Messaging & Event Mesh Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-EventMesh: 2. Asynchronous Messaging & Event Mesh {
+AppTier: "1. Application Tier & Multi-Tier Caching" {
+  class: container
+  style.fill: "#0B132B"
+  style.stroke: "#0284C7"
+  app: "Spring Boot 3 Services"
+  l1: "L1 Local Cache (Caffeine in JVM Heap)"
+  l2: "L2 Distributed Cache (Redis Enterprise)"
+  db: "Primary Database (PostgreSQL)"
+  app <-> l1: In-process heap hit
+  app <-> l2: Cache-Aside / Redlock
+  app -> db: "ACID transactions"
+}
+
+EventMesh: "2. Asynchronous Messaging & Event Mesh" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
-  rmq: RabbitMQ (Task Distribution)
-  kafka: Apache Kafka (KRaft Event Log)
-  workers: Async Task Workers
-  billing: Billing Consumer Group
-  analytics: Analytics Consumer Group
-  dlq: Dead Letter Queue (DLQ)
+  rmq: "RabbitMQ (Task Distribution)"
+  kafka: "Apache Kafka (KRaft Event Log)"
+  workers: "Async Task Workers"
+  billing: "Billing Consumer Group"
+  analytics: "Analytics Consumer Group"
+  dlq: "Dead Letter Queue (DLQ)"
   rmq -> workers
   kafka -> billing
   kafka -> analytics
   kafka -> dlq
 }
 
-AppTier.app -> EventMesh.rmq: Point-to-point task publish { style.stroke: "#F59E0B" }
-AppTier.app -> EventMesh.kafka: Partitioned event stream { style.stroke: "#10B981" }
+AppTier.app -> EventMesh.rmq: "Point-to-point task publish" { style.stroke: "#F59E0B" }
+AppTier.app -> EventMesh.kafka: "Partitioned event stream" { style.stroke: "#10B981" }

@@ -1,8 +1,8 @@
 direction: right
 classes: {
-  kms: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  ram: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  store: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  kms: { style: { fill: "#581c87"; stroke: "#c084fc"; font-color: "#e9d5ff" } }
+  ram: { style: { fill: "#155e75"; stroke: "#22d3ee"; font-color: "#67e8f9" } }
+  store: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
 }
 
 kms_hsm: "Cloud KMS (Hardware HSM)" {
@@ -14,7 +14,7 @@ kms_hsm: "Cloud KMS (Hardware HSM)" {
 
 compute: "Compute Memory (Spark Node)" {
   dek_plain: "Plaintext DEK (RAM only)" { class: ram }
-  crypto_engine: "AES-GCM Local Streaming" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
+  crypto_engine: "AES-GCM Local Streaming" { style: { fill: "#1e293b"; stroke: "#38bdf8"; font-color: "#f8fafc" } }
 
   dek_plain -> crypto_engine
 }
@@ -24,6 +24,6 @@ storage: "Lakehouse Storage (Disk)" {
   dek_enc: "Encrypted DEK Header" { class: store }
 }
 
-kms_hsm.gen_api -> compute.dek_plain: "Plain DEK"
+kms_hsm.gen_api -> compute.dek_plain: "Plaintext DEK"
 kms_hsm.gen_api -> storage.dek_enc: "Encrypted DEK"
 compute.crypto_engine -> storage.cipher: "Writes Ciphertext"

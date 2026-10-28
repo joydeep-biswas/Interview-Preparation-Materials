@@ -1,15 +1,27 @@
 direction: right
-title: Log-Based Change Data Capture (CDC) Architecture
+title: "Log-Based Change Data Capture (CDC) Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-app: 1. OLTP Application
-db: 2. PostgreSQL Core Database {
-  wal: Write-Ahead Log (WAL on Disk)
+app: "1. OLTP Application"
+db: "2. PostgreSQL Core Database" {
+  class: container
+  wal: "Write-Ahead Log (WAL on Disk)"
 }
-debezium: 3. Debezium (Kafka Connect) {
-  slot: Logical Replication Slot
+debezium: "3. Debezium (Kafka Connect)" {
+  class: container
+  slot: "Logical Replication Slot"
 }
-kafka: 4. Kafka Topic (db.orders)
-lakehouse: 5. Delta Lake / Iceberg Bronze
+kafka: "4. Kafka Topic (db.orders)"
+lakehouse: "5. Delta Lake / Iceberg Bronze"
 
 app -> db: "UPDATE orders SET status = 'SHIPPED'"
 db -> db.wal: "Append Commit Record (LSN: 0/16B2D40)"

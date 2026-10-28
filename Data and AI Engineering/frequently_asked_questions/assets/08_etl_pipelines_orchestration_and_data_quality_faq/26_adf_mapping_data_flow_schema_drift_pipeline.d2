@@ -1,0 +1,18 @@
+direction: right
+classes: {
+  source_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  drift_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  derived_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  sink_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+RawPayload: "Dynamic JSON Payloads\nContains new attribute: loyalty_tier\nSemi-structured schema drift" { class: source_node }
+DFSource: "Source Transformation\n[Allow Schema Drift: Checked]\nCaptures unmodeled columns" { class: drift_node }
+DerivedCol: "Derived Column Standardizer\nStandardize timestamp & ID keys\nSerializes unparsed payload if needed" { class: derived_node }
+RuleSink: "Sink Transformation (ADLS / Delta)\n[Rule-Based Mapping: true()]\n[Allow Schema Drift: Checked]" { class: drift_node }
+TargetDelta: "Delta Lakehouse Table\nTarget schema automatically evolves\nZero pipeline crashes" { class: sink_node }
+
+RawPayload -> DFSource: "Incoming Micro-batch"
+DFSource -> DerivedCol: "Drifted Stream"
+DerivedCol -> RuleSink: "Standardized Stream"
+RuleSink -> TargetDelta: "Schema Evolution Commit"

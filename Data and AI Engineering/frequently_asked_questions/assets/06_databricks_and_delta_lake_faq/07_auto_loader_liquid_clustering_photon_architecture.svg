@@ -6,49 +6,49 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
   </defs>
 
-  <rect width="1000" height="240" fill="#0B0F19"/>
+  <rect width="1000" height="240" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Card 1: Ingestion -->
   <g transform="translate(30, 45)">
-    <rect width="280" height="150" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="280" height="150" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="140" y="32" class="title" fill="#93C5FD">1. Auto Loader Ingestion</text>
-    <line x1="15" y1="44" x2="265" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="265" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="20" y="70" class="body-txt">• cloudFiles streaming source</text>
     <text x="20" y="92" class="body-txt">• File notification mode (Queue)</text>
     <text x="20" y="114" class="body-txt">• Zero S3/ADLS LIST API calls</text>
     <text x="20" y="136" class="body-txt">• Schema inference &amp; rescue</text>
   </g>
 
-  <path fill="none" d="M 310 120 L 360 120" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-
   <!-- Card 2: Layout -->
   <g transform="translate(360, 45)">
-    <rect width="280" height="150" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="280" height="150" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2" />
     <text x="140" y="32" class="title" fill="#C4B5FD">2. Liquid Clustering</text>
-    <line x1="15" y1="44" x2="265" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="265" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="20" y="70" class="body-txt">• CLUSTER BY (date, customer_id)</text>
     <text x="20" y="92" class="body-txt">• Flexible, non-skewed layouts</text>
     <text x="20" y="114" class="body-txt">• Replaces rigid Hive partitions</text>
     <text x="20" y="136" class="body-txt">• Automatic background re-cluster</text>
   </g>
 
-  <path fill="none" d="M 640 120 L 690 120" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
-
   <!-- Card 3: Photon Engine -->
   <g transform="translate(690, 45)">
-    <rect width="280" height="150" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <rect width="280" height="150" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="2" />
     <text x="140" y="32" class="title" fill="#A7F3D0">3. Photon Native Engine</text>
-    <line x1="15" y1="44" x2="265" y2="44" stroke="#047857" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="265" y2="44" stroke="#047857" stroke-width="1.5" />
     <text x="20" y="70" class="body-txt" fill="#A7F3D0">• C++ Vectorized Execution Engine</text>
     <text x="20" y="92" class="body-txt" fill="#A7F3D0">• SIMD hardware parallel ops</text>
     <text x="20" y="114" class="body-txt" fill="#A7F3D0">• Native string/hash join speed</text>
     <text x="20" y="136" class="body-txt" fill="#A7F3D0">• 3x-8x Speedup over standard JVM</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 310 120 L 360 120" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 640 120 L 690 120" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)" />
+
+  </g></svg>

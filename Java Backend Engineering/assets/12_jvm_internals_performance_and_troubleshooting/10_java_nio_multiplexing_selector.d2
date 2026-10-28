@@ -1,29 +1,42 @@
 direction: right
-title: Java NIO Multiplexing Architecture
-
-Sockets: Client Socket Channels {
-  style.stroke: "#38BDF8"
-  Ch1: SocketChannel 1 (OP_READ ready)
-  Ch2: SocketChannel 2 (Idle)
-  Ch3: SocketChannel 3 (OP_WRITE ready)
+title: "Java NIO Multiplexing Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-NIO: Java NIO Selector & Kernel {
+Sockets: "Client Socket Channels" {
+  class: container
+  style.stroke: "#38BDF8"
+  Ch1: "SocketChannel 1 (OP_READ ready)"
+  Ch2: "SocketChannel 2 (Idle)"
+  Ch3: "SocketChannel 3 (OP_WRITE ready)"
+}
+
+NIO: "Java NIO Selector & Kernel" {
+  class: container
   style.stroke: "#34D399"
-  Selector: NIO Selector (SelectionKey set)
-  Kernel: OS Kernel epoll / kqueue / IOCP
+  Selector: "NIO Selector (SelectionKey set)"
+  Kernel: "OS Kernel epoll / kqueue / IOCP"
 
   Selector <-> Kernel: epoll_ctl & epoll_wait
 }
 
-Engine: Reactor & Worker Execution {
+Engine: "Reactor & Worker Execution" {
+  class: container
   style.stroke: "#C084FC"
-  Reactor: Single Event Dispatcher Thread (selector.select)
-  Workers: Worker Thread Pool (Decodes ByteBuffers & Executes)
+  Reactor: "Single Event Dispatcher Thread (selector.select)"
+  Workers: "Worker Thread Pool (Decodes ByteBuffers & Executes)"
 
-  Reactor -> Workers: Dispatches ready keys
+  Reactor -> Workers: "Dispatches ready keys"
 }
 
-Sockets.Ch1 -> NIO.Selector: Registers OP_READ { style.stroke: "#34D399" }
-Sockets.Ch3 -> NIO.Selector: Registers OP_WRITE { style.stroke: "#FBBF24" }
-NIO.Selector -> Engine.Reactor: Delivers SelectedKey set { style.stroke: "#C084FC" }
+Sockets.Ch1 -> NIO.Selector: "Registers OP_READ" { style.stroke: "#34D399" }
+Sockets.Ch3 -> NIO.Selector: "Registers OP_WRITE" { style.stroke: "#FBBF24" }
+NIO.Selector -> Engine.Reactor: "Delivers SelectedKey set" { style.stroke: "#C084FC" }

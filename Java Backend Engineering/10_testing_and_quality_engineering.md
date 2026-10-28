@@ -8,52 +8,7 @@ A comprehensive, production-grade guide to enterprise testing strategies, the Te
 
 ![Enterprise Test Automation Architecture](assets/10_testing_and_quality_engineering/01_enterprise_test_automation_architecture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Enterprise Test Automation & Continuous Quality Gates Architecture"
-
-pyramid: "The Enterprise Testing Pyramid" {
-  style.fill: "#0f172a"
-  style.stroke: "#3b82f6"
-
-  e2e: "E2E & Contract Tests (5-10%)
-Pact / Selenium / RestAssured" {
-    style.fill: "#78350f"
-    style.stroke: "#f59e0b"
-  }
-  integ: "Integration Tests (20-30%)
-Testcontainers (Postgres, Kafka)" {
-    style.fill: "#083344"
-    style.stroke: "#06b6d4"
-  }
-  unit: "Unit Tests (60-70%)
-JUnit 5, AssertJ, Mockito
-Fast & Deterministic" {
-    style.fill: "#064e3b"
-    style.stroke: "#10b981"
-  }
-
-  e2e -> integ -> unit
-}
-
-ci: "CI Quality Gates" {
-  style.fill: "#0f172a"
-  style.stroke: "#10b981"
-
-  git: "Git Push"
-  u_run: "Run Unit Tests (~30s)"
-  i_run: "Testcontainers Integration (~3m)"
-  gate: "SonarQube Gate (>=80% Coverage)"
-
-  git -> u_run -> i_run -> gate
-}
-
-pyramid -> ci: "Enforces testing standards"
-```
-</details>
+*D2 Source: [`01_enterprise_test_automation_architecture.d2`](assets/10_testing_and_quality_engineering/01_enterprise_test_automation_architecture.d2)*
 
 ---
 
@@ -97,38 +52,7 @@ Originally formulated by Mike Cohn and popularized by Martin Fowler, the **Testi
 
 ![The Automated Testing Pyramid](assets/10_testing_and_quality_engineering/02_testing_pyramid_speed_determinism_fidelity.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: "The Automated Testing Pyramid: Speed, Cost, and Fidelity Trade-Offs"
-
-e2e: "End-to-End (E2E) Tests (5-10%)
-Minutes runtime | High Cost | Brittle
-Tests full user journeys through UI/Gateway" {
-  style.fill: "#450a0a"
-  style.stroke: "#ef4444"
-}
-
-integration: "Integration Tests (20-30%)
-Seconds runtime | Real DB & Kafka (Testcontainers)
-Verifies service interactions & repository queries" {
-  style.fill: "#083344"
-  style.stroke: "#06b6d4"
-}
-
-unit: "Unit Tests (60-70%)
-Milliseconds runtime | 100% Deterministic
-Tests isolated domain business logic in memory" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-unit -> integration: "Broad foundation"
-integration -> e2e: "Selective apex"
-```
-</details>
+*D2 Source: [`02_testing_pyramid_speed_determinism_fidelity.d2`](assets/10_testing_and_quality_engineering/02_testing_pyramid_speed_determinism_fidelity.d2)*
 
 #### The Ice Cream Cone Anti-Pattern:
 In dysfunctional engineering organizations, teams write very few unit tests and rely predominantly on hundreds of end-to-end UI tests.
@@ -142,39 +66,7 @@ Test-Driven Development inverts traditional development: you write the automated
 
 ![Test-Driven Development (TDD) Cycle](assets/10_testing_and_quality_engineering/03_tdd_red_green_refactor_cycle.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Test-Driven Development (TDD): The Red-Green-Refactor Cycle"
-
-red: "1. RED
-Write a failing unit test
-for behavior that does not exist yet" {
-  style.fill: "#1a1118"
-  style.stroke: "#ef4444"
-}
-
-green: "2. GREEN
-Write minimal code needed
-to make the test pass immediately" {
-  style.fill: "#062e24"
-  style.stroke: "#10b981"
-}
-
-refactor: "3. REFACTOR
-Clean up code & eliminate duplication
-Preserve passing green test suite" {
-  style.fill: "#111827"
-  style.stroke: "#3b82f6"
-}
-
-red -> green: "Write minimal code"
-green -> refactor: "All tests green"
-refactor -> red: "Next requirement"
-```
-</details>
+*D2 Source: [`03_tdd_red_green_refactor_cycle.d2`](assets/10_testing_and_quality_engineering/03_tdd_red_green_refactor_cycle.d2)*
 
 * **Why TDD Matters for Staff Engineers**: TDD forces modular, loosely-coupled object design. If a class is difficult to test in a unit test, its architectural design is flawed (e.g. violating SRP, using static global state, or missing dependency injection).
 

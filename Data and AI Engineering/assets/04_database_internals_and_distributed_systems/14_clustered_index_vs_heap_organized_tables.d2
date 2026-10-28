@@ -1,17 +1,31 @@
 direction: right
-title: Clustered Indexes vs. Heap-Organized Tables
+title: "Clustered Indexes vs. Heap-Organized Tables"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-clustered: 1. Clustered Table / Index-Organized (MySQL InnoDB) {
-  pk_tree: Primary Key B+ Tree {
+clustered: "1. Clustered Table / Index-Organized (MySQL InnoDB)" {
+  class: container
+  pk_tree: "Primary Key B+ Tree" {
+    class: box
     leaf: "Leaf pages contain the actual table row data!"
   }
-  sec_tree: Secondary Index {
+  sec_tree: "Secondary Index" {
+    class: box
     leaf: "Stores Primary Key value (forces double lookup)"
   }
   sec_tree -> pk_tree: "Double B-Tree Traversal"
 }
 
-heap: 2. Heap-Organized Table (PostgreSQL / Oracle) {
+heap: "2. Heap-Organized Table (PostgreSQL / Oracle)" {
+  class: container
   heap_files: "Heap Data Files: Rows placed unordered in slotted pages"
   pk_index: "PK B+ Tree: Leaf points to (Block, Slot) ctid"
   sec_index: "Secondary B+ Tree: Leaf points directly to (Block, Slot) ctid"

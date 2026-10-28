@@ -8,31 +8,31 @@
       .edge { stroke-width: 1.5; fill: none; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
   </defs>
 
-  <rect width="1020" height="460" fill="#0B0F19"/>
+  <rect width="1020" height="460" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Left: Colleges & Departments -->
   <g transform="translate(30, 40)">
-    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect width="170" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5" />
     <text x="85" y="24" class="entity-title" fill="#93C5FD">COLLEGES</text>
-    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1" />
     <text x="15" y="52" class="field-pk">college_id (PK)</text>
     <text x="15" y="70" class="field-norm">name, dean_name</text>
   </g>
 
   <g transform="translate(30, 180)">
-    <rect width="170" height="95" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect width="170" height="106" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5" />
     <text x="85" y="24" class="entity-title" fill="#93C5FD">DEPARTMENTS</text>
-    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <line x1="10" y1="34" x2="160" y2="34" stroke="#1F2937" stroke-width="1" />
     <text x="15" y="52" class="field-pk">department_id (PK)</text>
     <text x="15" y="70" class="field-fk">college_id (FK)</text>
     <text x="15" y="88" class="field-norm">department_name</text>
@@ -40,18 +40,18 @@
 
   <!-- Mid-Left: Professors & Courses -->
   <g transform="translate(260, 110)">
-    <rect width="180" height="100" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+    <rect width="180" height="100" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5" />
     <text x="90" y="24" class="entity-title" fill="#C4B5FD">PROFESSORS</text>
-    <line x1="10" y1="34" x2="170" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <line x1="10" y1="34" x2="170" y2="34" stroke="#1F2937" stroke-width="1" />
     <text x="15" y="52" class="field-pk">professor_id (PK)</text>
     <text x="15" y="70" class="field-fk">department_id (FK)</text>
     <text x="15" y="88" class="field-norm">full_name, email</text>
   </g>
 
   <g transform="translate(260, 260)">
-    <rect width="180" height="100" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+    <rect width="180" height="100" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5" />
     <text x="90" y="24" class="entity-title" fill="#C4B5FD">COURSES</text>
-    <line x1="10" y1="34" x2="170" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <line x1="10" y1="34" x2="170" y2="34" stroke="#1F2937" stroke-width="1" />
     <text x="15" y="52" class="field-pk">course_id (PK)</text>
     <text x="15" y="70" class="field-fk">department_id (FK)</text>
     <text x="15" y="88" class="field-norm">course_code, credits</text>
@@ -59,9 +59,9 @@
 
   <!-- Center: Sections -->
   <g transform="translate(500, 180)">
-    <rect width="190" height="120" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="190" height="120" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="95" y="24" class="entity-title" fill="#FCD34D">SECTIONS</text>
-    <line x1="10" y1="34" x2="180" y2="34" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="10" y1="34" x2="180" y2="34" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="52" class="field-pk">section_id (PK)</text>
     <text x="15" y="70" class="field-fk">course_id (FK)</text>
     <text x="15" y="88" class="field-fk">professor_id (FK)</text>
@@ -70,18 +70,18 @@
 
   <!-- Right: Students & Enrollments -->
   <g transform="translate(760, 290)">
-    <rect width="190" height="100" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>
+    <rect width="190" height="100" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5" />
     <text x="95" y="24" class="entity-title" fill="#6EE7B7">STUDENTS</text>
-    <line x1="10" y1="34" x2="180" y2="34" stroke="#1F2937" stroke-width="1"/>
+    <line x1="10" y1="34" x2="180" y2="34" stroke="#1F2937" stroke-width="1" />
     <text x="15" y="52" class="field-pk">student_id (PK)</text>
     <text x="15" y="70" class="field-fk">major_dept_id (FK)</text>
     <text x="15" y="88" class="field-norm">full_name, enroll_date</text>
   </g>
 
   <g transform="translate(760, 110)">
-    <rect width="210" height="125" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="210" height="125" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="105" y="24" class="entity-title" fill="#6EE7B7">ENROLLMENTS (Join)</text>
-    <line x1="10" y1="34" x2="200" y2="34" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="10" y1="34" x2="200" y2="34" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="52" class="field-pk">enrollment_id (PK)</text>
     <text x="15" y="70" class="field-fk">student_id (FK)</text>
     <text x="15" y="88" class="field-fk">section_id (FK)</text>
@@ -90,17 +90,17 @@
 
   <!-- Edges -->
   <!-- Colleges -> Depts -->
-  <path fill="none" d="M 115 125 L 115 180" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
   <!-- Depts -> Profs -->
-  <path fill="none" d="M 200 210 C 230 210, 230 160, 245 160 L 260 160" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
   <!-- Depts -> Courses -->
-  <path fill="none" d="M 200 240 C 230 240, 230 300, 245 300 L 260 300" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
   <!-- Profs -> Sections -->
-  <path fill="none" d="M 440 160 C 470 160, 470 210, 485 210 L 500 210" class="edge" stroke="#8B5CF6" marker-end="url(#arr-amber)"/>
   <!-- Courses -> Sections -->
-  <path fill="none" d="M 440 300 C 470 300, 470 250, 485 250 L 500 250" class="edge" stroke="#8B5CF6" marker-end="url(#arr-amber)"/>
   <!-- Sections -> Enrollments -->
-  <path fill="none" d="M 690 220 C 720 220, 730 170, 745 170 L 760 170" class="edge" stroke="#F59E0B" marker-end="url(#arr-green)"/>
   <!-- Students -> Enrollments -->
-  <path fill="none" d="M 855 290 L 855 235" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-</svg>
+  <g id="connectors"><path fill="none" d="M 115 125 L 115 180" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+  <path fill="none" d="M 200 210 C 230 210, 230 160, 245 160 L 260 160" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+  <path fill="none" d="M 200 240 C 230 240, 230 300, 245 300 L 260 300" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+  <path fill="none" d="M 440 160 C 470 160, 470 210, 485 210 L 500 210" class="edge" stroke="#8B5CF6" marker-end="url(#arr-amber)" />
+  <path fill="none" d="M 440 300 C 470 300, 470 250, 485 250 L 500 250" class="edge" stroke="#8B5CF6" marker-end="url(#arr-amber)" />
+  <path fill="none" d="M 690 220 C 720 220, 730 170, 745 170 L 760 170" class="edge" stroke="#F59E0B" marker-end="url(#arr-green)" />
+  <path fill="none" d="M 855 290 L 855 235" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+</g></svg>

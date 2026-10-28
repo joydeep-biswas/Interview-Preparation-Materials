@@ -1,21 +1,36 @@
 direction: right
-title: 8 KB Slotted Page Physical Storage Architecture
+title: "8 KB Slotted Page Physical Storage Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-page: 8 KB Slotted Page Layout {
-  header: Page Header (24 Bytes) {
+page: "8 KB Slotted Page Layout" {
+  class: container
+  header: "Page Header (24 Bytes)" {
+    class: box
     lsn: "pd_lsn: WAL Log Sequence Number"
     pointers: "pd_lower (start free), pd_upper (end free)"
   }
-  slots: Line Pointers / Slot Array {
+  slots: "Line Pointers / Slot Array" {
+    class: box
     direction: "Grows FORWARD from byte 24 ->"
     slot1: "Slot 1: Offset 8096, Length 96B"
     slot2: "Slot 2: Offset 7980, Length 116B"
   }
-  free_space: Free Space Hole {
+  free_space: "Free Space Hole" {
+    class: box
     status: "Allocatable unfragmented bytes"
     style.stroke-dash: 4
   }
-  tuples: Heap Tuples / Records {
+  tuples: "Heap Tuples / Records" {
+    class: box
     direction: "Grows BACKWARD from byte 8191 <-"
     t1: "Tuple 1 (Byte 8096..8191)"
     t2: "Tuple 2 (Byte 7980..8095)"

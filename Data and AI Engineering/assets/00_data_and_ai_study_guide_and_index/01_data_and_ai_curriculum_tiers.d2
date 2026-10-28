@@ -1,43 +1,66 @@
 # Data & AI Engineering: 9-Tier Curriculum Roadmap
 direction: right
+classes: {
+  phase_container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  tier_card: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+}
 
 phase1: "Phase 1: Systems & Distributed Core" {
+  class: phase_container
+  style.stroke: "#3B82F6"
+
   t1: "Tier 1: Core Languages & Foundations\n• 01. SQL Fundamentals & Advanced Querying\n• 02. Python for Data & Systems" {
+    class: tier_card
     style.stroke: "#3B82F6"
   }
   t2: "Tier 2: Storage & Database Internals\n• 03. Lakehouse Storage & Modeling\n• 04. Database Internals & Distributed Systems" {
+    class: tier_card
     style.stroke: "#10B981"
   }
   t3: "Tier 3: Distributed Computing & Lakehouse\n• 05. Apache Spark & PySpark\n• 06. Databricks & Delta Lake" {
+    class: tier_card
     style.stroke: "#F59E0B"
   }
   t1 -> t2 -> t3
 }
 
 phase2: "Phase 2: Pipelines & AI Engineering" {
+  class: phase_container
+  style.stroke: "#8B5CF6"
+
   t4: "Tier 4: Streaming & Governance\n• 07. Streaming, Kafka & Auto Loader\n• 08. ETL Pipelines & Quality\n• 09. Unity Catalog & Governance" {
+    class: tier_card
     style.stroke: "#8B5CF6"
   }
   t5: "Tier 5: AI Data & Retrieval Infra\n• 10. Document Processing & Prep\n• 11. Embeddings, Vector DBs & RAG\n• 12. AI Serving & LLMOps" {
+    class: tier_card
     style.stroke: "#EC4899"
   }
   t6: "Tier 6: Python Backend for AI\n• 13. FastAPI & Async SSE\n• 14. Persistence, Caching & Integration" {
+    class: tier_card
     style.stroke: "#06B6D4"
   }
   t4 -> t5 -> t6
 }
 
 phase3: "Phase 3: Platform & Interview Pillars" {
+  class: phase_container
+  style.stroke: "#EAB308"
+
   t7: "Tier 7: Cloud Platform & DevOps\n• 15. Cloud Infrastructure & Observability" {
+    class: tier_card
     style.stroke: "#64748B"
   }
   t8: "Tier 8: Advanced & Specialized AI\n• 16. ML & Transformer Foundations\n• 17. Autonomous Agents & Adaptation" {
+    class: tier_card
     style.stroke: "#A855F7"
   }
   t9: "Tier 9: Universal Interview Pillars\n• Universal DSA Track\n• 14 HLDs + 8 LLDs + 41 Behavioral Scenarios" {
+    class: tier_card
     style.stroke: "#EAB308"
   }
   t7 -> t8 -> t9
 }
 
-phase1 -> phase2 -> phase3
+phase1.t3 -> phase2.t4: "Distributed Foundation"
+phase2.t6 -> phase3.t7: "Platform & Mastery"

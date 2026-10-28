@@ -26,7 +26,7 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">High-Throughput Partitioned JDBC Reads in PySpark</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Dividing Monolithic Table Scans into Parallel Sockets via Non-Overlapping Key Ranges</text>
   
@@ -51,33 +51,33 @@
 
   
     <rect x="310" y="95" width="340" height="65" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="480.0" y="121" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Executor Task 1: WHERE id &amp;gt;= 1 AND id &amp;lt; 250k</text>
+    <text x="324" y="118" fill="#c084fc" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Task 1: WHERE id &gt;= 1 AND id &lt; 250k</text>
     
     <circle cx="326" cy="138" r="2" fill="#8b5cf6"/>
     <text x="334" y="141" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reads slice 1 concurrently</text>
   
     <rect x="310" y="165" width="340" height="65" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="480.0" y="191" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Executor Task 2: WHERE id &amp;gt;= 250k AND id &amp;lt; 500k</text>
+    <text x="324" y="188" fill="#c084fc" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Task 2: WHERE id &gt;= 250k AND id &lt; 500k</text>
     
     <circle cx="326" cy="208" r="2" fill="#8b5cf6"/>
     <text x="334" y="211" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reads slice 2 concurrently</text>
   
     <rect x="310" y="235" width="340" height="65" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="480.0" y="261" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Executor Task 3: WHERE id &amp;gt;= 500k AND id &amp;lt; 750k</text>
+    <text x="324" y="258" fill="#c084fc" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Task 3: WHERE id &gt;= 500k AND id &lt; 750k</text>
     
     <circle cx="326" cy="278" r="2" fill="#8b5cf6"/>
     <text x="334" y="281" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reads slice 3 concurrently</text>
   
     <rect x="310" y="305" width="340" height="65" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="480.0" y="331" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Executor Task 4: WHERE id &amp;gt;= 750k AND id &amp;lt;= 1M</text>
+    <text x="324" y="328" fill="#c084fc" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Task 4: WHERE id &gt;= 750k AND id &lt;= 1M</text>
     
     <circle cx="326" cy="348" r="2" fill="#8b5cf6"/>
     <text x="334" y="351" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reads slice 4 concurrently</text>
 
   
     <rect x="690" y="115" width="250" height="255" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="815.0" y="141" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">PostgreSQL Core Database</text>
-    <text x="815.0" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">High-Performance Concurrency</text>
+    <text x="704" y="138" fill="#6ee7b7" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">PostgreSQL Core</text>
+    <text x="704" y="154" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">High-Performance Concurrency</text>
     <rect x="868" y="125" width="66" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="901.0" y="137" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">POSTGRES</text>
     <circle cx="706" cy="170" r="2" fill="#10b981"/>
@@ -107,11 +107,11 @@
     <path d="M 270.0 200.0 L 278.0 200.0 C 288.0 200.0, 288.0 337.0, 298.0 337.0 L 310.0 337.0" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/>
 
   
-    <path d="M 650.0 127.0 L 658.0 127.0 C 668.0 127.0, 668.0 150.0, 678.0 150.0 L 690.0 150.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="670.0" y="130.5" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Socket 1</text>
+    <path d="M 650.0 127.0 L 658.0 127.0 C 668.0 127.0, 668.0 150.0, 678.0 150.0 L 690.0 150.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><rect x="652" y="123" width="36" height="15" rx="3" fill="#090d16" stroke="#10b981" stroke-width="0.8"/><text x="670" y="134" fill="#10b981" font-size="7.5" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Sock 1</text>
   
-    <path d="M 650.0 197.0 L 658.0 197.0 C 668.0 197.0, 668.0 200.0, 678.0 200.0 L 690.0 200.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="670.0" y="190.5" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Socket 2</text>
+    <path d="M 650.0 197.0 L 658.0 197.0 C 668.0 197.0, 668.0 200.0, 678.0 200.0 L 690.0 200.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><rect x="652" y="183" width="36" height="15" rx="3" fill="#090d16" stroke="#10b981" stroke-width="0.8"/><text x="670" y="194" fill="#10b981" font-size="7.5" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Sock 2</text>
   
-    <path d="M 650.0 267.0 L 658.0 267.0 C 668.0 267.0, 668.0 250.0, 678.0 250.0 L 690.0 250.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="670.0" y="250.5" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Socket 3</text>
+    <path d="M 650.0 267.0 L 658.0 267.0 C 668.0 267.0, 668.0 250.0, 678.0 250.0 L 690.0 250.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><rect x="652" y="243" width="36" height="15" rx="3" fill="#090d16" stroke="#10b981" stroke-width="0.8"/><text x="670" y="254" fill="#10b981" font-size="7.5" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Sock 3</text>
   
     <path d="M 650.0 337.0 L 658.0 337.0 C 668.0 337.0, 668.0 300.0, 678.0 300.0 L 690.0 300.0" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="670.0" y="310.5" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Socket 4</text>
 

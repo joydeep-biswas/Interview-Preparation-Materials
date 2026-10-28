@@ -1,18 +1,30 @@
 direction: right
-title: Batch vs. Streaming Processing Paradigms
+title: "Batch vs. Streaming Processing Paradigms"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-batch: Batch Processing (Bounded Datasets) {
-  accumulate: Data Accumulates over 24 Hours [00:00:00 - 23:59:59]
-  trigger: Scheduled Cron Trigger (Every day at 02:00 AM)
-  cluster: Spin Up Ephemeral Spark Cluster (High Throughput)
-  finish: Write Updated Table & Tear Down Cluster (Cost Optimized)
+batch: "Batch Processing (Bounded Datasets)" {
+  class: container
+  accumulate: "Data Accumulates over 24 Hours [00:00:00 - 23:59:59]"
+  trigger: "Scheduled Cron Trigger (Every day at 02:00 AM)"
+  cluster: "Spin Up Ephemeral Spark Cluster (High Throughput)"
+  finish: "Write Updated Table & Tear Down Cluster (Cost Optimized)"
   accumulate -> trigger -> cluster -> finish
 }
 
-streaming: Streaming Processing (Unbounded Continuous Stream) {
-  events: Continuous Events Land (IoT sensors, clicks, trades)
-  buffer: Distributed Message Log (Kafka / Event Hubs)
-  worker: Always-On Streaming Worker (Spark Streaming / Flink)
-  output: Write Real-Time Metric & Trigger Alert (Sub-Second Latency)
+streaming: "Streaming Processing (Unbounded Continuous Stream)" {
+  class: container
+  events: "Continuous Events Land (IoT sensors, clicks, trades)"
+  buffer: "Distributed Message Log (Kafka / Event Hubs)"
+  worker: "Always-On Streaming Worker (Spark Streaming / Flink)"
+  output: "Write Real-Time Metric & Trigger Alert (Sub-Second Latency)"
   events -> buffer -> worker -> output
 }

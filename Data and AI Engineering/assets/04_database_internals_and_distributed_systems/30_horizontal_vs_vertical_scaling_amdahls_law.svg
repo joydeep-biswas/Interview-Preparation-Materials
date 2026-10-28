@@ -26,7 +26,7 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Horizontal vs. Vertical Scaling: Hardware Limits &amp; Amdahl's Law</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Comparing Shared-Memory Scale-Up with Network-Partitioned Scale-Out Topologies</text>
   
@@ -56,11 +56,11 @@
     <circle cx="61" cy="300" r="2" fill="#ef4444"/>
     <text x="69" y="303" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Hardware Ceiling: Cannot scale beyond single largest server sold.</text>
     <circle cx="61" cy="316" r="2" fill="#ef4444"/>
-    <text x="69" y="319" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Exponential Cost: A 4TB RAM server costs 10x more than 10x 400GB nodes.</text>
+    <text x="69" y="319" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Exponential Cost: 4TB RAM costs 10x more than 10x 400GB nodes.</text>
     <circle cx="61" cy="332" r="2" fill="#ef4444"/>
-    <text x="69" y="335" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Single Point of Failure: Hardware reboot / kernel panic downs 100% of app.</text>
+    <text x="69" y="335" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">SPOF: Hardware reboot or kernel panic downs 100% of app.</text>
     <circle cx="61" cy="348" r="2" fill="#ef4444"/>
-    <text x="69" y="351" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Amdahl's Law: Non-parallelizable serial code caps maximum speedup!</text>
+    <text x="69" y="351" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Amdahl's Law: Serial bottleneck caps maximum speedup.</text>
 
   
     <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
@@ -93,6 +93,6 @@
     <text x="870.0" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">16 Cores, 64GB</text>
     <circle cx="821" cy="275" r="2" fill="#10b981"/>
     <text x="829" y="278" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Linear capacity growth</text>
-  <text x="735" y="340" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle">Pros: Infinite theoretical capacity. Cons: Network latency, 2PC &amp; CAP trade-offs</text>
+  <text x="735" y="340" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="middle">Pros: Infinite scale | Cons: Latency, 2PC &amp; CAP trade-offs</text>
 
 </svg>

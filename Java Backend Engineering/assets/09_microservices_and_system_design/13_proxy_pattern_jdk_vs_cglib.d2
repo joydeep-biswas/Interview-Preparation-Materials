@@ -1,29 +1,32 @@
 direction: right
 title: "Proxy Pattern: JDK Dynamic Proxy vs CGLIB Subclass Proxy"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-caller: "Client / Controller
-Calls orderService.placeOrder()" {
+caller: "Client / Controller\nCalls orderService.placeOrder()" {
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 }
 
-proxy: "Spring AOP Proxy
-TransactionInterceptor
-Wraps target in begin/commit" {
+proxy: "Spring AOP Proxy\nTransactionInterceptor\nWraps target in begin/commit" {
   style.fill: "#111827"
   style.stroke: "#f59e0b"
 }
 
-tx: "PlatformTransactionManager
-Acquires connection
-Sets autocommit=false" {
+tx: "PlatformTransactionManager\nAcquires connection\nSets autocommit=false" {
   style.fill: "#083344"
   style.stroke: "#06b6d4"
 }
 
-target: "OrderServiceImpl
-Target Bean
-Pure business logic" {
+target: "OrderServiceImpl\nTarget Bean\nPure business logic" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }

@@ -1,31 +1,45 @@
 direction: down
-title: Java Memory Model (JMM) Hardware Cache Coherence Architecture
+title: "Java Memory Model (JMM) Hardware Cache Coherence Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-RAM: Main System Memory (RAM) {
+RAM: "Main System Memory (RAM)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   flag: "Shared Variable: boolean flag = false"
 }
 
-Core1: CPU Core 1 (Thread 1: Writer) {
+Core1: "CPU Core 1 (Thread 1: Writer)" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#8B5CF6"
   l1: "L1 Cache & Store Buffer: flag = true (Unflushed!)"
   code: "flag = true (without volatile, write is buffered locally)"
 }
 
-Core2: CPU Core 2 (Thread 2: Reader) {
+Core2: "CPU Core 2 (Thread 2: Reader)" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#EF4444"
   l1: "L1 Cache: flag == false (Stale hit!)"
   loop: "while(!flag) spins forever (Liveness failure)"
 }
 
-VolatileFix: The Volatile Remedy {
+VolatileFix: "The Volatile Remedy" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
   barriers: "StoreLoad Memory Barrier: Flushes store buffer to RAM; invalidates reader L1 cache"
 }
 
-Core1 -> RAM: Non-volatile write stays in local buffer
-RAM -> Core2: Reader misses update; uses stale L1 cache
+Core1 -> RAM: "Non-volatile write stays in local buffer"
+RAM -> Core2: "Reader misses update; uses stale L1 cache"

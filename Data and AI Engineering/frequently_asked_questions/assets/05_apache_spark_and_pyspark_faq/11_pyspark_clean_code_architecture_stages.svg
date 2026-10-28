@@ -7,65 +7,65 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
   </defs>
 
-  <rect width="1020" height="220" fill="#0B0F19"/>
+  <rect width="1020" height="220" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Step 1 -->
   <g transform="translate(25, 40)">
-    <rect width="210" height="140" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="210" height="150" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="105" y="32" class="title" fill="#93C5FD">1. Standard Imports</text>
-    <line x1="15" y1="44" x2="195" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="195" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="70" class="code-txt">import functions as F</text>
     <text x="15" y="90" class="code-txt">import Window as W</text>
     <text x="15" y="115" class="body-txt">• Consistent aliases</text>
     <text x="15" y="132" class="body-txt">• Avoid wildcard import *</text>
   </g>
 
-  <path fill="none" d="M 235 110 L 265 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-
   <!-- Step 2 -->
   <g transform="translate(265, 40)">
-    <rect width="220" height="140" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="220" height="152" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="110" y="32" class="title" fill="#FCD34D">2. Stage Decomposition</text>
-    <line x1="15" y1="44" x2="205" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="205" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="70" class="body-txt">• Filter early to prune</text>
     <text x="15" y="92" class="body-txt">• Join on clustered keys</text>
     <text x="15" y="114" class="body-txt">• Aggregate on narrow dims</text>
     <text x="15" y="134" class="body-txt">• Rank on partitioned window</text>
   </g>
 
-  <path fill="none" d="M 485 110 L 515 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
-
   <!-- Step 3 -->
   <g transform="translate(515, 40)">
-    <rect width="230" height="140" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="230" height="140" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="115" y="32" class="title" fill="#6EE7B7">3. Fluent Chaining</text>
-    <line x1="15" y1="44" x2="215" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="215" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="70" class="code-txt">final_df = (</text>
     <text x="15" y="88" class="code-txt">  df.filter(...)</text>
     <text x="15" y="106" class="code-txt">    .join(...)</text>
     <text x="15" y="124" class="code-txt">    .withColumn(...))</text>
   </g>
 
-  <path fill="none" d="M 745 110 L 775 110" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-
   <!-- Step 4 -->
   <g transform="translate(775, 40)">
-    <rect width="220" height="140" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="220" height="152" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2" />
     <text x="110" y="32" class="title" fill="#C4B5FD">4. Explicit Types &amp; Names</text>
-    <line x1="15" y1="44" x2="205" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="205" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="70" class="body-txt">• .cast('decimal(18,2)')</text>
     <text x="15" y="92" class="body-txt">• Explicit .alias('metric_usd')</text>
     <text x="15" y="114" class="body-txt">• Deterministic column ordering</text>
     <text x="15" y="134" class="body-txt">• Prevents schema drift</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 235 110 L 265 110" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 485 110 L 515 110" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)" />
+
+  <path fill="none" d="M 745 110 L 775 110" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+
+  </g></svg>

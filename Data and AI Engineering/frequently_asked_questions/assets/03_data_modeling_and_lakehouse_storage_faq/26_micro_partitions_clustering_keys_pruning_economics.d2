@@ -1,0 +1,29 @@
+# Micro-Partitions & Clustering Keys: Layout, Pruning & Reclustering Economics
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  node: { style: { fill: "#1E293B"; stroke-width: 1.5; border-radius: 8 } }
+}
+
+lakehouse_storage: "Micro-Partition Physical Storage & Clustering Architecture" {
+  class: box
+  style.stroke: "#3B82F6"
+
+  micro_parts: "1. Micro-Partition Structure\n• 50–500 MB uncompressed (16MB compressed)\n• Immutable columnar files\n• Stores metadata: Min/Max values per column\n• Natural clustering on insertion order" {
+    class: node
+    style.stroke: "#3B82F6"
+  }
+
+  clustering_keys: "2. Clustering Keys & Metadata Pruning\n• Multi-column sorting (e.g., date, tenant_id)\n• Query pruning: reads ONLY matching files\n• Skips 95%+ of table data at metadata tier\n• Clustering Depth: low depth = minimal file overlap" {
+    class: node
+    style.stroke: "#10B981"
+  }
+
+  economics: "3. Reclustering Cost vs Performance ROI\n• Automatic Clustering burns compute credits\n• Worth it when: Multi-TB tables, high query frequency\n• Avoid when: High churn/updates, small tables (<100GB)\n• Break-even: Scan savings exceed background reclustering cost" {
+    class: node
+    style.stroke: "#F59E0B"
+  }
+
+  micro_parts -> clustering_keys -> economics
+}
+

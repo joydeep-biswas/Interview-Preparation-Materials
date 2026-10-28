@@ -32,14 +32,14 @@
     .badge { font-weight: 600; font-size: 11px; }
     .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
   </style>
-  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <rect width="100%" height="100%" fill="url(#bg-grad)"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="32" class="title" font-size="19" text-anchor="middle">URL Shortener: Sub-5ms Read Redirection Architecture</text>
   <text x="550" y="52" class="subtitle" text-anchor="middle">High-throughput read path: 95% Redis cache hits, database fallback, and asynchronous Kafka click analytics</text>
 
   <!-- Client & Gateway -->
   <g transform="translate(30, 75)">
     <rect width="210" height="260" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="210" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="210" height="34" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="105" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">1. Client Request</text>
     <text x="16" y="60" class="card-body" font-weight="600" fill="#60A5FA">• Incoming HTTP GET:</text>
     <text x="24" y="80" class="card-body">  - GET /7aB9xQ</text>
@@ -48,14 +48,14 @@
     <text x="24" y="150" class="card-body">  - SSL termination</text>
     <text x="24" y="170" class="card-body">  - Anycast routing</text>
     <text x="24" y="190" class="card-body">  - Token bucket rate limit</text>
-    <rect x="16" y="226" width="178" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="226" width="178" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="105" y="241" class="badge" fill="#93C5FD" text-anchor="middle">Edge Ingress</text>
   </g>
 
   <!-- Redis Cache -->
   <g transform="translate(275, 75)">
     <rect width="220" height="260" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="220" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <rect width="220" height="34" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
     <text x="110" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Redis Cache L1/L2</text>
     <text x="16" y="60" class="card-body" font-weight="600" fill="#34D399">• O(1) Memory Lookup:</text>
     <text x="24" y="80" class="card-body">  - Key: "url:7aB9xQ"</text>
@@ -64,14 +64,14 @@
     <text x="24" y="150" class="card-body">  - Instant return (&lt; 2ms)</text>
     <text x="16" y="180" class="card-body" font-weight="600" fill="#34D399">• Cache Miss (5%):</text>
     <text x="24" y="200" class="card-body">  - Route query to DB</text>
-    <rect x="16" y="226" width="188" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="226" width="188" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="110" y="241" class="badge" fill="#A7F3D0" text-anchor="middle">In-Memory Cache</text>
   </g>
 
   <!-- Distributed DB (Miss Fallback) -->
   <g transform="translate(530, 75)">
     <rect width="220" height="260" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="220" height="34" rx="10" ry="10" fill="#78350F"/>
+    <rect width="220" height="34" rx="10" ry="10" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
     <text x="110" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">3. Distributed DB</text>
     <text x="16" y="60" class="card-body" font-weight="600" fill="#FBBF24">• CockroachDB / ScyllaDB:</text>
     <text x="24" y="80" class="card-body">  - Sharded primary key index</text>
@@ -79,14 +79,14 @@
     <text x="16" y="130" class="card-body" font-weight="600" fill="#FBBF24">• Populate Cache:</text>
     <text x="24" y="150" class="card-body">  - SETEX url:7aB9xQ 86400</text>
     <text x="24" y="170" class="card-body">  - Prevents repeated misses</text>
-    <rect x="16" y="226" width="188" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="226" width="188" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="110" y="241" class="badge" fill="#FDE68A" text-anchor="middle">Durable Storage</text>
   </g>
 
   <!-- HTTP 302 & Analytics -->
   <g transform="translate(785, 75)">
     <rect width="285" height="260" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="285" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <rect width="285" height="34" rx="10" ry="10" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
     <text x="142" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Response &amp; Analytics</text>
     <text x="16" y="60" class="card-body" font-weight="600" fill="#A78BFA">• HTTP 302 Found Response:</text>
     <text x="24" y="80" class="card-body">  - Header Location: https://target.com</text>
@@ -95,7 +95,7 @@
     <text x="16" y="150" class="card-body" font-weight="600" fill="#A78BFA">• Asynchronous Analytics Event:</text>
     <text x="24" y="170" class="card-body">  - Fire-and-forget emit to Kafka</text>
     <text x="24" y="190" class="card-body">  - ClickHouse real-time geo aggregation</text>
-    <rect x="16" y="226" width="253" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="226" width="253" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="142" y="241" class="badge" fill="#DDD6FE" text-anchor="middle">Sub-5ms End-to-End Latency</text>
   </g>
 

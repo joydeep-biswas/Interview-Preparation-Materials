@@ -39,25 +39,25 @@
     <circle cx="46" cy="166" r="2" fill="#3b82f6"/>
     <text x="54" y="169" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">name, city, state</text>
   
-    <rect x="30" y="220" width="170" height="85" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="115.0" y="246" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">AUDITORIUM</text>
-    <text x="115.0" y="262" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Screen Hall</text>
-    <circle cx="46" cy="275" r="2" fill="#3b82f6"/>
-    <text x="54" y="278" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">auditorium_id: BIGINT [PK]</text>
-    <circle cx="46" cy="291" r="2" fill="#3b82f6"/>
-    <text x="54" y="294" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">theater_id: BIGINT [FK]</text>
-    <circle cx="46" cy="307" r="2" fill="#3b82f6"/>
-    <text x="54" y="310" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">screen_type: IMAX/3D</text>
+    <rect x="30" y="205" width="170" height="105" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="115.0" y="227" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">AUDITORIUM</text>
+    <text x="115.0" y="243" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Screen Hall</text>
+    <circle cx="46" cy="257" r="2" fill="#3b82f6"/>
+    <text x="54" y="260" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">auditorium_id: BIGINT [PK]</text>
+    <circle cx="46" cy="273" r="2" fill="#3b82f6"/>
+    <text x="54" y="276" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">theater_id: BIGINT [FK]</text>
+    <circle cx="46" cy="289" r="2" fill="#3b82f6"/>
+    <text x="54" y="292" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">screen_type: IMAX/3D</text>
   
-    <rect x="30" y="345" width="170" height="75" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="115.0" y="371" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SEAT</text>
-    <text x="115.0" y="387" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Physical Seat</text>
-    <circle cx="46" cy="400" r="2" fill="#3b82f6"/>
-    <text x="54" y="403" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">seat_id: BIGINT [PK]</text>
-    <circle cx="46" cy="416" r="2" fill="#3b82f6"/>
-    <text x="54" y="419" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">auditorium_id: [FK]</text>
-    <circle cx="46" cy="432" r="2" fill="#3b82f6"/>
-    <text x="54" y="435" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">row_char, seat_num</text>
+    <rect x="30" y="335" width="170" height="95" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="115.0" y="357" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SEAT</text>
+    <text x="115.0" y="373" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Physical Seat</text>
+    <circle cx="46" cy="387" r="2" fill="#3b82f6"/>
+    <text x="54" y="390" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">seat_id: BIGINT [PK]</text>
+    <circle cx="46" cy="403" r="2" fill="#3b82f6"/>
+    <text x="54" y="406" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">auditorium_id: [FK]</text>
+    <circle cx="46" cy="418" r="2" fill="#3b82f6"/>
+    <text x="54" y="421" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">row_char, seat_num</text>
 
   
     <rect x="240" y="95" width="180" height="85" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
@@ -125,17 +125,17 @@
     <text x="784" y="374" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">email, full_name, phone</text>
 
   
-    <line x1="115" y1="180" x2="115" y2="220" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="115.0" y="192.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">contains</text>
+    <line x1="115" y1="180" x2="115" y2="205" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><rect x="92" y="186" width="46" height="14" rx="3" fill="#090d16" stroke="#3b82f6" stroke-width="0.8"/><text x="115.0" y="197.0" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">contains</text>
   
-    <line x1="115" y1="305" x2="115" y2="345" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="115.0" y="317.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">has</text>
+    <line x1="115" y1="310" x2="115" y2="335" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><rect x="101" y="316" width="28" height="14" rx="3" fill="#090d16" stroke="#3b82f6" stroke-width="0.8"/><text x="115.0" y="327.0" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">has</text>
   
-    <line x1="330" y1="180" x2="330" y2="220" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="330.0" y="192.0" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">schedules</text>
+    <line x1="330" y1="190" x2="330" y2="225" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><rect x="303" y="201" width="54" height="14" rx="3" fill="#090d16" stroke="#8b5cf6" stroke-width="0.8"/><text x="330.0" y="212.0" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">schedules</text>
   
     <line x1="200" y1="262" x2="240" y2="262" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="220.0" y="254.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">hosts</text>
   
     <line x1="420" y1="270" x2="460" y2="270" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="440.0" y="262.0" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">allocates</text>
   
-    <path d="M 200.0 382.0 L 210.0 382.0 C 328.0 382.0, 328.0 300.0, 446.0 300.0 L 460.0 300.0" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><text x="330.0" y="333.0" fill="#3b82f6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">seat FK</text>
+    <path d="M 200.0 382.0 L 210.0 382.0 C 328.0 382.0, 328.0 300.0, 446.0 300.0 L 460.0 300.0" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-b)"/><rect x="308" y="346" width="44" height="14" rx="3" fill="#090d16" stroke="#3b82f6" stroke-width="0.8"/><text x="330.0" y="357.0" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">seat FK</text>
   
     <line x1="760" y1="205" x2="720" y2="205" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="740.0" y="197.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">reserves</text>
   

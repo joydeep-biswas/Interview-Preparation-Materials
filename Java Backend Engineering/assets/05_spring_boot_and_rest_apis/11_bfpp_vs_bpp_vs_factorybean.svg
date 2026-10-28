@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Core Extension Points: BeanFactoryPostProcessor vs. BeanPostProcessor vs. FactoryBean&lt;T&gt;</text>
   <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Architectural comparison: Modifying definition metadata vs. intercepting bean instances vs. custom programmatic factory creation</text>
 <rect x="30" y="85" width="300" height="410" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
@@ -50,7 +50,7 @@
 <text x="55" y="438" fill="#34D399" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">application.yml before beans instantiate!</text>
 <rect x="370" y="85" width="300" height="410" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
 <text x="520" y="112" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">BeanPostProcessor</text>
-<rect x="430" y="122" width="180" height="18" rx="9" fill="#047857"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Operates on Real Instances</text>
+<rect x="430" y="122" width="180" height="18" rx="9" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Operates on Real Instances</text>
 <rect x="385" y="155" width="270" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
 <text x="395" y="178" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">When It Runs:</text>
 <text x="395" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">DURING bean initialization,</text>

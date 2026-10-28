@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to real-world interview scenarios and en
 
 ![Enterprise Testing Pyramid and Spring TestContext Caching](assets/10_testing_and_quality_engineering_faq/01_testing_pyramid_and_spring_testcontext_caching.svg)
 
-*D2 Source:* [assets/10_testing_and_quality_engineering_faq/01_testing_pyramid_and_spring_testcontext_caching.d2](assets/10_testing_and_quality_engineering_faq/01_testing_pyramid_and_spring_testcontext_caching.d2)
+*D2 Source: [`01_testing_pyramid_and_spring_testcontext_caching.d2`](assets/10_testing_and_quality_engineering_faq/01_testing_pyramid_and_spring_testcontext_caching.d2)*
 
 ---
 
@@ -138,7 +138,7 @@ When Spring executes integration tests, the `TestContextManager` hashes the test
 
 ![Testcontainers Isolated Integration Test Architecture](assets/10_testing_and_quality_engineering_faq/02_testcontainers_isolated_integration_architecture.svg)
 
-*D2 Source:* [assets/10_testing_and_quality_engineering_faq/02_testcontainers_isolated_integration_architecture.d2](assets/10_testing_and_quality_engineering_faq/02_testcontainers_isolated_integration_architecture.d2)
+*D2 Source: [`02_testcontainers_isolated_integration_architecture.d2`](assets/10_testing_and_quality_engineering_faq/02_testcontainers_isolated_integration_architecture.d2)*
 
 1. **The Ryuk Cleaner:** When the Testcontainers Java library starts, it immediately launches a lightweight container named `testcontainers/ryuk`. Ryuk opens a bidirectional TCP connection to the test JVM. If the test process terminates cleanly—or crashes abruptly via `SIGKILL` or IDE stop—the TCP connection drops, and Ryuk immediately deletes all containers, networks, and volumes created during the session, preventing orphaned Docker zombie processes.
 2. **Port Collisions & `@DynamicPropertySource`:** Testcontainers never binds containers to static fixed ports (e.g. 5432) to prevent collisions with local services or parallel CI jobs. It binds to random available host ports (e.g. 32778). `@DynamicPropertySource` dynamically resolves this port and overrides Spring properties before bean initialization:
@@ -186,7 +186,7 @@ When Spring executes integration tests, the `TestContextManager` hashes the test
 
 ![Consumer-Driven Contract Testing Pact Broker Architecture](assets/10_testing_and_quality_engineering_faq/03_consumer_driven_contract_testing_pact_broker.svg)
 
-*D2 Source:* [assets/10_testing_and_quality_engineering_faq/03_consumer_driven_contract_testing_pact_broker.d2](assets/10_testing_and_quality_engineering_faq/03_consumer_driven_contract_testing_pact_broker.d2)
+*D2 Source: [`03_consumer_driven_contract_testing_pact_broker.d2`](assets/10_testing_and_quality_engineering_faq/03_consumer_driven_contract_testing_pact_broker.d2)*
 - **The Breakthrough:** Unlike end-to-end testing which requires orchestrating 20 interdependent services, Pact tests are pure unit tests executed independently by the consumer and provider, completely eliminating breaking schema surprises in production.
 
 *Deep-dive theoretical reference: See [Module 10: Testing & Quality Engineering](../10_testing_and_quality_engineering.md#3-contract-testing-mocking--code-quality-gates)*

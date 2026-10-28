@@ -52,9 +52,9 @@
     <rect x="290" y="95" width="240" height="290" rx="10" fill="#1c0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
     <text x="306" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. Schema Registry</text>
   
-    <rect x="305" y="140" width="210" height="150" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="410.0" y="166" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Confluent Registry</text>
-    <text x="410.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Schema Catalog</text>
+    <rect x="305" y="140" width="210" height="185" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="320" y="166" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Schema Registry</text>
+    <text x="320" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="start">Schema Catalog</text>
     <rect x="429" y="150" width="80" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
     <text x="469.0" y="162" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">SCHEMA #42</text>
     <circle cx="321" cy="195" r="2" fill="#8b5cf6"/>
@@ -79,7 +79,7 @@
     <text x="576" y="117" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">3. Kafka Network Wire Payload (Ultra Compact)</text>
   
     <rect x="575" y="130" width="360" height="90" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="755.0" y="156" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">5-Byte Magic Prefix + Binary Data</text>
+    <text x="590" y="156" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">5-Byte Magic Prefix + Binary Data</text>
     <text x="755.0" y="172" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Zero Schema Duplication on Wire</text>
     <rect x="842" y="140" width="87" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
     <text x="885.5" y="152" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">WIRE FORMAT</text>
@@ -109,7 +109,7 @@
   
     <line x1="245" y1="195" x2="305" y2="195" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr-p)"/><text x="275.0" y="187.0" fill="#8b5cf6" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">1. Register / Get ID</text>
   
-    <path d="M 245.0 220.0 L 255.0 220.0 C 408.0 220.0, 408.0 165.0, 561.0 165.0 L 575.0 165.0" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="410.0" y="184.5" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">2. Publish Wire Bytes</text>
+    <path d="M 145 140 L 145 78 L 755 78 L 755 130" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><rect x="400" y="69" width="130" height="18" rx="4" fill="#090d16" stroke="#f59e0b" stroke-width="1"/><text x="465" y="81" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">2. Publish Wire Bytes</text>
   
     <line x1="755" y1="220" x2="755" y2="275" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="755.0" y="239.5" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">Consume</text>
   

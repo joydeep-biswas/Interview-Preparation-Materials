@@ -24,7 +24,7 @@
     .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
     .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
   </style>
-  <rect width="100%" height="100%" fill="#0B0F19"/>
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Client -->
   <rect x="25" y="100" width="160" height="85" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
@@ -65,7 +65,7 @@
   <!-- Arrows out of APIM: 429 vs Target -->
   <!-- 429 Overload -->
   <path d="M 675 170 L 730 170 Q 745 170 745 125 L 760 125" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
-  <rect x="685" y="145" width="55" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <rect x="685" y="145" width="55" height="18" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   <text x="712" y="158" class="edge-txt" text-anchor="middle" fill="#EF4444">Limit</text>
 
   <rect x="760" y="90" width="175" height="70" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
@@ -75,7 +75,7 @@
 
   <!-- Success Stream to OpenAI -->
   <path d="M 675 255 L 760 255" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
-  <rect x="685" y="242" width="60" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <rect x="685" y="242" width="60" height="18" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   <text x="715" y="255" class="edge-txt" text-anchor="middle" fill="#10B981">Allowed</text>
 
   <rect x="760" y="225" width="175" height="65" rx="8" ry="8" fill="#111827" stroke="#10B981" stroke-width="1.5"/>

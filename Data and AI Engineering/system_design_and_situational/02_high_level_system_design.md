@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to enterprise Data Platform High-Level D
 
 ![Enterprise Multi-Tier Real-Time Data & AI Lakehouse Architecture](assets/02_high_level_system_design/01_enterprise_multitier_realtime_lakehouse.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/01_enterprise_multitier_realtime_lakehouse.d2](assets/02_high_level_system_design/01_enterprise_multitier_realtime_lakehouse.d2)
+*D2 Source: [`01_enterprise_multitier_realtime_lakehouse.d2`](assets/02_high_level_system_design/01_enterprise_multitier_realtime_lakehouse.d2)*
 
 ---
 
@@ -61,7 +61,7 @@ A comprehensive, production-grade guide to enterprise Data Platform High-Level D
 
 ![Petabyte-Scale Change Data Capture (CDC): Debezium + Kafka + Delta Lake](assets/02_high_level_system_design/02_petabyte_scale_cdc_pipeline.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/02_petabyte_scale_cdc_pipeline.d2](assets/02_high_level_system_design/02_petabyte_scale_cdc_pipeline.d2)
+*D2 Source: [`02_petabyte_scale_cdc_pipeline.d2`](assets/02_high_level_system_design/02_petabyte_scale_cdc_pipeline.d2)*
 
 1. **Transaction Log Mining:** Debezium reads PostgreSQL Write-Ahead Logs (WAL) or MySQL binlogs directly without issuing SQL `SELECT` queries, avoiding performance overhead on OLTP workloads.
 2. **Ordering Guarantee:** CDC events must be partitioned on the source primary key (`order_id`) so all mutation events (`INSERT`, `UPDATE`, `DELETE`) for a specific entity arrive in strict monotonic sequence within a single Kafka partition.
@@ -133,7 +133,7 @@ A comprehensive, production-grade guide to enterprise Data Platform High-Level D
 #### Architectural Blueprint
 ![Financial Market Data Surveillance & Real-Time CEP Engine](assets/02_high_level_system_design/03_financial_market_data_surveillance_engine.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/03_financial_market_data_surveillance_engine.d2](assets/02_high_level_system_design/03_financial_market_data_surveillance_engine.d2)
+*D2 Source: [`03_financial_market_data_surveillance_engine.d2`](assets/02_high_level_system_design/03_financial_market_data_surveillance_engine.d2)*
 
 #### Core Mechanics & Technical Solutions
 1. **Nanosecond Time Normalization Across Venues:**
@@ -156,7 +156,7 @@ A comprehensive, production-grade guide to enterprise Data Platform High-Level D
 #### Architectural Blueprint
 ![Mission-Critical Financial Ledger & Regulatory Snapshot Lakehouse](assets/02_high_level_system_design/04_mission_critical_financial_ledger_lakehouse.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/04_mission_critical_financial_ledger_lakehouse.d2](assets/02_high_level_system_design/04_mission_critical_financial_ledger_lakehouse.d2)
+*D2 Source: [`04_mission_critical_financial_ledger_lakehouse.d2`](assets/02_high_level_system_design/04_mission_critical_financial_ledger_lakehouse.d2)*
 
 #### Core Mechanics & Guarantees
 1. **The Reproducibility Invariant:**
@@ -204,7 +204,7 @@ A comprehensive, production-grade guide to enterprise Data Platform High-Level D
 #### Data Modeling Architecture
 ![Payment Processing Star Schema & Dimensional Data Model](assets/02_high_level_system_design/05_payment_processing_star_schema_data_model.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/05_payment_processing_star_schema_data_model.d2](assets/02_high_level_system_design/05_payment_processing_star_schema_data_model.d2)
+*D2 Source: [`05_payment_processing_star_schema_data_model.d2`](assets/02_high_level_system_design/05_payment_processing_star_schema_data_model.d2)*
 
 1. **SCD Type 2 Tracking:** Dimensions (`DIM_CUSTOMER`, `DIM_MERCHANT`) maintain `valid_from`, `valid_to`, and `is_current` flags to preserve historical context of risk ratings and merchant acquiring categories at the exact time a payment occurred.
 2. **Incremental Loading & Historical Backfills:**
@@ -232,7 +232,7 @@ A comprehensive, production-grade guide to enterprise Data Platform High-Level D
 #### Architectural Blueprint
 ![Enterprise RAG Knowledge Lakehouse: Hybrid Search & Vector Pipeline](assets/02_high_level_system_design/06_enterprise_rag_knowledge_lakehouse.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/06_enterprise_rag_knowledge_lakehouse.d2](assets/02_high_level_system_design/06_enterprise_rag_knowledge_lakehouse.d2)
+*D2 Source: [`06_enterprise_rag_knowledge_lakehouse.d2`](assets/02_high_level_system_design/06_enterprise_rag_knowledge_lakehouse.d2)*
 
 ---
 
@@ -253,7 +253,7 @@ A comprehensive, production-grade guide to enterprise Data Platform High-Level D
 #### Architectural Blueprint
 ![Real-Time Fraud Detection ML Mesh: Online & Offline Feature Store](assets/02_high_level_system_design/07_realtime_fraud_detection_ml_mesh.svg)
 
-*D2 Source:* [assets/02_high_level_system_design/07_realtime_fraud_detection_ml_mesh.d2](assets/02_high_level_system_design/07_realtime_fraud_detection_ml_mesh.d2)
+*D2 Source: [`07_realtime_fraud_detection_ml_mesh.d2`](assets/02_high_level_system_design/07_realtime_fraud_detection_ml_mesh.d2)*
 
 1. **Detecting Drift:**
    - **Data Drift (Covariate Shift):** The input features change. Evaluated using **Population Stability Index (PSI)**:

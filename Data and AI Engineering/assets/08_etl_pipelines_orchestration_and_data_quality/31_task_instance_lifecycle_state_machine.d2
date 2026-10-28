@@ -1,13 +1,13 @@
 direction: right
 classes: {
-  sched: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  run: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  def: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  succ: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  sched: { style: { fill: "#1e293b"; stroke: "#38bdf8"; font-color: "#f8fafc" } }
+  run: { style: { fill: "#581c87"; stroke: "#c084fc"; font-color: "#e9d5ff" } }
+  def: { style: { fill: "#451a03"; stroke: "#fbbf24"; font-color: "#fde68a" } }
+  succ: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
+  fail: { style: { fill: "#7f1d1d"; stroke: "#f87171"; font-color: "#fecaca" } }
 }
 
-none: "NONE" { fill: "#1e293b"; stroke: "#64748b"; color: "#94a3b8" }
+none: "NONE" { style: { fill: "#1e293b"; stroke: "#64748b"; font-color: "#94a3b8" } }
 scheduled: "SCHEDULED" { class: sched }
 queued: "QUEUED" { class: sched }
 running: "RUNNING" { class: run }

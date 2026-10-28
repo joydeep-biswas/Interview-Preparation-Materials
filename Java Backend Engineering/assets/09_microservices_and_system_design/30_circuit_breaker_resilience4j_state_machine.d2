@@ -1,24 +1,28 @@
 direction: right
 title: "Circuit Breaker Pattern: Resilience4j Finite State Machine"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-closed: "1. CLOSED (Normal)
-Requests pass downstream
-Tracks failure rate in sliding window" {
+closed: "1. CLOSED (Normal)\nRequests pass downstream\nTracks failure rate in sliding window" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }
 
-open: "2. OPEN (Tripped)
-Zero downstream calls
-Fast-fails in 0ms
-Wait duration: 10s" {
+open: "2. OPEN (Tripped)\nZero downstream calls\nFast-fails in 0ms\nWait duration: 10s" {
+  class: container
   style.fill: "#450a0a"
   style.stroke: "#ef4444"
 }
 
-half_open: "3. HALF_OPEN (Trial)
-Allows 10 probe calls
-Tests if service healed" {
+half_open: "3. HALF_OPEN (Trial)\nAllows 10 probe calls\nTests if service healed" {
   style.fill: "#78350f"
   style.stroke: "#f59e0b"
 }

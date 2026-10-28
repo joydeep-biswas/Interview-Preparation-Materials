@@ -1,10 +1,19 @@
-# The Global Interpreter Lock: Contention vs Release
+# The Global Interpreter Lock: CPU Contention vs I/O Release
 direction: right
+classes: {
+  mode_card: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+}
 
-cpu: "CPU-Bound Contention\n• 1 Thread holds GIL lock\n• Other cores spin idle\n• Context switch overhead slows multi-threading\n✓ Fix: multiprocessing" {
+cpu: "CPU-Bound: Thread Contention (Negative Speedup)\n• Only 1 Python thread holds GIL mutex at any instant\n• Remaining threads forced to wait on sys.getswitchinterval() (5ms)\n• OS context-switching thrashing degrades performance\n• Multi-threading is SLOWER than single-thread for CPU tasks!\n✓ Production Fix: Use Multiprocessing, Cython, or Polars" {
+  class: mode_card
   style.stroke: "#EF4444"
 }
 
-io: "I/O-Bound Release\n• Threads drop GIL during blocking OS calls\n• Sockets & disk I/O run in parallel\n✓ Ideal for ThreadPool & Asyncio" {
+io: "I/O-Bound: Concurrency Acceleration (GIL Released)\n• CPython runtime releases GIL before blocking OS syscalls\n• Threads execute in parallel during disk, database & socket I/O\n• Operating system handles asynchronous kernel events\n• Near-linear scalability for network scrapers & microservices\n✓ Production Fix: Use ThreadPoolExecutor or Asyncio" {
+  class: mode_card
   style.stroke: "#10B981"
+}
+
+cpu -> io: "VS" {
+  style.stroke: "#F59E0B"
 }

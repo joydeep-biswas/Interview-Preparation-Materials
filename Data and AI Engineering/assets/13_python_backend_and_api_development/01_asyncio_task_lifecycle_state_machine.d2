@@ -1,10 +1,10 @@
 direction: right
 classes: {
-  pend: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  run: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  wait: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  term: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  err: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  pend: { style: { fill: "#1e293b"; stroke: "#38bdf8"; font-color: "#f8fafc" } }
+  run: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
+  wait: { style: { fill: "#451a03"; stroke: "#fbbf24"; font-color: "#fde68a" } }
+  term: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
+  err: { style: { fill: "#7f1d1d"; stroke: "#f87171"; font-color: "#fecaca" } }
 }
 
 pending: "PENDING\n(asyncio.create_task)" { class: pend }
@@ -12,7 +12,7 @@ running: "RUNNING\n(Executing on CPU)" { class: run }
 suspended: "SUSPENDED\n(await I/O socket)" { class: wait }
 
 finished: "FINISHED (Result returned)" { class: term }
-cancelled: "CANCELLED (task.cancel)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
+cancelled: "CANCELLED (task.cancel)" { style: { fill: "#581c87"; stroke: "#c084fc"; font-color: "#e9d5ff" } }
 errored: "ERRORED (Exception raised)" { class: err }
 
 pending -> running: "Event loop tick"

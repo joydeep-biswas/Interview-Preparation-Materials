@@ -66,7 +66,7 @@ When two tables are **pre-bucketed on the join key with identical (or multiple) 
 
 ![Distributed Join Shuffle vs Bucketed Zero Shuffle](assets/04_database_internals_and_distributed_systems_faq/01_distributed_join_shuffle_vs_bucketed_zero_shuffle.svg)
 
-*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/01_distributed_join_shuffle_vs_bucketed_zero_shuffle.d2](assets/04_database_internals_and_distributed_systems_faq/01_distributed_join_shuffle_vs_bucketed_zero_shuffle.d2)
+*D2 Source: [`01_distributed_join_shuffle_vs_bucketed_zero_shuffle.d2`](assets/04_database_internals_and_distributed_systems_faq/01_distributed_join_shuffle_vs_bucketed_zero_shuffle.d2)*
 
 ---
 
@@ -92,7 +92,7 @@ Consistent Hashing maps both **nodes (servers)** and **keys** to points on a 360
 
 ![Consistent Hashing Ring Node Key Distribution](assets/04_database_internals_and_distributed_systems_faq/02_consistent_hashing_ring_node_key_distribution.svg)
 
-*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/02_consistent_hashing_ring_node_key_distribution.d2](assets/04_database_internals_and_distributed_systems_faq/02_consistent_hashing_ring_node_key_distribution.d2)
+*D2 Source: [`02_consistent_hashing_ring_node_key_distribution.d2`](assets/04_database_internals_and_distributed_systems_faq/02_consistent_hashing_ring_node_key_distribution.d2)*
 
 #### The Role of Virtual Nodes (V-Nodes)
 - **Problem:** With few physical nodes, keys distribute unevenly across the ring (hotspots).
@@ -133,7 +133,7 @@ Consistent Hashing maps both **nodes (servers)** and **keys** to points on a 360
 #### Limitations of MapReduce Addressed by Spark
 ![MapReduce Disk Spill vs Spark In Memory DAG](assets/04_database_internals_and_distributed_systems_faq/03_mapreduce_disk_spill_vs_spark_in_memory_dag.svg)
 
-*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/03_mapreduce_disk_spill_vs_spark_in_memory_dag.d2](assets/04_database_internals_and_distributed_systems_faq/03_mapreduce_disk_spill_vs_spark_in_memory_dag.d2)
+*D2 Source: [`03_mapreduce_disk_spill_vs_spark_in_memory_dag.d2`](assets/04_database_internals_and_distributed_systems_faq/03_mapreduce_disk_spill_vs_spark_in_memory_dag.d2)*
 
 | Dimension | Hadoop MapReduce | Apache Spark |
 | :--- | :--- | :--- |
@@ -200,7 +200,7 @@ LOCATION 'abfss://curated@datalakeprod.dfs.core.windows.net/customers/';
 #### Ingesting & Transforming 100GB CSV Files Daily in Synapse (Q6)
 ![Azure Synapse Parallel CSV Ingestion Pipeline](assets/04_database_internals_and_distributed_systems_faq/04_azure_synapse_parallel_csv_ingestion_pipeline.svg)
 
-*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/04_azure_synapse_parallel_csv_ingestion_pipeline.d2](assets/04_database_internals_and_distributed_systems_faq/04_azure_synapse_parallel_csv_ingestion_pipeline.d2)
+*D2 Source: [`04_azure_synapse_parallel_csv_ingestion_pipeline.d2`](assets/04_database_internals_and_distributed_systems_faq/04_azure_synapse_parallel_csv_ingestion_pipeline.d2)*
 
 1. **Ingest via `COPY INTO`:** Never use row-by-row `INSERT`. Use `COPY INTO` with parallel file splits.
 2. **Staging Table Design:** Create a staging table with **Round-Robin** distribution and Heap storage to maximize write throughput.
@@ -327,7 +327,7 @@ Egress charges between cloud providers cost \$0.08–\$0.09 per GB.
 #### AWS Glue PySpark ETL Pipeline Architecture (Q13)
 ![AWS Glue Serverless ETL Pipeline Architecture](assets/04_database_internals_and_distributed_systems_faq/05_aws_glue_serverless_etl_pipeline_architecture.svg)
 
-*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/05_aws_glue_serverless_etl_pipeline_architecture.d2](assets/04_database_internals_and_distributed_systems_faq/05_aws_glue_serverless_etl_pipeline_architecture.d2)
+*D2 Source: [`05_aws_glue_serverless_etl_pipeline_architecture.d2`](assets/04_database_internals_and_distributed_systems_faq/05_aws_glue_serverless_etl_pipeline_architecture.d2)*
 
 ```python
 import sys
@@ -446,7 +446,7 @@ AWS Lambda provides a minimal standard execution environment. To deploy external
 #### Architectural Blueprint: Multi-Hop Medallion Pipeline
 ![Lakehouse Medallion Sales Ingestion Pipeline](assets/04_database_internals_and_distributed_systems_faq/06_lakehouse_medallion_sales_ingestion_pipeline.svg)
 
-*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/06_lakehouse_medallion_sales_ingestion_pipeline.d2](assets/04_database_internals_and_distributed_systems_faq/06_lakehouse_medallion_sales_ingestion_pipeline.d2)
+*D2 Source: [`06_lakehouse_medallion_sales_ingestion_pipeline.d2`](assets/04_database_internals_and_distributed_systems_faq/06_lakehouse_medallion_sales_ingestion_pipeline.d2)*
 
 #### Production PySpark Implementation
 ```python
@@ -520,7 +520,7 @@ Both Change Data Capture (CDC) and Change Data Tracking (CDT) capture relational
 #### Visual Flow
 ![CDC Transaction Log vs Change Tracking CDT](assets/04_database_internals_and_distributed_systems_faq/07_cdc_transaction_log_vs_change_tracking_cdt.svg)
 
-*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/07_cdc_transaction_log_vs_change_tracking_cdt.d2](assets/04_database_internals_and_distributed_systems_faq/07_cdc_transaction_log_vs_change_tracking_cdt.d2)
+*D2 Source: [`07_cdc_transaction_log_vs_change_tracking_cdt.d2`](assets/04_database_internals_and_distributed_systems_faq/07_cdc_transaction_log_vs_change_tracking_cdt.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -553,10 +553,10 @@ ORDER BY ct.SYS_CHANGE_VERSION;
 */
 ```
 - **Time Complexity:** CDT query runs at $O(C)$ where $C$ is mutated rows; Log-based CDC runs in $O(1)$ stream consumption from Kafka topics.
-- **Space Complexity:** CDT adds $<2\%$ storage overhead to the source engine; CDC change tables can consume $20\%	ext{--}50\%$ additional database disk space if retention is not strictly pruned.
+- **Space Complexity:** CDT adds $<2\%$ storage overhead to the source engine; CDC change tables can consume $20\%\text{--}50\%$ additional database disk space if retention is not strictly pruned.
 
 #### Engineering Implications & Production Pitfalls
-1. **The CDT Intermediate Mutation Blindspot:** If an order transitions `PENDING` $	o$ `PROCESSING` $	o$ `CANCELLED` within a 15-minute batch window, Change Tracking (CDT) only captures the final `CANCELLED` state. Analytics pipelines tracking conversion drop-off rates will completely miss the `PROCESSING` transition. For full state-machine auditing, CDC is mandatory.
+1. **The CDT Intermediate Mutation Blindspot:** If an order transitions `PENDING` $\to$ `PROCESSING` $\to$ `CANCELLED` within a 15-minute batch window, Change Tracking (CDT) only captures the final `CANCELLED` state. Analytics pipelines tracking conversion drop-off rates will completely miss the `PROCESSING` transition. For full state-machine auditing, CDC is mandatory.
 2. **Log Truncation Contention in CDC:** In high-write databases, if the CDC capture reader falls behind (e.g., Kafka connect agent crashes), the database engine cannot truncate its transaction log / WAL. The disk fills to 100%, causing the primary relational database to freeze and reject all writes.
 
 #### Core Curriculum Cross-Reference
@@ -583,7 +583,7 @@ While both services store unstructured and columnar objects in the cloud at low 
 #### Visual Flow
 ![Flat Blob Storage vs Hierarchical Namespace HNS](assets/04_database_internals_and_distributed_systems_faq/08_flat_blob_storage_vs_hierarchical_namespace_hns.svg)
 
-*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/08_flat_blob_storage_vs_hierarchical_namespace_hns.d2](assets/04_database_internals_and_distributed_systems_faq/08_flat_blob_storage_vs_hierarchical_namespace_hns.d2)
+*D2 Source: [`08_flat_blob_storage_vs_hierarchical_namespace_hns.d2`](assets/04_database_internals_and_distributed_systems_faq/08_flat_blob_storage_vs_hierarchical_namespace_hns.d2)*
 
 #### Production Comparison Matrix
 | Architectural Feature | Flat Object / Blob Storage | Data Lake Storage (ADLS Gen2 / HNS) |
@@ -639,18 +639,18 @@ df.write.format("delta").mode("overwrite").save(adls_path)
 
 #### Definition & Core Concepts
 In distributed systems, the availability of a sequential, tightly-coupled chain of $N$ independent services follows the **multiplicative probability rule**:
-$$A_{	ext{system}} = \prod_{i=1}^{N} A_i$$
+$$A_{\text{system}} = \prod_{i=1}^{N} A_i$$
 For 5 services, each with $A = 99.9\% = 0.999$:
-$$A_{	ext{system}} = (0.999)^5 pprox 0.99501 \implies 99.50\% 	ext{ Availability}$$
-- A $99.9\%$ SLA permits $pprox 8.76 	ext{ hours}$ of downtime per year.
-- A $99.50\%$ compound SLA degrades allowable downtime to **$pprox 43.8$ hours per year** (a 5x increase in downtime!).
+$$A_{\text{system}} = (0.999)^5 \approx 0.99501 \implies 99.50\% \text{ Availability}$$
+- A $99.9\%$ SLA permits $\approx 8.76 \text{ hours}$ of downtime per year.
+- A $99.50\%$ compound SLA degrades allowable downtime to **$\approx 43.8$ hours per year** (a 5x increase in downtime!).
 If the pipeline is synchronously coupled via REST APIs or synchronous RPCs, the pipeline can **never** exceed the availability of its single weakest link.
 To achieve a **$99.95\%$ SLA** despite $99.9\%$ dependencies, the architecture must transition from synchronous coupling to **asynchronous, resilient decoupling**.
 
 #### Visual Flow
 ![Synchronous Cascade Failure vs Resilient Circuit Breaker](assets/04_database_internals_and_distributed_systems_faq/09_synchronous_cascade_failure_vs_resilient_circuit_breaker.svg)
 
-*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/09_synchronous_cascade_failure_vs_resilient_circuit_breaker.d2](assets/04_database_internals_and_distributed_systems_faq/09_synchronous_cascade_failure_vs_resilient_circuit_breaker.d2)
+*D2 Source: [`09_synchronous_cascade_failure_vs_resilient_circuit_breaker.d2`](assets/04_database_internals_and_distributed_systems_faq/09_synchronous_cascade_failure_vs_resilient_circuit_breaker.d2)*
 
 #### Production Architectural Playbook to Exceed 99.95% SLA
 1. **Asynchronous Buffer Queues (Event Buffering):** Replace direct REST calls with durable message brokers (Kafka / SQS / Event Hubs). If an upstream service crashes for 2 hours, incoming data buffers in the queue, allowing the pipeline to catch up seamlessly once the service recovers without losing records.
@@ -677,7 +677,7 @@ Under the hood:
 #### Visual Flow
 ![Cloud NAT Idle Timeout TCP Reset Drop](assets/04_database_internals_and_distributed_systems_faq/10_cloud_nat_idle_timeout_tcp_reset_drop.svg)
 
-*D2 Source:* [assets/04_database_internals_and_distributed_systems_faq/10_cloud_nat_idle_timeout_tcp_reset_drop.d2](assets/04_database_internals_and_distributed_systems_faq/10_cloud_nat_idle_timeout_tcp_reset_drop.d2)
+*D2 Source: [`10_cloud_nat_idle_timeout_tcp_reset_drop.d2`](assets/04_database_internals_and_distributed_systems_faq/10_cloud_nat_idle_timeout_tcp_reset_drop.d2)*
 
 #### Production Implementation / Diagnostic Playbook
 ```python

@@ -1,25 +1,41 @@
 direction: right
-title: Master Data Management (MDM) & Golden Record Synthesis
-
-sources: Upstream Multi-System Records {
-  crm: CRM Record (Salesforce)
-  shopify: Shopify Record (E-Commerce)
-  zendesk: Zendesk Record (Support)
-  billing: Billing Record (Stripe)
+title: "Master Data Management (MDM) & Golden Record Synthesis"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-mdm: MDM Resolution Pipeline {
-  matcher: 1. Matching Engine {
+sources: "Upstream Multi-System Records" {
+  class: container
+  crm: "CRM Record (Salesforce)"
+  shopify: "Shopify Record (E-Commerce)"
+  zendesk: "Zendesk Record (Support)"
+  billing: "Billing Record (Stripe)"
+}
+
+mdm: "MDM Resolution Pipeline" {
+  class: container
+  matcher: "1. Matching Engine" {
+    class: box
     rules: "Exact email, Levenshtein address, E.164 phone"
   }
-  survivorship: 2. Survivorship Rules {
+  survivorship: "2. Survivorship Rules" {
+    class: box
     rules: "Verified ID for name, latest shipping for address"
   }
   matcher -> survivorship
 }
 
-golden: Gold Layer Serving {
-  entity: 3. Golden Customer Entity {
+golden: "Gold Layer Serving" {
+  class: container
+  entity: "3. Golden Customer Entity" {
+    class: box
     id: "Master_ID: G-9021"
     name: "Alice Marie Smith"
     email: "alice@gmail.com"

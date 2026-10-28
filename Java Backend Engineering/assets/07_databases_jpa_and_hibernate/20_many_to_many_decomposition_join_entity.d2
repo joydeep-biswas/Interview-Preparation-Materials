@@ -1,23 +1,32 @@
 direction: right
 title: "ManyToMany Decomposition: Why Direct @ManyToMany is an Anti-Pattern"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 antipattern: "Direct @ManyToMany Anti-Pattern" {
+  class: container
   style.fill: "#1a1118"
   style.stroke: "#ef4444"
   s: "Student"
-  j: "Hidden Join Table
-student_courses"
+  j: "Hidden Join Table\nstudent_courses"
   c: "Course"
   s -> j -> c
 }
 
 bestpractice: "Enterprise Pattern: Explicit Join Entity" {
+  class: container
   style.fill: "#062e3b"
   style.stroke: "#10b981"
   student: "StudentEntity (1)"
-  enrollment: "EnrollmentEntity (N)
-@EmbeddedId EnrollmentId
-enrolledAt, grade, status"
+  enrollment: "EnrollmentEntity (N)\n@EmbeddedId EnrollmentId\nenrolledAt, grade, status"
   course: "CourseEntity (1)"
 
   student <-> enrollment: "@OneToMany / @ManyToOne"

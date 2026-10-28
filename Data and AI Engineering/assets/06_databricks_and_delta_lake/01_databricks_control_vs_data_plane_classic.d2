@@ -1,27 +1,40 @@
 direction: right
-title: Databricks Classic Architecture: Control vs Data Plane
+title: "Databricks Classic Architecture: Control vs Data Plane"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-ControlPlane: Databricks Control Plane {
+ControlPlane: "Databricks Control Plane" {
+  class: container
   style.stroke: "#38BDF8"
-  UI: Web UI & Notebooks
-  Workflow: Workflows & Cluster Manager
-  UC: Unity Catalog Service
+  UI: "Web UI & Notebooks"
+  Workflow: "Workflows & Cluster Manager"
+  UC: "Unity Catalog Service"
 }
 
-Tunnel: Secure Transit (Relay / PrivateLink) {
+Tunnel: "Secure Transit (Relay / PrivateLink)" {
+  class: container
   style.stroke: "#FBBF24"
-  Desc: No Public IPs, Outbound 443 Only
+  Desc: "No Public IPs, Outbound 443 Only"
 }
 
-DataPlane: Customer Cloud Account {
+DataPlane: "Customer Cloud Account" {
+  class: container
   style.stroke: "#34D399"
-  Driver: Driver VM Node
-  Workers: Worker VMs (Photon Execution)
-  Storage: Cloud Object Storage (S3 / ADLS Gen2)
+  Driver: "Driver VM Node"
+  Workers: "Worker VMs (Photon Execution)"
+  Storage: "Cloud Object Storage (S3 / ADLS Gen2)"
 
   Driver <-> Workers: Tasks
   Workers <-> Storage: Direct Parquet & Delta Read/Write
 }
 
-ControlPlane.Workflow -> Tunnel: Instructions { style.stroke: "#FBBF24" }
-Tunnel -> DataPlane.Driver: Cluster Management { style.stroke: "#34D399" }
+ControlPlane.Workflow -> Tunnel: "Instructions" { style.stroke: "#FBBF24" }
+Tunnel -> DataPlane.Driver: "Cluster Management" { style.stroke: "#34D399" }

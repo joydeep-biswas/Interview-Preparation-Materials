@@ -1,28 +1,41 @@
 direction: right
-title: Photon Vectorized Query Engine Architecture
+title: "Photon Vectorized Query Engine Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Query: User Query (PySpark / Spark SQL)
-Catalyst: Catalyst Logical Optimizer (JVM)
-Decision: Is Photon Engine Enabled? {
+Query: "User Query (PySpark / Spark SQL)"
+Catalyst: "Catalyst Logical Optimizer (JVM)"
+Decision: "Is Photon Engine Enabled?" {
+  class: container
   shape: diamond
   style.stroke: "#FBBF24"
 }
 
 Query -> Catalyst -> Decision
 
-Classic: Classic JVM Spark (Project Tungsten) {
+Classic: "Classic JVM Spark (Project Tungsten)" {
+  class: container
   style.stroke: "#64748B"
-  CodeGen: Whole-Stage CodeGen via Janino
-  JVM: JIT compiled loops in Java
-  Limits: JVM JIT cannot reliably auto-vectorize; UTF-16 strings
+  CodeGen: "Whole-Stage CodeGen via Janino"
+  JVM: "JIT compiled loops in Java"
+  Limits: "JVM JIT cannot reliably auto-vectorize; UTF-16 strings"
 }
 
-Photon: Photon Engine (Native C++ SIMD) {
+Photon: "Photon Engine (Native C++ SIMD)" {
+  class: container
   style.stroke: "#34D399"
-  SIMD: Explicit SIMD (AVX-512) vectorized batch instructions
-  Memory: 100% Off-heap memory (Zero JVM GC overhead)
-  Strings: Native UTF-8 string processing & bitmask null flags
+  SIMD: "Explicit SIMD (AVX-512) vectorized batch instructions"
+  Memory: "100% Off-heap memory (Zero JVM GC overhead)"
+  Strings: "Native UTF-8 string processing & bitmask null flags"
 }
 
-Decision -> Classic: No (Fallback to JVM) { style.stroke: "#64748B" }
-Decision -> Photon: Yes (Photon native execution) { style.stroke: "#34D399" }
+Decision -> Classic: "No (Fallback to JVM)" { style.stroke: "#64748B" }
+Decision -> Photon: "Yes (Photon native execution)" { style.stroke: "#34D399" }

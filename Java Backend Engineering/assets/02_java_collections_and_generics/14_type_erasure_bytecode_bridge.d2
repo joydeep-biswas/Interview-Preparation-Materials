@@ -1,7 +1,18 @@
 direction: right
-title: Java Generics Type Erasure & Synthetic Bridge Methods
+title: "Java Generics Type Erasure & Synthetic Bridge Methods"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Source: 1. Source Code (Compile Time) {
+Source: "1. Source Code (Compile Time)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   generic: "List<String> list = new ArrayList<>()"
@@ -9,7 +20,8 @@ Source: 1. Source Code (Compile Time) {
   override: "MyNode extends Node<Integer>: setData(Integer)"
 }
 
-Erasure: 2. Javac Type Erasure Engine {
+Erasure: "2. Javac Type Erasure Engine" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
   erase: "List<String> erased to raw List; T erased to Object"
@@ -17,7 +29,8 @@ Erasure: 2. Javac Type Erasure Engine {
   bridge: "Generates synthetic bridge method: setData(Object)"
 }
 
-Bytecode: 3. Compiled Bytecode (Runtime) {
+Bytecode: "3. Compiled Bytecode (Runtime)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   raw: "Operates on raw Object types"
@@ -25,5 +38,5 @@ Bytecode: 3. Compiled Bytecode (Runtime) {
   compat: "Maintains 100% backward binary compatibility"
 }
 
-Source -> Erasure: javac compilation
-Erasure -> Bytecode: bytecode emission
+Source -> Erasure: "javac compilation"
+Erasure -> Bytecode: "bytecode emission"

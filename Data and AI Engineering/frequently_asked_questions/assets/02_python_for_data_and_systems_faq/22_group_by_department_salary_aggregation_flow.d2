@@ -1,0 +1,30 @@
+# Grouping Dictionaries by Key and Summing Values: Architecture Comparison
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  node: { style: { fill: "#1E293B"; stroke-width: 1.5; border-radius: 8 } }
+}
+
+group_pipeline: "List of Dicts Grouping & Salary Summing" {
+  class: box
+  style.stroke: "#3B82F6"
+
+  input_data: "Input: List of Dicts\n[{'dept': 'Eng', 'salary': 100},\n {'dept': 'Sales', 'salary': 80},\n {'dept': 'Eng', 'salary': 120}]" {
+    class: node
+    style.stroke: "#3B82F6"
+  }
+
+  strategy1: "Method 1: collections.defaultdict (Recommended)\n• Single-pass O(N) hash aggregation\n• totals[item['dept']] += item['salary']\n• Handles unseen keys with zero boilerplate" {
+    class: node
+    style.stroke: "#10B981"
+  }
+
+  strategy2: "Method 2: itertools.groupby\n• Requires pre-sorting by key: O(N log N)\n• Iterator-based grouping\n• Fragile if list is unsorted!" {
+    class: node
+    style.stroke: "#F59E0B"
+  }
+
+  input_data -> strategy1
+  input_data -> strategy2
+}
+

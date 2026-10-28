@@ -1,6 +1,6 @@
 direction: right
 classes: {
-  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
 }
 
 full_outer: "Step 1: FULL OUTER JOIN Evaluation" {
@@ -24,9 +24,9 @@ discard: "Pruned Stream (Intersection)\nMatched rows discarded by NULL predicate
   style.stroke: "#EF4444"
 }
 
-full_outer.unmatched_l -> filter_gate
-full_outer.matched -> filter_gate
-full_outer.unmatched_r -> filter_gate
+full_outer.unmatched_l -> filter_gate: { style.stroke: "#3B82F6" }
+full_outer.matched -> filter_gate: { style.stroke: "#64748B" }
+full_outer.unmatched_r -> filter_gate: { style.stroke: "#3B82F6" }
 
-filter_gate -> emitted: "Passes (Has NULL)"
-filter_gate -> discard: "Fails (Both Present)"
+filter_gate -> emitted: "Passes (Has NULL)" { style.stroke: "#10B981" }
+filter_gate -> discard: "Fails (Both Present)" { style.stroke: "#EF4444" }

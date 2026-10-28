@@ -1,34 +1,54 @@
 # Java Backend Engineering: 7-Tier Curriculum Roadmap
 direction: right
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 phase1: "Phase 1: Language Internals & Concurrency" {
+  class: container
   t1: "Tier 1: Core Java & OOP\n• 01. Core Java & HotSpot Mark Word\n• 02. Collections & Generics\n• 03. Modern Java, Records & Streams" {
+    class: box
     style.stroke: "#3B82F6"
   }
   t2: "Tier 2: Concurrency & Loom\n• 04. JMM, Volatile, CAS & Virtual Threads" {
+    class: box
     style.stroke: "#10B981"
   }
   t1 -> t2
 }
 
 phase2: "Phase 2: Spring Framework & Data Fabric" {
+  class: container
   t3: "Tier 3: Enterprise Spring & Security\n• 05. Spring Boot & REST APIs\n• 06. Security, BCrypt & JWT" {
+    class: box
     style.stroke: "#F59E0B"
   }
   t4: "Tier 4: Persistence & Messaging\n• 07. Databases, JPA & Hibernate\n• 08. Redis Caching & Kafka" {
+    class: box
     style.stroke: "#8B5CF6"
   }
   t3 -> t4
 }
 
 phase3: "Phase 3: Architecture & Interview Pillars" {
+  class: container
   t5: "Tier 5: Microservices & Design\n• 09. Microservices, Saga & Outbox" {
+    class: box
     style.stroke: "#EC4899"
   }
   t6: "Tier 6: Operations & JVM\n• 10. Testing (JUnit 5 / Testcontainers)\n• 11. Cloud DevOps\n• 12. JVM ZGC & Profiling\n• 13. SRE Observability" {
+    class: box
     style.stroke: "#06B6D4"
   }
   t7: "Tier 7: Universal Interview Pillars\n• Universal DSA (8 Modules in Java)\n• 24 HLDs + 11 LLDs + 16 Behavioral Scenarios" {
+    class: box
     style.stroke: "#EAB308"
   }
   t5 -> t6 -> t7

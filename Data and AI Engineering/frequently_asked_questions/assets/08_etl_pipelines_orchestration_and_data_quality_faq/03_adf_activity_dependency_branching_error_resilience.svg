@@ -27,7 +27,7 @@
     .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; }
     .edge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; fill: #E2E8F0; }
   </style>
-  <rect width="100%" height="100%" fill="#0B0F19"/>
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Container -->
   <rect x="40" y="30" width="800" height="260" rx="14" ry="14" fill="#0D1526" stroke="#1E293B" stroke-width="1.5"/>
@@ -41,7 +41,7 @@
 
   <!-- Path Success to Act 2 -->
   <path d="M 220 135 L 280 135 Q 295 135 295 125 L 295 95 Q 295 85 310 85 L 360 85" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrow-green)"/>
-  <rect x="240" y="112" width="80" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <rect x="240" y="112" width="80" height="18" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   <text x="280" y="125" class="edge-txt" text-anchor="middle" fill="#10B981">Upon Success</text>
 
   <!-- Act 2 (Success Path) -->
@@ -52,7 +52,7 @@
 
   <!-- Path Failure to ErrLog -->
   <path d="M 220 180 L 280 180 Q 295 180 295 190 L 295 220 Q 295 230 310 230 L 360 230" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
-  <rect x="240" y="195" width="80" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <rect x="240" y="195" width="80" height="18" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   <text x="280" y="208" class="edge-txt" text-anchor="middle" fill="#EF4444">Upon Failure</text>
 
   <!-- ErrLog (Failure Path) -->
@@ -63,11 +63,11 @@
 
   <!-- Connectors into Act 3 (Both Upon Completion) -->
   <path d="M 540 90 L 590 90 Q 605 90 605 110 L 605 135 L 640 135" fill="none" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
-  <rect x="550" y="95" width="95" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <rect x="550" y="95" width="95" height="18" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   <text x="597" y="108" class="edge-txt" text-anchor="middle" fill="#94A3B8">Upon Completion</text>
 
   <path d="M 540 230 L 590 230 Q 605 230 605 200 L 605 175 L 640 175" fill="none" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
-  <rect x="550" y="195" width="95" height="18" rx="4" ry="4" fill="#1E293B"/>
+  <rect x="550" y="195" width="95" height="18" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   <text x="597" y="208" class="edge-txt" text-anchor="middle" fill="#94A3B8">Upon Completion</text>
 
   <!-- Act 3 -->

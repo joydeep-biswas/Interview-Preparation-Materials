@@ -1,7 +1,18 @@
 direction: down
-title: Kubernetes Pod Lifecycle State Machine
+title: "Kubernetes Pod Lifecycle State Machine"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-HappyPath: Pod Lifecycle Stages {
+HappyPath: "Pod Lifecycle Stages" {
+  class: container
   pending: "1. PENDING (Scheduling)"
   creating: "2. CONTAINER_CREATING (CRI, CNI, CSI)"
   starting: "3. APP_STARTING (Startup Probe)"
@@ -9,13 +20,14 @@ HappyPath: Pod Lifecycle Stages {
   pending -> creating -> starting -> running
 }
 
-FailureModes: Diagnostic Failure States {
+FailureModes: "Diagnostic Failure States" {
+  class: container
   img: "ImagePullBackOff (Auth / Bad Tag)"
   crash: "CrashLoopBackOff (Config / Crash on boot)"
   oom: "OOMKilled Exit 137 (memory.max breached)"
   ready: "Readiness Failure (0/1 Ready, unrouted)"
 }
 
-HappyPath.creating -> FailureModes.img: Registry error { style.stroke: "#EF4444" }
-HappyPath.starting -> FailureModes.crash: Boot crash { style.stroke: "#EF4444" }
-HappyPath.running -> FailureModes.oom: Memory spike { style.stroke: "#EF4444" }
+HappyPath.creating -> FailureModes.img: "Registry error" { style.stroke: "#EF4444" }
+HappyPath.starting -> FailureModes.crash: "Boot crash" { style.stroke: "#EF4444" }
+HappyPath.running -> FailureModes.oom: "Memory spike" { style.stroke: "#EF4444" }

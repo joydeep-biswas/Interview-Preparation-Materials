@@ -8,7 +8,7 @@
     </style>
   </defs>
 
-  <rect width="1000" height="320" fill="#0B0F19"/>
+  <rect width="1000" height="320" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <g transform="translate(40, 25)">
     <text x="460" y="25" class="title" fill="#93C5FD">Spark Stage Execution with 40% Skew Straggler Task</text>

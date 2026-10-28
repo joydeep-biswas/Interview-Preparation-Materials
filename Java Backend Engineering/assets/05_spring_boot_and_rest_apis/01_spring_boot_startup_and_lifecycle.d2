@@ -1,7 +1,18 @@
 direction: right
-title: Enterprise Spring Core & Spring Boot Runtime Architecture
+title: "Enterprise Spring Core & Spring Boot Runtime Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 stage1: "1. Startup & Config" {
+  class: container
   style.fill: "#0b1329"
   style.stroke: "#3b82f6"
 
@@ -14,6 +25,7 @@ stage1: "1. Startup & Config" {
 }
 
 stage2: "2. Definitions & Factory" {
+  class: container
   style.fill: "#1a1c12"
   style.stroke: "#f59e0b"
 
@@ -25,6 +37,7 @@ stage2: "2. Definitions & Factory" {
 }
 
 stage3: "3. Injection & AOP" {
+  class: container
   style.fill: "#16122b"
   style.stroke: "#8b5cf6"
 
@@ -36,6 +49,7 @@ stage3: "3. Injection & AOP" {
 }
 
 stage4: "4. Web Server & Ready" {
+  class: container
   style.fill: "#062e22"
   style.stroke: "#10b981"
 

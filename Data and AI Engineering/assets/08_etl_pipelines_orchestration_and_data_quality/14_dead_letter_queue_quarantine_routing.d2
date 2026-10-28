@@ -1,23 +1,37 @@
 direction: right
-title: Dead Letter Queues (DLQ) & Quarantine Routing
+title: "Dead Letter Queues (DLQ) & Quarantine Routing"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-stream: Stream Ingestion & Validation {
-  raw: Raw Ingested Stream (JSON)
-  validate: Validation Rules (Valid JSON? order_id != NULL? amount >= 0?) {
+stream: "Stream Ingestion & Validation" {
+  class: container
+  raw: "Raw Ingested Stream (JSON)"
+  validate: "Validation Rules (Valid JSON? order_id != NULL? amount >= 0?)" {
+    class: box
     shape: diamond
   }
   raw -> validate
 }
 
-paths: Split Processing Paths {
-  silver: Silver Production Table (Clean data committed)
-  enrich: Quarantine Enrichment (Attach raw bytes, error, stack trace)
+paths: "Split Processing Paths" {
+  class: container
+  silver: "Silver Production Table (Clean data committed)"
+  enrich: "Quarantine Enrichment (Attach raw bytes, error, stack trace)"
 }
 
-quarantine: Dead Letter Queue (DLQ) & Operations {
-  dlq_table: Dead Letter Quarantine Table (bronze.quarantine_orders)
-  alert: PagerDuty Alert (Trigger if DLQ Rate > 1%)
-  reprocessor: Developer Remediation (Fix bug & replay DLQ)
+quarantine: "Dead Letter Queue (DLQ) & Operations" {
+  class: container
+  dlq_table: "Dead Letter Quarantine Table (bronze.quarantine_orders)"
+  alert: "PagerDuty Alert (Trigger if DLQ Rate > 1%)"
+  reprocessor: "Developer Remediation (Fix bug & replay DLQ)"
   dlq_table -> alert
   dlq_table -> reprocessor
 }

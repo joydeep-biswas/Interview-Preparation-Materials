@@ -38,7 +38,7 @@
 
   <!-- Strategy 1: Rolling Deployment -->
   <rect x="40" y="105" width="270" height="360" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="40" y="105" width="270" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="40" y="105" width="270" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="175" y="125" font-size="11" font-weight="700" fill="#7DD3FC" text-anchor="middle">1. Rolling Deployment (K8s Default)</text>
 
   <rect x="55" y="150" width="240" height="110" rx="6" fill="#0F172A" stroke="#0284C7"/>
@@ -62,7 +62,7 @@
 
   <!-- Strategy 2: Blue-Green Deployment -->
   <rect x="330" y="105" width="270" height="360" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
-  <rect x="330" y="105" width="270" height="30" rx="8" fill="#064E3B"/>
+  <rect x="330" y="105" width="270" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="465" y="125" font-size="11" font-weight="700" fill="#6EE7B7" text-anchor="middle">2. Blue-Green (Instant Switch)</text>
 
   <rect x="345" y="150" width="240" height="110" rx="6" fill="#0F172A" stroke="#10B981"/>
@@ -81,7 +81,7 @@
 
   <!-- Strategy 3: Canary Deployment -->
   <rect x="620" y="105" width="270" height="360" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
-  <rect x="620" y="105" width="270" height="30" rx="8" fill="#78350F"/>
+  <rect x="620" y="105" width="270" height="30" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
   <text x="755" y="125" font-size="11" font-weight="700" fill="#FDE68A" text-anchor="middle">3. Canary (Traffic Weighting)</text>
 
   <rect x="635" y="150" width="240" height="110" rx="6" fill="#0F172A" stroke="#F59E0B"/>
@@ -100,7 +100,7 @@
 
   <!-- Strategy 4: Shadow / Dark Launching -->
   <rect x="910" y="105" width="290" height="360" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
-  <rect x="910" y="105" width="290" height="30" rx="8" fill="#4C1D95"/>
+  <rect x="910" y="105" width="290" height="30" rx="8" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
   <text x="1055" y="125" font-size="11" font-weight="700" fill="#DDD6FE" text-anchor="middle">4. Shadowing (Dark Traffic Mirror)</text>
 
   <rect x="925" y="150" width="260" height="110" rx="6" fill="#0F172A" stroke="#8B5CF6"/>

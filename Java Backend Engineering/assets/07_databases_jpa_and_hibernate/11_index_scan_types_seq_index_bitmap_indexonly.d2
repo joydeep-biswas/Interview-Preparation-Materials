@@ -1,35 +1,38 @@
 direction: right
 title: "Database Access Paths: Cost-Based Optimizer Scan Decision Matrix"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 cbo: "CBO Query Planner" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#3b82f6"
 }
 
-seq: "1. Sequential Scan
-> 15-20% selectivity
-Sequential 8KB Heap Reads" {
+seq: "1. Sequential Scan\n> 15-20% selectivity\nSequential 8KB Heap Reads" {
   style.fill: "#7f1d1d"
   style.stroke: "#ef4444"
 }
 
-idx: "2. Index Scan
-< 1-5% selectivity
-B+Tree -> Random Heap I/O" {
+idx: "2. Index Scan\n< 1-5% selectivity\nB+Tree -> Random Heap I/O" {
   style.fill: "#083344"
   style.stroke: "#06b6d4"
 }
 
-bm: "3. Bitmap Index Scan
-5-15% selectivity
-Memory Bitmap Batches Disk Reads" {
+bm: "3. Bitmap Index Scan\n5-15% selectivity\nMemory Bitmap Batches Disk Reads" {
   style.fill: "#451a03"
   style.stroke: "#f59e0b"
 }
 
-idxonly: "4. Index-Only Scan
-Covering Index + Visibility Map
-Zero Heap Access!" {
+idxonly: "4. Index-Only Scan\nCovering Index + Visibility Map\nZero Heap Access!" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }

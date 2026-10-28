@@ -2,37 +2,37 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,42 +43,42 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="350" y="95" width="280" height="50" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
+    <rect x="350" y="95" width="280" height="90" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
 <text x="490" y="117" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Supervisor Agent (Orchestrator)</text>
 <text x="362" y="137" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Evaluates high-level user goal</text>
 <text x="362" y="155" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Maintains global plan &amp; delegates tasks</text>
 
-    <rect x="40" y="210" width="260" height="110" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="40" y="210" width="260" height="110" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
 <text x="170" y="232" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Worker 1: Research Agent</text>
 <text x="52" y="252" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Domain: Information Retrieval</text>
 <text x="52" y="270" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Tools: Google Search, ArXiv, Vector DB</text>
 <text x="52" y="288" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Performs exhaustive deep dives</text>
 <text x="52" y="306" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Summarizes factual evidence</text>
 
-    <rect x="360" y="210" width="260" height="110" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
+    <rect x="360" y="210" width="260" height="110" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
 <text x="490" y="232" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Worker 2: Coder Agent</text>
 <text x="372" y="252" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Domain: Code Generation &amp; Execution</text>
 <text x="372" y="270" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Tools: Python REPL, Git, Pytest</text>
 <text x="372" y="288" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Writes implementation scripts</text>
 <text x="372" y="306" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Fixes syntax errors autonomously</text>
 
-    <rect x="680" y="210" width="260" height="110" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5"/>
+    <rect x="680" y="210" width="260" height="110" rx="6" fill="#1e1b2e" stroke="#c084fc" stroke-width="1.5" />
 <text x="810" y="232" fill="#d8b4fe" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Worker 3: Reviewer Agent</text>
 <text x="692" y="252" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Domain: Quality &amp; Safety Assurance</text>
 <text x="692" y="270" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Tools: Static analysis, Bandit, Sonar</text>
 <text x="692" y="288" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Reviews PR diffs for security</text>
 <text x="692" y="306" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Flags vulnerabilities before deploy</text>
 
-    <path d="M 430.0 145.0 L 430.0 155.0 C 430.0 175.5, 170.0 175.5, 170.0 196.0 L 170.0 210.0" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
+    <path d="M 430.0 145.0 L 430.0 155.0 C 430.0 175.5, 170.0 175.5, 170.0 196.0 L 170.0 210.0" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
 <text x="300" y="167" fill="#38bdf8" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Task: Literature Review</text>
-    <line x1="490" y1="145" x2="490" y2="210" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
+    <line x1="490" y1="145" x2="490" y2="210" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
 <text x="490" y="167" fill="#4ade80" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Task: Implement Algorithm</text>
-    <path d="M 550.0 145.0 L 550.0 155.0 C 550.0 175.5, 810.0 175.5, 810.0 196.0 L 810.0 210.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+    <path d="M 550.0 145.0 L 550.0 155.0 C 550.0 175.5, 810.0 175.5, 810.0 196.0 L 810.0 210.0" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)" />
 <text x="680" y="167" fill="#c084fc" font-size="10" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Task: Security Review</text>
 
     <!-- Feedback to Supervisor -->
-    <polyline points="170,320 170,360 430,360 430,145" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)"/>
-    <polyline points="810,320 810,360 550,360 550,145" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)"/>
+    <polyline points="170,320 170,360 430,360 430,145" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-b)" />
+    <polyline points="810,320 810,360 550,360 550,145" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr-p)" />
 
   </g>
 </svg>

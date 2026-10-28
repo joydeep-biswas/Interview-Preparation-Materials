@@ -1,12 +1,27 @@
-# Anatomy of a Python Object: C vs PyLongObject
+# Anatomy of a Python Object: C Primitive vs PyLongObject
 direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  header: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 6 } }
+}
 
-c_int: "C Primitive: int64_t x = 42\n• 8 Bytes total\n• Sits directly in register\n• Zero header overhead" {
+c_int: "C Primitive: int64_t x = 42\n• 8 Bytes total memory footprint\n• Sits directly in CPU register / stack frame\n• Zero header metadata; raw binary arithmetic" {
+  class: box
   style.stroke: "#3B82F6"
 }
 
-py_int: "CPython: x = 42 (PyLongObject)\n• 24 Bytes Header (ob_refcnt, ob_type, ob_size)\n• 4 Bytes Value (ob_digit[0])\n• Total: 28 Bytes (3.5x larger!)" {
+py_int: "CPython: x = 42 (PyLongObject)\n• Total Footprint: 28 Bytes (3.5x memory overhead!)\n• Heap allocated via PyMalloc allocator" {
+  class: box
   style.stroke: "#F59E0B"
+
+  h1: "ob_refcnt (8 Bytes)\n• 64-bit reference counter for GC" { class: header; style.stroke: "#3B82F6" }
+  h2: "ob_type (8 Bytes)\n• Pointer to &PyLong_Type in Metaspace" { class: header; style.stroke: "#8B5CF6" }
+  h3: "ob_size (8 Bytes)\n• Digit array length and sign indicator" { class: header; style.stroke: "#F59E0B" }
+  val: "ob_digit[0] (4 Bytes)\n• 30-bit integer payload: value 42" { class: header; style.stroke: "#10B981" }
+
+  h1 -> h2 -> h3 -> val
 }
 
-c_int -> py_int: "3.5x Memory Overhead"
+c_int -> py_int: "3.5x Boxing" {
+  style.stroke: "#F59E0B"
+}

@@ -1,12 +1,28 @@
 # Vertical Aggregate MAX() vs Horizontal Scalar GREATEST()
 direction: right
-
-vert: "Vertical Aggregate: MAX(salary)" {
-  style.stroke: "#3B82F6"
-  desc: "Collapses N rows into 1 result\n• Evaluates vertically down 1 column\n• Automatically skips NULLs"
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  card: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
 }
 
-horiz: "Horizontal Scalar: GREATEST(a, b, c)" {
+vert: "Vertical Aggregate: MAX(salary)" {
+  class: pillar
+  style.stroke: "#3B82F6"
+  desc: "Collapses Multiple Rows into 1 Scalar Result\n• Evaluates vertically down 1 column\n• N rows collapse into 1 scalar output\n• Automatically skips NULL values\n• ⚠️ Banned in WHERE (needs HAVING/subquery)" {
+    class: card
+    style.stroke: "#3B82F6"
+  }
+}
+
+horiz: "Horizontal Scalar: GREATEST(c1, c2, c3)" {
+  class: pillar
   style.stroke: "#10B981"
-  desc: "Preserves all N rows\n• Evaluates horizontally across columns\n• Returns NULL if any operand is NULL"
+  desc: "Preserves Row Count; Evaluates Columns Horizontally\n• Evaluates within each tuple across columns\n• GREATEST(100, 150, 120) -> 150 per row\n• ⚠️ Returns NULL if any operand is NULL\n• Valid in SELECT, WHERE, and ORDER BY" {
+    class: card
+    style.stroke: "#10B981"
+  }
+}
+
+vert -> horiz: "VS" {
+  style.stroke: "#F59E0B"
 }

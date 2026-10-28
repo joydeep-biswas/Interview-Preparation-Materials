@@ -1,7 +1,18 @@
 direction: right
-title: DP State Transitions & Space Compression Architecture
+title: "DP State Transitions & Space Compression Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-StateDAG: 1. State Transition DAG {
+StateDAG: "1. State Transition DAG" {
+  class: container
   Sub2: "Subproblem (i-2)"
   Sub1: "Subproblem (i-1)"
   Curr: "Current State DP[i]"
@@ -11,7 +22,8 @@ StateDAG: 1. State Transition DAG {
   Curr -> Next
 }
 
-SpaceCompression: 2. Rolling Memory Compression {
+SpaceCompression: "2. Rolling Memory Compression" {
+  class: container
   FullMatrix: "Full 2D Matrix: DP[N][W] (O(N*W))"
   RollingRow: "1D Array: DP[W] (O(W))"
   Scalars: "Two Scalar Registers (O(1))"

@@ -1,0 +1,17 @@
+direction: right
+classes: {
+  vm_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  os_node: { style: { fill: "#1F2937"; stroke: "#64748B"; stroke-width: 1.5; border-radius: 6 } }
+  exec_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 6 } }
+}
+
+WorkerVM: "Worker Node VM (Standard_E16ds_v5)\n16 vCPUs | 64 GB RAM | Local NVMe SSD" { class: vm_node }
+OSDaemon: "OS & System Overhead\n1 Core | 4 GB RAM reserved" { class: os_node }
+Executor1: "Executor 1\n5 Cores | 28 GB RAM + 2 GB Overhead\nCompressedOops Active" { class: exec_node }
+Executor2: "Executor 2\n5 Cores | 28 GB RAM + 2 GB Overhead\nSafe GC Pause Boundaries" { class: exec_node }
+Executor3: "Executor 3\n5 Cores | 28 GB RAM + 2 GB Overhead\nOptimal Core Parallelism" { class: exec_node }
+
+WorkerVM -> OSDaemon: "System Slicing"
+WorkerVM -> Executor1: "YARN / K8s Container"
+WorkerVM -> Executor2: "YARN / K8s Container"
+WorkerVM -> Executor3: "YARN / K8s Container"

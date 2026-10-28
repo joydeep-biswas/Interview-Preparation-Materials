@@ -1,36 +1,55 @@
 direction: right
-title: Enterprise Medallion Lakehouse Architecture (Bronze -> Silver -> Gold)
+title: "Enterprise Medallion Lakehouse Architecture (Bronze -> Silver -> Gold)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-bronze: Bronze Layer (Raw Ingestion) {
-  raw_events: Raw Event Streams {
+bronze: "Bronze Layer (Raw Ingestion)" {
+  class: container
+  raw_events: "Raw Event Streams" {
+    class: box
     shape: rectangle
     type: "Kafka / CDC"
     format: "Append-only JSON / Parquet"
   }
-  cdc_data: Change Data Capture {
+  cdc_data: "Change Data Capture" {
+    class: box
     shape: rectangle
     source: "Postgres / MySQL WAL"
     drift: "Tolerant"
   }
 }
 
-silver: Silver Layer (Cleansed & Enriched) {
-  cleansed: Cleansed & Deduplicated {
+silver: "Silver Layer (Cleansed & Enriched)" {
+  class: container
+  cleansed: "Cleansed & Deduplicated" {
+    class: box
     shape: rectangle
     rules: "Schema enforced, dead-letter DLQ"
   }
-  data_vault: Data Vault 2.0 Core {
+  data_vault: "Data Vault 2.0 Core" {
+    class: box
     shape: rectangle
     structure: "Hubs, Links, Satellites"
   }
 }
 
-gold: Gold Layer (Curated Serving) {
-  star_schema: Kimball Star Schema {
+gold: "Gold Layer (Curated Serving)" {
+  class: container
+  star_schema: "Kimball Star Schema" {
+    class: box
     shape: rectangle
     structure: "Facts & Dimensions"
   }
-  semantic_layer: Enterprise Semantic Layer {
+  semantic_layer: "Enterprise Semantic Layer" {
+    class: box
     shape: rectangle
     metrics: "Single source of truth"
   }

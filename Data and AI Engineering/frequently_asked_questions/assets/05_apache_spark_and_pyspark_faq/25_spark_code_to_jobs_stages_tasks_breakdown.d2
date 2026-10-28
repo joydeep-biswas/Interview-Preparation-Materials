@@ -1,0 +1,36 @@
+# Calculating Spark Jobs, Stages, Tasks, and Partitions from Code
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke-width: 1.5; border-radius: 8 } }
+}
+
+dag_breakdown: "Spark DAG Execution Breakdown for Sample PySpark Code" {
+  class: box
+  style.stroke: "#3B82F6"
+
+  stage1: "Stage 1 (4 Tasks)\n• spark.read.csv() [4 partitions]\n• Pipeliend read tasks\n• Wide shuffle boundary at repartition(10)" {
+    class: stage
+    style.stroke: "#3B82F6"
+  }
+
+  stage2: "Stage 2 (10 Tasks)\n• Shuffle read from Stage 1\n• 10 partitions created\n• Pipelined: filter('status = ACTIVE')\n• Map-side partial groupBy aggregation" {
+    class: stage
+    style.stroke: "#F59E0B"
+  }
+
+  stage3: "Stage 3 (200 Tasks)\n• Shuffle read across 200 reduce partitions\n• Global groupBy aggregation reduce\n• Action evaluated: write.parquet()\n• Output written to disk" {
+    class: stage
+    style.stroke: "#10B981"
+  }
+
+  summary: "Job & Task Summary\n• Total Jobs: 1 (Single Action: write)\n• Total Stages: 3 (2 Shuffle Boundaries)\n• Total Tasks: 4 + 10 + 200 = 214 Tasks" {
+    class: stage
+    style.stroke: "#8B5CF6"
+  }
+
+  stage1 -> stage2: "Shuffle Exchange 1 (repartition)"
+  stage2 -> stage3: "Shuffle Exchange 2 (groupBy)"
+  stage3 -> summary
+}
+

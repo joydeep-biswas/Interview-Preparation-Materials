@@ -1,28 +1,43 @@
 direction: right
-title: Distributed Consistency Spectrum Hierarchy
+title: "Distributed Consistency Spectrum Hierarchy"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-c1: 1. Strict Linearizability {
+c1: "1. Strict Linearizability" {
+  class: container
   examples: "Google Spanner TrueTime, etcd"
   desc: "Global real-time clock order; zero stale reads"
   style.stroke: "#ef4444"
 }
 
-c2: 2. Sequential Consistency {
+c2: "2. Sequential Consistency" {
+  class: container
   examples: "Apache ZooKeeper, Raft replicated log"
   desc: "Operations executed in identical sequence across nodes"
 }
 
-c3: 3. Causal Consistency {
+c3: "3. Causal Consistency" {
+  class: container
   examples: "Git commit history, Cosmos DB Causal"
   desc: "Causally related writes preserved in order"
 }
 
-c4: 4. Read Committed {
+c4: "4. Read Committed" {
+  class: container
   examples: "PostgreSQL, Oracle Database"
   desc: "Zero dirty reads; queries only read committed rows"
 }
 
-c5: 5. Eventual Consistency {
+c5: "5. Eventual Consistency" {
+  class: container
   examples: "Apache Cassandra, Amazon DynamoDB, AWS S3"
   desc: "Replicas converge over time; sub-millisecond writes"
   style.stroke: "#10b981"

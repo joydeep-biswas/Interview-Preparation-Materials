@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Transaction Propagation: REQUIRED vs NESTED (Savepoints)</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Fine-Grained Partial Rollback Isolation within a Single Physical JDBC Connection</text>
 <rect x="50" y="95" width="200" height="50" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
@@ -50,7 +50,7 @@
 <line x1="420" y1="195" x2="700" y2="195" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
 <text x="560" y="187" fill="#6EE7B7" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Borrows Connection #1 (Tx 1 Started)</text>
 <rect x="340" y="225" width="760" height="190" rx="8" fill="#0b1727" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,4"/>
-<rect x="355" y="235" width="200" height="20" rx="10" fill="#78350f"/><text x="455" y="248" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">LOOP: For each Order in Batch</text>
+<rect x="355" y="235" width="200" height="20" rx="10" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="455" y="248" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">LOOP: For each Order in Batch</text>
 <line x1="420" y1="270" x2="940" y2="270" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
 <text x="680" y="262" fill="#FDE68A" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. connection.setSavepoint('item_savepoint_N')</text>
 <line x1="420" y1="305" x2="940" y2="305" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>

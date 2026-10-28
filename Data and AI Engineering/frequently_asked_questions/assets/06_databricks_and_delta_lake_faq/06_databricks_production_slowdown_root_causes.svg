@@ -6,74 +6,74 @@
       .edge { stroke-width: 1.5; fill: none; }
     </style>
     <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
   </defs>
 
-  <rect width="1020" height="440" fill="#0B0F19"/>
+  <rect width="1020" height="440" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Left: Root Alert -->
   <g transform="translate(30, 160)">
-    <rect width="210" height="120" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <rect width="210" height="120" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="2" />
     <text x="105" y="38" class="title" fill="#FECACA">Sudden 3x Slowdown</text>
-    <line x1="15" y1="50" x2="195" y2="50" stroke="#991B1B" stroke-width="1"/>
+    <line x1="15" y1="50" x2="195" y2="50" stroke="#991B1B" stroke-width="1" />
     <text x="105" y="75" class="body-txt" text-anchor="middle" fill="#FCA5A5">Production Pipeline</text>
     <text x="105" y="95" class="body-txt" text-anchor="middle" fill="#FCA5A5">Takes 3x Longer Overnight</text>
   </g>
 
   <!-- Connectors to 5 Root Causes with straight runways -->
-  <path fill="none" d="M 240 180 L 280 180 C 310 180, 320 55, 340 55 L 360 55" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
-  <path fill="none" d="M 240 195 L 280 195 C 310 195, 320 135, 340 135 L 360 135" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-  <path fill="none" d="M 240 220 L 360 220" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
-  <path fill="none" d="M 240 240 L 280 240 C 310 240, 320 300, 340 300 L 360 300" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
-  <path fill="none" d="M 240 255 L 280 255 C 310 255, 320 380, 340 380 L 360 380" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
-
   <!-- Cause 1: Spot Eviction -->
   <g transform="translate(360, 20)">
-    <rect width="630" height="70" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+    <rect width="630" height="70" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5" />
     <text x="315" y="26" class="title" fill="#FCD34D" text-anchor="middle">1. Cloud Spot Instance Eviction</text>
-    <line x1="20" y1="36" x2="610" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <line x1="20" y1="36" x2="610" y2="36" stroke="#1F2937" stroke-width="1" />
     <text x="25" y="55" class="body-txt">• Cloud reclaimed spot VMs; Spark recomputes lost shuffle partitions from scratch</text>
   </g>
 
   <!-- Cause 2: Volume Spike -->
   <g transform="translate(360, 100)">
-    <rect width="630" height="70" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect width="630" height="70" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="1.5" />
     <text x="315" y="26" class="title" fill="#93C5FD" text-anchor="middle">2. Input Data Volume Spike</text>
-    <line x1="20" y1="36" x2="610" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <line x1="20" y1="36" x2="610" y2="36" stroke="#1F2937" stroke-width="1" />
     <text x="25" y="55" class="body-txt">• Source data increased 5x (e.g. month-end batch, marketing campaign, historical backfill)</text>
   </g>
 
   <!-- Cause 3: Small Files -->
   <g transform="translate(360, 185)">
-    <rect width="630" height="70" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="630" height="70" rx="8" ry="8" fill="#111827" stroke="#EF4444" stroke-width="2" />
     <text x="315" y="26" class="title" fill="#FCA5A5" text-anchor="middle">3. Small Files Accumulation</text>
-    <line x1="20" y1="36" x2="610" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <line x1="20" y1="36" x2="610" y2="36" stroke="#1F2937" stroke-width="1" />
     <text x="25" y="55" class="body-txt">• Table accumulated 100,000 micro-files; query spend 80% of runtime on cloud ListBlobs</text>
   </g>
 
   <!-- Cause 4: Data Skew -->
   <g transform="translate(360, 265)">
-    <rect width="630" height="70" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+    <rect width="630" height="70" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5" />
     <text x="315" y="26" class="title" fill="#FCD34D" text-anchor="middle">4. Severe Data Skew</text>
-    <line x1="20" y1="36" x2="610" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <line x1="20" y1="36" x2="610" y2="36" stroke="#1F2937" stroke-width="1" />
     <text x="25" y="55" class="body-txt">• Single hot key received millions of rows; one straggler core stalls entire cluster</text>
   </g>
 
   <!-- Cause 5: Delta Log Checkpoint Overhead -->
   <g transform="translate(360, 345)">
-    <rect width="630" height="70" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5"/>
+    <rect width="630" height="70" rx="8" ry="8" fill="#111827" stroke="#8B5CF6" stroke-width="1.5" />
     <text x="315" y="26" class="title" fill="#C4B5FD" text-anchor="middle">5. Delta Log Checkpoint Overhead</text>
-    <line x1="20" y1="36" x2="610" y2="36" stroke="#1F2937" stroke-width="1"/>
+    <line x1="20" y1="36" x2="610" y2="36" stroke="#1F2937" stroke-width="1" />
     <text x="25" y="55" class="body-txt">• Table log lacks checkpoints; Spark must parse thousands of raw JSON commits on start</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 240 180 L 280 180 C 310 180, 320 55, 340 55 L 360 55" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)" />
+  <path fill="none" d="M 240 195 L 280 195 C 310 195, 320 135, 340 135 L 360 135" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+  <path fill="none" d="M 240 220 L 360 220" class="edge" stroke="#EF4444" marker-end="url(#arr-red)" />
+  <path fill="none" d="M 240 240 L 280 240 C 310 240, 320 300, 340 300 L 360 300" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)" />
+  <path fill="none" d="M 240 255 L 280 255 C 310 255, 320 380, 340 380 L 360 380" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)" />
+
+  </g></svg>

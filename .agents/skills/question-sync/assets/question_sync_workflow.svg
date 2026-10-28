@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 620" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-pink" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EC4899" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Phase 1 -->
+  <g transform="translate(130, 20)">
+    <rect width="600" height="60" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="300" y="24" class="title" fill="#93C5FD">1. Parse &amp; Deduplicate Dump Inquiries</text>
+    <text x="30" y="46" class="body-txt">Extract raw dump lines • Verify codebase coverage • Classify into Bucket A, B, or C</text>
+  </g>
+
+  <!-- Connect 1 to 2 -->
+  <path d="M 430 80 L 430 105" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- Phase 2 -->
+  <g transform="translate(130, 105)">
+    <rect width="600" height="60" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="300" y="24" class="title" fill="#A7F3D0">2. Base Topic Coverage Verification &amp; Expansion</text>
+    <text x="30" y="46" class="body-txt">Audit underlying theory &amp; internals • Expand 0X_topic.md with production mechanics</text>
+  </g>
+
+  <!-- Connect 2 to 3 -->
+  <path d="M 430 165 L 430 190" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+  <!-- Phase 3 -->
+  <g transform="translate(130, 190)">
+    <rect width="600" height="60" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="300" y="24" class="title" fill="#C4B5FD">3. FAQ Integration with Standalone D2 + SVG Diagrams</text>
+    <text x="30" y="46" class="body-txt">Author .d2 source &amp; compile .svg vector graphics • Adhere strictly to diagram guidelines</text>
+  </g>
+
+  <!-- Connect 3 to 4 -->
+  <path d="M 430 250 L 430 275" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Phase 4 -->
+  <g transform="translate(130, 275)">
+    <rect width="600" height="60" rx="8" fill="#831843" stroke="#EC4899" stroke-width="2"/>
+    <text x="300" y="24" class="title" fill="#FBCFE8">4. Establish Bidirectional Discoverability Links</text>
+    <text x="30" y="46" class="body-txt">Base Topic [!TIP] callouts -> FAQ scenarios • FAQ questions -> Base topic theoretical anchors</text>
+  </g>
+
+  <!-- Connect 4 to 5 -->
+  <path d="M 430 335 L 430 360" fill="none" stroke="#EC4899" stroke-width="1.5" marker-end="url(#arr-pink)"/>
+
+  <!-- Phase 5 -->
+  <g transform="translate(130, 360)">
+    <rect width="600" height="60" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="300" y="24" class="title" fill="#FDE68A">5. Audit Master Indexes &amp; Navigation TOCs</text>
+    <text x="30" y="46" class="body-txt">Update Study Guide overview tables &amp; question totals • Update 00_*_faq_index.md</text>
+  </g>
+
+  <!-- Connect 5 to 6 -->
+  <path d="M 430 420 L 430 445" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+
+  <!-- Phase 6 -->
+  <g transform="translate(130, 445)">
+    <rect width="600" height="60" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="300" y="24" class="title" fill="#A7F3D0">6. Automated Link, Anchor &amp; Reference Validation</text>
+    <text x="30" y="46" class="body-txt">Execute Python validation script • Guarantee 0 broken links &amp; 100% dump question coverage</text>
+  </g>
+
+  <!-- Connect 6 to 7 -->
+  <path d="M 430 505 L 430 530" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+  <!-- Phase 7 -->
+  <g transform="translate(130, 530)">
+    <rect width="600" height="60" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <text x="300" y="24" class="title" fill="#FECACA">7. Clear Synced Question Dump &amp; Final Quality Gate</text>
+    <text x="30" y="46" class="body-txt">Truncate questions-dump.md to clean placeholder • Prevent duplicate processing in future runs</text>
+  </g>
+</svg>

@@ -13,6 +13,12 @@ A comprehensive guide to interview scenarios covering GPU memory allocation, vLL
 - [Scenario 6: Rate Limiting & Abuse Prevention for LLM Applications on Azure](#scenario-6-medium-rate-limiting--abuse-prevention-for-llm-applications-on-azure)
 - [Scenario 7: End-to-End Observability, Telemetry & FinOps for Production GenAI](#scenario-7-medium-end-to-end-observability-telemetry--finops-for-production-genai)
 - [Scenario 8: Sizing vLLM Continuous Batching Parameters (Sequences vs Batched Tokens)](#scenario-8-hard-sizing-vllm-continuous-batching-parameters-sequences-vs-batched-tokens)
+- [Scenario 9: Production LLM Latency Reduction: 5 Levers, Slashes & Architectural Cost Trade-Offs](#scenario-9-hard-production-llm-latency-reduction-5-levers-slashes--architectural-cost-trade-offs)
+- [Scenario 10: KV Caching & Prefix Caching Mechanics: Memory Footprint & TTFT Acceleration](#scenario-10-medium-kv-caching--prefix-caching-mechanics-memory-footprint--ttft-acceleration)
+- [Scenario 11: LLM FinOps: Achieving a 10x Cost Reduction While Maintaining Model Quality Floor](#scenario-11-hard-llm-finops-achieving-a-10x-cost-reduction-while-maintaining-model-quality-floor)
+- [Scenario 12: Multi-Model Routing & Quality-Preserving Fallback Cascades](#scenario-12-medium-multi-model-routing--quality-preserving-fallback-cascades)
+- [Scenario 13: Self-Hosting Open-Weight Models vs Commercial API Providers: Enterprise TCO & Architecture Matrix](#scenario-13-medium-self-hosting-open-weight-models-vs-commercial-api-providers-enterprise-tco--architecture-matrix)
+- [Scenario 14: Zero-Egress PII Protection Architectures for Enterprise LLM Ingestion](#scenario-14-hard-zero-egress-pii-protection-architectures-for-enterprise-llm-ingestion)
 
 ---
 
@@ -87,7 +93,7 @@ A comprehensive guide to interview scenarios covering GPU memory allocation, vLL
 
 ![Enterprise LLM Gateway Production Architecture Topology](assets/12_ai_infrastructure_serving_and_llmops_faq/01_production_llm_gateway_topology.svg)
 
-*D2 Source:* [assets/12_ai_infrastructure_serving_and_llmops_faq/01_production_llm_gateway_topology.d2](assets/12_ai_infrastructure_serving_and_llmops_faq/01_production_llm_gateway_topology.d2)
+*D2 Source: [`01_production_llm_gateway_topology.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/01_production_llm_gateway_topology.d2)*
 
 #### Detailed Component Decomposition
 1. **API Ingress, Rate-Limiting & Security Guardrails:**
@@ -119,7 +125,7 @@ A comprehensive guide to interview scenarios covering GPU memory allocation, vLL
 
 ![Systematic Quality Drop Root Cause Diagnosis Tree](assets/12_ai_infrastructure_serving_and_llmops_faq/02_model_quality_drop_systematic_rca_diagnostic_tree.svg)
 
-*D2 Source:* [assets/12_ai_infrastructure_serving_and_llmops_faq/02_model_quality_drop_systematic_rca_diagnostic_tree.d2](assets/12_ai_infrastructure_serving_and_llmops_faq/02_model_quality_drop_systematic_rca_diagnostic_tree.d2)
+*D2 Source: [`02_model_quality_drop_systematic_rca_diagnostic_tree.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/02_model_quality_drop_systematic_rca_diagnostic_tree.d2)*
 
 #### The 5-Step Triage Execution Playbook
 1. **Verify Immutable Checkpoint Pinning (The Alias Trap):**
@@ -156,7 +162,7 @@ Production systems enforce **Multi-Dimensional Rate Limiting**:
 
 ![Multi-Dimensional Rate Limiting Architecture (RPM/TPM)](assets/12_ai_infrastructure_serving_and_llmops_faq/03_multidimensional_token_bucket_rate_limiting_architecture.svg)
 
-*D2 Source:* [assets/12_ai_infrastructure_serving_and_llmops_faq/03_multidimensional_token_bucket_rate_limiting_architecture.d2](assets/12_ai_infrastructure_serving_and_llmops_faq/03_multidimensional_token_bucket_rate_limiting_architecture.d2)
+*D2 Source: [`03_multidimensional_token_bucket_rate_limiting_architecture.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/03_multidimensional_token_bucket_rate_limiting_architecture.d2)*
 
 #### Production Azure APIM Policy Implementation
 Azure API Management (APIM) provides native, enterprise-grade LLM rate-limiting policies (`llm-token-limit` and `rate-limit-by-key`):
@@ -230,7 +236,7 @@ When clients hit rate limits, naive retries trigger thundering herd problems tha
 
 ![The 4 Pillars of GenAI Telemetry & Observability Flywheel](assets/12_ai_infrastructure_serving_and_llmops_faq/04_four_pillars_genai_telemetry_observability.svg)
 
-*D2 Source:* [assets/12_ai_infrastructure_serving_and_llmops_faq/04_four_pillars_genai_telemetry_observability.d2](assets/12_ai_infrastructure_serving_and_llmops_faq/04_four_pillars_genai_telemetry_observability.d2)
+*D2 Source: [`04_four_pillars_genai_telemetry_observability.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/04_four_pillars_genai_telemetry_observability.d2)*
 
 #### Distributed Tracing with OpenTelemetry GenAI Semantic Conventions
 Every user request generates a single distributed trace with nested spans capturing each pipeline stage:
@@ -285,7 +291,7 @@ LLM inference consists of two fundamentally distinct operational phases:
 
 ![vLLM Continuous Batching: Chunked Prefill vs Decode Disaggregation](assets/12_ai_infrastructure_serving_and_llmops_faq/05_vllm_prefill_decode_disaggregation_continuous_batching.svg)
 
-*D2 Source:* [assets/12_ai_infrastructure_serving_and_llmops_faq/05_vllm_prefill_decode_disaggregation_continuous_batching.d2](assets/12_ai_infrastructure_serving_and_llmops_faq/05_vllm_prefill_decode_disaggregation_continuous_batching.d2)
+*D2 Source: [`05_vllm_prefill_decode_disaggregation_continuous_batching.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/05_vllm_prefill_decode_disaggregation_continuous_batching.d2)*
 
 #### 2. Core Serving Parameters & Mathematical Tuning Rules
 
@@ -315,3 +321,296 @@ python3 -m vllm.entrypoints.openai.api_server \
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [12. AI Infrastructure, High-Throughput Serving & LLMOps: Continuous Batching & PagedAttention](../12_ai_infrastructure_serving_and_llmops.md#3-serving-engine-mechanics-vllm-sglang--pagedattention)*
+
+
+
+### Scenario 9: [Hard] Production LLM Latency Reduction: 5 Levers, Slashes & Architectural Cost Trade-Offs
+**Difficulty:** [Hard]  
+**Topic Covered:** TTFT & TPOT Optimization, Speculative Decoding, Quantization (FP8/AWQ), KV Caching, Model Pruning  
+**Question:** *A customer's production LLM application has become unacceptably slow. What five architectural changes would you implement to dramatically bring latency down, and what are the trade-offs and costs of each?*
+
+#### Definition & Core Concepts
+Production LLM latency decomposes into two distinct operational metrics:
+- **Time to First Token (TTFT):** Dominated by prompt prefill processing (compute-bound, $O(N)$ arithmetic intensity).
+- **Time per Output Token (TPOT / Inter-Token Latency):** Dominated by autoregressive token generation (memory-bandwidth bound, reading weights and KV cache per token).
+
+#### Five Architectural Latency Reduction Levers
+1. **Speculative Decoding:** Use a lightweight draft model (e.g. Llama-3.1-8B) to generate $K=4	ext{–}6$ candidate tokens at $150	ext{ tok/s}$, and verify all candidates simultaneously in a single forward pass of the target model (Llama-3.1-70B). Achieves **$2	ext{x}$ to $2.8	ext{x}$ TPOT speedup** with zero mathematical loss in output quality.
+2. **Weight & KV Cache Quantization (FP8 / AWQ 4-Bit):** Quantize FP16 weights to FP8 or INT4. Halves or quarters the bytes transferred over GPU memory bus per decode step, boosting generation throughput by **$1.8	ext{x}$ to $2.5	ext{x}$**.
+3. **Prefix Caching (Radix Attention in vLLM / SGLang):** Retain precomputed KV cache tensors for invariant system prompts and few-shot examples across concurrent user requests. Slashes **TTFT by $70\%	ext{–}90\%$** for long-context apps.
+4. **Chunked Prefill & Decode Prioritization:** Slice large prompt prefill operations into chunks (e.g. 512 tokens), preventing large prompt arrivals from pausing active streaming decode generation.
+5. **Model Distillation & Routing to Specialized Small Language Models (SLMs):** Route simple extraction and classification queries to distilled 8B models (sub-200ms latency) instead of a monolithic 70B/405B frontier model.
+
+#### Visual Architectural Comparison
+![LLM Latency Reduction Five Architectural Levers](assets/12_ai_infrastructure_serving_and_llmops_faq/06_llm_latency_reduction_five_architectural_levers.svg)
+
+*D2 Source: [`06_llm_latency_reduction_five_architectural_levers.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/06_llm_latency_reduction_five_architectural_levers.d2)*
+
+#### Latency vs Cost Trade-off Matrix
+| Optimization Lever | Primary Metric Impacted | Latency Speedup | Financial & Hardware Cost | Quality Trade-Off |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. Speculative Decoding** | TPOT (Inter-token) | **$2	ext{x} - 2.8	ext{x}$ faster** | Requires $+15\%$ VRAM for draft model | **Zero quality loss** (lossless) |
+| **2. FP8 Quantization** | TPOT & Max Batch Concurrency | **$1.8	ext{x} - 2.2	ext{x}$ faster** | Minimal (supported on Ada/Hopper/H100) | Negligible ($< 0.5\%$ perplexity change) |
+| **3. Prefix Caching** | TTFT (Time to First Token) | **$70\% - 90\%$ reduction** | Allocates VRAM to retain cache blocks | **Zero quality loss** |
+| **4. Chunked Prefill** | Inter-Token Streaming Jitter | Eliminates UI lag spikes | Zero extra hardware cost | **Zero quality loss** |
+| **5. Model Distillation (SLM)** | Both TTFT & TPOT | **$5	ext{x} - 10	ext{x}$ faster** | Slashing GPU footprint by $80\%$ | Slight drop on creative/reasoning tasks |
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [12. AI Infrastructure, High-Throughput Serving & LLMOps: Serving Engine Mechanics](../12_ai_infrastructure_serving_and_llmops.md#3-serving-engine-mechanics-vllm-sglang--pagedattention)*
+
+---
+
+### Scenario 10: [Medium] KV Caching & Prefix Caching Mechanics: Memory Footprint & TTFT Acceleration
+**Difficulty:** [Medium]  
+**Topic Covered:** Attention Key-Value Caching, Radix Tree Prefix Caching, vLLM / SGLang Prompt Sharing  
+**Question:** *Explain the physical mechanics of KV caching and prefix caching in transformer inference: what data is cached, where does it live in VRAM, and why does prefix caching drastically reduce Time to First Token (TTFT)?*
+
+#### Definition & Core Concepts
+In standard autoregressive generation, generating token $t_{n}$ requires computing attention against all previous tokens $t_1, \dots, t_{n-1}$.
+1. **The KV Cache Physical Structure:**
+   - For every layer $l \in [1, L]$ and every attention head $h$, the model projects input token embeddings into Key ($\mathbf{K}$) and Value ($\mathbf{V}$) vector tensors.
+   - Without caching, computing each new token requires recomputing $\mathbf{K}$ and $\mathbf{V}$ for the entire historical sequence, resulting in $O(N^2)$ quadratic compute.
+   - **The KV Cache** stores computed Key and Value tensors in high-speed GPU HBM (VRAM). When generating token $t_n$, the engine only computes $\mathbf{q}_n, \mathbf{k}_n, \mathbf{v}_n$ for the single new token and appends $\mathbf{k}_n, \mathbf{v}_n$ to the cache.
+   - **Memory Footprint Formula:**
+     $$	ext{KV Cache Size (Bytes)} = 2 	imes n_{	ext{layers}} 	imes d_{	ext{model}} 	imes 	ext{seq\_len} 	imes 	ext{batch\_size} 	imes 	ext{bytes\_per\_elem}$$
+     *Example:* For a 70B model ($L=80, d=8192$, FP16 = 2 bytes) with 4,000 tokens and batch size 16:
+     $$2 	imes 80 	imes 8192 	imes 4000 	imes 16 	imes 2 pprox 167.7	ext{ GB VRAM just for the cache!}$$
+2. **Prefix Caching Mechanics (Radix Attention):**
+   - In conversational applications, all users share identical system prompts, tool schemas, and few-shot examples (e.g. 2,000 tokens).
+   - Standard serving re-computes the KV tensors of that 2,000-token system prompt for every single incoming request.
+   - **Prefix Caching** organizes cached KV blocks into a **Radix Tree** indexed by token hashes. If an incoming query shares a token prefix with existing cached requests, the engine directly reuses the existing KV tensors from VRAM, bypassing the compute-heavy prompt prefill phase entirely.
+
+#### Visual Architectural Flow
+![Radix Tree Prefix Caching VRAM Sharing](assets/12_ai_infrastructure_serving_and_llmops_faq/07_radix_tree_prefix_caching_vram_sharing.svg)
+
+*D2 Source: [`07_radix_tree_prefix_caching_vram_sharing.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/07_radix_tree_prefix_caching_vram_sharing.d2)*
+
+#### Production Implementation (Enabling Prefix Caching in vLLM)
+```bash
+# Launch vLLM server with automated prefix caching enabled
+python3 -m vllm.entrypoints.openai.api_server     --model meta-llama/Meta-Llama-3.1-70B-Instruct     --enable-prefix-caching     --kv-cache-dtype fp8     --tensor-parallel-size 4     --port 8000
+```
+
+#### Complexity Analysis
+- **TTFT without Prefix Cache:** $O(P)$ compute time where $P$ is prompt length (e.g. 500–1200ms on 4k prompt).
+- **TTFT with Prefix Cache:** $O(1)$ memory lookup time for matched prefix blocks (drops to $<30	ext{ms}$).
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [12. AI Infrastructure, High-Throughput Serving & LLMOps: Continuous Batching & PagedAttention](../12_ai_infrastructure_serving_and_llmops.md#3-serving-engine-mechanics-vllm-sglang--pagedattention)*
+
+---
+
+### Scenario 11: [Hard] LLM FinOps: Achieving a 10x Cost Reduction While Maintaining Model Quality Floor
+**Difficulty:** [Hard]  
+**Topic Covered:** LLM FinOps, Multi-Tier Cascades, Semantic Caching (Redis/GPTCache), Token Pruning, Specialized SLMs  
+**Question:** *An enterprise client's monthly cloud LLM inference spend is completely unsustainable. Walk through an engineering blueprint to achieve a 10x cost reduction while strictly maintaining the output quality floor.*
+
+#### Definition & Core Concepts
+Achieving an order-of-magnitude ($10	ext{x}$) reduction in LLM operational costs cannot be achieved through minor prompt tweaks; it requires a systemic multi-stage architectural redesign:
+1. **Tier 1: Semantic Caching with High-Dimensional Vector Lookup:**
+   - $20\%	ext{–}35\%$ of enterprise queries are recurring variations of the same intent.
+   - Cache previous query embeddings in Redis. If a new prompt matches an existing vector with cosine similarity $\ge 0.96$, return the cached response immediately. **Cost: \$0.00 (100% savings on cache hit).**
+2. **Tier 2: Model Cascade & Tiered Routing (Small vs Large):**
+   - $70\%$ of enterprise requests are simple tasks (summarization, sentiment, structured extraction) that do not require a \$15/M-token frontier model (e.g. GPT-4o / Claude 3.5 Sonnet).
+   - Route $70\%$ of queries to a specialized fine-tuned Small Language Model (e.g. Llama-3.1-8B at \$0.15/M tokens). Only escalate to the frontier model if confidence is low or query complexity score exceeds threshold.
+3. **Tier 3: Prompt Compression & Context Pruning:**
+   - Use LLMLingua to prune low-entropy words and redundant JSON/HTML boilerplate from RAG context, slashing prompt token consumption by **$40\%	ext{–}60\%$**.
+4. **Tier 4: Batch Inference API Discounts:**
+   - Migrate asynchronous non-real-time workloads (nightly document tagging, audit classification) to OpenAI / Anthropic / Vertex Batch APIs which offer a **flat 50% discount**.
+
+#### Visual FinOps Architecture
+![LLM FinOps 10x Cost Reduction Tier Funnel](assets/12_ai_infrastructure_serving_and_llmops_faq/08_llm_finops_10x_cost_reduction_tier_funnel.svg)
+
+*D2 Source: [`08_llm_finops_10x_cost_reduction_tier_funnel.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/08_llm_finops_10x_cost_reduction_tier_funnel.d2)*
+
+#### Mathematical Cost Reduction Breakdown (100,000 Daily Requests)
+- **Baseline Monolithic Model Cost:**
+  - $100{,}000 	ext{ reqs} 	imes 2{,}000 	ext{ tokens} = 200	ext{M tokens/day} 	imes \$5.00/	ext{M} = \mathbf{\$1{,}000/	ext{day}}$ ($\$30{,}000/	ext{month}$).
+- **Optimized Tiered Architecture Cost:**
+  - Semantic Cache absorbs $25\%$ of queries $	o \$0.00$.
+  - Prompt Compression cuts remaining $75{,}000$ queries from $2{,}000$ tokens to $1{,}000$ tokens ($75	ext{M tokens/day}$).
+  - Tiered Routing sends $70\%$ ($52.5	ext{M tokens}$) to SLM ($\$0.15/	ext{M}$) $= \$7.87/	ext{day}$.
+  - Frontier Model handles remaining $30\%$ ($22.5	ext{M tokens}$) at $\$5.00/	ext{M} = \$112.50/	ext{day}$.
+  - **New Daily Total:** $\$7.87 + \$112.50 = \mathbf{\$120.37/	ext{day}}$ ($\$3{,}611/	ext{month}$).
+  - **Net Reduction:** **$88\% pprox 8.8	ext{x}	ext{ to }10	ext{x}$ Total Cloud Spend Reduction!**
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [12. AI Infrastructure, High-Throughput Serving & LLMOps: Serving Engine Mechanics](../12_ai_infrastructure_serving_and_llmops.md#3-serving-engine-mechanics-vllm-sglang--pagedattention)*
+
+---
+
+### Scenario 12: [Medium] Multi-Model Routing & Quality-Preserving Fallback Cascades
+**Difficulty:** [Medium]  
+**Topic Covered:** Model Gateway Routers, Heuristic & Embedding Intent Routing, Confidence-Based Escalation Cascades  
+**Question:** *How do you architect a multi-model router or cascade that dispatches incoming prompts between small, inexpensive models (e.g. Llama-3-8B) and frontier models (e.g. Claude 3.5 Sonnet / GPT-4o) while preserving a strict quality floor?*
+
+#### Definition & Core Concepts
+A **Multi-Model Router** acts as an intelligent API gateway positioned between upstream clients and downstream LLM inference endpoints:
+1. **Routing Heuristics:**
+   - **Static Rules:** Route based on endpoint URI, metadata flags, or input length (e.g. queries requesting code or math automatically escalate to the frontier model).
+   - **Semantic Intent Classifier:** A lightweight sub-millisecond linear classifier (or FastText / Small BERT) maps the user query embedding into complexity clusters.
+2. **Confidence-Threshold Escalation Cascade:**
+   - Dispatch the request to the Small Language Model (SLM) first.
+   - Inspect generation log-probabilities or pass output to a lightweight validation heuristic (e.g. valid JSON parsing, presence of refusal tokens, self-reported confidence score $\ge 0.85$).
+   - If the SLM response violates quality thresholds, dynamically trigger an **escalation fallback** to the frontier model.
+
+#### Visual Cascade Execution Flow
+![Multi Model Routing Confidence Cascade](assets/12_ai_infrastructure_serving_and_llmops_faq/09_multi_model_routing_confidence_cascade.svg)
+
+*D2 Source: [`09_multi_model_routing_confidence_cascade.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/09_multi_model_routing_confidence_cascade.d2)*
+
+#### Production Gateway Implementation (Python)
+```python
+from typing import Dict, Any
+import requests
+
+class ModelCascadeRouter:
+    def __init__(self, slm_url: str, frontier_url: str, api_key: str):
+        self.slm_url = slm_url
+        self.frontier_url = frontier_url
+        self.api_key = api_key
+
+    def is_complex_query(self, prompt: str) -> bool:
+        """Heuristic and keyword complexity gate."""
+        code_keywords = {"write code", "sql", "dockerfile", "refactor", "derive", "prove"}
+        return any(k in prompt.lower() for k in code_keywords) or len(prompt.split()) > 1500
+
+    def route_prompt(self, prompt: str) -> Dict[str, Any]:
+        # Rule 1: Immediate escalation for highly complex requests
+        if self.is_complex_query(prompt):
+            return self._call_model(self.frontier_url, prompt, model="frontier")
+
+        # Rule 2: Attempt fast inference with SLM
+        slm_result = self._call_model(self.slm_url, prompt, model="slm")
+        
+        # Rule 3: Verification gate (e.g. checking length or confidence flag)
+        if slm_result.get("is_valid", True):
+            return slm_result
+
+        # Rule 4: Fallback escalation on failure
+        return self._call_model(self.frontier_url, prompt, model="frontier")
+
+    def _call_model(self, url: str, prompt: str, model: str) -> Dict[str, Any]:
+        # Dispatches standard OpenAI-compatible API request
+        ...
+```
+
+#### Complexity Analysis
+- **Routing Decision Overhead:** $< 5	ext{ms}$ for regex/heuristic filtering; $< 15	ext{ms}$ for embedding-based classifier.
+- **Net Latency:** 70% of requests complete in sub-300ms via SLM; 30% complete in 1.2s via Frontier model.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [12. AI Infrastructure, High-Throughput Serving & LLMOps: Serving Engine Mechanics](../12_ai_infrastructure_serving_and_llmops.md#3-serving-engine-mechanics-vllm-sglang--pagedattention)*
+
+---
+
+### Scenario 13: [Medium] Self-Hosting Open-Weight Models vs Commercial API Providers: Enterprise TCO & Architecture Matrix
+**Difficulty:** [Medium]  
+**Topic Covered:** Self-Hosting GPU Infrastructure (vLLM on AKS/EKS) vs Closed APIs (OpenAI/Anthropic), TCO, Latency, Privacy  
+**Question:** *How do you advise an enterprise customer deciding between self-hosting open-weight models (e.g., Llama 3 on private GPU clusters) versus using commercial API providers?*
+
+#### Definition & Core Concepts
+The choice between self-hosting open-weight models and consuming closed commercial APIs is a multidimensional tradeoff balancing volume economics, security boundaries, and operational overhead:
+1. **Break-Even TCO Economics (The Volume Curve):**
+   - **Low to Medium Volume (< 10M tokens/day):** Commercial API providers are significantly cheaper. You pay strictly per-token with zero idle GPU infrastructure cost.
+   - **High Volume (> 50M–100M tokens/day):** Self-hosting on reserved cloud GPU nodes (e.g. 8x H100 SXM5 instances on Azure/AWS with 1-year commitments) becomes **3x to 5x cheaper than per-token commercial APIs**.
+2. **Data Sovereignty & Legal Isolation:**
+   - In defense, healthcare, and Tier-1 banking, data retention policies and zero-egress compliance mandate that prompt data **never traverses third-party vendor networks**, regardless of contractual zero-retention SLAs. Self-hosting within a private VPC is non-negotiable.
+3. **Operational Overhead & SLA Maintenance:**
+   - Self-hosting requires dedicated MLOps engineers managing Kubernetes, CUDA driver updates, continuous batching engines, model quantization, and GPU node failovers.
+
+#### Visual Architectural Decision Matrix
+![Self Hosting vs Commercial API Decision Matrix](assets/12_ai_infrastructure_serving_and_llmops_faq/10_self_hosting_vs_commercial_api_decision_matrix.svg)
+
+*D2 Source: [`10_self_hosting_vs_commercial_api_decision_matrix.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/10_self_hosting_vs_commercial_api_decision_matrix.d2)*
+
+#### Comparison Matrix: Self-Hosting vs API Providers
+| Dimension | Commercial API Providers (OpenAI / Anthropic) | Self-Hosted Open-Weight (vLLM on AKS/EKS) |
+| :--- | :--- | :--- |
+| **Pricing Model** | Variable cost: Pay-per-token | Fixed cost: 24/7 reserved GPU instances |
+| **Data Privacy** | Trust-based: Vendor promises zero retention | **Guaranteed: Zero egress outside private VPC** |
+| **Model Customization**| Limited to prompt engineering & fine-tuning APIs | **Full access to raw weights, logits & speculative decoding** |
+| **Scaling Dynamics** | Instant elasticity; handles massive traffic spikes | Fixed capacity; burst traffic causes queuing |
+| **Operational Burden**| Zero infrastructure management | High: Kubernetes, CUDA, vLLM, OOM monitoring |
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [12. AI Infrastructure, High-Throughput Serving & LLMOps: Enterprise Hosting Architectures](../12_ai_infrastructure_serving_and_llmops.md#1-enterprise-cloud-ai-platforms--hosting-architectures)*
+
+---
+
+### Scenario 14: [Hard] Zero-Egress PII Protection Architectures for Enterprise LLM Ingestion
+**Difficulty:** [Hard]  
+**Topic Covered:** Data Privacy, Client-Side Pseudonymization Proxy (Microsoft Presidio), Private VPC Endpoints, Token Vaults  
+**Question:** *An enterprise client in banking mandates that zero PII or customer financial identifiers can ever leave their private network or be sent to external LLM APIs. What end-to-end architectures do you propose?*
+
+#### Definition & Core Concepts
+When regulated institutions leverage external frontier models (e.g., Azure OpenAI or Anthropic Bedrock) without violating GDPR, GLBA, or DPDP laws, they implement a **Zero-Egress Pseudonymization & Re-hydration Gateway**:
+1. **Client-Side Tokenization / Masking Proxy (Microsoft Presidio):**
+   - Intercepts outgoing prompts inside the client's secure VPC before any external HTTP request is made.
+   - Leverages high-speed Named Entity Recognition (NER) models (Spacy / RoBERTa) and deterministic regex patterns to detect PII (Customer Names, SSNs, Credit Card Numbers, Email Addresses).
+2. **Encrypted Token Vault:**
+   - Replaces detected PII with deterministic synthetic surrogate tokens (e.g. `John Doe` $	o$ `<CUSTOMER_NAME_1>`, `4532-XXXX-XXXX-1234` $	o$ `<CARD_NUM_1>`).
+   - Stores the cryptographic mapping in an ephemeral, high-speed in-memory database (Redis with TLS and field-level AES-256 encryption) with a short TTL (15 minutes).
+3. **Anonymized External Inference:**
+   - Dispatches the de-identified prompt to the external LLM endpoint over Private Endpoints / AWS PrivateLink. The external model reasons over the surrogate tokens.
+4. **Downstream Re-hydration Engine:**
+   - When the LLM completion streams back, the proxy intercepts the response, performs reverse lookup against the Token Vault, replaces `<CUSTOMER_NAME_1>` with `John Doe`, and returns the natural text to the end user.
+
+#### Visual Architectural Flow
+![Zero Egress PII Token Vault Gateway](assets/12_ai_infrastructure_serving_and_llmops_faq/11_zero_egress_pii_token_vault_gateway.svg)
+
+*D2 Source: [`11_zero_egress_pii_token_vault_gateway.d2`](assets/12_ai_infrastructure_serving_and_llmops_faq/11_zero_egress_pii_token_vault_gateway.d2)*
+
+#### Production Implementation / Python Pseudonymization Proxy
+```python
+from presidio_analyzer import AnalyzerEngine
+from presidio_anonymizer import AnonymizerEngine
+from presidio_anonymizer.entities import OperatorConfig
+import redis
+import uuid
+
+class ZeroEgressPIIGateway:
+    def __init__(self, redis_host: str = "localhost", redis_port: int = 6379):
+        self.analyzer = AnalyzerEngine()
+        self.anonymizer = AnonymizerEngine()
+        self.vault = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
+
+    def sanitize_and_tokenize(self, text: str, session_id: str) -> str:
+        # Step 1: Detect PII entities in incoming prompt
+        results = self.analyzer.analyze(text=text, entities=["PERSON", "EMAIL_ADDRESS", "PHONE_NUMBER", "US_SSN"], language="en")
+        
+        # Step 2: Build token vault mapping
+        mapping = {}
+        for res in results:
+            original_val = text[res.start:res.end]
+            surrogate_token = f"<{res.entity_type}_{uuid.uuid4().hex[:6]}>"
+            mapping[surrogate_token] = original_val
+            
+            # Persist mapping in encrypted Redis vault with 10-minute expiration
+            self.vault.setex(f"{session_id}:{surrogate_token}", 600, original_val)
+
+        # Step 3: Replace PII with surrogate tokens
+        sanitized_text = text
+        for token, original in mapping.items():
+            sanitized_text = sanitized_text.replace(original, token)
+            
+        return sanitized_text
+
+    def rehydrate_response(self, llm_response: str, session_id: str) -> str:
+        # Step 4: Scan and replace surrogate tokens back to ground-truth values
+        keys = self.vault.keys(f"{session_id}:*")
+        rehydrated = llm_response
+        for k in keys:
+            token = k.split(":", 1)[1]
+            original = self.vault.get(k)
+            rehydrated = rehydrated.replace(token, original)
+        return rehydrated
+```
+
+#### Complexity Analysis
+- **NER Analysis Overhead:** Adds $pprox 15	ext{–}35	ext{ms}$ latency to input prompt processing on GPU / modern CPU.
+- **Privacy Security Guarantee:** Mathematically eliminates compliance violations under GDPR / HIPAA by enforcing zero egress of sensitive tokens across network boundaries.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [12. AI Infrastructure, High-Throughput Serving & LLMOps: Enterprise Hosting Architectures](../12_ai_infrastructure_serving_and_llmops.md#1-enterprise-cloud-ai-platforms--hosting-architectures)*
+

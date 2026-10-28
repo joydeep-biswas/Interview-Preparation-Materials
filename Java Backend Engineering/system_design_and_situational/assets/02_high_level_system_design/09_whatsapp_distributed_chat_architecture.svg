@@ -32,14 +32,14 @@
     .badge { font-weight: 600; font-size: 11px; }
     .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
   </style>
-  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <rect width="100%" height="100%" fill="url(#bg-grad)"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="32" class="title" font-size="19" text-anchor="middle">Distributed Real-Time Chat: Netty WebSocket &amp; Cassandra Architecture</text>
   <text x="550" y="52" class="subtitle" text-anchor="middle">Persistent WebSocket connections, distributed Redis session routing, and high-throughput Cassandra chat history</text>
 
   <!-- Sender Client & Netty Gateway -->
   <g transform="translate(30, 75)">
     <rect width="230" height="290" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="230" height="34" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="115" y="22" class="card-title" fill="#93C5FD" text-anchor="middle">1. Sender &amp; Gateway</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#60A5FA">• Sender Mobile App:</text>
     <text x="24" y="78" class="card-body">  - Sends message to User B</text>
@@ -49,14 +49,14 @@
     <text x="24" y="166" class="card-body">  - Low off-heap memory usage</text>
     <text x="16" y="194" class="card-body" font-weight="600" fill="#60A5FA">• Message DTO:</text>
     <text x="24" y="214" class="card-body">  - (msg_id, sender, recipient, ts)</text>
-    <rect x="16" y="254" width="198" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="198" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="115" y="269" class="badge" fill="#93C5FD" text-anchor="middle">Netty Gateway Pod A</text>
   </g>
 
   <!-- Redis Session Registry -->
   <g transform="translate(290, 75)">
     <rect width="245" height="290" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="245" height="34" rx="10" ry="10" fill="#064E3B"/>
+    <rect width="245" height="34" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
     <text x="122" y="22" class="card-title" fill="#A7F3D0" text-anchor="middle">2. Session Registry</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#34D399">• Redis User Location Table:</text>
     <text x="24" y="78" class="card-body">  - Maps UserID -&gt; Gateway Pod IP</text>
@@ -67,14 +67,14 @@
     <text x="16" y="194" class="card-body" font-weight="600" fill="#34D399">• Router Decision:</text>
     <text x="24" y="214" class="card-body">  - If online: Direct forward</text>
     <text x="24" y="234" class="card-body">  - If offline: Queue push notification</text>
-    <rect x="16" y="254" width="213" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="213" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="122" y="269" class="badge" fill="#A7F3D0" text-anchor="middle">Redis In-Memory Mapping</text>
   </g>
 
   <!-- Message Router & Delivery -->
   <g transform="translate(565, 75)">
     <rect width="240" height="290" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="240" height="34" rx="10" ry="10" fill="#78350F"/>
+    <rect width="240" height="34" rx="10" ry="10" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
     <text x="120" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">3. Message Router</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#FBBF24">• Online Route (Sub-10ms):</text>
     <text x="24" y="78" class="card-body">  - Inter-pod gRPC push to Pod 7</text>
@@ -84,14 +84,14 @@
     <text x="24" y="166" class="card-body">  - Enqueues to Kafka offline topic</text>
     <text x="24" y="186" class="card-body">  - Dispatches APNs / FCM push alert</text>
     <text x="24" y="206" class="card-body">  - Synced when client reconnects</text>
-    <rect x="16" y="254" width="208" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="208" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="120" y="269" class="badge" fill="#FDE68A" text-anchor="middle">Dual Delivery Paths</text>
   </g>
 
   <!-- Cassandra Storage -->
   <g transform="translate(835, 75)">
     <rect width="235" height="290" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="235" height="34" rx="10" ry="10" fill="#4C1D95"/>
+    <rect width="235" height="34" rx="10" ry="10" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
     <text x="117" y="22" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Cassandra History</text>
     <text x="16" y="58" class="card-body" font-weight="600" fill="#A78BFA">• Partition Data Model:</text>
     <text x="24" y="78" class="card-body">  - PRIMARY KEY ((chat_id), msg_id)</text>
@@ -101,7 +101,7 @@
     <text x="24" y="166" class="card-body">  - Handles millions of writes/sec</text>
     <text x="16" y="194" class="card-body" font-weight="600" fill="#A78BFA">• Chat History Paging:</text>
     <text x="24" y="214" class="card-body">  - Reverse sequential read</text>
-    <rect x="16" y="254" width="203" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="16" y="254" width="203" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="117" y="269" class="badge" fill="#DDD6FE" text-anchor="middle">Durable Wide-Column</text>
   </g>
 

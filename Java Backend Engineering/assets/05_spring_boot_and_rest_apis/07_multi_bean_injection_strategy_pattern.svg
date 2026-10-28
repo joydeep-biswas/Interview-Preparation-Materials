@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Multi-Bean Injection &amp; The Dynamic Strategy Pattern</text>
   <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Eliminating complex switch statements: Auto-wiring Map&lt;PaymentMethod, PaymentProcessor&gt; for O(1) runtime dispatch</text>
 <rect x="30" y="85" width="250" height="410" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
@@ -68,7 +68,7 @@
 <text x="455" y="452" fill="#CBD5E1" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Eliminates cyclomatic complexity</text>
 <rect x="630" y="85" width="380" height="410" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
 <text x="820" y="112" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. Concrete Strategy Implementations</text>
-<rect x="730" y="122" width="180" height="18" rx="9" fill="#047857"/><text x="820" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Polymorphic Strategy Beans</text>
+<rect x="730" y="122" width="180" height="18" rx="9" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="820" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Polymorphic Strategy Beans</text>
 <rect x="650" y="155" width="340" height="70" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
 <text x="665" y="178" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">CreditCardProcessor</text>
 <text x="665" y="198" fill="#FBBF24" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Key: PaymentMethod.CREDIT_CARD</text>

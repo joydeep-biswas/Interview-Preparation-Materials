@@ -6,65 +6,65 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
   </defs>
 
-  <rect width="1000" height="240" fill="#0B0F19"/>
+  <rect width="1000" height="240" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Col 1: Dev -->
   <g transform="translate(30, 45)">
-    <rect width="200" height="150" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="200" height="150" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="100" y="32" class="title" fill="#93C5FD">Developer Workspace</text>
-    <line x1="15" y1="44" x2="185" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="185" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="20" y="70" class="body-txt">• VS Code / PyCharm</text>
     <text x="20" y="92" class="body-txt">• databricks.yml config</text>
     <text x="20" y="114" class="body-txt">• Git branch isolation</text>
     <text x="20" y="136" class="body-txt">• Local unit testing</text>
   </g>
 
-  <path fill="none" d="M 230 120 L 275 120" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-
   <!-- Col 2: DABs -->
   <g transform="translate(275, 45)">
-    <rect width="210" height="150" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="210" height="150" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2" />
     <text x="105" y="32" class="title" fill="#FCD34D">1. Asset Bundles (DABs)</text>
-    <line x1="15" y1="44" x2="195" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="195" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="20" y="70" class="body-txt">• bundle validate</text>
     <text x="20" y="92" class="body-txt">• bundle deploy -t prod</text>
     <text x="20" y="114" class="body-txt">• CI/CD GitHub Actions</text>
     <text x="20" y="136" class="body-txt">• Declarative infra as code</text>
   </g>
 
-  <path fill="none" d="M 485 120 L 530 120" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
-
   <!-- Col 3: Lakeflow -->
   <g transform="translate(530, 45)">
-    <rect width="230" height="150" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <rect width="230" height="150" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="2" />
     <text x="115" y="32" class="title" fill="#A7F3D0">2. Databricks Lakeflow</text>
-    <line x1="15" y1="44" x2="215" y2="44" stroke="#047857" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="215" y2="44" stroke="#047857" stroke-width="1.5" />
     <text x="20" y="70" class="body-txt" fill="#A7F3D0">• Lakeflow Connect (CDC)</text>
     <text x="20" y="92" class="body-txt" fill="#A7F3D0">• Lakeflow Pipelines (DLT)</text>
     <text x="20" y="114" class="body-txt" fill="#A7F3D0">• Lakeflow Jobs Orchestration</text>
     <text x="20" y="136" class="body-txt" fill="#A7F3D0">• Serverless autoscaling</text>
   </g>
 
-  <path fill="none" d="M 760 120 L 805 120" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-
   <!-- Col 4: Unity Catalog -->
   <g transform="translate(805, 45)">
-    <rect width="165" height="150" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="165" height="150" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2" />
     <text x="82.5" y="32" class="title" fill="#C4B5FD">3. Unity Catalog</text>
-    <line x1="15" y1="44" x2="150" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="150" y2="44" stroke="#1F2937" stroke-width="1.5" />
     <text x="15" y="70" class="body-txt">• Governed data</text>
     <text x="15" y="92" class="body-txt">• Medallion schema</text>
     <text x="15" y="114" class="body-txt">• Lineage tracking</text>
     <text x="15" y="136" class="body-txt">• Centralized ACLs</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 230 120 L 275 120" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 485 120 L 530 120" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)" />
+
+  <path fill="none" d="M 760 120 L 805 120" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+
+  </g></svg>

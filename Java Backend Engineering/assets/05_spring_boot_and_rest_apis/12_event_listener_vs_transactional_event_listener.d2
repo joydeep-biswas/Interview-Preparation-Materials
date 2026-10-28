@@ -1,7 +1,18 @@
 direction: right
-title: Event Handling: @EventListener vs. @TransactionalEventListener
+title: "Event Handling: @EventListener vs. @TransactionalEventListener"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 service: "Order Placement Service" {
+  class: container
   style.fill: "#0b1329"
   style.stroke: "#3b82f6"
 
@@ -13,6 +24,7 @@ service: "Order Placement Service" {
 }
 
 bad: "@EventListener (Standard Synchronous)" {
+  class: container
   style.fill: "#1a1116"
   style.stroke: "#ef4444"
 
@@ -23,6 +35,7 @@ bad: "@EventListener (Standard Synchronous)" {
 }
 
 good: "@TransactionalEventListener(AFTER_COMMIT)" {
+  class: container
   style.fill: "#0c1d1a"
   style.stroke: "#10b981"
 

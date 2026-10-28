@@ -6,86 +6,91 @@
       .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
     </style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B0F19"/>
-      <stop offset="100%" stop-color="#111827"/>
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
     </linearGradient>
-    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
-    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981" />
     </marker>
-    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
-    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
-    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
-    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B" />
     </marker>
   </defs>
   <!-- Canvas Background -->
-  <rect width="1040" height="360" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <rect width="1040" height="360" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5" />
   <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Joins vs. Set Operators: Horizontal vs. Vertical Combination</text>
   <text x="35" y="54" font-size="11" fill="#94A3B8">Relational Joins expand schema width; Set Operators (UNION, INTERSECT, EXCEPT) stack row tuples vertically</text>
 
   <!-- Left: Joins (Horizontal) -->
   <g transform="translate(30, 80)">
-    <rect width="475" height="240" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="475" height="240" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2" />
     <text x="237" y="28" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">Relational Joins (Horizontal Expansion)</text>
 
-    <rect x="15" y="45" width="445" height="175" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
+    <rect x="15" y="45" width="445" height="187" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2" />
     <text x="237" y="68" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Combines Tables Side-by-Side (Widens Schema)</text>
 
     <!-- Schema Diagram -->
-    <rect x="35" y="88" width="130" height="30" fill="#1E293B" stroke="#3B82F6"/>
-    <text x="100" y="107" font-size="11" fill="#93C5FD" text-anchor="middle">Table A [A1, A2]</text>
+    <rect x="35" y="84" width="160" height="28" rx="4" fill="#1E293B" stroke="#3B82F6" />
+    <text x="115" y="102" font-size="11" fill="#93C5FD" text-anchor="middle">Table A [A1, A2]</text>
 
-    <text x="180" y="107" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">+</text>
+    <text x="210" y="102" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">+</text>
 
-    <rect x="200" y="88" width="130" height="30" fill="#1E293B" stroke="#10B981"/>
-    <text x="265" y="107" font-size="11" fill="#A7F3D0" text-anchor="middle">Table B [B1, B2]</text>
+    <rect x="225" y="84" width="160" height="28" rx="4" fill="#1E293B" stroke="#10B981" />
+    <text x="305" y="102" font-size="11" fill="#A7F3D0" text-anchor="middle">Table B [B1, B2]</text>
 
-    <path d="M 345 103 L 375 103" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+    <!-- Two smooth curved arrows entering Joined Output flush with 12px arrival runways -->
+    <path d="M 115 112 L 115 120 C 115 130, 160 126, 160 132 L 160 144" fill="none" stroke="#3B82F6" stroke-width="2" marker-end="url(#arr-b)" />
+    <path d="M 305 112 L 305 120 C 305 130, 260 126, 260 132 L 260 144" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
 
-    <rect x="35" y="130" width="375" height="30" rx="4" fill="#0F172A" stroke="#F59E0B"/>
-    <text x="222" y="150" font-size="11" font-weight="600" fill="#FDE68A" text-anchor="middle">Joined Output: [ A1, A2, B1, B2 ]</text>
+    <rect x="35" y="144" width="350" height="30" rx="4" fill="#0F172A" stroke="#F59E0B" />
+    <text x="210" y="163" font-size="11" font-weight="600" fill="#FDE68A" text-anchor="middle">Joined Output: [ A1, A2, B1, B2 ]</text>
 
-    <text x="35" y="180" font-size="11" fill="#94A3B8" text-anchor="start">• Matched on join key (e.g. A.id = B.id)</text>
-    <text x="35" y="198" font-size="11" fill="#94A3B8" text-anchor="start">• Number of columns increases (Schema widens)</text>
-    <text x="35" y="214" font-size="11" fill="#94A3B8" text-anchor="start">• Number of rows depends on join cardinality</text>
+    <text x="35" y="188" font-size="10.5" fill="#94A3B8" text-anchor="start">• Matched on join key (e.g. A.id = B.id)</text>
+    <text x="35" y="204" font-size="10.5" fill="#94A3B8" text-anchor="start">• Number of columns increases (Schema widens)</text>
+    <text x="35" y="220" font-size="10.5" fill="#94A3B8" text-anchor="start">• Number of rows depends on join cardinality</text>
   </g>
 
   <!-- Right: Set Operators (Vertical) -->
   <g transform="translate(535, 80)">
-    <rect width="475" height="240" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <rect width="475" height="240" rx="8" fill="#062828" stroke="#10B981" stroke-width="2" />
     <text x="237" y="28" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">Set Operators (Vertical Stacking)</text>
 
-    <rect x="15" y="45" width="445" height="175" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+    <rect x="15" y="45" width="445" height="187" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2" />
     <text x="237" y="68" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Stacks Rows Vertically (Height Increases)</text>
 
     <!-- Schema Diagram -->
-    <rect x="35" y="85" width="160" height="24" fill="#0F172A" stroke="#10B981"/>
-    <text x="115" y="101" font-size="10" fill="#A7F3D0" text-anchor="middle">Query 1 [Col1, Col2]</text>
+    <rect x="35" y="82" width="165" height="26" rx="4" fill="#0F172A" stroke="#10B981" />
+    <text x="117.5" y="99" font-size="10" fill="#A7F3D0" text-anchor="middle">Query 1 [Col1, Col2]</text>
 
-    <text x="115" y="122" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">UNION / UNION ALL</text>
+    <rect x="65" y="113" width="105" height="18" rx="3" fill="#1E293B" stroke="#10B981" stroke-width="0.8" />
+    <text x="117.5" y="126" font-size="9" font-weight="700" fill="#6EE7B7" text-anchor="middle">UNION / UNION ALL</text>
 
-    <rect x="35" y="128" width="160" height="24" fill="#0F172A" stroke="#10B981"/>
-    <text x="115" y="144" font-size="10" fill="#A7F3D0" text-anchor="middle">Query 2 [Col1, Col2]</text>
+    <rect x="35" y="136" width="165" height="26" rx="4" fill="#0F172A" stroke="#10B981" />
+    <text x="117.5" y="153" font-size="10" fill="#A7F3D0" text-anchor="middle">Query 2 [Col1, Col2]</text>
 
-    <path d="M 205 118 L 235 118" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+    <!-- Two smooth parallel curved arrows combining into Combined Rowset with 16px arrival runways -->
+    <path d="M 200 95 L 214 95 C 232 95, 238 106, 254 106 L 270 106" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
+    <path d="M 200 149 L 214 149 C 232 149, 238 138, 254 138 L 270 138" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
 
-    <rect x="245" y="85" width="180" height="67" rx="4" fill="#0F172A" stroke="#10B981"/>
-    <text x="335" y="108" font-size="10" font-weight="600" fill="#6EE7B7" text-anchor="middle">Combined Rowset</text>
-    <text x="335" y="124" font-size="10" fill="#FFFFFF" text-anchor="middle">[ Col1, Col2 ]</text>
-    <text x="335" y="140" font-size="9" fill="#94A3B8" text-anchor="middle">(Row count increases)</text>
+    <rect x="270" y="82" width="165" height="80" rx="4" fill="#0F172A" stroke="#10B981" stroke-width="1.2" />
+    <text x="352.5" y="104" font-size="11" font-weight="600" fill="#6EE7B7" text-anchor="middle">Combined Rowset</text>
+    <text x="352.5" y="124" font-size="10.5" fill="#FFFFFF" text-anchor="middle">[ Col1, Col2 ]</text>
+    <text x="352.5" y="144" font-size="9.5" fill="#94A3B8" text-anchor="middle">(Row count increases)</text>
 
-    <text x="35" y="180" font-size="11" fill="#A7F3D0" text-anchor="start">• Requires IDENTICAL column count and data types</text>
-    <text x="35" y="198" font-size="11" fill="#A7F3D0" text-anchor="start">• UNION removes duplicates (Sort/Hash O(N log N))</text>
-    <text x="35" y="214" font-size="11" fill="#6EE7B7" font-weight="600" text-anchor="start">• UNION ALL retains all rows (O(1) stream pass)</text>
+    <text x="35" y="188" font-size="10.5" fill="#A7F3D0" text-anchor="start">• Requires IDENTICAL column count and data types</text>
+    <text x="35" y="204" font-size="10.5" fill="#A7F3D0" text-anchor="start">• UNION removes duplicates (Sort/Hash O(N log N))</text>
+    <text x="35" y="220" font-size="10.5" fill="#6EE7B7" font-weight="600" text-anchor="start">• UNION ALL retains all rows (O(1) stream pass)</text>
   </g>
 </svg>

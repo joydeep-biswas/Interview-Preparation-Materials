@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to real-world interview scenarios and en
 
 ![High-Concurrency Async ASGI Runtime for AI Services](assets/13_python_backend_and_api_development_faq/01_high_concurrency_async_asgi_runtime_topology.svg)
 
-*D2 Source:* [assets/13_python_backend_and_api_development_faq/01_high_concurrency_async_asgi_runtime_topology.d2](assets/13_python_backend_and_api_development_faq/01_high_concurrency_async_asgi_runtime_topology.d2)
+*D2 Source: [`01_high_concurrency_async_asgi_runtime_topology.d2`](assets/13_python_backend_and_api_development_faq/01_high_concurrency_async_asgi_runtime_topology.d2)*
 
 ---
 

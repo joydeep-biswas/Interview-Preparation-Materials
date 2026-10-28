@@ -43,7 +43,7 @@
 
   <!-- Left Side: Map Decisions Container -->
   <rect x="40" y="175" width="560" height="380" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
-  <rect x="40" y="175" width="560" height="30" rx="8" fill="#78350F"/>
+  <rect x="40" y="175" width="560" height="30" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
   <text x="320" y="195" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Key-Value Association Branch: Map&lt;K, V&gt;</text>
 
   <!-- Concurrent Map -->
@@ -76,7 +76,7 @@
 
   <!-- Right Side: Collection Decisions Container -->
   <rect x="640" y="175" width="580" height="380" rx="8" fill="#0B132B" stroke="#1D4ED8" stroke-width="1.5"/>
-  <rect x="640" y="175" width="580" height="30" rx="8" fill="#1E3A8A"/>
+  <rect x="640" y="175" width="580" height="30" rx="8" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
   <text x="930" y="195" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Individual Elements Branch: Collection&lt;E&gt;</text>
 
   <!-- Set Choices -->

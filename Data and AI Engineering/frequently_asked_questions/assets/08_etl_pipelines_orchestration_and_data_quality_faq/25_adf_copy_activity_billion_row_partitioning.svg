@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+      .sub-title { fill: #CBD5E1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Source SQL DB -->
+  <g transform="translate(25, 140)">
+    <rect width="200" height="110" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="100" y="24" class="title" fill="#93C5FD">Source SQL Database</text>
+    <text x="14" y="48" class="body-txt">• 1 Billion Rows / 500 GB</text>
+    <text x="14" y="68" class="body-txt">• Indexed PK: transaction_id</text>
+    <text x="14" y="88" class="body-txt">• Query: Select Min, Max ID</text>
+  </g>
+
+  <!-- Connect Source to Dynamic Partitioning Engine -->
+  <path d="M 225 195 L 260 195" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <rect x="228" y="180" width="28" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="242" y="192" class="edge-label" fill="#93C5FD">IDs</text>
+
+  <!-- Dynamic Partitioning Engine -->
+  <g transform="translate(260, 140)">
+    <rect width="210" height="110" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="105" y="24" class="title" fill="#FDE68A">ADF Partition Engine</text>
+    <text x="14" y="48" class="body-txt">• Dynamic Range Splitting</text>
+    <text x="14" y="68" class="body-txt">• Degree of Copy: 32</text>
+    <text x="14" y="88" class="body-txt">• Generates Non-overlapping Slices</text>
+  </g>
+
+  <!-- Container: Serverless IR Threads -->
+  <g transform="translate(510, 25)">
+    <rect width="230" height="345" rx="8" fill="#0D1526" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <text x="115" y="22" class="sub-title">Azure-IR (64 DIUs, 32 Threads)</text>
+    
+    <!-- Thread 1 -->
+    <g transform="translate(15, 35)">
+      <rect width="200" height="65" rx="6" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+      <text x="100" y="22" class="title" fill="#C4B5FD">Thread 1: IDs 1 – 250M</text>
+      <text x="12" y="44" class="body-txt">SELECT * WHERE ID &lt; 250M</text>
+    </g>
+
+    <!-- Thread 2 -->
+    <g transform="translate(15, 110)">
+      <rect width="200" height="65" rx="6" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+      <text x="100" y="22" class="title" fill="#C4B5FD">Thread 2: IDs 250M – 500M</text>
+      <text x="12" y="44" class="body-txt">SELECT * WHERE ID &gt;= 250M...</text>
+    </g>
+
+    <!-- Thread 3 -->
+    <g transform="translate(15, 185)">
+      <rect width="200" height="65" rx="6" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+      <text x="100" y="22" class="title" fill="#C4B5FD">Thread 3: IDs 500M – 750M</text>
+      <text x="12" y="44" class="body-txt">SELECT * WHERE ID &gt;= 500M...</text>
+    </g>
+
+    <!-- Thread 4 -->
+    <g transform="translate(15, 260)">
+      <rect width="200" height="65" rx="6" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+      <text x="100" y="22" class="title" fill="#C4B5FD">Thread 4: IDs 750M – 1B</text>
+      <text x="12" y="44" class="body-txt">SELECT * WHERE ID &gt;= 750M...</text>
+    </g>
+  </g>
+
+  <!-- Connect Partition Engine to Threads -->
+  <!-- Curve to T1 -->
+  <path d="M 470 170 L 485 170 Q 498 170 498 90 L 515 90 L 525 90" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+  <!-- Curve to T2 -->
+  <path d="M 470 185 L 495 185 Q 505 185 505 165 L 515 165 L 525 165" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+  <!-- Curve to T3 -->
+  <path d="M 470 205 L 495 205 Q 505 205 505 235 L 515 235 L 525 235" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+  <!-- Curve to T4 -->
+  <path d="M 470 220 L 485 220 Q 498 220 498 310 L 515 310 L 525 310" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+
+  <!-- Sink Lakehouse -->
+  <g transform="translate(790, 140)">
+    <rect width="205" height="110" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="102" y="24" class="title" fill="#A7F3D0">ADLS Gen2 Lakehouse</text>
+    <text x="14" y="48" class="body-txt">• Snappy Parquet Partitions</text>
+    <text x="14" y="68" class="body-txt">• Concurrent Append Streams</text>
+    <text x="14" y="88" class="body-txt">• 32x Total Ingestion Speedup</text>
+  </g>
+
+  <!-- Connect Threads to Sink -->
+  <!-- From T1 -->
+  <path d="M 725 90 L 750 90 Q 765 90 765 170 L 778 170 L 790 170" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <!-- From T2 -->
+  <path d="M 725 165 L 755 165 Q 768 165 768 185 L 778 185 L 790 185" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <!-- From T3 -->
+  <path d="M 725 235 L 755 235 Q 768 235 768 205 L 778 205 L 790 205" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <!-- From T4 -->
+  <path d="M 725 310 L 750 310 Q 765 310 765 220 L 778 220 L 790 220" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+</svg>

@@ -1,28 +1,41 @@
 direction: right
-title: Spark DAG Stage Boundary & Shuffle Exchange
-
-Stage1: Stage 1: Narrow Dependencies (Pipelined) {
-  style.stroke: "#38BDF8"
-  T1: Task 1: Scan -> Filter -> Map (Whole-Stage CodeGen)
-  T2: Task 2: Scan -> Filter -> Map (Whole-Stage CodeGen)
+title: "Spark DAG Stage Boundary & Shuffle Exchange"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-Shuffle: Wide Dependency Shuffle Exchange {
+Stage1: "Stage 1: Narrow Dependencies (Pipelined)" {
+  class: container
+  style.stroke: "#38BDF8"
+  T1: "Task 1: Scan -> Filter -> Map (Whole-Stage CodeGen)"
+  T2: "Task 2: Scan -> Filter -> Map (Whole-Stage CodeGen)"
+}
+
+Shuffle: "Wide Dependency Shuffle Exchange" {
+  class: container
   style.stroke: "#FBBF24"
-  Write: 1. Shuffle Write (Local Disk Spill)
-  Net: 2. All-to-All Network Transfer
-  Read: 3. Shuffle Read (Buffer Pull)
+  Write: "1. Shuffle Write (Local Disk Spill)"
+  Net: "2. All-to-All Network Transfer"
+  Read: "3. Shuffle Read (Buffer Pull)"
 
   Write -> Net -> Read
 }
 
-Stage2: Stage 2: Wide Aggregations {
+Stage2: "Stage 2: Wide Aggregations" {
+  class: container
   style.stroke: "#34D399"
-  R1: Hash Reducer 1 (EMEA Aggregation)
-  R2: Hash Reducer 2 (APAC Aggregation)
+  R1: "Hash Reducer 1 (EMEA Aggregation)"
+  R2: "Hash Reducer 2 (APAC Aggregation)"
 }
 
-Stage1.T1 -> Shuffle.Write: Hash Partitioning { style.stroke: "#FBBF24" }
-Stage1.T2 -> Shuffle.Write: Hash Partitioning { style.stroke: "#FBBF24" }
-Shuffle.Read -> Stage2.R1: Pulls Hash % 2 = 0 { style.stroke: "#34D399" }
-Shuffle.Read -> Stage2.R2: Pulls Hash % 2 = 1 { style.stroke: "#34D399" }
+Stage1.T1 -> Shuffle.Write: "Hash Partitioning" { style.stroke: "#FBBF24" }
+Stage1.T2 -> Shuffle.Write: "Hash Partitioning" { style.stroke: "#FBBF24" }
+Shuffle.Read -> Stage2.R1: "Pulls Hash % 2 = 0" { style.stroke: "#34D399" }
+Shuffle.Read -> Stage2.R2: "Pulls Hash % 2 = 1" { style.stroke: "#34D399" }

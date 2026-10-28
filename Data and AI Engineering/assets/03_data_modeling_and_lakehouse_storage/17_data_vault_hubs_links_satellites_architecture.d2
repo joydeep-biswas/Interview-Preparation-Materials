@@ -1,44 +1,63 @@
 direction: right
-title: Data Vault 2.0: Hubs, Links, and Satellites
+title: "Data Vault 2.0: Hubs, Links, and Satellites"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-hubs: Core Hubs {
-  hub_customer: HUB_CUSTOMER {
+hubs: "Core Hubs" {
+  class: table_box
+  hub_customer: "HUB_CUSTOMER" {
+    class: table_box
     shape: sql_table
-    customer_hk: char32 [pk]
-    customer_id: varchar [business key]
+    customer_hk: "char32 [pk]"
+    customer_id: "varchar [business key]"
   }
-  hub_order: HUB_ORDER {
+  hub_order: "HUB_ORDER" {
+    class: table_box
     shape: sql_table
-    order_hk: char32 [pk]
-    order_id: varchar [business key]
+    order_hk: "char32 [pk]"
+    order_id: "varchar [business key]"
   }
 }
 
-links: Unit of Work Links {
-  link_customer_order: LINK_CUSTOMER_ORDER {
+links: "Unit of Work Links" {
+  class: table_box
+  link_customer_order: "LINK_CUSTOMER_ORDER" {
+    class: table_box
     shape: sql_table
-    link_hk: char32 [pk]
-    customer_hk: char32 [fk]
-    order_hk: char32 [fk]
+    link_hk: "char32 [pk]"
+    customer_hk: "char32 [fk]"
+    order_hk: "char32 [fk]"
   }
 }
 
-sats: Context Satellites {
-  sat_customer: SAT_CUSTOMER {
+sats: "Context Satellites" {
+  class: table_box
+  sat_customer: "SAT_CUSTOMER" {
+    class: table_box
     shape: sql_table
-    customer_hk: char32 [pk, fk]
-    load_date: timestamp [pk]
-    name: varchar
+    customer_hk: "char32 [pk, fk]"
+    load_date: "timestamp [pk]"
+    name: "varchar"
   }
-  sat_link: SAT_LINK_FULFILLMENT {
+  sat_link: "SAT_LINK_FULFILLMENT" {
+    class: table_box
     shape: sql_table
-    link_hk: char32 [pk, fk]
-    load_date: timestamp [pk]
+    link_hk: "char32 [pk, fk]"
+    load_date: "timestamp [pk]"
   }
-  sat_order: SAT_ORDER_DETAILS {
+  sat_order: "SAT_ORDER_DETAILS" {
+    class: table_box
     shape: sql_table
-    order_hk: char32 [pk, fk]
-    load_date: timestamp [pk]
+    order_hk: "char32 [pk, fk]"
+    load_date: "timestamp [pk]"
   }
 }
 

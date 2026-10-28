@@ -1,21 +1,33 @@
 direction: right
-title: Deadlock Mechanics & The Four Coffman Conditions
-
-DeadlockGraph: Circular Wait Cycle {
-  style.fill: "#1C1917"
-  style.stroke: "#EF4444"
-  T1: Thread 1
-  L1: Lock A
-  T2: Thread 2
-  L2: Lock B
-  
-  T1 -> L1: Holds Lock A
-  T1 -> L2: Waiting for Lock B
-  T2 -> L2: Holds Lock B
-  T2 -> L1: Waiting for Lock A
+title: "Deadlock Mechanics & The Four Coffman Conditions"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-CoffmanConditions: 4 Necessary Coffman Conditions {
+DeadlockGraph: "Circular Wait Cycle" {
+  class: container
+  style.fill: "#1C1917"
+  style.stroke: "#EF4444"
+  T1: "Thread 1"
+  L1: "Lock A"
+  T2: "Thread 2"
+  L2: "Lock B"
+  
+  T1 -> L1: "Holds Lock A"
+  T1 -> L2: "Waiting for Lock B"
+  T2 -> L2: "Holds Lock B"
+  T2 -> L1: "Waiting for Lock A"
+}
+
+CoffmanConditions: "4 Necessary Coffman Conditions" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   c1: "1. Mutual Exclusion (Non-shareable locks)"
@@ -25,4 +37,4 @@ CoffmanConditions: 4 Necessary Coffman Conditions {
   fix: "Universal Fix: Enforce Global Lock Ordering to break Circular Wait"
 }
 
-DeadlockGraph -> CoffmanConditions: Requires all 4 conditions
+DeadlockGraph -> CoffmanConditions: "Requires all 4 conditions"

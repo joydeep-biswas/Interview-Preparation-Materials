@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 350" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Node 1: Ingestion -->
+  <g transform="translate(25, 110)">
+    <rect width="210" height="130" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="105" y="24" class="title" fill="#93C5FD">Daily Ingestion Batches</text>
+    <text x="14" y="48" class="body-txt">• Millions of transactional rows</text>
+    <text x="14" y="68" class="body-txt">• POS, Mobile &amp; Online orders</text>
+    <text x="14" y="88" class="body-txt">• Micro-batch / daily ETL</text>
+    <text x="14" y="108" class="body-txt">• Appends to Medallion Gold</text>
+  </g>
+
+  <!-- Connect 1 to 2 -->
+  <path d="M 235 175 L 265 175" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- Node 2: Hot Tier -->
+  <g transform="translate(265, 110)">
+    <rect width="225" height="130" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="112" y="24" class="title" fill="#FDE68A">Hot Lakehouse Tier</text>
+    <text x="14" y="48" class="body-txt">• Retention: 0 – 24 Months</text>
+    <text x="14" y="68" class="body-txt">• ADLS Gen2 Hot / S3 Standard</text>
+    <text x="14" y="88" class="body-txt">• Liquid Clustered &amp; Z-Ordered</text>
+    <text x="14" y="108" class="body-txt">• Sub-second query latency</text>
+  </g>
+
+  <!-- Connect 2 to 3 -->
+  <path d="M 490 175 L 525 175" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+  <rect x="492" y="145" width="32" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="508" y="157" class="edge-label" fill="#06B6D4">&gt; 24m</text>
+
+  <!-- Node 3: Cool Tier -->
+  <g transform="translate(525, 110)">
+    <rect width="225" height="130" rx="8" fill="#0C4A6E" stroke="#06B6D4" stroke-width="2"/>
+    <text x="112" y="24" class="title" fill="#67E8F9">Cool / IA Storage Tier</text>
+    <text x="14" y="48" class="body-txt">• Retention: 24 – 36 Months</text>
+    <text x="14" y="68" class="body-txt">• Storage Cost: -50% reduction</text>
+    <text x="14" y="88" class="body-txt">• Direct query access retained</text>
+    <text x="14" y="108" class="body-txt">• Higher per-GB read charges</text>
+  </g>
+
+  <!-- Connect 3 to 4 -->
+  <path d="M 750 175 L 785 175" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <rect x="752" y="145" width="32" height="16" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="768" y="157" class="edge-label" fill="#8B5CF6">&gt; 36m</text>
+
+  <!-- Node 4: Archive Tier -->
+  <g transform="translate(785, 110)">
+    <rect width="210" height="130" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="105" y="24" class="title" fill="#C4B5FD">Archive / Deep Glacier</text>
+    <text x="14" y="48" class="body-txt">• Retention: 36 – 120 Months</text>
+    <text x="14" y="68" class="body-txt">• Storage Cost: -90% reduction</text>
+    <text x="14" y="88" class="body-txt">• 5–12 Hour Rehydration</text>
+    <text x="14" y="108" class="body-txt">• Isolated compliance table</text>
+  </g>
+</svg>

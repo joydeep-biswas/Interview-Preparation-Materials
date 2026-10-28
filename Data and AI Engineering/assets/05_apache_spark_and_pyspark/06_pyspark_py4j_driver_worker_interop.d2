@@ -1,21 +1,33 @@
 direction: right
-title: PySpark Runtime Architecture & Py4J Interop
+title: "PySpark Runtime Architecture & Py4J Interop"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-DriverSide: Driver Layer (Py4J Gateway) {
+DriverSide: "Driver Layer (Py4J Gateway)" {
+  class: container
   style.stroke: "#38BDF8"
-  PyDriver: Python Driver Script (DataFrame API calls)
-  Py4J: Py4J Gateway (Localhost Socket 25333)
-  JVMDriver: JVM Spark Driver (Catalyst & DAGScheduler)
+  PyDriver: "Python Driver Script (DataFrame API calls)"
+  Py4J: "Py4J Gateway (Localhost Socket 25333)"
+  JVMDriver: "JVM Spark Driver (Catalyst & DAGScheduler)"
 
-  PyDriver -> Py4J: Method Invocations
-  Py4J -> JVMDriver: Compiles Execution Plan
+  PyDriver -> Py4J: "Method Invocations"
+  Py4J -> JVMDriver: "Compiles Execution Plan"
 }
 
-WorkerSide: Worker Execution Mechanics {
+WorkerSide: "Worker Execution Mechanics" {
+  class: container
   style.stroke: "#34D399"
-  NativeDF: Path A: Native DataFrame Operations (100% JVM Tungsten)
-  CustomUDF: Path B: Python UDF (IPC Socket + Python Worker Daemon)
+  NativeDF: "Path A: Native DataFrame Operations (100% JVM Tungsten)"
+  CustomUDF: "Path B: Python UDF (IPC Socket + Python Worker Daemon)"
 }
 
-DriverSide.JVMDriver -> WorkerSide.NativeDF: Dispatches Whole-Stage CodeGen Tasks { style.stroke: "#34D399" }
-DriverSide.JVMDriver -> WorkerSide.CustomUDF: Dispatches Tasks Requiring Python Daemon { style.stroke: "#EF4444" }
+DriverSide.JVMDriver -> WorkerSide.NativeDF: "Dispatches Whole-Stage CodeGen Tasks" { style.stroke: "#34D399" }
+DriverSide.JVMDriver -> WorkerSide.CustomUDF: "Dispatches Tasks Requiring Python Daemon" { style.stroke: "#EF4444" }

@@ -6,112 +6,112 @@
       .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
     </style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B0F19"/>
-      <stop offset="100%" stop-color="#111827"/>
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
     </linearGradient>
     <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981" />
     </marker>
     <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
     <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
     <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B" />
     </marker>
   </defs>
   <!-- Canvas Background -->
-  <rect width="1200" height="530" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <rect width="1200" height="530" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5" />
   <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Distributed Join Comparison &amp; Selection Decision Tree</text>
   <text x="35" y="54" font-size="11" fill="#94A3B8">Cost-Based Optimizer algorithm selection logic: BHJ vs. SMJ vs. Skewed Salting vs. Shuffle Hash Join</text>
 
   <!-- Root Decision 1: Broadcast Check (Center: 320, 130) -->
   <g transform="translate(150, 90)">
-    <polygon points="170,0 340,40 170,80 0,40" fill="#1C2541" stroke="#3B82F6" stroke-width="2"/>
+    <polygon points="170,0 340,40 170,80 0,40" fill="#1C2541" stroke="#3B82F6" stroke-width="2" />
     <text x="170" y="36" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">Is one table &lt; Broadcast Threshold?</text>
     <text x="170" y="52" font-size="10" fill="#93C5FD" text-anchor="middle">(&lt; 10 MB or AUTO broadcast enabled)</text>
   </g>
 
   <!-- Decision 1 YES -> BHJ (Straight Horizontal Line at y=130) -->
-  <path d="M 490 130 L 780 130" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
-  <rect x="615" y="117" width="50" height="22" rx="4" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
-  <text x="640" y="132" font-size="10" fill="#A7F3D0" font-weight="700" text-anchor="middle">YES</text>
-
   <!-- Terminal 1: BHJ Card (y=90..170, Center y=130) -->
   <g transform="translate(785, 90)">
-    <rect width="380" height="80" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <rect width="380" height="80" rx="8" fill="#062828" stroke="#10B981" stroke-width="2" />
     <text x="190" y="24" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">Broadcast Hash Join (BHJ)</text>
     <text x="20" y="46" font-size="11" fill="#A7F3D0" text-anchor="start">✓ Highest Performance: Zero shuffle of large fact table</text>
     <text x="20" y="64" font-size="11" fill="#A7F3D0" text-anchor="start">• In-memory hash table replicated to all workers</text>
   </g>
 
   <!-- Decision 1 NO -> Decision 2 (Straight Vertical Line at x=320) -->
-  <path d="M 320 170 L 320 210" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
-  <rect x="325" y="178" width="42" height="20" rx="4" fill="#4C0505" stroke="#EF4444" stroke-width="1.2"/>
-  <text x="346" y="192" font-size="10" fill="#FCA5A5" font-weight="700" text-anchor="middle">NO</text>
-
   <!-- Decision 2: Pre-Sorted Check (Center: 320, 250) -->
   <g transform="translate(150, 210)">
-    <polygon points="170,0 340,40 170,80 0,40" fill="#451A03" stroke="#F59E0B" stroke-width="2"/>
+    <polygon points="170,0 340,40 170,80 0,40" fill="#451A03" stroke="#F59E0B" stroke-width="2" />
     <text x="170" y="36" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">Are both inputs pre-sorted &amp; clustered?</text>
     <text x="170" y="52" font-size="10" fill="#FDE68A" text-anchor="middle">(Clustered index or pre-partitioned bucketed)</text>
   </g>
 
   <!-- Decision 2 YES -> SMJ (Straight Horizontal Line at y=250) -->
-  <path d="M 490 250 L 780 250" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
-  <rect x="615" y="237" width="50" height="22" rx="4" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
-  <text x="640" y="252" font-size="10" fill="#A7F3D0" font-weight="700" text-anchor="middle">YES</text>
-
   <!-- Terminal 2: SMJ Card (y=210..290, Center y=250) -->
   <g transform="translate(785, 210)">
-    <rect width="380" height="80" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="380" height="80" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2" />
     <text x="190" y="24" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">Sort-Merge Join (SMJ)</text>
     <text x="20" y="46" font-size="11" fill="#93C5FD" text-anchor="start">✓ Highly Scalable: Linear two-pointer merge pass</text>
     <text x="20" y="64" font-size="11" fill="#93C5FD" text-anchor="start">• Bypasses sort step; stream merges in O(N+M) time</text>
   </g>
 
   <!-- Decision 2 NO -> Decision 3 (Straight Vertical Line at x=320) -->
-  <path d="M 320 290 L 320 330" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
-  <rect x="325" y="298" width="42" height="20" rx="4" fill="#4C0505" stroke="#EF4444" stroke-width="1.2"/>
-  <text x="346" y="312" font-size="10" fill="#FCA5A5" font-weight="700" text-anchor="middle">NO</text>
-
   <!-- Decision 3: Extreme Skew Check (Center: 320, 370) -->
   <g transform="translate(150, 330)">
-    <polygon points="170,0 340,40 170,80 0,40" fill="#2E1065" stroke="#8B5CF6" stroke-width="2"/>
+    <polygon points="170,0 340,40 170,80 0,40" fill="#2E1065" stroke="#8B5CF6" stroke-width="2" />
     <text x="170" y="36" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">Is extreme key skew detected?</text>
     <text x="170" y="52" font-size="10" fill="#DDD6FE" text-anchor="middle">(Single hot key holds &gt; 50% row volume)</text>
   </g>
 
   <!-- Decision 3 YES -> Skew Salting (PERFECT STRAIGHT HORIZONTAL LINE at y=370) -->
-  <path d="M 490 370 L 780 370" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
-  <rect x="615" y="357" width="50" height="22" rx="4" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
-  <text x="640" y="372" font-size="10" fill="#A7F3D0" font-weight="700" text-anchor="middle">YES</text>
-
   <!-- Terminal 3: Salting Card (y=330..410, Center y=370) -->
   <g transform="translate(785, 330)">
-    <rect width="380" height="80" rx="8" fill="#2E1065" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="380" height="80" rx="8" fill="#2E1065" stroke="#8B5CF6" stroke-width="2" />
     <text x="190" y="24" font-size="13" font-weight="700" fill="#DDD6FE" text-anchor="middle">Skewed Salting Join</text>
     <text x="20" y="46" font-size="11" fill="#C4B5FD" text-anchor="start">✓ Prevents Straggler Core OOM Crashes</text>
     <text x="20" y="64" font-size="10" fill="#C4B5FD" text-anchor="start">• Splits hot key with salt 1..K; replicates small table K times</text>
   </g>
 
   <!-- Decision 3 NO -> SHJ (Clean Orthogonal Path: Down to 470, then Right to 780) -->
-  <path d="M 320 410 L 320 470 L 780 470" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)"/>
-  <rect x="325" y="420" width="42" height="20" rx="4" fill="#4C0505" stroke="#EF4444" stroke-width="1.2"/>
-  <text x="346" y="434" font-size="10" fill="#FCA5A5" font-weight="700" text-anchor="middle">NO</text>
-
   <!-- Terminal 4: Shuffle Hash Join (y=435..505, Center y=470) -->
   <g transform="translate(785, 435)">
-    <rect width="380" height="70" rx="8" fill="#1C2541" stroke="#F59E0B" stroke-width="2"/>
+    <rect width="380" height="70" rx="8" fill="#1C2541" stroke="#F59E0B" stroke-width="2" />
     <text x="190" y="24" font-size="13" font-weight="700" fill="#FDE68A" text-anchor="middle">Shuffle Hash Join (SHJ)</text>
     <text x="20" y="46" font-size="11" fill="#FDE68A" text-anchor="start">• Standard distributed hash join; builds in-memory HT per partition</text>
   </g>
-</svg>
+<g id="connectors"><path d="M 490 130 L 780 130" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
+  <rect x="615" y="117" width="50" height="22" rx="4" fill="#064E3B" stroke="#10B981" stroke-width="1.2" />
+  <text x="640" y="132" font-size="10" fill="#A7F3D0" font-weight="700" text-anchor="middle">YES</text>
+
+  <path d="M 320 170 L 320 210" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)" />
+  <rect x="325" y="178" width="42" height="20" rx="4" fill="#4C0505" stroke="#EF4444" stroke-width="1.2" />
+  <text x="346" y="192" font-size="10" fill="#FCA5A5" font-weight="700" text-anchor="middle">NO</text>
+
+  <path d="M 490 250 L 780 250" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
+  <rect x="615" y="237" width="50" height="22" rx="4" fill="#064E3B" stroke="#10B981" stroke-width="1.2" />
+  <text x="640" y="252" font-size="10" fill="#A7F3D0" font-weight="700" text-anchor="middle">YES</text>
+
+  <path d="M 320 290 L 320 330" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)" />
+  <rect x="325" y="298" width="42" height="20" rx="4" fill="#4C0505" stroke="#EF4444" stroke-width="1.2" />
+  <text x="346" y="312" font-size="10" fill="#FCA5A5" font-weight="700" text-anchor="middle">NO</text>
+
+  <path d="M 490 370 L 780 370" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
+  <rect x="615" y="357" width="50" height="22" rx="4" fill="#064E3B" stroke="#10B981" stroke-width="1.2" />
+  <text x="640" y="372" font-size="10" fill="#A7F3D0" font-weight="700" text-anchor="middle">YES</text>
+
+  <path d="M 320 410 L 320 470 L 780 470" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arr-r)" />
+  <rect x="325" y="420" width="42" height="20" rx="4" fill="#4C0505" stroke="#EF4444" stroke-width="1.2" />
+  <text x="346" y="434" font-size="10" fill="#FCA5A5" font-weight="700" text-anchor="middle">NO</text>
+
+  </g></svg>

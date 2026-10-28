@@ -1,36 +1,47 @@
 direction: right
+title: "Repartition vs Coalesce Mechanics"
 classes: {
-  box_amber: { style: { fill: "#111827"; stroke: "#F59E0B"; stroke-width: 2; rx: 10 } }
-  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-repart: "repartition(2) from 4: Full Network Shuffle" {
-  class: box_amber
-  p1: "Part 1"
-  p2: "Part 2"
-  p3: "Part 3"
-  p4: "Part 4"
-  shuff: "Full Network Shuffle (Hash Partitioned)"
-  np1: "New Part 1"
-  np2: "New Part 2"
-  p1 -> shuff
-  p2 -> shuff
-  p3 -> shuff
-  p4 -> shuff
-  shuff -> np1
-  shuff -> np2
+Coalesce: "coalesce(2) (Zero Network Shuffle)" {
+  class: container
+  style.stroke: "#34D399"
+  P1: "Node 1 Part 1"
+  P2: "Node 1 Part 2"
+  P3: "Node 2 Part 3"
+  P4: "Node 2 Part 4"
+  MergedA: "Merged Part A (Local)"
+  MergedB: "Merged Part B (Local)"
+
+  P1 -> MergedA
+  P2 -> MergedA
+  P3 -> MergedB
+  P4 -> MergedB
 }
 
-coal: "coalesce(2) from 4: Local Narrow Merge" {
-  class: box_green
-  cp1: "Part 1"
-  cp2: "Part 2"
-  cp3: "Part 3"
-  cp4: "Part 4"
-  cnp1: "New Part 1 (Merged Locally)"
-  cnp2: "New Part 2 (Merged Locally)"
-  cp1 -> cnp1
-  cp2 -> cnp1
-  cp3 -> cnp2
-  cp4 -> cnp2
+Repartition: "repartition(2) (Full Network Shuffle)" {
+  class: container
+  style.stroke: "#FBBF24"
+  RP1: "Part 1"
+  RP2: "Part 2"
+  RP3: "Part 3"
+  RP4: "Part 4"
+  Shuffle: "Cluster Network Shuffle (Round-Robin / Hash)"
+  EvenA: "Even Part A"
+  EvenB: "Even Part B"
+
+  RP1 -> Shuffle
+  RP2 -> Shuffle
+  RP3 -> Shuffle
+  RP4 -> Shuffle
+  Shuffle -> EvenA
+  Shuffle -> EvenB
 }

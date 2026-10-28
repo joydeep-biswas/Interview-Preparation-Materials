@@ -1,0 +1,20 @@
+direction: right
+classes: {
+  query_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  cbo_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  photon_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+  fallback_node: { style: { fill: "#7F1D1D"; stroke: "#EF4444"; stroke-width: 2; border-radius: 8 } }
+  out_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+}
+
+Query: "Spark SQL Query / DataFrame\nAggregations, Hash Joins, Scans" { class: query_node }
+PlanRouter: "Catalyst Engine Plan Check\nOperator Qualification\nVectorized Expression Check" { class: cbo_node }
+PhotonNative: "Photon Native C++ Engine\n1024-tuple SIMD batches\nDirect memory execution (No JVM)" { class: photon_node }
+JVMFallback: "Classic JVM Execution\nTungsten bytecode generation\nUsed for Python UDFs & RDDs" { class: fallback_node }
+UnifiedResult: "High-Throughput Output\nPipelined Execution Stream" { class: out_node }
+
+Query -> PlanRouter
+PlanRouter -> PhotonNative: "Native SQL, Filter, Agg, Join"
+PlanRouter -> JVMFallback: "Python UDF, RDD, Non-Vectorized"
+PhotonNative -> UnifiedResult
+JVMFallback -> UnifiedResult

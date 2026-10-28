@@ -1,24 +1,39 @@
 direction: right
-title: PostgreSQL MVCC Internals: In-Heap Tuple Versioning
+title: "PostgreSQL MVCC Internals: In-Heap Tuple Versioning"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-pg_mvcc: PostgreSQL In-Heap Tuple Versioning (ctid Tracking) {
-  v1: Tuple Version 1 (ctid: 1, 1) {
+pg_mvcc: "PostgreSQL In-Heap Tuple Versioning (ctid Tracking)" {
+  class: container
+  v1: "Tuple Version 1 (ctid: 1, 1)" {
+    class: box
     xmin: "100"
     xmax: "105"
-    data: "Name: 'Alice', Balance: $500"
+    data: "Name: 'Alice'; Balance: \$500"
     style.stroke: "#ef4444"
   }
-  v2: Tuple Version 2 (ctid: 1, 2) {
+  v2: "Tuple Version 2 (ctid: 1, 2)" {
+    class: box
     xmin: "105"
     xmax: "0 (Active)"
-    data: "Name: 'Alice', Balance: $400"
+    data: "Name: 'Alice'; Balance: \$400"
     style.stroke: "#10b981"
   }
   v1 -> v2: "Updated by Tx 105 (ctid pointer)"
 }
 
-snapshot: Transaction Snapshot Visibility (Tx 102) {
-  tx102: Transaction 102 Snapshot {
+snapshot: "Transaction Snapshot Visibility (Tx 102)" {
+  class: container
+  tx102: "Transaction 102 Snapshot" {
+    class: box
     rule: "Reads Version 1 because xmin 100 < 102 and xmax 105 is active"
   }
 }

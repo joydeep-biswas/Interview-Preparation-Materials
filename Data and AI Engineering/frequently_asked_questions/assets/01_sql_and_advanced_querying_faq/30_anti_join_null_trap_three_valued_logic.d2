@@ -1,0 +1,25 @@
+# Anti-Join Comparison: NOT EXISTS vs LEFT JOIN vs NOT IN (3VL NULL Hazard)
+direction: right
+classes: {
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  safe: { style: { fill: "#1E293B"; stroke-width: 1.5; border-radius: 8; stroke: "#10B981" } }
+  trap: { style: { fill: "#1E293B"; stroke-width: 1.5; border-radius: 8; stroke: "#EF4444" } }
+}
+
+anti_joins: "Anti-Join Architecture & The NULL Trap" {
+  class: box
+  style.stroke: "#3B82F6"
+
+  not_exists: "1. NOT EXISTS (Recommended)\n• Correlated semi-join probe\n• Short-circuits on first match\n• Immune to NULLs in subquery\n• Optimizer translates to Hash Anti-Join" {
+    class: safe
+  }
+
+  left_join: "2. LEFT JOIN ... WHERE right.key IS NULL\n• Materializes outer join set\n• Filters for non-matching nulls\n• Safe from 3VL NULL trap\n• May require more memory for wide tables" {
+    class: safe
+  }
+
+  not_in: "3. NOT IN (The Three-Valued Logic Hazard)\n• Expands: key != 1 AND key != NULL\n• NULL comparison yields UNKNOWN\n• IF subquery contains a SINGLE NULL -> returns ZERO rows!\n• Lethal production bug" {
+    class: trap
+  }
+}
+

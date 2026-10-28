@@ -8,7 +8,7 @@ A comprehensive guide answering all 17 questions on the Java Memory Model (JMM),
 
 ![Java Memory Model & Hardware Cache Coherence](assets/04_java_concurrency_and_multithreading_faq/01_java_memory_model_hardware_cache_coherence.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/01_java_memory_model_hardware_cache_coherence.d2](assets/04_java_concurrency_and_multithreading_faq/01_java_memory_model_hardware_cache_coherence.d2)
+*D2 Source: [`01_java_memory_model_hardware_cache_coherence.d2`](assets/04_java_concurrency_and_multithreading_faq/01_java_memory_model_hardware_cache_coherence.d2)*
 
 ---
 
@@ -151,7 +151,7 @@ Concurrent modification on `HashMap` causes lost updates, data corruption, and (
 
 ![ThreadPoolExecutor Task Submission Lifecycle](assets/04_java_concurrency_and_multithreading_faq/02_threadpoolexecutor_task_submission_lifecycle.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/02_threadpoolexecutor_task_submission_lifecycle.d2](assets/04_java_concurrency_and_multithreading_faq/02_threadpoolexecutor_task_submission_lifecycle.d2)
+*D2 Source: [`02_threadpoolexecutor_task_submission_lifecycle.d2`](assets/04_java_concurrency_and_multithreading_faq/02_threadpoolexecutor_task_submission_lifecycle.d2)*
 
 - **Requests waiting unexpectedly:** `Executors.newFixedThreadPool()` uses an unbounded `LinkedBlockingQueue`. The pool never scales beyond `corePoolSize`; tasks accumulate in memory while threads block on external I/O. Use a bounded queue with `CallerRunsPolicy`.
 - **Silent task failures:** Exceptions inside `executor.submit()` are captured inside the `Future` and only thrown if `future.get()` is invoked. Wrap tasks in `try-catch` blocks logging errors.
@@ -196,7 +196,7 @@ A standard enterprise orchestration pattern requires querying two independent mi
 
 ![JVM Thread State Machine & Lifecycle Transitions](assets/04_java_concurrency_and_multithreading_faq/03_thread_state_machine_transitions.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/03_thread_state_machine_transitions.d2](assets/04_java_concurrency_and_multithreading_faq/03_thread_state_machine_transitions.d2)
+*D2 Source: [`03_thread_state_machine_transitions.d2`](assets/04_java_concurrency_and_multithreading_faq/03_thread_state_machine_transitions.d2)*
 
 #### Production Code
 ```java
@@ -340,7 +340,7 @@ Under continuous high-throughput read workloads, the read lock is constantly hel
 #### Visual Flow
 ![Lock Mechanisms: synchronized vs ReentrantLock (AQS)](assets/04_java_concurrency_and_multithreading_faq/04_synchronized_vs_reentrantlock_mechanics.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/04_synchronized_vs_reentrantlock_mechanics.d2](assets/04_java_concurrency_and_multithreading_faq/04_synchronized_vs_reentrantlock_mechanics.d2)
+*D2 Source: [`04_synchronized_vs_reentrantlock_mechanics.d2`](assets/04_java_concurrency_and_multithreading_faq/04_synchronized_vs_reentrantlock_mechanics.d2)*
 
 #### Production Implementation / Code Solution
 ```java
@@ -523,7 +523,7 @@ top -H -p <pid>  # Find top thread OS PID, convert to Hex: printf "0x%x\n" <thre
 
 ![CPU False Sharing & Cache Line Padding (@Contended)](assets/04_java_concurrency_and_multithreading_faq/05_false_sharing_cache_line_padding.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/05_false_sharing_cache_line_padding.d2](assets/04_java_concurrency_and_multithreading_faq/05_false_sharing_cache_line_padding.d2)
+*D2 Source: [`05_false_sharing_cache_line_padding.d2`](assets/04_java_concurrency_and_multithreading_faq/05_false_sharing_cache_line_padding.d2)*
 
 Why `volatile` Fails for `count++`:
 1. `count++` is decomposed into **3 discrete bytecode instructions**:
@@ -600,7 +600,7 @@ public final class VolatileLostUpdateBenchmark {
 
 ![ForkJoinPool.commonPool() Saturation & Starvation Hazard](assets/04_java_concurrency_and_multithreading_faq/06_forkjoinpool_commonpool_saturation_hazard.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/06_forkjoinpool_commonpool_saturation_hazard.d2](assets/04_java_concurrency_and_multithreading_faq/06_forkjoinpool_commonpool_saturation_hazard.d2)
+*D2 Source: [`06_forkjoinpool_commonpool_saturation_hazard.d2`](assets/04_java_concurrency_and_multithreading_faq/06_forkjoinpool_commonpool_saturation_hazard.d2)*
 
 CommonPool Specifications & Failure Mode:
 1. **Default Thread Count:** `Runtime.getRuntime().availableProcessors() - 1`. On an 8-core cloud VM/container, the pool contains only **7 worker threads**.
@@ -680,7 +680,7 @@ public final class ProductionAsyncOrchestrator {
 
 ![Concurrency Control: Optimistic vs Pessimistic Locking](assets/04_java_concurrency_and_multithreading_faq/07_optimistic_vs_pessimistic_locking_concurrency.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading_faq/07_optimistic_vs_pessimistic_locking_concurrency.d2](assets/04_java_concurrency_and_multithreading_faq/07_optimistic_vs_pessimistic_locking_concurrency.d2)
+*D2 Source: [`07_optimistic_vs_pessimistic_locking_concurrency.d2`](assets/04_java_concurrency_and_multithreading_faq/07_optimistic_vs_pessimistic_locking_concurrency.d2)*
 
 Architectural Trade-Off Analysis:
 

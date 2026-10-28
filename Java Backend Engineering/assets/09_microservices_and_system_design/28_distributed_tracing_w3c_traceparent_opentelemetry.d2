@@ -1,25 +1,33 @@
 direction: right
 title: "Distributed Tracing: W3C TraceContext & OpenTelemetry Propagation"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 user: "User Client" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#3b82f6"
 }
-gw: "API Gateway
-TraceID: 4bf92f
-Span: 00f067" {
+gw: "API Gateway\nTraceID: 4bf92f\nSpan: 00f067" {
+  class: container
   style.fill: "#083344"
   style.stroke: "#06b6d4"
 }
-order: "Order Service
-TraceID: 4bf92f
-Span: e4a781" {
+order: "Order Service\nTraceID: 4bf92f\nSpan: e4a781" {
+  class: container
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }
-pay: "Payment Service
-TraceID: 4bf92f
-Span: 7c92b1" {
+pay: "Payment Service\nTraceID: 4bf92f\nSpan: 7c92b1" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#f59e0b"
 }

@@ -8,7 +8,7 @@ A comprehensive study guide covering Core Java language mechanics, JVM object in
 
 ![Object Execution & Method Dispatch Architecture](assets/01_core_java_and_oop_faq/01_object_execution_and_method_dispatch.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/01_object_execution_and_method_dispatch.d2](assets/01_core_java_and_oop_faq/01_object_execution_and_method_dispatch.d2)
+*D2 Source: [`01_object_execution_and_method_dispatch.d2`](assets/01_core_java_and_oop_faq/01_object_execution_and_method_dispatch.d2)*
 
 ---
 
@@ -164,7 +164,7 @@ public class FirstUniqueChar {
 
 ![Longest Substring Without Repeating Characters Two Pointers](assets/01_core_java_and_oop_faq/02_longest_substring_two_pointers.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/02_longest_substring_two_pointers.d2](assets/01_core_java_and_oop_faq/02_longest_substring_two_pointers.d2)
+*D2 Source: [`02_longest_substring_two_pointers.d2`](assets/01_core_java_and_oop_faq/02_longest_substring_two_pointers.d2)*
 
 ```java
 import java.util.HashMap;
@@ -396,7 +396,7 @@ public class BinaryTreePathSum {
 
 ![String Equality & String Constant Pool Architecture](assets/01_core_java_and_oop_faq/03_string_equality_and_string_pool.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/03_string_equality_and_string_pool.d2](assets/01_core_java_and_oop_faq/03_string_equality_and_string_pool.d2)
+*D2 Source: [`03_string_equality_and_string_pool.d2`](assets/01_core_java_and_oop_faq/03_string_equality_and_string_pool.d2)*
 
 ```java
 String s1 = "Hello";
@@ -570,7 +570,7 @@ An anonymous class is declared and instantiated in a single expression. Any loca
 
 ![JVM Process Memory Architecture & OutOfMemory Mechanics](assets/01_core_java_and_oop_faq/04_jvm_memory_architecture_oom.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/04_jvm_memory_architecture_oom.d2](assets/01_core_java_and_oop_faq/04_jvm_memory_architecture_oom.d2)
+*D2 Source: [`04_jvm_memory_architecture_oom.d2`](assets/01_core_java_and_oop_faq/04_jvm_memory_architecture_oom.d2)*
 
 #### Diagnostic & Triage Matrix: `java.lang.OutOfMemoryError`
 
@@ -673,7 +673,7 @@ When traversing linked records in memory (e.g., undo stacks, workflow transition
 
 ![Floyd Cycle Detection Mechanics & Pointer Traversal](assets/01_core_java_and_oop_faq/05_floyd_cycle_detection_mechanics.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/05_floyd_cycle_detection_mechanics.d2](assets/01_core_java_and_oop_faq/05_floyd_cycle_detection_mechanics.d2)
+*D2 Source: [`05_floyd_cycle_detection_mechanics.d2`](assets/01_core_java_and_oop_faq/05_floyd_cycle_detection_mechanics.d2)*
 
 #### Production Code
 ```java
@@ -733,7 +733,7 @@ In Java, instance methods use **dynamic method dispatch** resolved at runtime us
 
 ![Compile-Time Reference vs Runtime Virtual Method Dispatch](assets/01_core_java_and_oop_faq/06_compile_time_vs_runtime_dispatch.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/06_compile_time_vs_runtime_dispatch.d2](assets/01_core_java_and_oop_faq/06_compile_time_vs_runtime_dispatch.d2)
+*D2 Source: [`06_compile_time_vs_runtime_dispatch.d2`](assets/01_core_java_and_oop_faq/06_compile_time_vs_runtime_dispatch.d2)*
 
 #### Production Code & Prediction
 ```java
@@ -880,7 +880,7 @@ Java categorizes throwables into:
 
 ![Java Throwable Exception Hierarchy & Error Propagation](assets/01_core_java_and_oop_faq/07_throwable_exception_hierarchy.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/07_throwable_exception_hierarchy.d2](assets/01_core_java_and_oop_faq/07_throwable_exception_hierarchy.d2)
+*D2 Source: [`07_throwable_exception_hierarchy.d2`](assets/01_core_java_and_oop_faq/07_throwable_exception_hierarchy.d2)*
 
 #### Production Best Practice:
 Never use exceptions for business control flow due to the heavy performance penalty of `Throwable.fillInStackTrace()`. Handle enterprise web errors globally via `@RestControllerAdvice` emitting RFC 7807 `ProblemDetail`.
@@ -908,7 +908,7 @@ If only one bracket type exists (e.g. `()`), an $O(1)$ space integer counter inc
 #### Visual Flow
 ![Valid Parentheses Stack Evaluation & Invariants](assets/01_core_java_and_oop_faq/08_valid_parentheses_stack_evaluation.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/08_valid_parentheses_stack_evaluation.d2](assets/01_core_java_and_oop_faq/08_valid_parentheses_stack_evaluation.d2)
+*D2 Source: [`08_valid_parentheses_stack_evaluation.d2`](assets/01_core_java_and_oop_faq/08_valid_parentheses_stack_evaluation.d2)*
 
 #### Production Implementation / Code Solution
 ```java
@@ -1003,7 +1003,7 @@ In multi-threaded Java applications, threads share the Heap and Metaspace but po
 
 ![OS Kernel Threads vs JVM Virtual Threads Scheduling](assets/01_core_java_and_oop_faq/09_os_kernel_vs_virtual_threads.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/09_os_kernel_vs_virtual_threads.d2](assets/01_core_java_and_oop_faq/09_os_kernel_vs_virtual_threads.d2)
+*D2 Source: [`09_os_kernel_vs_virtual_threads.d2`](assets/01_core_java_and_oop_faq/09_os_kernel_vs_virtual_threads.d2)*
 
 Key JVM specifications governing the PC Register:
 1. **Thread Scope:** Exactly one PC register exists per alive thread. It is deallocated when the thread terminates.
@@ -1069,7 +1069,7 @@ When a String literal is created, it resides in the **String Intern Pool** insid
 
 ![String Immutability Security Caching & Thread Safety](assets/01_core_java_and_oop_faq/10_string_immutability_security_caching.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/10_string_immutability_security_caching.d2](assets/01_core_java_and_oop_faq/10_string_immutability_security_caching.d2)
+*D2 Source: [`10_string_immutability_security_caching.d2`](assets/01_core_java_and_oop_faq/10_string_immutability_security_caching.d2)*
 
 Why String Immutability is Essential to JVM Security:
 1. **Security & Classloading:** Classloaders pass package paths and credential tokens as Strings. If a String were mutable, an attacker could authenticate with a permitted filename, then mutate the String in memory before file I/O occurs (Time-of-Check to Time-of-Use exploit).
@@ -1145,7 +1145,7 @@ public final class StringMutationExploit {
 
 ![String Interning & Metaspace Native Memory Architecture](assets/01_core_java_and_oop_faq/11_string_interning_metaspace_mechanics.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/11_string_interning_metaspace_mechanics.d2](assets/01_core_java_and_oop_faq/11_string_interning_metaspace_mechanics.d2)
+*D2 Source: [`11_string_interning_metaspace_mechanics.d2`](assets/01_core_java_and_oop_faq/11_string_interning_metaspace_mechanics.d2)*
 
 Step-by-Step Allocation Mechanics:
 1. **Case 1: String Literal Already in Pool**
@@ -1208,7 +1208,7 @@ The JVM distinguishes between method calls using two distinct bytecode instructi
 
 ![Static Method Hiding vs Instance Method Overriding](assets/01_core_java_and_oop_faq/12_method_hiding_vs_overriding.svg)
 
-*D2 Source:* [assets/01_core_java_and_oop_faq/12_method_hiding_vs_overriding.d2](assets/01_core_java_and_oop_faq/12_method_hiding_vs_overriding.d2)
+*D2 Source: [`12_method_hiding_vs_overriding.d2`](assets/01_core_java_and_oop_faq/12_method_hiding_vs_overriding.d2)*
 
 Can static methods be overloaded?
 - **Yes:** Within the same class, a static method can have the exact same name with different parameters:

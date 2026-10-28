@@ -32,14 +32,14 @@
     .badge { font-weight: 600; font-size: 11px; }
     .conn-label { font-size: 11px; font-weight: 600; fill: #9CA3AF; }
   </style>
-  <rect width="100%" height="100%" fill="url(#bg-grad)" />
+  <rect width="100%" height="100%" fill="url(#bg-grad)"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
   <text x="550" y="30" class="title" font-size="19" text-anchor="middle">Payment Processing Star Schema &amp; Dimensional Data Model</text>
   <text x="550" y="50" class="subtitle" text-anchor="middle">Central transactional fact table, surrounding dimensions (1:N), and downstream refund/chargeback fact links</text>
 
   <!-- Central Fact Table -->
   <g transform="translate(410, 80)">
     <rect width="280" height="380" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2.5"/>
-    <rect width="280" height="34" rx="10" ry="10" fill="#78350F"/>
+    <rect width="280" height="34" rx="10" ry="10" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
     <text x="140" y="22" class="card-title" fill="#FDE68A" text-anchor="middle">FACT_PAYMENT_TRANSACTION</text>
     
     <text x="18" y="58" class="card-body" font-weight="700" fill="#FBBF24">PK  transaction_id : string</text>
@@ -61,14 +61,14 @@
     <text x="18" y="316" class="card-body">• fraud_risk_score : decimal(5,2)</text>
     <text x="18" y="336" class="card-body">• created_at_utc : timestamp</text>
     
-    <rect x="18" y="348" width="244" height="22" rx="4" ry="4" fill="#1E293B"/>
+    <rect x="18" y="348" width="244" height="22" rx="4" ry="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="140" y="363" class="badge" fill="#FDE68A" text-anchor="middle">Grain: One row per authorization attempt</text>
   </g>
 
   <!-- Dimension: DIM_CUSTOMER (Top Left) -->
   <g transform="translate(40, 80)">
     <rect width="290" height="175" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="290" height="32" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="145" y="21" class="card-title" fill="#93C5FD" text-anchor="middle">DIM_CUSTOMER</text>
     <text x="16" y="52" class="card-body" font-weight="700" fill="#93C5FD">PK  customer_id : string</text>
     <line x1="16" y1="58" x2="274" y2="58" stroke="#4B5563" stroke-width="1"/>
@@ -77,13 +77,13 @@
     <text x="16" y="112" class="card-body">• kyc_status : varchar(16)</text>
     <text x="16" y="130" class="card-body">• country_code : varchar(2)</text>
     <text x="16" y="148" class="card-body">• account_created_at : timestamp</text>
-    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B"/>
+    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   </g>
 
   <!-- Dimension: DIM_MERCHANT (Bottom Left) -->
   <g transform="translate(40, 285)">
     <rect width="290" height="175" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="290" height="32" rx="10" ry="10" fill="#064E3B"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
     <text x="145" y="21" class="card-title" fill="#A7F3D0" text-anchor="middle">DIM_MERCHANT</text>
     <text x="16" y="52" class="card-body" font-weight="700" fill="#A7F3D0">PK  merchant_id : string</text>
     <line x1="16" y1="58" x2="274" y2="58" stroke="#4B5563" stroke-width="1"/>
@@ -92,13 +92,13 @@
     <text x="16" y="112" class="card-body">• settlement_currency : varchar(3)</text>
     <text x="16" y="130" class="card-body">• risk_tier : varchar(8) (LOW/HIGH)</text>
     <text x="16" y="148" class="card-body">• onboarding_status : varchar(16)</text>
-    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B"/>
+    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   </g>
 
   <!-- Fact: FACT_REFUND (Top Right) -->
   <g transform="translate(770, 80)">
     <rect width="290" height="175" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="290" height="32" rx="10" ry="10" fill="#4C1D95"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#4C1D95" stroke="#8B5CF6" stroke-width="1"/>
     <text x="145" y="21" class="card-title" fill="#DDD6FE" text-anchor="middle">FACT_REFUND</text>
     <text x="16" y="52" class="card-body" font-weight="700" fill="#DDD6FE">PK  refund_id : string</text>
     <line x1="16" y1="58" x2="274" y2="58" stroke="#4B5563" stroke-width="1"/>
@@ -107,13 +107,13 @@
     <text x="16" y="112" class="card-body">• reason_code : varchar(32)</text>
     <text x="16" y="130" class="card-body">• processed_at_utc : timestamp</text>
     <text x="16" y="148" class="card-body">• refund_status : varchar(16)</text>
-    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B"/>
+    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   </g>
 
   <!-- Fact: FACT_CHARGEBACK (Bottom Right) -->
   <g transform="translate(770, 285)">
     <rect width="290" height="175" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
-    <rect width="290" height="32" rx="10" ry="10" fill="#7F1D1D"/>
+    <rect width="290" height="32" rx="10" ry="10" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
     <text x="145" y="21" class="card-title" fill="#FCA5A5" text-anchor="middle">FACT_CHARGEBACK</text>
     <text x="16" y="52" class="card-body" font-weight="700" fill="#FCA5A5">PK  dispute_id : string</text>
     <line x1="16" y1="58" x2="274" y2="58" stroke="#4B5563" stroke-width="1"/>
@@ -122,7 +122,7 @@
     <text x="16" y="112" class="card-body">• card_network_reason : string</text>
     <text x="16" y="130" class="card-body">• evidence_due_date : date</text>
     <text x="16" y="148" class="card-body">• dispute_status : varchar(16)</text>
-    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B"/>
+    <rect x="16" y="154" width="258" height="14" rx="2" ry="2" fill="#1E293B" stroke="#334155" stroke-width="1"/>
   </g>
 
   <!-- Connectors with Straight Runways (1:N Crow's Foot Style) -->

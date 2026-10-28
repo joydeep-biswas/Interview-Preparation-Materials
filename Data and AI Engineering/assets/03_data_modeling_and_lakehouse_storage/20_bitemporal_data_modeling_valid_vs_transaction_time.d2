@@ -1,21 +1,35 @@
 direction: right
-title: Bitemporal Data Modeling: Valid Time vs. Transaction Time
-
-plane: Bitemporal Time Plane {
-  valid: Valid Time (Business occurrence: valid_from, valid_to)
-  system: Transaction Time (Database insert: system_from, system_to)
+title: "Bitemporal Data Modeling: Valid Time vs. Transaction Time"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-t1: T1: Real Event Occurs (Jan 10) {
-  note: "Policy signed for $100 in physical branch"
+plane: "Bitemporal Time Plane" {
+  class: container
+  valid: "Valid Time (Business occurrence: valid_from, valid_to)"
+  system: "Transaction Time (Database insert: system_from, system_to)"
 }
 
-t2: T2: Late Ingestion (Jan 15) {
+t1: "T1: Real Event Occurs (Jan 10)" {
+  class: container
+  note: "Policy signed for \$100 in physical branch"
+}
+
+t2: "T2: Late Ingestion (Jan 15)" {
+  class: container
   note: "Record inserted: valid=[Jan 10, Inf), system=[Jan 15, Inf)"
 }
 
-t3: T3: Retroactive Correction (Jan 20) {
-  note: "Amount was $120. Row 1 system_to closed at Jan 20. Row 2 inserted with system=[Jan 20, Inf)"
+t3: "T3: Retroactive Correction (Jan 20)" {
+  class: container
+  note: "Amount was \$120. Row 1 system_to closed at Jan 20. Row 2 inserted with system=[Jan 20, Inf)"
 }
 
 t1 -> t2: "Paperwork arrives"

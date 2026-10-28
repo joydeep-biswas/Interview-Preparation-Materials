@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Traditional Message Queue vs Distributed Commit Log</text>
   <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Destructive dequeue (RabbitMQ/AMQP) vs immutable sequential log with independent consumer offsets (Kafka)</text>
 <rect x="30" y="85" width="470" height="410" rx="8" fill="#1a1116" stroke="#ef4444" stroke-width="1.5"/>
@@ -59,7 +59,7 @@
 <text x="65" y="461" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">✗ Multi-tenant fanout requires duplicating messages into N queues</text>
 <rect x="540" y="85" width="470" height="410" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
 <text x="775" y="112" fill="#6EE7B7" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. Distributed Commit Log (Apache Kafka)</text>
-<rect x="680" y="122" width="190" height="18" rx="9" fill="#047857"/><text x="775" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Immutable Append &amp; Client Offsets</text>
+<rect x="680" y="122" width="190" height="18" rx="9" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="775" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Immutable Append &amp; Client Offsets</text>
 <rect x="560" y="155" width="430" height="120" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
 <text x="575" y="178" fill="#F8FAFC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Partition Physical Disk Log (Immutable Append-Only)</text>
 <rect x="575" y="195" width="65" height="30" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1"/>

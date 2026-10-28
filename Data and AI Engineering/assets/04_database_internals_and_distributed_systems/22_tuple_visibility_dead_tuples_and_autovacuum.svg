@@ -26,7 +26,7 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="400" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="400" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Tuple Visibility, Dead Tuples &amp; The AUTOVACUUM Engine</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">From INSERT to Heap Bloat, MVCC Snapshot Visibility, and Vacuum Space Reclamation</text>
   
@@ -94,10 +94,9 @@
 
   
     <rect x="845" y="115" width="105" height="150" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="897.5" y="141" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">5. Cleaned</text>
-    <text x="897.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">AUTOVACUUM</text>
-    <rect x="871" y="125" width="73" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
-    <text x="907.5" y="137" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">RECLAIMED</text>
+    <text x="897.5" y="136" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">5. Cleaned</text>
+    <rect x="862" y="144" width="71" height="16" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="897.5" y="156" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">RECLAIMED</text>
     <circle cx="861" cy="170" r="2" fill="#10b981"/>
     <text x="869" y="173" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Reclaims slot</text>
     <circle cx="861" cy="186" r="2" fill="#10b981"/>

@@ -1,29 +1,43 @@
 direction: right
-title: Database Storage Engine & Memory Hierarchy Architecture
+title: "Database Storage Engine & Memory Hierarchy Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-client: 1. Client & Parser Tier {
-  sql: SQL Client Query Execution
-  parser: Parser & AST Analyzer
+client: "1. Client & Parser Tier" {
+  class: container
+  sql: "SQL Client Query Execution"
+  parser: "Parser & AST Analyzer"
   sql -> parser: "SQL String"
 }
 
-optimizer: 2. Query Optimizer Tier {
-  rewriter: Query Rewriter (Predicate Pushdown)
-  cbo: Cost-Based Optimizer (CBO)
-  executor: Execution Engine (Volcano / SIMD)
+optimizer: "2. Query Optimizer Tier" {
+  class: container
+  rewriter: "Query Rewriter (Predicate Pushdown)"
+  cbo: "Cost-Based Optimizer (CBO)"
+  executor: "Execution Engine (Volcano / SIMD)"
   rewriter -> cbo -> executor
 }
 
-buffer_pool: 3. In-Memory Buffer Pool {
-  bpm: Buffer Pool Manager (8KB Pages, Clock Sweep)
-  wal_buffer: WAL Ring Buffer (LSN Tracking)
-  lock_mgr: Lock & Latch Manager (2PL Concurrency)
+buffer_pool: "3. In-Memory Buffer Pool" {
+  class: container
+  bpm: "Buffer Pool Manager (8KB Pages, Clock Sweep)"
+  wal_buffer: "WAL Ring Buffer (LSN Tracking)"
+  lock_mgr: "Lock & Latch Manager (2PL Concurrency)"
 }
 
-disk: 4. Disk Storage Subsystem {
-  heap: Table Heap Files (Slotted Pages)
-  wal: WAL Redo Logs (Append-Only fsync)
-  indexes: Secondary Indexes (B+ Tree)
+disk: "4. Disk Storage Subsystem" {
+  class: container
+  heap: "Table Heap Files (Slotted Pages)"
+  wal: "WAL Redo Logs (Append-Only fsync)"
+  indexes: "Secondary Indexes (B+ Tree)"
 }
 
 client.parser -> optimizer.rewriter: "AST"

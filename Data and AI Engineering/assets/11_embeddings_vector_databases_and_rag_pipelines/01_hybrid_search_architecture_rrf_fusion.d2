@@ -1,29 +1,21 @@
 direction: right
 classes: {
-  raw: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  store: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  query: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  rrf: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  raw: { style: { fill: "#1e293b"; stroke: "#38bdf8"; font-color: "#f8fafc" } }
+  store: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
+  query: { style: { fill: "#581c87"; stroke: "#c084fc"; font-color: "#e9d5ff" } }
+  rrf: { style: { fill: "#451a03"; stroke: "#fbbf24"; font-color: "#fde68a" } }
 }
 
 ingestion: "1. Dual-Path Indexing Pipeline" {
   chunk: "Normalized Document Chunk" { class: raw }
-  dense_model: "Dense Embedding Model\n(BGE-Large / Voyage-3)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  sparse_tok: "BM25 Lexical Analyzer" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  dense_model: "Dense Embedding Model\n(BGE-Large / Voyage-3)" { style: { fill: "#155e75"; stroke: "#22d3ee"; font-color: "#67e8f9" } }
+  sparse_tok: "BM25 Lexical Analyzer" { style: { fill: "#155e75"; stroke: "#22d3ee"; font-color: "#67e8f9" } }
 
   chunk -> dense_model
   chunk -> sparse_tok
 }
 
-storage: "2. High-Performance Index Storage" {
-  hnsw: "Dense Vector Store\n(HNSW Graph Qdrant)" { class: store }
-  inverted: "BM25 Inverted Index\n(Posting Lists)" { class: store }
-}
-
-ingestion.dense_model -> storage.hnsw: "v in R^1536"
-ingestion.sparse_tok -> storage.inverted: "Postings"
-
-query_box: "3. Real-Time Query Fan-Out" {
+query_box: "2. Real-Time Query Fan-Out" {
   user_q: "Incoming User Query" { class: query }
   q_dense: "v_q = Embed(Query)" { class: query }
   q_sparse: "Sparse Tokens" { class: query }
@@ -32,6 +24,13 @@ query_box: "3. Real-Time Query Fan-Out" {
   user_q -> q_sparse
 }
 
+storage: "3. High-Performance Index Storage" {
+  hnsw: "Dense Vector Store\n(HNSW Graph Qdrant)" { class: store }
+  inverted: "BM25 Inverted Index\n(Posting Lists)" { class: store }
+}
+
+ingestion.dense_model -> storage.hnsw: "v in R^1536"
+ingestion.sparse_tok -> storage.inverted: "Postings"
 query_box.q_dense -> storage.hnsw: "ANN Search"
 query_box.q_sparse -> storage.inverted: "Term Match"
 
@@ -46,5 +45,5 @@ fusion: "4. Candidate Retrieval & RRF Fusion" {
   rrf_engine -> final_res
 }
 
-storage.hnsw -> fusion.c_dense
-storage.inverted -> fusion.c_sparse
+storage.hnsw -> fusion.c_dense: "Top-K Dense"
+storage.inverted -> fusion.c_sparse: "Top-K Sparse"

@@ -26,14 +26,14 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Quorum Mathematics &amp; Tunable Consistency: W + R &gt; N</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Pigeonhole Principle Guaranteeing Strict Overlap Between Read and Write Sets</text>
   
   
     <rect x="40" y="110" width="200" height="105" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="140.0" y="136" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Client Write (W = 2)</text>
-    <text x="140.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Write Request Payload</text>
+    <text x="54" y="133" fill="#93c5fd" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Client Write</text>
+    <text x="54" y="149" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">Write Request (W = 2)</text>
     <rect x="147" y="120" width="87" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
     <text x="190.5" y="132" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">WRITE (W=2)</text>
     <circle cx="56" cy="165" r="2" fill="#3b82f6"/>
@@ -45,8 +45,8 @@
 
   
     <rect x="40" y="250" width="200" height="105" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="140.0" y="276" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Client Read (R = 2)</text>
-    <text x="140.0" y="292" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Read Request Probe</text>
+    <text x="54" y="273" fill="#c084fc" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Client Read</text>
+    <text x="54" y="289" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">Read Request (R = 2)</text>
     <rect x="154" y="260" width="80" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
     <text x="194.0" y="272" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">READ (R=2)</text>
     <circle cx="56" cy="305" r="2" fill="#8b5cf6"/>
@@ -87,8 +87,8 @@
     <text x="686" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Strong Consistency Resolution</text>
   
     <rect x="685" y="140" width="250" height="195" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="810.0" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Client Conflict Resolution</text>
-    <text x="810.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Pigeonhole Invariant</text>
+    <text x="699" y="163" fill="#6ee7b7" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold">Conflict Resolution</text>
+    <text x="699" y="179" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">Pigeonhole Invariant</text>
     <rect x="842" y="150" width="87" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="885.5" y="162" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">READ REPAIR</text>
     <circle cx="701" cy="195" r="2" fill="#10b981"/>

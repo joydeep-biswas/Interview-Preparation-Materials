@@ -8,61 +8,7 @@ A comprehensive, production-grade guide to enterprise structured logging, MDC co
 
 ![The Three Pillars of Production Observability](assets/13_linux_networking_and_distributed_reliability/01_three_pillars_of_production_observability.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: "The Three Pillars of Production Observability & Diagnostics"
-
-pillars: "The Three Pillars of Observability" {
-  style.fill: "#0f172a"
-  style.stroke: "#3b82f6"
-
-  logs: "Structured Logs & MDC
-Logback / OpenSearch / Loki
-Contextual debugging" {
-    style.fill: "#083344"
-    style.stroke: "#06b6d4"
-  }
-  metrics: "Golden Signals Metrics
-Micrometer / Prometheus / Grafana
-Alerting & detection" {
-    style.fill: "#064e3b"
-    style.stroke: "#10b981"
-  }
-  traces: "Distributed Tracing
-OpenTelemetry / Jaeger
-Latency bottleneck isolation" {
-    style.fill: "#1e1b4b"
-    style.stroke: "#8b5cf6"
-  }
-}
-
-diagnostics: "Production Diagnostic Engines" {
-  style.fill: "#0f172a"
-  style.stroke: "#10b981"
-
-  profiler: "async-profiler
-Non-safepoint CPU & Alloc Flamegraphs" {
-    style.fill: "#1e293b"
-    style.stroke: "#f59e0b"
-  }
-  jcmd: "jcmd & jstack
-Thread Dumps & Class Histograms" {
-    style.fill: "#1e293b"
-    style.stroke: "#3b82f6"
-  }
-  mat: "Eclipse MAT / JMC
-Heap Dump Leak Suspects Triage" {
-    style.fill: "#1e293b"
-    style.stroke: "#10b981"
-  }
-}
-
-pillars -> diagnostics: "Correlate symptoms to deep profiling"
-```
-</details>
+*D2 Source: [`01_three_pillars_of_production_observability.d2`](assets/13_linux_networking_and_distributed_reliability/01_three_pillars_of_production_observability.d2)*
 
 ---
 
@@ -88,35 +34,7 @@ For a high-throughput Java enterprise backend handling tens of thousands of requ
 
 ![Linux Kernel Networking & High-Concurrency Socket Subsystems](assets/13_linux_networking_and_distributed_reliability/02_linux_kernel_networking_socket_rx_pipeline.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: down
-title: "Linux Kernel Networking & High-Concurrency Socket Subsystem"
-
-nic: "1. Hardware & Driver
-NIC -> DMA -> RX Ring -> Hard IRQ -> NAPI SoftIRQ" {
-  style.fill: "#062e3d"
-  style.stroke: "#06b6d4"
-}
-
-tcp: "2. Kernel TCP/IP Stack
-IP Route -> Netfilter -> TCP Engine -> SYN Backlog -> Accept Queue" {
-  style.fill: "#1a102f"
-  style.stroke: "#8b5cf6"
-}
-
-jvm: "3. JVM Runtime & NIO Sockets
-epoll_wait() -> Netty EventLoop -> SO_RCVBUF -> Java App Logic" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-nic -> tcp: "SoftIRQ packet delivery"
-tcp -> jvm: "Socket ready for read"
-```
-</details>
+*D2 Source: [`02_linux_kernel_networking_socket_rx_pipeline.d2`](assets/13_linux_networking_and_distributed_reliability/02_linux_kernel_networking_socket_rx_pipeline.d2)*
 
 ### 1.1 The Linux Packet Reception Journey: NIC to Application Socket
 When a TCP packet arrives at the server:
@@ -342,44 +260,7 @@ public class PiiMaskingLogConverter extends CompositeConverter<ILoggingEvent> {
 
 ![Three Pillars Comparison: Metrics vs Logs vs Traces](assets/13_linux_networking_and_distributed_reliability/03_observability_pillars_metrics_logs_traces_comparison.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Production Observability: Metrics vs Logs vs Traces Comparison Matrix"
-
-obs: "The Three Pillars" {
-  style.fill: "#0f172a"
-  style.stroke: "#3b82f6"
-}
-
-metrics: "1. Metrics (Micrometer)
-Low Cardinality | Low Cost | 1-2 Yr Retention
-Detects: 'Something is broken!'" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-logs: "2. Logs (MDC / Logback)
-Unbounded Cardinality | High Cost | 30 Day
-Explains: 'Why did it break?'" {
-  style.fill: "#083344"
-  style.stroke: "#06b6d4"
-}
-
-traces: "3. Distributed Tracing
-Sampled Spans | Cross-Service Call Tree
-Isolates: 'Where did it stall?'" {
-  style.fill: "#2e1065"
-  style.stroke: "#8b5cf6"
-}
-
-obs -> metrics
-obs -> logs
-obs -> traces
-```
-</details>
+*D2 Source: [`03_observability_pillars_metrics_logs_traces_comparison.d2`](assets/13_linux_networking_and_distributed_reliability/03_observability_pillars_metrics_logs_traces_comparison.d2)*
 
 ---
 
@@ -448,47 +329,7 @@ When a request traverses 10 independent microservices, identifying which service
 
 ![Distributed Tracing with OpenTelemetry & W3C TraceContext](assets/13_linux_networking_and_distributed_reliability/04_opentelemetry_w3c_tracecontext_distributed_tracing.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-direction: right
-title: "Distributed Tracing with OpenTelemetry & W3C TraceContext"
-
-user: "User Browser" {
-  style.fill: "#1e293b"
-  style.stroke: "#3b82f6"
-}
-
-gw: "API Gateway
-TraceID: 4bf92f
-Span: 00f067" {
-  style.fill: "#083344"
-  style.stroke: "#06b6d4"
-}
-
-order: "Order Service
-TraceID: 4bf92f
-Span: e4a781" {
-  style.fill: "#064e3b"
-  style.stroke: "#10b981"
-}
-
-pay: "Payment Service
-TraceID: 4bf92f
-Span: 7c92b1" {
-  style.fill: "#1e293b"
-  style.stroke: "#f59e0b"
-}
-
-user -> gw: "1. POST /orders"
-gw -> order: "2. traceparent: 00-4bf92f-00f067-01"
-order -> pay: "3. traceparent: 00-4bf92f-e4a781-01"
-pay -> order: "4. 200 OK (45ms)"
-order -> gw: "5. 200 OK (120ms)"
-gw -> user: "6. 200 OK (165ms)"
-```
-</details>
+*D2 Source: [`04_opentelemetry_w3c_tracecontext_distributed_tracing.d2`](assets/13_linux_networking_and_distributed_reliability/04_opentelemetry_w3c_tracecontext_distributed_tracing.d2)*
 
 * **W3C TraceContext Specification**: Standardized HTTP header:
   `traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01`

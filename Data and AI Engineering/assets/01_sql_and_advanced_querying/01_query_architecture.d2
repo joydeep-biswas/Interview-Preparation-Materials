@@ -1,23 +1,66 @@
 # Relational Query Execution & Processing Architecture
 direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+}
 
-compilation: "1. Compilation Pipeline" {
-  sql: "Declarative SQL (What)\n• High-level relational algebra\n• Abstract tuple calculus"
-  cbo: "Cost-Based Optimizer\n• Evaluates cardinality stats\n• Selects join order & algorithms"
-  engine: "Imperative Engine (How)\n• Vectorized batch scans\n• Hardware SIMD execution"
-  sql -> cbo -> engine
+compile: "1. Compilation Pipeline" {
+  class: pillar
+  style.stroke: "#3B82F6"
+  sql: "Declarative SQL (What)\n• Relational algebra & tuple calculus\n• Abstract mathematical query spec" {
+    class: stage
+    style.stroke: "#3B82F6"
+  }
+  cbo: "Cost-Based Optimizer (CBO)\n• Histogram stats & cardinality\n• Join order, index selection, prune" {
+    class: stage
+    style.stroke: "#F59E0B"
+  }
+  imperative: "Imperative Engine (How)\n• Physical operator plan compilation\n• Vectorized SIMD batch execution" {
+    class: stage
+    style.stroke: "#10B981"
+  }
+  sql -> cbo -> imperative
 }
 
 volcano: "2. Volcano Iterator Model" {
-  direction: up
-  scan: "Table Scan (I/O)\n• Leaf sequential or B-Tree scan"
-  join: "Hash Join Node\n• In-memory build & probe"
-  project: "Projection Node\n• Root operator pulling tuples"
-  scan -> join: "tuples"
-  join -> project: "tuples"
+  class: pillar
+  style.stroke: "#8B5CF6"
+  root: "Root: Projection Node\n• Pulls next() batch on demand\n• Evaluates final SELECT expressions" {
+    class: stage
+    style.stroke: "#8B5CF6"
+  }
+  join: "Intermediate: Hash Join\n• Build phase: in-memory HT\n• Probe phase: stream probe rows" {
+    class: stage
+    style.stroke: "#F59E0B"
+  }
+  scan: "Leaf: Table Scan (I/O)\n• B+Tree index / Seq page scan\n• Feeds buffer pool frames" {
+    class: stage
+    style.stroke: "#10B981"
+  }
+  scan -> join: "tuples" { style.stroke: "#10B981" }
+  join -> root: "tuples" { style.stroke: "#8B5CF6" }
 }
 
 storage: "3. Physical Storage Engine" {
-  row: "Row-Store (OLTP)\n• 8KB slotted disk pages\n• B+Tree point lookups\n• Ideal for ACID CRUD"
-  col: "Columnar-Store (OLAP)\n• Striped column arrays\n• RLE & Dictionary compression\n• SIMD analytical scans"
+  class: pillar
+  style.stroke: "#10B981"
+  row_store: "Row-Store (OLTP / PostgreSQL)\n• Fixed 8KB slotted page format\n• O(log N) B+Tree index lookups\n• Complete tuple in 1 disk fetch" {
+    class: stage
+    style.stroke: "#10B981"
+  }
+  col_store: "Columnar-Store (OLAP / BigQuery)\n• Parquet / ORC column stripes\n• RLE, Dictionary & Bit-packing\n• Vectorized SIMD scan on columns" {
+    class: stage
+    style.stroke: "#06B6D4"
+  }
+}
+
+compile.imperative -> volcano.root: "Physical Plan Execution" {
+  style.stroke: "#8B5CF6"
+}
+volcano.scan -> storage.row_store: "Row Fetch" {
+  style.stroke: "#10B981"
+}
+volcano.scan -> storage.col_store: "SIMD Scan" {
+  style.stroke: "#3B82F6"
 }

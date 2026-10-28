@@ -1,24 +1,40 @@
 direction: right
-title: The Memory-to-Disk Bridge (Serialization & Persistence)
+title: "The Memory-to-Disk Bridge (Serialization & Persistence)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-ram: In-Memory Data Structures (RAM) {
-  obj: User Object (Heap) {
+ram: "In-Memory Data Structures (RAM)" {
+  class: container
+  obj: "User Object (Heap)" {
+    class: box
     id: "101 (int64)"
     name: "Pointer -> 0x7ffd9b8a (String)"
     orders: "Pointer -> Array Heap"
   }
 }
 
-engine: Serialization & Encoding Engine {
-  serializer: Serializer Pipeline {
+engine: "Serialization & Encoding Engine" {
+  class: container
+  serializer: "Serializer Pipeline" {
+    class: box
     step1: "Dereference pointers & strip memory headers"
     step2: "Zig-zag variable int & dictionary encoding"
     step3: "Compress byte stream via Snappy / ZSTD"
   }
 }
 
-disk: Persistent Storage Block (Disk / Cloud) {
-  bytes: Contiguous Byte Stream {
+disk: "Persistent Storage Block (Disk / Cloud)" {
+  class: container
+  bytes: "Contiguous Byte Stream" {
+    class: box
     stream: "01000101 01101110 01100111..."
     portability: "Cross-platform contiguous storage"
   }

@@ -26,12 +26,12 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1040" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="520" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Deconstructing @SpringBootApplication: The Meta-Annotation Triad</text>
   <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">How Spring Boot bootstraps: Configuration provider, auto-configuration engine, and classpath component scanning</text>
 <rect x="320" y="85" width="400" height="90" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
 <text x="520" y="112" fill="#6EE7B7" font-size="14" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">@SpringBootApplication (Root Meta-Annotation)</text>
-<rect x="410" y="122" width="220" height="18" rx="9" fill="#047857"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Bootstrap Master Switch</text>
+<rect x="410" y="122" width="220" height="18" rx="9" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Bootstrap Master Switch</text>
 <text x="520" y="155" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Annotates main entry point: Application.java containing SpringApplication.run()</text>
 <rect x="30" y="230" width="300" height="265" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
 <text x="180" y="255" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">1. @SpringBootConfiguration</text>

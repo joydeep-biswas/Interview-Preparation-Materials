@@ -1,21 +1,35 @@
 direction: right
-title: Modern Java Language & Functional Pipeline Architecture
+title: "Modern Java Language & Functional Pipeline Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-TypeSystem: Modern Type System (Java 16 - 21+) {
+TypeSystem: "Modern Type System (Java 16 - 21+)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#1D4ED8"
   
-  Records: Records (JEP 395) {
-    code: "record Order(UUID id, double total) {}"
+  Records: "Records (JEP 395)" {
+    class: box
+    code: "record Order(UUID id, double total) {}" { class: box }
     desc: "Immutable data carriers; compiler-generated invariants"
   }
   
-  Sealed: Sealed Interfaces (JEP 409) {
-    code: "sealed interface Payment permits Card, Crypto {}"
+  Sealed: "Sealed Interfaces (JEP 409)" {
+    class: box
+    code: "sealed interface Payment permits Card, Crypto {}" { class: box }
     desc: "Exhaustive domain restriction"
   }
   
-  PatternMatching: Pattern Matching (JEP 441) {
+  PatternMatching: "Pattern Matching (JEP 441)" {
+    class: box
     code: "switch (payment) { case Card(var n) -> ... }"
     desc: "Exhaustive record deconstruction"
   }
@@ -24,23 +38,27 @@ TypeSystem: Modern Type System (Java 16 - 21+) {
   Sealed -> PatternMatching
 }
 
-StreamPipeline: Functional Stream Engine {
+StreamPipeline: "Functional Stream Engine" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   
-  Source: 1. Stream Source {
+  Source: "1. Stream Source" {
+    class: box
     desc: "orders.stream(); backed by Spliterator"
   }
   
-  Intermediate: 2. Intermediate Operations (Lazy) {
+  Intermediate: "2. Intermediate Operations (Lazy)" {
+    class: box
     desc: ".filter().map().sorted(); Sink chaining"
   }
   
-  Terminal: 3. Terminal Operation (Eager) {
+  Terminal: "3. Terminal Operation (Eager)" {
+    class: box
     desc: ".collect(toList()); pulls elements through pipeline"
   }
   
   Source -> Intermediate -> Terminal
 }
 
-TypeSystem -> StreamPipeline: Data carriers processed via stream pipelines
+TypeSystem -> StreamPipeline: "Data carriers processed via stream pipelines"

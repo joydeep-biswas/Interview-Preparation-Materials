@@ -1,7 +1,18 @@
 direction: right
-title: Java Concurrency & Thread Memory Architecture Overview
+title: "Java Concurrency & Thread Memory Architecture Overview"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-SharedMemory: Shared Process Memory (Heap/Metaspace) {
+SharedMemory: "Shared Process Memory (Heap/Metaspace)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   heap: "JVM Heap: Object instances, shared fields"
@@ -9,7 +20,8 @@ SharedMemory: Shared Process Memory (Heap/Metaspace) {
   jmm: "JMM: Happens-before ordering & memory barriers"
 }
 
-PlatformThreads: Platform Threads (1:1 OS Kernel) {
+PlatformThreads: "Platform Threads (1:1 OS Kernel)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#047857"
   stack: "1 MB dedicated OS stack per thread"
@@ -18,7 +30,8 @@ PlatformThreads: Platform Threads (1:1 OS Kernel) {
   best: "Ideal for CPU-bound computations"
 }
 
-VirtualThreads: Virtual Threads (M:N Loom) {
+VirtualThreads: "Virtual Threads (M:N Loom)" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
   stack: "Dynamic continuation stack on Heap (few KB)"
@@ -27,5 +40,5 @@ VirtualThreads: Virtual Threads (M:N Loom) {
   best: "Ideal for high-throughput I/O microservices"
 }
 
-SharedMemory -> PlatformThreads: JMM visibility & pointers
-PlatformThreads -> VirtualThreads: Carriers execute virtual continuations
+SharedMemory -> PlatformThreads: "JMM visibility & pointers"
+PlatformThreads -> VirtualThreads: "Carriers execute virtual continuations"

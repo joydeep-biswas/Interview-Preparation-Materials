@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Dependency Inversion Principle (DIP): Inverting Domain-to-Database Control</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">High-Level Business Modules &amp; Low-Level Infrastructure Depend on Clean Domain Abstractions (Ports)</text>
 <rect x="60" y="140" width="280" height="200" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
@@ -38,7 +38,7 @@
 <text x="80" y="300" fill="#FDE68A" font-size="9.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Depends ONLY on Domain Port!</text>
 <text x="80" y="318" fill="#94A3B8" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Zero SQL / Zero Hibernate dependencies</text>
 <rect x="400" y="140" width="280" height="200" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
-<rect x="415" y="155" width="200" height="20" rx="10" fill="#047857"/><text x="515" y="168" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">DOMAIN PORT (Abstraction)</text>
+<rect x="415" y="155" width="200" height="20" rx="10" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="515" y="168" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">DOMAIN PORT (Abstraction)</text>
 <text x="540" y="195" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;</text>
 <text x="540" y="215" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">AccountPersistencePort</text>
 <text x="420" y="245" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Contract Methods:</text>
@@ -55,9 +55,9 @@
 <text x="760" y="295" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Converts JPA Entity &amp;lt;---&amp;gt; Domain POJO</text>
 <text x="760" y="318" fill="#FDE68A" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Dependency arrow inverts inward!</text>
 <line x1="340" y1="240" x2="400" y2="240" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
-<rect x="345" y="230" width="50" height="18" rx="9" fill="#1e3a8a"/><text x="370" y="242" fill="#93C5FD" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">uses</text>
+<rect x="345" y="230" width="50" height="18" rx="9" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="370" y="242" fill="#93C5FD" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">uses</text>
 <line x1="740" y1="240" x2="680" y2="240" stroke="#34D399" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arr-g)"/>
-<rect x="685" y="230" width="70" height="18" rx="9" fill="#064e3b"/><text x="720" y="242" fill="#6EE7B7" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">implements</text>
+<rect x="685" y="230" width="70" height="18" rx="9" fill="#064e3b" stroke="#10B981" stroke-width="1"/><text x="720" y="242" fill="#6EE7B7" font-size="8" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">implements</text>
 <rect x="40" y="380" width="1000" height="150" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
 <text x="65" y="405" fill="#38BDF8" font-size="12" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">The Inversion of Control Magic in DIP:</text>
 <text x="65" y="427" fill="#F87171" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Traditional Coupling (Anti-Pattern): Business code directly calls 'import org.hibernate.Session' or 'new SqlDatabaseRepo()'. The domain is held hostage by DB changes.</text>

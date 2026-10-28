@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #94A3B8; text-anchor: start; }
+      .code-line { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; fill: #60A5FA; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr-r29" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-a29" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-g29" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <rect x="25" y="25" width="1010" height="350" class="pillar-box" stroke="#3B82F6"/>
+  <text x="530" y="55" class="title-text" fill="#60A5FA">Production 3-Tier Data Quality Triage: Bad Records, NULLs &amp; Duplicates</text>
+
+  <!-- Ingestion Source -->
+  <rect x="45" y="80" width="200" height="265" class="card" stroke="#3B82F6"/>
+  <text x="145" y="108" class="card-title" fill="#93C5FD">Raw Ingestion Stream</text>
+  <text x="55" y="135" class="card-body" fill="#F8FAFC">• Kafka / Auto Loader / ADF</text>
+  <text x="55" y="155" class="card-body">• Inbound messy payloads:</text>
+  <text x="65" y="175" class="card-body" fill="#EF4444">1. Corrupt JSON / unescaped</text>
+  <text x="65" y="195" class="card-body" fill="#F59E0B">2. Missing NULL keys / dates</text>
+  <text x="65" y="215" class="card-body" fill="#3B82F6">3. Retried duplicate records</text>
+  <text x="55" y="250" class="card-body">• Invariant: Pipeline must</text>
+  <text x="65" y="270" class="card-body" fill="#10B981">NEVER CRASH on bad data!</text>
+  <text x="55" y="300" class="card-body" fill="#94A3B8">Continuous Processing</text>
+
+  <!-- Fan-out Connectors -->
+  <path d="M 245 140 C 270 140, 275 125, 295 125" class="edge" stroke="#EF4444" marker-end="url(#arr-r29)"/>
+  <path d="M 245 200 L 295 200" class="edge" stroke="#F59E0B" marker-end="url(#arr-a29)"/>
+  <path d="M 245 260 C 270 260, 275 285, 295 285" class="edge" stroke="#10B981" marker-end="url(#arr-g29)"/>
+
+  <!-- Tier 1: Corrupt Records -->
+  <rect x="305" y="80" width="330" height="80" class="card" stroke="#EF4444"/>
+  <text x="470" y="103" class="card-title" fill="#FCA5A5">Tier 1: Corrupt / Unparseable Records</text>
+  <text x="315" y="125" class="card-body">• Mode: PERMISSIVE with `_corrupt_record` or `badRecordsPath`</text>
+  <text x="315" y="145" class="card-body" fill="#FCA5A5">• Action: Offload raw bytes to DLQ Blob storage for human replay</text>
+
+  <!-- Tier 2: NULL / Schema Violations -->
+  <rect x="305" y="170" width="330" height="80" class="card" stroke="#F59E0B"/>
+  <text x="470" y="193" class="card-title" fill="#FCD34D">Tier 2: Missing &amp; Illegal NULLs</text>
+  <text x="315" y="215" class="card-body">• Rule: Non-null keys (user_id, order_id) or range checks</text>
+  <text x="315" y="235" class="card-body" fill="#FCD34D">• Action: Route to `quarantine_sales` table with error code</text>
+
+  <!-- Tier 3: Duplicates -->
+  <rect x="305" y="260" width="330" height="85" class="card" stroke="#10B981"/>
+  <text x="470" y="283" class="card-title" fill="#34D399">Tier 3: Duplicate Record Deduplication</text>
+  <text x="315" y="305" class="card-body">• ROW_NUMBER() OVER (PARTITION BY key ORDER BY updated_at DESC)</text>
+  <text x="315" y="325" class="card-body" fill="#34D399">• Action: Winner (rn=1) merges into Delta Silver/Gold table</text>
+
+  <!-- Connectors to Destinations -->
+  <path d="M 635 120 L 685 120" class="edge" stroke="#EF4444" marker-end="url(#arr-r29)"/>
+  <path d="M 635 210 L 685 210" class="edge" stroke="#F59E0B" marker-end="url(#arr-a29)"/>
+  <path d="M 635 300 L 685 300" class="edge" stroke="#10B981" marker-end="url(#arr-g29)"/>
+
+  <!-- Destinations Column -->
+  <rect x="695" y="80" width="320" height="265" class="card" stroke="#8B5CF6"/>
+  <text x="855" y="108" class="card-title" fill="#C084FC">Storage Destinations &amp; Observability</text>
+  <text x="710" y="135" class="card-body" fill="#FCA5A5 font-weight:700">• Dead Letter Queue (DLQ):</text>
+  <text x="720" y="153" class="card-body">  abfss://dlq/corrupt/year=2026/month=10/</text>
+  <text x="710" y="185" class="card-body" fill="#FCD34D font-weight:700">• Silver Quarantine Delta Table:</text>
+  <text x="720" y="203" class="card-body">  schema.quarantine_orders (error_reason, raw_json)</text>
+  <text x="710" y="235" class="card-body" fill="#34D399 font-weight:700">• Gold Production Delta Lake:</text>
+  <text x="720" y="253" class="card-body">  schema.fact_orders (100% Validated &amp; Deduplicated)</text>
+  <text x="710" y="285" class="card-body" fill="#C084FC">• Observability Alerts:</text>
+  <text x="720" y="305" class="card-body">  Slack / Datadog alert if quarantine &gt; 1% of batch</text>
+</svg>
+

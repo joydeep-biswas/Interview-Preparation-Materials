@@ -6,98 +6,98 @@
       .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
     </style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B0F19"/>
-      <stop offset="100%" stop-color="#111827"/>
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
     </linearGradient>
-    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
-    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981" />
     </marker>
-    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
-    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
-    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
-    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B" />
     </marker>
   </defs>
   <!-- Canvas Background -->
-  <rect width="1140" height="480" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <rect width="1140" height="480" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5" />
   <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Relational Query Execution &amp; Processing Architecture</text>
   <text x="35" y="54" font-size="11" fill="#94A3B8">Pillars of relational database execution: Compilation pipeline, Volcano iterator model, and physical storage layout</text>
 
   <!-- Column 1: Compilation Pipeline (Height tightly hugs 3 cards: 350) -->
   <g transform="translate(30, 80)">
-    <rect width="345" height="370" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="345" height="370" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2" />
     <text x="172" y="28" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">1. Compilation Pipeline</text>
 
     <!-- Card 1.1 -->
-    <rect x="15" y="45" width="315" height="80" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
+    <rect x="15" y="45" width="315" height="80" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2" />
     <text x="172" y="70" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Declarative SQL (What)</text>
     <text x="30" y="92" font-size="11" fill="#94A3B8" text-anchor="start">• High-level mathematical relational algebra</text>
     <text x="30" y="109" font-size="11" fill="#94A3B8" text-anchor="start">• Abstract tuple calculus; no manual pointers</text>
 
     <!-- Card 1.2 -->
-    <rect x="15" y="155" width="315" height="80" rx="6" fill="#1C2541" stroke="#F59E0B" stroke-width="1.2"/>
+    <rect x="15" y="155" width="315" height="80" rx="6" fill="#1C2541" stroke="#F59E0B" stroke-width="1.2" />
     <text x="172" y="180" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Cost-Based Optimizer (CBO)</text>
     <text x="30" y="202" font-size="11" fill="#FDE68A" text-anchor="start">• Analyzes histogram stats &amp; cardinality</text>
     <text x="30" y="219" font-size="11" fill="#FDE68A" text-anchor="start">• Selects join order, indexes &amp; physical algorithms</text>
 
     <!-- Card 1.3 -->
-    <rect x="15" y="265" width="315" height="80" rx="6" fill="#1C2541" stroke="#10B981" stroke-width="1.2"/>
+    <rect x="15" y="265" width="315" height="80" rx="6" fill="#1C2541" stroke="#10B981" stroke-width="1.2" />
     <text x="172" y="290" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Imperative Engine (How)</text>
     <text x="30" y="312" font-size="11" fill="#A7F3D0" text-anchor="start">• Vectorized batch scans &amp; hardware SIMD</text>
     <text x="30" y="329" font-size="11" fill="#A7F3D0" text-anchor="start">• Executes compiled physical plan over disk pages</text>
 
     <!-- Downward Arrows -->
-    <path d="M 172 125 L 172 153" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
-    <path d="M 172 235 L 172 263" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+    <path d="M 172 125 L 172 153" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)" />
+    <path d="M 172 235 L 172 263" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
   </g>
 
   <!-- Column 2: Volcano Iterator Model -->
   <g transform="translate(400, 80)">
-    <rect width="340" height="370" rx="8" fill="#1A102F" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="340" height="370" rx="8" fill="#1A102F" stroke="#8B5CF6" stroke-width="2" />
     <text x="170" y="28" font-size="13" font-weight="700" fill="#C4B5FD" text-anchor="middle">2. Volcano Iterator Model</text>
 
     <!-- Root Project -->
-    <rect x="15" y="45" width="310" height="75" rx="6" fill="#2E1065" stroke="#8B5CF6" stroke-width="1.2"/>
+    <rect x="15" y="45" width="310" height="80" rx="6" fill="#2E1065" stroke="#8B5CF6" stroke-width="1.2" />
     <text x="170" y="70" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Root: Projection Node</text>
-    <text x="30" y="92" font-size="11" fill="#DDD6FE" text-anchor="start">• Pulls batches via next() method</text>
-    <text x="30" y="107" font-size="11" fill="#DDD6FE" text-anchor="start">• Evaluates scalar SELECT expressions</text>
+    <text x="30" y="92" font-size="11" fill="#DDD6FE" text-anchor="start">• Pulls batches via next() method on demand</text>
+    <text x="30" y="109" font-size="11" fill="#DDD6FE" text-anchor="start">• Evaluates scalar SELECT expressions</text>
 
     <!-- Hash Join -->
-    <rect x="15" y="150" width="310" height="85" rx="6" fill="#2E1065" stroke="#F59E0B" stroke-width="1.2"/>
-    <text x="170" y="174" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Intermediate: Hash Join</text>
-    <text x="30" y="196" font-size="11" fill="#FDE68A" text-anchor="start">• Build phase: in-memory HT on small table</text>
-    <text x="30" y="213" font-size="11" fill="#FDE68A" text-anchor="start">• Probe phase: stream large table tuples</text>
+    <rect x="15" y="155" width="310" height="80" rx="6" fill="#2E1065" stroke="#F59E0B" stroke-width="1.2" />
+    <text x="170" y="180" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Intermediate: Hash Join</text>
+    <text x="30" y="202" font-size="11" fill="#FDE68A" text-anchor="start">• Build phase: in-memory HT on small table</text>
+    <text x="30" y="219" font-size="11" fill="#FDE68A" text-anchor="start">• Probe phase: stream large table tuples</text>
 
     <!-- Table Scan -->
-    <rect x="15" y="265" width="310" height="80" rx="6" fill="#2E1065" stroke="#10B981" stroke-width="1.2"/>
+    <rect x="15" y="265" width="310" height="80" rx="6" fill="#2E1065" stroke="#10B981" stroke-width="1.2" />
     <text x="170" y="290" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Leaf: Table Scan (I/O)</text>
-    <text x="30" y="312" font-size="11" fill="#A7F3D0" text-anchor="start">• Sequential or B+Tree index scan</text>
+    <text x="30" y="312" font-size="11" fill="#A7F3D0" text-anchor="start">• Sequential or B+Tree index page scan</text>
     <text x="30" y="329" font-size="11" fill="#A7F3D0" text-anchor="start">• Pushes matching pages into buffer pool</text>
 
     <!-- Upward Tuple Stream Arrows -->
-    <path d="M 170 265 L 170 237" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
-    <path d="M 170 150 L 170 122" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+    <path d="M 170 265 L 170 235" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
+    <path d="M 170 155 L 170 125" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)" />
     <text x="178" y="252" font-size="10" fill="#10B981" font-weight="600">tuples</text>
-    <text x="178" y="138" font-size="10" fill="#8B5CF6" font-weight="600">tuples</text>
+    <text x="178" y="143" font-size="10" fill="#8B5CF6" font-weight="600">tuples</text>
   </g>
 
   <!-- Column 3: Storage Layout (Row vs Columnar) -->
   <g transform="translate(765, 80)">
-    <rect width="345" height="370" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
+    <rect width="345" height="370" rx="8" fill="#062828" stroke="#10B981" stroke-width="2" />
     <text x="172" y="28" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">3. Physical Storage Engine</text>
 
     <!-- Row Store -->
-    <rect x="15" y="45" width="315" height="135" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+    <rect x="15" y="45" width="315" height="135" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2" />
     <text x="172" y="70" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Row-Store (OLTP / PostgreSQL)</text>
     <text x="30" y="93" font-size="11" fill="#A7F3D0" text-anchor="start">• Data organized into fixed 8KB slotted pages</text>
     <text x="30" y="111" font-size="11" fill="#A7F3D0" text-anchor="start">• B+Tree index lookups: O(log N) point reads</text>
@@ -106,7 +106,7 @@
     <text x="30" y="165" font-size="10" fill="#6EE7B7" font-weight="600" text-anchor="start">Ideal for: Transactional CRUD operations</text>
 
     <!-- Columnar Store -->
-    <rect x="15" y="200" width="315" height="145" rx="6" fill="#064E3B" stroke="#06B6D4" stroke-width="1.2"/>
+    <rect x="15" y="200" width="315" height="145" rx="6" fill="#064E3B" stroke="#06B6D4" stroke-width="1.2" />
     <text x="172" y="225" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Columnar-Store (OLAP / BigQuery)</text>
     <text x="30" y="248" font-size="11" fill="#BAE6FD" text-anchor="start">• Striped column arrays (Parquet, ORC, Capacitor)</text>
     <text x="30" y="266" font-size="11" fill="#BAE6FD" text-anchor="start">• Dictionary, Run-Length (RLE) &amp; Bit-packing</text>

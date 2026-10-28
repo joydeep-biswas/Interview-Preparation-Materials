@@ -53,7 +53,7 @@
 
   <!-- Middle: Provider Loop Box -->
   <rect x="50" y="235" width="720" height="190" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
-  <rect x="50" y="235" width="720" height="30" rx="8" fill="#0369A1"/>
+  <rect x="50" y="235" width="720" height="30" rx="8" fill="#0369A1" stroke="#0284C7" stroke-width="1"/>
   <text x="410" y="255" font-size="12" font-weight="700" fill="#E0F2FE" text-anchor="middle">3. Provider Evaluation Zone: ProviderManager Iteration Loop</text>
 
   <!-- Provider 1 -->

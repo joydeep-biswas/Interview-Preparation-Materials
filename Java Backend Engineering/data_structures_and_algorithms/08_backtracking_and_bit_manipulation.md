@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to Backtracking, State-Space Tree Prunin
 
 ![Backtracking State Space Pruning & Bit Manipulation Mechanics](assets/08_backtracking_and_bit_manipulation/01_backtracking_pruning_and_bitmasking.svg)
 
-*D2 Source:* [assets/08_backtracking_and_bit_manipulation/01_backtracking_pruning_and_bitmasking.d2](assets/08_backtracking_and_bit_manipulation/01_backtracking_pruning_and_bitmasking.d2)
+*D2 Source: [`01_backtracking_pruning_and_bitmasking.d2`](assets/08_backtracking_and_bit_manipulation/01_backtracking_pruning_and_bitmasking.d2)*
 
 ---
 

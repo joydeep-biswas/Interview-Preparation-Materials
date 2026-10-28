@@ -1,0 +1,25 @@
+direction: down
+classes: {
+  p1: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  p2: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+  p3: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  p4: { style: { fill: "#831843"; stroke: "#EC4899"; stroke-width: 2; border-radius: 8 } }
+  p5: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  p6: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+  p7: { style: { fill: "#7F1D1D"; stroke: "#EF4444"; stroke-width: 2; border-radius: 8 } }
+}
+
+Phase1: "1. Parse & Deduplicate Dump Inquiries\nExtract raw questions, verify codebase coverage\nBucket A (Covered), B (Edge Case), C (Uncovered)" { class: p1 }
+Phase2: "2. Base Topic Coverage Verification\nAudit theoretical foundations, memory models\nExpand 0X_topic.md with deep mechanics" { class: p2 }
+Phase3: "3. FAQ Integration (D2 + SVG Diagrams)\nAuthor standalone .d2 and compiled .svg vector pairs\nEmbed via markdown link with strict blank line" { class: p3 }
+Phase4: "4. Establish Bidirectional Linking\nBase Topic [!TIP] callout -> Companion FAQ scenario\nFAQ question footer -> Base topic theoretical anchor" { class: p4 }
+Phase5: "5. Audit Master Indexes & TOCs\nUpdate Study Guide tables & question totals\nUpdate 00_*_faq_index.md domain scope & counts" { class: p5 }
+Phase6: "6. Scripted Link & Anchor Validation\nAutomated Python script audits 100% of links\nGuarantees 0 broken links & 100% dump coverage" { class: p6 }
+Phase7: "7. Clear Synced Question Dump\nTruncate questions-dump.md to clean placeholder\nPrevents duplicate reprocessing in future runs" { class: p7 }
+
+Phase1 -> Phase2: "Gap Analysis"
+Phase2 -> Phase3: "Core Theory Ready"
+Phase3 -> Phase4: "Scenarios Integrated"
+Phase4 -> Phase5: "Bidirectional Links"
+Phase5 -> Phase6: "Indexes Synchronized"
+Phase6 -> Phase7: "100% Verification PASS"

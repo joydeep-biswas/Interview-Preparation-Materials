@@ -7,15 +7,10 @@ classes: {
 }
 
 alert: "Alert: p99 Latency > 10,000ms" { class: alert }
-q: "Is Time-to-First-Token
-(TTFT > 3,000ms)?" { class: decision }
+q: "Is Time-to-First-Token\n(TTFT > 3,000ms)?" { class: decision }
 
-ttft_box: "TTFT Bottlenecks (Prefill)
-1. Queue Saturation -> Scale GPU pods
-2. Long Prompt Stalls -> Chunked Prefill" { class: ttft }
-itl_box: "ITL Bottlenecks (Generation)
-1. KV-Cache Thrashing -> PagedAttention
-2. Runaway Response -> max_tokens cap" { class: itl }
+ttft_box: "TTFT Bottlenecks (Prefill)\n1. Queue Saturation -> Scale GPU pods\n2. Long Prompt Stalls -> Chunked Prefill" { class: ttft }
+itl_box: "ITL Bottlenecks (Generation)\n1. KV-Cache Thrashing -> PagedAttention\n2. Runaway Response -> max_tokens cap" { class: itl }
 
 alert -> q
 q -> ttft_box: "YES (High TTFT)"

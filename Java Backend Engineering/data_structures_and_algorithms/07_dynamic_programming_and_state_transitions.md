@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to Dynamic Programming (DP), Memoization
 
 ![Dynamic Programming State Transition DAG & Space Compression](assets/07_dynamic_programming_and_state_transitions/01_dp_state_dag_and_space_compression.svg)
 
-*D2 Source:* [assets/07_dynamic_programming_and_state_transitions/01_dp_state_dag_and_space_compression.d2](assets/07_dynamic_programming_and_state_transitions/01_dp_state_dag_and_space_compression.d2)
+*D2 Source: [`01_dp_state_dag_and_space_compression.d2`](assets/07_dynamic_programming_and_state_transitions/01_dp_state_dag_and_space_compression.d2)*
 
 ---
 

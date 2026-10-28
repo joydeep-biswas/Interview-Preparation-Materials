@@ -1,28 +1,42 @@
 direction: right
-title: Real-Time API Protocols: Webhooks vs. Polling vs. SSE vs. WebSockets
+title: "Real-Time API Protocols: Webhooks vs. Polling vs. SSE vs. WebSockets"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-webhook: 1. Webhook (Reverse API Push) {
-  producer: Producer Server
-  consumer: Consumer Ingestion API
+webhook: "1. Webhook (Reverse API Push)" {
+  class: container
+  producer: "Producer Server"
+  consumer: "Consumer Ingestion API"
   producer -> consumer: "HTTP POST /webhook on event"
 }
 
-polling: 2. Long Polling (Held-Open Pull) {
-  pclient: Client
-  pserver: Server
+polling: "2. Long Polling (Held-Open Pull)" {
+  class: container
+  pclient: "Client"
+  pserver: "Server"
   pclient -> pserver: "HTTP GET /events (socket held open)"
   pserver -> pclient: "Response on event or timeout"
 }
 
-sse: 3. Server-Sent Events (SSE) {
-  sclient: Client
-  sserver: Server
+sse: "3. Server-Sent Events (SSE)" {
+  class: container
+  sclient: "Client"
+  sserver: "Server"
   sclient -> sserver: "HTTP GET text/event-stream"
   sserver -> sclient: "Continuous unidirectional chunk stream"
 }
 
-ws: 4. WebSockets (Full Duplex) {
-  wclient: Client
-  wserver: Server
+ws: "4. WebSockets (Full Duplex)" {
+  class: container
+  wclient: "Client"
+  wserver: "Server"
   wclient <-> wserver: "Bidirectional binary/text frames"
 }

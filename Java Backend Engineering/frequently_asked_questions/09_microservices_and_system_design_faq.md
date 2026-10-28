@@ -8,7 +8,7 @@ A comprehensive guide answering all 26 questions on microservice patterns, Domai
 
 ![Edge API Gateway Architecture](assets/09_microservices_and_system_design_faq/01_microservices_edge_api_gateway_architecture.svg)
 
-*D2 Source:* [assets/09_microservices_and_system_design_faq/01_microservices_edge_api_gateway_architecture.d2](assets/09_microservices_and_system_design_faq/01_microservices_edge_api_gateway_architecture.d2)
+*D2 Source: [`01_microservices_edge_api_gateway_architecture.d2`](assets/09_microservices_and_system_design_faq/01_microservices_edge_api_gateway_architecture.d2)*
 
 ---
 
@@ -213,7 +213,7 @@ When defending APIs against abusive clients, a distributed Token Bucket or Slidi
 
 ![Token Bucket vs Leaky Bucket Rate Limiting](assets/09_microservices_and_system_design_faq/02_token_bucket_vs_leaky_bucket_rate_limiting.svg)
 
-*D2 Source:* [assets/09_microservices_and_system_design_faq/02_token_bucket_vs_leaky_bucket_rate_limiting.d2](assets/09_microservices_and_system_design_faq/02_token_bucket_vs_leaky_bucket_rate_limiting.d2)
+*D2 Source: [`02_token_bucket_vs_leaky_bucket_rate_limiting.d2`](assets/09_microservices_and_system_design_faq/02_token_bucket_vs_leaky_bucket_rate_limiting.d2)*
 
 ---
 
@@ -310,7 +310,7 @@ Designing a payment platform handling 50,000 TPS with zero double-charging under
 
 ![Distributed Idempotent Payment Pipeline](assets/09_microservices_and_system_design_faq/03_distributed_idempotent_payment_pipeline.svg)
 
-*D2 Source:* [assets/09_microservices_and_system_design_faq/03_distributed_idempotent_payment_pipeline.d2](assets/09_microservices_and_system_design_faq/03_distributed_idempotent_payment_pipeline.d2)
+*D2 Source: [`03_distributed_idempotent_payment_pipeline.d2`](assets/09_microservices_and_system_design_faq/03_distributed_idempotent_payment_pipeline.d2)*
 
 #### Production Problem-Solution Breakdown:
 1. **Preventing Duplicate Payments:**
@@ -382,7 +382,7 @@ A Trailing Stop-Loss engine continuously monitors incoming market data ticks and
 #### Visual Flow
 ![Real-time Orderbook Matching Engine](assets/09_microservices_and_system_design_faq/04_realtime_orderbook_matching_engine.svg)
 
-*D2 Source:* [assets/09_microservices_and_system_design_faq/04_realtime_orderbook_matching_engine.d2](assets/09_microservices_and_system_design_faq/04_realtime_orderbook_matching_engine.d2)
+*D2 Source: [`04_realtime_orderbook_matching_engine.d2`](assets/09_microservices_and_system_design_faq/04_realtime_orderbook_matching_engine.d2)*
 
 #### Production Implementation / Java Engine Code
 ```java
@@ -487,7 +487,7 @@ When an upstream API Gateway receives requests that fan out to three downstream 
 #### Visual Flow
 ![Bulkhead Pattern: Thread Pool Isolation vs Exhaustion](assets/09_microservices_and_system_design_faq/05_bulkhead_pattern_thread_pool_isolation.svg)
 
-*D2 Source:* [assets/09_microservices_and_system_design_faq/05_bulkhead_pattern_thread_pool_isolation.d2](assets/09_microservices_and_system_design_faq/05_bulkhead_pattern_thread_pool_isolation.d2)
+*D2 Source: [`05_bulkhead_pattern_thread_pool_isolation.d2`](assets/09_microservices_and_system_design_faq/05_bulkhead_pattern_thread_pool_isolation.d2)*
 
 #### Production Implementation / Resilience4j Configuration
 ```yaml
@@ -543,7 +543,7 @@ When a downstream microservice experiences high load or temporary database throt
 #### Visual Flow
 ![Exponential Backoff with Full Jitter vs Synchronized Retry Storm](assets/09_microservices_and_system_design_faq/06_exponential_backoff_jitter_retry_storm.svg)
 
-*D2 Source:* [assets/09_microservices_and_system_design_faq/06_exponential_backoff_jitter_retry_storm.d2](assets/09_microservices_and_system_design_faq/06_exponential_backoff_jitter_retry_storm.d2)
+*D2 Source: [`06_exponential_backoff_jitter_retry_storm.d2`](assets/09_microservices_and_system_design_faq/06_exponential_backoff_jitter_retry_storm.d2)*
 
 #### Production Implementation / Java Code
 ```java
@@ -596,7 +596,7 @@ A **Distributed Monolith** is an architectural anti-pattern where a system posse
 #### Visual Flow
 ![Distributed Monolith Anti-Pattern vs Decoupled Microservices](assets/09_microservices_and_system_design_faq/07_distributed_monolith_anti_pattern.svg)
 
-*D2 Source:* [assets/09_microservices_and_system_design_faq/07_distributed_monolith_anti_pattern.d2](assets/09_microservices_and_system_design_faq/07_distributed_monolith_anti_pattern.d2)
+*D2 Source: [`07_distributed_monolith_anti_pattern.d2`](assets/09_microservices_and_system_design_faq/07_distributed_monolith_anti_pattern.d2)*
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [13. Microservices & Distributed System Design: Monolith vs Microservices](../09_microservices_and_system_design.md#91-monolith-vs-microservices-architecture-deep-dive)*
@@ -633,7 +633,7 @@ $$T_C = (1 + 3) \times (1 + 3) \times (1 + 3) = 64\times \text{ inbound volume}$
 
 ![Cascading Meltdown Failure vs Circuit Breaker Mitigation](assets/09_microservices_and_system_design_faq/08_cascading_failure_circuit_breaker_mitigation.svg)
 
-*D2 Source:* [assets/09_microservices_and_system_design_faq/08_cascading_failure_circuit_breaker_mitigation.d2](assets/09_microservices_and_system_design_faq/08_cascading_failure_circuit_breaker_mitigation.d2)
+*D2 Source: [`08_cascading_failure_circuit_breaker_mitigation.d2`](assets/09_microservices_and_system_design_faq/08_cascading_failure_circuit_breaker_mitigation.d2)*
 
 #### Production Architectural Redesign (The 5 Canonical Principles)
 1. **Single-Point Retry Invariant:** Never retry at intermediate hops ($B \to C$ and $A \to B$). Retries must occur **only at the immediate caller** (Service $B$ to $C$) OR at the **system edge** (API Gateway / Client), never both.

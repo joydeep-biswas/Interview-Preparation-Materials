@@ -1,63 +1,109 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 380" width="100%" height="100%">
-  {COMMON_DEFS}
-  <style>
-{COMMON_STYLES}
-  </style>
-  <rect width="100%" height="100%" fill="url(#bg-grad)" />
-  <text x="525" y="32" class="title" font-size="19" text-anchor="middle">Java Exception Hierarchy: Throwable, Error, Checked &amp; Unchecked Exceptions</text>
-  <text x="525" y="52" class="subtitle" text-anchor="middle">Architectural taxonomy separating fatal JVM errors from recoverable checked and runtime exceptions</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1220" height="560" viewBox="0 0 1220 560">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', -apple-system, sans-serif; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <!-- Canvas Background -->
+  <rect width="1220" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Java Throwable &amp; Exception Class Hierarchy</text>
+  <text x="35" y="54" font-size="11" fill="#94A3B8">Fatal JVM Errors vs. Checked Exceptions (Compiler-Enforced) vs. Unchecked RuntimeExceptions</text>
 
-  <!-- Root: Throwable -->
-  <g transform="translate(375, 75)">
-    <rect width="300" height="50" rx="8" ry="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <text x="150" y="24" class="card-title" fill="#93C5FD" text-anchor="middle">java.lang.Throwable</text>
-    <text x="150" y="40" class="card-body" text-anchor="middle">Root base class for all exceptions &amp; errors</text>
-  </g>
+  <!-- Root Throwable Node -->
+  <rect x="440" y="90" width="340" height="55" rx="6" fill="#1E293B" stroke="#3B82F6" stroke-width="2"/>
+  <text x="610" y="113" font-size="14" font-weight="700" fill="#60A5FA" text-anchor="middle">java.lang.Throwable</text>
+  <text x="610" y="133" font-size="10" fill="#94A3B8" text-anchor="middle">Base class for all errors and exceptions in the Java language</text>
 
-  <!-- Branch 1: Error (Fatal) -->
-  <g transform="translate(40, 160)">
-    <rect width="280" height="190" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
-    <rect width="280" height="30" rx="10" ry="10" fill="#7F1D1D"/>
-    <text x="140" y="20" class="card-title" fill="#FCA5A5" text-anchor="middle">java.lang.Error (Fatal JVM)</text>
-    <text x="16" y="50" class="card-body" font-weight="600" fill="#F87171">• Unrecoverable JVM Failures:</text>
-    <text x="24" y="70" class="card-body">  - OutOfMemoryError (Heap/Meta)</text>
-    <text x="24" y="90" class="card-body">  - StackOverflowError</text>
-    <text x="24" y="110" class="card-body">  - InternalError / UnknownError</text>
-    <text x="16" y="136" class="card-body" font-weight="600" fill="#F87171">• Handling Rule:</text>
-    <text x="24" y="156" class="card-body">  - Never catch in application code</text>
-    <rect x="16" y="166" width="248" height="10" rx="2" ry="2" fill="#1E293B"/>
-  </g>
+  <!-- Branch 1: Fatal JVM Errors -->
+  <rect x="50" y="175" width="340" height="315" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
+  <rect x="50" y="175" width="340" height="30" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
+  <text x="220" y="195" font-size="12" font-weight="700" fill="#FCA5A5" text-anchor="middle">Fatal Errors: java.lang.Error</text>
+
+  <rect x="70" y="215" width="300" height="85" rx="6" fill="#0F172A" stroke="#EF4444" stroke-width="1"/>
+  <text x="85" y="238" font-size="11" font-weight="700" fill="#F87171">JVM System Failures:</text>
+  <text x="85" y="258" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">&#x2022; OutOfMemoryError (Heap/Metaspace exhausted)</text>
+  <text x="85" y="276" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">&#x2022; StackOverflowError (Infinite recursion)</text>
+  <text x="85" y="294" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">&#x2022; VirtualMachineError / InternalError</text>
+
+  <rect x="70" y="310" width="300" height="165" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="85" y="335" font-size="11" font-weight="700" fill="#F8FAFC">Handling Rule: NEVER CATCH</text>
+  <text x="85" y="358" font-size="10" fill="#CBD5E1">&#x2022; Represents unrecoverable JVM conditions</text>
+  <text x="85" y="378" font-size="10" fill="#CBD5E1">&#x2022; Catching Error leaves process in indeterminate</text>
+  <text x="85" y="396" font-size="10" fill="#CBD5E1">  corrupted state</text>
+  <text x="85" y="420" font-size="10" fill="#F87171">&#x2022; Allow JVM to terminate or generate heap dump</text>
+  <text x="85" y="440" font-size="10" font-family="'JetBrains Mono', monospace" fill="#FBBF24">-XX:+CrashOnOutOfMemoryError</text>
 
   <!-- Branch 2: Checked Exceptions -->
-  <g transform="translate(370, 160)">
-    <rect width="310" height="190" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="310" height="30" rx="10" ry="10" fill="#78350F"/>
-    <text x="155" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">Checked Exceptions (Compile-Time)</text>
-    <text x="16" y="50" class="card-body" font-weight="600" fill="#FBBF24">• java.lang.Exception Subclasses:</text>
-    <text x="24" y="70" class="card-body">  - IOException (Socket / File drops)</text>
-    <text x="24" y="90" class="card-body">  - SQLException (DB connection drops)</text>
-    <text x="24" y="110" class="card-body">  - ClassNotFoundException</text>
-    <text x="16" y="136" class="card-body" font-weight="600" fill="#FBBF24">• Compiler Enforcement:</text>
-    <text x="24" y="156" class="card-body">  - Must declare (throws) or handle (try/catch)</text>
-    <rect x="16" y="166" width="278" height="10" rx="2" ry="2" fill="#1E293B"/>
-  </g>
+  <rect x="420" y="175" width="360" height="315" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="420" y="175" width="360" height="30" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
+  <text x="600" y="195" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Checked: java.lang.Exception</text>
 
-  <!-- Branch 3: Runtime Exceptions -->
-  <g transform="translate(730, 160)">
-    <rect width="280" height="190" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="280" height="30" rx="10" ry="10" fill="#064E3B"/>
-    <text x="140" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">RuntimeException (Unchecked)</text>
-    <text x="16" y="50" class="card-body" font-weight="600" fill="#34D399">• Logic &amp; Programming Bugs:</text>
-    <text x="24" y="70" class="card-body">  - NullPointerException (NPE)</text>
-    <text x="24" y="90" class="card-body">  - IllegalArgumentException</text>
-    <text x="24" y="110" class="card-body">  - ArrayIndexOutOfBoundsException</text>
-    <text x="16" y="136" class="card-body" font-weight="600" fill="#34D399">• Handling Rule:</text>
-    <text x="24" y="156" class="card-body">  - Fix logic rather than catching blindly</text>
-    <rect x="16" y="166" width="248" height="10" rx="2" ry="2" fill="#1E293B"/>
-  </g>
+  <rect x="440" y="215" width="320" height="85" rx="6" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+  <text x="455" y="238" font-size="11" font-weight="700" fill="#FBBF24">Anticipated External Faults:</text>
+  <text x="455" y="258" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">&#x2022; IOException (Network/Disk failure)</text>
+  <text x="455" y="276" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">&#x2022; SQLException (Database query error)</text>
+  <text x="455" y="294" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">&#x2022; ClassNotFoundException / TimeoutException</text>
 
-  <!-- Connective Runways from Throwable -->
-  <path d="M 430 125 L 430 140 Q 430 150 400 150 L 195 150 Q 180 150 180 155 L 180 160" fill="none" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
-  <path d="M 525 125 L 525 155 L 525 160" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow-yellow)"/>
-  <path d="M 620 125 L 620 140 Q 620 150 650 150 L 855 150 Q 870 150 870 155 L 870 160" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <rect x="440" y="310" width="320" height="165" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="455" y="335" font-size="11" font-weight="700" fill="#FBBF24">Compiler Enforcement:</text>
+  <text x="455" y="358" font-size="10" fill="#CBD5E1">&#x2022; Enforced statically by <tspan font-family="'JetBrains Mono', monospace">javac</tspan> compiler</text>
+  <text x="455" y="378" font-size="10" fill="#CBD5E1">&#x2022; Must either be handled with <tspan font-family="'JetBrains Mono', monospace">try-catch</tspan></text>
+  <text x="455" y="396" font-size="10" fill="#CBD5E1">  or declared on method signature via <tspan font-family="'JetBrains Mono', monospace">throws</tspan></text>
+  <text x="455" y="420" font-size="10" fill="#A7F3D0">&#x2022; Represents recoverable conditions where</text>
+  <text x="455" y="438" font-size="10" fill="#A7F3D0">  alternate business fallback is possible</text>
+
+  <!-- Branch 3: Unchecked RuntimeExceptions -->
+  <rect x="810" y="175" width="360" height="315" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
+  <rect x="810" y="175" width="360" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
+  <text x="990" y="195" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Unchecked: RuntimeException</text>
+
+  <rect x="830" y="215" width="320" height="85" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+  <text x="845" y="238" font-size="11" font-weight="700" fill="#34D399">Software Logic Defects:</text>
+  <text x="845" y="258" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">&#x2022; NullPointerException (Null dereference)</text>
+  <text x="845" y="276" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">&#x2022; IllegalArgumentException (Bad argument)</text>
+  <text x="845" y="294" font-size="10" font-family="'JetBrains Mono', monospace" fill="#CBD5E1">&#x2022; IllegalStateException / IndexOutOfBounds</text>
+
+  <rect x="830" y="310" width="320" height="165" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="845" y="335" font-size="11" font-weight="700" fill="#34D399">Compiler Exemption:</text>
+  <text x="845" y="358" font-size="10" fill="#CBD5E1">&#x2022; NOT checked by javac (no mandatory throws)</text>
+  <text x="845" y="378" font-size="10" fill="#CBD5E1">&#x2022; Indicates bugs in program code that could</text>
+  <text x="845" y="396" font-size="10" fill="#CBD5E1">  have been prevented by defensive checks</text>
+  <text x="845" y="420" font-size="10" fill="#38BDF8">&#x2022; Fix the code root cause rather than writing</text>
+  <text x="845" y="438" font-size="10" fill="#38BDF8">  swallowing catch(RuntimeException) blocks!</text>
+
+  <!-- Bottom Invariant Banner -->
+  <rect x="50" y="505" width="1120" height="40" rx="6" fill="#0B132B" stroke="#3B82F6" stroke-width="1"/>
+  <text x="610" y="530" font-size="11" font-weight="600" fill="#93C5FD" text-anchor="middle">Modern Java Architecture Rule: Prefer Unchecked Exceptions or Result&lt;T&gt; types for internal domain APIs to avoid cluttering method signatures.</text>
+
+  <!-- Connectors -->
+  <path d="M 500 145 L 500 160 L 220 160 L 220 175" stroke="#EF4444" stroke-width="2" fill="none" marker-end="url(#arr-r)"/>
+  <path fill="none" d="M 610 145 L 610 175" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+  <path d="M 720 145 L 720 160 L 990 160 L 990 175" stroke="#10B981" stroke-width="2" fill="none" marker-end="url(#arr-g)"/>
 </svg>

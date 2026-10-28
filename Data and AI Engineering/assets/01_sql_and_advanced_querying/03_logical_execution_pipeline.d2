@@ -1,25 +1,49 @@
-# The 9-Stage Logical Execution Pipeline
+# The ANSI SQL 9-Stage Logical Query Processing Lifecycle
 direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  stage: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+}
 
-tier1: "Tier 1: Ingestion & Filtering" {
-  s1: "Stage 1: FROM & JOIN\n• Identifies sources & join ON clauses"
-  s2: "Stage 2: WHERE\n• Filters row predicates; no aliases allowed"
+stage1: "Stage 1: Source & Ingestion" {
+  class: pillar
+  style.stroke: "#3B82F6"
+  s1: "1. FROM & JOINs (VT1)\n• Base tables & Cartesian cross joins\n• Evaluates ON join predicates" { class: stage; style.stroke: "#3B82F6" }
+  s2: "2. WHERE Filter (VT2)\n• Row boolean predicates prior to grouping\n• ⚠️ No SELECT aliases or aggregates" { class: stage; style.stroke: "#EF4444" }
   s1 -> s2
 }
 
-tier2: "Tier 2: Aggregation & Analytics" {
-  s3: "Stage 3: GROUP BY\n• Buckets rows into groups"
-  s4: "Stage 4: HAVING\n• Filters aggregated buckets"
-  s5: "Stage 5: WINDOW\n• Computes OVER() analytical metrics"
-  s3 -> s4 -> s5
+stage2: "Stage 2: Grouping & Aggregation" {
+  class: pillar
+  style.stroke: "#F59E0B"
+  s3: "3. GROUP BY (VT3)\n• Partitions rows into key buckets\n• Non-grouped cols fold to accumulators" { class: stage; style.stroke: "#F59E0B" }
+  s4: "4. HAVING Filter (VT4)\n• Evaluates post-aggregate predicates\n• Prunes groups failing HAVING filter" { class: stage; style.stroke: "#F59E0B" }
+  s3 -> s4
 }
 
-tier3: "Tier 3: Projection & Output Shaping" {
-  s6: "Stage 6: SELECT\n• Evaluates column aliases"
-  s7: "Stage 7: DISTINCT\n• Deduplicates projected tuples"
-  s8: "Stage 8: ORDER BY\n• Sorts final rowset"
-  s9: "Stage 9: LIMIT / OFFSET\n• Discards outside boundary"
-  s6 -> s7 -> s8 -> s9
+stage3: "Stage 3: Projection & Sets" {
+  class: pillar
+  style.stroke: "#10B981"
+  s5: "5. SELECT & OVER() (VT5)\n• Projects scalar exprs & column aliases\n• Computes OVER() window partitions" { class: stage; style.stroke: "#10B981" }
+  s6: "6. DISTINCT (VT6)\n• Hash/sort set deduplication\n• Eliminates duplicate projected tuples" { class: stage; style.stroke: "#10B981" }
+  s7: "7. Set Operators (VT7)\n• UNION, INTERSECT, EXCEPT logic\n• Merges rows across subqueries" { class: stage; style.stroke: "#10B981" }
+  s5 -> s6 -> s7
 }
 
-tier1 -> tier2 -> tier3
+stage4: "Stage 4: Ordering & Limiting" {
+  class: pillar
+  style.stroke: "#8B5CF6"
+  s8: "8. ORDER BY (VT8)\n• Sorts surviving rows (O(N log N))\n• SELECT column aliases are visible" { class: stage; style.stroke: "#8B5CF6" }
+  s9: "9. LIMIT / OFFSET (VT9)\n• Top-N heap priority queue\n• Restricts egress row count to client" { class: stage; style.stroke: "#EF4444" }
+  s8 -> s9
+}
+
+stage1.s2 -> stage2.s3: "Filtered Stream (VT2)" {
+  style.stroke: "#F59E0B"
+}
+stage2.s4 -> stage3.s5: "Aggregated Groups (VT4)" {
+  style.stroke: "#10B981"
+}
+stage3.s7 -> stage4.s8: "Projected Set (VT7)" {
+  style.stroke: "#8B5CF6"
+}

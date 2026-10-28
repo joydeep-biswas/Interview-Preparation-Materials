@@ -1,19 +1,32 @@
 direction: right
-title: Physical Join Algorithms: Nested Loop vs. Hash Join vs. Merge Sort
+title: "Physical Join Algorithms: Nested Loop vs. Hash Join vs. Merge Sort"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-nlj: 1. Nested Loop Join (Index Probe) {
+nlj: "1. Nested Loop Join (Index Probe)" {
+  class: container
   complexity: "O(M * log N)"
   mechanics: "For each outer row, probe inner B+ Tree index"
   best_for: "Small outer table with indexed inner table"
 }
 
-hash_join: 2. Hash Join (Build & Probe) {
+hash_join: "2. Hash Join (Build & Probe)" {
+  class: container
   complexity: "O(M + N)"
   mechanics: "Build in-memory hash table on small table, stream probe large table"
   best_for: "Large unsorted datasets with equality joins (=)"
 }
 
-merge_join: 3. Merge Sort Join (Synchronized Scan) {
+merge_join: "3. Merge Sort Join (Synchronized Scan)" {
+  class: container
   complexity: "O(M + N) sorted"
   mechanics: "Advance two pointers along sorted streams"
   best_for: "Pre-sorted inputs via B+ Tree indexes"

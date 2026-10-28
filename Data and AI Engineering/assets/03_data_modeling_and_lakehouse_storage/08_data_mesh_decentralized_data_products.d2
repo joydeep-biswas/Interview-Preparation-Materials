@@ -1,29 +1,45 @@
 direction: down
-title: Data Mesh: Decentralized Autonomous Data Products
+title: "Data Mesh: Decentralized Autonomous Data Products"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-domains: Domain-Oriented Decentralized Teams {
-  d1: Domain: Checkout & Payments {
+domains: "Domain-Oriented Decentralized Teams" {
+  class: container
+  d1: "Domain: Checkout & Payments" {
+    class: box
     product1: "Data Product: Completed Transactions"
     team1: "Cross-functional domain engineers & owner"
   }
-  d2: Domain: Supply Chain Logistics {
+  d2: "Domain: Supply Chain Logistics" {
+    class: box
     product2: "Data Product: Fleet Telemetry"
     team2: "Logistics data engineers"
   }
-  d3: Domain: Customer Engagement {
+  d3: "Domain: Customer Engagement" {
+    class: box
     product3: "Data Product: Churn Indicators"
     team3: "ML & marketing data pod"
   }
 }
 
-governance: Federated Computational Governance {
-  opa: Automated Policy Engine (Open Policy Agent)
-  contracts: Global Data Contracts & PII Tokenization
+governance: "Federated Computational Governance" {
+  class: container
+  opa: "Automated Policy Engine (Open Policy Agent)"
+  contracts: "Global Data Contracts & PII Tokenization"
 }
 
-platform: Self-Serve Data Infrastructure Platform {
-  iac: 1-Click Compute & Storage Provisioning
-  catalog: Unified Data Catalog & Discovery Engine
+platform: "Self-Serve Data Infrastructure Platform" {
+  class: container
+  iac: "1-Click Compute & Storage Provisioning"
+  catalog: "Unified Data Catalog & Discovery Engine"
 }
 
 governance -> domains: "Automated Policy Enforcement"

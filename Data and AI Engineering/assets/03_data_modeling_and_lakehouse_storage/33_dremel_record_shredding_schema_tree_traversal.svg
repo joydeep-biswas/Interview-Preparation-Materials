@@ -47,7 +47,7 @@
 
   
     <rect x="275" y="110" width="210" height="100" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="380.0" y="136" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">owner: Optional Struct</text>
+    <text x="284" y="136" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">owner: Optional Struct</text>
     <text x="380.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Level 1 (Optional)</text>
     <rect x="434" y="120" width="45" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="456.5" y="132" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">LVL 1</text>
@@ -62,7 +62,7 @@
 
   
     <rect x="520" y="110" width="210" height="100" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="625.0" y="136" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">phone: Repeated Array</text>
+    <text x="529" y="136" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">phone: Repeated Array</text>
     <text x="625.0" y="152" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Level 2 (Repeated)</text>
     <rect x="679" y="120" width="45" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
     <text x="701.5" y="132" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">LVL 2</text>

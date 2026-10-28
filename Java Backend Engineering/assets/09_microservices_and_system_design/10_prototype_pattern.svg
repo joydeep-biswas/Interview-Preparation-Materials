@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Prototype Pattern: Efficient Cloning of Pre-Warmed Complex States</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Deep / Defensive State Forking to Bypass Expensive Database Queries and CPU Deserialization</text>
 <rect x="50" y="120" width="260" height="300" rx="8" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
@@ -42,7 +42,7 @@
 <text x="70" y="370" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Throws CloneNotSupportedException</text>
 <text x="70" y="395" fill="#34D399" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Custom copy() / Copy Constructor is clean!</text>
 <rect x="370" y="120" width="340" height="300" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="2"/>
-<rect x="385" y="135" width="240" height="20" rx="10" fill="#1e3a8a"/><text x="505" y="148" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. PRE-WARMED PROTOTYPE</text>
+<rect x="385" y="135" width="240" height="20" rx="10" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="505" y="148" fill="#93C5FD" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">2. PRE-WARMED PROTOTYPE</text>
 <text x="540" y="180" fill="#60A5FA" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ReportConfiguration</text>
 <text x="390" y="208" fill="#93C5FD" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Expensive Pre-Loaded State:</text>
 <text x="390" y="228" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• 500+ complex layout styling rules</text>
@@ -56,7 +56,7 @@
 <text x="415" y="366" fill="#38BDF8" font-size="8" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">new ArrayList&lt;&gt;(this.columns));</text>
 <text x="395" y="384" fill="#6EE7B7" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">}</text>
 <rect x="770" y="120" width="260" height="300" rx="8" fill="#062e24" stroke="#10b981" stroke-width="2"/>
-<rect x="785" y="135" width="180" height="20" rx="10" fill="#047857"/><text x="875" y="148" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. TENANT INSTANCES</text>
+<rect x="785" y="135" width="180" height="20" rx="10" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="875" y="148" fill="#D1FAE5" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">3. TENANT INSTANCES</text>
 <text x="900" y="180" fill="#34D399" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Report Engine Client</text>
 <rect x="785" y="205" width="230" height="80" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
 <text x="900" y="225" fill="#6EE7B7" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tenant A Clone (50µs)</text>

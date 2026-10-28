@@ -15,7 +15,7 @@
     .badge { font-weight: 600; font-size: 11px; }
   </style>
 
-  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12" stroke="#1F2937" stroke-width="1.5"/>
 
   <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Hibernate Entity Loading: session.get() vs session.load()</text>
   <text x="530" y="52" class="subtitle" text-anchor="middle">Eager database query execution vs lazy bytecode CGLIB proxy initialization</text>
@@ -23,11 +23,11 @@
   <!-- Left: session.get() / em.find() -->
   <g transform="translate(40, 75)">
     <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="460" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="230" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">session.get(Order.class, 101) / em.find()</text>
 
     <g transform="translate(20, 48)">
-      <rect x="0" y="0" width="420" height="60" rx="6" ry="6" fill="#1E293B"/>
+      <rect x="0" y="0" width="420" height="60" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
       <text x="15" y="20" class="badge" fill="#93C5FD">1. Immediate Eager Query</text>
       <text x="15" y="38" class="card-body" font-family="monospace">SELECT * FROM orders WHERE id = 101;</text>
       <text x="15" y="52" class="card-body" font-size="11" fill="#93C5FD">Fires SQL immediately if not already in Persistence Context</text>
@@ -44,7 +44,7 @@
       <text x="15" y="211" class="card-body" font-size="11">Safe null return; easy to verify with if (order == null)</text>
     </g>
 
-    <rect x="20" y="295" width="420" height="55" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="20" y="295" width="420" height="55" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="210" y="318" class="badge" fill="#93C5FD" text-anchor="middle">Best Practice Recommendation</text>
     <text x="210" y="334" class="card-body" font-size="11" text-anchor="middle">Use when you need to inspect entity data or verify existence</text>
   </g>
@@ -52,11 +52,11 @@
   <!-- Right: session.load() / em.getReference() -->
   <g transform="translate(560, 75)">
     <rect width="460" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="460" height="30" rx="10" ry="10" fill="#92400E"/>
+    <rect width="460" height="30" rx="10" ry="10" fill="#92400E" stroke="#F59E0B" stroke-width="1"/>
     <text x="230" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">session.load(Order.class, 101) / em.getReference()</text>
 
     <g transform="translate(20, 48)">
-      <rect x="0" y="0" width="420" height="60" rx="6" ry="6" fill="#1E293B"/>
+      <rect x="0" y="0" width="420" height="60" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
       <text x="15" y="20" class="badge" fill="#FDE68A">1. Zero Immediate SQL Fired</text>
       <text x="15" y="38" class="card-body" font-family="monospace">// NO SQL EXECUTED HERE!</text>
       <text x="15" y="52" class="card-body" font-size="11" fill="#FDE68A">Returns lightweight synthetic proxy without querying DB</text>

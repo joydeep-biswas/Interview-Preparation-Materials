@@ -1,7 +1,18 @@
 direction: down
-title: Doubly-Linked Sentinels & Monotonic Stack Architecture
+title: "Doubly-Linked Sentinels & Monotonic Stack Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-DLL: 1. Doubly-Linked List with Sentinels {
+DLL: "1. Doubly-Linked List with Sentinels" {
+  class: container
   Head: "Head Dummy (null <-)"
   N1: "Node 1 (MRU)"
   N2: "Node 2 (LRU)"
@@ -9,10 +20,11 @@ DLL: 1. Doubly-Linked List with Sentinels {
   Head <-> N1 <-> N2 <-> Tail
 }
 
-StackCache: 2. Monotonic Stack & LRU Cache {
+StackCache: "2. Monotonic Stack & LRU Cache" {
+  class: container
   Stack: "Monotonic Stack\n(Base: 9 > Mid: 5 > Top: 3)"
   Map: "HashMap<Key, Node*>"
   Map -> DLL.N1: "Direct O(1) pointer lookup"
 }
 
-DLL -> StackCache: O(1) pointer mutations
+DLL -> StackCache: "O(1) pointer mutations"

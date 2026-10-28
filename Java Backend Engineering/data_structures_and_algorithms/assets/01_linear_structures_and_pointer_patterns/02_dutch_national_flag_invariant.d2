@@ -1,16 +1,30 @@
 direction: right
-title: Dutch National Flag 3-Way Partitioning Invariant
+title: "Dutch National Flag 3-Way Partitioning Invariant"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 R1: "Region 1 (All 0s)\n[0 .. low-1]" {
+  class: container
   style.stroke: "#38BDF8"
 }
 R2: "Region 2 (All 1s)\n[low .. mid-1]" {
+  class: container
   style.stroke: "#34D399"
 }
 R3: "Region 3 (Unexamined)\n[mid .. high]" {
+  class: container
   style.stroke: "#FBBF24"
 }
 R4: "Region 4 (All 2s)\n[high+1 .. n-1]" {
+  class: container
   style.stroke: "#C084FC"
 }
 

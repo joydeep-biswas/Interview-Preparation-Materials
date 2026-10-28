@@ -1,28 +1,42 @@
 direction: up
-title: Modern Data Lakehouse Architecture
+title: "Modern Data Lakehouse Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-storage: Cloud Object Storage (Parquet Files) {
+storage: "Cloud Object Storage (Parquet Files)" {
+  class: container
   shape: cylinder
   s3: "s3://company-lakehouse/*.parquet"
 }
 
-table_format: Open Table Formats (ACID & Metadata) {
-  delta: Delta Lake (_delta_log/*.json)
-  iceberg: Apache Iceberg (metadata.json)
-  hudi: Apache Hudi (.hoodie timeline)
+table_format: "Open Table Formats (ACID & Metadata)" {
+  class: container
+  delta: "Delta Lake (_delta_log/*.json)"
+  iceberg: "Apache Iceberg (metadata.json)"
+  hudi: "Apache Hudi (.hoodie timeline)"
 }
 
-compute: Decoupled Distributed Compute {
-  photon: Databricks Photon
-  spark: Apache Spark
-  trino: Trino Distributed SQL
-  snowflake: Snowflake Iceberg Engine
+compute: "Decoupled Distributed Compute" {
+  class: container
+  photon: "Databricks Photon"
+  spark: "Apache Spark"
+  trino: "Trino Distributed SQL"
+  snowflake: "Snowflake Iceberg Engine"
 }
 
-consumers: Unified Analytical & AI Consumption {
-  bi: BI & Dashboards (Power BI, Tableau)
-  ml: AI & ML (PyTorch, Feature Store)
-  adhoc: Interactive Ad-Hoc SQL
+consumers: "Unified Analytical & AI Consumption" {
+  class: container
+  bi: "BI & Dashboards (Power BI, Tableau)"
+  ml: "AI & ML (PyTorch, Feature Store)"
+  adhoc: "Interactive Ad-Hoc SQL"
 }
 
 storage -> table_format: "Data files registered"

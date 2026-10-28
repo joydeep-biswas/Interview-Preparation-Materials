@@ -26,7 +26,7 @@
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
     </marker>
   </defs>
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="490.0" y="36" fill="#f8fafc" font-size="18" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Push vs. Pull Ingestion Architecture: Polling Overhead vs. Event Push</text>
   <text x="490.0" y="58" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle">Consumer-Initiated Ingestion with Wasted Polling vs. Producer Proactive Webhook Delivery</text>
   
@@ -35,8 +35,8 @@
     <text x="46" y="117" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">1. Pull Model: Consumer Initiates Polling</text>
   
     <rect x="45" y="140" width="180" height="85" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="135.0" y="166" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Ingestion Worker</text>
-    <text x="135.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Airflow / Python</text>
+    <text x="57" y="163" fill="#fde68a" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">Ingestion Worker</text>
+    <text x="57" y="179" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Airflow / Python</text>
     <rect x="167" y="150" width="52" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
     <text x="193.0" y="162" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">POLLER</text>
     <circle cx="61" cy="195" r="2" fill="#f59e0b"/>
@@ -69,17 +69,17 @@
     <text x="69" y="346" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">4. Does not scale well with thousands of independent data entities.</text>
 
   
-    <line x1="225" y1="170" x2="260" y2="170" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><text x="242.5" y="162.0" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">GET (Poll)</text>
+    <line x1="225" y1="170" x2="260" y2="170" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)"/><rect x="222" y="155" width="41" height="14" rx="2" fill="#090d16" stroke="#f59e0b" stroke-width="0.8"/><text x="242.5" y="165" fill="#f59e0b" font-size="7.5" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">GET Poll</text>
   
-    <line x1="260" y1="195" x2="225" y2="195" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)" stroke-dasharray="4,4"/><text x="242.5" y="209" fill="#f59e0b" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">0 rows</text>
+    <line x1="260" y1="195" x2="225" y2="195" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-a)" stroke-dasharray="4,4"/><rect x="225" y="188" width="35" height="14" rx="2" fill="#090d16" stroke="#f59e0b" stroke-width="0.8"/><text x="242.5" y="198" fill="#f59e0b" font-size="8" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">0 rows</text>
 
   
     <rect x="520" y="95" width="430" height="290" rx="10" fill="#06231a" stroke="#10b981" stroke-width="1.5"/>
     <text x="536" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. Push Model: Producer Proactively Emits</text>
   
     <rect x="535" y="140" width="180" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="625.0" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Producer Server</text>
-    <text x="625.0" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Source Application</text>
+    <text x="547" y="163" fill="#6ee7b7" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">Producer Server</text>
+    <text x="547" y="179" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Source Application</text>
     <rect x="650" y="150" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="679.5" y="162" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">EMITTER</text>
     <circle cx="551" cy="195" r="2" fill="#10b981"/>
@@ -88,8 +88,8 @@
     <text x="559" y="214" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Emits event on checkout</text>
   
     <rect x="750" y="140" width="185" height="85" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="842.5" y="166" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Ingestion Webhook</text>
-    <text x="842.5" y="182" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Cloud Event Gateway</text>
+    <text x="762" y="163" fill="#6ee7b7" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">Ingestion Webhook</text>
+    <text x="762" y="179" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Cloud Event Gateway</text>
     <rect x="870" y="150" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="899.5" y="162" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">WEBHOOK</text>
     <circle cx="766" cy="195" r="2" fill="#10b981"/>
@@ -103,15 +103,15 @@
     <rect x="856" y="250" width="73" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="892.5" y="262" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">REAL-TIME</text>
     <circle cx="551" cy="295" r="2" fill="#10b981"/>
-    <text x="559" y="298" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">1. Near-zero data latency: Events arrive within 50 milliseconds of occurrence.</text>
+    <text x="559" y="298" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">1. Near-zero latency: Events arrive within 50ms of occurrence</text>
     <circle cx="551" cy="311" r="2" fill="#10b981"/>
-    <text x="559" y="314" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">2. Zero wasted compute: Gateway only fires when real data is generated.</text>
+    <text x="559" y="314" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">2. Zero wasted compute: Gateway only fires on real events</text>
     <circle cx="551" cy="327" r="2" fill="#10b981"/>
-    <text x="559" y="330" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">3. High throughput: Buffers directly into Kafka / Event Hubs for downstream.</text>
+    <text x="559" y="330" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">3. High throughput: Buffers directly into Kafka / Event Hubs</text>
     <circle cx="551" cy="343" r="2" fill="#10b981"/>
-    <text x="559" y="346" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">4. Requires public HTTPS endpoint and HMAC-SHA256 signature verification.</text>
+    <text x="559" y="346" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif" text-anchor="start">4. Requires HTTPS endpoint and HMAC-SHA256 verification</text>
 
   
-    <line x1="715" y1="182" x2="750" y2="182" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><text x="732.5" y="174.0" fill="#10b981" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">HTTP POST (Instant)</text>
+    <line x1="715" y1="182" x2="750" y2="182" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-g)"/><rect x="714" y="167" width="37" height="14" rx="2" fill="#090d16" stroke="#10b981" stroke-width="0.8"/><text x="732.5" y="177" fill="#10b981" font-size="7.5" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="bold">POST</text>
 
 </svg>

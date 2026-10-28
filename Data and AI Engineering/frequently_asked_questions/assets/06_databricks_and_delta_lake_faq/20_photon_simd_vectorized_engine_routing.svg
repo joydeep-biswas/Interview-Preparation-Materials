@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 360" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Col 1: Query -->
+  <g transform="translate(30, 125)">
+    <rect width="200" height="110" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="100" y="28" class="title" fill="#93C5FD">Spark SQL Query</text>
+    <line x1="15" y1="38" x2="185" y2="38" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="60" class="body-txt">• Hash joins, filters, aggs</text>
+    <text x="20" y="80" class="body-txt">• Parquet/Delta source</text>
+    <text x="20" y="98" class="body-txt">• Dispatched to cluster</text>
+  </g>
+
+  <path d="M 230 180 L 285 180" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- Col 2: Catalyst Plan Check -->
+  <g transform="translate(285, 125)">
+    <rect width="210" height="110" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="105" y="28" class="title" fill="#FDE68A">Plan Operator Check</text>
+    <line x1="15" y1="38" x2="195" y2="38" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="60" class="body-txt">• Inspects physical plan</text>
+    <text x="20" y="80" class="body-txt">• Checks operator compatibility</text>
+    <text x="20" y="98" class="body-txt">• Identifies Python UDFs</text>
+  </g>
+
+  <!-- Route Top: Photon Compatible -->
+  <path d="M 495 155 L 535 155 Q 545 155 545 135 L 545 75 Q 545 60 560 60 L 580 60" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <rect x="500" y="90" width="105" height="18" rx="4" fill="#1E293B" stroke="#065F46" stroke-width="1"/>
+  <text x="552" y="103" class="edge-label" fill="#A7F3D0">Native SQL</text>
+
+  <!-- Top Right: Photon Engine -->
+  <g transform="translate(580, 20)">
+    <rect width="390" height="110" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="195" y="28" class="title" fill="#A7F3D0">Photon Native C++ Vectorized Engine</text>
+    <line x1="15" y1="38" x2="375" y2="38" stroke="#047857" stroke-width="1"/>
+    <text x="20" y="60" class="body-txt" fill="#A7F3D0">• 1024-tuple SIMD CPU register batches</text>
+    <text x="20" y="80" class="body-txt" fill="#A7F3D0">• Direct off-heap memory; ZERO JVM object boxing</text>
+    <text x="20" y="98" class="body-txt" fill="#A7F3D0">• 2x to 5x faster execution for CPU-heavy joins/aggs</text>
+  </g>
+
+  <!-- Route Bottom: Non-supported -> JVM -->
+  <path d="M 495 205 L 535 205 Q 545 205 545 235 L 545 290 Q 545 305 560 305 L 580 305" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+  <rect x="495" y="250" width="115" height="18" rx="4" fill="#1E293B" stroke="#7F1D1D" stroke-width="1"/>
+  <text x="552" y="263" class="edge-label" fill="#FCA5A5">Python UDF / RDD</text>
+
+  <!-- Bottom Right: Classic JVM Engine -->
+  <g transform="translate(580, 235)">
+    <rect width="390" height="105" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <text x="195" y="28" class="title" fill="#FECACA">Classic JVM Engine (Tungsten)</text>
+    <line x1="15" y1="38" x2="375" y2="38" stroke="#991B1B" stroke-width="1"/>
+    <text x="20" y="58" class="body-txt" fill="#FCA5A5">• Volcano iterator model; row-by-row Py4J IPC</text>
+    <text x="20" y="76" class="body-txt" fill="#FCA5A5">• Subject to Python process memory overhead</text>
+    <text x="20" y="92" class="body-txt" fill="#FCA5A5">• Higher DBU cost without Photon speedup</text>
+  </g>
+</svg>

@@ -6,36 +6,36 @@
       .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
     </style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B0F19"/>
-      <stop offset="100%" stop-color="#111827"/>
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
     </linearGradient>
     <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981" />
     </marker>
     <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
     <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
     <marker id="arr-pk" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EC4899"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EC4899" />
     </marker>
     <marker id="arr-c" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#06B6D4" />
     </marker>
     <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B" />
     </marker>
     <marker id="arr-y" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EAB308"/>
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EAB308" />
     </marker>
   </defs>
   <!-- Canvas Background -->
-  <rect width="1200" height="780" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <rect width="1200" height="780" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5" />
   <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Data &amp; AI Engineering: 9-Tier Chronological Curriculum Roadmap</text>
   <text x="35" y="54" font-size="11" fill="#94A3B8">Comprehensive master progression: From foundational systems to distributed lakehouses, AI infrastructure, and universal interview pillars</text>
 
@@ -44,54 +44,54 @@
   <!-- ========================================================================= -->
   <g transform="translate(35, 95)">
     <!-- Phase 1 Container -->
-    <rect width="360" height="655" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="1.5"/>
+    <rect width="360" height="655" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="1.5" />
     <text x="180" y="24" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Phase 1: Systems &amp; Distributed Core</text>
 
     <!-- Tier 1 -->
-    <rect x="15" y="40" width="330" height="180" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
+    <rect x="15" y="40" width="330" height="180" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2" />
     <text x="180" y="62" font-size="12" font-weight="700" fill="#93C5FD" text-anchor="middle">Tier 1: Core Languages &amp; Foundations</text>
     <!-- M1 -->
-    <rect x="25" y="74" width="310" height="62" rx="4" fill="#0F172A" stroke="#3B82F6" stroke-width="0.8"/>
+    <rect x="25" y="74" width="310" height="60" rx="4" fill="#0F172A" stroke="#3B82F6" stroke-width="0.8" />
     <text x="35" y="92" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">01. SQL Fundamentals &amp; Advanced Querying</text>
     <text x="35" y="108" font-size="10" fill="#94A3B8" text-anchor="start">• Logical 9-stage order, window framing, CTEs</text>
     <text x="35" y="122" font-size="10" fill="#94A3B8" text-anchor="start">• Relational joins, MERGE, MVCC isolation</text>
     <!-- M2 -->
-    <rect x="25" y="144" width="310" height="62" rx="4" fill="#0F172A" stroke="#3B82F6" stroke-width="0.8"/>
+    <rect x="25" y="142" width="310" height="64" rx="4" fill="#0F172A" stroke="#3B82F6" stroke-width="0.8" />
     <text x="35" y="162" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">02. Python for Data &amp; Systems</text>
     <text x="35" y="178" font-size="10" fill="#94A3B8" text-anchor="start">• CPython internals, PyMalloc arenas/blocks, GIL</text>
     <text x="35" y="192" font-size="10" fill="#94A3B8" text-anchor="start">• Generators, Polars Arrow engine, zero-copy IPC</text>
 
     <!-- Connector Tier 1 -> Tier 2 -->
-    <path d="M 180 220 L 180 238" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+    <path d="M 180 220 L 180 238" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
 
     <!-- Tier 2 -->
-    <rect x="15" y="240" width="330" height="180" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+    <rect x="15" y="240" width="330" height="180" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2" />
     <text x="180" y="262" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Tier 2: Storage &amp; Database Internals</text>
     <!-- M3 -->
-    <rect x="25" y="274" width="310" height="62" rx="4" fill="#062828" stroke="#10B981" stroke-width="0.8"/>
+    <rect x="25" y="274" width="310" height="60" rx="4" fill="#062828" stroke="#10B981" stroke-width="0.8" />
     <text x="35" y="292" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">03. Lakehouse Storage &amp; Data Modeling</text>
     <text x="35" y="308" font-size="10" fill="#A7F3D0" text-anchor="start">• Kimball dimensional Star/Snowflake, SCD 1/2/3</text>
     <text x="35" y="322" font-size="10" fill="#A7F3D0" text-anchor="start">• Parquet PAX format, Iceberg metadata trees</text>
     <!-- M4 -->
-    <rect x="25" y="344" width="310" height="62" rx="4" fill="#062828" stroke="#10B981" stroke-width="0.8"/>
+    <rect x="25" y="342" width="310" height="64" rx="4" fill="#062828" stroke="#10B981" stroke-width="0.8" />
     <text x="35" y="362" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">04. Database Internals &amp; Distributed Systems</text>
     <text x="35" y="378" font-size="10" fill="#A7F3D0" text-anchor="start">• B+Trees vs LSM trees, WAL, Buffer Pool I/O</text>
     <text x="35" y="392" font-size="10" fill="#A7F3D0" text-anchor="start">• CAP theorem, Raft consensus, consistent hash</text>
 
     <!-- Connector Tier 2 -> Tier 3 -->
-    <path d="M 180 420 L 180 438" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
+    <path d="M 180 420 L 180 438" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)" />
 
     <!-- Tier 3 -->
-    <rect x="15" y="440" width="330" height="195" rx="6" fill="#451A03" stroke="#F59E0B" stroke-width="1.2"/>
+    <rect x="15" y="440" width="330" height="195" rx="6" fill="#451A03" stroke="#F59E0B" stroke-width="1.2" />
     <text x="180" y="462" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Tier 3: Distributed Computing &amp; Lakehouse</text>
     <!-- M5 -->
-    <rect x="25" y="474" width="310" height="68" rx="4" fill="#2E1C05" stroke="#F59E0B" stroke-width="0.8"/>
+    <rect x="25" y="474" width="310" height="70" rx="4" fill="#2E1C05" stroke="#F59E0B" stroke-width="0.8" />
     <text x="35" y="492" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">05. Apache Spark &amp; PySpark</text>
     <text x="35" y="508" font-size="10" fill="#FDE68A" text-anchor="start">• Catalyst optimizer DAG, Tungsten memory</text>
     <text x="35" y="522" font-size="10" fill="#FDE68A" text-anchor="start">• Shuffle Hash vs SMJ, Skew Salting, AQE</text>
     <text x="35" y="534" font-size="9" fill="#FCA5A5" text-anchor="start">⚠️ Driver/Executor OOM diagnosis</text>
     <!-- M6 -->
-    <rect x="25" y="550" width="310" height="70" rx="4" fill="#2E1C05" stroke="#F59E0B" stroke-width="0.8"/>
+    <rect x="25" y="552" width="310" height="72" rx="4" fill="#2E1C05" stroke="#F59E0B" stroke-width="0.8" />
     <text x="35" y="568" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">06. Databricks &amp; Delta Lake</text>
     <text x="35" y="584" font-size="10" fill="#FDE68A" text-anchor="start">• Delta JSON commit log, ACID transaction model</text>
     <text x="35" y="598" font-size="10" fill="#FDE68A" text-anchor="start">• OPTIMIZE, Z-ORDER, Liquid Clustering, VACUUM</text>
@@ -99,121 +99,117 @@
   </g>
 
   <!-- Pathway Arrow: Phase 1 -> Phase 2 (Runway Gap: x=395..420) -->
-  <path d="M 395 380 L 418 380" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arr-p)"/>
-
   <!-- ========================================================================= -->
   <!-- PHASE 2: Pipelines, Governance &amp; AI Data (Tiers 4 - 6) [x=420..780, w=360] -->
   <!-- ========================================================================= -->
   <g transform="translate(420, 95)">
     <!-- Phase 2 Container -->
-    <rect width="360" height="655" rx="8" fill="#1A102F" stroke="#8B5CF6" stroke-width="1.5"/>
+    <rect width="360" height="655" rx="8" fill="#1A102F" stroke="#8B5CF6" stroke-width="1.5" />
     <text x="180" y="24" font-size="12" font-weight="700" fill="#DDD6FE" text-anchor="middle">Phase 2: Pipelines &amp; AI Engineering</text>
 
     <!-- Tier 4 -->
-    <rect x="15" y="40" width="330" height="205" rx="6" fill="#2E1065" stroke="#8B5CF6" stroke-width="1.2"/>
+    <rect x="15" y="40" width="330" height="205" rx="6" fill="#2E1065" stroke="#8B5CF6" stroke-width="1.2" />
     <text x="180" y="62" font-size="12" font-weight="700" fill="#DDD6FE" text-anchor="middle">Tier 4: Streaming, Orchestration &amp; Governance</text>
     <!-- M7 -->
-    <rect x="25" y="74" width="310" height="40" rx="4" fill="#0F172A" stroke="#8B5CF6" stroke-width="0.8"/>
+    <rect x="25" y="74" width="310" height="38" rx="4" fill="#0F172A" stroke="#8B5CF6" stroke-width="0.8" />
     <text x="35" y="90" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="start">07. Streaming, Kafka &amp; Auto Loader</text>
     <text x="35" y="104" font-size="9" fill="#C4B5FD" text-anchor="start">• Kafka commit log, consumer groups, watermarks</text>
     <!-- M8 -->
-    <rect x="25" y="118" width="310" height="40" rx="4" fill="#0F172A" stroke="#8B5CF6" stroke-width="0.8"/>
+    <rect x="25" y="118" width="310" height="38" rx="4" fill="#0F172A" stroke="#8B5CF6" stroke-width="0.8" />
     <text x="35" y="134" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="start">08. ETL Pipelines, Orchestration &amp; Quality</text>
     <text x="35" y="148" font-size="9" fill="#C4B5FD" text-anchor="start">• Airflow DAGs, Celery/K8s, dbt models, DLQ</text>
     <!-- M9 -->
-    <rect x="25" y="162" width="310" height="40" rx="4" fill="#0F172A" stroke="#8B5CF6" stroke-width="0.8"/>
+    <rect x="25" y="162" width="310" height="38" rx="4" fill="#0F172A" stroke="#8B5CF6" stroke-width="0.8" />
     <text x="35" y="178" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="start">09. Unity Catalog &amp; Data Governance</text>
     <text x="35" y="192" font-size="9" fill="#C4B5FD" text-anchor="start">• 3-level namespace, column masking, lineage</text>
 
     <!-- Connector Tier 4 -> Tier 5 -->
-    <path d="M 180 245 L 180 263" fill="none" stroke="#EC4899" stroke-width="2" marker-end="url(#arr-pk)"/>
+    <path d="M 180 245 L 180 263" fill="none" stroke="#EC4899" stroke-width="2" marker-end="url(#arr-pk)" />
 
     <!-- Tier 5 -->
-    <rect x="15" y="265" width="330" height="205" rx="6" fill="#4C0519" stroke="#EC4899" stroke-width="1.2"/>
+    <rect x="15" y="265" width="330" height="205" rx="6" fill="#4C0519" stroke="#EC4899" stroke-width="1.2" />
     <text x="180" y="287" font-size="12" font-weight="700" fill="#F472B6" text-anchor="middle">Tier 5: AI Data &amp; Retrieval Infrastructure</text>
     <!-- M10 -->
-    <rect x="25" y="299" width="310" height="40" rx="4" fill="#2A0B1A" stroke="#EC4899" stroke-width="0.8"/>
+    <rect x="25" y="299" width="310" height="38" rx="4" fill="#2A0B1A" stroke="#EC4899" stroke-width="0.8" />
     <text x="35" y="315" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="start">10. Document Processing &amp; AI Prep</text>
     <text x="35" y="329" font-size="9" fill="#FBCFE8" text-anchor="start">• OCR, semantic chunking, MinHash deduplication</text>
     <!-- M11 -->
-    <rect x="25" y="343" width="310" height="40" rx="4" fill="#2A0B1A" stroke="#EC4899" stroke-width="0.8"/>
+    <rect x="25" y="343" width="310" height="38" rx="4" fill="#2A0B1A" stroke="#EC4899" stroke-width="0.8" />
     <text x="35" y="359" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="start">11. Embeddings, Vector DBs &amp; RAG</text>
     <text x="35" y="373" font-size="9" fill="#FBCFE8" text-anchor="start">• HNSW graph, IVF-PQ quantization, hybrid RRF</text>
     <!-- M12 -->
-    <rect x="25" y="387" width="310" height="40" rx="4" fill="#2A0B1A" stroke="#EC4899" stroke-width="0.8"/>
+    <rect x="25" y="387" width="310" height="38" rx="4" fill="#2A0B1A" stroke="#EC4899" stroke-width="0.8" />
     <text x="35" y="403" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="start">12. AI Infrastructure, Serving &amp; LLMOps</text>
     <text x="35" y="417" font-size="9" fill="#FBCFE8" text-anchor="start">• vLLM PagedAttention, KV-cache, LiteLLM proxy</text>
 
     <!-- Connector Tier 5 -> Tier 6 -->
-    <path d="M 180 470 L 180 488" fill="none" stroke="#06B6D4" stroke-width="2" marker-end="url(#arr-c)"/>
+    <path d="M 180 470 L 180 488" fill="none" stroke="#06B6D4" stroke-width="2" marker-end="url(#arr-c)" />
 
     <!-- Tier 6 -->
-    <rect x="15" y="490" width="330" height="145" rx="6" fill="#083344" stroke="#06B6D4" stroke-width="1.2"/>
+    <rect x="15" y="490" width="330" height="145" rx="6" fill="#083344" stroke="#06B6D4" stroke-width="1.2" />
     <text x="180" y="512" font-size="12" font-weight="700" fill="#67E8F9" text-anchor="middle">Tier 6: Python Backend for AI Services</text>
     <!-- M13 -->
-    <rect x="25" y="524" width="310" height="44" rx="4" fill="#0B1E29" stroke="#06B6D4" stroke-width="0.8"/>
+    <rect x="25" y="524" width="310" height="42" rx="4" fill="#0B1E29" stroke="#06B6D4" stroke-width="0.8" />
     <text x="35" y="540" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="start">13. Python Backend &amp; FastAPI Development</text>
     <text x="35" y="556" font-size="9" fill="#A5F3FC" text-anchor="start">• ASGI event loops, async SSE streaming, WebSockets</text>
     <!-- M14 -->
-    <rect x="25" y="574" width="310" height="44" rx="4" fill="#0B1E29" stroke="#06B6D4" stroke-width="0.8"/>
+    <rect x="25" y="574" width="310" height="42" rx="4" fill="#0B1E29" stroke="#06B6D4" stroke-width="0.8" />
     <text x="35" y="590" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="start">14. Persistence, Caching &amp; Integration</text>
     <text x="35" y="606" font-size="9" fill="#A5F3FC" text-anchor="start">• SQLAlchemy 2.0 AsyncSession, Redis caching, Celery</text>
   </g>
 
   <!-- Pathway Arrow: Phase 2 -> Phase 3 (Runway Gap: x=780..805) -->
-  <path d="M 780 380 L 803 380" fill="none" stroke="#A855F7" stroke-width="2.5" marker-end="url(#arr-p)"/>
-
   <!-- ========================================================================= -->
   <!-- PHASE 3: Platform, Specialized AI &amp; Interview Pillars [x=805..1165, w=360] -->
   <!-- ========================================================================= -->
   <g transform="translate(805, 95)">
     <!-- Phase 3 Container -->
-    <rect width="360" height="655" rx="8" fill="#180B2B" stroke="#A855F7" stroke-width="1.5"/>
+    <rect width="360" height="655" rx="8" fill="#180B2B" stroke="#A855F7" stroke-width="1.5" />
     <text x="180" y="24" font-size="12" font-weight="700" fill="#D8B4FE" text-anchor="middle">Phase 3: Platform &amp; Interview Pillars</text>
 
     <!-- Tier 7 -->
-    <rect x="15" y="40" width="330" height="105" rx="6" fill="#1E293B" stroke="#64748B" stroke-width="1.2"/>
+    <rect x="15" y="40" width="330" height="105" rx="6" fill="#1E293B" stroke="#64748B" stroke-width="1.2" />
     <text x="180" y="62" font-size="12" font-weight="700" fill="#CBD5E1" text-anchor="middle">Tier 7: Cloud Platform &amp; DevOps</text>
     <!-- M15 -->
-    <rect x="25" y="74" width="310" height="60" rx="4" fill="#0F172A" stroke="#64748B" stroke-width="0.8"/>
+    <rect x="25" y="74" width="310" height="60" rx="4" fill="#0F172A" stroke="#64748B" stroke-width="0.8" />
     <text x="35" y="92" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">15. Cloud Infrastructure &amp; Observability</text>
     <text x="35" y="108" font-size="10" fill="#94A3B8" text-anchor="start">• Docker rootless, K8s operators, GPU slicing</text>
     <text x="35" y="122" font-size="10" fill="#94A3B8" text-anchor="start">• OpenTelemetry traces, Prometheus metrics</text>
 
     <!-- Connector Tier 7 -> Tier 8 -->
-    <path d="M 180 145 L 180 163" fill="none" stroke="#A855F7" stroke-width="2" marker-end="url(#arr-p)"/>
+    <path d="M 180 145 L 180 163" fill="none" stroke="#A855F7" stroke-width="2" marker-end="url(#arr-p)" />
 
     <!-- Tier 8 -->
-    <rect x="15" y="165" width="330" height="195" rx="6" fill="#2E1065" stroke="#A855F7" stroke-width="1.2"/>
+    <rect x="15" y="165" width="330" height="195" rx="6" fill="#2E1065" stroke="#A855F7" stroke-width="1.2" />
     <text x="180" y="187" font-size="12" font-weight="700" fill="#D8B4FE" text-anchor="middle">Tier 8: Advanced &amp; Specialized AI</text>
     <!-- M16 -->
-    <rect x="25" y="199" width="310" height="70" rx="4" fill="#180B2B" stroke="#A855F7" stroke-width="0.8"/>
+    <rect x="25" y="199" width="310" height="72" rx="4" fill="#180B2B" stroke="#A855F7" stroke-width="0.8" />
     <text x="35" y="217" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">16. ML &amp; Transformer Foundations</text>
     <text x="35" y="233" font-size="10" fill="#DDD6FE" text-anchor="start">• Backprop math, AdamW, FlashAttention</text>
     <text x="35" y="247" font-size="10" fill="#DDD6FE" text-anchor="start">• Multi-Head Attention, RoPE positional encoding</text>
     <text x="35" y="261" font-size="10" fill="#DDD6FE" text-anchor="start">• KV-cache latency &amp; memory bandwidth</text>
     <!-- M17 -->
-    <rect x="25" y="277" width="310" height="70" rx="4" fill="#180B2B" stroke="#A855F7" stroke-width="0.8"/>
-    <text x="35" y="295" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">17. Autonomous Agents &amp; Adaptation</text>
-    <text x="35" y="311" font-size="10" fill="#DDD6FE" text-anchor="start">• ReAct loops, LangGraph stateful DAGs</text>
-    <text x="35" y="325" font-size="10" fill="#DDD6FE" text-anchor="start">• Tool-calling, LoRA/QLoRA parameter adapters</text>
-    <text x="35" y="339" font-size="10" fill="#DDD6FE" text-anchor="start">• DPO direct preference optimization</text>
+    <rect x="25" y="279" width="310" height="72" rx="4" fill="#180B2B" stroke="#A855F7" stroke-width="0.8" />
+    <text x="35" y="297" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">17. Autonomous Agents &amp; Adaptation</text>
+    <text x="35" y="313" font-size="10" fill="#DDD6FE" text-anchor="start">• ReAct loops, LangGraph stateful DAGs</text>
+    <text x="35" y="327" font-size="10" fill="#DDD6FE" text-anchor="start">• Tool-calling, LoRA/QLoRA parameter adapters</text>
+    <text x="35" y="341" font-size="10" fill="#DDD6FE" text-anchor="start">• DPO direct preference optimization</text>
 
     <!-- Connector Tier 8 -> Tier 9 -->
-    <path d="M 180 360 L 180 378" fill="none" stroke="#EAB308" stroke-width="2" marker-end="url(#arr-y)"/>
+    <path d="M 180 360 L 180 378" fill="none" stroke="#EAB308" stroke-width="2" marker-end="url(#arr-y)" />
 
     <!-- Tier 9 -->
-    <rect x="15" y="380" width="330" height="255" rx="6" fill="#422006" stroke="#EAB308" stroke-width="1.2"/>
+    <rect x="15" y="380" width="330" height="255" rx="6" fill="#422006" stroke="#EAB308" stroke-width="1.2" />
     <text x="180" y="402" font-size="12" font-weight="700" fill="#FEF08A" text-anchor="middle">Tier 9: Universal Interview Pillars</text>
     <!-- Pillar 1 -->
-    <rect x="25" y="414" width="310" height="95" rx="4" fill="#2E1C05" stroke="#EAB308" stroke-width="0.8"/>
+    <rect x="25" y="414" width="310" height="92" rx="4" fill="#2E1C05" stroke="#EAB308" stroke-width="0.8" />
     <text x="35" y="432" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">Universal DSA Track</text>
     <text x="35" y="448" font-size="10" fill="#FEF08A" text-anchor="start">• High-frequency patterns: Two Pointers, Monotonic</text>
     <text x="35" y="462" font-size="10" fill="#FEF08A" text-anchor="start">• Stack, Sliding Window, Trees, Heaps, Graph BFS/DFS</text>
     <text x="35" y="476" font-size="10" fill="#FEF08A" text-anchor="start">• Dynamic Programming (0/1 Knapsack, Interval)</text>
     <text x="35" y="492" font-size="10" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ Centralized under Java Backend Track</text>
     <!-- Pillar 2 -->
-    <rect x="25" y="517" width="310" height="105" rx="4" fill="#2E1C05" stroke="#EAB308" stroke-width="0.8"/>
+    <rect x="25" y="516" width="310" height="108" rx="4" fill="#2E1C05" stroke="#EAB308" stroke-width="0.8" />
     <text x="35" y="535" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="start">System Design &amp; Situational Pillars</text>
     <text x="35" y="551" font-size="10" fill="#FEF08A" text-anchor="start">• 14 High-Level Designs (HLD: Lakehouse, RAG, etc.)</text>
     <text x="35" y="565" font-size="10" fill="#FEF08A" text-anchor="start">• 8 Low-Level Designs (LLD: Thread Pool, Rate Limiter)</text>
@@ -221,4 +217,8 @@
     <text x="35" y="595" font-size="10" fill="#FEF08A" text-anchor="start">• 41 Leadership, Behavioral &amp; Conflict Scenarios</text>
     <text x="35" y="611" font-size="10" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ Universal preparation for Staff/Principal bar</text>
   </g>
-</svg>
+<g id="connectors"><path d="M 395 380 L 418 380" fill="none" stroke="#8B5CF6" stroke-width="2.5" marker-end="url(#arr-p)" />
+
+  <path d="M 780 380 L 803 380" fill="none" stroke="#A855F7" stroke-width="2.5" marker-end="url(#arr-p)" />
+
+  </g></svg>

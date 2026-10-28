@@ -8,7 +8,7 @@ A comprehensive guide answering all 20 questions on authentication vs authorizat
 
 ![Spring Security Filter Chain Architecture](assets/06_security_and_cryptography_faq/01_spring_security_filter_chain_architecture.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography_faq/01_spring_security_filter_chain_architecture.d2](assets/06_security_and_cryptography_faq/01_spring_security_filter_chain_architecture.d2)
+*D2 Source: [`01_spring_security_filter_chain_architecture.d2`](assets/06_security_and_cryptography_faq/01_spring_security_filter_chain_architecture.d2)*
 
 ---
 
@@ -192,7 +192,7 @@ When an authenticated request enters an API Gateway, the gateway validates the e
 
 ![JWT Edge Authentication & Microservices Identity Propagation](assets/06_security_and_cryptography_faq/02_jwt_edge_authentication_microservices_propagation.svg)
 
-*D2 Source:* [assets/06_security_and_cryptography_faq/02_jwt_edge_authentication_microservices_propagation.d2](assets/06_security_and_cryptography_faq/02_jwt_edge_authentication_microservices_propagation.d2)
+*D2 Source: [`02_jwt_edge_authentication_microservices_propagation.d2`](assets/06_security_and_cryptography_faq/02_jwt_edge_authentication_microservices_propagation.d2)*
 
 ```java
 @Configuration

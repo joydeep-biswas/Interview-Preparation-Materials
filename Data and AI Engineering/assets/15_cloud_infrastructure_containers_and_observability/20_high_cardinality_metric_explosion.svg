@@ -1,38 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 430" width="100%" height="100%" style="background-color: #0b1120; max-width: 100%; height: auto;">
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#020617"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
 
     <!-- Arrow Markers -->
     <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#4ade80" />
     </marker>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#fbbf24" />
     </marker>
     <marker id="arr-p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#c084fc" />
     </marker>
     <marker id="arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f87171" />
     </marker>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#2dd4bf" />
     </marker>
     <marker id="arr-s" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8"/>
+      <path d="M 0 0 L 8 4 L 0 8 Z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Background -->
-  <rect width="980" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="980" height="420" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g id="header">
@@ -43,40 +43,40 @@
   <!-- Diagram Body -->
   <g id="diagram-elements">
     
-    <rect x="350" y="95" width="280" height="45" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="350" y="95" width="280" height="60" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
 <text x="490" y="117" fill="#38bdf8" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Metric: http_requests_total</text>
 <text x="362" y="137" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Base Counter Metric Family</text>
 
-    <rect x="40" y="170" width="430" height="230" rx="8" fill="#0f172a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <rect x="40" y="170" width="430" height="225" rx="8" fill="#0f172a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,4" />
 <text x="255" y="190" fill="#4ade80" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Safe Cardinality Design (Static Tags)</text>
 <text x="255" y="206" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Low-entropy finite categorical labels</text>
-    <rect x="60" y="215" width="390" height="45" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
-<text x="255" y="237" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">env: ['prod', 'stage']</text>
-<text x="72" y="257" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">2 unique values</text>
-    <rect x="60" y="265" width="390" height="45" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
-<text x="255" y="287" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">region: ['us-east', 'eu-west', 'ap-south']</text>
-<text x="72" y="307" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">3 unique values</text>
-    <rect x="60" y="315" width="390" height="45" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5"/>
-<text x="255" y="337" fill="#86efac" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">endpoint: ['/login', '/cart', '/checkout']</text>
-<text x="72" y="357" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">3 unique values</text>
-    <text x="255" y="380" fill="#86efac" font-size="11" font-weight="700" text-anchor="middle">Total Series: 2 x 3 x 3 = 18 Distinct Time Series (Safe: ~1 KB RAM)</text>
+    <rect x="60" y="215" width="390" height="42" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
+<text x="255" y="231" fill="#86efac" font-size="12" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">env: ['prod', 'stage']</text>
+<text x="72" y="246" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">2 unique values</text>
+    <rect x="60" y="262" width="390" height="42" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
+<text x="255" y="278" fill="#86efac" font-size="12" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">region: ['us-east', 'eu-west', 'ap-south']</text>
+<text x="72" y="293" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">3 unique values</text>
+    <rect x="60" y="309" width="390" height="42" rx="6" fill="#0f291e" stroke="#4ade80" stroke-width="1.5" />
+<text x="255" y="325" fill="#86efac" font-size="12" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">endpoint: ['/login', '/cart', '/checkout']</text>
+<text x="72" y="340" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">3 unique values</text>
+    <text x="255" y="375" fill="#86efac" font-size="11" font-weight="700" text-anchor="middle">Total Series: 2 x 3 x 3 = 18 Distinct Time Series (Safe: ~1 KB RAM)</text>
 
-    <rect x="510" y="170" width="430" height="230" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <rect x="510" y="170" width="430" height="225" rx="8" fill="#0f172a" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,4" />
 <text x="725" y="190" fill="#f87171" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">High-Cardinality Catastrophe</text>
 <text x="725" y="206" fill="#94a3b8" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Injecting unbounded dynamic user data into metric labels</text>
-    <rect x="530" y="215" width="390" height="60" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
-<text x="725" y="237" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">user_id: [1,000,000 Unique UUIDs]</text>
-<text x="542" y="257" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Unbounded dynamic label dimension</text>
-<text x="542" y="275" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Every unique customer generates a new time series!</text>
-    <rect x="530" y="285" width="390" height="95" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5"/>
-<text x="725" y="307" fill="#fca5a5" font-size="13" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Combinatorial Explosion Outcome</text>
-<text x="542" y="327" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">18 x 1,000,000 = 18,000,000 Time Series!</text>
-<text x="542" y="345" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Prometheus allocates ~4 GB RAM per million active series</text>
-<text x="542" y="363" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">18M series requires &amp;gt; 72 GB RAM in Head chunks</text>
-<text x="542" y="381" fill="#cbd5e1" font-size="11" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Result: Kernel OOMKilled crash loop &amp; query timeouts!</text>
+    <rect x="530" y="215" width="390" height="54" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
+<text x="725" y="232" fill="#fca5a5" font-size="12" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">user_id: [1,000,000 Unique UUIDs]</text>
+<text x="542" y="248" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Unbounded dynamic label dimension</text>
+<text x="542" y="261" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Every unique customer generates a new time series!</text>
+    <rect x="530" y="276" width="390" height="106" rx="6" fill="#2b1111" stroke="#f87171" stroke-width="1.5" />
+<text x="725" y="292" fill="#fca5a5" font-size="12" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="middle">Combinatorial Explosion Outcome</text>
+<text x="542" y="307" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">18 x 1,000,000 = 18,000,000 Time Series!</text>
+<text x="542" y="321" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Prometheus allocates ~4 GB RAM per million active series</text>
+<text x="542" y="335" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">18M series requires &amp;gt; 72 GB RAM in Head chunks</text>
+<text x="542" y="349" fill="#cbd5e1" font-size="10.5" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" text-anchor="start">Result: Kernel OOMKilled crash loop &amp; query timeouts!</text>
 
-    <path d="M 490.0 140.0 L 490.0 149.0 Q 490.0 155.0 484.0 155.0 L 261.0 155.0 Q 255.0 155.0 255.0 161.0 L 255.0 170.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)"/>
-    <path d="M 490.0 140.0 L 490.0 149.0 Q 490.0 155.0 496.0 155.0 L 719.0 155.0 Q 725.0 155.0 725.0 161.0 L 725.0 170.0" fill="none" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)"/>
+    <path d="M 490.0 140.0 L 490.0 149.0 Q 490.0 155.0 484.0 155.0 L 261.0 155.0 Q 255.0 155.0 255.0 161.0 L 255.0 170.0" fill="none" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arr-g)" />
+    <path d="M 490.0 140.0 L 490.0 149.0 Q 490.0 155.0 496.0 155.0 L 719.0 155.0 Q 725.0 155.0 725.0 161.0 L 725.0 170.0" fill="none" stroke="#f87171" stroke-width="1.5" marker-end="url(#arr-r)" />
 
   </g>
 </svg>

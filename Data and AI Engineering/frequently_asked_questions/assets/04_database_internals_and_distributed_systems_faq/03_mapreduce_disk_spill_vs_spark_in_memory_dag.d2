@@ -1,15 +1,19 @@
 direction: right
 classes: {
-  box_red: { style: { fill: "#111827"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
-  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; rx: 10 } }
+  box_red: { style: { fill: "#111827"; stroke: "#EF4444"; stroke-width: 2; border-radius: 10 } }
+  box_green: { style: { fill: "#111827"; stroke: "#10B981"; stroke-width: 2; border-radius: 10 } }
 }
 
 mr: "MapReduce: Disk-Bound Pipeline" {
   class: box_red
-  m1: "Job 1 Map" -> d1: "Disk Spill" -> r1: "Job 1 Reduce" -> d2: "HDFS Write" -> m2: "Job 2 Map" -> d3: "Disk Spill" -> r2: "Job 2 Reduce"
+  m1: "Job 1 Map"
+  d1: "Disk Spill"
+  m1 -> d1
 }
 
 spark: "Spark: In-Memory DAG Pipeline" {
   class: box_green
-  s1: "Stage 1 (Pipelined RAM)" -> sm: "In-Memory Shuffle Buffer" -> s2: "Stage 2 (Pipelined RAM)"
+  s1: "Stage 1 (Pipelined RAM)"
+  sm: "In-Memory Shuffle Buffer"
+  s1 -> sm
 }

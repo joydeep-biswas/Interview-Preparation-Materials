@@ -1,32 +1,45 @@
 direction: right
-title: Continuous Integration (CI) vs Delivery vs Deployment (CD)
+title: "Continuous Integration (CI) vs Delivery vs Deployment (CD)"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-CI: 1. Continuous Integration {
+CI: "1. Continuous Integration" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
-  commit: Code Commit / PR
-  test: Unit & Testcontainers Tests
-  sonar: SonarQube & Trivy Gate
-  image: Push OCI Image to ACR
+  commit: "Code Commit / PR"
+  test: "Unit & Testcontainers Tests"
+  sonar: "SonarQube & Trivy Gate"
+  image: "Push OCI Image to ACR"
   commit -> test -> sonar -> image
 }
 
-CDelivery: 2. Continuous Delivery {
+CDelivery: "2. Continuous Delivery" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
-  stage: Deploy Staging
-  e2e: E2E Automation
+  stage: "Deploy Staging"
+  e2e: "E2E Automation"
   gate: "Manual Approval Gate"
   stage -> e2e -> gate
 }
 
-CDeployment: 3. Continuous Deployment {
+CDeployment: "3. Continuous Deployment" {
+  class: container
   style.fill: "#1E1B4B"
   style.stroke: "#8B5CF6"
-  prod: Automated Production Canary
-  obs: Automated Rollback on Alert
+  prod: "Automated Production Canary"
+  obs: "Automated Rollback on Alert"
   prod -> obs
 }
 
-CI.image -> CDelivery.stage: Automated deploy { style.stroke: "#38BDF8" }
-CDelivery.gate -> CDeployment.prod: Approved release { style.stroke: "#10B981" }
+CI.image -> CDelivery.stage: "Automated deploy" { style.stroke: "#38BDF8" }
+CDelivery.gate -> CDeployment.prod: "Approved release" { style.stroke: "#10B981" }

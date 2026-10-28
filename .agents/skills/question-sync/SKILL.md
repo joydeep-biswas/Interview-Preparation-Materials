@@ -26,23 +26,9 @@ When integrating raw question dumps into the interview curriculum:
 
 ## 2. Standard 7-Phase Execution Workflow
 
-```mermaid
-flowchart TD
-    Phase1["1. Parse & Deduplicate Dump Inquiries<br/>(Extract raw lines, resolve semantic duplicates)"] --> Phase2["2. Verify Base Topic Coverage<br/>(Audit underlying theoretical foundations)"]
-    Phase2 --> Phase3["3. Integrate Scenarios into FAQ Files<br/>(Structured solutions with code & Mermaid)"]
-    Phase3 --> Phase4["4. Establish Bidirectional Linking<br/>(Base Topic ↔ Companion FAQ anchors)"]
-    Phase4 --> Phase5["5. Audit Master Indexes & TOCs<br/>(Update Study Guides, FAQ Indexes & Navigation)"]
-    Phase5 --> Phase6["6. Scripted Link & Anchor Validation<br/>(0 broken targets, 100% question coverage)"]
-    Phase6 --> Phase7["7. Clear Synced Question Dump<br/>(Purge questions-dump.md content post-sync)"]
+![Question Sync Workflow](assets/question_sync_workflow.svg)
 
-    style Phase1 fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#93c5fd
-    style Phase2 fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#6ee7b7
-    style Phase3 fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#c4b5fd
-    style Phase4 fill:#0f172a,stroke:#ec4899,stroke-width:1.5px,color:#fbcfe8
-    style Phase5 fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#fde68a
-    style Phase6 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#a7f3d0
-    style Phase7 fill:#0f172a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5
-```
+*D2 Source: [`question_sync_workflow.d2`](assets/question_sync_workflow.d2)*
 
 ### Phase 1: Parse & Deduplicate Dump Inquiries
 1. Read the target `questions-dump.md` file completely (never sample subsets).
@@ -58,7 +44,7 @@ If a concept is missing or insufficiently covered in the base topic guide:
 2. Add comprehensive coverage adhering to the project's high content standards:
    - Theoretical definition & architectural mechanics.
    - Low-level internal execution details (memory layout, OS/runtime behavior).
-   - High-contrast dark-mode Mermaid diagrams (`style fill:#0f172a,stroke:#3b82f6...`).
+   - Architectural diagrams authored in declarative D2 (`.d2`) and compiled to standalone vector graphics (`.svg`) adhering strictly to `.agents/rules/diagram_guidelines.md` (high-contrast dark theme `#0B0F19`, Bézier arrival runways, valid XML). Never leave raw Mermaid or D2 code blocks in markdown.
    - Production-grade code examples with strict typing and docstrings.
    - Failure modes, common engineering traps, and performance characteristics.
 3. Update the base file's internal Table of Contents.
@@ -75,7 +61,7 @@ If a concept is missing or insufficiently covered in the base topic guide:
   ```
 - **Standard Solution Structure:**
   1. **Definition & Core Concepts:** Ground truth explanation.
-  2. **Visual Flow:** Mermaid sequence diagram or flowchart visualizing dataflow/state transitions.
+  2. **Visual Flow:** Architectural diagram compiled as standalone `.svg` with paired `.d2` source in `<folder>/assets/<document_name>/`, embedded via `![Caption](assets/<document_name>/<num>_<name>.svg)` with an explicit blank line and `*D2 Source: [`<num>_<name>.d2`](assets/<document_name>/<num>_<name>.d2)*`. Adheres strictly to `.agents/rules/diagram_guidelines.md`.
   3. **Production Implementation / Code Solution:** Executable, robust Python/Java/SQL code with comments.
   4. **Complexity Analysis:** Explicit Big-$O$ Time and Space complexity ($O(1)$, $O(N)$).
   5. **Engineering Implications & Production Pitfalls:** Real-world failure modes (memory leaks, race conditions, timeouts).

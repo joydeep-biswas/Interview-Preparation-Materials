@@ -1,19 +1,19 @@
 direction: right
 classes: {
-  mem: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  comp: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  mem: { style: { fill: "#7f1d1d"; stroke: "#f87171"; font-color: "#fecaca" } }
+  comp: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
 }
 
 memory_bound: "Memory-Bound Regime (LLM Decode Generation)" {
   intensity_low: "Low Arithmetic Intensity: 0.5 - 2 FLOPs/Byte\n(Must stream 140GB weights to emit 1 token!)" { class: mem }
-  opt_decode: "Bottleneck: HBM3 Memory Bandwidth\nFix: Quantization & Continuous Batching" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
+  opt_decode: "Bottleneck: HBM3 Memory Bandwidth\nFix: Quantization & Continuous Batching" { style: { fill: "#451a03"; stroke: "#fbbf24"; font-color: "#fde68a" } }
 
   intensity_low -> opt_decode
 }
 
 compute_bound: "Compute-Bound Regime (LLM Prompt Prefill)" {
   intensity_high: "High Arithmetic Intensity: 150 - 500+ FLOPs/Byte\n(Dense parallel GEMM matrix multiply)" { class: comp }
-  opt_prefill: "Bottleneck: Tensor Core FLOPs (989 TFLOPs)\nFix: Chunked Prefill & FlashAttention-3" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
+  opt_prefill: "Bottleneck: Tensor Core FLOPs (989 TFLOPs)\nFix: Chunked Prefill & FlashAttention-3" { style: { fill: "#155e75"; stroke: "#22d3ee"; font-color: "#67e8f9" } }
 
   intensity_high -> opt_prefill
 }

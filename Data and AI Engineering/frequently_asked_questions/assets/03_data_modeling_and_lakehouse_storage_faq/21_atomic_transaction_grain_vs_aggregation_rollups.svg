@@ -12,7 +12,7 @@
     </marker>
   </defs>
 
-  <rect width="960" height="300" fill="#0B0F19"/>
+  <rect width="960" height="300" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Left: Atomic Transaction Grain -->
   <g transform="translate(30, 45)">
@@ -21,13 +21,13 @@
     <text x="210" y="50" class="body-txt" text-anchor="middle">fact_sales_line_item (Individual Scan / Basket Line)</text>
     <line x1="20" y1="62" x2="400" y2="62" stroke="#1F2937" stroke-width="1.5"/>
 
-    <rect x="25" y="75" width="370" height="34" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="75" width="370" height="34" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="35" y="97" class="row-txt">Row 1: Receipt #101 | Item: Milk  | Qty: 2 | $6.00</text>
 
-    <rect x="25" y="117" width="370" height="34" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="117" width="370" height="34" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="35" y="139" class="row-txt">Row 2: Receipt #101 | Item: Bread | Qty: 1 | $3.50</text>
 
-    <rect x="25" y="159" width="370" height="34" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="25" y="159" width="370" height="34" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="35" y="181" class="row-txt">Row 3: Receipt #102 | Item: Milk  | Qty: 1 | $3.00</text>
   </g>
 

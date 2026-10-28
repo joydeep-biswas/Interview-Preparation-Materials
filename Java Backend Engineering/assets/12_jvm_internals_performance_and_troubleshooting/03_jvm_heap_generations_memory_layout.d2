@@ -1,21 +1,33 @@
 direction: right
-title: HotSpot JVM Generational Heap Memory Layout
+title: "HotSpot JVM Generational Heap Memory Layout"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Young: Young Generation (Minor GCs) {
+Young: "Young Generation (Minor GCs)" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
   eden: "Eden Space (TLABs, ~80%)"
   s0: "Survivor 0 (From)"
   s1: "Survivor 1 (To)"
-  eden -> s0: Survives Minor GC
-  s0 -> s1: Survives next GC
+  eden -> s0: "Survives Minor GC"
+  s0 -> s1: "Survives next GC"
 }
 
-Old: Old Generation (Tenured) {
+Old: "Old Generation (Tenured)" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
   tenured: "Tenured Space (Singletons, Caches, DB Pools)"
   humongous: "Humongous Regions (>50% Region Size)"
 }
 
-Young.s1 -> Old.tenured: Tenuring threshold reached (Age 15) { style.stroke: "#F59E0B" }
+Young.s1 -> Old.tenured: "Tenuring threshold reached (Age 15)" { style.stroke: "#F59E0B" }

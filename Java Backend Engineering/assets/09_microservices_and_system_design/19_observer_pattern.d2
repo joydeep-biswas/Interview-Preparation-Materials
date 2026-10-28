@@ -1,30 +1,35 @@
 direction: down
 title: "Observer Pattern: Asynchronous Event-Driven Decoupling"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-pub: "OrderService
-publishEvent(OrderPlacedEvent)" {
+pub: "OrderService\npublishEvent(OrderPlacedEvent)" {
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 }
 
-bus: "Spring Event Bus
-ApplicationEventPublisher" {
+bus: "Spring Event Bus\nApplicationEventPublisher" {
   style.fill: "#111827"
   style.stroke: "#f59e0b"
 }
 
-l1: "InventoryListener
-@TransactionalEventListener(AFTER_COMMIT)" {
+l1: "InventoryListener\n@TransactionalEventListener(AFTER_COMMIT)" {
   style.fill: "#1e293b"
   style.stroke: "#10b981"
 }
-l2: "NotificationListener
-@Async @EventListener (Background thread)" {
+l2: "NotificationListener\n@Async @EventListener (Background thread)" {
   style.fill: "#1e293b"
   style.stroke: "#06b6d4"
 }
-l3: "AnalyticsKafkaListener
-Streams event to Kafka cluster" {
+l3: "AnalyticsKafkaListener\nStreams event to Kafka cluster" {
   style.fill: "#1e293b"
   style.stroke: "#8b5cf6"
 }

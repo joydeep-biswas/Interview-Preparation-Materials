@@ -6,16 +6,10 @@ classes: {
   amber: { style: { fill: "#2d2212"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
 }
 
-p: "Problem Prompt x
-Coding or Math Task" { class: blue }
-policy: "Policy LLM (π_θ)
-Sample K Candidates" { class: purple }
-sandbox: "Sandbox Verifier
-Docker/E2B Unit Tests
-Passed: r=1.0 | Failed: r=0.0" { class: green }
-update: "Policy Optimization
-GRPO / PPO / Best-of-N
-Update Policy Weights" { class: amber }
+p: "Problem Prompt x\nCoding or Math Task" { class: blue }
+policy: "Policy LLM (π_θ)\nSample K Candidates" { class: purple }
+sandbox: "Sandbox Verifier\nDocker/E2B Unit Tests\nPassed: r=1.0 | Failed: r=0.0" { class: green }
+update: "Policy Optimization\nGRPO / PPO / Best-of-N\nUpdate Policy Weights" { class: amber }
 
 p -> policy -> sandbox -> update
 update -> policy: "Weight Update" { style: { stroke-dash: 4 } }

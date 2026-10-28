@@ -43,7 +43,7 @@
 
   <!-- Column 1: ArrayList -->
   <rect x="50" y="195" width="340" height="275" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="195" width="340" height="32" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="195" width="340" height="32" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="220" y="216" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">ArrayList&lt;E&gt; (Default Choice)</text>
 
   <rect x="65" y="240" width="310" height="215" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
@@ -58,7 +58,7 @@
 
   <!-- Column 2: LinkedList -->
   <rect x="420" y="195" width="340" height="275" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
-  <rect x="420" y="195" width="340" height="32" rx="8" fill="#78350F"/>
+  <rect x="420" y="195" width="340" height="32" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
   <text x="590" y="216" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">LinkedList&lt;E&gt; (Doubly-Linked)</text>
 
   <rect x="435" y="240" width="310" height="215" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
@@ -73,7 +73,7 @@
 
   <!-- Column 3: CopyOnWriteArrayList -->
   <rect x="790" y="195" width="340" height="275" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
-  <rect x="790" y="195" width="340" height="32" rx="8" fill="#064E3B"/>
+  <rect x="790" y="195" width="340" height="32" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="960" y="216" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">CopyOnWriteArrayList&lt;E&gt;</text>
 
   <rect x="805" y="240" width="310" height="215" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>

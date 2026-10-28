@@ -1,31 +1,33 @@
 direction: right
 title: "Hibernate Caching Architecture: L1 Session Cache vs L2 Distributed Cache"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 app: "Application Service Method" {
+  class: container
   style.fill: "#1e293b"
   style.stroke: "#3b82f6"
 }
 
-l1: "First-Level (L1) Cache
-Scope: EntityManager / Session
-Always Enabled | Thread-Bound
-Live Object References" {
+l1: "First-Level (L1) Cache\nScope: EntityManager / Session\nAlways Enabled | Thread-Bound\nLive Object References" {
   style.fill: "#062e3d"
   style.stroke: "#06b6d4"
 }
 
-l2: "Second-Level (L2) Cache
-Scope: SessionFactory / Cluster
-Optional (Redis / Ehcache)
-Disassembled Hydrated State" {
+l2: "Second-Level (L2) Cache\nScope: SessionFactory / Cluster\nOptional (Redis / Ehcache)\nDisassembled Hydrated State" {
   style.fill: "#1a102f"
   style.stroke: "#8b5cf6"
 }
 
-db: "Relational Database
-Scope: Disk Storage
-PostgreSQL 8KB Heap Blocks
-ACID Source of Truth" {
+db: "Relational Database\nScope: Disk Storage\nPostgreSQL 8KB Heap Blocks\nACID Source of Truth" {
   style.fill: "#0f172a"
   style.stroke: "#10b981"
 }

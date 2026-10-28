@@ -1,17 +1,30 @@
 direction: right
-title: Pipeline Idempotency Patterns: Overwrite vs. Merge vs. Swap
+title: "Pipeline Idempotency Patterns: Overwrite vs. Merge vs. Swap"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-p1: Pattern 1: Delete-Before-Insert (Partition Overwrite) {
+p1: "Pattern 1: Delete-Before-Insert (Partition Overwrite)" {
+  class: container
   cmd: "INSERT OVERWRITE TABLE WHERE date = '2026-10-01'"
   feature: "Replaces entire partition atomically; fast and simple"
 }
 
-p2: Pattern 2: Merge / Upsert on Primary Key {
+p2: "Pattern 2: Merge / Upsert on Primary Key" {
+  class: container
   cmd: "MERGE INTO target USING staging ON target.id = staging.id"
   feature: "Row-level updates; handles late arriving CDC mutations"
 }
 
-p3: Pattern 3: Atomic Staging Table Swap {
+p3: "Pattern 3: Atomic Staging Table Swap" {
+  class: container
   cmd: "ALTER TABLE prod_table SWAP WITH staging_table_temp"
   feature: "Zero-downtime O(1) metadata swap; instant rollback capability"
 }

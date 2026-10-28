@@ -8,7 +8,7 @@ A comprehensive guide answering all 22 questions on ACID properties, database is
 
 ![Spring @Transactional AOP Proxy Interception Flow](assets/07_databases_jpa_and_hibernate_faq/01_spring_transactional_aop_proxy_flow.svg)
 
-*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/01_spring_transactional_aop_proxy_flow.d2](assets/07_databases_jpa_and_hibernate_faq/01_spring_transactional_aop_proxy_flow.d2)
+*D2 Source: [`01_spring_transactional_aop_proxy_flow.d2`](assets/07_databases_jpa_and_hibernate_faq/01_spring_transactional_aop_proxy_flow.d2)*
 
 ---
 
@@ -209,7 +209,7 @@ Spring's `@Transactional` relies on Spring AOP proxies (CGLIB subclassing or JDK
 
 ![Spring @Transactional Self-Invocation AOP Bypass](assets/07_databases_jpa_and_hibernate_faq/02_spring_self_invocation_aop_bypass.svg)
 
-*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/02_spring_self_invocation_aop_bypass.d2](assets/07_databases_jpa_and_hibernate_faq/02_spring_self_invocation_aop_bypass.d2)
+*D2 Source: [`02_spring_self_invocation_aop_bypass.d2`](assets/07_databases_jpa_and_hibernate_faq/02_spring_self_invocation_aop_bypass.d2)*
 
 ---
 
@@ -338,7 +338,7 @@ The **Lost Update Anomaly** occurs when Transaction 1 and Transaction 2 read the
 
 ![SQL Isolation Levels vs Concurrency Anomalies Matrix](assets/07_databases_jpa_and_hibernate_faq/03_acid_isolation_levels_anomalies.svg)
 
-*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/03_acid_isolation_levels_anomalies.d2](assets/07_databases_jpa_and_hibernate_faq/03_acid_isolation_levels_anomalies.d2)
+*D2 Source: [`03_acid_isolation_levels_anomalies.d2`](assets/07_databases_jpa_and_hibernate_faq/03_acid_isolation_levels_anomalies.d2)*
 
 * **Optimistic Locking**: Place `@Version private Long version;` on the JPA entity. Generates `UPDATE ... WHERE id = :id AND version = :version`. Throws `OptimisticLockException` on collision; retry with exponential backoff.
 * **Pessimistic Locking**: Use `@Lock(LockModeType.PESSIMISTIC_WRITE)` to place an exclusive database lock (`SELECT FOR UPDATE`).
@@ -392,7 +392,7 @@ When executing a sequence of SQL statements, if Step 4 fails out of 5:
 #### Architectural Overview
 ![Spring Data Repository Interface Hierarchy](assets/07_databases_jpa_and_hibernate_faq/04_spring_data_repository_hierarchy.svg)
 
-*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/04_spring_data_repository_hierarchy.d2](assets/07_databases_jpa_and_hibernate_faq/04_spring_data_repository_hierarchy.d2)
+*D2 Source: [`04_spring_data_repository_hierarchy.d2`](assets/07_databases_jpa_and_hibernate_faq/04_spring_data_repository_hierarchy.d2)*
 - **`CrudRepository`**: Basic CRUD operations (`save`, `findById`, `delete`).
 - **`PagingAndSortingRepository`**: Adds pagination and sorting methods.
 - **`JpaRepository`**: Extends both; adds JPA-specific flush methods (`flush()`, `saveAndFlush()`), batch deletion (`deleteAllInBatch()`), and returns `List` instead of `Iterable`.
@@ -455,7 +455,7 @@ If an index contains all columns requested in the query `SELECT` clause, the dat
 #### Visual Flow
 ![B-Tree Composite Index (A, B, C) & Leftmost Prefix Rule](assets/07_databases_jpa_and_hibernate_faq/05_b_tree_composite_index_leftmost_prefix.svg)
 
-*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/05_b_tree_composite_index_leftmost_prefix.d2](assets/07_databases_jpa_and_hibernate_faq/05_b_tree_composite_index_leftmost_prefix.d2)
+*D2 Source: [`05_b_tree_composite_index_leftmost_prefix.d2`](assets/07_databases_jpa_and_hibernate_faq/05_b_tree_composite_index_leftmost_prefix.d2)*
 
 #### Production Implementation / SQL Solution
 ```sql
@@ -502,7 +502,7 @@ ORDER BY created_at DESC;
 #### Visual Flow
 ![Stored Procedures vs Database Triggers Execution Mechanics](assets/07_databases_jpa_and_hibernate_faq/06_stored_procedures_vs_triggers_execution.svg)
 
-*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/06_stored_procedures_vs_triggers_execution.d2](assets/07_databases_jpa_and_hibernate_faq/06_stored_procedures_vs_triggers_execution.d2)
+*D2 Source: [`06_stored_procedures_vs_triggers_execution.d2`](assets/07_databases_jpa_and_hibernate_faq/06_stored_procedures_vs_triggers_execution.d2)*
 
 #### Production Implementation / SQL Example
 ```sql
@@ -558,7 +558,7 @@ The CEO or root entity has `manager_id IS NULL`. An `INNER JOIN` automatically e
 #### Visual Flow
 ![SQL Self-Join Mechanics: Hierarchical Manager Relationships](assets/07_databases_jpa_and_hibernate_faq/07_sql_self_join_manager_hierarchy.svg)
 
-*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/07_sql_self_join_manager_hierarchy.d2](assets/07_databases_jpa_and_hibernate_faq/07_sql_self_join_manager_hierarchy.d2)
+*D2 Source: [`07_sql_self_join_manager_hierarchy.d2`](assets/07_databases_jpa_and_hibernate_faq/07_sql_self_join_manager_hierarchy.d2)*
 
 #### Production Implementation / SQL Solution
 ```sql
@@ -599,7 +599,7 @@ CREATE INDEX idx_emp_mgr_salary ON employees (manager_id, salary) INCLUDE (name)
 
 ![Hibernate Entity Loading: session.get() vs session.load()](assets/07_databases_jpa_and_hibernate_faq/08_hibernate_session_get_vs_load_proxy.svg)
 
-*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/08_hibernate_session_get_vs_load_proxy.d2](assets/07_databases_jpa_and_hibernate_faq/08_hibernate_session_get_vs_load_proxy.d2)
+*D2 Source: [`08_hibernate_session_get_vs_load_proxy.d2`](assets/07_databases_jpa_and_hibernate_faq/08_hibernate_session_get_vs_load_proxy.d2)*
 
 Detailed Architectural Differences:
 
@@ -681,7 +681,7 @@ public class OrderManagementService {
 
 ![Spring @Transactional Rollback Rules & Exception Invariants](assets/07_databases_jpa_and_hibernate_faq/09_transaction_interceptor_rollback_rules.svg)
 
-*D2 Source:* [assets/07_databases_jpa_and_hibernate_faq/09_transaction_interceptor_rollback_rules.d2](assets/07_databases_jpa_and_hibernate_faq/09_transaction_interceptor_rollback_rules.d2)
+*D2 Source: [`09_transaction_interceptor_rollback_rules.d2`](assets/07_databases_jpa_and_hibernate_faq/09_transaction_interceptor_rollback_rules.d2)*
 
 Why Spring Enforces This Invariant:
 - Atomicity contract: If part of a shared transaction fails, allowing the remainder to commit would violate ACID integrity (e.g., creating an order record when payment debit failed).

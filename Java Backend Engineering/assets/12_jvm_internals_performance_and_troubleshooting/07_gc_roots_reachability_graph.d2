@@ -1,31 +1,44 @@
 direction: right
-title: HotSpot GC Reachability & Root Sets
+title: "HotSpot GC Reachability & Root Sets"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Roots: GC Root Set {
+Roots: "GC Root Set" {
+  class: container
   style.stroke: "#38BDF8"
-  R1: Active Thread Stack Local Variables
-  R2: Metaspace Class Statics
-  R3: JNI Global & Local Handles
-  R4: JVM Internal Monitors & System Classes
+  R1: "Active Thread Stack Local Variables"
+  R2: "Metaspace Class Statics"
+  R3: "JNI Global & Local Handles"
+  R4: "JVM Internal Monitors & System Classes"
 }
 
-LiveGraph: Live Reachable Object Graph {
+LiveGraph: "Live Reachable Object Graph" {
+  class: container
   style.stroke: "#34D399"
-  ObjA: Live Object A (Direct Stack Root Child)
-  ObjB: Live Object B (Transitive Child)
-  ObjC: Live Object C (Leaf Node)
+  ObjA: "Live Object A (Direct Stack Root Child)"
+  ObjB: "Live Object B (Transitive Child)"
+  ObjC: "Live Object C (Leaf Node)"
 
-  ObjA -> ObjB: objA.child { style.stroke: "#34D399" }
-  ObjB -> ObjC: objB.child { style.stroke: "#34D399" }
+  ObjA -> ObjB: "objA.child" { style.stroke: "#34D399" }
+  ObjB -> ObjC: "objB.child" { style.stroke: "#34D399" }
 }
 
-DeadIsland: Island of Isolation (Unreachable) {
+DeadIsland: "Island of Isolation (Unreachable)" {
+  class: container
   style.stroke: "#EF4444"
-  ObjD: Dead Object D
-  ObjE: Dead Object E
+  ObjD: "Dead Object D"
+  ObjE: "Dead Object E"
 
-  ObjD -> ObjE: cyclic reference { style.stroke: "#EF4444" }
-  ObjE -> ObjD: cyclic reference { style.stroke: "#EF4444" }
+  ObjD -> ObjE: "cyclic reference" { style.stroke: "#EF4444" }
+  ObjE -> ObjD: "cyclic reference" { style.stroke: "#EF4444" }
 }
 
-Roots.R1 -> LiveGraph.ObjA: Root Pointer { style.stroke: "#34D399" }
+Roots.R1 -> LiveGraph.ObjA: "Root Pointer" { style.stroke: "#34D399" }

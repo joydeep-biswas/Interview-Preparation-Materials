@@ -1,40 +1,44 @@
 # Multi-Table Joins & Star Schema Dimensional Querying
 direction: right
+classes: {
+  fact_box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 10 } }
+  dim_box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 8 } }
+}
 
-fact: "FACT_SALES (Center)
-• sales_id [PK]
-• date_id [FK]
-• customer_id [FK]
-• product_id [FK]
-• store_id [FK]" {
+fact: "FACT_SALES (Center Hub)\n• sales_id [PK]\n• date_id [FK]\n• customer_id [FK]\n• product_id [FK]\n• store_id [FK]\n• units, revenue, cost" {
+  class: fact_box
   style.stroke: "#3B82F6"
 }
 
-date: "DIM_DATE
-• date_id [PK]
-• calendar_date, year, month" {
+date: "DIM_DATE\n• date_id [PK]\n• calendar_date\n• year, quarter, month" {
+  class: dim_box
   style.stroke: "#F59E0B"
 }
 
-cust: "DIM_CUSTOMER
-• customer_id [PK]
-• name, tier, region" {
+cust: "DIM_CUSTOMER\n• customer_id [PK]\n• customer_name\n• loyalty_tier, region" {
+  class: dim_box
   style.stroke: "#10B981"
 }
 
-prod: "DIM_PRODUCT
-• product_id [PK]
-• sku, category, price" {
+prod: "DIM_PRODUCT\n• product_id [PK]\n• sku, category\n• unit_price, cost" {
+  class: dim_box
   style.stroke: "#8B5CF6"
 }
 
-store: "DIM_STORE
-• store_id [PK]
-• store_name, city" {
+store: "DIM_STORE\n• store_id [PK]\n• store_name, city\n• country, format" {
+  class: dim_box
   style.stroke: "#EF4444"
 }
 
-date -> fact: "date_id [FK]"
-cust -> fact: "customer_id [FK]"
-prod -> fact: "product_id [FK]"
-store -> fact: "store_id [FK]"
+date -> fact: "date_id [FK]" {
+  style.stroke: "#F59E0B"
+}
+cust -> fact: "customer_id [FK]" {
+  style.stroke: "#10B981"
+}
+prod -> fact: "product_id [FK]" {
+  style.stroke: "#8B5CF6"
+}
+store -> fact: "store_id [FK]" {
+  style.stroke: "#EF4444"
+}

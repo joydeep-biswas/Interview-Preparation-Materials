@@ -95,7 +95,7 @@
 
   
     <rect x="765" y="115" width="185" height="200" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
-    <text x="857.5" y="141" fill="#cbd5e1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">4. Archive / Glacier</text>
+    <text x="764" y="141" fill="#cbd5e1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">4. Glacier Archive</text>
     <text x="857.5" y="157" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Deep Compliance Archive</text>
     <rect x="885" y="125" width="59" height="18" rx="9" fill="#0f172a" stroke="#64748b" stroke-width="1"/>
     <text x="914.5" y="137" fill="#64748b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ARCHIVE</text>

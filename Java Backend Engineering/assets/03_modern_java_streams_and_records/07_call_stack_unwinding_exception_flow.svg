@@ -38,7 +38,7 @@
 
   <!-- Top: Invocation Flow (Push Phase) -->
   <rect x="50" y="95" width="1100" height="185" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="95" width="1100" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="95" width="1100" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="600" y="116" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Phase 1: Method Invocation (Stack Frame Push: Left -&gt; Right)</text>
 
   <!-- Frame 1: main() -->
@@ -72,7 +72,7 @@
 
   <!-- Bottom: Unwinding Flow (Pop Phase) -->
   <rect x="50" y="300" width="1100" height="160" rx="8" fill="#1C1917" stroke="#EF4444" stroke-width="1.5"/>
-  <rect x="50" y="300" width="1100" height="30" rx="8" fill="#7F1D1D"/>
+  <rect x="50" y="300" width="1100" height="30" rx="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="1"/>
   <text x="600" y="321" font-size="12" font-weight="700" fill="#FCA5A5" text-anchor="middle">Phase 2: Exception Propagation &amp; Stack Unwinding (Frame Pop: Right -&gt; Left)</text>
 
   <!-- Unwind Step 3 -->

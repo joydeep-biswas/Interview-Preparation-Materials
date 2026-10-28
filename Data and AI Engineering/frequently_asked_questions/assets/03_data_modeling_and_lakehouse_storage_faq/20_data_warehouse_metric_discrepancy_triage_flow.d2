@@ -1,11 +1,11 @@
 direction: right
 classes: {
-  alert: { style: { fill: "#1F2937"; stroke: "#EF4444"; stroke-width: 2; rx: 10 } }
-  decision: { style: { fill: "#111827"; stroke: "#F59E0B"; stroke-width: 2; rx: 8 } }
-  cause: { style: { fill: "#1E293B"; stroke: "#3B82F6"; stroke-width: 1.5; rx: 8 } }
+  alert: { style: { fill: "#1F2937"; stroke: "#EF4444"; stroke-width: 2; border-radius: 10 } }
+  decision: { style: { fill: "#111827"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  cause: { style: { fill: "#1E293B"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
 }
 
-alert_node: "1. Metric Alert\nSource Total: $1,050,000\nDW Total: $1,020,000 (-$30k)" { class: alert }
+alert_node: "1. Metric Alert\nSource Total: \$1,050,000\nDW Total: \$1,020,000 (-\$30k)" { class: alert }
 step1: "Quantify Granularity\nIsolate to hour, tenant, or status" { class: decision }
 check_deletes: "2. Check Hard Deletes\nSource count vs DW count" { class: decision }
 

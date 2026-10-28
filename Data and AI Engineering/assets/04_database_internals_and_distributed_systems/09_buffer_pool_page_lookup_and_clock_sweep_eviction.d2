@@ -1,11 +1,21 @@
 direction: right
-title: Buffer Pool Management & Page Eviction Algorithms
+title: "Buffer Pool Management & Page Eviction Algorithms"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-query: Query Engine Requests Page #4096
-hash_table: Page Hash Table (Maps PageID -> FrameID in RAM)
-frames: Buffer Pool Frames in RAM (Array of 8KB Page Buffers)
-evictor: Clock Sweep / LRU Eviction Engine
-disk: Disk Subsystem (NVMe SSD)
+query: "Query Engine Requests Page #4096"
+hash_table: "Page Hash Table (Maps PageID -> FrameID in RAM)"
+frames: "Buffer Pool Frames in RAM (Array of 8KB Page Buffers)"
+evictor: "Clock Sweep / LRU Eviction Engine"
+disk: "Disk Subsystem (NVMe SSD)"
 
 query -> hash_table: "Look up PageID"
 hash_table -> frames: "Cache Hit: Read Frame in RAM"

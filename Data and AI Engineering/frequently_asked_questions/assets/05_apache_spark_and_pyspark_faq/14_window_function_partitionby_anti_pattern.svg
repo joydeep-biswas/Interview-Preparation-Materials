@@ -6,28 +6,28 @@
       .edge { stroke-width: 1.5; fill: none; }
     </style>
     <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
   </defs>
 
-  <rect width="1000" height="340" fill="#0B0F19"/>
+  <rect width="1000" height="340" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Left: Bad Window (Red) -->
   <g transform="translate(30, 25)">
-    <rect width="450" height="290" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2"/>
+    <rect width="450" height="290" rx="10" ry="10" fill="#111827" stroke="#EF4444" stroke-width="2" />
     <text x="225" y="28" class="title" fill="#FCA5A5">Anti-Pattern: Window without partitionBy</text>
-    <line x1="20" y1="38" x2="430" y2="38" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="20" y1="38" x2="430" y2="38" stroke="#1F2937" stroke-width="1.5" />
 
-    <rect x="25" y="60" width="400" height="50" rx="6" ry="6" fill="#1F2937" stroke="#EF4444" stroke-width="1"/>
+    <rect x="25" y="60" width="400" height="58" rx="6" ry="6" fill="#1F2937" stroke="#EF4444" stroke-width="1" />
     <text x="225" y="85" class="title" font-size="11" fill="#FCA5A5">100M Records Distributed Across 10 Executors</text>
     <text x="225" y="100" class="body-txt" text-anchor="middle">Window.orderBy('salary') (Empty Partition)</text>
 
-    <path fill="none" d="M 225 110 L 225 150" class="edge" stroke="#EF4444" marker-end="url(#arr-red)"/>
+    <path fill="none" d="M 225 110 L 225 150" class="edge" stroke="#EF4444" marker-end="url(#arr-red)" />
 
-    <rect x="25" y="150" width="400" height="95" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
+    <rect x="25" y="150" width="400" height="103" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2" />
     <text x="225" y="178" class="title" font-size="12" fill="#FECACA">Single Executor 0 (1 Core / Single Partition)</text>
     <text x="225" y="200" class="body-txt" text-anchor="middle" fill="#FCA5A5">• Forces all 100M rows to 1 worker JVM!</text>
     <text x="225" y="218" class="body-txt" text-anchor="middle" fill="#FCA5A5">• 9 executors sit completely idle</text>
@@ -36,34 +36,34 @@
 
   <!-- Right: Good Window (Green) -->
   <g transform="translate(520, 25)">
-    <rect width="450" height="290" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="450" height="290" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="225" y="28" class="title" fill="#6EE7B7">Best Practice: Window with partitionBy</text>
-    <line x1="20" y1="38" x2="430" y2="38" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="20" y1="38" x2="430" y2="38" stroke="#1F2937" stroke-width="1.5" />
 
-    <rect x="25" y="60" width="400" height="50" rx="6" ry="6" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
+    <rect x="25" y="60" width="400" height="58" rx="6" ry="6" fill="#1F2937" stroke="#10B981" stroke-width="1" />
     <text x="225" y="85" class="title" font-size="11" fill="#6EE7B7">100M Records Partitioned</text>
     <text x="225" y="100" class="body-txt" text-anchor="middle">Window.partitionBy('dept_id').orderBy('salary')</text>
 
     <!-- 3 Worker Nodes -->
-    <rect x="25" y="145" width="125" height="75" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="25" y="145" width="125" height="75" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5" />
     <text x="87.5" y="172" class="title" font-size="11" fill="#A7F3D0">Executor 1</text>
     <text x="87.5" y="190" class="body-txt" text-anchor="middle" fill="#A7F3D0">Dept: Sales</text>
     <text x="87.5" y="206" class="body-txt" text-anchor="middle" fill="#A7F3D0">33M Rows</text>
 
-    <rect x="162" y="145" width="125" height="75" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="162" y="145" width="125" height="75" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5" />
     <text x="224.5" y="172" class="title" font-size="11" fill="#A7F3D0">Executor 2</text>
     <text x="224.5" y="190" class="body-txt" text-anchor="middle" fill="#A7F3D0">Dept: Eng</text>
     <text x="224.5" y="206" class="body-txt" text-anchor="middle" fill="#A7F3D0">33M Rows</text>
 
-    <rect x="300" y="145" width="125" height="75" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="300" y="145" width="125" height="75" rx="6" ry="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5" />
     <text x="362.5" y="172" class="title" font-size="11" fill="#A7F3D0">Executor 3</text>
     <text x="362.5" y="190" class="body-txt" text-anchor="middle" fill="#A7F3D0">Dept: Ops</text>
     <text x="362.5" y="206" class="body-txt" text-anchor="middle" fill="#A7F3D0">33M Rows</text>
 
     <!-- Connectors with straight runways -->
-    <path fill="none" d="M 120 110 L 120 130 C 120 140, 87.5 135, 87.5 145" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-    <path fill="none" d="M 225 110 L 225 145" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-    <path fill="none" d="M 330 110 L 330 130 C 330 140, 362.5 135, 362.5 145" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+    <path fill="none" d="M 120 110 L 120 130 C 120 140, 87.5 135, 87.5 145" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+    <path fill="none" d="M 225 110 L 225 145" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+    <path fill="none" d="M 330 110 L 330 130 C 330 140, 362.5 135, 362.5 145" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
 
     <text x="225" y="255" class="body-txt" text-anchor="middle" fill="#6EE7B7">Balanced parallelism across all cores; fast completion!</text>
   </g>

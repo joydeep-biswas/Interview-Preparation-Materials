@@ -38,7 +38,7 @@
 
   <!-- Column 1: Thread Stack Frame -->
   <rect x="50" y="95" width="310" height="340" rx="8" fill="#0B132B" stroke="#0284C7" stroke-width="1.5"/>
-  <rect x="50" y="95" width="310" height="30" rx="8" fill="#0C4A6E"/>
+  <rect x="50" y="95" width="310" height="30" rx="8" fill="#0C4A6E" stroke="#0284C7" stroke-width="1"/>
   <text x="205" y="116" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">Thread Stack References</text>
 
   <!-- s1 -->
@@ -64,7 +64,7 @@
 
   <!-- Column 2: String Constant Pool -->
   <rect x="400" y="95" width="380" height="340" rx="8" fill="#06201B" stroke="#047857" stroke-width="1.5"/>
-  <rect x="400" y="95" width="380" height="30" rx="8" fill="#064E3B"/>
+  <rect x="400" y="95" width="380" height="30" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="590" y="116" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">String Constant Pool (Native StringTable in Heap)</text>
 
   <!-- Canonical Instance -->
@@ -88,7 +88,7 @@
 
   <!-- Column 3: Regular Heap Space -->
   <rect x="820" y="95" width="330" height="340" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
-  <rect x="820" y="95" width="330" height="30" rx="8" fill="#78350F"/>
+  <rect x="820" y="95" width="330" height="30" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
   <text x="985" y="116" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Regular JVM Heap Space</text>
 
   <!-- Heap Instance for new String() -->

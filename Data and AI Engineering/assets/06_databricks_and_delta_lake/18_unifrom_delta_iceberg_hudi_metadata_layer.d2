@@ -1,34 +1,51 @@
 direction: down
-title: Databricks Universal Format (UniForm) Architecture
+title: "Databricks Universal Format (UniForm) Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
 writer: "Delta Lake Writer (Databricks / Spark)" {
+  class: container
   style.fill: "#0b1329"
   style.stroke: "#38bdf8"
   description: "Single write pipeline commits table updates"
 }
 
 meta: "Universal Metadata Generation Layer" {
+  class: container
   delta_log: "_delta_log/ (Delta Lake Commit Log)" {
+    class: box
     style.fill: "#0f172a"
     style.stroke: "#3b82f6"
   }
   iceberg_meta: "metadata/ (Apache Iceberg metadata.json)" {
+    class: box
     style.fill: "#062e3d"
     style.stroke: "#06b6d4"
   }
   hudi_meta: ".hoodie/ (Apache Hudi timeline commits)" {
+    class: box
     style.fill: "#18182f"
     style.stroke: "#c084fc"
   }
 }
 
 storage: "Single Shared Parquet Data Storage (0% Duplication)" {
+  class: container
   style.fill: "#064e3b"
   style.stroke: "#10b981"
   description: "part-0001.parquet, part-0002.parquet on S3 / ADLS / GCS"
 }
 
 readers: "Heterogeneous Query Ecosystem" {
+  class: container
   delta_readers: "Delta Readers\n(Databricks SQL, Apache Spark)"
   iceberg_readers: "Iceberg Readers\n(Snowflake, BigQuery, Starburst/Trino)"
   hudi_readers: "Hudi Readers\n(AWS EMR, Athena, Apache Flink)"

@@ -1,21 +1,35 @@
 direction: right
-title: Distributed Locks & Fencing Tokens
+title: "Distributed Locks & Fencing Tokens"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-c1: Client 1 {
+c1: "Client 1" {
+  class: container
   status: "Acquires lock with Token 33, then hits 60s GC pause"
   style.stroke: "#ef4444"
 }
 
-lock_service: Lock Service (ZooKeeper / etcd) {
+lock_service: "Lock Service (ZooKeeper / etcd)" {
+  class: container
   counter: "Monotonically increasing fencing tokens (33 -> 34)"
 }
 
-c2: Client 2 {
+c2: "Client 2" {
+  class: container
   status: "Acquires lock with Token 34 after lease expires"
   style.stroke: "#10b981"
 }
 
-storage: Storage Service {
+storage: "Storage Service" {
+  class: container
   rule: "Rejects writes with token < current_token (33 < 34)"
 }
 

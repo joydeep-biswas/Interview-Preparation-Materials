@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to Arrays, Strings, Two Pointers, Fast &
 
 ![CPU Cache Line Hierarchy & Pointer Traversal Topologies](assets/01_linear_structures_and_pointer_patterns/01_cpu_cache_and_pointer_topologies.svg)
 
-*D2 Source:* [assets/01_linear_structures_and_pointer_patterns/01_cpu_cache_and_pointer_topologies.d2](assets/01_linear_structures_and_pointer_patterns/01_cpu_cache_and_pointer_topologies.d2)
+*D2 Source: [`01_cpu_cache_and_pointer_topologies.d2`](assets/01_linear_structures_and_pointer_patterns/01_cpu_cache_and_pointer_topologies.d2)*
 
 ---
 
@@ -176,7 +176,7 @@ The algorithm maintains four distinct memory regions throughout traversal:
 
 ![Dutch National Flag 3-Way Partitioning Invariant](assets/01_linear_structures_and_pointer_patterns/02_dutch_national_flag_invariant.svg)
 
-*D2 Source:* [assets/01_linear_structures_and_pointer_patterns/02_dutch_national_flag_invariant.d2](assets/01_linear_structures_and_pointer_patterns/02_dutch_national_flag_invariant.d2)
+*D2 Source: [`02_dutch_national_flag_invariant.d2`](assets/01_linear_structures_and_pointer_patterns/02_dutch_national_flag_invariant.d2)*
 
 #### Production Implementation: Sort Colors (Java)
 ```java
@@ -338,10 +338,10 @@ public int lengthOfLongestSubstringKDistinct(String s, int k) {
 
 #### 4.2.1 Longest Substring Without Repeating Characters (LeetCode 3)
 A classic interview question requiring the variable-size sliding window pattern:
-- **Invariant:** The window $[\\text{left}, \\text{right}]$ contains zero duplicate characters at all times.
+- **Invariant:** The window $[\text{left}, \text{right}]$ contains zero duplicate characters at all times.
 - **Optimization (Last-Seen Index Jump):** Instead of advancing `left` incrementally by 1, store the **last-seen 0-indexed position** of each character in an ASCII table (`int[128]` initialized to `-1`) or a hash map. When a duplicate `rChar` is encountered at `right`, immediately jump `left = Math.max(left, lastSeen[rChar] + 1)`.
 - **Time Complexity:** $O(N)$ single-pass over the string.
-- **Space Complexity:** $O(\\min(N, \\Sigma))$ where $\\Sigma = 128$ for standard ASCII ($O(1)$ space).
+- **Space Complexity:** $O(\min(N, \Sigma))$ where $\Sigma = 128$ for standard ASCII ($O(1)$ space).
 
 ```java
 import java.util.Arrays;

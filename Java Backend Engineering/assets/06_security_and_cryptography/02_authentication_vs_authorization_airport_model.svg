@@ -38,7 +38,7 @@
 
   <!-- Left Side: Authentication (AuthN) -->
   <rect x="50" y="105" width="460" height="325" rx="8" fill="#06201B" stroke="#10B981" stroke-width="1.5"/>
-  <rect x="50" y="105" width="460" height="32" rx="8" fill="#064E3B"/>
+  <rect x="50" y="105" width="460" height="32" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1"/>
   <text x="280" y="126" font-size="12" font-weight="700" fill="#6EE7B7" text-anchor="middle">Authentication (AuthN): "Who Are You?"</text>
 
   <!-- TSA Card -->
@@ -58,7 +58,7 @@
 
   <!-- Right Side: Authorization (AuthZ) -->
   <rect x="590" y="105" width="460" height="325" rx="8" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
-  <rect x="590" y="105" width="460" height="32" rx="8" fill="#78350F"/>
+  <rect x="590" y="105" width="460" height="32" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
   <text x="820" y="126" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">Authorization (AuthZ): "What Can You Access?"</text>
 
   <!-- Gate Check -->

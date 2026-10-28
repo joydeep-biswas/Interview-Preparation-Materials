@@ -27,7 +27,7 @@
     .badge { font-weight: 600; font-size: 11px; }
   </style>
 
-  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12"/>
+  <rect width="100%" height="100%" fill="url(#bg-grad)" rx="12" ry="12" stroke="#1F2937" stroke-width="1.5"/>
 
   <text x="530" y="32" class="title" font-size="20" text-anchor="middle">Idempotent API Design &amp; Distributed Locking Architecture</text>
   <text x="530" y="52" class="subtitle" text-anchor="middle">Preventing duplicate payment processing across retries using Idempotency-Key and Redis SETNX</text>
@@ -35,10 +35,10 @@
   <!-- Step 1: Client Request with Idempotency-Key -->
   <g transform="translate(40, 75)">
     <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
-    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
     <text x="110" y="20" class="card-title" fill="#BFDBFE" text-anchor="middle">1. Client Request</text>
 
-    <rect x="15" y="45" width="190" height="75" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="190" height="75" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="95" y="66" class="badge" fill="#93C5FD" text-anchor="middle">POST /v1/payments</text>
     <text x="15" y="86" class="card-body" font-size="11">Idempotency-Key: uuid-123</text>
     <text x="15" y="104" class="card-body" font-size="11">Amount: $500.00</text>
@@ -50,7 +50,7 @@
     <text x="15" y="206" class="card-body">• Re-sends IDENTICAL key</text>
     <text x="15" y="222" class="badge" fill="#34D399">• Safe from double charge</text>
 
-    <rect x="15" y="245" width="190" height="90" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="245" width="190" height="90" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="95" y="268" class="badge" fill="#93C5FD" text-anchor="middle">Gateway Header Check</text>
     <text x="15" y="290" class="card-body">Rejects request 400 Bad</text>
     <text x="15" y="306" class="card-body">Request if Idempotency-Key</text>
@@ -60,10 +60,10 @@
   <!-- Step 2: Redis Distributed Lock & Cache -->
   <g transform="translate(290, 75)">
     <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <rect width="230" height="30" rx="10" ry="10" fill="#92400E"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#92400E" stroke="#F59E0B" stroke-width="1"/>
     <text x="115" y="20" class="card-title" fill="#FDE68A" text-anchor="middle">2. Redis SETNX Lock</text>
 
-    <rect x="15" y="45" width="200" height="85" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="200" height="85" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="100" y="66" class="badge" fill="#FDE68A" text-anchor="middle">1. Check Existing Result</text>
     <text x="15" y="88" class="card-body" font-family="monospace">GET idempotency:uuid-123</text>
     <text x="15" y="106" class="card-body">If present -&gt; Return cached</text>
@@ -75,7 +75,7 @@
     <text x="15" y="200" class="card-body" font-family="monospace">    PX 10000</text>
     <text x="15" y="218" class="card-body" font-size="11" fill="#FDE68A">If fails -&gt; In-flight conflict!</text>
 
-    <rect x="15" y="245" width="200" height="90" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="245" width="200" height="90" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="100" y="268" class="badge" fill="#FCD34D" text-anchor="middle">Concurrency Guard</text>
     <text x="15" y="290" class="card-body">Blocks concurrent twin</text>
     <text x="15" y="306" class="card-body">requests from executing</text>
@@ -85,10 +85,10 @@
   <!-- Step 3: Business Logic & DB Constraint -->
   <g transform="translate(545, 75)">
     <rect width="230" height="370" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <rect width="230" height="30" rx="10" ry="10" fill="#065F46"/>
+    <rect width="230" height="30" rx="10" ry="10" fill="#065F46" stroke="#10B981" stroke-width="1"/>
     <text x="115" y="20" class="card-title" fill="#A7F3D0" text-anchor="middle">3. Payment Execution</text>
 
-    <rect x="15" y="45" width="200" height="85" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="45" width="200" height="85" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     <text x="100" y="66" class="badge" fill="#A7F3D0" text-anchor="middle">External Payment Gateway</text>
     <text x="15" y="88" class="card-body">• Calls Stripe / Bank API</text>
     <text x="15" y="104" class="card-body">• Passes idempotency token</text>
@@ -100,7 +100,7 @@
     <text x="15" y="200" class="card-body" font-family="monospace">(idempotency_key, ...)</text>
     <text x="15" y="218" class="card-body" font-size="11" fill="#A7F3D0">Hard DB-level safety net</text>
 
-    <rect x="15" y="245" width="200" height="90" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="245" width="200" height="90" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="100" y="268" class="badge" fill="#A7F3D0" text-anchor="middle">ACID Transaction</text>
     <text x="15" y="290" class="card-body">Saves payment record &amp;</text>
     <text x="15" y="306" class="card-body">updates account balance in</text>
@@ -110,11 +110,11 @@
   <!-- Step 4: Cache Response & Release Lock -->
   <g transform="translate(800, 75)">
     <rect width="220" height="370" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-    <rect width="220" height="30" rx="10" ry="10" fill="#5B21B6"/>
+    <rect width="220" height="30" rx="10" ry="10" fill="#5B21B6" stroke="#8B5CF6" stroke-width="1"/>
     <text x="110" y="20" class="card-title" fill="#DDD6FE" text-anchor="middle">4. Cache &amp; Respond</text>
 
     <g transform="translate(15, 45)">
-      <rect x="0" y="0" width="190" height="85" rx="6" ry="6" fill="#1E293B"/>
+      <rect x="0" y="0" width="190" height="85" rx="6" ry="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
       <text x="15" y="20" class="badge" fill="#DDD6FE">Cache Payload</text>
       <text x="15" y="40" class="card-body" font-family="monospace">SETEX idempotency:key</text>
       <text x="15" y="56" class="card-body" font-family="monospace">86400 (24h) json_resp</text>
@@ -127,7 +127,7 @@
       <text x="15" y="169" class="badge" fill="#34D399">safe lookups</text>
     </g>
 
-    <rect x="15" y="245" width="190" height="90" rx="6" ry="6" fill="#0F172A"/>
+    <rect x="15" y="245" width="190" height="90" rx="6" ry="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
     <text x="95" y="268" class="badge" fill="#DDD6FE" text-anchor="middle">HTTP 201 Created</text>
     <text x="15" y="290" class="card-body" font-size="11">Returns payment receipt.</text>
     <text x="15" y="306" class="card-body" font-size="11">Subsequent retries return</text>

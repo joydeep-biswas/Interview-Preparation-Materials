@@ -1,18 +1,30 @@
 direction: right
-title: Two-Tier L1/L2 Caching Pipeline Architecture
+title: "Two-Tier L1/L2 Caching Pipeline Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-App: Application Code
-L1: Tier 1: Local L1 Cache (Caffeine ~50ns) {
+App: "Application Code"
+L1: "Tier 1: Local L1 Cache (Caffeine ~50ns)" {
+  class: container
   shape: diamond
 }
-L2: Tier 2: Distributed L2 Cache (Redis ~1ms) {
+L2: "Tier 2: Distributed L2 Cache (Redis ~1ms)" {
+  class: container
   shape: diamond
 }
-DB: Tier 3: Database (PostgreSQL ~20ms)
+DB: "Tier 3: Database (PostgreSQL ~20ms)"
 
-App -> L1: 1. Check local cache { style.stroke: "#38BDF8" }
-L1 -> App: Hit: Return value (~50ns) { style.stroke: "#10B981" }
-L1 -> L2: Miss: Check Redis { style.stroke: "#F59E0B" }
-L2 -> L1: Hit: Populate L1 and return { style.stroke: "#8B5CF6" }
-L2 -> DB: Miss: Query DB { style.stroke: "#EF4444" }
-DB -> L2: Backfill L2 and L1 { style.stroke: "#34D399" }
+App -> L1: "1. Check local cache" { style.stroke: "#38BDF8" }
+L1 -> App: "Hit: Return value (~50ns)" { style.stroke: "#10B981" }
+L1 -> L2: "Miss: Check Redis" { style.stroke: "#F59E0B" }
+L2 -> L1: "Hit: Populate L1 and return" { style.stroke: "#8B5CF6" }
+L2 -> DB: "Miss: Query DB" { style.stroke: "#EF4444" }
+DB -> L2: "Backfill L2 and L1" { style.stroke: "#34D399" }

@@ -32,14 +32,14 @@
   
   
     <rect x="350" y="95" width="280" height="55" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="490.0" y="121" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">What is your primary workload?</text>
+    <text x="375" y="121" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Primary Workload Type?</text>
     <text x="490.0" y="137" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Query &amp;amp; Access Pattern Decision</text>
     <rect x="558" y="105" width="66" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
     <text x="591.0" y="117" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">DECISION</text>
 
   
     <rect x="40" y="210" width="280" height="180" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="180.0" y="236" fill="#fde68a" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Row-Oriented Binary: Apache Avro</text>
+    <text x="45" y="236" fill="#fde68a" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Row Binary: Apache Avro</text>
     <text x="180.0" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Kafka, Flink, Event Streaming, CDC</text>
     <rect x="241" y="220" width="73" height="18" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
     <text x="277.5" y="232" fill="#f59e0b" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">STREAMING</text>
@@ -77,7 +77,7 @@
 
   
     <rect x="660" y="210" width="280" height="180" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="800.0" y="236" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Columnar Binary: Parquet / ORC</text>
+    <text x="665" y="236" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Columnar: Parquet / ORC</text>
     <text x="800.0" y="252" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Lakehouse, OLAP, Aggregations, BI</text>
     <rect x="861" y="220" width="73" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="897.5" y="232" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ANALYTICS</text>

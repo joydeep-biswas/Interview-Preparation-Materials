@@ -26,14 +26,14 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PostgreSQL Transaction ID (XID) Wraparound &amp; VACUUM FREEZE</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Circular 32-bit Modulo 2^31 Transaction Horizon, Slotted Horizon Catastrophe, and Autovacuum Defense</text>
 <rect x="40" y="95" width="1000" height="340" rx="10" fill="#0b101d" stroke="#3b82f6" stroke-width="1.5"/>
 <text x="540" y="125" fill="#93C5FD" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Circular 32-Bit Transaction ID Space (Total: 4,294,967,296 XIDs)</text>
 <text x="540" y="142" fill="#94A3B8" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Any given Active XID divides the circular universe into 2.14B Past (visible) and 2.14B Future (invisible)</text>
 <rect x="65" y="160" width="340" height="170" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
-<rect x="80" y="175" width="180" height="22" rx="11" fill="#047857"/><text x="170" y="189" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PAST HORIZON (Visible)</text>
+<rect x="80" y="175" width="180" height="22" rx="11" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="170" y="189" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">PAST HORIZON (Visible)</text>
 <text x="80" y="215" fill="#A7F3D0" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Exactly 2.14 Billion (2^31 - 1) transactions</text>
 <text x="80" y="235" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Tuples with xmin &lt; Current XID are visible</text>
 <text x="80" y="255" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Checked via (Current_XID - tuple_xmin) &lt; 2^31</text>
@@ -55,7 +55,7 @@
 <text x="690" y="295" fill="#F87171" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  ancient past data suddenly looks like FUTURE!</text>
 <text x="690" y="315" fill="#EF4444" font-size="8.5" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  Result: DATA BECOMES INVISIBLE (CATASTROPHE)</text>
 <rect x="65" y="345" width="950" height="75" rx="8" fill="#18181b" stroke="#f59e0b" stroke-width="1.5"/>
-<rect x="80" y="355" width="160" height="20" rx="10" fill="#78350f"/><text x="160" y="368" fill="#FDE68A" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">VACUUM FREEZE Solution</text>
+<rect x="80" y="355" width="160" height="20" rx="10" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="160" y="368" fill="#FDE68A" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">VACUUM FREEZE Solution</text>
 <text x="255" y="368" fill="#FBBF24" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">How VACUUM FREEZE Prevents Wraparound Loss:</text>
 <text x="80" y="395" fill="#CBD5E1" font-size="9.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Replaces ancient tuple xmin with FrozenTransactionId (Value = 2) or sets HEAP_XMIN_FROZEN bit in infomask.</text>
 <text x="80" y="410" fill="#34D399" font-size="9.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Frozen tuples are treated as permanently committed in the past by ALL snapshots across all time, regardless of XID cycle!</text>

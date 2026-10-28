@@ -1,19 +1,40 @@
-# Three-Valued Logic: NULL in NOT IN Predicates
+# Three-Valued Logic (3VL): NULL in NOT IN Predicates
 direction: right
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  step: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+}
 
 c1: "1. De Morgan Expansion" {
+  class: pillar
   style.stroke: "#3B82F6"
-  exp: "id NOT IN (1, 2, NULL)\n= id <> 1 AND id <> 2 AND id <> NULL\n• 5 <> NULL yields UNKNOWN"
+  exp: "WHERE id NOT IN (1, 2, NULL)\n• Evaluates as: id <> 1 AND id <> 2 AND id <> NULL\n• For candidate id = 5: 5 <> NULL yields UNKNOWN" {
+    class: step
+    style.stroke: "#3B82F6"
+  }
 }
 
 c2: "2. 3VL Truth Reduction" {
+  class: pillar
   style.stroke: "#F59E0B"
-  eval: "TRUE AND TRUE AND UNKNOWN\n= UNKNOWN"
+  eval: "ANSI Boolean Reduction\n• TRUE AND TRUE AND UNKNOWN\n• Propagates to UNKNOWN" {
+    class: step
+    style.stroke: "#F59E0B"
+  }
 }
 
-c3: "3. Engine Outcome" {
+c3: "3. Database Engine Outcome" {
+  class: pillar
   style.stroke: "#EF4444"
-  res: "WHERE requires strictly TRUE\n• UNKNOWN is discarded\n• 0 rows returned!\n✓ Fix: Use NOT EXISTS"
+  res: "WHERE Clause Filter\n• WHERE requires strictly TRUE\n• UNKNOWN is treated as FALSE and discarded\n• 0 rows returned! Entire query silently drops data\n✓ Production Fix: Use NOT EXISTS or IS NOT NULL" {
+    class: step
+    style.stroke: "#EF4444"
+  }
 }
 
-c1 -> c2 -> c3
+c1 -> c2: "Boolean Expansion" {
+  style.stroke: "#F59E0B"
+}
+c2 -> c3: "Reduction to UNKNOWN" {
+  style.stroke: "#EF4444"
+}

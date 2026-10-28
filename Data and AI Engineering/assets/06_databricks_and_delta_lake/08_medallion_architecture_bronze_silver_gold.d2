@@ -1,32 +1,45 @@
 direction: right
-title: Medallion Architecture & Lakeflow Platform
-
-Sources: Upstream Sources {
-  style.stroke: "#64748B"
-  DB: OLTP Databases (CDC)
-  SaaS: Enterprise SaaS (Salesforce)
+title: "Medallion Architecture & Lakeflow Platform"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-Lakeflow: Databricks Lakeflow Platform {
+Sources: "Upstream Sources" {
+  class: container
+  style.stroke: "#64748B"
+  DB: "OLTP Databases (CDC)"
+  SaaS: "Enterprise SaaS (Salesforce)"
+}
+
+Lakeflow: "Databricks Lakeflow Platform" {
+  class: container
   style.stroke: "#38BDF8"
-  Connect: 1. Lakeflow Connect (Serverless Ingestion)
-  Pipelines: 2. Lakeflow Pipelines (DLT Engine)
-  Jobs: 3. Lakeflow Jobs (Orchestration)
+  Connect: "1. Lakeflow Connect (Serverless Ingestion)"
+  Pipelines: "2. Lakeflow Pipelines (DLT Engine)"
+  Jobs: "3. Lakeflow Jobs (Orchestration)"
 
   Connect -> Pipelines
   Jobs -> Pipelines
 }
 
-Medallion: Unity Catalog Medallion Storage {
+Medallion: "Unity Catalog Medallion Storage" {
+  class: container
   style.stroke: "#34D399"
-  Bronze: Bronze Tables (Raw Append Log)
-  Silver: Silver Tables (Cleaned & Conformed)
-  Gold: Gold Tables (Aggregated KPI Marts)
+  Bronze: "Bronze Tables (Raw Append Log)"
+  Silver: "Silver Tables (Cleaned & Conformed)"
+  Gold: "Gold Tables (Aggregated KPI Marts)"
 
   Bronze -> Silver -> Gold
 }
 
-Sources.DB -> Lakeflow.Connect: Change Data Capture { style.stroke: "#22D3EE" }
-Lakeflow.Pipelines -> Medallion.Bronze: Writes Raw Data { style.stroke: "#FBBF24" }
-Lakeflow.Pipelines -> Medallion.Silver: Cleanses & Validates { style.stroke: "#34D399" }
-Lakeflow.Pipelines -> Medallion.Gold: Aggregates Marts { style.stroke: "#C084FC" }
+Sources.DB -> Lakeflow.Connect: "Change Data Capture" { style.stroke: "#22D3EE" }
+Lakeflow.Pipelines -> Medallion.Bronze: "Writes Raw Data" { style.stroke: "#FBBF24" }
+Lakeflow.Pipelines -> Medallion.Silver: "Cleanses & Validates" { style.stroke: "#34D399" }
+Lakeflow.Pipelines -> Medallion.Gold: "Aggregates Marts" { style.stroke: "#C084FC" }

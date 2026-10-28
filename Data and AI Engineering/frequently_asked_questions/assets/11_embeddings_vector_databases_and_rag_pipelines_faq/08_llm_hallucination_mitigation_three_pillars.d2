@@ -1,0 +1,28 @@
+direction: right
+classes: {
+  input_node: { style: { fill: "#111827"; stroke: "#3B82F6"; stroke-width: 2; border-radius: 8 } }
+  engine_node: { style: { fill: "#1E293B"; stroke: "#F59E0B"; stroke-width: 2; border-radius: 8 } }
+  p1_node: { style: { fill: "#1E1B4B"; stroke: "#8B5CF6"; stroke-width: 2; border-radius: 8 } }
+  p2_node: { style: { fill: "#0C4A6E"; stroke: "#06B6D4"; stroke-width: 2; border-radius: 8 } }
+  critic_node: { style: { fill: "#7F1D1D"; stroke: "#EF4444"; stroke-width: 2; border-radius: 8 } }
+  pass_node: { style: { fill: "#064E3B"; stroke: "#10B981"; stroke-width: 2; border-radius: 8 } }
+}
+
+UserPrompt: "User Request + Ground Truth Documents" { class: input_node }
+LLMEngine: "Primary LLM Generation Engine" { class: engine_node }
+
+Pillar1: "Pillar 1: Citation Enforcement\nRegex verifies [Claim] [Chunk_ID]\nRejects ungrounded statements" { class: p1_node }
+Pillar2: "Pillar 2: Grammar Constrained Decoding\nOutlines / Guidance logit masking\nGuarantees valid JSON Schema" { class: p2_node }
+
+NLICritic: "Pillar 3: Dual-Pass NLI Critic\nPremise-Hypothesis Entailment Test\nCatches subtle hallucinated claims" { class: critic_node }
+
+Deliver: "Verified Entailed Response\n100% Faithful Output to Client" { class: pass_node }
+Regenerate: "Regeneration / Fallback\nDynamic Prompt Correction" { class: critic_node }
+
+UserPrompt -> LLMEngine: "Inference Call"
+LLMEngine -> Pillar1: "Raw Token Stream"
+LLMEngine -> Pillar2: "Grammar Constraint"
+Pillar1 -> NLICritic: "Attributed Claims"
+Pillar2 -> NLICritic: "Structured Payload"
+NLICritic -> Deliver: "Entailment PASS"
+NLICritic -> Regenerate: "Contradiction FAIL"

@@ -1,10 +1,10 @@
 direction: right
 classes: {
-  hyp: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  prem: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  nli: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  pass: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
+  hyp: { style: { fill: "#1e293b"; stroke: "#38bdf8"; font-color: "#f8fafc" } }
+  prem: { style: { fill: "#581c87"; stroke: "#c084fc"; font-color: "#e9d5ff" } }
+  nli: { style: { fill: "#451a03"; stroke: "#fbbf24"; font-color: "#fde68a" } }
+  pass: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
+  fail: { style: { fill: "#7f1d1d"; stroke: "#f87171"; font-color: "#fecaca" } }
 }
 
 claim: "Generated Claim (Hypothesis)" { class: hyp }
@@ -14,7 +14,7 @@ nli_model: "NLI Model (DeBERTa)\nEvaluates Premise -> Hypothesis" { class: nli }
 verdict_pass: "Verified Grounded Citation\n(P(Entailment) > 0.85)" { class: pass }
 verdict_fail: "Flagged Hallucination / Redact\n(P(Contradiction / Neutral))" { class: fail }
 
-claim -> nli_model
-source -> nli_model
-nli_model -> verdict_pass: "Entailment"
-nli_model -> verdict_fail: "Contradiction"
+claim -> nli_model: "Hypothesis"
+source -> nli_model: "Premise"
+nli_model -> verdict_pass: "Entailment (Pass)"
+nli_model -> verdict_fail: "Contradiction (Fail)"

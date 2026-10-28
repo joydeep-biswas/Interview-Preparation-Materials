@@ -1,15 +1,27 @@
 direction: down
-title: Apache Kafka KRaft Architecture
-
-Quorum: KRaft Controller Quorum (Internal Metadata Raft) {
-  style.fill: "#1E1B4B"
-  style.stroke: "#8B5CF6"
-  c1: Controller 1 (Leader)
-  c2: Controller 2 (Follower)
-  c3: Controller 3 (Follower)
+title: "Apache Kafka KRaft Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-Brokers: Kafka Data Brokers {
+Quorum: "KRaft Controller Quorum (Internal Metadata Raft)" {
+  class: container
+  style.fill: "#1E1B4B"
+  style.stroke: "#8B5CF6"
+  c1: "Controller 1 (Leader)"
+  c2: "Controller 2 (Follower)"
+  c3: "Controller 3 (Follower)"
+}
+
+Brokers: "Kafka Data Brokers" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
   b101: "Broker 101: P0 (Leader), P1 (Follower)"
@@ -17,4 +29,4 @@ Brokers: Kafka Data Brokers {
   b103: "Broker 103: P2 (Leader), P0 (Follower)"
 }
 
-Quorum -> Brokers: Metadata event log synchronization { style.stroke: "#8B5CF6" }
+Quorum -> Brokers: "Metadata event log synchronization" { style.stroke: "#8B5CF6" }

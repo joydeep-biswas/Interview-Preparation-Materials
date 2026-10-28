@@ -7,15 +7,9 @@ classes: {
 }
 
 q: "Incoming User Prompt" { class: query }
-t1: "Tier 1: Redis Exact Hash (~1ms)
-SHA-256 Normalized Match
-(Hit: <2ms, $0)" { class: t1 }
-t2: "Tier 2: Semantic Vector Cache (~15ms)
-Cosine Similarity > 0.96
-(Hit: <20ms, $0)" { class: t2 }
-t3: "Tier 3: Model Inference (~1500ms)
-Invoke LLM & backfill caches
-(Full API Cost & Compute)" { class: t3 }
+t1: "Tier 1: Redis Exact Hash (~1ms)\nSHA-256 Normalized Match\n(Hit: <2ms, \$0)" { class: t1 }
+t2: "Tier 2: Semantic Vector Cache (~15ms)\nCosine Similarity > 0.96\n(Hit: <20ms, \$0)" { class: t2 }
+t3: "Tier 3: Model Inference (~1500ms)\nInvoke LLM & backfill caches\n(Full API Cost & Compute)" { class: t3 }
 
 q -> t1
 t1 -> t2: "Cache Miss"

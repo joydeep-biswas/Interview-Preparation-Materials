@@ -1,84 +1,164 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 540" width="100%" height="100%">
   <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-weight: 700; fill: #F8FAFC; text-anchor: middle; }
+      .subtitle-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; fill: #94A3B8; text-anchor: middle; }
+      .pillar-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; text-anchor: start; }
+      .card-meta { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 9.5px; fill: #64748B; font-style: italic; text-anchor: start; }
+      .ribbon-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#1e293b"/>
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
     </linearGradient>
-    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
-    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
-    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981" />
     </marker>
-    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
-    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
-    </marker>
-    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
-    </marker>
-    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
   </defs>
-  <rect width="1040" height="540" rx="10" fill="url(#bg)"/>
-  <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">The Exact Logical SQL Order of Execution with Clause Dependencies</text>
-  <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">How relational engines process queries: Table resolution (FROM/WHERE), grouping (GROUP BY/HAVING), and projection (SELECT/ORDER BY)</text>
-<rect x="30" y="85" width="300" height="440" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
-<text x="180" y="112" fill="#60A5FA" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 1: Tables &amp; Base Filter</text>
-<rect x="100" y="122" width="160" height="18" rx="9" fill="#1d4ed8"/><text x="180" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Tuple Set Assembly</text>
-<rect x="45" y="155" width="270" height="120" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
-<text x="55" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. FROM &amp; JOIN Clauses</text>
-<text x="55" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Identifies target tables</text>
-<text x="55" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Computes Cartesian product (CROSS JOIN)</text>
-<text x="55" y="230" fill="#6EE7B7" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Applies ON join condition filter</text>
-<text x="55" y="246" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Adds outer row NULLs for LEFT/FULL JOIN</text>
-<rect x="45" y="290" width="270" height="120" rx="8" fill="#0b2a4a" stroke="#38bdf8" stroke-width="1.5"/>
-<text x="55" y="313" fill="#93C5FD" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">2. WHERE Clause</text>
-<text x="55" y="333" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Filters individual base tuples</text>
-<text x="55" y="349" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Eliminates rows failing boolean predicate</text>
-<text x="55" y="365" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cannot use aggregate functions (e.g. SUM)!</text>
-<text x="55" y="381" fill="#F87171" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Cannot use SELECT column aliases!</text>
-<rect x="360" y="85" width="320" height="440" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
-<text x="520" y="112" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 2: Bucketing &amp; Group Filter</text>
-<rect x="440" y="122" width="160" height="18" rx="9" fill="#047857"/><text x="520" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Aggregation Pipeline</text>
-<rect x="375" y="155" width="290" height="120" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
-<text x="385" y="178" fill="#34D399" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">3. GROUP BY Clause</text>
-<text x="385" y="198" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Collapses rows sharing same group keys</text>
-<text x="385" y="214" fill="#CBD5E1" font-size="10" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Every column in future SELECT must either</text>
-<text x="385" y="228" fill="#FBBF24" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">  be in GROUP BY or inside an aggregate</text>
-<text x="385" y="244" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Generates 1 output tuple per distinct bucket</text>
-<rect x="375" y="290" width="290" height="120" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
-<text x="385" y="313" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">4. HAVING Clause</text>
-<text x="385" y="333" fill="#D1FAE5" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Filters aggregate group buckets</text>
-<text x="385" y="349" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Evaluates aggregate filters: HAVING COUNT(*) &gt; 5</text>
-<text x="385" y="365" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Discards entire aggregated group buckets</text>
-<text x="385" y="381" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Operates AFTER grouping is finalized</text>
-<rect x="710" y="85" width="300" height="440" rx="8" fill="#16122b" stroke="#8b5cf6" stroke-width="1.5"/>
-<text x="860" y="112" fill="#C084FC" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 3: Projection &amp; Egress</text>
-<rect x="780" y="122" width="160" height="18" rx="9" fill="#6d28d9"/><text x="860" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Output Formatting</text>
-<rect x="725" y="155" width="270" height="75" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
-<text x="735" y="175" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">5. SELECT &amp; OVER() Windowing</text>
-<text x="735" y="193" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Computes projection column expressions</text>
-<text x="735" y="207" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Creates column aliases (e.g. as total_val)</text>
-<text x="735" y="221" fill="#38BDF8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Computes window functions (RANK(), LAG())</text>
-<rect x="725" y="240" width="270" height="65" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
-<text x="735" y="260" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">6. DISTINCT Clause</text>
-<text x="735" y="278" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Deduplicates projected tuple rows</text>
-<text x="735" y="292" fill="#94A3B8" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Hash / Sort deduplication pass</text>
-<rect x="725" y="315" width="270" height="65" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1"/>
-<text x="735" y="335" fill="#C084FC" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">7. ORDER BY Clause</text>
-<text x="735" y="353" fill="#CBD5E1" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Sorts final output tuples (ASC / DESC)</text>
-<text x="735" y="367" fill="#6EE7B7" font-size="9" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• CAN use SELECT aliases (runs after SELECT!)</text>
-<rect x="725" y="390" width="270" height="65" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
-<text x="735" y="410" fill="#6EE7B7" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">8. LIMIT / OFFSET Clause</text>
-<text x="735" y="428" fill="#D1FAE5" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Truncates output stream to N rows</text>
-<text x="735" y="442" fill="#A7F3D0" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Paginates result stream to caller</text>
-<line x1="300" y1="310" x2="360" y2="310" stroke="#38BDF8" stroke-width="1.5" marker-end="url(#arr-b)"/>
-<line x1="665" y1="310" x2="710" y2="310" stroke="#34D399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- Canvas Background -->
+  <rect width="100%" height="100%" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5" rx="10" />
+
+  <!-- Header -->
+  <text x="590" y="34" class="title-text" font-size="18">The ANSI SQL 9-Stage Logical Query Processing Lifecycle</text>
+  <text x="590" y="56" class="subtitle-text" font-size="12">Operational evaluation sequence: Why syntactic order (SELECT...FROM) differs completely from runtime pipeline execution</text>
+
+  <!-- Pillar 1: Source & Ingestion -->
+  <rect x="25" y="85" width="265" height="375" class="pillar-box" stroke="#3B82F6" />
+  <text x="157.5" y="112" class="pillar-title" fill="#93C5FD">Stage 1: Source &amp; Ingestion</text>
+
+  <!-- Stage 1 Card -->
+  <rect x="40" y="130" width="235" height="135" class="card" stroke="#3B82F6" />
+  <text x="157.5" y="154" class="card-title">1. FROM &amp; JOINs (VT1)</text>
+  <text x="52" y="180" class="card-body" fill="#93C5FD">• Identifies base tables &amp; relations</text>
+  <text x="52" y="200" class="card-body" fill="#93C5FD">• Evaluates ON join predicates</text>
+  <text x="52" y="220" class="card-body" fill="#93C5FD">• Computes Cartesian joins</text>
+  <text x="52" y="244" class="card-meta">Output: VT1 (Joined Working Table)</text>
+
+  <!-- Stage 2 Card -->
+  <rect x="40" y="295" width="235" height="145" class="card" stroke="#EF4444" />
+  <text x="157.5" y="319" class="card-title">2. WHERE Filter (VT2)</text>
+  <text x="52" y="345" class="card-body" fill="#FCA5A5">• Evaluates row-level filters</text>
+  <text x="52" y="365" class="card-body" fill="#FCA5A5">• Prunes rows before grouping</text>
+  <text x="52" y="388" class="card-body" fill="#EF4444" font-weight="600">⚠️ No SELECT aliases / agg!</text>
+  <text x="52" y="412" class="card-meta">Output: VT2 (Filtered Rowstream)</text>
+
+  <path d="M 157.5 265 L 157.5 295" fill="none" stroke="#3B82F6" stroke-width="2" marker-end="url(#arr-b)" />
+
+  <!-- Pillar 2: Grouping & Aggregation -->
+  <rect x="315" y="85" width="265" height="375" class="pillar-box" stroke="#F59E0B" />
+  <text x="447.5" y="112" class="pillar-title" fill="#FDE68A">Stage 2: Grouping &amp; Aggregation</text>
+
+  <!-- Stage 3 Card -->
+  <rect x="330" y="130" width="235" height="135" class="card" stroke="#F59E0B" />
+  <text x="447.5" y="154" class="card-title">3. GROUP BY (VT3)</text>
+  <text x="342" y="180" class="card-body" fill="#FDE68A">• Partitions rows into key buckets</text>
+  <text x="342" y="200" class="card-body" fill="#FDE68A">• Collapses non-grouped columns</text>
+  <text x="342" y="220" class="card-body" fill="#FDE68A">• Computes COUNT, SUM, AVG</text>
+  <text x="342" y="244" class="card-meta">Output: VT3 (Aggregated Groups)</text>
+
+  <!-- Stage 4 Card -->
+  <rect x="330" y="295" width="235" height="145" class="card" stroke="#F59E0B" />
+  <text x="447.5" y="319" class="card-title">4. HAVING Filter (VT4)</text>
+  <text x="342" y="345" class="card-body" fill="#FDE68A">• Evaluates group predicates</text>
+  <text x="342" y="365" class="card-body" fill="#FDE68A">• Filters groups by aggregate value</text>
+  <text x="342" y="388" class="card-body" fill="#F59E0B" font-weight="600">• Prunes groups failing condition</text>
+  <text x="342" y="412" class="card-meta">Output: VT4 (Filtered Groups)</text>
+
+  <path d="M 447.5 265 L 447.5 295" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)" />
+
+  <!-- Pillar 3: Projection & Sets -->
+  <rect x="605" y="85" width="275" height="375" class="pillar-box" stroke="#10B981" />
+  <text x="742.5" y="112" class="pillar-title" fill="#6EE7B7">Stage 3: Projection &amp; Sets</text>
+
+  <!-- Stage 5 Card -->
+  <rect x="620" y="125" width="245" height="95" class="card" stroke="#10B981" />
+  <text x="742.5" y="145" class="card-title" font-size="11.5">5. SELECT &amp; Window Functions (VT5)</text>
+  <text x="632" y="167" class="card-body" font-size="10" fill="#A7F3D0">• Computes column expressions</text>
+  <text x="632" y="184" class="card-body" font-size="10" fill="#A7F3D0">• Evaluates OVER() window functions</text>
+  <text x="632" y="202" class="card-meta">Output: VT5 (Projected Tuples)</text>
+
+  <!-- Stage 6 Card -->
+  <rect x="620" y="235" width="245" height="85" class="card" stroke="#10B981" />
+  <text x="742.5" y="255" class="card-title" font-size="11.5">6. DISTINCT Deduplication (VT6)</text>
+  <text x="632" y="277" class="card-body" font-size="10" fill="#A7F3D0">• Hash / sort set deduplication</text>
+  <text x="632" y="294" class="card-body" font-size="10" fill="#A7F3D0">• Eliminates duplicate row tuples</text>
+  <text x="632" y="310" class="card-meta">Output: VT6 (Unique Rowset)</text>
+
+  <!-- Stage 7 Card -->
+  <rect x="620" y="335" width="245" height="105" class="card" stroke="#10B981" />
+  <text x="742.5" y="355" class="card-title" font-size="11.5">7. Set Operators: UNION / EXCEPT (VT7)</text>
+  <text x="632" y="377" class="card-body" font-size="10" fill="#A7F3D0">• Combines subquery row sets</text>
+  <text x="632" y="394" class="card-body" font-size="10" fill="#A7F3D0">• UNION, INTERSECT, EXCEPT logic</text>
+  <text x="632" y="415" class="card-meta">Output: VT7 (Unified Working Set)</text>
+
+  <path d="M 742.5 220 L 742.5 235" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
+  <path d="M 742.5 320 L 742.5 335" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
+
+  <!-- Pillar 4: Ordering & Limiting -->
+  <rect x="905" y="85" width="250" height="375" class="pillar-box" stroke="#8B5CF6" />
+  <text x="1030" y="112" class="pillar-title" fill="#C4B5FD">Stage 4: Ordering &amp; Limiting</text>
+
+  <!-- Stage 8 Card -->
+  <rect x="920" y="130" width="220" height="135" class="card" stroke="#8B5CF6" />
+  <text x="1030" y="154" class="card-title">8. ORDER BY (VT8)</text>
+  <text x="932" y="180" class="card-body" fill="#C4B5FD">• Sorts surviving rows (O(N log N))</text>
+  <text x="932" y="200" class="card-body" fill="#C4B5FD">• SELECT aliases are visible here</text>
+  <text x="932" y="220" class="card-body" fill="#C4B5FD">• High memory; spills to disk temp</text>
+  <text x="932" y="244" class="card-meta">Output: VT8 (Sorted Cursor)</text>
+
+  <!-- Stage 9 Card -->
+  <rect x="920" y="295" width="220" height="145" class="card" stroke="#EF4444" />
+  <text x="1030" y="319" class="card-title">9. LIMIT / OFFSET (VT9)</text>
+  <text x="932" y="345" class="card-body" fill="#FCA5A5">• Paginates final cardinality</text>
+  <text x="932" y="365" class="card-body" fill="#FCA5A5">• Top-N heap priority queue</text>
+  <text x="932" y="385" class="card-body" fill="#FCA5A5">• Restricts egress to client</text>
+  <text x="932" y="412" class="card-meta">Output: VT9 (Final Client Result)</text>
+
+  <path d="M 1030 265 L 1030 295" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)" />
+
+  <!-- Inter-Pillar Connectors with Straight Arrival Runways -->
+  <!-- Col 1 (WHERE) to Col 2 (GROUP BY) -->
+  <path d="M 275 367 L 290 367 C 302.5 367, 302.5 197, 315 197 L 330 197" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)" />
+  <rect x="290.5" y="274" width="24" height="16" rx="4" fill="#0B132B" stroke="#F59E0B" stroke-width="1" />
+  <text x="302.5" y="286" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#F59E0B" text-anchor="middle">VT2</text>
+
+  <!-- Col 2 (HAVING) to Col 3 (SELECT) -->
+  <path d="M 565 367 L 580 367 C 592.5 367, 592.5 172, 605 172 L 620 172" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
+  <rect x="580.5" y="262" width="24" height="16" rx="4" fill="#0B132B" stroke="#10B981" stroke-width="1" />
+  <text x="592.5" y="274" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#10B981" text-anchor="middle">VT4</text>
+
+  <!-- Col 3 (Set Ops) to Col 4 (ORDER BY) -->
+  <path d="M 865 387 L 880 387 C 892.5 387, 892.5 197, 905 197 L 920 197" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)" />
+  <rect x="880.5" y="284" width="24" height="16" rx="4" fill="#0B132B" stroke="#8B5CF6" stroke-width="1" />
+  <text x="892.5" y="296" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#8B5CF6" text-anchor="middle">VT7</text>
+
+  <!-- Bottom Gotchas Ribbon -->
+  <rect x="25" y="475" width="1130" height="48" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1" />
+  
+  <rect x="36" y="487" width="356" height="24" rx="4" fill="#0F172A" stroke="#EF4444" stroke-width="1" />
+  <text x="214" y="503" class="ribbon-text" font-size="9.5" fill="#FCA5A5">⚠️ 1. WHERE: Runs before SELECT; column aliases are not visible</text>
+
+  <rect x="412" y="487" width="356" height="24" rx="4" fill="#0F172A" stroke="#F59E0B" stroke-width="1" />
+  <text x="590" y="503" class="ribbon-text" font-size="9.5" fill="#FDE68A">⚠️ 2. Aggregates: Evaluated in Stage 2; WHERE cannot filter them</text>
+
+  <rect x="788" y="487" width="356" height="24" rx="4" fill="#0F172A" stroke="#10B981" stroke-width="1" />
+  <text x="966" y="503" class="ribbon-text" font-size="9.5" fill="#A7F3D0">⚠️ 3. Window Functions: Run in Stage 3; invalid in WHERE/HAVING</text>
 </svg>

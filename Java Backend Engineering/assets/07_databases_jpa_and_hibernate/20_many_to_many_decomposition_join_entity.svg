@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="580" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="580" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ManyToMany Decomposition: Why Direct @ManyToMany is an Anti-Pattern</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Decomposing Hidden Join Tables into an Explicit Entity with EmbeddedId, Timestamps, and Audit Columns</text>
 <rect x="40" y="95" width="1000" height="180" rx="8" fill="#1a1118" stroke="#ef4444" stroke-width="1.5"/>
-<rect x="55" y="107" width="280" height="22" rx="11" fill="#7f1d1d"/><text x="195" y="121" fill="#FECACA" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ANTI-PATTERN: Direct @ManyToMany</text>
+<rect x="55" y="107" width="280" height="22" rx="11" fill="#7f1d1d" stroke="#EF4444" stroke-width="1"/><text x="195" y="121" fill="#FECACA" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ANTI-PATTERN: Direct @ManyToMany</text>
 <text x="355" y="123" fill="#F87171" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Hidden Junction Table &amp; Inability to Store Business Attributes</text>
 <rect x="65" y="145" width="260" height="105" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
 <text x="195" y="167" fill="#FCA5A5" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">StudentEntity</text>
@@ -52,7 +52,7 @@
 <line x1="325" y1="197" x2="410" y2="197" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
 <line x1="670" y1="197" x2="755" y2="197" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-r)"/>
 <rect x="40" y="295" width="1000" height="260" rx="8" fill="#062e3b" stroke="#10b981" stroke-width="2"/>
-<rect x="55" y="307" width="340" height="22" rx="11" fill="#047857"/><text x="225" y="321" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ENTERPRISE PATTERN: Explicit Intermediate Entity</text>
+<rect x="55" y="307" width="340" height="22" rx="11" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="225" y="321" fill="#D1FAE5" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">ENTERPRISE PATTERN: Explicit Intermediate Entity</text>
 <text x="415" y="323" fill="#34D399" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Decomposed into Two 1:N Relationships with Rich Domain Attributes</text>
 <rect x="65" y="345" width="260" height="185" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
 <text x="195" y="367" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">StudentEntity (1)</text>

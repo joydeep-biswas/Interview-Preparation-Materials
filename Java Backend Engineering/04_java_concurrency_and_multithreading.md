@@ -8,7 +8,7 @@ A comprehensive reference guide covering thread fundamentals, thread synchroniza
 
 ![Java Concurrency & Thread Memory Architecture Overview](assets/04_java_concurrency_and_multithreading/01_java_concurrency_architecture_overview.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading/01_java_concurrency_architecture_overview.d2](assets/04_java_concurrency_and_multithreading/01_java_concurrency_architecture_overview.d2)
+*D2 Source: [`01_java_concurrency_architecture_overview.d2`](assets/04_java_concurrency_and_multithreading/01_java_concurrency_architecture_overview.d2)*
 
 ---
 
@@ -35,7 +35,7 @@ A comprehensive reference guide covering thread fundamentals, thread synchroniza
 #### Visual Architecture
 ![Operating System Process vs. Thread Memory Model](assets/04_java_concurrency_and_multithreading/02_process_vs_thread_memory_model.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading/02_process_vs_thread_memory_model.d2](assets/04_java_concurrency_and_multithreading/02_process_vs_thread_memory_model.d2)
+*D2 Source: [`02_process_vs_thread_memory_model.d2`](assets/04_java_concurrency_and_multithreading/02_process_vs_thread_memory_model.d2)*
 
 #### First-Principles Breakdown: Process vs. Thread Architecture
 
@@ -69,7 +69,7 @@ Modern multitasking operating systems manage concurrent execution units using tw
 #### Visual State Diagram
 ![JVM Thread Lifecycle State Machine (java.lang.Thread.State)](assets/04_java_concurrency_and_multithreading/03_thread_lifecycle_state_machine.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading/03_thread_lifecycle_state_machine.d2](assets/04_java_concurrency_and_multithreading/03_thread_lifecycle_state_machine.d2)
+*D2 Source: [`03_thread_lifecycle_state_machine.d2`](assets/04_java_concurrency_and_multithreading/03_thread_lifecycle_state_machine.d2)*
 
 #### The Six Java Thread States (`Thread.State`)
 1. **`NEW`**: Thread created (`new Thread()`) but `start()` has not been called.
@@ -224,7 +224,7 @@ A race condition occurs when multiple threads concurrently read and write shared
 #### Visual Interleaving
 ![Race Condition & Lost Update Concurrency Anomaly](assets/04_java_concurrency_and_multithreading/04_race_condition_interleaving_timeline.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading/04_race_condition_interleaving_timeline.d2](assets/04_java_concurrency_and_multithreading/04_race_condition_interleaving_timeline.d2)
+*D2 Source: [`04_race_condition_interleaving_timeline.d2`](assets/04_java_concurrency_and_multithreading/04_race_condition_interleaving_timeline.d2)*
 
 **Primary Source Reference**: [GeeksforGeeks - Race Condition in Java](https://www.geeksforgeeks.org/race-condition-in-java/)
 
@@ -346,7 +346,7 @@ public class BankTransferDemo {
 #### Definitions & Visual Deadlock
 ![Deadlock Mechanics & The Four Coffman Conditions](assets/04_java_concurrency_and_multithreading/05_deadlock_four_coffman_conditions.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading/05_deadlock_four_coffman_conditions.d2](assets/04_java_concurrency_and_multithreading/05_deadlock_four_coffman_conditions.d2)
+*D2 Source: [`05_deadlock_four_coffman_conditions.d2`](assets/04_java_concurrency_and_multithreading/05_deadlock_four_coffman_conditions.d2)*
 
 - **Deadlock**: Two or more threads are permanently blocked, each waiting for a lock held by the other.
   - *Prevention*: Always acquire locks in a globally consistent order across all threads.
@@ -382,7 +382,7 @@ The Java Memory Model defines the rules for how the JVM and hardware interact wh
 #### Visual CPU Cache Architecture
 ![Java Memory Model (JMM) Hardware Cache Coherence Architecture](assets/04_java_concurrency_and_multithreading/06_java_memory_model_cache_coherence.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading/06_java_memory_model_cache_coherence.d2](assets/04_java_concurrency_and_multithreading/06_java_memory_model_cache_coherence.d2)
+*D2 Source: [`06_java_memory_model_cache_coherence.d2`](assets/04_java_concurrency_and_multithreading/06_java_memory_model_cache_coherence.d2)*
 
 ---
 
@@ -444,7 +444,7 @@ If action $A$ happens-before action $B$ ($A \xrightarrow{hb} B$), the memory eff
 #### Visual CAS Optimistic Retry Loop
 ![Atomic CAS (Compare-And-Swap) Optimistic Retry Loop](assets/04_java_concurrency_and_multithreading/07_atomic_cas_optimistic_retry_loop.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading/07_atomic_cas_optimistic_retry_loop.d2](assets/04_java_concurrency_and_multithreading/07_atomic_cas_optimistic_retry_loop.d2)
+*D2 Source: [`07_atomic_cas_optimistic_retry_loop.d2`](assets/04_java_concurrency_and_multithreading/07_atomic_cas_optimistic_retry_loop.d2)*
 
 ---
 
@@ -734,7 +734,7 @@ The Executor Framework decouples task submission from thread management and allo
 #### Visual Thread Pool Architecture
 ![ThreadPoolExecutor Architecture & Task Execution Lifecycle](assets/04_java_concurrency_and_multithreading/08_threadpool_executor_lifecycle.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading/08_threadpool_executor_lifecycle.d2](assets/04_java_concurrency_and_multithreading/08_threadpool_executor_lifecycle.d2)
+*D2 Source: [`08_threadpool_executor_lifecycle.d2`](assets/04_java_concurrency_and_multithreading/08_threadpool_executor_lifecycle.d2)*
 
 #### Common Pool Types (`Executors`)
 - `newFixedThreadPool(n)`: Fixed number of worker threads with an unbounded queue.
@@ -1073,7 +1073,7 @@ Virtual threads are lightweight, user-mode threads managed entirely by the Java 
 #### Visual Architecture
 ![Java 21 Virtual Threads (Project Loom) Carrier Multiplexing](assets/04_java_concurrency_and_multithreading/09_virtual_threads_carrier_multiplexing.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading/09_virtual_threads_carrier_multiplexing.d2](assets/04_java_concurrency_and_multithreading/09_virtual_threads_carrier_multiplexing.d2)
+*D2 Source: [`09_virtual_threads_carrier_multiplexing.d2`](assets/04_java_concurrency_and_multithreading/09_virtual_threads_carrier_multiplexing.d2)*
 
 #### Working Code Example
 ```java
@@ -1113,7 +1113,7 @@ Structured Concurrency (standardized in recent JDK releases) treats multiple con
 #### Visual Structured Task Scope
 ![Java 21 Structured Concurrency: StructuredTaskScope Lifecycle](assets/04_java_concurrency_and_multithreading/10_structured_concurrency_scope.svg)
 
-*D2 Source:* [assets/04_java_concurrency_and_multithreading/10_structured_concurrency_scope.d2](assets/04_java_concurrency_and_multithreading/10_structured_concurrency_scope.d2)
+*D2 Source: [`10_structured_concurrency_scope.d2`](assets/04_java_concurrency_and_multithreading/10_structured_concurrency_scope.d2)*
 
 #### Working Code Example (Java 21 `StructuredTaskScope`)
 ```java

@@ -26,7 +26,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1040" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1040" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="520" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Idempotency Lifecycle State Machine: Distributed Redis Protocol</text>
   <text x="520" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Preventing duplicate execution: Ingress SHA-256 hash validation, distributed mutex locking, and cached response replay</text>
 <rect x="30" y="85" width="270" height="445" rx="8" fill="#0b1329" stroke="#3b82f6" stroke-width="1.5"/>
@@ -71,7 +71,7 @@
 <text x="355" y="471" fill="#F87171" font-size="9" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">Rejects fraudulent / accidental key reuse!</text>
 <rect x="690" y="85" width="320" height="445" rx="8" fill="#0c1d1a" stroke="#10b981" stroke-width="1.5"/>
 <text x="850" y="112" fill="#6EE7B7" font-size="13" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Stage 3: First Execution Pipeline</text>
-<rect x="760" y="122" width="180" height="18" rx="9" fill="#047857"/><text x="850" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Key Absent (First Ingress)</text>
+<rect x="760" y="122" width="180" height="18" rx="9" fill="#047857" stroke="#10B981" stroke-width="1"/><text x="850" y="134" fill="#ffffff" font-size="9" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Key Absent (First Ingress)</text>
 <rect x="705" y="155" width="290" height="80" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
 <text x="715" y="178" fill="#38BDF8" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">1. Acquire Redis Mutex Lock</text>
 <text x="715" y="198" fill="#F8FAFC" font-size="10" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">SET key IN_FLIGHT NX EX 30</text>

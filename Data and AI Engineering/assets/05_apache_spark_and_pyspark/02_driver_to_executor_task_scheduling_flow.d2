@@ -1,34 +1,47 @@
 direction: right
-title: Driver to Executor Task Scheduling Flow
+title: "Driver to Executor Task Scheduling Flow"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-Driver: Driver Coordinator {
+Driver: "Driver Coordinator" {
+  class: container
   style.stroke: "#38BDF8"
-  Init: SparkSession / SparkContext
-  DAG: DAG Scheduler (Stage Creation)
-  TaskSched: Task Scheduler (Locality Matching)
+  Init: "SparkSession / SparkContext"
+  DAG: "DAG Scheduler (Stage Creation)"
+  TaskSched: "Task Scheduler (Locality Matching)"
 
   Init -> DAG -> TaskSched
 }
 
-ClusterMgr: Cluster Manager {
+ClusterMgr: "Cluster Manager" {
+  class: container
   style.stroke: "#C084FC"
-  K8s: Kubernetes / YARN Resource Manager
-  NodeAgent: Kubelet / NodeManager
-  K8s -> NodeAgent: Launches Container
+  K8s: "Kubernetes / YARN Resource Manager"
+  NodeAgent: "Kubelet / NodeManager"
+  K8s -> NodeAgent: "Launches Container"
 }
 
-Worker: Worker Node & Executor {
+Worker: "Worker Node & Executor" {
+  class: container
   style.stroke: "#34D399"
-  Backend: CoarseGrainedExecutorBackend
-  Slot1: Task Slot 1
-  Slot2: Task Slot 2
-  BlockMgr: BlockManager
+  Backend: "CoarseGrainedExecutorBackend"
+  Slot1: "Task Slot 1"
+  Slot2: "Task Slot 2"
+  BlockMgr: "BlockManager"
 
   Backend -> Slot1
   Backend -> Slot2
 }
 
-Driver.Init -> ClusterMgr.K8s: 1. Request Executor Containers { style.stroke: "#C084FC" }
-ClusterMgr.NodeAgent -> Worker.Backend: 2. Spawns JVM Process { style.stroke: "#FBBF24" }
-Worker.Backend -> Driver.TaskSched: 3. RegisterExecutor RPC { style.stroke: "#38BDF8" }
-Driver.TaskSched -> Worker.Slot1: 4. LaunchTask RPC { style.stroke: "#34D399" }
+Driver.Init -> ClusterMgr.K8s: "1. Request Executor Containers" { style.stroke: "#C084FC" }
+ClusterMgr.NodeAgent -> Worker.Backend: "2. Spawns JVM Process" { style.stroke: "#FBBF24" }
+Worker.Backend -> Driver.TaskSched: "3. RegisterExecutor RPC" { style.stroke: "#38BDF8" }
+Driver.TaskSched -> Worker.Slot1: "4. LaunchTask RPC" { style.stroke: "#34D399" }

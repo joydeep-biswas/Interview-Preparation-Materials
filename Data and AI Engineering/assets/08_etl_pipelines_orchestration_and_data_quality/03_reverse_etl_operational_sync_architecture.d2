@@ -1,22 +1,35 @@
 direction: right
-title: Reverse ETL: Operationalizing Warehouse Analytics
+title: "Reverse ETL: Operationalizing Warehouse Analytics"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-analytical: Analytical Data Plane {
-  warehouse: Cloud Data Warehouse (Snowflake / BigQuery / Databricks)
-  marts: Gold Business Marts (Customer LTV, Churn Score)
+analytical: "Analytical Data Plane" {
+  class: container
+  warehouse: "Cloud Data Warehouse (Snowflake / BigQuery / Databricks)"
+  marts: "Gold Business Marts (Customer LTV, Churn Score)"
   warehouse -> marts
 }
 
-engine: Reverse ETL Sync Engine {
-  diff: Change Detection (Hash Diff Check)
-  limiter: Token Bucket Rate Limiter (SaaS Protection)
+engine: "Reverse ETL Sync Engine" {
+  class: container
+  diff: "Change Detection (Hash Diff Check)"
+  limiter: "Token Bucket Rate Limiter (SaaS Protection)"
   diff -> limiter: "Changed Rows Only"
 }
 
-operational: Operational SaaS Plane {
-  sfdc: Salesforce CRM (High-LTV lead priority)
-  hubspot: HubSpot Marketing (Churn re-engagement)
-  zendesk: Zendesk Support (VIP ticket routing)
+operational: "Operational SaaS Plane" {
+  class: container
+  sfdc: "Salesforce CRM (High-LTV lead priority)"
+  hubspot: "HubSpot Marketing (Churn re-engagement)"
+  zendesk: "Zendesk Support (VIP ticket routing)"
 }
 
 analytical.marts -> engine.diff: "Read gold models"

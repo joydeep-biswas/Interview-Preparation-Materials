@@ -1,29 +1,43 @@
 direction: down
-title: Java 21 Structured Concurrency: StructuredTaskScope Lifecycle
+title: "Java 21 Structured Concurrency: StructuredTaskScope Lifecycle"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-ParentScope: Parent Request Scope (StructuredTaskScope.ShutdownOnFailure) {
+ParentScope: "Parent Request Scope (StructuredTaskScope.ShutdownOnFailure)" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   
-  T1: Subtask 1: fetchUserData() [Virtual Thread 1] {
+  T1: "Subtask 1: fetchUserData() [Virtual Thread 1]" {
+    class: box
     style.fill: "#0F172A"
     style.stroke: "#10B981"
   }
   
-  T2: Subtask 2: fetchAccountBalance() [FAILS] {
+  T2: "Subtask 2: fetchAccountBalance() [FAILS]" {
+    class: box
     style.fill: "#1C1917"
     style.stroke: "#EF4444"
     error: "Throws TimeoutException"
   }
   
-  Cancel: Short-Circuit Cancellation {
+  Cancel: "Short-Circuit Cancellation" {
+    class: box
     style.fill: "#1E1B4B"
     style.stroke: "#8B5CF6"
     action: "Scope cancels Subtask 1 via thread interrupt"
   }
   
-  T2 -> Cancel: Error notifies scope { style.stroke: "#EF4444" }
-  Cancel -> T1: Automatically interrupts pending sibling { style.stroke: "#F59E0B" }
+  T2 -> Cancel: "Error notifies scope" { style.stroke: "#EF4444" }
+  Cancel -> T1: "Automatically interrupts pending sibling" { style.stroke: "#F59E0B" }
 }
 
-Guarantee: Syntactic block guarantees zero thread leaks
+Guarantee: "Syntactic block guarantees zero thread leaks"

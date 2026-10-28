@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 370" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Left Top: Baseline -->
+  <g transform="translate(30, 30)">
+    <rect width="260" height="130" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="130" y="28" class="title" fill="#93C5FD">Baseline: DBR 13.3 LTS</text>
+    <line x1="15" y1="38" x2="245" y2="38" stroke="#1F2937" stroke-width="1"/>
+    <text x="20" y="60" class="body-txt">• Historical production cluster</text>
+    <text x="20" y="80" class="body-txt">• Input: VERSION AS OF snapshot</text>
+    <text x="20" y="100" class="body-txt">• Metric log: Runtime = 18m, Spill = 0</text>
+    <text x="20" y="118" class="body-txt">• Catalyst execution plan captured</text>
+  </g>
+
+  <!-- Left Bottom: Canary -->
+  <g transform="translate(30, 205)">
+    <rect width="260" height="135" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="130" y="28" class="title" fill="#C4B5FD">Canary: DBR 14.3 LTS</text>
+    <line x1="15" y1="38" x2="245" y2="38" stroke="#312E81" stroke-width="1"/>
+    <text x="20" y="60" class="body-txt">• New runtime candidate cluster</text>
+    <text x="20" y="80" class="body-txt">• Runs against identical snapshot</text>
+    <text x="20" y="100" class="body-txt">• Spark 3.5 + updated Photon C++</text>
+    <text x="20" y="120" class="body-txt">• Same driver &amp; worker node specs</text>
+  </g>
+
+  <!-- Connect Left Top to Center -->
+  <path d="M 290 95 L 340 95 Q 355 95 355 140 L 355 160 Q 355 175 370 175 L 390 175" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <!-- Connect Left Bottom to Center -->
+  <path d="M 290 272 L 340 272 Q 355 272 355 210 L 355 190 Q 355 175 370 175 L 390 175" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Center: Metric Diff Engine -->
+  <g transform="translate(390, 110)">
+    <rect width="230" height="130" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="115" y="28" class="title" fill="#FDE68A">Automated Diff Engine</text>
+    <line x1="15" y1="38" x2="215" y2="38" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="60" class="body-txt">• Queries system.lakeflow tables</text>
+    <text x="20" y="80" class="body-txt">• Evaluates runtime delta (%)</text>
+    <text x="20" y="100" class="body-txt">• Audits memory spill (GB)</text>
+    <text x="20" y="118" class="body-txt">• Diff Catalyst physical plans</text>
+  </g>
+
+  <!-- Connect Center to Top Right (Pass) -->
+  <path d="M 620 145 L 660 145 Q 675 145 675 90 L 675 75 Q 675 60 690 60 L 710 60" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <!-- Connect Center to Bottom Right (Fail) -->
+  <path d="M 620 205 L 660 205 Q 675 205 675 250 L 675 285 Q 675 300 690 300 L 710 300" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+
+  <!-- Top Right: Pass -->
+  <g transform="translate(710, 20)">
+    <rect width="280" height="110" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="140" y="24" class="title" fill="#A7F3D0">Promotion Approved (Pass)</text>
+    <text x="15" y="48" class="body-txt" fill="#A7F3D0">• Runtime variance &lt; 5% delta</text>
+    <text x="15" y="68" class="body-txt" fill="#A7F3D0">• Zero disk spill introduced</text>
+    <text x="15" y="88" class="body-txt" fill="#A7F3D0">• Safe to update production cluster policies</text>
+  </g>
+
+  <!-- Bottom Right: Fail -->
+  <g transform="translate(710, 235)">
+    <rect width="280" height="115" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="140" y="24" class="title" fill="#FECACA">Regression Flagged (Halt)</text>
+    <text x="15" y="48" class="body-txt" fill="#FCA5A5">• Runtime &gt; 15% slower OR disk spill</text>
+    <text x="15" y="68" class="body-txt" fill="#FCA5A5">• Plan flipped from BHJ to SortMerge</text>
+    <text x="15" y="88" class="body-txt" fill="#FCA5A5">• Revert cluster policy; file Databricks ticket</text>
+  </g>
+</svg>

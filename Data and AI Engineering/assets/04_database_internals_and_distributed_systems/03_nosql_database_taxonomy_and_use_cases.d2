@@ -1,26 +1,41 @@
 direction: down
-title: NoSQL Database Taxonomy & Architectural Paradigms
+title: "NoSQL Database Taxonomy & Architectural Paradigms"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-nosql: NoSQL Taxonomy {
+nosql: "NoSQL Taxonomy" {
+  class: container
   shape: rectangle
 }
 
-kv: Key-Value Store {
+kv: "Key-Value Store" {
+  class: container
   examples: "Redis, AWS DynamoDB"
   use: "Caches, Sessions, Rate Limiters"
 }
 
-doc: Document Store {
+doc: "Document Store" {
+  class: container
   examples: "MongoDB, Couchbase"
   use: "JSON Catalogs, Content Management"
 }
 
-col: Wide-Column Store {
+col: "Wide-Column Store" {
+  class: container
   examples: "Apache Cassandra, ScyllaDB, Bigtable"
   use: "IoT Telemetry, High-Throughput Time-Series"
 }
 
-graph: Graph Database {
+graph: "Graph Database" {
+  class: container
   examples: "Neo4j, Amazon Neptune"
   use: "Fraud Rings, Knowledge Graphs, Social Graphs"
 }

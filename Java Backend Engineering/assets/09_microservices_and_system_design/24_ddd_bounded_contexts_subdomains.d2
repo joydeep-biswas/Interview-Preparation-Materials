@@ -1,26 +1,27 @@
 direction: right
 title: "Domain-Driven Design (DDD): Strategic Decomposition & Bounded Contexts"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-order: "Order Processing Context (Core)
-Customer = 'Purchaser'
-OrderAggregate
-OrderCreatedEvent" {
+order: "Order Processing Context (Core)\nCustomer = 'Purchaser'\nOrderAggregate\nOrderCreatedEvent" {
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 }
 
-payment: "Payment & Billing Context
-Customer = 'Payer'
-PaymentTransaction
-PaymentAuthorizedEvent" {
+payment: "Payment & Billing Context\nCustomer = 'Payer'\nPaymentTransaction\nPaymentAuthorizedEvent" {
   style.fill: "#064e3b"
   style.stroke: "#10b981"
 }
 
-inventory: "Inventory & Warehouse Context
-Customer = 'Consignee'
-StockAllocation
-StockReservedEvent" {
+inventory: "Inventory & Warehouse Context\nCustomer = 'Consignee'\nStockAllocation\nStockReservedEvent" {
   style.fill: "#111827"
   style.stroke: "#f59e0b"
 }

@@ -35,7 +35,7 @@
     <text x="46" y="117" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">1. Conceptual Data Model</text>
   
     <rect x="45" y="135" width="260" height="220" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="175.0" y="161" fill="#93c5fd" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">What Business Cares About</text>
+    <text x="60" y="161" fill="#93c5fd" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">What Business Cares About</text>
     <text x="175.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Strategic Scope &amp; Entities</text>
     <rect x="233" y="145" width="66" height="18" rx="9" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
     <text x="266.0" y="157" fill="#3b82f6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">BUSINESS</text>
@@ -59,7 +59,7 @@
     <text x="361" y="117" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">2. Logical Data Model</text>
   
     <rect x="360" y="135" width="260" height="220" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
-    <text x="490.0" y="161" fill="#c084fc" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">Business Rules &amp; Structure</text>
+    <text x="375" y="161" fill="#c084fc" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Business Rules &amp; Structure</text>
     <text x="490.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Platform-Agnostic Entity Relations</text>
     <rect x="541" y="145" width="73" height="18" rx="9" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
     <text x="577.5" y="157" fill="#8b5cf6" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">ARCHITECT</text>
@@ -83,7 +83,7 @@
     <text x="676" y="117" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">3. Physical Data Model</text>
   
     <rect x="675" y="135" width="260" height="220" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-    <text x="805.0" y="161" fill="#6ee7b7" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">How Data Sits on Hardware</text>
+    <text x="690" y="161" fill="#6ee7b7" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">How Data Sits on Hardware</text>
     <text x="805.0" y="177" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Target Engine Optimization</text>
     <rect x="870" y="145" width="59" height="18" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
     <text x="899.5" y="157" fill="#10b981" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">STORAGE</text>

@@ -1,28 +1,43 @@
 direction: right
-title: Data Fabric Architecture & Active Metadata Engine
-
-sources: Distributed Hybrid Sources {
-  oracle: On-Premises Oracle DB
-  s3: AWS S3 Data Lake
-  bq: Google BigQuery
-  kafka: Kafka Event Bus
+title: "Data Fabric Architecture & Active Metadata Engine"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-metadata_layer: Active Metadata & Knowledge Graph {
-  graph: Enterprise Knowledge Graph {
+sources: "Distributed Hybrid Sources" {
+  class: container
+  oracle: "On-Premises Oracle DB"
+  s3: "AWS S3 Data Lake"
+  bq: "Google BigQuery"
+  kafka: "Kafka Event Bus"
+}
+
+metadata_layer: "Active Metadata & Knowledge Graph" {
+  class: container
+  graph: "Enterprise Knowledge Graph" {
+    class: box
     shape: rectangle
     details: "Tracks cross-silo column lineage & access patterns"
   }
-  ai_recommender: AI / ML Recommendation Engine {
+  ai_recommender: "AI / ML Recommendation Engine" {
+    class: box
     shape: rectangle
     details: "Predictive caching & automated pipeline synthesis"
   }
   graph <-> ai_recommender: "Continuous learning"
 }
 
-delivery: Automated Virtualization & Pipelines {
-  virtualization: Data Virtualization (Trino/Starburst)
-  auto_pipeline: Dynamic Automated Data Pipeline Generation
+delivery: "Automated Virtualization & Pipelines" {
+  class: container
+  virtualization: "Data Virtualization (Trino/Starburst)"
+  auto_pipeline: "Dynamic Automated Data Pipeline Generation"
 }
 
 sources -> metadata_layer.graph: "Active metadata harvesting"

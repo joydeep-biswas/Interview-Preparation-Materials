@@ -1,33 +1,49 @@
 direction: down
-title: Apache Parquet Physical File Anatomy
+title: "Apache Parquet Physical File Anatomy"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-header: File Header: Magic Bytes 'PAR1' (4 Bytes)
+header: "File Header: Magic Bytes 'PAR1' (4 Bytes)"
 
-rg1: Row Group 1 (128 MB - 512 MB) {
-  col_a: Column Chunk A (User_ID) {
-    p1: Page 1 (Data)
-    p2: Page 2 (Data)
+rg1: "Row Group 1 (128 MB - 512 MB)" {
+  class: container
+  col_a: "Column Chunk A (User_ID)" {
+    class: box
+    p1: "Page 1 (Data)"
+    p2: "Page 2 (Data)"
   }
-  col_b: Column Chunk B (Timestamp) {
-    p1: Page 1 (Data)
-    p2: Page 2 (Data)
+  col_b: "Column Chunk B (Timestamp)" {
+    class: box
+    p1: "Page 1 (Data)"
+    p2: "Page 2 (Data)"
   }
-  col_c: Column Chunk C (Amount) {
-    p1: Page 1 (Dictionary)
-    p2: Page 2 (Data)
+  col_c: "Column Chunk C (Amount)" {
+    class: box
+    p1: "Page 1 (Dictionary)"
+    p2: "Page 2 (Data)"
   }
 }
 
-rg2: Row Group 2 (128 MB - 512 MB) {
-  col2_a: Column Chunk A
-  col2_b: Column Chunk B
-  col2_c: Column Chunk C
+rg2: "Row Group 2 (128 MB - 512 MB)" {
+  class: container
+  col2_a: "Column Chunk A"
+  col2_b: "Column Chunk B"
+  col2_c: "Column Chunk C"
 }
 
-footer: File Metadata Footer (Read First) {
-  meta: Schema & Row Group Offsets
-  stats: Column Min/Max Stats (Data Skipping)
-  trailer: 4-Byte Footer Length + 'PAR1'
+footer: "File Metadata Footer (Read First)" {
+  class: container
+  meta: "Schema & Row Group Offsets"
+  stats: "Column Min/Max Stats (Data Skipping)"
+  trailer: "4-Byte Footer Length + 'PAR1'"
 }
 
 header -> rg1

@@ -1,19 +1,33 @@
 direction: down
-title: Exponential Backoff with Full Jitter: Retry Architecture
+title: "Exponential Backoff with Full Jitter: Retry Architecture"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-request: Initial HTTP Request Dispatched {
+request: "Initial HTTP Request Dispatched" {
+  class: container
   status: "Evaluates Status Code (200 OK vs 429/503)"
 }
 
-backoff: Backoff & Jitter Evaluation {
+backoff: "Backoff & Jitter Evaluation" {
+  class: container
   cap: "Exponential Cap: min(MaxSleep, Base * 2^attempt)"
   jitter: "Full Jitter: Sleep = Uniform(0, Cap)"
   cap -> jitter
 }
 
-gate: Retry Execution Gate {
+gate: "Retry Execution Gate" {
+  class: container
   sleep: "Execute time.sleep()"
   check: "attempt < MaxRetries?" {
+    class: box
     shape: diamond
   }
   sleep -> check

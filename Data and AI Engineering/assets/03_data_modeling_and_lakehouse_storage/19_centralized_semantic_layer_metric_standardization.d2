@@ -1,21 +1,34 @@
 direction: right
-title: Centralized Semantic Layer & Metric Standardization
-
-storage: Curated Lakehouse Storage {
-  fact: gold.fact_orders
-  dim: gold.dim_customer
+title: "Centralized Semantic Layer & Metric Standardization"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
 }
 
-semantic_layer: Centralized Semantic Layer (dbt MetricFlow / Cube) {
-  model: Semantic Models & Canonical Joins
-  metrics: Standardized Metric Catalog (MRR, Churn, Margin)
+storage: "Curated Lakehouse Storage" {
+  class: container
+  fact: "gold.fact_orders"
+  dim: "gold.dim_customer"
+}
+
+semantic_layer: "Centralized Semantic Layer (dbt MetricFlow / Cube)" {
+  class: container
+  model: "Semantic Models & Canonical Joins"
+  metrics: "Standardized Metric Catalog (MRR, Churn, Margin)"
   model -> metrics
 }
 
-consumers: Unified Consumer Tier {
-  bi: BI Dashboards (Tableau, Power BI)
-  ds: Data Science Notebooks (Python)
-  reverse_etl: Operational Reverse ETL (Salesforce)
+consumers: "Unified Consumer Tier" {
+  class: container
+  bi: "BI Dashboards (Tableau, Power BI)"
+  ds: "Data Science Notebooks (Python)"
+  reverse_etl: "Operational Reverse ETL (Salesforce)"
 }
 
 storage -> semantic_layer.model: "Curated Tables"

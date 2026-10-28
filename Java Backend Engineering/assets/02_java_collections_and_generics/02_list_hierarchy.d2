@@ -1,13 +1,25 @@
 direction: down
-title: Java List Interface Hierarchy & Implementation Characteristics
+title: "Java List Interface Hierarchy & Implementation Characteristics"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-List: <<interface>> List<E> {
+List: "<<interface>> List<E>" {
+  class: container
   style.fill: "#1E293B"
   style.stroke: "#3B82F6"
   methods: "get(i), set(i, e), add(i, e), remove(i)"
 }
 
-ArrayList: ArrayList<E> {
+ArrayList: "ArrayList<E>" {
+  class: container
   style.fill: "#0B132B"
   style.stroke: "#0284C7"
   backing: "Contiguous Object[] array"
@@ -16,7 +28,8 @@ ArrayList: ArrayList<E> {
   resize: "1.5x geometric growth amortized O(1)"
 }
 
-LinkedList: LinkedList<E> {
+LinkedList: "LinkedList<E>" {
+  class: container
   style.fill: "#1C1917"
   style.stroke: "#F59E0B"
   backing: "Doubly-linked Node objects"
@@ -25,7 +38,8 @@ LinkedList: LinkedList<E> {
   cache: "Poor cache locality; frequent misses"
 }
 
-CopyOnWrite: CopyOnWriteArrayList<E> {
+CopyOnWrite: "CopyOnWriteArrayList<E>" {
+  class: container
   style.fill: "#06201B"
   style.stroke: "#10B981"
   backing: "Immutable array reference"

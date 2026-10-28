@@ -8,58 +8,7 @@ A comprehensive, production-grade guide to resilient pipeline ingestion patterns
 
 ![Enterprise Ingestion And Processing Architecture](assets/08_etl_pipelines_orchestration_and_data_quality/01_enterprise_ingestion_and_processing_architecture.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: End-to-End Enterprise Ingestion & Processing Architecture
-
-sources: 1. Data Sources {
-  oltp: OLTP Database (Postgres / MySQL)
-  storage: Cloud Storage (S3 / ADLS)
-  saas: Third-Party SaaS APIs
-  iot: IoT & Telemetry Streams
-}
-
-ingestion: 2. Ingestion Layer {
-  cdc: Log-Based CDC (Debezium)
-  autoloader: Cloud File Ingestion (Auto Loader)
-  api: Resilient API Ingestion (Backoff)
-  stream_gw: Event Streaming Gateway
-}
-
-buffer: 3. Buffer Layer {
-  kafka: Kafka / Event Hubs Raw Topic
-}
-
-processing: 4. Processing Tier {
-  spark: Spark Structured Streaming
-  flink: Apache Flink Low-Latency
-  dbt: dbt In-Engine Transformations
-}
-
-lakehouse: 5. Target Lakehouse {
-  bronze: Bronze Layer (Raw Parquet)
-  silver: Silver Layer (Cleaned & Typed)
-  gold: Gold Marts (Aggregated BI/ML)
-}
-
-sources.oltp -> ingestion.cdc
-sources.storage -> ingestion.autoloader
-sources.saas -> ingestion.api
-sources.iot -> ingestion.stream_gw
-
-ingestion.cdc -> buffer.kafka
-ingestion.stream_gw -> buffer.kafka
-buffer.kafka -> processing.spark
-buffer.kafka -> processing.flink
-
-ingestion.autoloader -> lakehouse.bronze: "Direct Cloud Load"
-processing.spark -> lakehouse.silver: "Cleanse"
-processing.dbt -> lakehouse.gold: "Aggregate"
-```
-</details>
+*D2 Source: [`01_enterprise_ingestion_and_processing_architecture.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/01_enterprise_ingestion_and_processing_architecture.d2)*
 
 ---
 
@@ -222,32 +171,7 @@ processing.dbt -> lakehouse.gold: "Aggregate"
 
 ![Traditional Etl Vs Modern Elt Comparison](assets/08_etl_pipelines_orchestration_and_data_quality/02_traditional_etl_vs_modern_elt_comparison.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Traditional ETL vs. Modern ELT Architecture
-
-traditional: 1. Traditional ETL (Transform Before Load) {
-  src: Source DB
-  etl_server: Dedicated ETL Server (Informatica / Spark) {
-    status: "Transforms & permanently drops unselected fields"
-    style.stroke: "#ef4444"
-  }
-  edw: Data Warehouse (Only processed data)
-  src -> etl_server -> edw
-}
-
-modern: 2. Modern ELT (Load Raw, Transform In-Engine) {
-  src: Source DB
-  bronze: Bronze Lakehouse (Raw storage: 100% columns preserved)
-  engine: Cloud In-Engine Pushdown Compute (Snowflake / Databricks)
-  gold: Silver & Gold Marts (Business Aggregations)
-  src -> bronze -> engine -> gold
-}
-```
-</details>
+*D2 Source: [`02_traditional_etl_vs_modern_elt_comparison.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/02_traditional_etl_vs_modern_elt_comparison.d2)*
 
 #### End-to-End Concrete Data Walkthrough
 
@@ -322,37 +246,7 @@ While traditional ETL/ELT flows data from operational applications (CRMs, ERPs, 
 
 ![Reverse Etl Operational Sync Architecture](assets/08_etl_pipelines_orchestration_and_data_quality/03_reverse_etl_operational_sync_architecture.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Reverse ETL: Operationalizing Warehouse Analytics
-
-analytical: Analytical Data Plane {
-  warehouse: Cloud Data Warehouse (Snowflake / BigQuery / Databricks)
-  marts: Gold Business Marts (Customer LTV, Churn Score)
-  warehouse -> marts
-}
-
-engine: Reverse ETL Sync Engine {
-  diff: Change Detection (Hash Diff Check)
-  limiter: Token Bucket Rate Limiter (SaaS Protection)
-  diff -> limiter: "Changed Rows Only"
-}
-
-operational: Operational SaaS Plane {
-  sfdc: Salesforce CRM (High-LTV lead priority)
-  hubspot: HubSpot Marketing (Churn re-engagement)
-  zendesk: Zendesk Support (VIP ticket routing)
-}
-
-analytical.marts -> engine.diff: "Read gold models"
-engine.limiter -> operational.sfdc: "PATCH /Contact"
-engine.limiter -> operational.hubspot: "Update contact"
-engine.limiter -> operational.zendesk: "Set priority"
-```
-</details>
+*D2 Source: [`03_reverse_etl_operational_sync_architecture.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/03_reverse_etl_operational_sync_architecture.d2)*
 
 #### Technical Challenges in Reverse ETL
 1. **API Rate Limiting:** Operational SaaS systems enforce strict API quotas (e.g., Salesforce limits organizations to 100,000 API calls per 24 hours). Syncing a 10-million-row warehouse table naively via `PUT /api/v1/customers` will exhaust API credits in minutes.
@@ -367,30 +261,7 @@ Data processing architectures fall into two primary spectrums depending on the n
 
 ![Batch Vs Streaming Processing Paradigms](assets/08_etl_pipelines_orchestration_and_data_quality/04_batch_vs_streaming_processing_paradigms.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Batch vs. Streaming Processing Paradigms
-
-batch: Batch Processing (Bounded Datasets) {
-  accumulate: Data Accumulates over 24 Hours [00:00:00 - 23:59:59]
-  trigger: Scheduled Cron Trigger (Every day at 02:00 AM)
-  cluster: Spin Up Ephemeral Spark Cluster (High Throughput)
-  finish: Write Updated Table & Tear Down Cluster (Cost Optimized)
-  accumulate -> trigger -> cluster -> finish
-}
-
-streaming: Streaming Processing (Unbounded Continuous Stream) {
-  events: Continuous Events Land (IoT sensors, clicks, trades)
-  buffer: Distributed Message Log (Kafka / Event Hubs)
-  worker: Always-On Streaming Worker (Spark Streaming / Flink)
-  output: Write Real-Time Metric & Trigger Alert (Sub-Second Latency)
-  events -> buffer -> worker -> output
-}
-```
-</details>
+*D2 Source: [`04_batch_vs_streaming_processing_paradigms.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/04_batch_vs_streaming_processing_paradigms.d2)*
 
 #### Detailed Trade-Off Matrix: The Latency-Completeness-Cost Triangle
 
@@ -411,30 +282,7 @@ Ingestion mechanisms are governed by how data transitions across organizational 
 
 ![Push Vs Pull Ingestion Architectures](assets/08_etl_pipelines_orchestration_and_data_quality/05_push_vs_pull_ingestion_architectures.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Push vs. Pull Ingestion Architecture
-
-pull_model: 1. Pull Model: Consumer Initiates Polling {
-  consumer: Ingestion Service (Airflow Worker)
-  source: Source REST API / DB
-  consumer -> source: "1. GET /orders?since=10:00"
-  source -> consumer: "2. Return 0 rows (Empty)"
-  consumer -> consumer: "3. Sleep 60 seconds (Wasted Cycles)"
-  consumer -> source: "4. GET /orders?since=10:01"
-  source -> consumer: "5. Return 12 rows"
-}
-
-push_model: 2. Push Model: Producer Proactively Emits {
-  producer: Source Application (Order Placed)
-  gateway: Ingestion Gateway (Webhook / Event Hub)
-  producer -> gateway: "HTTP POST /webhook (Event Instant Push)"
-}
-```
-</details>
+*D2 Source: [`05_push_vs_pull_ingestion_architectures.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/05_push_vs_pull_ingestion_architectures.d2)*
 
 #### Push Security: Production HMAC-SHA256 Webhook Verification
 When operating push-based webhooks (e.g., Stripe, Shopify, GitHub), bad actors may send spoofed HTTP requests to your ingestion endpoints. Production webhook endpoints **must** cryptographically verify the payload signature before processing:
@@ -500,34 +348,7 @@ Micro-batching (exemplified by Apache Spark Structured Streaming) is not a compr
 
 ![Micro Batching Execution Internals](assets/08_etl_pipelines_orchestration_and_data_quality/06_micro_batching_execution_internals.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Micro-Batching Mechanics & Execution Internals
-
-kafka: 1. Kafka Event Buffer {
-  status: "Offsets advance continuously (Unbounded log)"
-}
-
-driver: 2. Driver Coordinator (Trigger: 5s) {
-  status: "Polls offsets, writes start offset, creates DAG"
-}
-
-workers: 3. Worker Tasks in RAM {
-  status: "Processes assigned partitions in parallel"
-}
-
-sink: 4. Delta Lakehouse Sink & Commit {
-  status: "Appends Parquet, writes commit marker file"
-}
-
-kafka -> driver: "Poll latest offsets"
-driver -> workers: "Schedule distributed tasks"
-workers -> sink: "Flush Parquet & Commit"
-```
-</details>
+*D2 Source: [`06_micro_batching_execution_internals.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/06_micro_batching_execution_internals.d2)*
 
 #### Spark Structured Streaming Trigger Modes Comparison
 
@@ -572,29 +393,7 @@ In data engineering, a pipeline is **idempotent** if re-running the pipeline ove
 
 ![Pipeline Idempotency Patterns Comparison](assets/08_etl_pipelines_orchestration_and_data_quality/07_pipeline_idempotency_patterns_comparison.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Pipeline Idempotency Patterns: Overwrite vs. Merge vs. Swap
-
-p1: Pattern 1: Delete-Before-Insert (Partition Overwrite) {
-  cmd: "INSERT OVERWRITE TABLE WHERE date = '2026-10-01'"
-  feature: "Replaces entire partition atomically; fast and simple"
-}
-
-p2: Pattern 2: Merge / Upsert on Primary Key {
-  cmd: "MERGE INTO target USING staging ON target.id = staging.id"
-  feature: "Row-level updates; handles late arriving CDC mutations"
-}
-
-p3: Pattern 3: Atomic Staging Table Swap {
-  cmd: "ALTER TABLE prod_table SWAP WITH staging_table_temp"
-  feature: "Zero-downtime O(1) metadata swap; instant rollback capability"
-}
-```
-</details>
+*D2 Source: [`07_pipeline_idempotency_patterns_comparison.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/07_pipeline_idempotency_patterns_comparison.d2)*
 
 #### Production Code: Idempotent Partition Overwrite in PySpark
 
@@ -641,38 +440,7 @@ Distributed systems fail continuously: cloud providers preempt spot VMs, network
 
 ![Pipeline Fault Tolerance Self Healing Gate](assets/08_etl_pipelines_orchestration_and_data_quality/08_pipeline_fault_tolerance_self_healing_gate.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Pipeline Fault Tolerance: Self-Healing & Quarantine Gate
-
-task: Task Execution {
-  status: "Worker executes transformation"
-}
-
-transient: Transient Error Handler {
-  check: "Error classified as Transient (Network timeout / Lock wait)"
-  retry: "Exponential Backoff with Full Jitter (Attempts < 5)"
-}
-
-circuit: Circuit Breaker Trip {
-  status: "Attempts >= 5: Halt pipeline & trigger PagerDuty alert"
-  style.stroke: "#ef4444"
-}
-
-dlq: Fatal Poison Pill Handler (DLQ) {
-  status: "Fatal schema corruption: Route record to DLQ; pipeline continues"
-  style.stroke: "#10b981"
-}
-
-task -> transient: "Transient Failure"
-transient -> task: "Retry with Jitter"
-transient -> circuit: "Budget Depleted"
-task -> dlq: "Fatal Corrupt Data"
-```
-</details>
+*D2 Source: [`08_pipeline_fault_tolerance_self_healing_gate.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/08_pipeline_fault_tolerance_self_healing_gate.d2)*
 
 #### Key Reliability Metrics
 - **RTO (Recovery Time Objective):** The maximum tolerable duration of time a data pipeline can remain offline after a crash before business damage occurs.
@@ -687,28 +455,7 @@ When you supply `.option("checkpointLocation", "s3://lakehouse/checkpoints/order
 
 ![Structured Streaming Checkpoint Directory Layout](assets/08_etl_pipelines_orchestration_and_data_quality/09_structured_streaming_checkpoint_directory_layout.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: down
-title: Structured Streaming Checkpoint Directory Layout
-
-root: s3://lakehouse/checkpoints/orders/ {
-  offsets: offsets/ (JSON start/end offsets per micro-batch)
-  commits: commits/ (Batch success marker files)
-  meta: metadata (Unique query run UUID)
-  sources: sources/ (Configured streaming source states)
-  state: state/ (RocksDB / HDFS state provider files) {
-    op: 0/ (Operator ID) {
-      part: 0/ (Partition ID) {
-        delta: 1.delta (RocksDB SST files)
-      }
-    }
-  }
-}
-```
-</details>
+*D2 Source: [`09_structured_streaming_checkpoint_directory_layout.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/09_structured_streaming_checkpoint_directory_layout.d2)*
 
 | Checkpoint Directory / File | File Type | Production Role & Fault Tolerance Guarantee |
 | :--- | :--- | :--- |
@@ -740,36 +487,7 @@ If a pipeline is down for 6 hours of maintenance, the upstream Kafka broker may 
 
 ![Backpressure Management And Rate Limiting](assets/08_etl_pipelines_orchestration_and_data_quality/10_backpressure_management_and_rate_limiting.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Backpressure Management & Dynamic Rate Limiting
-
-no_backpressure: Without Backpressure (Crash Cycle) {
-  k1: Kafka: 50,000,000 Messages Waiting
-  w1: Worker Heap: Pulls all 50M messages at once! {
-    style.stroke: "#ef4444"
-  }
-  crash: Fatal JVM OutOfMemoryError Crash! {
-    style.stroke: "#ef4444"
-  }
-  k1 -> w1 -> crash
-}
-
-with_backpressure: With Backpressure & Rate Limiting {
-  k2: Kafka: 50,000,000 Messages Waiting
-  w2: Worker Heap: Throttled maxOffsetsPerTrigger=500,000 {
-    style.stroke: "#10b981"
-  }
-  stable: Stable Delta Lake Batch Commit (30s per batch) {
-    style.stroke: "#10b981"
-  }
-  k2 -> w2 -> stable
-}
-```
-</details>
+*D2 Source: [`10_backpressure_management_and_rate_limiting.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/10_backpressure_management_and_rate_limiting.d2)*
 
 #### Production PySpark Ingestion with Defensive Throttling
 ```python
@@ -791,35 +509,7 @@ Replayability is the operational superpower of event log architectures (Kafka, R
 
 ![Event Replayability And Pipeline Re Sourcing](assets/08_etl_pipelines_orchestration_and_data_quality/11_event_replayability_and_pipeline_re_sourcing.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Pipeline Replayability & Event Re-Sourcing Workflow
-
-remediation: 1. Code Remediation {
-  bug: Bug Discovered (Gold Metric Logic Error)
-  fix: Deploy Bugfix to Git & Docker
-  bug -> fix
-}
-
-reset: 2. Offset Reset & Staging {
-  offset: Reset Consumer Offset to Tuesday 00:00:00
-  sink: Target Staging Table (gold.sales_recalculated_temp)
-  offset -> sink
-}
-
-replay: 3. High-Speed Replay & Promotion {
-  fast_replay: Replay 3 days of events at 10x speed
-  swap: Validate assertions & atomic table swap
-  fast_replay -> swap
-}
-
-remediation.fix -> reset.offset: "Deploy fix"
-reset.sink -> replay.fast_replay: "Execute replay"
-```
-</details>
+*D2 Source: [`11_event_replayability_and_pipeline_re_sourcing.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/11_event_replayability_and_pipeline_re_sourcing.d2)*
 
 #### Resetting Offsets via Kafka CLI
 ```bash
@@ -884,35 +574,7 @@ To process data accurately, data engineers must distinguish between three distin
 
 ![Time Domains Event Vs Ingestion Vs Processing](assets/08_etl_pipelines_orchestration_and_data_quality/12_time_domains_event_vs_ingestion_vs_processing.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: The Three Time Domains in Stream Processing
-
-event: 1. EVENT TIME {
-  time: "10:14:02 AM on Client Phone / IoT Sensor"
-  details: "When real-world action occurred; deterministic"
-  style.stroke: "#3b82f6"
-}
-
-broker: 2. INGESTION TIME {
-  time: "10:45:00 AM on Kafka Broker"
-  details: "When message broker received event; includes network lag"
-  style.stroke: "#f59e0b"
-}
-
-engine: 3. PROCESSING TIME {
-  time: "10:45:03 AM on Spark / Flink Worker"
-  details: "Local machine clock; non-deterministic across re-runs"
-  style.stroke: "#10b981"
-}
-
-event -> broker: "Network delay & offline mobile caching"
-broker -> engine: "Streaming consumer fetch"
-```
-</details>
+*D2 Source: [`12_time_domains_event_vs_ingestion_vs_processing.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/12_time_domains_event_vs_ingestion_vs_processing.d2)*
 
 1. **Event Time:** The exact instant the action occurred on the edge client device (e.g., when a user swiped their credit card).
 2. **Ingestion Time:** The instant the event reached the central messaging broker (Kafka, Kinesis).
@@ -930,34 +592,7 @@ $$\text{Watermark Threshold} = \max(\text{Event Time Observed}) - \text{Allowed 
 
 ![Watermarking Mechanics And Allowed Lateness](assets/08_etl_pipelines_orchestration_and_data_quality/13_watermarking_mechanics_and_allowed_lateness.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Watermarking Mechanics & Allowed Lateness
-
-watermark: Moving Watermark Window (Allowed Lateness = 20 Mins) {
-  max_time: "Max Event Time Seen: 10:40 AM"
-  threshold: "Watermark Threshold: 10:20 AM (10:40 - 20 mins)"
-  max_time -> threshold
-}
-
-records: Arriving Records Evaluation {
-  rec_a: Record A: Event Time 10:25 AM {
-    eval: "10:25 > 10:20 -> ACCEPTED into aggregation window"
-    style.stroke: "#10b981"
-  }
-  rec_b: Record B: Event Time 10:15 AM {
-    eval: "10:15 < 10:20 -> DROPPED or routed to DLQ"
-    style.stroke: "#ef4444"
-  }
-}
-
-watermark.threshold -> records.rec_a: "Evaluates"
-watermark.threshold -> records.rec_b: "Evaluates"
-```
-</details>
+*D2 Source: [`13_watermarking_mechanics_and_allowed_lateness.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/13_watermarking_mechanics_and_allowed_lateness.d2)*
 
 When the watermark passes 10:20 AM, the streaming engine finalizes the aggregation window for `10:00 - 10:10 AM`, emits the final count to downstream storage, and **purges that window's intermediate state from RAM/RocksDB**, keeping memory consumption strictly flat.
 
@@ -969,39 +604,7 @@ Crashing an entire data pipeline because 1 row out of 10 million contains corrup
 
 ![Dead Letter Queue Quarantine Routing](assets/08_etl_pipelines_orchestration_and_data_quality/14_dead_letter_queue_quarantine_routing.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Dead Letter Queues (DLQ) & Quarantine Routing
-
-stream: Stream Ingestion & Validation {
-  raw: Raw Ingested Stream (JSON)
-  validate: Validation Rules (Valid JSON? order_id != NULL? amount >= 0?) {
-    shape: diamond
-  }
-  raw -> validate
-}
-
-paths: Split Processing Paths {
-  silver: Silver Production Table (Clean data committed)
-  enrich: Quarantine Enrichment (Attach raw bytes, error, stack trace)
-}
-
-quarantine: Dead Letter Queue (DLQ) & Operations {
-  dlq_table: Dead Letter Quarantine Table (bronze.quarantine_orders)
-  alert: PagerDuty Alert (Trigger if DLQ Rate > 1%)
-  reprocessor: Developer Remediation (Fix bug & replay DLQ)
-  dlq_table -> alert
-  dlq_table -> reprocessor
-}
-
-stream.validate -> paths.silver: "Valid Records"
-stream.validate -> paths.enrich: "Malformed Records"
-paths.enrich -> quarantine.dlq_table
-```
-</details>
+*D2 Source: [`14_dead_letter_queue_quarantine_routing.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/14_dead_letter_queue_quarantine_routing.d2)*
 
 #### Quarantine Schema Structure
 | Column Name | Data Type | Purpose |
@@ -1083,6 +686,10 @@ def ingest_defensive_record(raw_record_dict: dict) -> dict:
     return validated.model_dump()
 ```
 
+> [!TIP]
+> **Deep-Dive Interview Scenario & Operational Runbook:**
+> - [Q53. Handling NULLs, Duplicates, and Corrupted Records in Production ETL Pipelines (Dead-Letter Queues, PERMISSIVE Schema & Idempotent Quarantine)](frequently_asked_questions/08_etl_pipelines_orchestration_and_data_quality_faq.md#q53-medium-handling-nulls-duplicates-and-corrupted-records-in-production-etl-pipelines-dead-letter-queues-permissive-schema--idempotent-quarantine)
+
 ---
 
 ### 2.12 Pipeline Observability: Metrics, Logs & Traces
@@ -1096,37 +703,7 @@ Modern data engineering observability rests on **The 5 Pillars of Data Reliabili
 
 ![Pipeline Observability Triad Metrics Logs Traces](assets/08_etl_pipelines_orchestration_and_data_quality/15_pipeline_observability_triad_metrics_logs_traces.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: down
-title: Unified Pipeline Observability Triad: Metrics, Logs & Traces
-
-exec: Pipeline Ingestion Execution {
-  run: "Run ID: run_98124 | Task: stage_orders"
-}
-
-triad: Unified Pipeline Observability Triad {
-  metrics: 1. Metrics (Prometheus / StatsD) {
-    data: "Aggregatable numbers: rows_ingested, duration_sec, lag"
-    style.stroke: "#3b82f6"
-  }
-  logs: 2. Logs (Structured JSON) {
-    data: "Contextual event breadcrumbs: run_id, partition, error traces"
-    style.stroke: "#10b981"
-  }
-  traces: 3. Traces (OpenTelemetry) {
-    data: "End-to-end distributed lifecycle spans: API -> Kafka -> Spark -> S3"
-    style.stroke: "#8b5cf6"
-  }
-}
-
-exec -> triad.metrics
-exec -> triad.logs
-exec -> triad.traces
-```
-</details>
+*D2 Source: [`15_pipeline_observability_triad_metrics_logs_traces.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/15_pipeline_observability_triad_metrics_logs_traces.d2)*
 
 | Signal Type | Ingestion Example | Tooling Sink | Detection Purpose |
 | :--- | :--- | :--- | :--- |
@@ -1155,31 +732,7 @@ Backfilling is the process of re-executing a pipeline over historical time inter
 
 ![Historical Backfilling Chunked Vs Monolithic](assets/08_etl_pipelines_orchestration_and_data_quality/16_historical_backfilling_chunked_vs_monolithic.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Historical Backfilling Strategies: Chunked vs. Monolithic
-
-naive: Anti-Pattern: Monolithic Backfill {
-  run: "Naive Backfill: Run full 5-year range at once"
-  exhaust: "Resource Exhaustion: Cluster OOM & locks production source DB"
-  run -> exhaust
-  style.stroke: "#ef4444"
-}
-
-chunked: Recommended: Idempotent Chunked Backfill {
-  orch: "Partitioned Orchestration: Iterate day-by-day in sequence"
-  c1: "Run 2026-01-01"
-  c2: "Run 2026-01-02"
-  cn: "Run 2026-01-31"
-  success: "Safe Execution: Bounded memory, zero lock contention, isolated retries"
-  orch -> c1 -> c2 -> cn -> success
-  style.stroke: "#10b981"
-}
-```
-</details>
+*D2 Source: [`16_historical_backfilling_chunked_vs_monolithic.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/16_historical_backfilling_chunked_vs_monolithic.d2)*
 
 #### Production Bash Backfill Script with Bounded Concurrency
 ```bash
@@ -1214,40 +767,7 @@ Hardcoding 500 individual ingestion scripts for 500 database tables is an unmain
 
 ![Metadata Driven Pipeline Control Table Framework](assets/08_etl_pipelines_orchestration_and_data_quality/17_metadata_driven_pipeline_control_table_framework.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Metadata-Driven Pipelines & Control Table Framework
-
-catalog: Metadata Control Catalog {
-  schema: "table_name, primary_key, watermark_col, sync_type"
-}
-
-engine: Central Metadata Pipeline Orchestrator {
-  logic: "Reads catalog & generates parameterized SQL queries dynamically"
-}
-
-workers: Parallel Worker Threads {
-  w1: "Worker 1: Sync customers (Watermark: updated_at)"
-  w2: "Worker 2: Sync orders (Watermark: order_ts)"
-  w3: "Worker 3: Sync products (Full Table Snapshot)"
-}
-
-audit: Pipeline Audit & Watermark Log {
-  schema: "last_successful_sync, rows_loaded, execution_status"
-}
-
-catalog -> engine: "Fetch Active Configs"
-engine -> workers.w1
-engine -> workers.w2
-engine -> workers.w3
-workers.w1 -> audit: "Update Watermark"
-workers.w2 -> audit: "Update Watermark"
-workers.w3 -> audit: "Update Watermark"
-```
-</details>
+*D2 Source: [`17_metadata_driven_pipeline_control_table_framework.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/17_metadata_driven_pipeline_control_table_framework.d2)*
 
 #### Complete Production Python Implementation
 
@@ -1544,33 +1064,7 @@ Static thresholds (e.g., `row_count > 10,000`) fail when business traffic exhibi
 
 ![Statistical Anomaly Detection Ingestion Volumes](assets/08_etl_pipelines_orchestration_and_data_quality/18_statistical_anomaly_detection_ingestion_volumes.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Statistical Anomaly Detection in Ingestion Volumes
-
-baseline: 1. Metric Extraction & Baseline Stats {
-  history: "Historical 30-Day Rolling Ingestion Counts"
-  stats: "Mean (μ): 1,000,000 | StdDev (σ): 50,000"
-}
-
-zscore: 2. Z-Score Anomaly Evaluation {
-  formula: "Z = |X - μ| / σ"
-  probe: "Today: X = 400,000 -> Z = 12.0! (Exceeds 3.0 Threshold)"
-}
-
-action: 3. Automated Circuit Breaker Gate {
-  halt: "Halts downstream dbt jobs; prevents corrupt data polluting Gold"
-  alert: "Triggers PagerDuty anomaly alert"
-  style.stroke: "#ef4444"
-}
-
-baseline -> zscore: "Evaluate Today Count"
-zscore -> action: "Z > 3.0 Detected"
-```
-</details>
+*D2 Source: [`18_statistical_anomaly_detection_ingestion_volumes.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/18_statistical_anomaly_detection_ingestion_volumes.d2)*
 
 #### Production Python Volume Anomaly Detector
 ```python
@@ -1626,36 +1120,7 @@ Databricks **Auto Loader** provides an optimized, fault-tolerant source called `
 
 ![Databricks Auto Loader Cloudfiles Internals](assets/08_etl_pipelines_orchestration_and_data_quality/19_databricks_auto_loader_cloudfiles_internals.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Databricks Auto Loader (cloudFiles) Execution Architecture
-
-storage: Cloud Storage Bucket (S3 / ADLS) {
-  files: "s3://landing/incoming/*.json"
-}
-
-queue: Cloud Event Queue (AWS SQS / Event Grid) {
-  events: "Buffered s3:ObjectCreated events"
-}
-
-autoloader: Databricks Auto Loader (cloudFiles) {
-  engine: "spark.readStream.format('cloudFiles')"
-  features: "Schema inference, schema evolution, O(1) queue discovery"
-}
-
-bronze: Bronze Delta Lake Table {
-  table: "bronze.raw_events"
-  column: "_rescued_data (Captures unexpected schema drift)"
-}
-
-storage -> queue: "File Upload Notification"
-queue -> autoloader: "Consume File URI Events"
-autoloader -> bronze: "Append Incremental Micro-Batches"
-```
-</details>
+*D2 Source: [`19_databricks_auto_loader_cloudfiles_internals.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/19_databricks_auto_loader_cloudfiles_internals.d2)*
 
 #### Auto Loader Execution Modes
 1. **Directory Listing Mode (`cloudFiles.useNotifications = false`):** Recursively crawls directory prefixes and stores file modification timestamps in an internal RocksDB state store. Highly optimized for buckets with $<1,000,000$ files.
@@ -1704,26 +1169,7 @@ Snowpipe is Snowflake’s serverless, automated event-driven ingestion engine. I
 
 ![Snowflake Snowpipe Serverless Ingestion Sequence](assets/08_etl_pipelines_orchestration_and_data_quality/20_snowflake_snowpipe_serverless_ingestion_sequence.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Snowflake Snowpipe Serverless Ingestion Sequence
-
-app: 1. External App (Producer)
-s3: 2. AWS S3 Landing Bucket
-sqs: 3. AWS SQS Notification Queue
-pipe: 4. Snowflake Snowpipe (Serverless)
-table: 5. Snowflake Target Table (Micro-Partitions)
-
-app -> s3: "Upload part-01.parquet"
-s3 -> sqs: "Publish ObjectCreated Event"
-sqs -> pipe: "Snowpipe consumes notification"
-pipe -> s3: "Pull file bytes via IAM Integration"
-pipe -> table: "Commit to micro-partitions"
-```
-</details>
+*D2 Source: [`20_snowflake_snowpipe_serverless_ingestion_sequence.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/20_snowflake_snowpipe_serverless_ingestion_sequence.d2)*
 
 #### Snowpipe DDL Specification
 ```sql
@@ -1805,30 +1251,7 @@ Log-based CDC engines (such as Debezium running inside Kafka Connect) act as a l
 
 ![Debezium Log Based Cdc Sequence](assets/08_etl_pipelines_orchestration_and_data_quality/21_debezium_log_based_cdc_sequence.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Log-Based Change Data Capture (CDC) Architecture
-
-app: 1. OLTP Application
-db: 2. PostgreSQL Core Database {
-  wal: Write-Ahead Log (WAL on Disk)
-}
-debezium: 3. Debezium (Kafka Connect) {
-  slot: Logical Replication Slot
-}
-kafka: 4. Kafka Topic (db.orders)
-lakehouse: 5. Delta Lake / Iceberg Bronze
-
-app -> db: "UPDATE orders SET status = 'SHIPPED'"
-db -> db.wal: "Append Commit Record (LSN: 0/16B2D40)"
-db.wal -> debezium.slot: "Stream WAL bytes"
-debezium -> kafka: "Publish Event Envelope (Before & After)"
-kafka -> lakehouse: "Stream Ingest into Bronze"
-```
-</details>
+*D2 Source: [`21_debezium_log_based_cdc_sequence.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/21_debezium_log_based_cdc_sequence.d2)*
 
 #### The Debezium CDC Event Envelope Structure
 A log-based CDC event contains complete before-and-after state images, metadata about the transaction, and the operation type:
@@ -1951,38 +1374,7 @@ To extract hundreds of millions of rows in minutes, Spark can parallelize databa
 
 ![High Throughput Partitioned Jdbc Reads Spark](assets/08_etl_pipelines_orchestration_and_data_quality/22_high_throughput_partitioned_jdbc_reads_spark.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: High-Throughput Partitioned JDBC Reads in PySpark
-
-driver: Spark Driver {
-  calc: "Calculates 4 Non-Overlapping ID Ranges"
-}
-
-tasks: Spark Executor Tasks {
-  t1: "Task 1: WHERE id >= 1 AND id < 250,000"
-  t2: "Task 2: WHERE id >= 250,000 AND id < 500,000"
-  t3: "Task 3: WHERE id >= 500,000 AND id < 750,000"
-  t4: "Task 4: WHERE id >= 750,000 AND id <= 1,000,000"
-}
-
-db: PostgreSQL Database {
-  sockets: "4 Concurrent JDBC Sockets"
-}
-
-driver -> tasks.t1
-driver -> tasks.t2
-driver -> tasks.t3
-driver -> tasks.t4
-tasks.t1 <-> db.sockets: "Concurrent Read"
-tasks.t2 <-> db.sockets: "Concurrent Read"
-tasks.t3 <-> db.sockets: "Concurrent Read"
-tasks.t4 <-> db.sockets: "Concurrent Read"
-```
-</details>
+*D2 Source: [`22_high_throughput_partitioned_jdbc_reads_spark.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/22_high_throughput_partitioned_jdbc_reads_spark.d2)*
 
 #### Production Parallel JDBC Extraction Code
 ```python
@@ -2146,31 +1538,7 @@ Enterprise SaaS APIs utilize the **OAuth 2.0 Client Credentials Grant** for mach
 
 ![Production Api Oauth2 Client Credentials Lifecycle](assets/08_etl_pipelines_orchestration_and_data_quality/23_production_api_oauth2_client_credentials_lifecycle.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: Production API Authentication (OAuth 2.0 Client Credentials)
-
-worker: Ingestion Worker {
-  creds: "client_id, client_secret (Stored in KMS)"
-}
-
-idp: Identity Provider (Okta / Azure AD) {
-  token: "Generates signed JWT Access Token (expires in 3600s)"
-}
-
-api: SaaS API (Salesforce / Stripe) {
-  endpoint: "Protected endpoints (Validates Bearer token)"
-}
-
-worker -> idp: "1. POST /oauth/token (client_credentials)"
-idp -> worker: "2. Return Access Token JWT (expires_in = 3600s)"
-worker -> api: "3. Loop GET /customers (Header: Bearer <token>)"
-api -> worker: "4. Return customer records"
-```
-</details>
+*D2 Source: [`23_production_api_oauth2_client_credentials_lifecycle.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/23_production_api_oauth2_client_credentials_lifecycle.d2)*
 
 ---
 
@@ -2246,38 +1614,7 @@ In enterprise data engineering, production incidents cluster into 50 canonical f
 
 ![Production Lakehouse Data Engineering Blueprint](assets/08_etl_pipelines_orchestration_and_data_quality/24_production_lakehouse_data_engineering_blueprint.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-title: End-to-End Production Lakehouse Data Engineering Blueprint
-
-ingestion: 1. Ingestion & Network Resiliency {
-  inlet: External APIs / Kafka
-  buffer: Kafka / Event Hubs Buffer
-  bronze: Bronze Raw Lakehouse (Captures DLQ)
-  inlet -> buffer -> bronze
-}
-
-processing: 2. Processing & Compute Optimization {
-  compute: Spark / Databricks Compute (Instance Pools)
-  transform: Data Transformation Engine (Salting & Bucketing)
-  silver: Silver Clean Lakehouse
-  compute -> transform -> silver
-}
-
-governance: 3. Governance, Serving & Reliability {
-  gold: Gold Marts (Kimball Star & SCD2)
-  semantic: Semantic Layer (Metric Standardization)
-  bi: Executive BI & Reverse ETL
-  gold -> semantic -> bi
-}
-
-ingestion.bronze -> processing.compute: "Auto Loader / CDF"
-processing.silver -> governance.gold: "Idempotent MERGE"
-```
-</details>
+*D2 Source: [`24_production_lakehouse_data_engineering_blueprint.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/24_production_lakehouse_data_engineering_blueprint.d2)*
 
 ### The 50 Canonical Production Problems & Solutions Matrix
 
@@ -2295,7 +1632,7 @@ processing.silver -> governance.gold: "Idempotent MERGE"
 | **10** | **Inconsistent Data Formats** | Standardization | Multi-source ingestion with diverging date formats, telephone regexes, and casing. | Medallion Silver canonical schema mapping and standardized string/date casting. See [06. Architecture](03_data_modeling_and_lakehouse_storage.md#03-data-architecture-dimensional-modeling--storage-formats-master-production-guide), [08. Spark](05_apache_spark_and_pyspark.md#32-pyspark-sql-functions--transformations). |
 | **11** | **Large Data Volume** | Partitioning | Monolithic tables forcing petabyte-scale full filesystem scans. | Physical Hive directory partitioning by high-cardinality temporal attributes. See [04. Database Internals](04_database_internals_and_distributed_systems.md#110-storage-engine-showdown-b-trees-vs-lsm-trees), [07. File Formats](03_data_modeling_and_lakehouse_storage.md). |
 | **12** | **Slow Queries** | Partition Pruning & Indexing | Unindexed query filters and unclustered data layouts. | Dynamic Partition Pruning (DPP), B-Tree / Clustered indexing, and Delta Liquid Clustering. See [02. SQL](01_sql_and_advanced_querying.md#architectural-overview-relational-query-execution--processing-architecture), [04. Database Internals](04_database_internals_and_distributed_systems.md#110-storage-engine-showdown-b-trees-vs-lsm-trees), [09. Databricks](06_databricks_and_delta_lake.md#9-delta-performance--storage-optimization). |
-| **13** | **High Latency** | Caching | Repeatedly re-scanning raw storage disks for identical query results. | Distributed Redis caching, Spark `.cache()`, and Databricks Disk Cache. See [05. Distributed Systems](04_database_internals_and_distributed_systems.md#04-database-internals--distributed-systems-architecture-master-production-guide), [08. Spark](05_apache_spark_and_pyspark.md#53-caching--persistence-strategies). |
+| **13** | **High Latency** | Caching | Repeatedly re-scanning raw storage disks for identical query results. | Distributed Redis caching, Spark `.cache()`, and Databricks Disk Cache. See [05. Distributed Systems](04_database_internals_and_distributed_systems.md#04-database-internals--distributed-systems-architecture-master-production-guide), [08. Spark](05_apache_spark_and_pyspark.md#53-caching-persistence--checkpointing-strategies). |
 | **14** | **Frequent Reprocessing** | Incremental Processing | Rebuilding entire analytical warehouse tables on every scheduled execution. | Watermark high-watermark tracking and dbt incremental merge models. See [10. Pipelines](08_etl_pipelines_orchestration_and_data_quality.md#11-etl-vs-elt-architecture--processing-paradigms), [12. Orchestration](08_etl_pipelines_orchestration_and_data_quality.md#11-dbt-data-build-tool-modeling--transformation). |
 | **15** | **Unnecessary Full Loads** | Incremental Loads | Transferring identical historical records from source OLTP systems repeatedly. | CDC log-based extraction and watermark column delta copy pipelines. See [10. Pipelines](08_etl_pipelines_orchestration_and_data_quality.md#11-etl-vs-elt-architecture--processing-paradigms), [13. Azure](08_etl_pipelines_orchestration_and_data_quality.md#12-end-to-end-enterprise-data-architecture-on-microsoft-azure). |
 | **16** | **Manual Interventions** | Automation | Human-operated backfills, manual run triggering, and error recovery scripts. | Orchestrated DAGs in Apache Airflow and automated CI/CD DataOps delivery. See [12. Orchestration](08_etl_pipelines_orchestration_and_data_quality.md), [13. Azure](08_etl_pipelines_orchestration_and_data_quality.md#17-dataops-cicd--version-control). |
@@ -2346,40 +1683,7 @@ In modern production data platforms, enterprise workloads separate the **orchest
 
 ![Airflow Orchestration Dbt Transformation Handshake](assets/08_etl_pipelines_orchestration_and_data_quality/25_airflow_orchestration_dbt_transformation_handshake.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: down
-classes: {
-  control: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  dbt: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  marts: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-airflow: "Apache Airflow: Workflow Orchestration & Control Plane" {
-  trigger: "Event / Cron Trigger" { class: control }
-  sensor: "S3 / Kafka Sensor" { class: control }
-  ingest: "Ingest Operator" { class: control }
-  dbt_op: "dbt Run Operator" { class: dbt }
-  alert: "Alert Callback" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-
-  trigger -> sensor -> ingest -> dbt_op -> alert
-}
-
-dbt_layer: "dbt: Pushdown Transformation Layer" {
-  bronze: "Bronze Ingestion\n(raw_erp.orders)" { class: control }
-  staging: "Staging Models\n(stg_orders View)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  intermediate: "Intermediate Models\n(int_order_items)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  marts: "Marts Serving\n(fct_orders Incremental)" { class: marts }
-
-  bronze -> staging -> intermediate -> marts
-}
-
-airflow.dbt_op -> dbt_layer.bronze: "Triggers & Polls"
-dbt_layer.marts -> airflow.dbt_op: "Lineage & Status"
-```
-</details>
+*D2 Source: [`25_airflow_orchestration_dbt_transformation_handshake.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/25_airflow_orchestration_dbt_transformation_handshake.d2)*
 
 ### Deep-Dive Comparison: Apache Airflow vs. dbt
 
@@ -2417,24 +1721,7 @@ In modern data platform engineering, **Apache Airflow** and **dbt (Data Build To
 
 ![Operator Granularity Single Task Anti Pattern](assets/08_etl_pipelines_orchestration_and_data_quality/26_operator_granularity_single_task_anti_pattern.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  task: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-}
-
-extract: "Extract Source API\n(PythonOperator)" { class: task }
-stage: "Stage to S3\n(S3CreateObjectOperator)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-load: "Load to Snowflake\n(SnowflakeSqlApiOperator)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-transform: "Transform Marts\n(DbtRunOperator)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-notify: "Notify Data Team\n(SlackWebhookOperator)" { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-
-extract -> stage -> load -> transform -> notify
-```
-</details>
+*D2 Source: [`26_operator_granularity_single_task_anti_pattern.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/26_operator_granularity_single_task_anti_pattern.d2)*
 
 #### Real-World Production Example: E-Commerce Pipeline
 An e-commerce enterprise ingests daily transaction files from external payment gateways (Stripe, PayPal) stored in Cloud Storage, loads them into Snowflake, executes a suite of dbt models to update customer lifetime value (LTV) marts, and broadcasts downstream notifications.
@@ -2451,35 +1738,7 @@ For hands-on coverage, consult GeeksforGeeks' [Airflow DAGs and Operators](https
 
 ![Standard Sensor Vs Deferrable Operator](assets/08_etl_pipelines_orchestration_and_data_quality/27_standard_sensor_vs_deferrable_operator.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  standard: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  deferrable: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-standard_sensor: "Standard Sensor (Worker Slot Starvation)" {
-  slot: "Worker Slot 1\n(Occupied / Blocked)" { class: standard }
-  s3_1: "S3 Bucket" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  starvation: "Resource Waste\n(Zero Task Slots Left)" { class: standard }
-
-  slot -> s3_1: "Poke every 60s"
-  slot -> starvation: "Locks worker slot"
-}
-
-deferrable_sensor: "Deferrable Operator (Zero Slot Utilization)" {
-  init: "Worker Initializes" { class: deferrable }
-  triggerer: "Airflow Triggerer\n(AsyncIO Event Loop)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  resumed: "New Worker Slot\n(Executes finish job)" { class: deferrable }
-
-  init -> triggerer: "Releases slot & yields"
-  triggerer -> resumed: "Event fired: File detected"
-}
-```
-</details>
+*D2 Source: [`27_standard_sensor_vs_deferrable_operator.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/27_standard_sensor_vs_deferrable_operator.d2)*
 
 ### Definitions: Polling Mechanisms
 
@@ -2583,30 +1842,7 @@ with DAG(
 
 ![Airflow Connections And Hooks Abstraction](assets/08_etl_pipelines_orchestration_and_data_quality/28_airflow_connections_and_hooks_abstraction.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  secret: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  conn: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  hook: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  op: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-vault: "Key Vault / Encrypted DB\n(External Secrets)" { class: secret }
-connection: "Airflow Connection\n('postgres_default')" { class: conn }
-hook: "Airflow Hook\n(PostgresHook Client)" { class: hook }
-operator: "Airflow Operator\n(PostgresOperator)" { class: op }
-target: "External PostgreSQL Database" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-
-vault -> connection: "Fetch Credentials"
-connection -> hook: "Inject Config"
-hook -> operator: "Session Management"
-operator -> target: "Execute Query"
-```
-</details>
+*D2 Source: [`28_airflow_connections_and_hooks_abstraction.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/28_airflow_connections_and_hooks_abstraction.d2)*
 
 #### Code Example: Using Hooks in TaskFlow Python Functions
 ```python
@@ -2641,39 +1877,7 @@ For conceptual overviews, see GeeksforGeeks' [What is Apache Airflow?](https://w
 
 ![Xcom Anti Pattern Vs Object Storage Custom Backend](assets/08_etl_pipelines_orchestration_and_data_quality/29_xcom_anti_pattern_vs_object_storage_custom_backend.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  danger: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  clean: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  norm: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-}
-
-anti_pattern: "Anti-Pattern: Raw Data in XCom" {
-  t1: "Task 1 (Extract)" { class: norm }
-  db_crash: "Airflow Metadata DB\n(BLOB Table OOM)" { class: danger }
-  t2: "Task 2 (Transform)" { class: norm }
-
-  t1 -> db_crash: "100MB DataFrame"
-  db_crash -> t2: "Heavy Deserialization"
-}
-
-best_practice: "Best Practice: S3/GCS Object Storage Backend" {
-  t1_good: "Task 1 (Extract)" { class: norm }
-  s3: "S3 / GCS Bucket\n(Raw Data)" { class: clean }
-  db_light: "Metadata DB\n(URI String only)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  t2_good: "Task 2 (Transform)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-
-  t1_good -> s3: "Writes Parquet Payload"
-  t1_good -> db_light: "Pushes 's3://...' URI"
-  db_light -> t2_good: "Pulls URI pointer"
-  s3 -> t2_good: "Direct S3 Stream"
-}
-```
-</details>
+*D2 Source: [`29_xcom_anti_pattern_vs_object_storage_custom_backend.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/29_xcom_anti_pattern_vs_object_storage_custom_backend.d2)*
 
 ### Definitions: XCom Architecture
 
@@ -2927,41 +2131,7 @@ For an architectural breakdown, refer to GeeksforGeeks' [Apache Airflow Architec
 
 ![Airflow Control Plane And Worker Architecture](assets/08_etl_pipelines_orchestration_and_data_quality/30_airflow_control_plane_and_worker_architecture.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  control: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  worker: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-control_plane: "Airflow Control Plane" {
-  db: "PostgreSQL / MySQL\nMetadata Database" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  scheduler: "Airflow Scheduler\n(State Evaluator)" { class: control }
-  triggerer: "Airflow Triggerer\n(Async Event Loop)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  webserver: "Airflow Webserver\n(Gunicorn UI)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-
-  scheduler -> db: "Read/Write State"
-  triggerer -> db: "Poll Deferrals"
-  webserver -> db: "User Action Audit"
-}
-
-broker: "Message Broker\n(Redis / RabbitMQ)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-
-execution_plane: "Execution Plane" {
-  w1: "Worker Node 1\n(Celery Slots)" { class: worker }
-  w2: "Worker Node 2\n(Celery Slots)" { class: worker }
-  k8s: "KubernetesPodOperator\n(Isolated Pods)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-control_plane.scheduler -> broker: "Enqueue Task Instances"
-broker -> execution_plane.w1: "Pulls Task"
-broker -> execution_plane.w2: "Pulls Task"
-control_plane.scheduler -> execution_plane.k8s: "API Pod Launch"
-```
-</details>
+*D2 Source: [`30_airflow_control_plane_and_worker_architecture.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/30_airflow_control_plane_and_worker_architecture.d2)*
 
 ### Definitions of Airflow Cluster Components
 
@@ -2978,39 +2148,7 @@ A task instance transitions through a deterministic series of states during exec
 
 ![Task Instance Lifecycle State Machine](assets/08_etl_pipelines_orchestration_and_data_quality/31_task_instance_lifecycle_state_machine.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  sched: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  run: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  def: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  succ: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-}
-
-none: "NONE" { fill: "#1e293b"; stroke: "#64748b"; color: "#94a3b8" }
-scheduled: "SCHEDULED" { class: sched }
-queued: "QUEUED" { class: sched }
-running: "RUNNING" { class: run }
-deferred: "DEFERRED" { class: def }
-retry: "UP_FOR_RETRY" { class: def }
-success: "SUCCESS" { class: succ }
-failed: "FAILED" { class: fail }
-
-none -> scheduled: "Scheduler detects run"
-scheduled -> queued: "Pool slot available"
-queued -> running: "Worker acquires task"
-running -> deferred: "Yields Trigger"
-deferred -> queued: "Trigger event fired"
-running -> retry: "Exception (retries > 0)"
-retry -> queued: "Backoff delay expired"
-running -> success: "Exit code 0"
-running -> failed: "Retries exhausted"
-```
-</details>
+*D2 Source: [`31_task_instance_lifecycle_state_machine.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/31_task_instance_lifecycle_state_machine.d2)*
 
 ---
 
@@ -3095,30 +2233,7 @@ For hands-on scheduling tutorials, consult GeeksforGeeks' [Airflow DAGs and Oper
 
 ![Data Interval Vs Execution Time Logical Date](assets/08_etl_pipelines_orchestration_and_data_quality/32_data_interval_vs_execution_time_logical_date.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  interval: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  exec: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-interval_box: "Data Interval: [2026-10-01 00:00 to 2026-10-02 00:00]" {
-  start: "Data Interval Start\n(Logical Date: 2026-10-01)" { class: interval }
-  end: "Data Interval End\n(2026-10-02 00:00)" { class: interval }
-
-  start -> end: "24-Hour Collection"
-}
-
-exec_box: "Actual Execution" {
-  trigger: "Scheduler Triggers Run\n(2026-10-02 00:00:05)\nImmediately after interval closes!" { class: exec }
-}
-
-interval_box.end -> exec_box.trigger: "Fires DAG Run"
-```
-</details>
+*D2 Source: [`32_data_interval_vs_execution_time_logical_date.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/32_data_interval_vs_execution_time_logical_date.d2)*
 
 ### Definitions: Temporal Concepts in Airflow
 
@@ -3244,33 +2359,7 @@ For more on conditional workflows, review GeeksforGeeks' [Airflow DAGs and Opera
 
 ![Trigger Rule Decision Matrix](assets/08_etl_pipelines_orchestration_and_data_quality/33_trigger_rule_decision_matrix.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  succ: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  fail: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  eval: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-up1: "Upstream Task 1 (Succeeds)" { class: succ }
-up2: "Upstream Task 2 (Fails)" { class: fail }
-
-join: "Trigger Rule Check" { class: eval }
-
-stop: "Blocked: Task Skipped\n(all_success default)" { class: fail }
-alert: "Executes: Send Incident Alert\n(one_failed)" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-cleanup: "Executes: Teardown Cluster\n(all_done)" { class: succ }
-
-up1 -> join
-up2 -> join
-join -> stop: "all_success"
-join -> alert: "one_failed"
-join -> cleanup: "all_done"
-```
-</details>
+*D2 Source: [`33_trigger_rule_decision_matrix.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/33_trigger_rule_decision_matrix.d2)*
 
 ### Definitions: Airflow Trigger Rules
 
@@ -3387,34 +2476,7 @@ For alerting strategies, refer to DataCamp's [Building an ETL Pipeline with Airf
 
 ![Sla And Callback Failure Handling](assets/08_etl_pipelines_orchestration_and_data_quality/34_sla_and_callback_failure_handling.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  exec: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  hook_g: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  hook_r: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  hook_a: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  hook_c: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-task: "Task Instance Execution" { class: exec }
-state: "Execution Outcome" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-
-success_cb: "Execute: on_success_callback" { class: hook_g }
-retry_cb: "Execute: on_retry_callback" { class: hook_a }
-fail_cb: "Execute: on_failure_callback\n(Slack / PagerDuty)" { class: hook_r }
-sla_cb: "Execute: sla_miss_callback" { class: hook_c }
-
-task -> state
-state -> success_cb: "Succeeds"
-state -> retry_cb: "Fails (Retries Left)"
-state -> fail_cb: "Fails (Retries Exhausted)"
-state -> sla_cb: "Exceeds SLA Window"
-```
-</details>
+*D2 Source: [`34_sla_and_callback_failure_handling.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/34_sla_and_callback_failure_handling.d2)*
 
 ### Definitions: SLAs and Callbacks
 
@@ -3601,48 +2663,7 @@ dbt enables analytics engineers to transform raw data already residing in cloud 
 
 ![Dbt Medallion Directed Acyclic Graph](assets/08_etl_pipelines_orchestration_and_data_quality/35_dbt_medallion_directed_acyclic_graph.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  raw: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  stg: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  mart: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  bi: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-sources: "Raw Ingestion Layer" {
-  s1: "raw_erp.orders" { class: raw }
-  s2: "raw_crm.customers" { class: raw }
-}
-
-staging: "Staging Layer: Views" {
-  stg1: "stg_orders (View)" { class: stg }
-  stg2: "stg_customers (View)" { class: stg }
-}
-
-marts: "Curated Marts: Incremental & Tables" {
-  fct: "fct_orders (Incremental Merge)" { class: mart }
-  dim: "dim_customers (SCD Type 2)" { class: mart }
-}
-
-bi_layer: "Downstream Consumption Layer" {
-  dash: "Looker / Tableau Executive Dashboard" { class: bi }
-  ml: "Customer Churn ML Model" { class: bi }
-}
-
-sources.s1 -> staging.stg1
-sources.s2 -> staging.stg2
-staging.stg1 -> marts.fct
-staging.stg2 -> marts.fct
-staging.stg2 -> marts.dim
-marts.fct -> bi_layer.dash
-marts.dim -> bi_layer.dash
-marts.fct -> bi_layer.ml
-```
-</details>
+*D2 Source: [`35_dbt_medallion_directed_acyclic_graph.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/35_dbt_medallion_directed_acyclic_graph.d2)*
 
 ---
 
@@ -3868,28 +2889,7 @@ Running `dbt docs generate && dbt docs serve` parses the project DAG and renders
 
 ![Dbt Exposure And Source Lineage](assets/08_etl_pipelines_orchestration_and_data_quality/36_dbt_exposure_and_source_lineage.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  src: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  stg: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  mart: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  exp: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-src: "source: raw_orders\n(sources.yml)" { class: src }
-stg: "stg_orders.sql\n(Staging View)" { class: stg }
-mart: "fct_orders.sql\n(Incremental Mart)" { class: mart }
-exp: "Exposure: Executive Dashboard\n(Power BI / Looker)" { class: exp }
-
-src -> stg: "source()"
-stg -> mart: "ref()"
-mart -> exp: "Lineage Exposure"
-```
-</details>
+*D2 Source: [`36_dbt_exposure_and_source_lineage.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/36_dbt_exposure_and_source_lineage.d2)*
 
 ---
 
@@ -4031,48 +3031,7 @@ In an enterprise Microsoft Azure data platform, isolation, governance, and zero-
 
 ![Azure Hub Spoke Secure Data Platform](assets/08_etl_pipelines_orchestration_and_data_quality/37_azure_hub_spoke_secure_data_platform.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  hub: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  spoke_ing: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  spoke_comp: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  paas: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-hub: "Hub Virtual Network (10.0.0.0/16)" {
-  fw: "Azure Firewall / NVA\n(Central Egress)" { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  bastion: "Azure Bastion Jumpbox" { class: hub }
-  dns: "Azure Private DNS Zones" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-ingestion_spoke: "Ingestion Spoke VNet (10.1.0.0/16)" {
-  adf_ir: "ADF Managed VNet IR" { class: spoke_ing }
-  shir: "Self-Hosted IR VM" { class: spoke_ing }
-}
-
-compute_spoke: "Compute Spoke VNet (10.2.0.0/16)" {
-  db_public: "Databricks Public Subnet" { class: spoke_comp }
-  db_private: "Databricks Private Subnet" { class: spoke_comp }
-}
-
-paas: "Isolated Azure PaaS (Zero Public Internet)" {
-  adls: "ADLS Gen2 Storage\n(Private Endpoint: 10.1.2.4)" { class: paas }
-  akv: "Azure Key Vault\n(Private Endpoint: 10.1.2.5)" { class: paas }
-  synapse: "Synapse Dedicated SQL\n(Private Endpoint: 10.1.2.6)" { class: paas }
-}
-
-hub <-> ingestion_spoke: "VNet Peering"
-hub <-> compute_spoke: "VNet Peering"
-
-ingestion_spoke.adf_ir -> paas.adls: "Private Link"
-compute_spoke.db_private -> paas.adls: "Private Link"
-compute_spoke.db_private -> paas.synapse: "Private Link"
-```
-</details>
+*D2 Source: [`37_azure_hub_spoke_secure_data_platform.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/37_azure_hub_spoke_secure_data_platform.d2)*
 
 #### Core Enterprise Security Principles
 1. **Network Isolation via Hub-and-Spoke Topology:**
@@ -4296,55 +3255,7 @@ The modern enterprise Lakehouse on Azure unifies data warehouse governance with 
 
 ![End To End Azure Modern Data Platform](assets/08_etl_pipelines_orchestration_and_data_quality/38_end_to_end_azure_modern_data_platform.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  src: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  ing: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  lake: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  serve: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-}
-
-sources: "Upstream Sources" {
-  db: "OLTP RDBMS" { class: src }
-  apis: "REST SaaS APIs" { class: src }
-  streams: "IoT / Clickstreams" { class: src }
-}
-
-ingestion: "Ingestion Tier" {
-  adf: "Azure Data Factory" { class: ing }
-  eventhubs: "Azure Event Hubs" { class: ing }
-}
-
-storage: "ADLS Gen2 (Delta Lake)" {
-  bronze: "Bronze Container\n(Raw Append)" { class: lake }
-  silver: "Silver Container\n(Cleaned & Filtered)" { class: lake }
-  gold: "Gold Container\n(Aggregated Marts)" { class: lake }
-
-  bronze -> silver -> gold
-}
-
-serving: "Analytics & Serving Tier" {
-  synapse: "Synapse Dedicated SQL" { class: serve }
-  serverless: "Synapse Serverless SQL" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  pbi: "Power BI Direct Lake" { class: lake }
-  cosmos: "Cosmos DB" { class: ing }
-}
-
-sources.db -> ingestion.adf
-sources.apis -> ingestion.adf
-sources.streams -> ingestion.eventhubs
-ingestion.adf -> storage.bronze
-ingestion.eventhubs -> storage.bronze
-storage.gold -> serving.synapse
-storage.gold -> serving.serverless
-storage.gold -> serving.pbi
-storage.gold -> serving.cosmos
-```
-</details>
+*D2 Source: [`38_end_to_end_azure_modern_data_platform.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/38_end_to_end_azure_modern_data_platform.d2)*
 
 ---
 
@@ -4357,31 +3268,7 @@ In standard object storage (Amazon S3 or Azure Blob Storage without HNS), direct
 
 ![Hierarchical Namespace Hns Atomic Rename](assets/08_etl_pipelines_orchestration_and_data_quality/39_hierarchical_namespace_hns_atomic_rename.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  slow: { fill: "#7f1d1d"; stroke: "#f87171"; color: "#fecaca" }
-  fast: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-flat: "Flat Namespace: O(N) Slow Rename" {
-  f_start: "Virtual Path: /staging/\n(10,000 Blobs)" { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  f_action: "Copy + Delete Loop\n(10,000 individual operations\nTakes 15-45 minutes!)" { class: slow }
-
-  f_start -> f_action: "Rename Triggered"
-}
-
-hns: "Hierarchical Namespace (HNS): O(1) Atomic Rename" {
-  h_start: "True Directory Inode: /staging/\n(Single Metadata Object)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  h_action: "Atomic Inode Pointer Update\n(Single metadata change\nTakes &lt;50ms!)" { class: fast }
-
-  h_start -> h_action: "Atomic Pointer Update"
-}
-```
-</details>
+*D2 Source: [`39_hierarchical_namespace_hns_atomic_rename.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/39_hierarchical_namespace_hns_atomic_rename.d2)*
 
 #### POSIX Access Control Lists (ACLs)
 ADLS Gen2 supports Linux-style POSIX ACLs in addition to Azure RBAC:
@@ -4509,36 +3396,7 @@ Microsoft Fabric is an all-in-one SaaS analytics platform built on **OneLake** u
 
 ![Microsoft Fabric Onelake Open Lakehouse](assets/08_etl_pipelines_orchestration_and_data_quality/40_microsoft_fabric_onelake_open_lakehouse.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  lake: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  shortcuts: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  spark: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  sql: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  pbi: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-onelake: "Microsoft OneLake (Unified Multi-Tenant Delta Lake)" {
-  store: "Lakehouse Store\n(Tables/ Parquet & Files/ Raw)" { class: lake }
-  shortcuts: "OneLake Shortcuts (Zero-Copy)\n(Pointers to AWS S3, GCS, ADLS)" { class: shortcuts }
-}
-
-engines: "Multi-Engine Analytical Compute" {
-  spark: "Synapse Data Engineering\n(Apache Spark Runtime)" { class: spark }
-  dwh: "Synapse Data Warehouse\n(Distributed T-SQL MPP)" { class: sql }
-  pbi: "Power BI Direct Lake\n(Direct VertiPaq memory-mapped read)" { class: pbi }
-}
-
-onelake.store -> engines.spark: "Read/Write Delta"
-onelake.store -> engines.dwh: "Native T-SQL"
-onelake.store -> engines.pbi: "Zero-Copy Parquet Scan"
-onelake.shortcuts -> engines.spark: "Cross-Cloud Query"
-```
-</details>
+*D2 Source: [`40_microsoft_fabric_onelake_open_lakehouse.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/40_microsoft_fabric_onelake_open_lakehouse.d2)*
 
 #### Fabric Lakehouse vs. Fabric Warehouse Comparison
 
@@ -4638,32 +3496,7 @@ An ADF **Pipeline** coordinates a sequence of **Activities**:
 
 ![Adf Metadata Driven Parameterized Pipeline](assets/08_etl_pipelines_orchestration_and_data_quality/41_adf_metadata_driven_parameterized_pipeline.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  ctrl: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  loop: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  copy: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  wm: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-lookup: "1. Lookup Activity\n(Query Control Table)" { class: ctrl }
-
-foreach: "2. ForEach Activity (Parallel Container)" {
-  branch: "3. If Incremental Check" { class: loop }
-  copy_act: "4. Parameterized Copy Activity\n(Source -> ADLS Gen2)" { class: copy }
-  update_wm: "5. Update Watermark Activity\n(Stored Procedure Update)" { class: wm }
-
-  branch -> copy_act: "Dynamic Query"
-  copy_act -> update_wm: "On Success"
-}
-
-lookup -> foreach: "Iterate Table Array"
-```
-</details>
+*D2 Source: [`41_adf_metadata_driven_parameterized_pipeline.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/41_adf_metadata_driven_parameterized_pipeline.d2)*
 
 ---
 
@@ -4672,6 +3505,15 @@ lookup -> foreach: "Iterate Table Array"
 Mapping Data Flows allow visual construction of ETL transformations without writing code:
 - When triggered, ADF provisions an ephemeral **Azure Databricks / Spark cluster** behind the scenes.
 - The visual DAG (Join, Aggregate, Conditional Split) is compiled into optimized Scala / Spark Catalyst expressions and executed across Spark executors.
+- **Handling Schema Drift:** Enabling `Allow schema drift` on source and sink transformations paired with rule-based column mapping (`true()`) allows incoming columns and nested semi-structured attributes to flow dynamically into target Delta/Parquet sinks without pipeline compilation failures.
+
+> [!TIP]
+> **Deep-Dive Interview Scenarios & Production Runbooks:**
+> - [Q10. Azure Integration Runtime (IR) vs Self-Hosted IR (SHIR)](frequently_asked_questions/08_etl_pipelines_orchestration_and_data_quality_faq.md#q10-easy-azure-integration-runtime-ir-vs-self-hosted-ir-shir)
+> - [Q49. Optimizing ADF Copy Activity for Billions of Rows from SQL to ADLS Gen2](frequently_asked_questions/08_etl_pipelines_orchestration_and_data_quality_faq.md#q49-hard-optimizing-adf-copy-activity-for-billions-of-rows-from-sql-to-adls-gen2)
+> - [Q50. Handling Schema Drift in ADF Mapping Data Flows (Dynamic Datasets & JSON/Parquet)](frequently_asked_questions/08_etl_pipelines_orchestration_and_data_quality_faq.md#q50-medium-handling-schema-drift-in-adf-mapping-data-flows-dynamic-datasets--jsonparquet)
+> - [Q51. AWS Glue & Amazon S3 Schema Evolution and Crawler Ingestion Management](frequently_asked_questions/08_etl_pipelines_orchestration_and_data_quality_faq.md#q51-medium-aws-glue--amazon-s3-schema-evolution-and-crawler-ingestion-management)
+> - [Q52. Multi-Consumer Architecture for Datasets Requiring Divergent Refresh Frequencies](frequently_asked_questions/08_etl_pipelines_orchestration_and_data_quality_faq.md#q52-medium-multi-consumer-architecture-for-datasets-requiring-divergent-refresh-frequencies)
 
 ---
 
@@ -4731,45 +3573,7 @@ Synapse Dedicated SQL Pool implements a classic MPP architecture that scales ana
 
 ![Azure Synapse Mpp Shared Nothing Architecture](assets/08_etl_pipelines_orchestration_and_data_quality/42_azure_synapse_mpp_shared_nothing_architecture.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  ctrl: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  comp: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  store: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-control_layer: "1. Control Node (The Brain)" {
-  client: "Client Queries\n(Power BI, SSMS)" { class: ctrl }
-  control: "Control Node\n(Distributed Query Engine)" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-
-  client -> control: "T-SQL Connection"
-}
-
-compute_layer: "2. Compute Layer (MPP Workers)" {
-  c1: "Compute Node 1\n(Distributions 1..20)" { class: comp }
-  c2: "Compute Node 2\n(Distributions 21..40)" { class: comp }
-  cn: "Compute Node N\n(Distributions 41..60)" { class: comp }
-}
-
-storage_layer: "3. Storage Layer (60 Azure Storage Distributions)" {
-  d1: "Distributions 1..20" { class: store }
-  d2: "Distributions 21..40" { class: store }
-  d3: "Distributions 41..60" { class: store }
-}
-
-control_layer.control -> compute_layer.c1: "Parallel Plan"
-control_layer.control -> compute_layer.c2: "Parallel Plan"
-control_layer.control -> compute_layer.cn: "Parallel Plan"
-
-compute_layer.c1 -> storage_layer.d1: "Direct Remote I/O"
-compute_layer.c2 -> storage_layer.d2: "Direct Remote I/O"
-compute_layer.cn -> storage_layer.d3: "Direct Remote I/O"
-```
-</details>
+*D2 Source: [`42_azure_synapse_mpp_shared_nothing_architecture.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/42_azure_synapse_mpp_shared_nothing_architecture.d2)*
 
 ---
 
@@ -4853,37 +3657,7 @@ DataOps brings agile software engineering rigor to data platform delivery:
 
 ![Data Engineering Cicd Release Pipeline](assets/08_etl_pipelines_orchestration_and_data_quality/43_data_engineering_cicd_release_pipeline.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  ci: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  cd: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-}
-
-ci_stage: "Continuous Integration (CI)" {
-  pr: "1. Feature Pull Request" { class: ci }
-  lint: "2. Linting (sqlfluff, ruff)" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  unit: "3. pytest Unit Tests" { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  contract: "4. Data Contract Tests" { class: cd }
-
-  pr -> lint -> unit -> contract
-}
-
-cd_stage: "Continuous Deployment (CD)" {
-  merge: "5. Merge to Main" { class: cd }
-  deploy_dev: "6. Deploy Dev & Smoke Test" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  gate: "7. Manual Approval Gate" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  deploy_prod: "8. Blue-Green Swap to Prod" { class: cd }
-
-  merge -> deploy_dev -> gate -> deploy_prod
-}
-
-ci_stage.contract -> cd_stage.merge: "All Gates Pass"
-```
-</details>
+*D2 Source: [`43_data_engineering_cicd_release_pipeline.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/43_data_engineering_cicd_release_pipeline.d2)*
 
 ---
 
@@ -4894,51 +3668,7 @@ ci_stage.contract -> cd_stage.merge: "All Gates Pass"
 
 ![Git Branching Model Gitflow Dataops](assets/08_etl_pipelines_orchestration_and_data_quality/44_git_branching_model_gitflow_dataops.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  main: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  dev: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  feat: { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-  rel: { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-}
-
-main: "main (Production Releases)" {
-  v10: "v1.0.0-prod" { class: main }
-  v11: "v1.1.0-release" { class: main }
-
-  v10 -> v11: "Release Tag"
-}
-
-develop: "develop (Shared Integration)" {
-  init: "dev-init" { class: dev }
-  merged: "pr-merged-dev" { class: dev }
-  sync: "sync-develop" { class: dev }
-
-  init -> merged -> sync
-}
-
-feature: "feature/silver-orders" {
-  c1: "add-dbt-model" { class: feat }
-  c2: "add-schema-test" { class: feat }
-
-  c1 -> c2
-}
-
-release: "release/v1.1.0" {
-  uat: "uat-regression-pass" { class: rel }
-}
-
-develop.init -> feature.c1: "branch"
-feature.c2 -> develop.merged: "merge PR"
-develop.merged -> release.uat: "cut release"
-release.uat -> main.v11: "merge prod"
-release.uat -> develop.sync: "back-merge"
-```
-</details>
+*D2 Source: [`44_git_branching_model_gitflow_dataops.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/44_git_branching_model_gitflow_dataops.d2)*
 
 ---
 
@@ -5136,43 +3866,7 @@ Blue-Green deployment ensures zero downtime and eliminates broken dashboard quer
 
 ![Blue Green Zero Downtime Pipeline Deployment](assets/08_etl_pipelines_orchestration_and_data_quality/45_blue_green_zero_downtime_pipeline_deployment.svg)
 
-<details>
-<summary>D2 Source</summary>
-
-```d2
-direction: right
-classes: {
-  blue: { fill: "#1e293b"; stroke: "#38bdf8"; color: "#f8fafc" }
-  green: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
-  swap: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-}
-
-blue_active: "1. Active Blue Production" {
-  bi: "Live BI Dashboard" { class: blue }
-  view: "Public View: v_orders" { fill: "#155e75"; stroke: "#22d3ee"; color: "#67e8f9" }
-  t_blue: "orders_v1 (Blue)" { class: blue }
-
-  bi -> view -> t_blue
-}
-
-green_stage: "2. Deploy Green in Parallel" {
-  pipe: "v2 Pipeline Code" { class: green }
-  t_green: "orders_v2 (Green)" { class: green }
-  dq: "Data Quality Gate" { fill: "#451a03"; stroke: "#fbbf24"; color: "#fde68a" }
-
-  pipe -> t_green -> dq
-}
-
-atomic_cutover: "3. Instant Atomic Pointer Cutover" {
-  swap: "CREATE OR REPLACE VIEW v_orders\nAS SELECT * FROM orders_v2;" { class: swap }
-  swapped_bi: "BI Queries Instantly Directed to Green\n(Zero Downtime)" { class: green }
-
-  swap -> swapped_bi
-}
-
-green_stage.dq -> atomic_cutover.swap: "Tests Pass!"
-```
-</details>
+*D2 Source: [`45_blue_green_zero_downtime_pipeline_deployment.d2`](assets/08_etl_pipelines_orchestration_and_data_quality/45_blue_green_zero_downtime_pipeline_deployment.d2)*
 
 ---
 

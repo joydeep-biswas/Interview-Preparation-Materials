@@ -1,5 +1,5 @@
 classes: {
-  heap_container: {
+  heap_container: "" {
     style: {
       fill: "#0f172a"
       stroke: "#38bdf8"
@@ -7,7 +7,7 @@ classes: {
       stroke-dash: 4
     }
   }
-  tuple_dead: {
+  tuple_dead: "" {
     style: {
       fill: "#1e1b2e"
       stroke: "#f87171"
@@ -15,7 +15,7 @@ classes: {
       font-color: "#fca5a5"
     }
   }
-  tuple_live: {
+  tuple_live: "" {
     style: {
       fill: "#0f291e"
       stroke: "#4ade80"
@@ -28,11 +28,11 @@ classes: {
 heap: "Table Heap Page (8 KB Data Block)" {
   class: heap_container
 
-  t1: "Tuple 1 (Dead Version - Balance: $100.00)\nxmin: 100 | xmax: 105\nt_ctid: (Block 0, Slot 2)\nStatus: Invisible to snapshots > 105" {
+  t1: "Tuple 1 (Dead Version - Balance: \$100.00)\nxmin: 100 | xmax: 105\nt_ctid: (Block 0, Slot 2)\nStatus: Invisible to snapshots > 105" {
     class: tuple_dead
   }
 
-  t2: "Tuple 2 (Current Version - Balance: $150.00)\nxmin: 105 | xmax: 0 (Live)\nt_ctid: (Block 0, Slot 2) [Self]\nStatus: Visible to active TX" {
+  t2: "Tuple 2 (Current Version - Balance: \$150.00)\nxmin: 105 | xmax: 0 (Live)\nt_ctid: (Block 0, Slot 2) [Self]\nStatus: Visible to active TX" {
     class: tuple_live
   }
 

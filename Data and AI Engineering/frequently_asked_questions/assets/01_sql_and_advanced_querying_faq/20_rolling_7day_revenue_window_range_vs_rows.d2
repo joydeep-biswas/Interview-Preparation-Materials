@@ -1,10 +1,9 @@
 direction: right
 classes: {
-  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
 }
 
 problem: "Problem: Sparse Dates (Missing Oct 2, 3, 4)\nROWS BETWEEN 6 PRECEDING takes prior 6 physical records\nCovers 12 calendar days instead of 7 -> INCORRECT!" {
-  class: box
   style.stroke: "#EF4444"
 }
 
@@ -13,7 +12,7 @@ spine: "dim_date Calendar Spine\nGenerates continuous sequence Oct 1..Oct 7" {
   style.stroke: "#3B82F6"
 }
 
-coalesce: "LEFT JOIN & COALESCE(sales, 0)\nFills sparse gaps with $0.00" {
+coalesce: "LEFT JOIN & COALESCE(sales, 0)\nFills sparse gaps with \$0.00" {
   class: box
   style.stroke: "#F59E0B"
 }

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Left: S3 Raw -->
+  <g transform="translate(25, 130)">
+    <rect width="200" height="115" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="100" y="24" class="title" fill="#93C5FD">Amazon S3 Raw Ingest</text>
+    <text x="14" y="48" class="body-txt">• Semi-structured files</text>
+    <text x="14" y="68" class="body-txt">• Mutated / new columns</text>
+    <text x="14" y="88" class="body-txt">• Raw partition drops</text>
+  </g>
+
+  <!-- Connect S3 to Metadata Plane (Top) -->
+  <path d="M 225 160 L 255 160 Q 270 160 270 75 L 285 75 L 295 75" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+
+  <!-- Connect S3 to Data Plane (Bottom) -->
+  <path d="M 225 210 L 255 210 Q 270 210 270 295 L 285 295 L 295 295" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Top Center: Glue Crawler -->
+  <g transform="translate(295, 20)">
+    <rect width="240" height="110" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="120" y="24" class="title" fill="#FDE68A">AWS Glue Crawler</text>
+    <text x="14" y="48" class="body-txt">• Add new columns only policy</text>
+    <text x="14" y="68" class="body-txt">• Ignore type changes (no breaks)</text>
+    <text x="14" y="88" class="body-txt">• Runs on scheduled cadence</text>
+  </g>
+
+  <!-- Connect Glue Crawler to Catalog -->
+  <path d="M 535 75 L 575 75" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+
+  <!-- Top Right Center: Glue Catalog -->
+  <g transform="translate(575, 20)">
+    <rect width="210" height="110" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="105" y="24" class="title" fill="#FDE68A">AWS Glue Data Catalog</text>
+    <text x="14" y="48" class="body-txt">• Table DDL schema updated</text>
+    <text x="14" y="68" class="body-txt">• New columns marked NULLABLE</text>
+    <text x="14" y="88" class="body-txt">• Hive-metastore compatible</text>
+  </g>
+
+  <!-- Bottom Center: Glue PySpark Job -->
+  <g transform="translate(295, 240)">
+    <rect width="240" height="110" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="120" y="24" class="title" fill="#C4B5FD">AWS Glue PySpark ETL Job</text>
+    <text x="14" y="48" class="body-txt">• DynamicFrame schema-on-read</text>
+    <text x="14" y="68" class="body-txt">• resolveChoice(cast: string)</text>
+    <text x="14" y="88" class="body-txt">• Eliminates ChoiceType ambiguities</text>
+  </g>
+
+  <!-- Connect Glue Job to Clean S3 -->
+  <path d="M 535 295 L 575 295" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Bottom Right Center: Clean S3 Parquet -->
+  <g transform="translate(575, 240)">
+    <rect width="210" height="110" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="105" y="24" class="title" fill="#A7F3D0">Cleaned S3 Lakehouse</text>
+    <text x="14" y="48" class="body-txt">• Normalized Parquet storage</text>
+    <text x="14" y="68" class="body-txt">• Snappy compression</text>
+    <text x="14" y="88" class="body-txt">• Partition projection ready</text>
+  </g>
+
+  <!-- Connect Catalog and Clean S3 to Athena Terminal (Far Right) -->
+  <path d="M 785 75 L 810 75 Q 825 75 825 160 L 838 160 L 845 160" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+  <path d="M 785 295 L 810 295 Q 825 295 825 210 L 838 210 L 845 210" fill="none" stroke="#10B981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+  <!-- Far Right: Athena & Consumer Analytics -->
+  <g transform="translate(845, 130)">
+    <rect width="150" height="115" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="75" y="24" class="title" fill="#A7F3D0">Amazon Athena</text>
+    <text x="10" y="48" class="body-txt">• Zero query failures</text>
+    <text x="10" y="68" class="body-txt">• Instant schema sync</text>
+    <text x="10" y="88" class="body-txt">• QuickSight dashboards</text>
+  </g>
+</svg>

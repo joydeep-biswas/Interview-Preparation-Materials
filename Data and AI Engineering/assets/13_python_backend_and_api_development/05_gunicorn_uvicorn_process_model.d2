@@ -1,7 +1,7 @@
 direction: right
 classes: {
-  master: { fill: "#581c87"; stroke: "#c084fc"; color: "#e9d5ff" }
-  worker: { fill: "#064e3b"; stroke: "#34d399"; color: "#a7f3d0" }
+  master: { style: { fill: "#581c87"; stroke: "#c084fc"; font-color: "#e9d5ff" } }
+  worker: { style: { fill: "#064e3b"; stroke: "#34d399"; font-color: "#a7f3d0" } }
 }
 
 gunicorn: "Gunicorn Master Daemon\n(Signal handling SIGHUP/SIGTERM\nSupervises PIDs)" { class: master }

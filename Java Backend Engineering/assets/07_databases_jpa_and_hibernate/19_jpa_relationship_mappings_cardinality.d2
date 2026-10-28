@@ -1,28 +1,30 @@
 direction: right
 title: "JPA Relationship Mappings & Fetch Strategies"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-customer: "CustomerEntity (1)
-Inverse Side
-@OneToMany(mappedBy='customer')
-orders: List<OrderEntity>" {
+customer: "CustomerEntity (1)\nInverse Side\n@OneToMany(mappedBy='customer')\norders: List<OrderEntity>" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#3b82f6"
 }
 
-order: "OrderEntity (N)
-Owning Side of Customer FK
-@ManyToOne(fetch=LAZY)
-@JoinColumn(name='customer_id')
-customer: CustomerEntity" {
+order: "OrderEntity (N)\nOwning Side of Customer FK\n@ManyToOne(fetch=LAZY)\n@JoinColumn(name='customer_id')\ncustomer: CustomerEntity" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#10b981"
 }
 
-item: "OrderItemEntity (N)
-Owning Side of Order FK
-@ManyToOne(fetch=LAZY)
-@JoinColumn(name='order_id')
-order: OrderEntity" {
+item: "OrderItemEntity (N)\nOwning Side of Order FK\n@ManyToOne(fetch=LAZY)\n@JoinColumn(name='order_id')\norder: OrderEntity" {
+  class: container
   style.fill: "#0f172a"
   style.stroke: "#f59e0b"
 }

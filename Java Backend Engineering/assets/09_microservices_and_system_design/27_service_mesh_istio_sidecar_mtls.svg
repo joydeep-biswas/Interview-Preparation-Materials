@@ -26,11 +26,11 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
-  <rect width="1080" height="560" rx="10" fill="url(#bg)"/>
+  <rect width="1080" height="560" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
   <text x="540" y="36" fill="#F8FAFC" font-size="18" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Service Mesh Architecture: Istio &amp; Envoy Sidecar Proxies</text>
   <text x="540" y="58" fill="#94A3B8" font-size="12" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Transparent Zero-Trust Mutual TLS (mTLS), Spiffe Identity, and Traffic Management Without Application Changes</text>
 <rect x="50" y="110" width="420" height="320" rx="10" fill="#0b1329" stroke="#3b82f6" stroke-width="2"/>
-<rect x="65" y="125" width="240" height="22" rx="11" fill="#1e3a8a"/><text x="185" y="139" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POD: order-service-7f89b</text>
+<rect x="65" y="125" width="240" height="22" rx="11" fill="#1e3a8a" stroke="#3B82F6" stroke-width="1"/><text x="185" y="139" fill="#93C5FD" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POD: order-service-7f89b</text>
 <rect x="70" y="170" width="380" height="95" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
 <text x="260" y="195" fill="#60A5FA" font-size="11" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Spring Boot Application Container</text>
 <text x="260" y="215" fill="#CBD5E1" font-size="8.5" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Makes plain HTTP call to 'http://payment-service'</text>
@@ -43,7 +43,7 @@
 <line x1="260" y1="265" x2="260" y2="295" stroke="#38BDF8" stroke-width="2" marker-end="url(#arr-b)"/>
 <text x="340" y="282" fill="#94A3B8" font-size="8" font-weight="600" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Localhost (Loopback)</text>
 <rect x="610" y="110" width="420" height="320" rx="10" fill="#1a140b" stroke="#f59e0b" stroke-width="2"/>
-<rect x="625" y="125" width="260" height="22" rx="11" fill="#78350f"/><text x="755" y="139" fill="#FDE68A" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POD: payment-service-3c41a</text>
+<rect x="625" y="125" width="260" height="22" rx="11" fill="#78350f" stroke="#F59E0B" stroke-width="1"/><text x="755" y="139" fill="#FDE68A" font-size="10" font-weight="700" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">POD: payment-service-3c41a</text>
 <rect x="630" y="170" width="380" height="110" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="2"/>
 <text x="820" y="195" fill="#22D3EE" font-size="12" font-weight="800" font-family="system-ui, -apple-system, sans-serif" text-anchor="middle">Envoy Sidecar Proxy (C++)</text>
 <text x="645" y="220" fill="#CBD5E1" font-size="8.5" font-weight="400" font-family="system-ui, -apple-system, sans-serif" text-anchor="start">• Terminates mTLS tunnel from Envoy 1</text>

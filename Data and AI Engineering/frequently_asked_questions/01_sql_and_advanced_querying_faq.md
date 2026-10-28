@@ -113,6 +113,14 @@ A comprehensive, production-grade guide answering real-time and advanced SQL int
     - [Q75. Consecutive Delivery Streaks Above Rating Threshold (DoorDash Dasher Scenario)](#q75-medium-consecutive-delivery-streaks-above-rating-threshold-doordash-dasher-scenario)
     - [Q76. Top Customers by Revenue with Multi-Category Cross-Shopping Diversity](#q76-medium-top-customers-by-revenue-with-multi-category-cross-shopping-diversity)
     - [Q77. Production Metric Mismatch Triage: Diagnostic SQL Runbook for Revenue Discrepancies](#q77-hard-production-metric-mismatch-triage-diagnostic-sql-runbook-for-revenue-discrepancies)
+31. **Financial Window Velocity, MoM Growth & Multi-Tier Aggregations**
+    - [Q78. Month-over-Month Customer Spending Growth > 50% with Zero-Division Protection](#q78-medium-month-over-month-customer-spending-growth--50-with-zero-division-protection)
+    - [Q79. Rolling 24-Hour Account Transaction Velocity & Threshold Violation Detection](#q79-medium-rolling-24-hour-account-transaction-velocity--threshold-violation-detection)
+    - [Q80. Customer Daily Average Transaction Amount Across Active Days](#q80-easy-customer-daily-average-transaction-amount-across-active-days)
+    - [Q81. Finding the Nth Highest Salary: Comparing DENSE_RANK(), OFFSET/LIMIT, Correlated Subqueries & NTH_VALUE()](#q81-medium-finding-the-nth-highest-salary-comparing-dense_rank-offsetlimit-correlated-subqueries--nth_value)
+    - [Q82. Finding Unpurchased Products in the Last Month: NOT EXISTS vs. LEFT JOIN vs. NOT IN (The Three-Valued Logic NULL Hazard)](#q82-medium-finding-unpurchased-products-in-the-last-month-not-exists-vs-left-join-vs-not-in-the-three-valued-logic-null-hazard)
+    - [Q83. Self-Join Hierarchy: Finding Each Employee's Manager's Manager (Handling Root Nodes & NULLs)](#q83-easy-self-join-hierarchy-finding-each-employees-managers-manager-handling-root-nodes--nulls)
+    - [Q84. Join Row Count Cardinality Puzzle: Duplicate Keys, Cartesian Cross-Products & NULL Equi-Join Semantics](#q84-medium-join-row-count-cardinality-puzzle-duplicate-keys-cartesian-cross-products--null-equi-join-semantics)
 ---
 
 # 1. Logical Query Execution Order & Core Architecture
@@ -130,7 +138,7 @@ While SQL queries are written starting with `SELECT`, the database management sy
 #### Visual Flow
 ![SQL Logical Query Processing Stages](assets/01_sql_and_advanced_querying_faq/01_sql_logical_query_processing_stages.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/01_sql_logical_query_processing_stages.d2](assets/01_sql_and_advanced_querying_faq/01_sql_logical_query_processing_stages.d2)
+*D2 Source: [`01_sql_logical_query_processing_stages.d2`](assets/01_sql_and_advanced_querying_faq/01_sql_logical_query_processing_stages.d2)*
 
 #### Engineering Implications
 1. **Alias Invisibility in WHERE:** `WHERE total_amount > 100` fails if `total_amount` is defined in `SELECT` as `SELECT (qty * price) AS total_amount`. The `WHERE` clause executes at Step 2, long before `SELECT` creates the alias at Step 5.
@@ -202,7 +210,7 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY mv_customer_order_summary;
 #### Systematic Troubleshooting Playbook (The 5-Step Diagnostic Protocol)
 ![5-Step SQL Performance Diagnostic Protocol](assets/01_sql_and_advanced_querying_faq/02_sql_performance_diagnostic_protocol.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/02_sql_performance_diagnostic_protocol.d2](assets/01_sql_and_advanced_querying_faq/02_sql_performance_diagnostic_protocol.d2)
+*D2 Source: [`02_sql_performance_diagnostic_protocol.d2`](assets/01_sql_and_advanced_querying_faq/02_sql_performance_diagnostic_protocol.d2)*
 
 ---
 
@@ -731,7 +739,7 @@ HAVING
 
 ![Window Analytical Offsets: LAG vs LEAD Execution](assets/01_sql_and_advanced_querying_faq/03_window_analytical_offsets_lag_vs_lead.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/03_window_analytical_offsets_lag_vs_lead.d2](assets/01_sql_and_advanced_querying_faq/03_window_analytical_offsets_lag_vs_lead.d2)
+*D2 Source: [`03_window_analytical_offsets_lag_vs_lead.d2`](assets/01_sql_and_advanced_querying_faq/03_window_analytical_offsets_lag_vs_lead.d2)*
 
 ```sql
 WITH monthly_customer_spend AS (
@@ -950,7 +958,7 @@ Recursive CTEs traverse hierarchical trees or graph relationships. Runaway recur
 
 ![Cyclic Graph Loop Hazard: Runaway Recursion Prevention](assets/01_sql_and_advanced_querying_faq/04_cyclic_graph_loop_hazard_runaway_recursion.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/04_cyclic_graph_loop_hazard_runaway_recursion.d2](assets/01_sql_and_advanced_querying_faq/04_cyclic_graph_loop_hazard_runaway_recursion.d2)
+*D2 Source: [`04_cyclic_graph_loop_hazard_runaway_recursion.d2`](assets/01_sql_and_advanced_querying_faq/04_cyclic_graph_loop_hazard_runaway_recursion.d2)*
 
 #### Production Query: Organizational Hierarchy with Cycle Detection & MAXRECURSION
 ```sql
@@ -1051,7 +1059,7 @@ Partition switching does **not** perform physical I/O or copy data blocks across
 
 ![Metadata Partition Switching: Zero-Copy Pointer Reassignment](assets/01_sql_and_advanced_querying_faq/05_metadata_partition_switching_zero_copy.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/05_metadata_partition_switching_zero_copy.d2](assets/01_sql_and_advanced_querying_faq/05_metadata_partition_switching_zero_copy.d2)
+*D2 Source: [`05_metadata_partition_switching_zero_copy.d2`](assets/01_sql_and_advanced_querying_faq/05_metadata_partition_switching_zero_copy.d2)*
 
 #### Strict Prerequisites for Partition Switching
 - Both source and target tables must exist on the exact same filegroup.
@@ -1079,7 +1087,7 @@ Partition switching does **not** perform physical I/O or copy data blocks across
 
 ![FULL OUTER JOIN Evaluation & Symmetric Difference](assets/01_sql_and_advanced_querying_faq/06_full_outer_join_evaluation_mechanics.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/06_full_outer_join_evaluation_mechanics.d2](assets/01_sql_and_advanced_querying_faq/06_full_outer_join_evaluation_mechanics.d2)
+*D2 Source: [`06_full_outer_join_evaluation_mechanics.d2`](assets/01_sql_and_advanced_querying_faq/06_full_outer_join_evaluation_mechanics.d2)*
 
 ##### Relational Pattern Comparison: Symmetric Difference
 
@@ -1430,7 +1438,7 @@ ORDER BY rating_drop ASC;
 #### Visual Flow
 ![Fraud Detection: Temporal LAG Proximity Flagging](assets/01_sql_and_advanced_querying_faq/07_fraud_detection_window_lag_proximity_flagging.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/07_fraud_detection_window_lag_proximity_flagging.d2](assets/01_sql_and_advanced_querying_faq/07_fraud_detection_window_lag_proximity_flagging.d2)
+*D2 Source: [`07_fraud_detection_window_lag_proximity_flagging.d2`](assets/01_sql_and_advanced_querying_faq/07_fraud_detection_window_lag_proximity_flagging.d2)*
 
 #### Production Implementation: Method 1 – Window LAG (Recommended: O(N log N))
 ```sql
@@ -1696,11 +1704,11 @@ ORDER BY category_id, rank_in_category;
 - Find customers who purchased in every single category at least once in the last 90 days. How do you optimize this query for 500 million customer records?
 
 #### The Relational Division Problem
-Let $C$ be the total count of distinct active categories ($|C|$). We need all customers where $|	ext{Categories Purchased by Customer}| = |C|$.
+Let $C$ be the total count of distinct active categories ($|C|$). We need all customers where $|\text{Categories Purchased by Customer}| = |C|$.
 On 500M records, a naive `COUNT(DISTINCT category_id)` over raw transactions causes massive shuffle and hash aggregation memory spills.
 
 #### Production Optimization Strategies:
-1. **Pre-aggregate to Customer-Category Pairs:** First deduplicate `(customer_id, category_id)` so the subsequent aggregation operates on at most $N_{customers} 	imes N_{categories}$ rows.
+1. **Pre-aggregate to Customer-Category Pairs:** First deduplicate `(customer_id, category_id)` so the subsequent aggregation operates on at most $N_{\text{customers}} \times N_{\text{categories}}$ rows.
 2. **Deterministic Category Count via CTE:** Compute total category count once in a scalar subquery to allow optimizer broadcast.
 3. **HyperLogLog / Bitmap Aggregation (Warehouse-Specific):** In systems like Snowflake or ClickHouse, use integer bitmaps (`BITMAP_CONSTRUCT_AGG`) or integer masks.
 
@@ -1885,7 +1893,7 @@ ORDER BY account_id, transaction_timestamp, transaction_id;
 #### Visual Flow
 ![CTE Materialization & Window Frame Aggregation](assets/01_sql_and_advanced_querying_faq/08_cte_materialization_and_window_aggregation.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/08_cte_materialization_and_window_aggregation.d2](assets/01_sql_and_advanced_querying_faq/08_cte_materialization_and_window_aggregation.d2)
+*D2 Source: [`08_cte_materialization_and_window_aggregation.d2`](assets/01_sql_and_advanced_querying_faq/08_cte_materialization_and_window_aggregation.d2)*
 
 #### Production Implementation
 ```sql
@@ -2035,7 +2043,7 @@ Relational projections restrict output attributes (columns) while filter predica
 #### Visual Flow
 ![Predicate Pushdown & Branching Execution Flow](assets/01_sql_and_advanced_querying_faq/09_predicate_pushdown_and_filtering_mechanics.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/09_predicate_pushdown_and_filtering_mechanics.d2](assets/01_sql_and_advanced_querying_faq/09_predicate_pushdown_and_filtering_mechanics.d2)
+*D2 Source: [`09_predicate_pushdown_and_filtering_mechanics.d2`](assets/01_sql_and_advanced_querying_faq/09_predicate_pushdown_and_filtering_mechanics.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2077,7 +2085,7 @@ Deduplicating emails is a classic LeetCode (Problem 182) and enterprise CRM sani
 #### Visual Flow
 ![Duplicate Email Detection: Hash Aggregate & HAVING Filter](assets/01_sql_and_advanced_querying_faq/10_duplicate_email_detection_hash_aggregation.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/10_duplicate_email_detection_hash_aggregation.d2](assets/01_sql_and_advanced_querying_faq/10_duplicate_email_detection_hash_aggregation.d2)
+*D2 Source: [`10_duplicate_email_detection_hash_aggregation.d2`](assets/01_sql_and_advanced_querying_faq/10_duplicate_email_detection_hash_aggregation.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2109,13 +2117,13 @@ WHERE p1.email = p2.email
 
 #### Definition & Core Concepts
 Finding the $N$-th highest value requires handling two critical edge cases:
-1. **Duplicate Top Salaries:** Multiple employees may share the identical maximum salary ($100k, $100k, $90k $\to$ 2nd highest is $90k, not $100k). Must use `DISTINCT`.
+1. **Duplicate Top Salaries:** Multiple employees may share the identical maximum salary (\$100k, \$100k, \$90k $\to$ 2nd highest is \$90k, not \$100k). Must use `DISTINCT`.
 2. **No Second Highest Value:** If the table contains only 1 employee (or empty), the query must deterministically return `NULL`, not an empty rowset.
 
 #### Visual Flow
 ![Nth Highest Salary: Deduplication & Offset Retrieval](assets/01_sql_and_advanced_querying_faq/11_nth_highest_salary_dense_rank_mechanics.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/11_nth_highest_salary_dense_rank_mechanics.d2](assets/01_sql_and_advanced_querying_faq/11_nth_highest_salary_dense_rank_mechanics.d2)
+*D2 Source: [`11_nth_highest_salary_dense_rank_mechanics.d2`](assets/01_sql_and_advanced_querying_faq/11_nth_highest_salary_dense_rank_mechanics.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2152,7 +2160,7 @@ An adjacency list hierarchy stores the relationship directly on the employee row
 #### Visual Flow
 ![Self-Join: Employee vs Manager Salary Evaluation](assets/01_sql_and_advanced_querying_faq/12_self_join_employee_manager_hierarchy.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/12_self_join_employee_manager_hierarchy.d2](assets/01_sql_and_advanced_querying_faq/12_self_join_employee_manager_hierarchy.d2)
+*D2 Source: [`12_self_join_employee_manager_hierarchy.d2`](assets/01_sql_and_advanced_querying_faq/12_self_join_employee_manager_hierarchy.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2182,7 +2190,7 @@ Leaderboards that rank entities on average performance metrics (driver ratings, 
 #### Visual Flow
 ![Aggregation Pipeline: GROUP BY, HAVING Gate & Window Ranking](assets/01_sql_and_advanced_querying_faq/13_aggregation_group_by_having_filter_pipeline.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/13_aggregation_group_by_having_filter_pipeline.d2](assets/01_sql_and_advanced_querying_faq/13_aggregation_group_by_having_filter_pipeline.d2)
+*D2 Source: [`13_aggregation_group_by_having_filter_pipeline.d2`](assets/01_sql_and_advanced_querying_faq/13_aggregation_group_by_having_filter_pipeline.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2237,7 +2245,7 @@ When distributed streams or operational CDC pipelines emit duplicate records for
 #### Visual Flow
 ![ROW_NUMBER() Window Partition Deduplication](assets/01_sql_and_advanced_querying_faq/14_row_number_deduplication_window_partition.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/14_row_number_deduplication_window_partition.d2](assets/01_sql_and_advanced_querying_faq/14_row_number_deduplication_window_partition.d2)
+*D2 Source: [`14_row_number_deduplication_window_partition.d2`](assets/01_sql_and_advanced_querying_faq/14_row_number_deduplication_window_partition.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2278,12 +2286,12 @@ WHERE row_num = 1;
 
 #### Definition & Core Concepts
 Unlike `GROUP BY` (which collapses rows into a single summary tuple), **Window Functions** compute aggregate or ranking metrics across a subset of rows (the "window") while **preserving individual row identity**.
-$$\text{Syntax: } \text{FUNCTION}() \text{ OVER } (\text{PARTITION BY } C_1 \text{ ORDER BY } C_2 \text{ [FRAME]})$$
+$$|A \times B| = |A| \times |B|$$\text{Syntax: } \text{FUNCTION}() \text{ OVER } (\text{PARTITION BY } C_1 \text{ ORDER BY } C_2 \text{ [FRAME]})$$|A \times B| = |A| \times |B|$$
 
 #### Visual Flow
 ![Window Partitioning & Framing Mechanics](assets/01_sql_and_advanced_querying_faq/15_window_frame_range_between_unbounded_preceding.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/15_window_frame_range_between_unbounded_preceding.d2](assets/01_sql_and_advanced_querying_faq/15_window_frame_range_between_unbounded_preceding.d2)
+*D2 Source: [`15_window_frame_range_between_unbounded_preceding.d2`](assets/01_sql_and_advanced_querying_faq/15_window_frame_range_between_unbounded_preceding.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2326,7 +2334,7 @@ Detecting churn or dormancy requires finding entities in a primary table (`Custo
 #### Visual Flow
 ![Anti-Join Mechanics: NOT EXISTS vs LEFT JOIN / IS NULL](assets/01_sql_and_advanced_querying_faq/16_anti_join_not_exists_vs_left_join_null.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/16_anti_join_not_exists_vs_left_join_null.d2](assets/01_sql_and_advanced_querying_faq/16_anti_join_not_exists_vs_left_join_null.d2)
+*D2 Source: [`16_anti_join_not_exists_vs_left_join_null.d2`](assets/01_sql_and_advanced_querying_faq/16_anti_join_not_exists_vs_left_join_null.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2378,7 +2386,7 @@ Analyzing consecutive activity periods requires converting exact order timestamp
 #### Visual Flow
 ![Retention Cohort Analysis: Monthly LAG & Gap Detection](assets/01_sql_and_advanced_querying_faq/17_retention_cohort_analysis_monthly_activity.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/17_retention_cohort_analysis_monthly_activity.d2](assets/01_sql_and_advanced_querying_faq/17_retention_cohort_analysis_monthly_activity.d2)
+*D2 Source: [`17_retention_cohort_analysis_monthly_activity.d2`](assets/01_sql_and_advanced_querying_faq/17_retention_cohort_analysis_monthly_activity.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2433,7 +2441,7 @@ In clickstream telemetry, web events do not carry explicit session IDs. A "sessi
 #### Visual Flow
 ![Sessionization: Inactivity Gap Detection & Cumulative SUM](assets/01_sql_and_advanced_querying_faq/18_sessionization_window_lag_gap_detection.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/18_sessionization_window_lag_gap_detection.d2](assets/01_sql_and_advanced_querying_faq/18_sessionization_window_lag_gap_detection.d2)
+*D2 Source: [`18_sessionization_window_lag_gap_detection.d2`](assets/01_sql_and_advanced_querying_faq/18_sessionization_window_lag_gap_detection.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2645,19 +2653,19 @@ ORDER BY d.year, d.month NULLS FIRST, total_revenue DESC;
 
 #### Definition & Core Concepts
 In relational algebra, listing tables separated by a comma without an explicit `ON` or `WHERE` clause (`SELECT * FROM A, B`) denotes a **Cartesian Product (CROSS JOIN)**:
-$$|A 	imes B| = |A| 	imes |B|$$
+$$|A \times B| = |A| \times |B|$$|$$|A \times B| = |A| \times |B|$$
 1. **Initial State ($|A|=10, |B|=20$):**
    Every row in Table A is paired with every row in Table B. The query produces:
-   $$10 	imes 20 = 200 	ext{ rows}$$
+   $$|A \times B| = |A| \times |B|$$10 \times 20 = 200 \text{ rows}$$|A \times B| = |A| \times |B|$$
 2. **Post-Deletion State ($|A|=0, |B|=20$):**
    When all rows from Table A are deleted (`DELETE FROM A;`), Table A becomes an empty relation (cardinality 0). The Cartesian product requires a tuple $(a, b)$ where $a \in A$ and $b \in B$. Since there is no element $a \in A$, the Cartesian product yields:
-   $$0 	imes 20 = 0 	ext{ rows}$$
+   $$|A \times B| = |A| \times |B|$$0 \times 20 = 0 \text{ rows}$$|A \times B| = |A| \times |B|$$
    The query returns exactly **0 rows (an empty result set)**. It does **not** return 20 rows with NULLs for Table A (which only occurs in a `RIGHT OUTER JOIN`).
 
 #### Visual Flow
 ![Cross Join Cartesian Product Blast Radius](assets/01_sql_and_advanced_querying_faq/19_cross_join_cartesian_product_blast_radius.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/19_cross_join_cartesian_product_blast_radius.d2](assets/01_sql_and_advanced_querying_faq/19_cross_join_cartesian_product_blast_radius.d2)
+*D2 Source: [`19_cross_join_cartesian_product_blast_radius.d2`](assets/01_sql_and_advanced_querying_faq/19_cross_join_cartesian_product_blast_radius.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2688,11 +2696,11 @@ FROM table_a
 RIGHT JOIN table_b ON 1=1;
 -- Result: 20 rows (with val_a populated as NULL)
 ```
-- **Time Complexity:** $O(|A| 	imes |B|)$ physical nested loop or broadcast cross-join scan. When $|A|=0$, the scan short-circuits in $O(1)$.
-- **Space Complexity:** $O(1)$ streaming memory if projected directly, or $O(|A| 	imes |B|)$ if buffered into temporary query spool memory.
+- **Time Complexity:** $O(|A| \times |B|)$ physical nested loop or broadcast cross-join scan. When $|A|=0$, the scan short-circuits in $O(1)$.
+- **Space Complexity:** $O(1)$ streaming memory if projected directly, or $O(|A| \times |B|)$ if buffered into temporary query spool memory.
 
 #### Engineering Implications & Production Pitfalls
-1. **Accidental Cartesian Explosions:** Forgetting a join predicate on large tables (e.g. joining a 1M row orders table with a 500k row customer table) produces $5 	imes 10^{11}$ records (500 billion rows), immediately exhausting tempdb/disk spool and triggering database crashes.
+1. **Accidental Cartesian Explosions:** Forgetting a join predicate on large tables (e.g. joining a 1M row orders table with a 500k row customer table) produces $5 \times 10^{11}$ records (500 billion rows), immediately exhausting tempdb/disk spool and triggering database crashes.
 2. **Anti-Pattern of Comma Joins:** ANSI SQL-89 syntax (`FROM A, B`) is strongly discouraged in enterprise engineering standards. Always use explicit ANSI SQL-92 `CROSS JOIN` syntax to make intent clear and prevent accidental missing join conditions during refactoring.
 
 #### Core Curriculum Cross-Reference
@@ -2715,12 +2723,12 @@ To calculate a true chronological 7-day moving average when dates are sparse:
 2. **Method 2: Logical Range Windowing:**
    Use ANSI SQL `RANGE` window frames:
    `AVG(daily_revenue) OVER (ORDER BY transaction_date RANGE BETWEEN INTERVAL '6 DAYS' PRECEDING AND CURRENT ROW)`
-   *(Note: This averages only the recorded days within the 7-day calendar window; if missing days should contribute $0, a date spine is strictly required).*
+   *(Note: This averages only the recorded days within the 7-day calendar window; if missing days should contribute \$0, a date spine is strictly required).*
 
 #### Visual Flow
 ![Rolling 7-Day Window: Sparse Date Spining & Framing](assets/01_sql_and_advanced_querying_faq/20_rolling_7day_revenue_window_range_vs_rows.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/20_rolling_7day_revenue_window_range_vs_rows.d2](assets/01_sql_and_advanced_querying_faq/20_rolling_7day_revenue_window_range_vs_rows.d2)
+*D2 Source: [`20_rolling_7day_revenue_window_range_vs_rows.d2`](assets/01_sql_and_advanced_querying_faq/20_rolling_7day_revenue_window_range_vs_rows.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2796,7 +2804,7 @@ Using `ROW_NUMBER()` guarantees exactly one winning record per employee even if 
 #### Visual Flow
 ![SCD Type 2 Effective Date Interval Audit](assets/01_sql_and_advanced_querying_faq/21_scd_type2_effective_date_interval_audit.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/21_scd_type2_effective_date_interval_audit.d2](assets/01_sql_and_advanced_querying_faq/21_scd_type2_effective_date_interval_audit.d2)
+*D2 Source: [`21_scd_type2_effective_date_interval_audit.d2`](assets/01_sql_and_advanced_querying_faq/21_scd_type2_effective_date_interval_audit.d2)*
 
 #### Production Implementation / Code Solution
 ```sql
@@ -2830,7 +2838,7 @@ ORDER BY employee_id;
 
 #### Engineering Implications & Production Pitfalls
 1. **Correlated Subquery Anti-Pattern:** A naive approach joins against `(SELECT employee_id, MAX(effective_date) FROM history GROUP BY employee_id)`. If an employee received two role transfers on the same date, the inner join returns duplicate rows. Window `ROW_NUMBER()` with a deterministic tie-breaker (`change_id DESC`) prevents pipeline-breaking cardinality blowups.
-2. **Indexing Optimization:** For large tables ($>100	ext{M}$ rows), optimize this window operation by creating a composite B-Tree index on `(employee_id, effective_date DESC, change_id DESC)`. The database engine scans the index in-order, skipping expensive in-memory sort stages entirely.
+2. **Indexing Optimization:** For large tables ($>100\text{M}$ rows), optimize this window operation by creating a composite B-Tree index on `(employee_id, effective_date DESC, change_id DESC)`. The database engine scans the index in-order, skipping expensive in-memory sort stages entirely.
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [02. Advanced SQL: Window Functions & Ranking Mechanics](../01_sql_and_advanced_querying.md#13-window-functions--analytical-sql)*
@@ -2853,7 +2861,7 @@ When an incident is reported, the Senior Data Engineer must execute a structured
 #### Visual Flow
 ![Query Latency Spill to Disk Troubleshooting](assets/01_sql_and_advanced_querying_faq/22_query_latency_spill_to_disk_troubleshooting.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/22_query_latency_spill_to_disk_troubleshooting.d2](assets/01_sql_and_advanced_querying_faq/22_query_latency_spill_to_disk_troubleshooting.d2)
+*D2 Source: [`22_query_latency_spill_to_disk_troubleshooting.d2`](assets/01_sql_and_advanced_querying_faq/22_query_latency_spill_to_disk_troubleshooting.d2)*
 
 #### Production Implementation / Diagnostic Playbook
 ```sql
@@ -2915,7 +2923,7 @@ CREATE POLICY tenant_isolation_policy ON fact_orders
 #### Physical Execution Cost Comparison
 ![UNION ALL vs UNION DISTINCT Memory Overhead](assets/01_sql_and_advanced_querying_faq/23_union_all_vs_union_distinct_memory_overhead.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/23_union_all_vs_union_distinct_memory_overhead.d2](assets/01_sql_and_advanced_querying_faq/23_union_all_vs_union_distinct_memory_overhead.d2)
+*D2 Source: [`23_union_all_vs_union_distinct_memory_overhead.d2`](assets/01_sql_and_advanced_querying_faq/23_union_all_vs_union_distinct_memory_overhead.d2)*
 
 #### Production Rule of Thumb
 Always default to **`UNION ALL`** unless duplicate elimination across streams is explicitly mandated by business logic and the source tables are known to share overlapping records. If the two inputs originate from disjoint partitions (e.g., `orders_2024` and `orders_2025`), using `UNION` wastes enormous CPU and memory cycles checking for duplicates that physically cannot exist.
@@ -2999,7 +3007,7 @@ ORDER BY user_id, failed_at;
 
 #### The Date-Subtraction Island Technique
 A classic SQL interview problem. Naïve solutions attempting triple self-joins fail on performance ($O(N^3)$). The optimal mathematical pattern subtracts a monotonic sequence (`ROW_NUMBER`) from the transaction date:
-$$\text{Island Group} = \text{txn\_date} - \text{ROW\_NUMBER}() \text{ days}$$
+$$|A \times B| = |A| \times |B|$$\text{Island Group} = \text{txn\_date} - \text{ROW\_NUMBER}() \text{ days}$$|A \times B| = |A| \times |B|$$
 If dates are consecutive ($D_1, D_2, D_3$), subtracting ($1, 2, 3$) yields the **exact same anchor date**, proving they belong to the same continuous streak.
 
 ```sql
@@ -3055,7 +3063,7 @@ When extracting top $N$ ranked entities (e.g. salaries, revenue tiers), three wi
 
 ![Ranking Functions: ROW_NUMBER vs RANK vs DENSE_RANK](assets/01_sql_and_advanced_querying_faq/24_rank_vs_dense_rank_vs_row_number_comparison.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/24_rank_vs_dense_rank_vs_row_number_comparison.d2](assets/01_sql_and_advanced_querying_faq/24_rank_vs_dense_rank_vs_row_number_comparison.d2)
+*D2 Source: [`24_rank_vs_dense_rank_vs_row_number_comparison.d2`](assets/01_sql_and_advanced_querying_faq/24_rank_vs_dense_rank_vs_row_number_comparison.d2)*
 
 #### Production Query Implementation
 
@@ -3167,7 +3175,7 @@ WITH raw_events AS MATERIALIZED ( -- Forces physical temporary materialization
 #### Architectural Blueprint: Star Join Optimization
 ![Star Schema Analytical Query Optimization: BHJ & Bitmap Index](assets/01_sql_and_advanced_querying_faq/25_star_schema_broadcast_hash_join_execution.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/25_star_schema_broadcast_hash_join_execution.d2](assets/01_sql_and_advanced_querying_faq/25_star_schema_broadcast_hash_join_execution.d2)
+*D2 Source: [`25_star_schema_broadcast_hash_join_execution.d2`](assets/01_sql_and_advanced_querying_faq/25_star_schema_broadcast_hash_join_execution.d2)*
 
 #### The 5 Production Tuning Rules for Fact-Dimension Joins:
 1. **Broadcast Hash Join (BHJ) vs Shuffle Hash Join:**
@@ -3209,7 +3217,7 @@ To identify islands without iterative procedural loops, we use the **Cumulative 
 #### Visual Flow
 ![Gaps & Islands: Longest Consecutive Streak Identification](assets/01_sql_and_advanced_querying_faq/26_running_metric_cumulative_window_averages.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/26_running_metric_cumulative_window_averages.d2](assets/01_sql_and_advanced_querying_faq/26_running_metric_cumulative_window_averages.d2)
+*D2 Source: [`26_running_metric_cumulative_window_averages.d2`](assets/01_sql_and_advanced_querying_faq/26_running_metric_cumulative_window_averages.d2)*
 
 #### Production SQL Solution (PostgreSQL / Snowflake / Databricks / BigQuery)
 ```sql
@@ -3302,7 +3310,7 @@ This query tests:
 #### Visual Flow
 ![Multi-Table Join Aggregation & Distinct Diversity Filtering](assets/01_sql_and_advanced_querying_faq/27_multi_table_join_order_optimization_tree.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/27_multi_table_join_order_optimization_tree.d2](assets/01_sql_and_advanced_querying_faq/27_multi_table_join_order_optimization_tree.d2)
+*D2 Source: [`27_multi_table_join_order_optimization_tree.d2`](assets/01_sql_and_advanced_querying_faq/27_multi_table_join_order_optimization_tree.d2)*
 
 #### Production SQL Solution (PostgreSQL / Snowflake / BigQuery / Databricks)
 ```sql
@@ -3376,7 +3384,7 @@ Pipeline success (`status: SUCCEEDED`) only guarantees execution completion with
 #### Visual Flow
 ![Revenue Discrepancy & Cartesian Fan-Out Reconciliation](assets/01_sql_and_advanced_querying_faq/28_revenue_discrepancy_event_loss_reconciliation.svg)
 
-*D2 Source:* [assets/01_sql_and_advanced_querying_faq/28_revenue_discrepancy_event_loss_reconciliation.d2](assets/01_sql_and_advanced_querying_faq/28_revenue_discrepancy_event_loss_reconciliation.d2)
+*D2 Source: [`28_revenue_discrepancy_event_loss_reconciliation.d2`](assets/01_sql_and_advanced_querying_faq/28_revenue_discrepancy_event_loss_reconciliation.d2)*
 
 #### The Production Diagnostic SQL Runbook
 
@@ -3447,6 +3455,511 @@ HAVING DATE(transaction_timestamp AT TIME ZONE 'UTC') <> DATE(transaction_timest
 
 #### Core Curriculum Cross-Reference
 *Deep-dive theoretical reference: See [01. SQL Fundamentals: Query Troubleshooting & Performance Tuning](../01_sql_and_advanced_querying.md#14-advanced-grouping-aggregation--pivoting)*
+---
+
+### Q78. [Medium] Month-over-Month Customer Spending Growth > 50% with Zero-Division Protection
+**Difficulty:** [Medium]  
+**Topic Covered:** Window Functions (`LAG`), Date Truncation, Month-over-Month Growth Calculation, `NULLIF` & Zero-Division  
+**Question:** *Write a production SQL query to identify all customers whose spending in the current month increased by more than 50% compared to the immediately preceding month, properly handling new customers and division by zero.*
+
+#### Definition & Core Concepts
+Calculating Month-over-Month (MoM) spending growth is a standard analytical interview query. Key technical edge cases include:
+1. **Calendar Normalization:** Group transactions by customer and normalized calendar month (`DATE_TRUNC('month', order_date)`).
+2. **Prior Month Retrieval with `LAG()`:** Use `LAG(monthly_spend, 1) OVER (PARTITION BY customer_id ORDER BY order_month)` to fetch the prior month's spend.
+3. **Defense Against Division by Zero & Missing Months:**
+   - If a customer spent \$0 in the prior month, dividing by zero throws a database runtime exception. Wrap the denominator in `NULLIF(prev_spend, 0)`.
+   - Ensure the lag corresponds to the strictly consecutive prior month (e.g., checking `order_month = prev_month + INTERVAL '1 month'`) to avoid comparing March against a dormant November purchase.
+4. **Filtering Condition:**
+   $$	ext{Growth Ratio} = rac{	ext{Current Spend} - 	ext{Previous Spend}}{	ext{Previous Spend}} > 0.50 \iff 	ext{Current Spend} > 1.50 	imes 	ext{Previous Spend}$$
+
+#### Production Implementation / SQL Query
+```sql
+WITH customer_monthly_spending AS (
+    -- Step 1: Aggregate spending per customer per calendar month
+    SELECT 
+        customer_id,
+        DATE_TRUNC('month', order_date) AS order_month,
+        SUM(order_total) AS current_month_spend
+    FROM orders
+    WHERE order_status = 'COMPLETED'
+    GROUP BY customer_id, DATE_TRUNC('month', order_date)
+),
+spending_with_lag AS (
+    -- Step 2: Retrieve immediately preceding month spending and date
+    SELECT 
+        customer_id,
+        order_month,
+        current_month_spend,
+        LAG(current_month_spend, 1) OVER (
+            PARTITION BY customer_id 
+            ORDER BY order_month
+        ) AS prev_month_spend,
+        LAG(order_month, 1) OVER (
+            PARTITION BY customer_id 
+            ORDER BY order_month
+        ) AS prev_month_date
+    FROM customer_monthly_spending
+)
+-- Step 3: Filter for >50% increase across strictly consecutive calendar months
+SELECT 
+    customer_id,
+    order_month AS current_month,
+    current_month_spend,
+    prev_month_spend,
+    ROUND(
+        ((current_month_spend - prev_month_spend) * 100.0) / NULLIF(prev_month_spend, 0), 
+        2
+    ) AS growth_percentage
+FROM spending_with_lag
+WHERE prev_month_spend IS NOT NULL 
+  AND prev_month_spend > 0
+  AND order_month = prev_month_date + INTERVAL '1 month'
+  AND current_month_spend > (1.50 * prev_month_spend)
+ORDER BY growth_percentage DESC;
+```
+
+#### Complexity Analysis
+- **Time Complexity:** $O(N \log N)$ where $N$ is order rows, dominated by the window partition sort over `(customer_id, order_month)`. In modern databases (Postgres, Snowflake, BigQuery), localized partition sorting executes in parallel memory.
+- **Space Complexity:** $O(M)$ auxiliary memory where $M$ is unique customer-month combinations stored in the CTE buffer.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [01. SQL Fundamentals: Window Functions & Analytical Partitioning](../01_sql_and_advanced_querying.md#13-window-functions--analytical-sql)*
+
+---
+
+### Q79. [Medium] Rolling 24-Hour Account Transaction Velocity & Threshold Violation Detection
+**Difficulty:** [Medium]  
+**Topic Covered:** Window Framing (`RANGE BETWEEN INTERVAL '24' HOUR PRECEDING`), Anti-Fraud Velocity Alerting  
+**Question:** *Write an optimized SQL query to identify accounts where the cumulative transaction volume exceeds a defined threshold (e.g. ₹500,000) within any rolling 24-hour window.*
+
+#### Definition & Core Concepts
+Financial anti-money laundering (AML) and fraud detection require monitoring **rolling time-based windows** rather than fixed calendar days (e.g., fraud rings intentionally distribute payments across midnight):
+1. **`ROWS` vs `RANGE` Window Framing:**
+   - `ROWS BETWEEN 10 PRECEDING AND CURRENT ROW` counts a fixed number of rows, ignoring time intervals.
+   - **`RANGE BETWEEN INTERVAL '24' HOUR PRECEDING AND CURRENT ROW`** dynamically evaluates time-series timestamps, summing all transactions occurring within the preceding 86,400 seconds regardless of whether there were 2 transactions or 2,000 transactions.
+2. **Deterministic Partitioning:** Partition by `account_id` and order by `transaction_time`.
+
+#### Production Implementation / SQL Query
+```sql
+WITH rolling_velocity_calc AS (
+    SELECT 
+        transaction_id,
+        account_id,
+        transaction_time,
+        amount,
+        -- Calculate rolling cumulative sum over preceding 24 hours
+        SUM(amount) OVER (
+            PARTITION BY account_id
+            ORDER BY transaction_time
+            RANGE BETWEEN INTERVAL '24' HOUR PRECEDING AND CURRENT ROW
+        ) AS rolling_24h_volume,
+        -- Count velocity of transactions within the same 24-hour window
+        COUNT(transaction_id) OVER (
+            PARTITION BY account_id
+            ORDER BY transaction_time
+            RANGE BETWEEN INTERVAL '24' HOUR PRECEDING AND CURRENT ROW
+        ) AS rolling_24h_tx_count
+    FROM financial_transactions
+    WHERE transaction_status = 'SETTLED'
+)
+SELECT 
+    transaction_id,
+    account_id,
+    transaction_time,
+    amount,
+    rolling_24h_volume,
+    rolling_24h_tx_count
+FROM rolling_velocity_calc
+WHERE rolling_24h_volume > 500000.00
+ORDER BY account_id, transaction_time;
+```
+
+#### Complexity Analysis
+- **Time Complexity:** $O(N \log N)$ for timestamp ordering per account partition. With a B-tree composite index on `(account_id, transaction_time, amount)`, index-only scanning eliminates sorting entirely ($O(N)$).
+- **Space Complexity:** $O(N)$ memory buffer for streaming window frame computation.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [01. SQL Fundamentals: Window Functions & Analytical Partitioning](../01_sql_and_advanced_querying.md#13-window-functions--analytical-sql)*
+
+---
+
+### Q80. [Easy] Customer Daily Average Transaction Amount Across Active Days
+**Difficulty:** [Easy]  
+**Topic Covered:** Two-Tier Aggregation, Date Normalization, Daily Average per Customer, Subqueries & CTEs  
+**Question:** *Write a SQL query to calculate the daily average transaction amount for each customer across all active transaction dates.*
+
+#### Definition & Core Concepts
+A classic foundational data engineering query that tests understanding of **Two-Tier Aggregation Grain**:
+1. **The Grain Trap:** Beginners often run `AVG(amount)` directly across all transactions for a customer. That computes the **average per transaction**, NOT the **daily average transaction amount** (which is total daily spend averaged across active days).
+2. **Two-Step Processing:**
+   - **Step 1 (Daily Grain):** Group by `customer_id` and `DATE(transaction_time)`, computing total spend per active day (`SUM(amount)`).
+   - **Step 2 (Customer Grain):** Average the daily sums per customer using `AVG(daily_spend)`.
+
+#### Production Implementation / SQL Query
+```sql
+WITH daily_customer_spend AS (
+    -- Step 1: Calculate total spending per customer per active day
+    SELECT 
+        customer_id,
+        CAST(transaction_time AS DATE) AS transaction_date,
+        SUM(amount) AS total_daily_spend,
+        COUNT(transaction_id) AS daily_transaction_count
+    FROM transactions
+    WHERE status = 'SUCCESS'
+    GROUP BY customer_id, CAST(transaction_time AS DATE)
+)
+-- Step 2: Compute average across active transaction days
+SELECT 
+    customer_id,
+    COUNT(transaction_date) AS active_days_count,
+    ROUND(AVG(total_daily_spend), 2) AS avg_daily_transaction_spend,
+    ROUND(SUM(total_daily_spend), 2) AS total_lifetime_spend
+FROM daily_customer_spend
+GROUP BY customer_id
+ORDER BY avg_daily_transaction_spend DESC;
+```
+
+#### Complexity Analysis
+- **Time Complexity:** $O(N)$ with hash-based aggregation when indexing on `(customer_id, transaction_time)`.
+- **Space Complexity:** $O(D)$ where $D$ is the count of distinct customer-day combinations.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [01. SQL Fundamentals: Advanced Grouping & Aggregation](../01_sql_and_advanced_querying.md#14-advanced-grouping-aggregation--pivoting)*
+
+---
+
+### Q81. [Medium] Finding the Nth Highest Salary: Comparing DENSE_RANK(), OFFSET/LIMIT, Correlated Subqueries & NTH_VALUE()
+**Difficulty:** [Medium]  
+**Topic Covered:** Ranking Functions, Pagination Offsets, Correlated Subqueries, ANSI Standards & NULL Fallback  
+**Question:** *Write a SQL query to find the N-th highest salary from an Employee table using different approaches. How do you handle ties, NULL fallbacks when $N$ exceeds total distinct records, and performance on large datasets?*
+
+#### Definition & Core Concepts
+Finding the $N$-th highest salary is a classic interview question evaluating whether an engineer understands relational ranking semantics, tie-breaking behavior, and optimizer mechanics:
+1. **Duplicate Ties:** If three employees earn the maximum salary (\$150k, \$150k, \$150k, \$120k), the second-highest salary is \$120k. `ROW_NUMBER()` incorrectly treats the second \$150k as rank 2. `DENSE_RANK()` correctly ranks all \$150k earners as 1, and \$120k as 2.
+2. **Missing Record NULL Fallback:** When $N$ exceeds the count of unique salaries (e.g., asking for the 5th highest salary in a table with only 3 employees), the query must deterministically return `NULL` (or a single row with `NULL`), not an empty zero-row result set.
+3. **Partition Scoping:** Finding $N$-th salary across the entire company (scalar) versus finding the $N$-th highest salary within *each department* requires distinct relational primitives.
+
+#### Visual Flow
+![Four Architectural Approaches to Nth Highest Salary](assets/01_sql_and_advanced_querying_faq/29_nth_highest_salary_comparison_matrix.svg)
+
+*D2 Source: [`29_nth_highest_salary_comparison_matrix.d2`](assets/01_sql_and_advanced_querying_faq/29_nth_highest_salary_comparison_matrix.d2)*
+
+#### Production Implementation / SQL Query
+
+```sql
+-- ============================================================================
+-- Approach 1: DENSE_RANK() Window Function (Universal & Supports Partitioning)
+-- Recommended for Department-wise Nth Salary and General Multi-Row Analytics
+-- ============================================================================
+WITH ranked_salaries AS (
+    SELECT 
+        emp_id,
+        emp_name,
+        department_id,
+        salary,
+        DENSE_RANK() OVER (
+            PARTITION BY department_id 
+            ORDER BY salary DESC
+        ) AS salary_rank
+    FROM employees
+    WHERE salary IS NOT NULL
+)
+SELECT 
+    department_id,
+    salary AS nth_highest_salary
+FROM ranked_salaries
+WHERE salary_rank = :N;
+
+-- ============================================================================
+-- Approach 2: Scalar Subquery with DISTINCT + LIMIT / OFFSET (Postgres / MySQL)
+-- Wrapped in an outer SELECT to guarantee a single NULL row if no Nth record exists
+-- ============================================================================
+SELECT (
+    SELECT DISTINCT salary
+    FROM employees
+    ORDER BY salary DESC
+    LIMIT 1 OFFSET (:N - 1)
+) AS nth_highest_salary;
+
+-- In T-SQL (SQL Server):
+-- SELECT (
+--     SELECT DISTINCT salary
+--     FROM employees
+--     ORDER BY salary DESC
+--     OFFSET (:N - 1) ROWS FETCH NEXT 1 ROWS ONLY
+-- ) AS nth_highest_salary;
+
+-- ============================================================================
+-- Approach 3: Correlated Subquery with COUNT(DISTINCT) (Pure ANSI Standard)
+-- Engine-agnostic; runs on legacy systems without window functions or LIMIT
+-- ============================================================================
+SELECT DISTINCT e1.salary AS nth_highest_salary
+FROM employees e1
+WHERE (:N - 1) = (
+    SELECT COUNT(DISTINCT e2.salary)
+    FROM employees e2
+    WHERE e2.salary > e1.salary
+);
+
+-- ============================================================================
+-- Approach 4: Window Frame NTH_VALUE() Analytic Function
+-- ============================================================================
+WITH windowed_salaries AS (
+    SELECT 
+        salary,
+        NTH_VALUE(salary, :N) OVER (
+            ORDER BY salary DESC
+            RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+        ) AS nth_salary
+    FROM (SELECT DISTINCT salary FROM employees) sub
+)
+SELECT DISTINCT nth_salary AS nth_highest_salary
+FROM windowed_salaries;
+```
+
+#### Complexity Analysis
+- **Approach 1 (`DENSE_RANK()`):** Time $O(N \log N)$ for in-memory sort or $O(N)$ with a B-tree index on `(department_id, salary DESC)`. Space $O(N)$ memory buffer for partition ranking.
+- **Approach 2 (`LIMIT / OFFSET`):** Time $O(N \log K)$ with top-$K$ priority queue heap scan. With an index on `salary DESC`, scans only $N$ index leaf pages ($O(N)$). Space $O(1)$.
+- **Approach 3 (Correlated Subquery):** Time $O(N^2)$ worst-case nested loop without indexes. With index on `salary`, $O(N \log N)$. Space $O(1)$.
+
+#### Engineering Implications & Production Pitfalls
+- **The Empty Result vs. NULL Trap:** Running `SELECT DISTINCT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 4` directly returns an empty rowset (`0 rows`) if only 3 distinct salaries exist. Wrapping the entire statement as a scalar subquery (`SELECT (...) AS nth_salary`) forces ANSI SQL to output a single row containing `NULL`.
+- **The Large OFFSET Performance Penalty:** In multi-million row tables, `OFFSET 50000` forces the database storage engine to read and discard 50,000 index pages before projecting the target row. For large pagination, seek-based keyset pagination (`WHERE salary < :last_seen_salary`) should replace `OFFSET`.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [01. SQL Fundamentals: Window Functions & Analytical Partitioning](../01_sql_and_advanced_querying.md#13-window-functions--analytical-sql)*
+
+---
+
+### Q82. [Medium] Finding Unpurchased Products in the Last Month: NOT EXISTS vs. LEFT JOIN vs. NOT IN (The Three-Valued Logic NULL Hazard)
+**Difficulty:** [Medium]  
+**Topic Covered:** Anti-Join Patterns, Date Arithmetic, Three-Valued Logic (3VL), Hash Anti-Joins & Optimizer Plans  
+**Question:** *Write a query to find all products that were not purchased by any customer last month. Which approach would you use: NOT EXISTS, LEFT JOIN, or NOT IN? Explain the architectural and correctness trade-offs.*
+
+#### Definition & Core Concepts
+Identifying dormant products, non-purchasing users, or missing transactional linkages is the canonical **Anti-Join** pattern:
+1. **Date Range Boundaries:** "Last month" must be computed dynamically using deterministic date boundaries (e.g., `DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')` up to `< DATE_TRUNC('month', CURRENT_DATE)`).
+2. **The Three Anti-Join Approaches:**
+   - **`NOT EXISTS` (Recommended):** Uses a correlated subquery. The query optimizer evaluates it as a dedicated **Hash Anti-Join** or **Index Anti-Semi-Join**, short-circuiting on the first matching order.
+   - **`LEFT JOIN ... WHERE right_table.id IS NULL`:** Performs an outer join between `products` and `orders`, retaining unmatched left rows, and filtering on `IS NULL`.
+   - **`NOT IN` (Dangerous):** Evaluates whether `product_id` is absent from the subquery list.
+
+#### Visual Flow
+![Anti-Join Strategies: NOT EXISTS vs LEFT JOIN vs NOT IN (3VL Trap)](assets/01_sql_and_advanced_querying_faq/30_anti_join_null_trap_three_valued_logic.svg)
+
+*D2 Source: [`30_anti_join_null_trap_three_valued_logic.d2`](assets/01_sql_and_advanced_querying_faq/30_anti_join_null_trap_three_valued_logic.d2)*
+
+#### Production Implementation / SQL Query
+
+```sql
+-- ============================================================================
+-- Approach 1: NOT EXISTS (Production Best Practice - Fast & Safe)
+-- ============================================================================
+SELECT 
+    p.product_id,
+    p.product_name,
+    p.category,
+    p.unit_price
+FROM dim_products p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM fact_orders o
+    WHERE o.product_id = p.product_id
+      AND o.order_date >= DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')
+      AND o.order_date <  DATE_TRUNC('month', CURRENT_DATE)
+);
+
+-- ============================================================================
+-- Approach 2: LEFT JOIN ... WHERE right.key IS NULL
+-- CRITICAL RULE: Date filter MUST reside in the ON clause, NOT the WHERE clause!
+-- ============================================================================
+SELECT 
+    p.product_id,
+    p.product_name,
+    p.category,
+    p.unit_price
+FROM dim_products p
+LEFT JOIN fact_orders o 
+    ON  p.product_id = o.product_id
+    AND o.order_date >= DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')
+    AND o.order_date <  DATE_TRUNC('month', CURRENT_DATE)
+WHERE o.product_id IS NULL;
+
+-- ============================================================================
+-- Approach 3: NOT IN (Defensive Version with Strict NOT NULL Guard)
+-- NEVER run NOT IN without explicitly filtering out NULLs in the subquery!
+-- ============================================================================
+SELECT 
+    p.product_id,
+    p.product_name,
+    p.category,
+    p.unit_price
+FROM dim_products p
+WHERE p.product_id NOT IN (
+    SELECT o.product_id
+    FROM fact_orders o
+    WHERE o.order_date >= DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')
+      AND o.order_date <  DATE_TRUNC('month', CURRENT_DATE)
+      AND o.product_id IS NOT NULL  -- MANDATORY: Safeguard against 3VL NULL wipeout!
+);
+```
+
+#### Complexity Analysis
+- **Approach 1 (`NOT EXISTS`):** Time $O(|Products| + |Orders_{\text{last\_month}}|)$ using a Hash Anti-Join. Space $O(|Orders_{\text{last\_month}}|)$ for in-memory hash set of unique purchased product IDs.
+- **Approach 2 (`LEFT JOIN ... IS NULL`):** Time $O(|Products| + |Orders_{\text{last\_month}}|)$. Space requires buffering matched product-order tuples prior to the null filter step.
+- **Approach 3 (`NOT IN`):** Same theoretical time complexity if optimizer rewrites to anti-join, but subquery materialization degrades to $O(|Products| \times |Orders|)$ nested loop in non-ANSI optimized engines if nullability is uncertain.
+
+#### Engineering Implications & Production Pitfalls
+- **The Lethal 3-Valued Logic (3VL) NULL Trap:** In ANSI SQL, `x NOT IN (1, 2, NULL)` evaluates logically as `x != 1 AND x != 2 AND x != NULL`. By ANSI definition, `x != NULL` evaluates to `UNKNOWN`. In SQL boolean logic, `TRUE AND UNKNOWN` yields `UNKNOWN`. Because `WHERE` clauses require strictly `TRUE` to project a row, **if the subquery contains even a single `NULL` value, `NOT IN` returns ZERO rows for the entire query!** This is one of the most common silent bugs in production data pipelines.
+- **The Left Join Predicate Placement Bug:** If an engineer puts `o.order_date >= ...` into the `WHERE` clause instead of the `ON` clause in Approach 2, the `LEFT JOIN` is implicitly demoted to an `INNER JOIN` (because `NULL >= date` is false). The query will return zero rows rather than the unpurchased products!
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [01. SQL Fundamentals: Relational Joins & Anti-Joins](../01_sql_and_advanced_querying.md#111-semi-join--anti-join-mechanics-null-immunity--memory-footprint)*
+
+---
+
+### Q83. [Easy] Self-Join Hierarchy: Finding Each Employee's Manager's Manager (Handling Root Nodes & NULLs)
+**Difficulty:** [Easy]  
+**Topic Covered:** Self-Joins, Hierarchical Data Representation, 2-Hop Relationship Traversal & Root Executives  
+**Question:** *Given an employee table containing `emp_id`, `emp_name`, and `mgr_id`, write a SQL query to find each employee's manager's manager. How do you handle employees whose manager or manager's manager does not exist?*
+
+#### Definition & Core Concepts
+Organizational hierarchies in relational databases are represented as adjacency lists where a foreign key (`mgr_id`) points to the primary key (`emp_id`) of the same table:
+1. **2-Hop Traversal:** Finding the manager's manager requires joining the employee table to itself twice:
+   - **Hop 1:** `employee e` joins to `employee m` on `e.mgr_id = m.emp_id` (Direct Manager).
+   - **Hop 2:** `employee m` joins to `employee mm` on `m.mgr_id = mm.emp_id` (Manager's Manager).
+2. **Outer Join Necessity:** If an `INNER JOIN` is used, any employee without a direct manager (e.g., CEO, where `mgr_id IS NULL`) or whose direct manager reports to the CEO (`m.mgr_id IS NULL`) is silently discarded. `LEFT JOIN` guarantees that every employee remains in the output set.
+
+#### Visual Flow
+![Two-Hop Self-Join Organizational Hierarchy](assets/01_sql_and_advanced_querying_faq/31_self_join_two_level_management_hierarchy.svg)
+
+*D2 Source: [`31_self_join_two_level_management_hierarchy.d2`](assets/01_sql_and_advanced_querying_faq/31_self_join_two_level_management_hierarchy.d2)*
+
+#### Production Implementation / SQL Query
+
+```sql
+SELECT 
+    e.emp_id,
+    e.emp_name,
+    COALESCE(m.emp_name, 'No Direct Manager (Root Executive)') AS manager_name,
+    COALESCE(mm.emp_name, 'No Manager''s Manager') AS managers_manager_name,
+    CASE 
+        WHEN e.mgr_id IS NULL THEN 'Level 1: Executive / CEO'
+        WHEN m.mgr_id IS NULL THEN 'Level 2: Direct Executive Report'
+        ELSE 'Level 3+: Operational Staff'
+    END AS organizational_tier
+FROM employees e
+-- Hop 1: Connect employee to their immediate supervisor
+LEFT JOIN employees m 
+    ON e.mgr_id = m.emp_id
+-- Hop 2: Connect direct supervisor to their supervisor (manager's manager)
+LEFT JOIN employees mm 
+    ON m.mgr_id = mm.emp_id
+ORDER BY e.emp_id ASC;
+```
+
+#### Complexity Analysis
+- **Time Complexity:** $O(N)$ where $N$ is the count of employee records, assuming a B-tree index on `employees(emp_id)`. Each join evaluates as an $O(1)$ index lookup.
+- **Space Complexity:** $O(N)$ projection memory.
+
+#### Engineering Implications & Production Pitfalls
+- **Self-Referential Cycle Hazards:** In messy production databases lacking foreign key constraints, data corruption can introduce cyclic references ($A \to B \to A$). While a 2-hop static join handles cycles without infinite recursion, recursive CTEs traversing the full hierarchy will enter infinite loops without explicit cycle detection arrays (`CYCLE` clause in ANSI SQL).
+- **Index Requirements:** Self-joins frequently degrade if `mgr_id` is unindexed. Because the join predicate evaluates `ON e.mgr_id = m.emp_id`, the engine scans `e` and probes `m.emp_id` (primary key, indexed). However, querying reverse relationships ("all direct and indirect reportees") requires an index on `employees(mgr_id)`.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [01. SQL Fundamentals: Self-Joins & Hierarchies](../01_sql_and_advanced_querying.md#78-self-join-hierarchies-and-graphs)*
+
+---
+
+### Q84. [Medium] Join Row Count Cardinality Puzzle: Duplicate Keys, Cartesian Cross-Products & NULL Equi-Join Semantics
+**Difficulty:** [Medium]  
+**Topic Covered:** Relational Join Predicates, Equi-Join Semantics, ANSI Three-Valued Logic (3VL), NULL Equality & Cardinality Arithmetic  
+**Question:** *Given Table A and Table B with the following IDs, what are the exact row counts for INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL OUTER JOIN using `ON A.id = B.id`?*  
+*Table A: `[1, 1, 1, 2, 2, NULL]` (6 rows)*  
+*Table B: `[1, 1, 2, NULL]` (4 rows)*
+
+#### Definition & Core Concepts
+This classic interview problem evaluates a candidate's mastery of relational algebra under two real-world conditions: **duplicate keys** and **NULL values**:
+1. **Duplicate Key Multiplication (Cartesian Sub-Product):** When a join key appears $M$ times in Table A and $N$ times in Table B, an equi-join generates $M \times N$ matching rows for that specific key.
+2. **ANSI NULL Equi-Join Rule:** In SQL, `NULL` represents an unknown, absent value. Under ANSI Three-Valued Logic, `NULL = NULL` evaluates to `UNKNOWN` (falsy in boolean predicates). **NULL values NEVER match each other in an equi-join predicate (`ON A.id = B.id`)!** Therefore, rows with `id = NULL` produce $0$ inner join matches.
+3. **Outer Join Mechanics:**
+   - **`LEFT JOIN`:** Retains all matching inner rows PLUS all non-matching rows from Table A (padded with `NULL` for Table B columns).
+   - **`RIGHT JOIN`:** Retains all matching inner rows PLUS all non-matching rows from Table B (padded with `NULL` for Table A columns).
+   - **`FULL OUTER JOIN`:** Retains all matching inner rows PLUS unmatched rows from Table A PLUS unmatched rows from Table B.
+
+#### Visual Flow
+![Join Row Count Cardinality Mechanics](assets/01_sql_and_advanced_querying_faq/32_join_cardinality_duplicate_keys_null_matching.svg)
+
+*D2 Source: [`32_join_cardinality_duplicate_keys_null_matching.d2`](assets/01_sql_and_advanced_querying_faq/32_join_cardinality_duplicate_keys_null_matching.d2)*
+
+#### Step-by-Step Mathematical Cardinality Calculation
+
+| Join Key | Count in Table A ($M$) | Count in Table B ($N$) | Evaluation Rule | Produced Matches |
+| :--- | :--- | :--- | :--- | :--- |
+| **`id = 1`** | $3$ | $2$ | $M \times N = 3 \times 2$ | **$6$ rows** |
+| **`id = 2`** | $2$ | $1$ | $M \times N = 2 \times 1$ | **$2$ rows** |
+| **`id = NULL`** | $1$ | $1$ | `NULL = NULL` is `UNKNOWN` (No match!) | **$0$ rows** |
+| **Total INNER JOIN** | — | — | **$6 + 2 + 0$** | **8 Rows** |
+
+Now calculating Outer Join counts:
+- **`LEFT JOIN`:**
+  - Matches from INNER JOIN: **8 rows**
+  - Unmatched rows from Table A: The `NULL` row in Table A has zero matches in Table B $\to$ **1 row**
+  - Total `LEFT JOIN` count: $8 + 1 =$ **9 Rows**
+- **`RIGHT JOIN`:**
+  - Matches from INNER JOIN: **8 rows**
+  - Unmatched rows from Table B: The `NULL` row in Table B has zero matches in Table A $\to$ **1 row**
+  - Total `RIGHT JOIN` count: $8 + 1 =$ **9 Rows**
+- **`FULL OUTER JOIN`:**
+  - Matches from INNER JOIN: **8 rows**
+  - Unmatched rows from Table A: **1 row** (Table A `NULL`)
+  - Unmatched rows from Table B: **1 row** (Table B `NULL`)
+  - Total `FULL OUTER JOIN` count: $8 + 1 + 1 =$ **10 Rows**
+
+#### Production Verification DDL & SQL Script
+
+```sql
+-- Step 1: Create isolated in-memory test structures
+CREATE TEMP TABLE table_a (id INT);
+CREATE TEMP TABLE table_b (id INT);
+
+-- Step 2: Populate with exact puzzle dataset
+INSERT INTO table_a (id) VALUES (1), (1), (1), (2), (2), (NULL);
+INSERT INTO table_b (id) VALUES (1), (1), (2), (NULL);
+
+-- Step 3: Execute cardinality assertions
+-- 1. INNER JOIN -> Returns 8 rows
+SELECT COUNT(*) AS inner_join_count 
+FROM table_a a 
+INNER JOIN table_b b ON a.id = b.id;
+
+-- 2. LEFT JOIN -> Returns 9 rows
+SELECT COUNT(*) AS left_join_count 
+FROM table_a a 
+LEFT JOIN table_b b ON a.id = b.id;
+
+-- 3. RIGHT JOIN -> Returns 9 rows
+SELECT COUNT(*) AS right_join_count 
+FROM table_a a 
+RIGHT JOIN table_b b ON a.id = b.id;
+
+-- 4. FULL OUTER JOIN -> Returns 10 rows
+SELECT COUNT(*) AS full_outer_join_count 
+FROM table_a a 
+FULL OUTER JOIN table_b b ON a.id = b.id;
+```
+
+#### Complexity Analysis
+- **Join Execution:** Hash Join builds an in-memory hash table on the smaller relation (Table B: 4 entries). Cost is $O(|A| + |B|)$.
+- **Space Complexity:** $O(|B|)$ hash table memory footprint.
+
+#### Engineering Implications & Production Pitfalls
+- **The Cartesian Explosion Hazard:** If a dimensional table has duplicate surrogate keys (e.g., due to an improperly written merge or race condition), joining a 100-million row fact table will multiply matching rows exponentially, causing catastrophic executor OutOfMemory errors and inflated financial calculations.
+- **Matching on NULLs (The `IS NOT DISTINCT FROM` Construct):** If business logic explicitly dictates that two NULL keys *should* match (e.g., joining records where a nullable tax exemption ID matches), never use `ON a.id = b.id`. In ANSI SQL (PostgreSQL, Snowflake), use `ON a.id IS NOT DISTINCT FROM b.id`. In MySQL, use the null-safe operator `ON a.id <=> b.id`. If used in this puzzle, the NULL rows would match ($1 \times 1 = 1$), yielding 9 inner join rows and 9 full outer rows.
+
+#### Core Curriculum Cross-Reference
+*Deep-dive theoretical reference: See [01. SQL Fundamentals: Join Cardinality & Fan-Out](../01_sql_and_advanced_querying.md#118-join-cardinality-metric-fan-out--pre-aggregation-patterns)*
+
 
 ---
 

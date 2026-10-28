@@ -1,99 +1,134 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" width="100%" height="100%">
   <defs>
-    <style>
-      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13.5px; font-weight: 700; text-anchor: middle; }
-      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
-      .edge { stroke-width: 1.5; fill: none; }
-    </style>
-    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B"/>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38BDF8"/>
     </marker>
-    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#C084FC"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#F87171"/>
+    </marker>
+    <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94A3B8"/>
     </marker>
   </defs>
 
-  <rect width="1000" height="360" fill="#0B0F19"/>
+  <!-- Background Base Card -->
+  <rect width="1120" height="520" rx="10" fill="url(#bg)"/>
+  <rect width="1120" height="520" rx="10" fill="none" stroke="#334155" stroke-width="1.5"/>
 
-  <!-- Left: repartition (Amber) -->
-  <g transform="translate(30, 25)">
-    <rect width="450" height="310" rx="10" ry="10" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-    <text x="225" y="28" class="title" fill="#FCD34D">repartition(2) from 4: Full Network Shuffle</text>
-    <line x1="20" y1="38" x2="430" y2="38" stroke="#1F2937" stroke-width="1.5"/>
+  <!-- Title &amp; Subtitle Banner -->
+  <text x="560" y="32" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle" letter-spacing="0.5">Spark Partition Management: Repartition vs Coalesce</text>
+  <text x="560" y="54" font-size="11" font-weight="400" fill="#94A3B8" text-anchor="middle">Comparing Narrow local partition merging (coalesce) vs Wide full network shuffle distribution (repartition)</text>
 
-    <!-- 4 Source Partitions -->
-    <rect x="25" y="55" width="85" height="42" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1"/>
-    <text x="67.5" y="80" class="body-txt" text-anchor="middle">Part 1</text>
+  <!-- Left Panel: coalesce() Zero Shuffle -->
+  <rect x="40" y="85" width="490" height="385" rx="8" fill="#064E3B" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+  <rect x="40" y="85" width="490" height="36" rx="8" fill="#064E3B" fill-opacity="0.8" stroke="#34D399" stroke-width="1.5"/>
+  <text x="285" y="108" font-size="12" font-weight="700" fill="#34D399" text-anchor="middle">COALESCE(2) FROM 4 PARTITIONS (ZERO SHUFFLE)</text>
 
-    <rect x="25" y="105" width="85" height="42" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1"/>
-    <text x="67.5" y="130" class="body-txt" text-anchor="middle">Part 2</text>
+  <!-- Worker 1 Box -->
+  <rect x="60" y="135" width="210" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="165" y="157" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Worker Node 1</text>
 
-    <rect x="25" y="155" width="85" height="42" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1"/>
-    <text x="67.5" y="180" class="body-txt" text-anchor="middle">Part 3</text>
+  <rect x="75" y="170" width="180" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="165" y="195" font-size="9.5" fill="#CBD5E1" text-anchor="middle">Partition 1 (Local RAM/Disk)</text>
 
-    <rect x="25" y="205" width="85" height="42" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1"/>
-    <text x="67.5" y="230" class="body-txt" text-anchor="middle">Part 4</text>
+  <rect x="75" y="220" width="180" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="165" y="245" font-size="9.5" fill="#CBD5E1" text-anchor="middle">Partition 2 (Local RAM/Disk)</text>
 
-    <!-- Shuffle Center -->
-    <rect x="155" y="100" width="140" height="100" rx="8" ry="8" fill="#7F1D1D" stroke="#EF4444" stroke-width="2"/>
-    <text x="225" y="135" class="title" font-size="12" fill="#FECACA">Full Network</text>
-    <text x="225" y="155" class="title" font-size="12" fill="#FECACA">Shuffle</text>
-    <text x="225" y="175" class="body-txt" text-anchor="middle" fill="#FCA5A5">Hash Partitioning</text>
+  <!-- Merged Output Node 1 -->
+  <rect x="330" y="170" width="180" height="90" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="2"/>
+  <text x="420" y="195" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Merged Partition A</text>
+  <text x="420" y="215" font-size="9" fill="#A7F3D0" text-anchor="middle">Part 1 + Part 2 (Combined)</text>
+  <text x="420" y="235" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="middle">Local Merge Only!</text>
 
-    <!-- Target Partitions -->
-    <rect x="335" y="85" width="95" height="55" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1.5"/>
-    <text x="382.5" y="112" class="title" font-size="11" fill="#FCD34D">New Part 1</text>
-    <text x="382.5" y="128" class="body-txt" text-anchor="middle">Balanced</text>
+  <!-- Worker 2 Box -->
+  <rect x="60" y="300" width="210" height="150" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="165" y="322" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Worker Node 2</text>
 
-    <rect x="335" y="160" width="95" height="55" rx="6" ry="6" fill="#1F2937" stroke="#F59E0B" stroke-width="1.5"/>
-    <text x="382.5" y="187" class="title" font-size="11" fill="#FCD34D">New Part 2</text>
-    <text x="382.5" y="203" class="body-txt" text-anchor="middle">Balanced</text>
+  <rect x="75" y="335" width="180" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="165" y="360" font-size="9.5" fill="#CBD5E1" text-anchor="middle">Partition 3 (Local RAM/Disk)</text>
 
-    <!-- Edges Left -->
-    <path fill="none" d="M 110 76 L 155 120" class="edge" stroke="#F59E0B"/>
-    <path fill="none" d="M 110 126 L 155 135" class="edge" stroke="#F59E0B"/>
-    <path fill="none" d="M 110 176 L 155 165" class="edge" stroke="#F59E0B"/>
-    <path fill="none" d="M 110 226 L 155 180" class="edge" stroke="#F59E0B"/>
-    <path fill="none" d="M 295 130 L 335 112" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
-    <path fill="none" d="M 295 170 L 335 187" class="edge" stroke="#F59E0B" marker-end="url(#arr-amber)"/>
+  <rect x="75" y="385" width="180" height="40" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="1"/>
+  <text x="165" y="410" font-size="9.5" fill="#CBD5E1" text-anchor="middle">Partition 4 (Local RAM/Disk)</text>
 
-    <text x="225" y="280" class="body-txt" text-anchor="middle" fill="#FCD34D">Expensive all-to-all shuffle, but guarantees equal sizes</text>
-  </g>
+  <!-- Merged Output Node 2 -->
+  <rect x="330" y="335" width="180" height="90" rx="6" fill="#0F172A" stroke="#34D399" stroke-width="2"/>
+  <text x="420" y="360" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">Merged Partition B</text>
+  <text x="420" y="380" font-size="9" fill="#A7F3D0" text-anchor="middle">Part 3 + Part 4 (Combined)</text>
+  <text x="420" y="400" font-size="9.5" font-weight="600" fill="#34D399" text-anchor="middle">Local Merge Only!</text>
 
-  <!-- Right: coalesce (Green) -->
-  <g transform="translate(520, 25)">
-    <rect width="450" height="310" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
-    <text x="225" y="28" class="title" fill="#6EE7B7">coalesce(2) from 4: Local Narrow Merge (Zero Shuffle)</text>
-    <line x1="20" y1="38" x2="430" y2="38" stroke="#1F2937" stroke-width="1.5"/>
+  <!-- Connectors Coalesce -->
+  <path d="M 255.0 190.0 L 265.0 190.0 C 290.5 190.0, 290.5 205.0, 316.0 205.0 L 330.0 205.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path d="M 255.0 240.0 L 265.0 240.0 C 290.5 240.0, 290.5 225.0, 316.0 225.0 L 330.0 225.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path d="M 255.0 355.0 L 265.0 355.0 C 290.5 355.0, 290.5 370.0, 316.0 370.0 L 330.0 370.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
+  <path d="M 255.0 405.0 L 265.0 405.0 C 290.5 405.0, 290.5 390.0, 316.0 390.0 L 330.0 390.0" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arr-g)"/>
 
-    <!-- 4 Source Partitions -->
-    <rect x="25" y="55" width="130" height="42" rx="6" ry="6" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
-    <text x="90" y="80" class="body-txt" text-anchor="middle">Node 1: Part 1</text>
+  <!-- Right Panel: repartition() Full Shuffle -->
+  <rect x="560" y="85" width="520" height="385" rx="8" fill="#78350F" fill-opacity="0.2" stroke="#FBBF24" stroke-width="1.5"/>
+  <rect x="560" y="85" width="520" height="36" rx="8" fill="#78350F" fill-opacity="0.8" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="820" y="108" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">REPARTITION(2) FROM 4 PARTITIONS (FULL NETWORK SHUFFLE)</text>
 
-    <rect x="25" y="105" width="130" height="42" rx="6" ry="6" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
-    <text x="90" y="130" class="body-txt" text-anchor="middle">Node 1: Part 2</text>
+  <!-- Source Partitions -->
+  <rect x="580" y="135" width="130" height="60" rx="4" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="645" y="170" font-size="10" fill="#CBD5E1" text-anchor="middle">Source Part 1</text>
 
-    <rect x="25" y="170" width="130" height="42" rx="6" ry="6" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
-    <text x="90" y="195" class="body-txt" text-anchor="middle">Node 2: Part 3</text>
+  <rect x="580" y="210" width="130" height="60" rx="4" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="645" y="245" font-size="10" fill="#CBD5E1" text-anchor="middle">Source Part 2</text>
 
-    <rect x="25" y="220" width="130" height="42" rx="6" ry="6" fill="#1F2937" stroke="#10B981" stroke-width="1"/>
-    <text x="90" y="245" class="body-txt" text-anchor="middle">Node 2: Part 4</text>
+  <rect x="580" y="285" width="130" height="60" rx="4" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="645" y="320" font-size="10" fill="#CBD5E1" text-anchor="middle">Source Part 3</text>
 
-    <!-- Target Merged Partitions -->
-    <rect x="250" y="70" width="175" height="65" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
-    <text x="337.5" y="98" class="title" font-size="11" fill="#A7F3D0">New Part 1 (Node 1)</text>
-    <text x="337.5" y="118" class="body-txt" text-anchor="middle" fill="#A7F3D0">Merged Locally (1 + 2)</text>
+  <rect x="580" y="360" width="130" height="60" rx="4" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="645" y="395" font-size="10" fill="#CBD5E1" text-anchor="middle">Source Part 4</text>
 
-    <rect x="250" y="185" width="175" height="65" rx="8" ry="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
-    <text x="337.5" y="213" class="title" font-size="11" fill="#A7F3D0">New Part 2 (Node 2)</text>
-    <text x="337.5" y="233" class="body-txt" text-anchor="middle" fill="#A7F3D0">Merged Locally (3 + 4)</text>
+  <!-- Middle Network Shuffle Barrier -->
+  <rect x="745" y="180" width="140" height="190" rx="6" fill="#0F172A" stroke="#F87171" stroke-width="1.5"/>
+  <text x="815" y="205" font-size="10" font-weight="700" fill="#F87171" text-anchor="middle">Network Shuffle</text>
+  <text x="815" y="225" font-size="9" fill="#CBD5E1" text-anchor="middle">• Hash / Round-Robin</text>
+  <text x="815" y="245" font-size="9" fill="#CBD5E1" text-anchor="middle">• Spills to NVMe</text>
+  <text x="815" y="265" font-size="9" fill="#CBD5E1" text-anchor="middle">• All-to-all network</text>
+  <text x="815" y="285" font-size="9" fill="#CBD5E1" text-anchor="middle">• Full stage barrier</text>
+  <text x="815" y="315" font-size="9" font-weight="700" fill="#FBBF24" text-anchor="middle">Even Partitioning</text>
+  <text x="815" y="332" font-size="8.5" fill="#CBD5E1" text-anchor="middle">Guaranteed Equal Size</text>
+  <text x="815" y="349" font-size="8.5" fill="#34D399" text-anchor="middle">Can also increase count!</text>
 
-    <!-- Direct narrow edges with straight runways -->
-    <path fill="none" d="M 155 76 L 200 76 C 220 76, 230 90, 250 90" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-    <path fill="none" d="M 155 126 L 200 126 C 220 126, 230 115, 250 115" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-    <path fill="none" d="M 155 191 L 200 191 C 220 191, 230 205, 250 205" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-    <path fill="none" d="M 155 241 L 200 241 C 220 241, 230 230, 250 230" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
+  <!-- Output Repartition -->
+  <rect x="920" y="170" width="145" height="95" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="992" y="195" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="middle">Even Partition A</text>
+  <text x="992" y="215" font-size="9" fill="#CBD5E1" text-anchor="middle">50% of cluster keys</text>
+  <text x="992" y="235" font-size="9" fill="#34D399" text-anchor="middle">Perfect balance</text>
 
-    <text x="225" y="285" class="body-txt" text-anchor="middle" fill="#6EE7B7">Zero network movement! Avoids shuffle when reducing partitions</text>
-  </g>
+  <rect x="920" y="295" width="145" height="95" rx="6" fill="#0F172A" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="992" y="320" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="middle">Even Partition B</text>
+  <text x="992" y="340" font-size="9" fill="#CBD5E1" text-anchor="middle">50% of cluster keys</text>
+  <text x="992" y="360" font-size="9" fill="#34D399" text-anchor="middle">Perfect balance</text>
+
+  <!-- Arrows into Shuffle -->
+  <path d="M 710.0 165.0 L 721.5 165.0 Q 727.5 165.0 727.5 171.0 L 727.5 224.0 Q 727.5 230.0 733.5 230.0 L 745.0 230.0" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <path d="M 710.0 240.0 L 717.0 240.0 C 725.8 240.0, 725.8 250.0, 734.5 250.0 L 745.0 250.0" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <path d="M 710.0 315.0 L 717.0 315.0 C 725.8 315.0, 725.8 290.0, 734.5 290.0 L 745.0 290.0" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <path d="M 710.0 390.0 L 721.5 390.0 Q 727.5 390.0 727.5 384.0 L 727.5 316.0 Q 727.5 310.0 733.5 310.0 L 745.0 310.0" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+  <!-- Arrows out of Shuffle -->
+  <path d="M 885.0 240.0 L 892.0 240.0 C 900.8 240.0, 900.8 215.0, 909.5 215.0 L 920.0 215.0" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+  <path d="M 885.0 310.0 L 892.0 310.0 C 900.8 310.0, 900.8 340.0, 909.5 340.0 L 920.0 340.0" fill="none" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+  <!-- Bottom Invariant -->
+  <rect x="40" y="480" width="1040" height="26" rx="4" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+  <text x="560" y="497" font-size="10" font-weight="600" fill="#93C5FD" text-anchor="middle">Partitioning Invariant: Use coalesce(N) when reducing partitions before writing to avoid shuffle overhead; use repartition(N) when increasing parallelism or balancing extreme data skew.</text>
 </svg>

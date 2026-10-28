@@ -1,10 +1,22 @@
 direction: right
-title: Rate Limiting Algorithms: Token Bucket vs. Leaky Bucket
+title: "Rate Limiting Algorithms: Token Bucket vs. Leaky Bucket"
+classes: {
+  container: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  box: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
+  table_box: { style: { fill: "#1E293B"; stroke: "#38bdf8"; stroke-width: 2 } }
+  blue_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 8 } }
+  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; border-radius: 8 } }
+  amber_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 8 } }
+  purple_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; border-radius: 8 } }
+  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; border-radius: 8 } }
+}
 
-token_bucket: 1. Token Bucket: Allows Bursts up to Capacity {
+token_bucket: "1. Token Bucket: Allows Bursts up to Capacity" {
+  class: container
   refill: "Continuous Refill: +r tokens/sec"
   bucket: "Token Bucket (Cap: 100)"
   check: "Token Available?" {
+    class: box
     shape: diamond
   }
   exec: "Consume 1 Token -> Execute Request"
@@ -14,10 +26,12 @@ token_bucket: 1. Token Bucket: Allows Bursts up to Capacity {
   check -> drop: "No"
 }
 
-leaky_bucket: 2. Leaky Bucket: Smooths Traffic to Constant Rate {
+leaky_bucket: "2. Leaky Bucket: Smooths Traffic to Constant Rate" {
+  class: container
   ingress: "Bursty Requests Ingress"
   fifo: "Bounded FIFO Buffer (Cap: 50)"
   overflow: "Buffer Full?" {
+    class: box
     shape: diamond
   }
   leak: "Leak at Strict Constant Rate (10 req/s)"

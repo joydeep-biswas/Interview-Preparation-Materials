@@ -2,62 +2,62 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="100%" stop-color="#0f172a"/>
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="100%" stop-color="#0f172a" />
     </linearGradient>
 
     <!-- Card Gradients -->
     <linearGradient id="card-blue" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#0f172a"/>
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
     </linearGradient>
     <linearGradient id="card-green" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0.8" />
     </linearGradient>
     <linearGradient id="card-amber" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7"/>
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#451a03" stop-opacity="0.7" />
     </linearGradient>
     <linearGradient id="card-red" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="#7f1d1d" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="0.8" />
     </linearGradient>
     <linearGradient id="card-purple" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7"/>
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7" />
     </linearGradient>
     <linearGradient id="card-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2"/>
+      <stop offset="0%" stop-color="#155e75" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.2" />
     </linearGradient>
 
     <!-- Markers -->
     <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
     </marker>
     <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399" />
     </marker>
     <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24" />
     </marker>
     <marker id="arr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f87171" />
     </marker>
     <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc" />
     </marker>
     <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#22d3ee" />
     </marker>
     <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8" />
     </marker>
   </defs>
 
   <!-- Base Canvas -->
-  <rect width="1000" height="420" rx="10" fill="url(#bg)"/>
+  <rect width="1000" height="420" rx="10" fill="url(#bg)"  stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Diagram Header -->
   <g transform="translate(0, 0)">
@@ -67,51 +67,51 @@
 
   <!-- Diagram Body -->
   <g transform="translate(40, 150)">
-  <rect width="170" height="100" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5"/>
+  <rect width="170" height="124" rx="8" fill="url(#card-blue)" stroke="#38bdf8" stroke-width="1.5" />
   <text x="85.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Input Sentences</text>
-  <line x1="12" y1="34" x2="158" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="158" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• S1: Kubernetes pods...</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• S2: Worker daemon...</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• S3: Node architecture...</text>
   <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• S4: Quarterly EBITDA...</text>
 </g>
 <g transform="translate(250, 150)">
-  <rect width="180" height="100" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5"/>
+  <rect width="180" height="100" rx="8" fill="url(#card-purple)" stroke="#c084fc" stroke-width="1.5" />
   <text x="90.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Embedding Engine</text>
-  <line x1="12" y1="34" x2="168" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="168" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Computes embedding vector</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">  for each sentence: e_i</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Sliding buffer window</text>
 </g>
 <g transform="translate(470, 150)">
-  <rect width="200" height="100" rx="8" fill="url(#card-amber)" stroke="#fbbf24" stroke-width="1.5"/>
+  <rect width="200" height="142" rx="8" fill="url(#card-amber)" stroke="#fbbf24" stroke-width="1.5" />
   <text x="100.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Cosine Distance d_i</text>
-  <line x1="12" y1="34" x2="188" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="188" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">Formula:</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">d_i = 1 - cos(e_i, e_i+1)</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• d_1 = 0.08 (Coherent)</text>
   <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• d_2 = 0.12 (Coherent)</text>
   <text x="14" y="124" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• d_3 = 0.89 (MASSIVE SPIKE!)</text>
 </g>
-<line x1="210" y1="200" x2="250" y2="200" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arr-b)"/>
-<line x1="430" y1="200" x2="470" y2="200" stroke="#c084fc" stroke-width="1.8" marker-end="url(#arr-p)"/>
 <g transform="translate(720, 110)">
-  <rect width="240" height="95" rx="8" fill="url(#card-red)" stroke="#f87171" stroke-width="1.5"/>
+  <rect width="240" height="124" rx="8" fill="url(#card-red)" stroke="#f87171" stroke-width="1.5" />
   <text x="120.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#fca5a5">Split: Insert Boundary!</text>
-  <line x1="12" y1="34" x2="228" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="228" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• d_3 &gt; tau (95th percentile)</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Topic shifted from Tech to Finance!</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Chunk 1 = [S1, S2, S3]</text>
   <text x="14" y="106" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Chunk 2 starts at S4</text>
 </g>
 <g transform="translate(720, 235)">
-  <rect width="240" height="95" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5"/>
+  <rect width="240" height="106" rx="8" fill="url(#card-green)" stroke="#34d399" stroke-width="1.5" />
   <text x="120.0" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#a7f3d0">Merge: Group Sentences</text>
-  <line x1="12" y1="34" x2="228" y2="34" stroke="#334155" stroke-width="1"/>
+  <line x1="12" y1="34" x2="228" y2="34" stroke="#334155" stroke-width="1" />
   <text x="14" y="52" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• d_i &lt;= tau (Distance below threshold)</text>
   <text x="14" y="70" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Sentences share semantic topic</text>
   <text x="14" y="88" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="11" fill="#cbd5e1">• Continues accumulating into chunk</text>
 </g>
-<polyline points="670,185 695,185 695,157 720,157" fill="none" stroke="#f87171" stroke-width="1.8" marker-end="url(#arr-r)"/>
-<polyline points="670,215 695,215 695,282 720,282" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)"/>
-</svg>
+<g id="connectors"><line x1="210" y1="200" x2="250" y2="200" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arr-b)" />
+<line x1="430" y1="200" x2="470" y2="200" stroke="#c084fc" stroke-width="1.8" marker-end="url(#arr-p)" />
+<polyline points="670,185 695,185 695,157 720,157" fill="none" stroke="#f87171" stroke-width="1.8" marker-end="url(#arr-r)" />
+<polyline points="670,215 695,215 695,282 720,282" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-g)" />
+</g></svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 420" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0B0F19; }
+      .pillar-box { fill: #111827; stroke-width: 2; rx: 10; ry: 10; }
+      .card { fill: #1E293B; stroke-width: 1.5; rx: 8; ry: 8; }
+      .card-green { stroke: #10B981; }
+      .card-blue { stroke: #3B82F6; }
+      .card-amber { stroke: #F59E0B; }
+      .card-purple { stroke: #8B5CF6; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; text-anchor: middle; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .card-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #94A3B8; text-anchor: start; }
+      .edge { stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr-b29" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3B82F6"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Main Container -->
+  <rect x="25" y="25" width="1010" height="370" class="pillar-box" stroke="#3B82F6"/>
+  <text x="530" y="55" class="title-text" fill="#60A5FA">Four Architectural Approaches to Nth Highest Salary</text>
+
+  <!-- Card 1: DENSE_RANK -->
+  <rect x="50" y="80" width="220" height="280" class="card card-green"/>
+  <text x="160" y="108" class="card-title" fill="#34D399">1. DENSE_RANK() Window</text>
+  <text x="65" y="140" class="card-body" fill="#E2E8F0">• Handles ties cleanly</text>
+  <text x="65" y="160" class="card-body">• Equal values get equal rank</text>
+  <text x="65" y="180" class="card-body">• No gaps in sequence (1, 2, 2, 3)</text>
+  <text x="65" y="200" class="card-body" fill="#34D399">• Best for: Dept-wise Nth salary</text>
+  <text x="65" y="230" class="card-body" fill="#94A3B8">Syntax:</text>
+  <text x="65" y="250" class="card-body" fill="#60A5FA">DENSE_RANK() OVER</text>
+  <text x="65" y="270" class="card-body" fill="#60A5FA">(ORDER BY salary DESC)</text>
+  <text x="65" y="310" class="card-body" fill="#10B981">Complexity: O(N log N)</text>
+
+  <!-- Card 2: LIMIT / OFFSET -->
+  <rect x="295" y="80" width="220" height="280" class="card card-blue"/>
+  <text x="405" y="108" class="card-title" fill="#93C5FD">2. DISTINCT + OFFSET</text>
+  <text x="310" y="140" class="card-body" fill="#E2E8F0">• Requires DISTINCT for ties</text>
+  <text x="310" y="160" class="card-body">• Simple scalar subquery</text>
+  <text x="310" y="180" class="card-body">• Returns NULL via outer SELECT</text>
+  <text x="310" y="200" class="card-body" fill="#93C5FD">• Best for: Single table scalar</text>
+  <text x="310" y="230" class="card-body" fill="#94A3B8">Syntax:</text>
+  <text x="310" y="250" class="card-body" fill="#60A5FA">SELECT DISTINCT salary</text>
+  <text x="310" y="270" class="card-body" fill="#60A5FA">ORDER BY salary DESC</text>
+  <text x="310" y="290" class="card-body" fill="#60A5FA">LIMIT 1 OFFSET (N-1)</text>
+  <text x="310" y="330" class="card-body" fill="#3B82F6">Complexity: O(N log K)</text>
+
+  <!-- Card 3: Correlated Subquery -->
+  <rect x="540" y="80" width="220" height="280" class="card card-amber"/>
+  <text x="650" y="108" class="card-title" fill="#FCD34D">3. Correlated Subquery</text>
+  <text x="555" y="140" class="card-body" fill="#E2E8F0">• Pure ANSI SQL standard</text>
+  <text x="555" y="160" class="card-body">• Engine agnostic (No LIMIT)</text>
+  <text x="555" y="180" class="card-body">• Compares e1 vs e2</text>
+  <text x="555" y="200" class="card-body" fill="#FCD34D">• Best for: Legacy SQL engines</text>
+  <text x="555" y="230" class="card-body" fill="#94A3B8">Syntax:</text>
+  <text x="555" y="250" class="card-body" fill="#60A5FA">WHERE (N-1) = (SELECT</text>
+  <text x="555" y="270" class="card-body" fill="#60A5FA">COUNT(DISTINCT e2.salary)</text>
+  <text x="555" y="290" class="card-body" fill="#60A5FA">FROM Emp e2 WHERE e2.sal &gt; e1.sal)</text>
+  <text x="555" y="330" class="card-body" fill="#F59E0B">Complexity: O(N²) worst</text>
+
+  <!-- Card 4: NTH_VALUE Window -->
+  <rect x="785" y="80" width="220" height="280" class="card card-purple"/>
+  <text x="895" y="108" class="card-title" fill="#C4B5FD">4. NTH_VALUE() Window</text>
+  <text x="800" y="140" class="card-body" fill="#E2E8F0">• Analytic window function</text>
+  <text x="800" y="160" class="card-body">• Requires explicit frame</text>
+  <text x="800" y="180" class="card-body">• ROWS BETWEEN UNBOUNDED</text>
+  <text x="800" y="200" class="card-body" fill="#C4B5FD">• Best for: Multi-row projection</text>
+  <text x="800" y="230" class="card-body" fill="#94A3B8">Syntax:</text>
+  <text x="800" y="250" class="card-body" fill="#60A5FA">NTH_VALUE(salary, N) OVER</text>
+  <text x="800" y="270" class="card-body" fill="#60A5FA">(ORDER BY salary DESC</text>
+  <text x="800" y="290" class="card-body" fill="#60A5FA">RANGE BETWEEN...)</text>
+  <text x="800" y="330" class="card-body" fill="#8B5CF6">Complexity: O(N log N)</text>
+</svg>
+

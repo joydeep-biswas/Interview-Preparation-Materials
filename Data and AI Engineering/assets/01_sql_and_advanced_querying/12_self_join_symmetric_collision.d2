@@ -1,12 +1,19 @@
 # Self-Joins & Avoiding Mirrored Duplicate Pairs
 direction: down
+classes: {
+  pattern: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+}
 
-bad: "❌ Anti-Pattern: ON a.id <> b.id\n• 1 <> 2 and 2 <> 1 are both TRUE\n• Yields duplicate mirrored pairs: (Alice, Bob) and (Bob, Alice)" {
+bad: "❌ Anti-Pattern: ON a.id <> b.id\n• Symmetric collision: 1 <> 2 AND 2 <> 1 are both TRUE\n• Yields duplicate mirrored pairs: (Alice, Bob) and (Bob, Alice)\n• Doubles cardinality; wasteful aggregation and reporting errors" {
+  class: pattern
   style.stroke: "#EF4444"
 }
 
-good: "✓ Production Pattern: ON a.id < b.id\n• Enforces canonical order (1 < 2 is TRUE, 2 < 1 is FALSE)\n• Yields exactly one unique pair: (Alice, Bob)" {
+good: "✓ Production Pattern: ON a.id < b.id (Strict Inequality)\n• Enforces canonical ordering: 1 < 2 is TRUE, 2 < 1 is FALSE\n• Yields exactly one unique unordered pair: (Alice, Bob)\n• Automatically prevents self-pairing (1 < 1 is FALSE)" {
+  class: pattern
   style.stroke: "#10B981"
 }
 
-bad -> good: "Refactor to strict inequality"
+bad -> good: "Refactor: a.id < b.id" {
+  style.stroke: "#10B981"
+}

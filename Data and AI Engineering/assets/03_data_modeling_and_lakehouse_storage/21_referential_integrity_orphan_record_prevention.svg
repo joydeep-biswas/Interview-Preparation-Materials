@@ -87,7 +87,7 @@
     <text x="739" y="241" fill="#cbd5e1" font-size="11" font-family="system-ui, sans-serif" text-anchor="start">Active BI dashboard serving</text>
   
     <rect x="715" y="260" width="220" height="105" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,4"/>
-    <text x="825.0" y="286" fill="#fca5a5" font-size="13" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">quarantine.orphan_orders</text>
+    <text x="728" y="286" fill="#fca5a5" font-size="11.5" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="start">Orphan Quarantine</text>
     <text x="825.0" y="302" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">Dead-Letter Investigation Queue</text>
     <rect x="849" y="270" width="80" height="18" rx="9" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
     <text x="889.0" y="282" fill="#ef4444" font-size="9" font-family="system-ui, sans-serif" font-weight="bold" text-anchor="middle">QUARANTINE</text>

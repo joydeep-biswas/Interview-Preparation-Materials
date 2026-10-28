@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 350" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { fill: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; }
+      .body-txt { fill: #94A3B8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; text-anchor: start; }
+      .edge-label { fill: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
+    </marker>
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06B6D4" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
+
+  <!-- Step 1: User Query -->
+  <g transform="translate(20, 110)">
+    <rect width="175" height="130" rx="8" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <text x="87" y="24" class="title" fill="#93C5FD">User Inquiry</text>
+    <text x="12" y="48" class="body-txt">• Early termination penalty?</text>
+    <text x="12" y="68" class="body-txt">• Clause 14.2 reference</text>
+    <text x="12" y="88" class="body-txt">• Semantic nuances</text>
+    <text x="12" y="108" class="body-txt">• Dense query vector</text>
+  </g>
+
+  <!-- Connect 1 to 2 -->
+  <path d="M 195 175 L 225 175" fill="none" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- Step 2: Bi-Encoder Retrieval -->
+  <g transform="translate(225, 110)">
+    <rect width="195" height="130" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+    <text x="97" y="24" class="title" fill="#FDE68A">Stage 1: Bi-Encoder</text>
+    <text x="12" y="48" class="body-txt">• Milvus / Pinecone ANN</text>
+    <text x="12" y="68" class="body-txt">• Top-50 candidates (~25ms)</text>
+    <text x="12" y="88" class="body-txt">• High recall, coarse ranking</text>
+    <text x="12" y="108" class="body-txt">• Key chunk buried at #12</text>
+  </g>
+
+  <!-- Connect 2 to 3 -->
+  <path d="M 420 175 L 450 175" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+
+  <!-- Step 3: Cross-Encoder Reranker -->
+  <g transform="translate(450, 110)">
+    <rect width="200" height="130" rx="8" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="100" y="24" class="title" fill="#C4B5FD">Stage 2: Cross-Encoder</text>
+    <text x="12" y="48" class="body-txt">• bge-reranker-large (~35ms)</text>
+    <text x="12" y="68" class="body-txt">• Full query-chunk attention</text>
+    <text x="12" y="88" class="body-txt">• Evaluates deep semantics</text>
+    <text x="12" y="108" class="body-txt">• Elevates #12 to Rank #1</text>
+  </g>
+
+  <!-- Connect 3 to 4 -->
+  <path d="M 650 175 L 680 175" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Step 4: Sentence Extractor / Pruner -->
+  <g transform="translate(680, 110)">
+    <rect width="180" height="130" rx="8" fill="#0C4A6E" stroke="#06B6D4" stroke-width="2"/>
+    <text x="90" y="24" class="title" fill="#67E8F9">Stage 3: Token Pruner</text>
+    <text x="12" y="48" class="body-txt">• Strips boilerplate prose</text>
+    <text x="12" y="68" class="body-txt">• Isolates 2–3 sentences</text>
+    <text x="12" y="88" class="body-txt">• 70% context reduction</text>
+    <text x="12" y="108" class="body-txt">• Eliminates distractors</text>
+  </g>
+
+  <!-- Connect 4 to 5 -->
+  <path d="M 860 175 L 890 175" fill="none" stroke="#06B6D4" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+
+  <!-- Step 5: Final LLM Generation -->
+  <g transform="translate(890, 110)">
+    <rect width="110" height="130" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="2"/>
+    <text x="55" y="24" class="title" fill="#A7F3D0">Target LLM</text>
+    <text x="10" y="48" class="body-txt">• High TTFT</text>
+    <text x="10" y="68" class="body-txt">• Zero drift</text>
+    <text x="10" y="88" class="body-txt">• 100%</text>
+    <text x="10" y="108" class="body-txt">grounded</text>
+  </g>
+</svg>

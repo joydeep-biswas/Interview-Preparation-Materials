@@ -19,7 +19,7 @@
     </marker>
   </defs>
 
-  <rect width="960" height="420" fill="#0B0F19"/>
+  <rect width="960" height="420" fill="#0B0F19" rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Actors -->
   <g transform="translate(60, 20)">

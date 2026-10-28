@@ -8,7 +8,7 @@ A comprehensive, production-grade guide to Graph Representations, BFS & Bidirect
 
 ![Graph Traversal Topologies & Shortest Path Convergence](assets/06_graphs_topological_sort_and_shortest_paths/01_graph_topologies_and_shortest_paths.svg)
 
-*D2 Source:* [assets/06_graphs_topological_sort_and_shortest_paths/01_graph_topologies_and_shortest_paths.d2](assets/06_graphs_topological_sort_and_shortest_paths/01_graph_topologies_and_shortest_paths.d2)
+*D2 Source: [`01_graph_topologies_and_shortest_paths.d2`](assets/06_graphs_topological_sort_and_shortest_paths/01_graph_topologies_and_shortest_paths.d2)*
 
 ---
 

@@ -1,6 +1,6 @@
 direction: right
 classes: {
-  box: { style: { fill: "#111827"; stroke-width: 1.5; rx: 10 } }
+  box: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
 }
 
 tokens: "Roman Numeral: 'MCMXCIV' (1994)\nEvaluates adjacent lookahead" {
@@ -9,7 +9,6 @@ tokens: "Roman Numeral: 'MCMXCIV' (1994)\nEvaluates adjacent lookahead" {
 }
 
 rules: "Subtractive Lookahead Rules\n'M' (1000) &gt;= 'C' (100) -> +1000\n'C' (100) &lt; 'M' (1000) -> -100 (CM)\n'M' (1000) &gt;= 'X' (10) -> +1000\n'X' (10) &lt; 'C' (100) -> -10 (XC)\n'C' (100) &gt;= 'I' (1) -> +100\n'I' (1) &lt; 'V' (5) -> -1 (IV)\n'V' (5) Last char -> +5" {
-  class: box
   style.stroke: "#F59E0B"
 }
 

@@ -6,84 +6,93 @@
       .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
     </style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B0F19"/>
-      <stop offset="100%" stop-color="#111827"/>
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
     </linearGradient>
-    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6"/>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
-    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981"/>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#10B981" />
     </marker>
-    <marker id="arr-a" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B"/>
+    <marker id="arr-a" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#F59E0B" />
     </marker>
-    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6"/>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
-    <marker id="arr-r" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444"/>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
-    <marker id="arr-s" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B"/>
+    <marker id="arr-s" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#64748B" />
     </marker>
   </defs>
   <!-- Canvas Background -->
-  <rect width="1140" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5"/>
+  <rect width="1140" height="420" rx="10" fill="url(#bg)" stroke="#1F2937" stroke-width="1.5" />
   <text x="35" y="34" font-size="16" font-weight="700" fill="#F8FAFC">Hash Aggregation vs. Sort/Stream Aggregation</text>
   <text x="35" y="54" font-size="11" fill="#94A3B8">Physical engine execution strategies for GROUP BY: In-memory hash tables vs. presorted sequential streaming</text>
 
-  <!-- Left Strategy: Hash Aggregation (w=525) -->
+  <!-- Left Strategy: Hash Aggregation (w=520, h=315) -->
   <g transform="translate(30, 80)">
-    <rect width="525" height="310" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2"/>
-    <text x="262" y="28" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">Strategy A: Hash Aggregation</text>
+    <rect width="520" height="315" rx="8" fill="#0B132B" stroke="#3B82F6" stroke-width="2" />
+    <text x="260" y="28" font-size="13" font-weight="700" fill="#93C5FD" text-anchor="middle">Strategy A: Hash Aggregation</text>
 
     <!-- Step 1 -->
-    <rect x="15" y="45" width="495" height="65" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2"/>
-    <text x="262" y="68" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">1. Build In-Memory Hash Table in RAM</text>
+    <rect x="15" y="45" width="490" height="72" rx="6" fill="#1C2541" stroke="#3B82F6" stroke-width="1.2" />
+    <text x="260" y="68" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">1. Build In-Memory Hash Table in RAM</text>
     <text x="30" y="88" font-size="11" fill="#94A3B8" text-anchor="start">• Hash(group_key) → Accumulator entry {sum, count, min}</text>
-    <text x="30" y="102" font-size="11" fill="#94A3B8" text-anchor="start">• O(N) CPU time; input data can be completely unsorted</text>
+    <text x="30" y="103" font-size="11" fill="#94A3B8" text-anchor="start">• O(N) CPU time; input data can be completely unsorted</text>
 
     <!-- Step 2 -->
-    <rect x="15" y="130" width="495" height="75" rx="6" fill="#1C2541" stroke="#F59E0B" stroke-width="1.2"/>
-    <text x="262" y="152" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">2. Cardinality &amp; Memory Check (work_mem)</text>
-    <text x="30" y="172" font-size="11" fill="#FDE68A" text-anchor="start">• If distinct keys fit in RAM: zero disk I/O, extreme speed</text>
-    <text x="30" y="188" font-size="11" fill="#FCA5A5" text-anchor="start">⚠️ If distinct keys exceed work_mem: Spills to disk partitions!</text>
+    <rect x="15" y="135" width="490" height="72" rx="6" fill="#1C2541" stroke="#F59E0B" stroke-width="1.2" />
+    <text x="260" y="157" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">2. Cardinality &amp; Memory Check (work_mem)</text>
+    <text x="30" y="177" font-size="11" fill="#FDE68A" text-anchor="start">• If distinct keys fit in RAM: zero disk I/O, extreme speed</text>
+    <text x="30" y="193" font-size="11" fill="#FCA5A5" text-anchor="start">⚠️ If distinct keys exceed work_mem: Spills to disk partitions!</text>
 
     <!-- Step 3 -->
-    <rect x="15" y="225" width="495" height="65" rx="6" fill="#1C2541" stroke="#10B981" stroke-width="1.2"/>
-    <text x="262" y="248" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">3. Materialize &amp; Emit Aggregated Tuples</text>
-    <text x="30" y="268" font-size="11" fill="#A7F3D0" text-anchor="start">• Scans hash table buckets and emits final group rows</text>
+    <rect x="15" y="225" width="490" height="72" rx="6" fill="#1C2541" stroke="#10B981" stroke-width="1.2" />
+    <text x="260" y="247" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">3. Materialize &amp; Emit Aggregated Tuples</text>
+    <text x="30" y="267" font-size="11" fill="#A7F3D0" text-anchor="start">• Scans hash table buckets and emits final group rows</text>
     <text x="30" y="282" font-size="11" fill="#A7F3D0" text-anchor="start">• Best for: Low-to-medium cardinality unsorted workloads</text>
 
-    <path d="M 262 110 L 262 128" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)"/>
-    <path d="M 262 205 L 262 223" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
+    <!-- Connected Step Arrows -->
+    <path d="M 260 117 L 260 135" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)" />
+    <path d="M 260 207 L 260 225" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
   </g>
 
-  <!-- Right Strategy: Sort/Stream Aggregation (w=525) -->
-  <g transform="translate(585, 80)">
-    <rect width="525" height="310" rx="8" fill="#062828" stroke="#10B981" stroke-width="2"/>
-    <text x="262" y="28" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">Strategy B: Sort / Stream Aggregation</text>
+  <!-- Right Strategy: Sort/Stream Aggregation (w=520, h=315) -->
+  <g transform="translate(590, 80)">
+    <rect width="520" height="315" rx="8" fill="#062828" stroke="#10B981" stroke-width="2" />
+    <text x="260" y="28" font-size="13" font-weight="700" fill="#6EE7B7" text-anchor="middle">Strategy B: Sort / Stream Aggregation</text>
 
     <!-- Step 1 -->
-    <rect x="15" y="45" width="495" height="65" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
-    <text x="262" y="68" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">1. Presorted Stream (Index Scan or Explicit Sort)</text>
+    <rect x="15" y="45" width="490" height="72" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2" />
+    <text x="260" y="68" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">1. Presorted Stream (Index Scan or Explicit Sort)</text>
     <text x="30" y="88" font-size="11" fill="#A7F3D0" text-anchor="start">• Requires input ordered by grouping keys [Key_A, Key_B...]</text>
-    <text x="30" y="102" font-size="11" fill="#A7F3D0" text-anchor="start">• Zero sort cost if read directly via B+Tree index scan</text>
+    <text x="30" y="103" font-size="11" fill="#A7F3D0" text-anchor="start">• Zero sort cost if read directly via B+Tree index scan</text>
 
     <!-- Step 2 -->
-    <rect x="15" y="130" width="495" height="75" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
-    <text x="262" y="152" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">2. Single-Pass Streaming Accumulation</text>
-    <text x="30" y="172" font-size="11" fill="#A7F3D0" text-anchor="start">• Accumulates values until grouping key changes</text>
-    <text x="30" y="188" font-size="11" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ Constant memory O(1) RAM footprint! Zero spill risk</text>
+    <rect x="15" y="135" width="490" height="72" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1.2" />
+    <text x="260" y="157" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">2. Single-Pass Streaming Accumulation</text>
+    <text x="30" y="177" font-size="11" fill="#A7F3D0" text-anchor="start">• Accumulates values until grouping key changes</text>
+    <text x="30" y="193" font-size="11" fill="#6EE7B7" font-weight="600" text-anchor="start">✓ Constant memory O(1) RAM footprint! Zero spill risk</text>
 
     <!-- Step 3 -->
-    <rect x="15" y="225" width="495" height="65" rx="6" fill="#064E3B" stroke="#8B5CF6" stroke-width="1.2"/>
-    <text x="262" y="248" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">3. Immediate Pipeline Pipelining</text>
-    <text x="30" y="268" font-size="11" fill="#C4B5FD" text-anchor="start">• Emits completed group row immediately and resets state</text>
+    <rect x="15" y="225" width="490" height="72" rx="6" fill="#064E3B" stroke="#8B5CF6" stroke-width="1.2" />
+    <text x="260" y="247" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">3. Immediate Pipeline Pipelining</text>
+    <text x="30" y="267" font-size="11" fill="#C4B5FD" text-anchor="start">• Emits completed group row immediately and resets state</text>
     <text x="30" y="282" font-size="11" fill="#C4B5FD" text-anchor="start">• Best for: Massive cardinality &amp; pre-indexed streaming data</text>
 
-    <path d="M 262 110 L 262 128" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)"/>
-    <path d="M 262 205 L 262 223" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)"/>
+    <!-- Connected Step Arrows -->
+    <path d="M 260 117 L 260 135" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arr-g)" />
+    <path d="M 260 207 L 260 225" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-p)" />
+  </g>
+
+  <!-- Central Bridge Connector: Directly connecting Strategy A to Strategy B -->
+  <g id="connectors">
+    <path d="M 550 237 L 590 237" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arr-a)" />
+    <rect x="555" y="225" width="30" height="24" rx="4" fill="#1E293B" stroke="#F59E0B" stroke-width="1.2" />
+    <text x="570" y="241.5" font-size="10" font-weight="700" fill="#FDE68A" text-anchor="middle">VS</text>
   </g>
 </svg>

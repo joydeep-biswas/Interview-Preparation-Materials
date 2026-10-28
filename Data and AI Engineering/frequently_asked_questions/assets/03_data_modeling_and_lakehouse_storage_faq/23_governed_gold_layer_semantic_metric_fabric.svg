@@ -6,57 +6,53 @@
       .edge { stroke-width: 2; fill: none; }
     </style>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3B82F6" />
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
     </marker>
     <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6"/>
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8B5CF6" />
     </marker>
   </defs>
 
-  <rect width="1020" height="340" fill="#0B0F19"/>
+  <rect width="1020" height="340" fill="#0B0F19"  rx="10" stroke="#1F2937" stroke-width="1.5"/>
 
   <!-- Col 1: Silver Layer -->
   <g transform="translate(30, 80)">
-    <rect width="170" height="170" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2"/>
+    <rect width="170" height="170" rx="10" ry="10" fill="#111827" stroke="#3B82F6" stroke-width="2" />
     <text x="85" y="35" class="title" fill="#93C5FD">Silver Layer</text>
-    <line x1="15" y1="48" x2="155" y2="48" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="48" x2="155" y2="48" stroke="#1F2937" stroke-width="1.5" />
     <text x="20" y="78" class="body-txt">• Cleaned entities</text>
     <text x="20" y="102" class="body-txt">• Deduplicated CDC</text>
     <text x="20" y="126" class="body-txt">• Conformed business keys</text>
     <text x="20" y="150" class="body-txt">• ACID Delta / Iceberg</text>
   </g>
 
-  <path fill="none" d="M 200 165 L 245 165" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)"/>
-
   <!-- Col 2: Governed Gold Layer -->
   <g transform="translate(245, 50)">
-    <rect width="250" height="230" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2"/>
+    <rect width="250" height="230" rx="10" ry="10" fill="#111827" stroke="#10B981" stroke-width="2" />
     <text x="125" y="32" class="title" fill="#6EE7B7">Governed Gold Layer</text>
-    <line x1="15" y1="44" x2="235" y2="44" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="44" x2="235" y2="44" stroke="#1F2937" stroke-width="1.5" />
 
-    <rect x="15" y="55" width="220" height="48" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="55" width="220" height="48" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="25" y="74" class="title" font-size="11" fill="#FCD34D" text-anchor="start">Conformed Dimensions</text>
     <text x="25" y="92" class="body-txt">dim_customer, dim_product, dim_date</text>
 
-    <rect x="15" y="112" width="220" height="48" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="112" width="220" height="48" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="25" y="131" class="title" font-size="11" fill="#93C5FD" text-anchor="start">Kimball Fact Tables</text>
     <text x="25" y="149" class="body-txt">fact_orders, fact_subscriptions</text>
 
-    <rect x="15" y="169" width="220" height="48" rx="6" ry="6" fill="#1E293B"/>
+    <rect x="15" y="169" width="220" height="55" rx="6" ry="6" fill="#1E293B"  stroke="#334155" stroke-width="1"/>
     <text x="25" y="188" class="title" font-size="11" fill="#C4B5FD" text-anchor="start">Curated Wide Mart (OBT)</text>
     <text x="25" y="206" class="body-txt">Clustered via Liquid / Z-Order</text>
   </g>
 
-  <path fill="none" d="M 495 165 L 540 165" class="edge" stroke="#10B981" marker-end="url(#arr-green)"/>
-
   <!-- Col 3: Semantic Layer -->
   <g transform="translate(540, 70)">
-    <rect width="210" height="190" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+    <rect width="210" height="190" rx="10" ry="10" fill="#111827" stroke="#8B5CF6" stroke-width="2" />
     <text x="105" y="35" class="title" fill="#C4B5FD">Semantic Metric Fabric</text>
-    <line x1="15" y1="48" x2="195" y2="48" stroke="#1F2937" stroke-width="1.5"/>
+    <line x1="15" y1="48" x2="195" y2="48" stroke="#1F2937" stroke-width="1.5" />
     <text x="20" y="78" class="body-txt">• dbt Semantic Layer</text>
     <text x="20" y="102" class="body-txt">• Cube / Power BI Dataset</text>
     <text x="20" y="126" class="body-txt">• Certified business metrics</text>
@@ -65,26 +61,30 @@
   </g>
 
   <!-- Connectors to Downstream BI -->
-  <path fill="none" d="M 750 130 L 795 90" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
-  <path fill="none" d="M 750 165 L 795 165" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
-  <path fill="none" d="M 750 200 L 795 240" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)"/>
-
   <!-- Col 4: Consumer Endpoints -->
   <g transform="translate(795, 55)">
-    <rect width="190" height="60" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+    <rect width="190" height="60" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5" />
     <text x="95" y="26" class="title" fill="#FCD34D">Finance Dashboards</text>
     <text x="95" y="46" class="body-txt" text-anchor="middle">MRR, Net Retention, GAAP</text>
   </g>
 
   <g transform="translate(795, 135)">
-    <rect width="190" height="60" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+    <rect width="190" height="60" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5" />
     <text x="95" y="26" class="title" fill="#FCD34D">Marketing Self-Service</text>
     <text x="95" y="46" class="body-txt" text-anchor="middle">Attribution &amp; Funnel BI</text>
   </g>
 
   <g transform="translate(795, 215)">
-    <rect width="190" height="60" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5"/>
+    <rect width="190" height="60" rx="8" ry="8" fill="#111827" stroke="#F59E0B" stroke-width="1.5" />
     <text x="95" y="26" class="title" fill="#FCD34D">Executive Scorecards</text>
     <text x="95" y="46" class="body-txt" text-anchor="middle">Real-time KPI Mobile &amp; C-Suite</text>
   </g>
-</svg>
+<g id="connectors"><path fill="none" d="M 200 165 L 245 165" class="edge" stroke="#3B82F6" marker-end="url(#arr-blue)" />
+
+  <path fill="none" d="M 495 165 L 540 165" class="edge" stroke="#10B981" marker-end="url(#arr-green)" />
+
+  <path fill="none" d="M 750 130 L 795 90" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)" />
+  <path fill="none" d="M 750 165 L 795 165" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)" />
+  <path fill="none" d="M 750 200 L 795 240" class="edge" stroke="#8B5CF6" marker-end="url(#arr-purple)" />
+
+  </g></svg>

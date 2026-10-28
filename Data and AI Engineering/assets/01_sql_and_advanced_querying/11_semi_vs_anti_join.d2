@@ -1,12 +1,30 @@
-# LEFT SEMI JOIN vs LEFT ANTI JOIN
+# LEFT SEMI JOIN vs LEFT ANTI JOIN: Subquery Pruning Patterns
 direction: right
-
-semi: "LEFT SEMI JOIN (EXISTS)" {
-  style.stroke: "#10B981"
-  desc: "Returns left row on 1st match\n• Short-circuits scanning\n• NEVER duplicates left rows"
+classes: {
+  pillar: { style: { fill: "#111827"; stroke-width: 2; border-radius: 10 } }
+  card: { style: { fill: "#1E293B"; stroke-width: 2; border-radius: 8 } }
 }
 
-anti: "LEFT ANTI JOIN (NOT EXISTS)" {
+semi: "LEFT SEMI JOIN (WHERE EXISTS)" {
+  class: pillar
+  style.stroke: "#10B981"
+  probe: "Left Row [ID = 10]\n(Probe Tuple)" { class: card; style.stroke: "#10B981" }
+  matches: "Right Matches: 5 rows\n(Short-circuits on 1st match)" { class: card; style.stroke: "#3B82F6" }
+  output: "Output: Emits 1 Row [ID = 10]\n• Never duplicates left rows\n• Safe from Cartesian explosion" { class: card; style.stroke: "#10B981" }
+  probe -> matches: "Scan"
+  matches -> output: "Emit"
+}
+
+anti: "LEFT ANTI JOIN (WHERE NOT EXISTS)" {
+  class: pillar
   style.stroke: "#EF4444"
-  desc: "Returns left row ONLY if 0 matches\n• Filters out existing relationships\n• Immune to NULL 3VL traps"
+  probe: "Left Row [ID = 20]\n(Probe Tuple)" { class: card; style.stroke: "#EF4444" }
+  matches: "Right Matches: 0 rows\n(Zero matches found)" { class: card; style.stroke: "#64748B" }
+  output: "Output: Emits 1 Row [ID = 20]\n• If ANY match found, row DROPPED\n• Immune to 3VL NULL traps" { class: card; style.stroke: "#EF4444" }
+  probe -> matches: "Scan"
+  matches -> output: "Emit"
+}
+
+semi -> anti: "VS" {
+  style.stroke: "#F59E0B"
 }

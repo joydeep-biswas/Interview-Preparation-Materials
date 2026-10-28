@@ -156,42 +156,7 @@ To intuitively understand Kubernetes without getting lost in acronyms, visualize
 
 ![Kubernetes Control Plane &amp; Worker Node Port Authority Architecture](assets/15_cloud_infrastructure_containers_and_observability/01_kubernetes_control_plane_port_authority.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  control_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  worker_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-control: "The Port Authority (Control Plane)" {
-  apiserver: "Harbor Front Desk (kube-apiserver)\nManifest submission & mTLS gateway" { class: control_box }
-  etcd: "Master Port Ledger (etcd)\nConsistent distributed key-value store" { class: control_box }
-  scheduler: "Berth Dispatcher (kube-scheduler)\nNode placement & filtering engine" { class: control_box }
-  controllers: "Auditing Board (kube-controller-manager)\nDesired vs actual reconciliation" { class: control_box }
-
-  apiserver <-> etcd
-  apiserver <-> scheduler
-  apiserver <-> controllers
-}
-
-workers: "The Cargo Fleet (Worker Nodes)" {
-  kubelet: "Ship Captain (kubelet)\nNode supervisor agent" { class: worker_box }
-  runtime: "Hydraulic Crane (containerd / runc)\nImage pulling & cgroup setup" { class: worker_box }
-  proxy: "Traffic Police (kube-proxy / CNI)\nService IP routing & eBPF" { class: worker_box }
-  pods: "Cargo Containers (Pods)\nIsolated execution namespaces" { class: worker_box }
-
-  kubelet -> runtime -> pods
-  kubelet -> proxy
-}
-
-control.apiserver -> workers.kubelet: "mTLS Commands & Specs" {
-  style: { stroke: "#fbbf24"; stroke-width: 2 }
-}
-
-```
-</details>
+*D2 Source: [`01_kubernetes_control_plane_port_authority.d2`](assets/15_cloud_infrastructure_containers_and_observability/01_kubernetes_control_plane_port_authority.d2)*
 
 - **`kube-apiserver` (The Front Desk):** No crane worker, captain, or customer can touch the master ledger directly. All requests must be stamped, authenticated, and authorized at the central desk.
 - **`etcd` (The Master Ledger):** If the ledger burns down, the port descends into chaos. It uses consensus protocols (Raft) so that even if one backup clerk faints, the remaining clerks agree on the exact location of every container.
@@ -233,34 +198,7 @@ The `kube-apiserver` is the stateless communication hub of the entire cluster. I
 
 ![kube-apiserver Ingress Request Lifecycle Pipeline](assets/15_cloud_infrastructure_containers_and_observability/02_kube_apiserver_request_lifecycle.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  stage_blue: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  stage_amber: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  stage_red: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2 } }
-  stage_green: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2 } }
-}
-
-req: "Incoming HTTP REST Request\nPOST /api/v1/namespaces/prod/pods"
-authn: "1. Authentication (AuthN)\nX.509, Bearer Token, OIDC" { class: stage_blue }
-authz: "2. Authorization (AuthZ)\nRBAC: Subject, Verb, Resource" { class: stage_blue }
-mutating: "3. Mutating Admission Webhooks\nSidecar injection & default limits" { class: stage_amber }
-schema_val: "4. Object Schema Validation\nOpenAPI v3 type verification" { class: stage_blue }
-validating: "5. Validating Admission Webhooks\nOPA Gatekeeper & Kyverno policies" { class: stage_red }
-etcd_commit: "6. Commit to etcd Storage\nAtomic write to Raft WAL log" { class: stage_green }
-
-req -> authn: "Extract identity"
-authn -> authz: "Check permissions"
-authz -> mutating: "Authorize request"
-mutating -> schema_val: "Validate mutated spec"
-schema_val -> validating: "Enforce policy guardrails"
-validating -> etcd_commit: "Persist to cluster state"
-
-```
-</details>
+*D2 Source: [`02_kube_apiserver_request_lifecycle.d2`](assets/15_cloud_infrastructure_containers_and_observability/02_kube_apiserver_request_lifecycle.d2)*
 
 #### Detailed Phase Breakdown:
 1. **Authentication (AuthN):**
@@ -375,36 +313,7 @@ The `kube-controller-manager` is a daemon process executing multiple autonomous 
 
 ![Client-Go SharedInformer Architecture &amp; Controller Reconciliation Loop](assets/15_cloud_infrastructure_containers_and_observability/03_client_go_informer_reconciliation_loop.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  ingest_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  cache_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  queue_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  reconcile_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-apiserver: "kube-apiserver\nCluster State Authority" { class: ingest_box }
-reflector: "Reflector (ListerWatcher)\nHTTP/2 Watch Stream" { class: ingest_box }
-fifo: "DeltaFIFO Queue\nOrdered change buffer" { class: ingest_box }
-indexer: "Local Indexer Cache\nThread-safe local store" { class: cache_box }
-workqueue: "Rate-Limiting WorkQueue\nStores namespace/name keys" { class: queue_box }
-reconcile: "Reconcile() Control Loop\nCompare Desired vs Actual State" { class: reconcile_box }
-
-apiserver -> reflector: "Watch Stream"
-reflector -> fifo: "Populate deltas"
-fifo -> indexer: "Update local cache"
-fifo -> workqueue: "Enqueue changed keys"
-workqueue -> reconcile: "Worker dequeues key"
-reconcile -> indexer: "Fetch cached object"
-reconcile -> apiserver: "Corrective API mutation" {
-  style: { stroke: "#f87171"; stroke-width: 2 }
-}
-
-```
-</details>
+*D2 Source: [`03_client_go_informer_reconciliation_loop.d2`](assets/15_cloud_infrastructure_containers_and_observability/03_client_go_informer_reconciliation_loop.d2)*
 
 #### SharedInformer Architecture:
 To prevent thousands of controller threads from overwhelming `kube-apiserver` with duplicate polling requests, Kubernetes utilizes the **SharedInformer** framework:
@@ -456,37 +365,7 @@ A Pod is the smallest deployable compute unit in Kubernetes. It encapsulates one
 #### The Three Health Probes:
 ![Kubernetes Pod Probe Lifecycle: Startup, Liveness &amp; Readiness](assets/15_cloud_infrastructure_containers_and_observability/04_kubernetes_probe_lifecycle_pipeline.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  startup_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  liveness_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  readiness_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-start: "Container Starts\nPod initialization & JVM bootstrap"
-
-startup: "1. Startup Probe\nBlocks other probes during warm-up\nPrevents premature restarts" {
-  class: startup_box
-}
-
-steady_state: "2. Continuous Steady-State Probes" {
-  liveness: "Liveness Probe (Self-Healing)\nDetects deadlocks & thread hangs\nAction: Kubelet kills & restarts pod" {
-    class: liveness_box
-  }
-  readiness: "Readiness Probe (Ingress Protection)\nDetects warm-up & temporary saturation\nAction: Removes pod IP from Endpoints" {
-    class: readiness_box
-  }
-}
-
-start -> startup: "Initiate boot"
-startup -> steady_state.liveness: "Passed -> Enable Liveness" { style: { stroke: "#4ade80"; stroke-width: 2 } }
-startup -> steady_state.readiness: "Passed -> Enable Readiness" { style: { stroke: "#4ade80"; stroke-width: 2 } }
-
-```
-</details>
+*D2 Source: [`04_kubernetes_probe_lifecycle_pipeline.d2`](assets/15_cloud_infrastructure_containers_and_observability/04_kubernetes_probe_lifecycle_pipeline.d2)*
 
 - **Startup Probe:** Protects slow-starting legacy applications (e.g. heavy Java Spring Boot apps taking 90 seconds to warm up). Disables liveness and readiness checks until startup succeeds.
 - **Liveness Probe:** Detects unrecoverable deadlocks (e.g. infinite loop, thread starvation). If it fails consecutively past `failureThreshold`, `kubelet` sends `SIGTERM`, waits `terminationGracePeriodSeconds`, sends `SIGKILL`, and restarts the container.
@@ -500,28 +379,7 @@ The `kube-scheduler` monitors unscheduled pods (`spec.nodeName == ""`) and selec
 
 ![kube-scheduler Two-Phase Pipeline: Filtering, Scoring &amp; Binding](assets/15_cloud_infrastructure_containers_and_observability/05_kube_scheduler_filter_score_pipeline.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  pod_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  filter_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  score_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2 } }
-  bind_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-pod: "Unscheduled Pod Queue\nspec.nodeName is empty" { class: pod_box }
-filter: "1. Filter Phase (Predicates)\nDisqualifies nodes lacking CPU/RAM\nEvaluates taints & tolerations" { class: filter_box }
-score: "2. Score Phase (Priorities)\nRanks surviving nodes 0 to 100\nBalances load & checks cached images" { class: score_box }
-bind: "3. Binding Cycle\nAsynchronously writes nodeName to etcd\nTarget Kubelet begins container pull" { class: bind_box }
-
-pod -> filter: "Pop pending pod"
-filter -> score: "Pass surviving candidate nodes"
-score -> bind: "Select node with highest score"
-
-```
-</details>
+*D2 Source: [`05_kube_scheduler_filter_score_pipeline.d2`](assets/15_cloud_infrastructure_containers_and_observability/05_kube_scheduler_filter_score_pipeline.d2)*
 
 #### Phase 1: Filtering (Predicates)
 Disqualifies nodes that cannot satisfy the pod's physical or architectural requirements:
@@ -743,33 +601,7 @@ Kubernetes `Services` provide stable virtual IP addresses (`ClusterIP`) that loa
 
 ![Kubernetes Service Datapath: kube-proxy iptables vs. Cilium eBPF](assets/15_cloud_infrastructure_containers_and_observability/06_kube_proxy_iptables_vs_cilium_ebpf.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  iptables_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  ebpf_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-iptables_mode: "Legacy kube-proxy (iptables: O(N))" {
-  pkt_in: "Packet In"
-  rule1: "Rule 1\nKUBE-SERVICES" { class: iptables_box }
-  ruleN: "Rule 20,000\nSequential Netfilter Scan" { class: iptables_box }
-
-  pkt_in -> rule1 -> ruleN: "Evaluates rules linearly\nHigh CPU and lock contention"
-}
-
-ebpf_mode: "Modern Cilium eBPF (Constant Time: O(1))" {
-  pkt_in: "Packet In"
-  bpf_map: "BPF Map Hash Lookup\nVIP:Port -> Pod IP" { class: ebpf_box }
-  forward: "Direct Socket Forwarding\nSub-millisecond latency" { class: ebpf_box }
-
-  pkt_in -> bpf_map -> forward: "O(1) Hash Map resolution\nZero netfilter traversal"
-}
-
-```
-</details>
+*D2 Source: [`06_kube_proxy_iptables_vs_cilium_ebpf.d2`](assets/15_cloud_infrastructure_containers_and_observability/06_kube_proxy_iptables_vs_cilium_ebpf.d2)*
 
 - **`kube-proxy` (iptables mode):** Every Service and Pod endpoint is written as sequential packet filter chains in the Linux kernel. Evaluating $N$ rules has $O(N)$ computational complexity. In clusters with $>5,000$ services, syncing iptables locks the kernel networking subsystem and causes severe packet processing latency spikes.
 - **`kube-proxy` (IPVS mode):** Uses Linux IP Virtual Server. Translates rules into in-kernel hash tables with $O(1)$ lookup complexity, scaling significantly better than iptables.
@@ -819,29 +651,7 @@ The Container Storage Interface (CSI) standardizes how Kubernetes interfaces wit
 
 ![Container Storage Interface (CSI) Dynamic Provisioning Lifecycle](assets/15_cloud_infrastructure_containers_and_observability/07_csi_storage_dynamic_provisioning_lifecycle.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  spec_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  csi_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  pv_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-pvc: "1. PersistentVolumeClaim (PVC)\nWorkload requests 500GB NVMe" { class: spec_box }
-sc: "2. StorageClass\nDefines CSI provisioner & parameters" { class: spec_box }
-csi: "3. CSI External-Provisioner\nCalls Cloud API to allocate disk" { class: csi_box }
-pv: "4. PersistentVolume (PV)\nBinds 1:1 to PVC with volumeHandle" { class: pv_box }
-node: "5. Kubelet & CSI Node Plugin\nAttaches, formats filesystem & bind-mounts" { class: pv_box }
-
-pvc -> sc: "References StorageClass"
-sc -> csi: "Triggers dynamic provisioning"
-csi -> pv: "Creates PV representation in etcd"
-pv -> node: "Attaches & mounts volume to Pod"
-
-```
-</details>
+*D2 Source: [`07_csi_storage_dynamic_provisioning_lifecycle.d2`](assets/15_cloud_infrastructure_containers_and_observability/07_csi_storage_dynamic_provisioning_lifecycle.d2)*
 
 - **`StorageClass`:** Specifies the CSI storage plugin and parameters (e.g. IOPS tiers, replication type). Use `volumeBindingMode: WaitForFirstConsumer` to ensure disks are provisioned in the exact Availability Zone where the pod is scheduled!
 - **`PersistentVolumeClaim` (PVC):** The developer's declarative request for storage capacity and access mode (`ReadWriteOnce`, `ReadWriteMany`).
@@ -957,37 +767,7 @@ In enterprise GitOps, application definitions and cluster fleet manifests are de
 
 ![GitOps Enterprise Fleet Monorepo Architecture](assets/15_cloud_infrastructure_containers_and_observability/08_gitops_monorepo_fleet_directory_structure.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  cluster_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  base_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  prod_overlay: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  stage_overlay: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-repo: "📁 gitops-enterprise-fleet/" {
-  clusters: "📁 clusters/ (Platform Addons)" {
-    prod: "production-aks-eastus/\nCertManager, Ingress, Kyverno" { class: cluster_box }
-    staging: "staging-aks-eastus/\nDevelopment Tools & Mocks" { class: cluster_box }
-  }
-
-  apps: "📁 apps/ (Application Catalog)" {
-    payment: "payment-service/" {
-      base: "base/\ndeployment.yaml, service.yaml" { class: base_box }
-      prod_overlay: "overlays/production/\n10 replicas, PSS hardened, Vault secrets" { class: prod_overlay }
-      stage_overlay: "overlays/staging/\n1 replica, sandbox config" { class: stage_overlay }
-
-      base -> prod_overlay: "patchesStrategicMerge"
-      base -> stage_overlay: "patchesStrategicMerge"
-    }
-  }
-}
-
-```
-</details>
+*D2 Source: [`08_gitops_monorepo_fleet_directory_structure.d2`](assets/15_cloud_infrastructure_containers_and_observability/08_gitops_monorepo_fleet_directory_structure.d2)*
 
 #### Sync Waves (`argocd.argoproj.io/sync-wave`):
 Sync waves order the execution of declarative resources during deployment:
@@ -1045,35 +825,7 @@ spec:
 
 ![Kubernetes Pod CrashLoopBackOff Diagnostic Decision Tree](assets/15_cloud_infrastructure_containers_and_observability/09_crashloopbackoff_diagnostic_decision_tree.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  crash_node: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  inspect_node: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  oom_node: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  sigterm_node: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  app_node: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  job_node: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-}
-
-status: "Pod Status: CrashLoopBackOff" { class: crash_node }
-inspect: "Inspect LastState.ExitCode\n(kubectl describe pod <name>)" { class: inspect_node }
-
-oom: "Exit Code 137: OOMKilled\nContainer exceeded memory limit\nFix: Increase spec.resources.limits.memory" { class: oom_node }
-sigterm: "Exit Code 143: SIGTERM\nGraceful shutdown timed out\nFix: Increase terminationGracePeriodSeconds" { class: sigterm_node }
-app: "Exit Code 1: Application Exception\nUnhandled runtime crash or missing env\nFix: kubectl logs -p <pod>" { class: app_node }
-job: "Exit Code 0: Normal Completion\nScript finished but restartPolicy is Always\nFix: Convert Deployment to Job" { class: job_node }
-
-status -> inspect: "Describe pod"
-inspect -> oom: "Exit 137"
-inspect -> sigterm: "Exit 143"
-inspect -> app: "Exit 1"
-inspect -> job: "Exit 0"
-
-```
-</details>
+*D2 Source: [`09_crashloopbackoff_diagnostic_decision_tree.d2`](assets/15_cloud_infrastructure_containers_and_observability/09_crashloopbackoff_diagnostic_decision_tree.d2)*
 
 #### Diagnostic Commands:
 ```bash
@@ -1369,31 +1121,7 @@ To understand the profound paradigm shift between traditional monitoring and mod
 
 ![System Telemetry Evolution: Traditional Monitoring vs. Modern Observability](assets/15_cloud_infrastructure_containers_and_observability/10_monitoring_vs_observability_paradigm.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  mon_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  obs_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-monitoring: "Traditional Monitoring (Car Dashboard)\nKnown-Known Failure Modes" {
-  light: "Check Engine Light\nStatic threshold trigger (CPU > 85%)" { class: mon_box }
-  panic: "Operator Guesswork\nNo context, no causal chain, alert fatigue" { class: mon_box }
-
-  light -> panic: "Alert fires without root cause"
-}
-
-observability: "Modern Observability (Hospital ICU)\nUnknown-Unknown Failure Modes" {
-  telemetry: "Correlated Telemetry\nTraces, Metrics, Structured Logs & Profiles" { class: obs_box }
-  diagnosis: "Differential Diagnosis\nHigh-cardinality queries isolate root cause" { class: obs_box }
-
-  telemetry -> diagnosis: "Trace context propagates error propagation"
-}
-
-```
-</details>
+*D2 Source: [`10_monitoring_vs_observability_paradigm.d2`](assets/15_cloud_infrastructure_containers_and_observability/10_monitoring_vs_observability_paradigm.d2)*
 
 - **Traditional Monitoring (The Check-Engine Light):** A static threshold fires a binary signal. Your car illuminates an orange engine icon. You know *that* something failed, but you have no visibility into *why*. Is the fuel injector clogged? Is an oxygen sensor loose? Is the gas cap untightened? You must pull over, open the hood, and guess. In software, this corresponds to `CPU > 80%` or `Ping Failed`.
 - **Modern Observability (The Hospital ICU):** The ICU does not merely beep when a patient’s heart stops. It streams high-resolution, multi-dimensional telemetry: synchronized arterial pressure waveforms, continuous ECG telemetry, end-tidal CO2, and automated laboratory blood gas analysis. When an unprecedented medical anomaly occurs (an "unknown-unknown"), the attending intensivist queries the correlated data in real time: *"Did the blood pressure drop coincide with the administration of antibiotic X, followed by a spike in histamine biomarkers?"* In software, this enables an engineer to diagnose a distributed dead-lock occurring only when customers in region `eu-west-1` with cart size $> 50$ execute a checkout during a specific database failover window—without deploying new code or restarting pods.
@@ -1420,34 +1148,7 @@ When designing production telemetry dashboards and alerting regimes, senior engi
 
 ![Telemetry Design Patterns: The RED Method vs. The USE Method](assets/15_cloud_infrastructure_containers_and_observability/11_red_method_vs_use_method_telemetry.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  red_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  use_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-}
-
-req: "Incoming Request\nAPI Gateway & Services"
-
-red: "Application Layer: The RED Method" {
-  rate: "Rate (R)\nRequests per second" { class: red_box }
-  errors: "Errors (E)\nHTTP 5xx error rate" { class: red_box }
-  duration: "Duration (D)\nLatency percentiles (P50, P95, P99)" { class: red_box }
-}
-
-use: "Infrastructure Layer: The USE Method" {
-  util: "Utilization (U)\nActive time % (CPU, Disk, Net)" { class: use_box }
-  sat: "Saturation (S)\nQueued backlog & load average" { class: use_box }
-  err: "Errors (E)\nHardware drops & NIC packet errors" { class: use_box }
-}
-
-req -> red: "Evaluates service health"
-req -> use: "Evaluates host hardware limits"
-
-```
-</details>
+*D2 Source: [`11_red_method_vs_use_method_telemetry.d2`](assets/15_cloud_infrastructure_containers_and_observability/11_red_method_vs_use_method_telemetry.d2)*
 
 #### 1. Google SRE Four Golden Signals
 Google's Site Reliability Engineering methodology identifies four primary metrics that directly capture user pain and operational stability:
@@ -1589,37 +1290,7 @@ Prometheus stores time series data on disk in a highly specialized, append-only 
 
 ![Prometheus TSDB Architecture: Head Chunks, WAL &amp; Block Compaction](assets/15_cloud_infrastructure_containers_and_observability/12_prometheus_tsdb_head_chunk_wal_lifecycle.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  wal_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  head_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  block_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-scraper: "Scrape Loop (Every 15s)\nPulls /metrics endpoint"
-
-ram: "TSDB In-Memory & Buffer Tier" {
-  wal: "Write-Ahead Log (WAL)\nAppend-only disk log for crash recovery" { class: wal_box }
-  head: "Head Chunks (RAM Buffer)\nGorilla compression, holds active 2h" { class: head_box }
-
-  wal <-> head: "Synchronized ingest"
-}
-
-disk: "Compacted Blocks (Disk Storage)" {
-  block: "Immutable 2h Block: /data/{ulid}/\nchunks/, index, meta.json, tombstones" { class: block_box }
-}
-
-scraper -> ram.wal: "Append raw sample"
-scraper -> ram.head: "Store in active series"
-ram.head -> disk.block: "Flush & compact every 2 hours" {
-  style: { stroke: "#4ade80"; stroke-width: 2 }
-}
-
-```
-</details>
+*D2 Source: [`12_prometheus_tsdb_head_chunk_wal_lifecycle.d2`](assets/15_cloud_infrastructure_containers_and_observability/12_prometheus_tsdb_head_chunk_wal_lifecycle.d2)*
 
 #### How Gorilla Compression Works:
 1. **Delta-of-Deltas Timestamp Compression:**
@@ -1647,33 +1318,7 @@ PromQL (Prometheus Query Language) operates on four data types: **Instant Vector
 
 ![PromQL Metric Analysis: rate() vs. irate() Behavior](assets/15_cloud_infrastructure_containers_and_observability/13_promql_rate_vs_irate_extrapolation.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  rate_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  irate_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-rate_flow: "rate(v[5m]): Linear Extrapolation" {
-  r1: "Calculates delta across entire 5-minute range" { class: rate_box }
-  r2: "Smooths micro-spikes & handles counter resets" { class: rate_box }
-  r3: "MANDATORY: Use for alerting & SLO tracking" { class: rate_box }
-
-  r1 -> r2 -> r3
-}
-
-irate_flow: "irate(v[5m]): Instantaneous Rate" {
-  i1: "Calculates delta strictly between last 2 points" { class: irate_box }
-  i2: "Extremely volatile & blind to earlier counter resets" { class: irate_box }
-  i3: "WARNING: High-res dashboard zoom ONLY. Never alert." { class: irate_box }
-
-  i1 -> i2 -> i3
-}
-
-```
-</details>
+*D2 Source: [`13_promql_rate_vs_irate_extrapolation.d2`](assets/15_cloud_infrastructure_containers_and_observability/13_promql_rate_vs_irate_extrapolation.d2)*
 
 > [!CRITICAL]
 > **Counter Reset Extrapolation:** A Prometheus `counter` is strictly monotonically increasing. When a service crashes or restarts, its counter resets to 0. Both `rate()` and `increase()` inspect adjacent samples. If sample $S_{n+1} < S_n$, the function infers a reset and adds $S_{n+1}$ to the running total. **Never execute `sum(rate(counter[5m]))` inverted as `rate(sum(counter)[5m])`**! Summing before calculating rate hides resets inside the aggregate, resulting in catastrophic negative dips and corrupted metrics.
@@ -1746,41 +1391,7 @@ OpenTelemetry is an open-source, vendor-neutral CNCF project providing a unified
 
 ![OpenTelemetry (OTel) Architecture: API, SDK, and Collector Pipeline](assets/15_cloud_infrastructure_containers_and_observability/14_opentelemetry_architecture_api_sdk_collector.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  api_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  sdk_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  proto_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  col_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-}
-
-app: "Application Process Boundary" {
-  code: "Application Code"
-  api: "OpenTelemetry API\nInterface only; no-op fallback" { class: api_box }
-  sdk: "OpenTelemetry SDK\nBatching, sampling, resource tags" { class: sdk_box }
-
-  code -> api: "Instruments spans"
-  api -> sdk: "Implemented by"
-}
-
-wire: "OTLP Wire Protocol\ngRPC (:4317) or HTTP (:4318)\nProtobuf encoding" { class: proto_box }
-
-collector: "OpenTelemetry Collector" {
-  recv: "Receivers (OTLP Ingress)" { class: col_box }
-  proc: "Processors (batch, memory_limiter, PII scrub)" { class: col_box }
-  exp: "Exporters (Tempo, Prometheus, Datadog)" { class: col_box }
-
-  recv -> proc -> exp
-}
-
-app.sdk -> wire: "Emits serialized telemetry"
-wire -> collector.recv: "Pushes to collector gateway"
-
-```
-</details>
+*D2 Source: [`14_opentelemetry_architecture_api_sdk_collector.d2`](assets/15_cloud_infrastructure_containers_and_observability/14_opentelemetry_architecture_api_sdk_collector.d2)*
 
 1. **OTel API:** Defines the tracer, meter, and logger interfaces. Library authors (e.g., an HTTP client or database driver) depend *only* on the API. If no SDK is configured by the hosting application, the API defaults to a zero-overhead No-Op implementation.
 2. **OTel SDK:** The operational implementation registered by the application entrypoint. It configures exporters, resource detectors (retrieving pod name, node name, AWS EC2 instance ID), Samplers, and SpanProcessors (`BatchSpanProcessor`).
@@ -1905,33 +1516,7 @@ In massive-scale cloud architectures processing millions of requests per second,
 
 ![Distributed Trace Sampling Strategies: Head-Based vs. Tail-Based](assets/15_cloud_infrastructure_containers_and_observability/15_head_vs_tail_based_distributed_sampling.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  head_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  tail_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-head: "Head-Based Sampling (Decided at Gateway)" {
-  req: "Request Arrives at Edge"
-  coin: "Random 1% Coin Flip\n99% of requests discarded" { class: head_box }
-  flaw: "FATAL FLAW: Rare 500 errors & P99 latency spikes\ngetting dropped 99% of the time" { class: head_box }
-
-  req -> coin -> flaw
-}
-
-tail: "Tail-Based Sampling (Decided at OTel Collector)" {
-  buffer: "Buffer 100% of Spans in RAM (30s)"
-  rules: "Evaluate Full Trace:\n1. status_code >= 500 -> Keep 100%\n2. duration >= 2s -> Keep 100%\n3. Fast 200 OK -> Sample 0.1%" { class: tail_box }
-  win: "ADVANTAGE: 100% of errors & bottlenecks preserved\nwhile eliminating 99% of storage noise" { class: tail_box }
-
-  buffer -> rules -> win
-}
-
-```
-</details>
+*D2 Source: [`15_head_vs_tail_based_distributed_sampling.d2`](assets/15_cloud_infrastructure_containers_and_observability/15_head_vs_tail_based_distributed_sampling.d2)*
 
 #### Tail-Based Sampling Configuration Example:
 ```yaml
@@ -1974,31 +1559,7 @@ traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
 
 ![W3C Trace Context Specification: traceparent Header Format](assets/15_cloud_infrastructure_containers_and_observability/16_w3c_traceparent_header_specification.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  spec_container: { style: { fill: "#0f172a"; stroke: "#38bdf8"; stroke-width: 2; stroke-dash: 4 } }
-  ver_box: { style: { fill: "#0f172a"; stroke: "#94a3b8"; stroke-width: 2 } }
-  trace_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  parent_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-  flags_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-header: "W3C traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01" {
-  class: spec_container
-
-  version: "version (2 hex)\nValue: '00'\nIdentifies W3C version" { class: ver_box }
-  trace_id: "trace_id (32 hex / 16 bytes)\nGlobal unique transaction ID\nConstant across all hops" { class: trace_box }
-  parent_id: "parent_id / span_id (16 hex / 8 bytes)\nCaller span ID\nUpdated per hop" { class: parent_box }
-  trace_flags: "trace_flags (2 hex / 8-bit bitmap)\n01 = Recorded / Sampled" { class: flags_box }
-
-  version -> trace_id -> parent_id -> trace_flags
-}
-
-```
-</details>
+*D2 Source: [`16_w3c_traceparent_header_specification.d2`](assets/15_cloud_infrastructure_containers_and_observability/16_w3c_traceparent_header_specification.d2)*
 
 #### Detailed Byte-Level Breakdown:
 1. **Version (`00`):** 1 byte (2 hex characters). Denotes specification version `00`.
@@ -2022,29 +1583,7 @@ When microservices communicate synchronously via HTTP/gRPC, context propagation 
 
 ![Distributed Tracing Context Propagation Waterfall](assets/15_cloud_infrastructure_containers_and_observability/17_distributed_tracing_propagation_waterfall.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  service_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  kafka_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  consumer_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-client: "Client Application"
-order_svc: "Order Service (Producer)" { class: service_box }
-kafka: "Apache Kafka Topic" { class: kafka_box }
-payment_svc: "Payment Service (Consumer)" { class: consumer_box }
-
-client -> order_svc: "1. HTTP POST /orders\nHeader: traceparent (TraceID: 0xabc)"
-order_svc -> order_svc: "Ingest context\nSpan: CreateOrder (SpanID: 0x11)"
-order_svc -> kafka: "2. Produce Record\nHeader: traceparent (TraceID: 0xabc, ParentID: 0x11)"
-kafka -> payment_svc: "3. Poll Record Batch\nExtract context from header"
-payment_svc -> payment_svc: "Span: ProcessPayment\nParentID: 0x11, TraceID: 0xabc"
-
-```
-</details>
+*D2 Source: [`17_distributed_tracing_propagation_waterfall.d2`](assets/15_cloud_infrastructure_containers_and_observability/17_distributed_tracing_propagation_waterfall.d2)*
 
 #### Production Python Context Extraction & Injection Example (Kafka):
 
@@ -2115,36 +1654,7 @@ Operating enterprise log platforms requires balancing search index latency again
 
 ![Log Aggregation Architectures: OpenSearch/Elasticsearch vs. Grafana Loki](assets/15_cloud_infrastructure_containers_and_observability/18_opensearch_lucene_vs_grafana_loki.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  es_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  loki_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-log: "Structured Log Event\n{level: 'error', app: 'payment', msg: 'db timeout'}"
-
-es: "OpenSearch / Elasticsearch (Full Inverted Index)" {
-  token: "Lucene Tokenizer\nBreaks EVERY word into tokens" { class: es_box }
-  index: "Inverted Index Dictionary\nIndex size >= 120% raw logs\nHigh RAM & NVMe SSD cost" { class: es_box }
-
-  token -> index
-}
-
-loki: "Grafana Loki (Index-Free Label Store)" {
-  labels: "Extract Metadata Labels ONLY\n{app='payment', env='prod'}\nZero payload tokenization" { class: loki_box }
-  chunks: "Compressed Chunk Store (S3/GCS)\n90% cheaper object storage\nLogQL regex evaluation" { class: loki_box }
-
-  labels -> chunks
-}
-
-log -> es: "Tokenize everything"
-log -> loki: "Index labels only"
-
-```
-</details>
+*D2 Source: [`18_opensearch_lucene_vs_grafana_loki.d2`](assets/15_cloud_infrastructure_containers_and_observability/18_opensearch_lucene_vs_grafana_loki.d2)*
 
 | Architectural Attribute | Grafana Loki | OpenSearch / Elasticsearch |
 | :--- | :--- | :--- |
@@ -2186,31 +1696,7 @@ The primary goal of an SRE alerting system is to alert humans **only when user-f
 
 ![Alerting Strategy: Anti-Pattern Cause-Based vs. Golden Symptom-Based](assets/15_cloud_infrastructure_containers_and_observability/19_symptoms_vs_causes_alerting_strategy.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  cause_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  sym_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-causes: "Anti-Pattern: Cause-Based Alerting" {
-  c_triggers: "CPU > 85%\nDisk IOPS > 1200\nThread Count > 250" { class: cause_box }
-  c_pager: "False Alarm Pager Storm\nWoken at 3 AM for harmless batch job\nCauses alert fatigue" { class: cause_box }
-
-  c_triggers -> c_pager
-}
-
-symptoms: "Best Practice: Symptom-Based Alerting" {
-  s_triggers: "HTTP 5xx Error Rate > SLO\nP99 Checkout Latency > 1.5s\nDrop in completed orders" { class: sym_box }
-  s_pager: "Actionable High-Priority Page\nEngineers paged ONLY when users suffer\nZero noise" { class: sym_box }
-
-  s_triggers -> s_pager
-}
-
-```
-</details>
+*D2 Source: [`19_symptoms_vs_causes_alerting_strategy.d2`](assets/15_cloud_infrastructure_containers_and_observability/19_symptoms_vs_causes_alerting_strategy.d2)*
 
 #### The Golden Rules of Alert Actionability:
 1. **Every Page Must Be Actionable:** If an engineer receives a page, there must be a clear, unambiguous playbook or runbook procedure to mitigate the issue. If an engineer looks at an alert, determines nothing can or should be done, and silences it, **that alert must be deleted immediately.**
@@ -2327,38 +1813,7 @@ $$\text{Total Series} = \prod_{i=1}^{N} |L_i| = |L_{\text{metric}}| \times |L_{\
 
 ![TSDB High-Cardinality Explosion: Dimensional Combinatorics](assets/15_cloud_infrastructure_containers_and_observability/20_high_cardinality_metric_explosion.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  safe_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  danger_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-metric: "Metric: http_requests_total"
-
-safe: "Safe Low Cardinality Tags" {
-  env: "env (2 values)" { class: safe_box }
-  region: "region (3 values)" { class: safe_box }
-  endpoint: "endpoint (3 values)" { class: safe_box }
-  total_safe: "Total: 2 * 3 * 3 = 18 Time Series (Safe)" { class: safe_box }
-
-  env -> region -> endpoint -> total_safe
-}
-
-danger: "High-Cardinality Anti-Pattern" {
-  user_id: "user_id (1,000,000 unique UUIDs)" { class: danger_box }
-  explosion: "18 * 1,000,000 = 18,000,000 Time Series!\nRequires 72 GB RAM in Head Chunks\nResult: Linux OOM Crash" { class: danger_box }
-
-  user_id -> explosion
-}
-
-metric -> safe: "Finite categorical dimensions"
-metric -> danger: "Unbounded user tags"
-
-```
-</details>
+*D2 Source: [`20_high_cardinality_metric_explosion.d2`](assets/15_cloud_infrastructure_containers_and_observability/20_high_cardinality_metric_explosion.d2)*
 
 When an engineer accidentally attaches an unbounded label (e.g., `user_id`, `email`, `order_uuid`, or raw URL with query parameters `/api/v1?session=123`), each unique string allocates an entry in the Prometheus in-memory inverted index posting list. TSDB memory consumption spikes exponentially, compaction stalls, and the Prometheus container triggers an Out-Of-Memory (OOM) crash loop.
 
@@ -2596,35 +2051,7 @@ Site Reliability Engineering is fundamentally the application of **software engi
 
 ![Systemic Safety Culture: Fragile Blame vs. Modern Blameless SRE](assets/15_cloud_infrastructure_containers_and_observability/21_blameless_postmortem_aviation_safety_culture.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  blame_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  sre_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-blame: "Fragile Culture (Blame the Operator)" {
-  incident: "1. Incident Occurs" { class: blame_box }
-  pilot: "2. Blame Operator ('Human Error')" { class: blame_box }
-  fire: "3. Punitive Action / Reprimand" { class: blame_box }
-  repeat: "4. Same Outage Repeats 6 Months Later" { class: blame_box }
-
-  incident -> pilot -> fire -> repeat
-}
-
-sre: "Modern SRE (Blameless Systemic Culture)" {
-  telemetry: "1. Telemetry Ingestion (Black Box / Traces)" { class: sre_box }
-  crm: "2. Psychological Safety (CRM)" { class: sre_box }
-  why: "3. Systemic Root Cause: Why did tooling fail?" { class: sre_box }
-  guard: "4. Automated Guardrails & Defense-in-Depth" { class: sre_box }
-
-  telemetry -> crm -> why -> guard
-}
-
-```
-</details>
+*D2 Source: [`21_blameless_postmortem_aviation_safety_culture.d2`](assets/15_cloud_infrastructure_containers_and_observability/21_blameless_postmortem_aviation_safety_culture.d2)*
 
 - **In fragile systems:** When a failure happens, leadership seeks a human scapegoat ("Engineer X ran `DROP TABLE`" or "Pilot pulled the wrong yoke"). The engineer is disciplined. However, because the underlying system allowed a single human mistake to destroy production, the exact same outage repeats when another engineer makes an identical keystroke.
 - **In modern SRE and aviation:** Humans are assumed to be fallible, tired, and prone to cognitive bias. Systems must be engineered so that **no single human action can trigger catastrophic failure**. If an aircraft stalls, the aerodynamic stick-shaker vibrates the control column and overrides erroneous pilot inputs. If an engineer attempts to drop a database, automated IAM permission boundaries, multi-party authorization, and read-only proxies intercept and reject the execution.
@@ -2635,25 +2062,7 @@ sre: "Modern SRE (Blameless Systemic Culture)" {
 
 ![The Evolution of Operations: SysAdmin to DevOps to SRE](assets/15_cloud_infrastructure_containers_and_observability/22_sysadmin_vs_devops_vs_sre_evolution.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  admin_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  devops_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  sre_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-sysadmin: "1. Traditional SysAdmin\nSiloed operations & manual SSH\nWall of confusion" { class: admin_box }
-devops: "2. DevOps Movement\nCultural philosophy\n'You build it, you run it'" { class: devops_box }
-sre: "3. Site Reliability Engineering\n'class SRE implements DevOps'\nStatistical error budgets & software" { class: sre_box }
-
-sysadmin -> devops: "Eliminate silos"
-devops -> sre: "Quantify with Error Budgets"
-
-```
-</details>
+*D2 Source: [`22_sysadmin_vs_devops_vs_sre_evolution.d2`](assets/15_cloud_infrastructure_containers_and_observability/22_sysadmin_vs_devops_vs_sre_evolution.d2)*
 
 | Dimension | Traditional SysAdmin | DevOps | Site Reliability Engineering (SRE) |
 | :--- | :--- | :--- | :--- |
@@ -2676,27 +2085,7 @@ $$\text{SLI} = \frac{\sum \text{Successful Events satisfying Good Criterion}}{\s
 
 ![SLI, SLO &amp; Error Budget Mathematical Pipeline](assets/15_cloud_infrastructure_containers_and_observability/23_sli_slo_error_budget_calculation_pipeline.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  filter_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  sli_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  slo_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-raw: "Raw Ingress Events\nAll requests & probes"
-filter: "Traffic Filter\nExclude synthetic checks & 4xx" { class: filter_box }
-sli: "SLI Calculation\nGood Events / Total Valid Events\n(Latency <= 200ms AND no 5xx)" { class: sli_box }
-slo: "SLO & Error Budget\nSLO = 99.9%\nError Budget = 0.1% unreliability\nBurn Rate monitoring" { class: slo_box }
-
-raw -> filter: "Ingest stream"
-filter -> sli: "Valid production requests"
-sli -> slo: "Compare against 30-day target"
-
-```
-</details>
+*D2 Source: [`23_sli_slo_error_budget_calculation_pipeline.d2`](assets/15_cloud_infrastructure_containers_and_observability/23_sli_slo_error_budget_calculation_pipeline.d2)*
 
 #### SLI Archetype Formulations:
 1. **Request-Driven APIs (REST / gRPC):**
@@ -2737,31 +2126,7 @@ An Error Budget is not just a mathematical curiosity; it is a **binding contract
 
 ![Error Budget Governance: Automated Release Freeze Gates](assets/15_cloud_infrastructure_containers_and_observability/24_error_budget_policy_release_freeze_gates.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  check_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2 } }
-  green_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  yellow_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  red_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-ci: "CI/CD Pipeline\nFeature release ready"
-check: "Check 30-Day Rolling Error Budget" { class: check_box }
-
-tier1: "Tier 1: > 50% Budget (Green)\nRapid deploys, experiments, full velocity" { class: green_box }
-tier2: "Tier 2: 10-50% Budget (Yellow)\nLonger canary soak, SRE reviews required" { class: yellow_box }
-tier3: "Tier 3: < 0% Budget (Red Freeze)\nAUTOMATED RELEASE FREEZE\n100% bandwidth pivots to reliability" { class: red_box }
-
-ci -> check: "Evaluate budget health"
-check -> tier1: "> 50% budget"
-check -> tier2: "10-50% budget"
-check -> tier3: "< 0% budget"
-
-```
-</details>
+*D2 Source: [`24_error_budget_policy_release_freeze_gates.d2`](assets/15_cloud_infrastructure_containers_and_observability/24_error_budget_policy_release_freeze_gates.d2)*
 
 ---
 
@@ -2773,28 +2138,7 @@ During high-severity outages, unstructured engineering chaos (multiple developer
 
 ![Incident Command System (ICS) Operational Hierarchy](assets/15_cloud_infrastructure_containers_and_observability/25_incident_command_system_hierarchy.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  ic_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  ops_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  comms_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  scribe_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-}
-
-ic: "Incident Commander (IC)\nHands-off-keyboard tactical leader\nDirects strategy & delegates tasks" { class: ic_box }
-ops: "Operations Lead\nExecutes technical investigations\nInspects logs, metrics & tests fixes" { class: ops_box }
-comms: "Communications Lead\nUpdates StatusPage & execs\nShields responders from noise" { class: comms_box }
-scribe: "Incident Scribe\nMaintains UTC timeline & war-room log\nCaptures data for post-mortem" { class: scribe_box }
-
-ic -> ops: "Delegates investigations"
-ic -> comms: "Approves external broadcasts"
-ic -> scribe: "Ensures timestamped log"
-
-```
-</details>
+*D2 Source: [`25_incident_command_system_hierarchy.d2`](assets/15_cloud_infrastructure_containers_and_observability/25_incident_command_system_hierarchy.d2)*
 
 #### Absolute Rule of the Incident Commander:
 **The Incident Commander does NOT touch a terminal.** The moment an IC begins reading logs or debugging a database query, they develop tunnel vision, lose situational awareness of the broader outage, and fail to coordinate cross-team responders.
@@ -2852,26 +2196,7 @@ Complex systems do not fail due to a single root cause; they fail due to a **con
 
 ![Root Cause Analysis: The 5 Whys Diagnostic Investigation](assets/15_cloud_infrastructure_containers_and_observability/26_five_whys_root_cause_analysis_chain.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  symptom_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  trigger_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  root_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-w1: "1. Why did checkout fail?\nPayment service returned HTTP 504 timeouts" { class: symptom_box }
-w2: "2. Why did payment time out?\nPostgreSQL connection pool exhausted" { class: symptom_box }
-w3: "3. Why was connection pool exhausted?\nQueries stalled on table locks" { class: trigger_box }
-w4: "4. Why were tables locked?\nUnindexed batch analytics query ran at peak" { class: trigger_box }
-w5: "5. Why was batch query on prod OLTP?\nRoot Vulnerability: Lacked read-replica isolation\nand proxy query timeouts" { class: root_box }
-
-w1 -> w2 -> w3 -> w4 -> w5
-
-```
-</details>
+*D2 Source: [`26_five_whys_root_cause_analysis_chain.d2`](assets/15_cloud_infrastructure_containers_and_observability/26_five_whys_root_cause_analysis_chain.d2)*
 
 ---
 
@@ -2940,24 +2265,7 @@ Google SRE rigorously separates **Operational Toil** from legitimate engineering
 
 ![Google SRE Engineering Time Allocation: The 50% Toil Rule](assets/15_cloud_infrastructure_containers_and_observability/27_google_sre_50_percent_toil_budget.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  swe_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  toil_box: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-  train_box: { style: { fill: "#1e1b2e"; stroke: "#c084fc"; stroke-width: 2; font-color: "#d8b4fe" } }
-}
-
-sre_budget: "Google SRE Workload Allocation (<= 50% Toil Rule)" {
-  swe: "Software Engineering (55%)\nAutomation, self-healing, tooling & chaos testing\nPermanently eliminates toil" { class: swe_box }
-  toil: "Operational Toil (30%)\nTickets, manual runs, on-call pages\nHard-capped at 50% max" { class: toil_box }
-  training: "Governance & Training (15%)\nProduction readiness reviews & disaster drills" { class: train_box }
-}
-
-```
-</details>
+*D2 Source: [`27_google_sre_50_percent_toil_budget.d2`](assets/15_cloud_infrastructure_containers_and_observability/27_google_sre_50_percent_toil_budget.d2)*
 
 > [!CRITICAL]
 > **The SRE 50% Rule:** If an SRE team spends **$> 50\%$ of their time on operational toil**, the team is broken. The excess toil must be immediately redirected back to the product engineering team that wrote the software. This economic feedback loop forces product development teams to design self-healing, automated software rather than dumping operational debt onto operations teams.
@@ -2974,33 +2282,7 @@ When a backend service suffers a transient glitch, hundreds of upstream microser
 
 ![Distributed Resiliency: Naive Exponential Backoff vs. Full Jitter](assets/15_cloud_infrastructure_containers_and_observability/28_thundering_herd_vs_jittered_exponential_backoff.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  herd_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  jitter_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-}
-
-herd: "Naive Exponential Backoff (Thundering Herd)" {
-  t0: "T=0: 1,000 requests fail simultaneously" { class: herd_box }
-  t1: "T=100ms: 1,000 requests retry AT THE EXACT SAME MILLISECOND" { class: herd_box }
-  t2: "T=200ms: 1,000 retries hammer backend together -> Permanent crash!" { class: herd_box }
-
-  t0 -> t1 -> t2
-}
-
-jitter: "Decorrelated Full Jitter (Smooth Flow)" {
-  j0: "T=0: 1,000 requests fail" { class: jitter_box }
-  j1: "T=10ms to 200ms: Retries spread uniformly across time spectrum" { class: jitter_box }
-  j2: "Flat, manageable queue load -> Backend safely recovers!" { class: jitter_box }
-
-  j0 -> j1 -> j2
-}
-
-```
-</details>
+*D2 Source: [`28_thundering_herd_vs_jittered_exponential_backoff.d2`](assets/15_cloud_infrastructure_containers_and_observability/28_thundering_herd_vs_jittered_exponential_backoff.d2)*
 
 #### Mathematical Formulas for Retry Jitter (AWS Research):
 1. **Full Jitter:**
@@ -3017,30 +2299,7 @@ A **Circuit Breaker** wraps dangerous remote network calls, tracking error rates
 
 ![Resilience4j Circuit Breaker State Machine &amp; Sliding Window](assets/15_cloud_infrastructure_containers_and_observability/29_resilience4j_circuit_breaker_sliding_window.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  closed_state: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  open_state: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-  half_open_state: { style: { fill: "#231e12"; stroke: "#fbbf24"; stroke-width: 2; font-color: "#fde68a" } }
-}
-
-init: "" { shape: circle }
-
-closed: "1. CLOSED\nNormal traffic flow\nSliding window records failure %" { class: closed_state }
-open: "2. OPEN (Tripped)\nFail fast locally\nZero network traffic sent downstream\nExecutes fallback" { class: open_state }
-half_open: "3. HALF_OPEN (Canary)\nAllows limited probe traffic\nEvaluates remote service recovery" { class: half_open_state }
-
-init -> closed: "start"
-closed -> open: "Failure rate > 50% in window" { style: { stroke: "#f87171"; stroke-width: 2 } }
-open -> half_open: "Reset timeout (60s) expires" { style: { stroke: "#fbbf24"; stroke-width: 2 } }
-half_open -> closed: "Canary probes succeed\nCircuit healed" { style: { stroke: "#4ade80"; stroke-width: 2 } }
-half_open -> open: "Canary probe fails\nTrip back immediately" { style: { stroke: "#f87171"; stroke-width: 2 } }
-
-```
-</details>
+*D2 Source: [`29_resilience4j_circuit_breaker_sliding_window.d2`](assets/15_cloud_infrastructure_containers_and_observability/29_resilience4j_circuit_breaker_sliding_window.d2)*
 
 ---
 
@@ -3060,27 +2319,7 @@ $$L = \lambda \times W$$
 
 ![System Capacity Modeling: Little&apos;s Law &amp; Concurrency Explosion](assets/15_cloud_infrastructure_containers_and_observability/30_littles_law_concurrency_saturation_collapse.svg)
 
-<details>
-<summary>View D2 Source</summary>
-
-```d2
-classes: {
-  rate_box: { style: { fill: "#1e293b"; stroke: "#38bdf8"; stroke-width: 2 } }
-  healthy_box: { style: { fill: "#0f291e"; stroke: "#4ade80"; stroke-width: 2; font-color: "#86efac" } }
-  stall_box: { style: { fill: "#2b1111"; stroke: "#f87171"; stroke-width: 2; font-color: "#fca5a5" } }
-}
-
-arrival: "Arrival Rate (lambda)\nlambda = 1,000 req/s" { class: rate_box }
-healthy: "Healthy Baseline (W = 50ms)\nL = lambda * W\nL = 1,000 * 0.05 = 50 in-flight threads\nThread pool (max 200) handles easily" { class: healthy_box }
-stall: "Downstream Stall (W = 2.0s)\nL = 1,000 * 2.0 = 2,000 in-flight requests!\nThread pool exhausted -> Memory OOM Crash!" { class: stall_box }
-
-arrival -> healthy: "Fast 50ms responses"
-healthy -> stall: "Downstream DB latency explodes" {
-  style: { stroke: "#f87171"; stroke-width: 2 }
-}
-
-```
-</details>
+*D2 Source: [`30_littles_law_concurrency_saturation_collapse.d2`](assets/15_cloud_infrastructure_containers_and_observability/30_littles_law_concurrency_saturation_collapse.d2)*
 
 #### Adaptive Load Shedding:
 When latency climbs and concurrency threatens to exceed physical capacity, servers must **shed load immediately**. Rejecting incoming requests at the perimeter with an instant `HTTP 503 Service Unavailable` takes **$< 1\text{ms}$** of CPU time, allowing the server to process remaining in-flight transactions without crashing.
